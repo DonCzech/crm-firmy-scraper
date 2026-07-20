@@ -6,147 +6,257 @@
     "ctaHref": "#kontakt",
     "igHref": "https://instagram.com/demo",
     "links": [
-      { "label": "Hlavní",   "href": "#hero" },
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Kontakty", "href": "#kontakt" }
+      {
+        "label": "Hlavní",
+        "href": "#hero"
+      },
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Kontakty",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
-    "title":    "Studio Krásy",
-    "tagline":  "Kde krása začíná péčí.",
-    "bgImage":  "/templates/nails-03/hero-bg.webp",
-    "ctaText":  "Objednat se",
-    "ctaHref":  "#kontakt"
+    "title": "Studio Krásy",
+    "tagline": "Kde krása začíná péčí.",
+    "bgImage": "/templates/nails-03/hero-bg.webp",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt"
   },
   "about": {
-    "title":    "O nás",
-    "kicker":   "Studio Krásy",
-    "body":     "Studio Krásy je místem, kde se krása a umění setkávají. Náš vášnivý a zkušený tým se zaměřuje na to, aby každá žena odcházela s pocitem jedinečnosti a sebevědomí. Nabízíme manikúru, pedikúru, kosmetiku a péči o obočí — vše na nejvyšší úrovni.",
+    "title": "O nás",
+    "kicker": "Studio Krásy",
+    "body": "Studio Krásy je místem, kde se krása a umění setkávají. Náš vášnivý a zkušený tým se zaměřuje na to, aby každá žena odcházela s pocitem jedinečnosti a sebevědomí. Nabízíme manikúru, pedikúru, kosmetiku a péči o obočí — vše na nejvyšší úrovni.",
     "imageUrl": "/templates/nails-03/about-portrait.webp",
-    "ctaText":  "Zjistit více",
-    "ctaHref":  "#sluzby"
+    "ctaText": "Zjistit více",
+    "ctaHref": "#sluzby"
   },
   "promo": {
-    "kicker":   "Věrnostní program",
-    "title":    "CASHBACK PROGRAM",
-    "message":  "Sbírejte cashback za každou návštěvu a užívejte si exkluzivní výhody našeho salonu.",
-    "ctaText":  "Zjistit více",
-    "ctaHref":  "#kontakt"
+    "kicker": "Věrnostní program",
+    "title": "CASHBACK PROGRAM",
+    "message": "Sbírejte cashback za každou návštěvu a užívejte si exkluzivní výhody našeho salonu.",
+    "ctaText": "Zjistit více",
+    "ctaHref": "#kontakt"
   },
   "services": {
-    "title":  "Naše služby",
+    "title": "Naše služby",
     "kicker": "Péče pro dokonalý vzhled",
     "groups": [
       {
         "title": "Manikúra",
-        "icon":  "✦",
+        "icon": "✦",
         "items": [
-          { "name": "Klasická manikúra",  "price": "550 Kč" },
-          { "name": "Gel lak / Shellac",  "price": "850 Kč" },
-          { "name": "Gel modeláž",        "price": "1 200 Kč" },
-          { "name": "Doplnění gelu",      "price": "950 Kč" },
-          { "name": "Japonská manikúra",  "price": "750 Kč" }
+          {
+            "name": "Klasická manikúra",
+            "price": "550 Kč"
+          },
+          {
+            "name": "Gel lak / Shellac",
+            "price": "850 Kč"
+          },
+          {
+            "name": "Gel modeláž",
+            "price": "1 200 Kč"
+          },
+          {
+            "name": "Doplnění gelu",
+            "price": "950 Kč"
+          },
+          {
+            "name": "Japonská manikúra",
+            "price": "750 Kč"
+          }
         ]
       },
       {
         "title": "Pedikúra",
-        "icon":  "✦",
+        "icon": "✦",
         "items": [
-          { "name": "Klasická pedikúra",      "price": "750 Kč" },
-          { "name": "Kombinovaná pedikúra",   "price": "950 Kč" },
-          { "name": "Pedikúra + gel lak",     "price": "1 200 Kč" },
-          { "name": "Spa pedikúra",           "price": "1 350 Kč" },
-          { "name": "Parafínový zábal",       "price": "250 Kč" }
+          {
+            "name": "Klasická pedikúra",
+            "price": "750 Kč"
+          },
+          {
+            "name": "Kombinovaná pedikúra",
+            "price": "950 Kč"
+          },
+          {
+            "name": "Pedikúra + gel lak",
+            "price": "1 200 Kč"
+          },
+          {
+            "name": "Spa pedikúra",
+            "price": "1 350 Kč"
+          },
+          {
+            "name": "Parafínový zábal",
+            "price": "250 Kč"
+          }
         ]
       },
       {
         "title": "Kosmetika",
-        "icon":  "✦",
+        "icon": "✦",
         "items": [
-          { "name": "Čisticí ošetření",       "price": "990 Kč" },
-          { "name": "Hydratační ošetření",    "price": "1 190 Kč" },
-          { "name": "Anti-age ošetření",      "price": "1 490 Kč" },
-          { "name": "Peeling",                "price": "750 Kč" },
-          { "name": "Lamináž řas",            "price": "850 Kč" }
+          {
+            "name": "Čisticí ošetření",
+            "price": "990 Kč"
+          },
+          {
+            "name": "Hydratační ošetření",
+            "price": "1 190 Kč"
+          },
+          {
+            "name": "Anti-age ošetření",
+            "price": "1 490 Kč"
+          },
+          {
+            "name": "Peeling",
+            "price": "750 Kč"
+          },
+          {
+            "name": "Lamináž řas",
+            "price": "850 Kč"
+          }
         ]
       },
       {
         "title": "Obočí",
-        "icon":  "✦",
+        "icon": "✦",
         "items": [
-          { "name": "Úprava obočí",           "price": "350 Kč" },
-          { "name": "Barvení obočí",          "price": "290 Kč" },
-          { "name": "Laminace obočí",         "price": "790 Kč" },
-          { "name": "Microblading (konzult.)", "price": "od 3 500 Kč" }
+          {
+            "name": "Úprava obočí",
+            "price": "350 Kč"
+          },
+          {
+            "name": "Barvení obočí",
+            "price": "290 Kč"
+          },
+          {
+            "name": "Laminace obočí",
+            "price": "790 Kč"
+          },
+          {
+            "name": "Microblading (konzult.)",
+            "price": "od 3 500 Kč"
+          }
         ]
       }
     ]
   },
   "gallery": {
-    "title":  "Galerie",
+    "title": "Galerie",
     "kicker": "Sledujte nás na Instagramu",
     "igText": "@studio_krasy_demo",
     "igHref": "https://instagram.com/demo",
     "images": [
-      { "url": "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=800&q=80", "alt": "Manikúra detail" },
-      { "url": "/templates/nails-03/gallery-2.webp", "alt": "Nail art" },
-      { "url": "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=800&q=80", "alt": "Gel modeláž" },
-      { "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80", "alt": "Kosmetické ošetření" },
-      { "url": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=800&q=80", "alt": "Pedikúra spa" },
-      { "url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80", "alt": "Beauty studio" }
+      {
+        "url": "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=800&q=80",
+        "alt": "Manikúra detail"
+      },
+      {
+        "url": "/templates/nails-03/gallery-2.webp",
+        "alt": "Nail art"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=800&q=80",
+        "alt": "Gel modeláž"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=800&q=80",
+        "alt": "Kosmetické ošetření"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=800&q=80",
+        "alt": "Pedikúra spa"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80",
+        "alt": "Beauty studio"
+      }
     ]
   },
   "testimonials": {
-    "title":       "Recenze",
-    "kicker":      "Co o nás říkají klientky",
-    "ratingText":  "4.9 / 5 hodnocení na Google",
-    "ratingHref":  "https://google.com/search?q=demo",
+    "title": "Recenze",
+    "kicker": "Co o nás říkají klientky",
+    "ratingText": "4.9 / 5 hodnocení na Google",
+    "ratingHref": "https://google.com/search?q=demo",
     "reviews": [
       {
-        "quote":  "Naprostá spokojenost! Holky jsou opravdové profesionálky, manikúra mi vydržela přes čtyři týdny bez jediného škrábance. Atmosféra studia je úžasná.",
+        "quote": "Naprostá spokojenost! Holky jsou opravdové profesionálky, manikúra mi vydržela přes čtyři týdny bez jediného škrábance. Atmosféra studia je úžasná.",
         "author": "Tereza H.",
-        "meta":   "Praha · pravidelná klientka"
+        "meta": "Praha · pravidelná klientka"
       },
       {
-        "quote":  "Ošetření kosmetikou bylo naprosto božské. Plynulý, uvolňující zážitek a výsledek na několik týdnů. Doporučuji každé klientce!",
+        "quote": "Ošetření kosmetikou bylo naprosto božské. Plynulý, uvolňující zážitek a výsledek na několik týdnů. Doporučuji každé klientce!",
         "author": "Veronika M.",
-        "meta":   "Praha 10"
+        "meta": "Praha 10"
       },
       {
-        "quote":  "Pedikúra na úrovni špičkového wellness — pohodlí, čistota a krásné provedení. Cenu vnímám jako adekvátní kvalitě.",
+        "quote": "Pedikúra na úrovni špičkového wellness — pohodlí, čistota a krásné provedení. Cenu vnímám jako adekvátní kvalitě.",
         "author": "Klára S.",
-        "meta":   "Vinohrady"
+        "meta": "Vinohrady"
       }
     ]
   },
   "contact": {
-    "title":       "Kontakty",
-    "kicker":      "Najdete nás v srdci města",
-    "address":     "Ukázková 123, 110 00 Praha 1",
-    "email":       "email@demo.cz",
-    "phone":       "+420 704 123 456",
-    "phone2":      "+420 704 654 321",
-    "hours":       "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "title": "Kontakty",
+    "kicker": "Najdete nás v srdci města",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "email": "email@demo.cz",
+    "phone": "+420 704 123 456",
+    "phone2": "+420 704 654 321",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
     "mapEmbedUrl": "https://www.google.com/maps?q=Praha+1&output=embed",
-    "igHref":      "https://instagram.com/demo"
+    "igHref": "https://instagram.com/demo"
   },
   "footer": {
-    "siteName":  "Studio Krásy",
-    "tagline":   "Studio krásy v srdci Prahy — manikúra, pedikúra, kosmetika a péče o obočí.",
-    "address":   "Ukázková 123, 110 00 Praha 1",
-    "email":     "email@demo.cz",
-    "phone":     "+420 704 123 456",
-    "hours":     "Po–Pá 9:00–18:00, So 9:00–14:00",
-    "ico":       "12345678",
+    "siteName": "Studio Krásy",
+    "tagline": "Studio krásy v srdci Prahy — manikúra, pedikúra, kosmetika a péče o obočí.",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "email": "email@demo.cz",
+    "phone": "+420 704 123 456",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "ico": "12345678",
     "copyright": "© 2026 Studio Krásy. Demo web — všechna práva vyhrazena.",
-    "igHref":    "https://instagram.com/demo",
+    "igHref": "https://instagram.com/demo",
     "links": [
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Kontakty", "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Kontakty",
+        "href": "#kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se k nám",
+      "subtitle": "Vyberte službu, manikérku a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

@@ -59,7 +59,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
     <div className="space-y-4 p-3 text-xs text-[var(--vs-text-soft)]">
       <div>
         <Label>Vybraný prvek</Label>
-        <div className="mt-1 flex items-center gap-2 rounded-md bg-[#0f0f10] px-2.5 py-2 font-mono text-[11px]">
+        <div className="mt-1 flex items-center gap-2 rounded-md bg-[var(--vs-bg-soft)] px-2.5 py-2 font-mono text-[11px]">
           <span className="text-[var(--vs-accent)]">{`<${selected.tag}>`}</span>
           {selected.tag === "img" ? (
             <span className="truncate text-[var(--vs-text-muted)]">{selected.src?.split("/").pop()}</span>
@@ -92,7 +92,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
           <div>
             <Label>Velikost</Label>
             <select
-              className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white focus:border-[var(--vs-accent)] focus:outline-none"
+              className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-bg-soft)] px-2 py-1.5 text-[12px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none"
               value={pxToNearest(selected.style.fontSize, SIZES)}
               onChange={(e) => send({ fontSize: e.target.value })}
             >
@@ -103,7 +103,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
           <div>
             <Label>Tloušťka písma</Label>
             <select
-              className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white focus:border-[var(--vs-accent)] focus:outline-none"
+              className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-bg-soft)] px-2 py-1.5 text-[12px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none"
               value={selected.style.fontWeight || "400"}
               onChange={(e) => send({ fontWeight: e.target.value })}
             >
@@ -139,7 +139,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
           <button
             type="button"
             onClick={() => send({ backgroundColor: "transparent" })}
-            className="ml-auto rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1 text-[11px] text-[var(--vs-text-muted)] hover:text-white"
+            className="ml-auto rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-bg-soft)] px-2 py-1 text-[11px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
           >
             Průhledné
           </button>
@@ -158,7 +158,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
                 studio.cloneCommand?.({ type: "setSrc", editId: selected.editId, src: v });
               }
             }}
-            className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1.5 font-mono text-[11px] text-white focus:border-[var(--vs-accent)] focus:outline-none"
+            className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-bg-soft)] px-2 py-1.5 font-mono text-[11px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none"
           />
         </div>
       )}
@@ -183,7 +183,7 @@ function ToggleBtn({ active, onClick, children }: { active?: boolean; onClick: (
         "flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
         active
           ? "border-[var(--vs-accent)] bg-[var(--vs-accent-bg)] text-[var(--vs-accent)]"
-          : "border-[var(--vs-surface-2)] bg-[#0f0f10] text-[var(--vs-text-muted)] hover:border-[#3f3f46] hover:text-white"
+          : "border-[var(--vs-surface-2)] bg-[var(--vs-bg-soft)] text-[var(--vs-text-muted)] hover:border-[var(--vs-border-strong)] hover:text-[var(--vs-text)]"
       )}
     >
       {children}

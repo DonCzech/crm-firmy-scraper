@@ -1,0 +1,13 @@
+import { chromium } from "playwright-core";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV/c4fdac88-6d01-4a44-8c43-e272dca6cfb0/scratchpad";
+const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const ctx = await browser.newContext({ viewport: { width: 1600, height: 900 } });
+const page = await ctx.newPage();
+await page.goto("http://localhost:3015/demo/eshop-14-v2?ts=" + Date.now(), { waitUntil: "networkidle", timeout: 120000 });
+await page.evaluate(() => { try { localStorage.setItem("webero-consent", "accepted"); localStorage.setItem("cookie-consent", "accepted"); } catch {} });
+await page.waitForTimeout(1200);
+await page.screenshot({ path: `${OUT}/es14-full.png`, fullPage: true });
+await page.hover(`nav[aria-label="Kategorie"] >> text=Bazény`).catch(() => {});
+await page.waitForTimeout(1800);
+await page.screenshot({ path: `${OUT}/es14-mega.png` });
+await browser.close(); console.log("done");

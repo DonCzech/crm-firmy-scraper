@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 /** Newsletter subscription — persistuje do newsletter_subscribers.
  *  TODO: wire up Mailchimp / Resend / Brevo when API key is available. */
@@ -21,6 +22,8 @@ async function ensureTable() {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = checkRateLimit(req, "newsletter", 5, 60 * 60_000);
+  if (!limited.ok) return limited.response;
   try {
     const body = await req.json().catch(() => ({}));
     const email = String(body?.email ?? "").trim().toLowerCase();

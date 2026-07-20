@@ -52,6 +52,10 @@ export const templateManifestSchema = z
     version: z.string().min(1),
     description: z.string().optional(),
     baseTemplate: z.string().nullable().optional(),
+    // Webero Commerce šablony (eshop-*): metadata navíc
+    kind: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    commerceCapabilities: z.array(z.string()).optional(),
     // Section-by-section workflow (docs/SECTION_WORKFLOW.md):
     skeleton: z.string().optional(),
     sectionOrderNote: z.string().optional(),

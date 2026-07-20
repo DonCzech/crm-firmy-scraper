@@ -17,10 +17,33 @@ export type CreateTenantInput = z.infer<typeof CreateTenantSchema>;
 
 export interface CreateTenantResult {
   tenantId: number;
+  userAccountId?: number;
   slug: string;
   editorUrl: string;
   previewUrl: string;
   accessToken: string;
+}
+
+export interface CreateTenantOwner {
+  email: string;
+  passwordHash: string;
+  name?: string;
+}
+
+export interface CreateTenantOptions {
+  /**
+   * Přiřaď tenant k už existujícímu user_accounts.id (přihlášený uživatel si
+   * zakládá další projekt). Vzájemně výlučné s `owner` — nový účet nevzniká
+   * a duplicitní e-mail se nekontroluje.
+   */
+  existingUserAccountId?: number;
+}
+
+export class DuplicateOnboardingEmailError extends Error {
+  constructor() {
+    super("An account with this email already exists");
+    this.name = "DuplicateOnboardingEmailError";
+  }
 }
 
 type SectionSeed = SectionConfig & { content?: Record<string, unknown> };
@@ -375,7 +398,9 @@ async function createSubPagesFromNavbar(
 // ── Main factory function ─────────────────────────────────────────────────────
 
 export async function createDemoTenantFromTemplate(
-  input: CreateTenantInput
+  input: CreateTenantInput,
+  owner?: CreateTenantOwner,
+  options?: CreateTenantOptions,
 ): Promise<CreateTenantResult> {
   const parsed = CreateTenantSchema.parse(input);
 
@@ -389,6 +414,27 @@ export async function createDemoTenantFromTemplate(
   const accessToken = randomBytes(24).toString("hex");
 
   return withTransaction(async (client: PoolClient) => {
+    let userAccountId: number | undefined = options?.existingUserAccountId;
+    if (owner && !userAccountId) {
+      const normalizedEmail = owner.email.trim().toLowerCase();
+
+      // Serialise registrations for the same canonical email. A plain SELECT
+      // followed by INSERT is vulnerable to a double click / concurrent POST.
+      await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [normalizedEmail]);
+      const existingOwner = await client.query<{ id: number }>(
+        "SELECT id FROM user_accounts WHERE lower(email) = $1 LIMIT 1",
+        [normalizedEmail],
+      );
+      if (existingOwner.rows.length > 0) throw new DuplicateOnboardingEmailError();
+
+      const ownerResult = await client.query<{ id: number }>(
+        `INSERT INTO user_accounts (email, password_hash, name)
+         VALUES ($1, $2, $3) RETURNING id`,
+        [normalizedEmail, owner.passwordHash, owner.name?.trim() || null],
+      );
+      userAccountId = ownerResult.rows[0].id;
+    }
+
     // 1. Upsert template record
     await client.query(
       `INSERT INTO templates (key, name, industry, current_version, status)
@@ -397,17 +443,18 @@ export async function createDemoTenantFromTemplate(
       [template.key, template.name, template.industry, template.version]
     );
     const tplRow = await client.query(
-      "SELECT id, primary_demo_slug FROM templates WHERE key = $1",
+      "SELECT id, primary_demo_slug, kind FROM templates WHERE key = $1",
       [parsed.templateKey]
     );
     if (!tplRow.rows.length) throw new Error("Template not found in DB");
     const templateId: number = tplRow.rows[0].id;
     const showcaseSlug: string | null = tplRow.rows[0].primary_demo_slug ?? null;
+    const isCommerce: boolean = tplRow.rows[0].kind === "commerce";
 
     // 2. Create tenant
     const tenantRes = await client.query(
-      `INSERT INTO tenants (slug, email, template_id, template_version, industry, status, active_modules, plan, access_token)
-       VALUES ($1, $2, $3, $4, $5, 'demo', $6, 'free', $7)
+      `INSERT INTO tenants (slug, email, template_id, template_version, industry, status, active_modules, plan, access_token, user_account_id)
+       VALUES ($1, $2, $3, $4, $5, 'demo', $6, 'free', $7, $8)
        RETURNING id`,
       [
         slug,
@@ -417,6 +464,7 @@ export async function createDemoTenantFromTemplate(
         parsed.industry ?? template.industry,
         ["gallery", "testimonials", "forms"],
         accessToken,
+        userAccountId ?? null,
       ]
     );
     const tenantId: number = tenantRes.rows[0].id;
@@ -485,6 +533,22 @@ export async function createDemoTenantFromTemplate(
       );
     }
 
+    // 5b. Commerce šablony (eshop-*): shop + moduly + klon demo katalogu,
+    // jinak je celý /obchod storefront 404 a produktové sekce prázdné.
+    if (isCommerce) {
+      await seedCommerceFromDemo(client, parsed.templateKey, tenantId, siteName);
+    }
+
+    if (userAccountId) {
+      await client.query(
+        `INSERT INTO subscriptions (tenant_id, user_account_id)
+         VALUES ($1, $2)
+         ON CONFLICT (tenant_id) DO UPDATE
+           SET user_account_id = EXCLUDED.user_account_id, updated_at = now()`,
+        [tenantId, userAccountId],
+      );
+    }
+
     // 6. Audit log
     await auditLog("tenant_created", {
       tenantId,
@@ -496,10 +560,124 @@ export async function createDemoTenantFromTemplate(
 
     return {
       tenantId,
+      userAccountId,
       slug,
       editorUrl: `/demo/${slug}/admin`,
       previewUrl: `/demo/${slug}`,
       accessToken,
     };
   });
+}
+
+/**
+ * Webero Commerce: onboardnutý e-shop tenant dostane shop, core moduly a
+ * kompletní klon demo katalogu (kategorie/produkty/varianty/obrázky/linky,
+ * recenze, addon aktivace) z referenčního tenanta šablony `{key}-v2`.
+ * Bez toho je /obchod 404 a homepage produktové sekce se skryjí.
+ */
+async function seedCommerceFromDemo(
+  client: PoolClient,
+  templateKey: string,
+  tenantId: number,
+  shopName: string
+): Promise<void> {
+  await client.query(
+    `UPDATE tenants SET tenant_kind = 'commerce', site_mode = 'multipage' WHERE id = $1`,
+    [tenantId]
+  );
+  await client.query(
+    `INSERT INTO shops (tenant_id, name, order_number_prefix) VALUES ($1, $2, 'OBJ')
+     ON CONFLICT (tenant_id) DO UPDATE SET name = EXCLUDED.name, updated_at = now()`,
+    [tenantId, shopName]
+  );
+  const CORE_MODULES = [
+    "commerce-core", "commerce-products", "commerce-orders",
+    "commerce-checkout", "commerce-payments", "commerce-shipping", "commerce-feeds",
+  ];
+  for (const m of CORE_MODULES) {
+    await client.query(
+      `INSERT INTO tenant_modules (tenant_id, module_key, enabled) VALUES ($1, $2, true)
+       ON CONFLICT (tenant_id, module_key) DO UPDATE SET enabled = true, updated_at = now()`,
+      [tenantId, m]
+    );
+  }
+
+  const src = await client.query("SELECT id FROM tenants WHERE slug = $1", [`${templateKey}-v2`]);
+  if (!src.rows.length) return; // bez referenčního katalogu aspoň funguje prázdný obchod
+  const srcId: number = src.rows[0].id;
+
+  // kategorie (2 průchody kvůli parent_id)
+  const cats = (await client.query("SELECT * FROM product_categories WHERE tenant_id = $1 ORDER BY id", [srcId])).rows;
+  const catMap = new Map<number, number>();
+  for (const r of cats) {
+    const q = await client.query(
+      `INSERT INTO product_categories (tenant_id, parent_id, slug, name, description, image_url, is_visible, sort_order, seo_title, seo_description)
+       VALUES ($1, NULL, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+      [tenantId, r.slug, r.name, r.description, r.image_url, r.is_visible, r.sort_order, r.seo_title, r.seo_description]
+    );
+    catMap.set(r.id, q.rows[0].id);
+  }
+  for (const r of cats) {
+    if (r.parent_id) {
+      await client.query("UPDATE product_categories SET parent_id = $1 WHERE id = $2", [catMap.get(r.parent_id), catMap.get(r.id)]);
+    }
+  }
+
+  const prods = (await client.query("SELECT * FROM products WHERE tenant_id = $1 ORDER BY id", [srcId])).rows;
+  const prodMap = new Map<number, number>();
+  for (const r of prods) {
+    const q = await client.query(
+      `INSERT INTO products (tenant_id, slug, title, subtitle, description, brand, status, tax_rate, primary_category_id, options, flags, seo_title, seo_description, og_image)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id`,
+      [tenantId, r.slug, r.title, r.subtitle, r.description, r.brand, r.status, r.tax_rate,
+       r.primary_category_id ? catMap.get(r.primary_category_id) : null,
+       JSON.stringify(r.options), JSON.stringify(r.flags), r.seo_title, r.seo_description, r.og_image]
+    );
+    prodMap.set(r.id, q.rows[0].id);
+  }
+
+  const variants = (await client.query("SELECT * FROM product_variants WHERE tenant_id = $1 ORDER BY id", [srcId])).rows;
+  const varMap = new Map<number, number>();
+  for (const r of variants) {
+    const q = await client.query(
+      `INSERT INTO product_variants (tenant_id, product_id, sku, ean, title, option_values, price_cents, compare_at_price_cents, cost_cents, weight_grams, stock_qty, stock_policy, track_stock, is_default, position)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id`,
+      [tenantId, prodMap.get(r.product_id), r.sku ? `T${tenantId}-${r.sku}` : null, r.ean, r.title, JSON.stringify(r.option_values),
+       r.price_cents, r.compare_at_price_cents, r.cost_cents, r.weight_grams, r.stock_qty, r.stock_policy, r.track_stock, r.is_default, r.position]
+    );
+    varMap.set(r.id, q.rows[0].id);
+  }
+
+  const images = (await client.query("SELECT * FROM product_images WHERE tenant_id = $1 ORDER BY id", [srcId])).rows;
+  for (const r of images) {
+    await client.query(
+      `INSERT INTO product_images (tenant_id, product_id, variant_id, url, alt, position) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [tenantId, prodMap.get(r.product_id), r.variant_id ? varMap.get(r.variant_id) : null, r.url, r.alt, r.position]
+    );
+  }
+
+  const links = (await client.query("SELECT * FROM product_category_links WHERE tenant_id = $1", [srcId])).rows;
+  for (const r of links) {
+    await client.query(
+      `INSERT INTO product_category_links (tenant_id, product_id, category_id) VALUES ($1, $2, $3)`,
+      [tenantId, prodMap.get(r.product_id), catMap.get(r.category_id)]
+    );
+  }
+
+  const reviews = (await client.query("SELECT * FROM commerce_reviews WHERE tenant_id = $1", [srcId])).rows;
+  for (const r of reviews) {
+    await client.query(
+      `INSERT INTO commerce_reviews (tenant_id, product_id, author_name, author_email, rating, title, body, status, photo_url, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [tenantId, prodMap.get(r.product_id), r.author_name, r.author_email, r.rating, r.title, r.body, r.status, r.photo_url, r.created_at]
+    );
+  }
+
+  const addons = (await client.query("SELECT addon_slug, enabled FROM commerce_addon_activations WHERE tenant_id = $1", [srcId])).rows;
+  for (const r of addons) {
+    await client.query(
+      `INSERT INTO commerce_addon_activations (tenant_id, addon_slug, enabled) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING`,
+      [tenantId, r.addon_slug, r.enabled]
+    );
+  }
 }

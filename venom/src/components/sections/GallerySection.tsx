@@ -16,6 +16,17 @@ function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   return slug ? `/demo/${slug}${clean}` : clean;
 }
 
+function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isAdmin = false) {
+  if (siteMode === "onepage") {
+    if (href.startsWith("/#")) return resolveDemoHref("/", tenantSlug, isAdmin) + href.slice(1);
+    if (href === "/" || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return resolveDemoHref(href, tenantSlug, isAdmin);
+    const slug = href.replace(/^\//, "");
+    return resolveDemoHref("/", tenantSlug, isAdmin) + "#" + slug;
+  }
+  if (href.startsWith("/#")) return resolveDemoHref("/" + href.slice(2), tenantSlug, isAdmin);
+  return resolveDemoHref(href, tenantSlug, isAdmin);
+}
+
 interface Props {
   content: Record<string, unknown>;
   variant: string;
@@ -60,7 +71,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
 
   if (variant === "arch-01-projects")  return <GalleryArch01Projects  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "arch-01-interiors") return <GalleryArch01Interiors content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "arch-01-awards")    return <GalleryArch01Awards    content={content} sectionId={sectionId} />;
+  if (variant === "arch-01-awards")    return <GalleryArch01Awards    content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "grooming-01-gallery") return <GalleryGrooming01 content={content} sectionId={sectionId} />;
   if (variant === "pethotel-01-gallery") return <GalleryPethotel01 content={content} sectionId={sectionId} images={images} />;
   if (variant === "florist-01-collections") return <GalleryFlorist01Collections content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -91,7 +102,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
     return <GalleryTattoo01 content={content} sectionId={sectionId} images={images} rawArray={rawArray} />;
   }
   if (variant === "tattoo-02-gallery") {
-    return <GalleryTattoo02 content={content} sectionId={sectionId} />;
+    return <GalleryTattoo02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "tattoo-03-gallery") {
     return <GalleryTattoo03 content={content} sectionId={sectionId} />;
@@ -443,526 +454,9 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
     );
   }
 
-  if (variant === "four-col" || variant === "four-col-contained") {
-    const contained = variant === "four-col-contained";
-    const tileRadius = contained ? 0 : 0;
-    const isB02 = !contained;
-    const b02Eyebrow  = String((content as Record<string, unknown>).eyebrow ?? "");
-    const b02Subtitle = String((content as Record<string, unknown>).subtitle ?? "");
-    const b03gHeadRef = useRef<HTMLHeadingElement>(null);
-    const b03gGridRef = useRef<HTMLDivElement>(null);
-    const b02HeaderRef = useRef<HTMLDivElement>(null);
-    const b02GridRef   = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-      if (contained) {
-        const els = [b03gHeadRef.current, b03gGridRef.current].filter(Boolean) as HTMLElement[];
-        const obs = els.map((el, i) => {
-          const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03g-vis"); o.disconnect(); } }, { threshold: 0.08 });
-          o.observe(el); return o;
-        });
-        return () => obs.forEach(o => o.disconnect());
-      } else {
-        const els = [b02HeaderRef.current, b02GridRef.current].filter(Boolean) as HTMLElement[];
-        const obs = els.map((el, i) => {
-          const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b02a-vis"); o.disconnect(); } }, { threshold: 0.08 });
-          o.observe(el); return o;
-        });
-        return () => obs.forEach(o => o.disconnect());
-      }
-    }, [contained]);
-    return (
-      <section
-        style={{
-          padding: contained ? "clamp(96px, 13vw, 150px) 0" : 0,
-          backgroundColor: contained ? "#1c1410" : "#1a1410",
-          position: contained ? "relative" : undefined,
-          overflow: contained ? "hidden" : undefined,
-        }}
-        data-template={contained ? "barber-03" : (isB02 ? "barber-02" : undefined)}
-      >
-        {/* barber-02 header strip — DARK pre-section creates rhythm cream → dark → cream */}
-        {isB02 && (c.title || b02Eyebrow || b02Subtitle) && (
-          <div
-            ref={b02HeaderRef}
-            className="b02a-reveal"
-            style={{
-              backgroundColor: "#1a1410",
-              padding: "clamp(80px, 11vw, 120px) clamp(20px, 5vw, 40px) clamp(60px, 9vw, 96px)",
-              textAlign: "center",
-              position: "relative",
-              borderTop: "1px solid rgba(212,169,110,0.18)",
-            }}
-          >
-            {/* Top decorative gold hairline accent */}
-            <div aria-hidden style={{
-              position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-              width: 120, height: 1,
-              background: "linear-gradient(90deg, transparent, #d4a96e 50%, transparent)",
-            }} />
+  if (variant === "four-col" || variant === "four-col-contained") return <GalleryFourCol content={content} variant={variant} images={images} rawArray={rawArray} activeImage={activeImage} setActiveImage={setActiveImage} sectionId={sectionId} />;
 
-            {b02Eyebrow && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
-                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
-                <span style={{
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "12px",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "#d4a96e",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={b02Eyebrow} tag="span" />
-                </span>
-                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
-              </div>
-            )}
-            {c.title && (
-              <h2 style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 700,
-                lineHeight: 1.15,
-                letterSpacing: "0.04em",
-                color: "#f5efe6",
-                margin: "0 auto 18px",
-                maxWidth: 720,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
-              </h2>
-            )}
-            {b02Subtitle && (
-              <p style={{
-                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
-                fontWeight: 300,
-                color: "rgba(245,239,230,0.7)",
-                lineHeight: 1.7,
-                margin: "0 auto",
-                maxWidth: 620,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="subtitle" value={b02Subtitle} tag="span" />
-              </p>
-            )}
-            {/* Bottom decorative rule */}
-            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 32 }}>
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
-              <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
-            </div>
-          </div>
-        )}
-        <style>{`
-          [data-four-col-gallery] { grid-template-columns: repeat(2, 1fr) !important; }
-          @media (min-width: 640px) { [data-four-col-gallery] { grid-template-columns: repeat(4, 1fr) !important; } }
-        `}</style>
-        {contained && <style>{`
-          @keyframes b03FadeUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
-          .b03g-reveal { opacity: 0; }
-          .b03g-reveal.b03g-vis { animation: b03FadeUp 0.72s cubic-bezier(.22,.68,0,1.2) forwards; }
-        `}</style>}
-        {contained && (() => {
-          const b03Eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
-          const b03Subtitle = String((content as Record<string, unknown>).subtitle ?? "");
-          if (!b03Eyebrow && !b03Subtitle && !c.title) return null;
-          return (
-            <>
-              {/* Top + bottom gold hairlines + warm radial glow — sit on the parent section */}
-              <div aria-hidden style={{
-                position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-                width: 180, height: 1,
-                background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
-              }} />
-              <div aria-hidden style={{
-                position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
-                width: 180, height: 1,
-                background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
-              }} />
-              <div aria-hidden style={{
-                position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-                background: "radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.07) 0%, transparent 55%)",
-              }} />
-              <div
-                ref={b03gHeadRef}
-                className="b03g-reveal text-center"
-                style={{
-                  maxWidth: 720,
-                  margin: "0 auto",
-                  padding: "0 24px",
-                  marginBottom: "clamp(48px, 7vw, 72px)",
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                {b03Eyebrow && (
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
-                    <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-                    <span style={{
-                      fontFamily: "'Libre Baskerville', Georgia, serif",
-                      fontStyle: "italic",
-                      fontSize: "12px",
-                      letterSpacing: "0.28em",
-                      textTransform: "uppercase",
-                      color: "#c8a96e",
-                    }}>
-                      <GenericEditableText sectionId={sectionId} field="eyebrow" value={b03Eyebrow} tag="span" />
-                    </span>
-                    <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-                  </div>
-                )}
-                {c.title && (
-                  <h2 style={{
-                    fontFamily: "'Libre Baskerville', Georgia, serif",
-                    fontSize: "clamp(2rem, 4.2vw, 3rem)",
-                    fontWeight: 700,
-                    lineHeight: 1.12,
-                    letterSpacing: "0.04em",
-                    color: "#f5efe6",
-                    textTransform: "uppercase",
-                    margin: "0 auto 18px",
-                    maxWidth: 720,
-                  }}>
-                    <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
-                  </h2>
-                )}
-                {b03Subtitle && (
-                  <p style={{
-                    fontFamily: "'Libre Baskerville', Georgia, serif",
-                    fontStyle: "italic",
-                    fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
-                    color: "rgba(245,239,230,0.72)",
-                    lineHeight: 1.7,
-                    margin: "0 auto",
-                    maxWidth: 580,
-                  }}>
-                    <GenericEditableText sectionId={sectionId} field="subtitle" value={b03Subtitle} tag="span" />
-                  </p>
-                )}
-                {/* Diamond rule */}
-                <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
-                  <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
-                  <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
-                  <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
-                </div>
-              </div>
-            </>
-          );
-        })()}
-        <div
-          ref={contained ? b03gGridRef : b02GridRef}
-          data-four-col-gallery
-          className={contained ? "b03g-reveal" : "b02a-reveal"}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: contained ? "clamp(8px, 1.5vw, 16px)" : "6px",
-            maxWidth: contained ? 1200 : undefined,
-            margin: contained ? "0 auto" : undefined,
-            padding: contained ? "0 clamp(16px, 4vw, 24px)" : undefined,
-          }}
-        >
-          {images.map((img, i) => (
-            <GenericEditableImage
-              key={i}
-              sectionId={sectionId}
-              field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
-              fullField={typeof rawArray[i] === "string" ? undefined : `images.${i}.fullUrl`}
-              src={img.url!}
-              alt={img.alt || ""}
-              className="relative w-full"
-              style={{ overflow: "hidden", borderRadius: 0 }}
-            >
-              <button
-                type="button"
-                className="b03g-cell relative block w-full overflow-hidden border-0 bg-transparent p-0"
-                style={{ aspectRatio: "1 / 1", cursor: "pointer", borderRadius: 0 }}
-                onClick={() => setActiveImage(img)}
-                aria-label="Zobrazit větší obrázek"
-              >
-                <Image
-                  src={img.url!}
-                  alt={img.alt || ""}
-                  width={400}
-                  height={400}
-                  className="b03g-img h-full w-full object-cover"
-                  style={{ transition: "transform 0.5s cubic-bezier(.22,.68,0,1.2)" }}
-                  sizes="(max-width: 600px) 50vw, 25vw"
-                  unoptimized={shouldSkipNextImageOptimization(img.url)}
-                />
-                <span className="b03g-overlay" aria-hidden="true">
-                  <svg className="b03g-expand" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    {/* top-left corner */}
-                    <polyline points="4,14 4,4 14,4" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    {/* top-right corner */}
-                    <polyline points="30,4 40,4 40,14" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    {/* bottom-right corner */}
-                    <polyline points="40,30 40,40 30,40" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                    {/* bottom-left corner */}
-                    <polyline points="14,40 4,40 4,30" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
-              </button>
-            </GenericEditableImage>
-          ))}
-        </div>
-        {activeImage?.url && (() => {
-          const activeIdx = images.findIndex(im => im.url === activeImage.url);
-          const goPrev = () => { if (activeIdx > 0) setActiveImage(images[activeIdx - 1]); };
-          const goNext = () => { if (activeIdx >= 0 && activeIdx < images.length - 1) setActiveImage(images[activeIdx + 1]); };
-          return (
-            <div
-              className="gallery-lightbox"
-              role="dialog"
-              aria-modal="true"
-              onClick={() => setActiveImage(null)}
-              onKeyDown={(e) => {
-                if (e.key === "Escape") setActiveImage(null);
-                if (e.key === "ArrowLeft") goPrev();
-                if (e.key === "ArrowRight") goNext();
-              }}
-              tabIndex={-1}
-              ref={(el) => { if (el) el.focus(); }}
-            >
-              <button
-                className="gallery-lb-close"
-                type="button"
-                onClick={(e) => { e.stopPropagation(); setActiveImage(null); }}
-                aria-label="Zavřít náhled"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              </button>
-
-              {activeIdx > 0 && (
-                <button
-                  className="gallery-lb-nav gallery-lb-prev"
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
-                  aria-label="Předchozí obrázek"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="15 18 9 12 15 6"/>
-                  </svg>
-                </button>
-              )}
-              {activeIdx >= 0 && activeIdx < images.length - 1 && (
-                <button
-                  className="gallery-lb-nav gallery-lb-next"
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); goNext(); }}
-                  aria-label="Další obrázek"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 18 15 12 9 6"/>
-                  </svg>
-                </button>
-              )}
-
-              <span className="gallery-lightbox-frame" onClick={(e) => e.stopPropagation()}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img key={activeImage.url} loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt || ""} />
-              </span>
-
-              {activeImage.alt && (
-                <div className="gallery-lb-caption">{activeImage.alt}</div>
-              )}
-
-              {activeIdx >= 0 && (
-                <div className="gallery-lb-counter">
-                  <span>{String(activeIdx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
-                </div>
-              )}
-            </div>
-          );
-        })()}
-        <style>{`
-          .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;background:rgba(8,8,8,0.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;animation:b02LbFade 0.25s ease;}
-          @keyframes b02LbFade{from{opacity:0;}to{opacity:1;}}
-          .gallery-lightbox-frame{display:block;max-width:min(1100px,94vw);max-height:82vh;cursor:default;animation:b02LbZoom 0.4s cubic-bezier(.22,.68,0,1.1);}
-          @keyframes b02LbZoom{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
-          .gallery-lightbox-frame img{display:block;max-width:100%;max-height:82vh;width:auto;height:auto;border-radius:4px;object-fit:contain;box-shadow:0 30px 100px rgba(0,0,0,0.7);}
-          .gallery-lb-close,.gallery-lb-nav{position:absolute;background:rgba(255,255,255,0.06);border:1px solid rgba(212,169,110,0.4);color:#fff;cursor:pointer;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.25s,border-color 0.25s,color 0.25s;}
-          .gallery-lb-close{top:28px;right:28px;}
-          .gallery-lb-prev{left:28px;top:50%;transform:translateY(-50%);}
-          .gallery-lb-next{right:28px;top:50%;transform:translateY(-50%);}
-          .gallery-lb-close:hover,.gallery-lb-nav:hover{background:rgba(212,169,110,0.2);border-color:#d4a96e;color:#d4a96e;}
-          .gallery-lb-counter{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(245,245,245,0.85);font-family:'Source Sans Pro',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.32em;text-transform:uppercase;display:flex;align-items:center;gap:14px;}
-          .gallery-lb-counter::before,.gallery-lb-counter::after{content:'';width:24px;height:1px;background:#d4a96e;}
-          .gallery-lb-caption{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);max-width:70vw;text-align:center;color:rgba(245,245,245,0.7);font-family:'Libre Baskerville',Georgia,serif;font-size:13px;font-style:italic;}
-          @media (max-width: 600px) {
-            .gallery-lb-prev{left:12px;}
-            .gallery-lb-next{right:12px;}
-            .gallery-lb-close{top:16px;right:16px;}
-          }
-          @media(max-width:900px){[data-four-col-gallery]{grid-template-columns:repeat(3,1fr) !important;}}
-          @media(max-width:600px){[data-four-col-gallery]{grid-template-columns:repeat(2,1fr) !important;}}
-          .b03g-cell { position: relative; }
-          .b03g-img { display: block; }
-          .b03g-cell:hover .b03g-img { transform: scale(1.08); }
-          .b03g-overlay {
-            position: absolute; inset: 0;
-            background: rgba(10,10,10,0.38);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-          }
-          .b03g-cell:hover .b03g-overlay { opacity: 1; }
-          .b03g-expand {
-            width: 44px; height: 44px;
-            opacity: 0;
-            transform: scale(0.7);
-            transition: opacity 0.35s ease 0.05s, transform 0.35s cubic-bezier(.22,.68,0,1.2) 0.05s;
-          }
-          .b03g-cell:hover .b03g-expand { opacity: 1; transform: scale(1); }
-        `}</style>
-      </section>
-    );
-  }
-
-  if (variant === "barber-04-gallery") {
-    const title    = String((content as { title?: string }).title    ?? "Naše práce");
-    const subtitle = String((content as { subtitle?: string }).subtitle ?? "Střihy · Holení · Péče o vousy");
-    const headRef  = useRef<HTMLDivElement>(null);
-    const gridRef  = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-      const els = [headRef.current, gridRef.current].filter(Boolean) as HTMLElement[];
-      const observers = els.map((el) => {
-        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("b04-vis"); obs.disconnect(); } }, { threshold: 0.12 });
-        obs.observe(el);
-        return obs;
-      });
-      return () => observers.forEach((o) => o.disconnect());
-    }, []);
-    return (
-      <section style={{ background: "#0a0806", padding: "88px 0 100px" }} data-template="barber-04">
-        {/* Header */}
-        <div ref={headRef} className="b04-reveal" style={{ textAlign: "center", marginBottom: 60, padding: "0 24px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 18 }}>
-            <div style={{ height: 1, width: 48, background: "#d5b981" }} />
-            <p style={{ color: "#d5b981", fontSize: 11, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", margin: 0, whiteSpace: "nowrap" }}>
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-            <div style={{ height: 1, width: 48, background: "#d5b981" }} />
-          </div>
-          <h2 style={{ fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif", fontSize: "clamp(52px,7vw,84px)", color: "#fff", letterSpacing: "0.10em", lineHeight: 1, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
-
-        {/* Grid */}
-        <div
-          ref={gridRef}
-          className="b04-gal-grid b04-reveal"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 4,
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "0 clamp(16px, 4vw, 24px)",
-            animationDelay: "0.15s",
-          }}
-        >
-          {images.map((img, i) => (
-            <GenericEditableImage
-              key={i}
-              sectionId={sectionId}
-              field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
-              fullField={typeof rawArray[i] === "string" ? undefined : `images.${i}.fullUrl`}
-              src={img.url ?? ""}
-              alt={img.alt ?? ""}
-              className="b04-gal-cell"
-              style={{ overflow: "hidden" }}
-            >
-              <button
-                type="button"
-                style={{
-                  position: "relative",
-                  display: "block",
-                  width: "100%",
-                  aspectRatio: "3 / 4",
-                  background: "#1a1a1a",
-                  border: 0,
-                  padding: 0,
-                  cursor: "pointer",
-                  overflow: "hidden",
-                }}
-                onClick={() => setActiveImage(img)}
-                aria-label="Zobrazit"
-              >
-                {img.url ? (
-                  <Image
-                    src={img.url}
-                    alt={img.alt ?? ""}
-                    fill
-                    className="b04-gal-img"
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    style={{ objectFit: "cover", transition: "transform 0.55s ease" }}
-                    unoptimized={shouldSkipNextImageOptimization(img.url)}
-                  />
-                ) : (
-                  <div style={{ position: "absolute", inset: 0, background: "#111" }} />
-                )}
-                <span className="b04-gal-over" aria-hidden>
-                  <span className="b04-gal-icon">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4 10V4h6M24 10V4h-6M4 18v6h6M24 18v6h-6" stroke="#d5b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </span>
-                </span>
-              </button>
-            </GenericEditableImage>
-          ))}
-        </div>
-
-        {/* Lightbox */}
-        {activeImage?.url && (
-          <button className="b04-gal-lb" type="button" onClick={() => setActiveImage(null)} aria-label="Zavřít náhled">
-            <span className="b04-gal-lb-frame">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt ?? ""} />
-            </span>
-          </button>
-        )}
-
-        <style>{`
-          @keyframes b04FadeUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
-          .b04-reveal { opacity: 0; }
-          .b04-reveal.b04-vis { animation: b04FadeUp 0.72s cubic-bezier(.22,.68,0,1.2) forwards; }
-          .b04-gal-cell { display: block; }
-          .b04-gal-cell button { border-radius: 0 !important; }
-          .b04-gal-img { transform-origin: center; }
-          .b04-gal-cell:hover .b04-gal-img { transform: scale(1.07) !important; }
-          .b04-gal-over {
-            position: absolute; inset: 0; z-index: 2;
-            background: transparent;
-            box-shadow: inset 0 0 0 0 rgba(213,185,129,0);
-            transition: background 0.35s ease, box-shadow 0.35s ease;
-            display: grid; place-items: center;
-            pointer-events: none;
-          }
-          .b04-gal-icon {
-            display: grid; place-items: center;
-            opacity: 0; transition: opacity 0.35s ease, transform 0.35s ease; transform: scale(0.75);
-          }
-          .b04-gal-cell:hover .b04-gal-over { background: rgba(10,8,6,0.48); box-shadow: inset 0 0 0 1.5px rgba(213,185,129,0.65); }
-          .b04-gal-cell:hover .b04-gal-icon { opacity: 1; transform: scale(1); }
-          .b04-gal-lb {
-            position: fixed; inset: 0; z-index: 9000; display: grid; place-items: center;
-            padding: 24px; border: 0; background: rgba(0,0,0,0.93); cursor: pointer;
-          }
-          .b04-gal-lb-frame { display: block; max-width: min(1100px,94vw); max-height: 90vh; }
-          .b04-gal-lb-frame img {
-            display: block; max-width: 100%; max-height: 90vh;
-            width: auto; height: auto; object-fit: contain;
-            box-shadow: 0 32px 100px rgba(0,0,0,0.7);
-          }
-          @media (max-width: 900px)  { .b04-gal-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-          @media (max-width: 480px)  { .b04-gal-grid { gap: 2px !important; } }
-        `}</style>
-      </section>
-    );
-  }
+  if (variant === "barber-04-gallery") return <GalleryBarber04 content={content} images={images} rawArray={rawArray} activeImage={activeImage} setActiveImage={setActiveImage} sectionId={sectionId} />;
 
   if (variant === "barber-dark") {
     return <GalleryBarberDark content={content} sectionId={sectionId} images={images} rawArray={rawArray} activeImage={activeImage} setActiveImage={setActiveImage} />;
@@ -1095,7 +589,7 @@ function Hair04Carousel({
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, []);
 
   // Rebuild extended array when visible changes — reset to start
@@ -1272,9 +766,6 @@ function Hair04Carousel({
 }
 
 // ── massage-01-gallery-insta ─────────────────────────────────────────────────
-// Dark BG #0A0A0A, 4-col × 2-row grid, gap 8px, hover zoom 1.06
-// Section header: gold dot + sectionTag + H2 + instagram handle CTA
-// ─────────────────────────────────────────────────────────────────────────────
 function Massage01GalleryInsta({
   content,
   sectionId,
@@ -1284,130 +775,67 @@ function Massage01GalleryInsta({
   sectionId: number;
   images: GalleryImage[];
 }) {
-  const sectionTag       = String(content.sectionTag       ?? "Galerie");
-  const heading          = String(content.heading          ?? "Naše prostředí");
-  const instagramHandle  = String(content.instagramHandle  ?? "@demomasaze");
-  const instagramUrl     = String(content.instagramUrl     ?? "#");
+  const sectionTag      = String(content.sectionTag      ?? "Galerie");
+  const heading         = String(content.heading         ?? "Naše prostředí");
+  const subtitle        = String(content.subtitle        ?? "");
+  const instagramHandle = String(content.instagramHandle ?? "@harmonie.masaze");
+  const instagramUrl    = String(content.instagramUrl    ?? "#");
+  const ctaLabel        = String(content.ctaLabel        ?? "Sledovat na Instagramu");
 
-  const BG       = "#0A0A0A";
-  const GOLD     = "#C9A962";
-  const GOLDDIM  = "rgba(201,169,98,0.18)";
-  const TEXT     = "#F5F0E8";
-  const SECONDARY = "#A09888";
-  const BORDER   = "#2A2520";
-  const FONT     = "'Inter', sans-serif";
-  const SERIF    = "'Cormorant Garamond', serif";
-
-  // Use first 8 images (2 rows × 4 cols), pad with repeats if fewer
   const padded = images.length === 0
     ? Array(8).fill({ url: "", alt: "" })
     : Array.from({ length: 8 }, (_, i) => images[i % images.length]);
-  const rows = [padded.slice(0, 4), padded.slice(4, 8)];
 
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [ctaHovered, setCtaHovered] = useState(false);
+  const showHeader = !!(sectionTag.trim() || heading.trim() || subtitle.trim());
 
   return (
-    <section
-      id="galerie"
-      style={{ backgroundColor: BG, padding: "100px 80px" }}
-      data-template="massage-01"
-    >
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        {/* Section header */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, textAlign: "center", marginBottom: 56 }}>
-          <p style={{ display: "inline-flex", alignItems: "center", gap: 8, color: GOLD, fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>
-            <span style={{ display: "inline-block", width: 6, height: 6, background: GOLD, borderRadius: "50%" }} />
-            <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 400, color: TEXT, lineHeight: 1.1, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, margin: 0 }}>
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: SECONDARY, textDecoration: "underline" }}
-            >
-              {instagramHandle}
-            </a>
-          </p>
-        </div>
+    <section id="galerie" className="m01-gal" data-template="massage-01">
+      <div className="m01-gal-inner">
+        {showHeader && (
+          <header className="m01-gal-header">
+            <p className="m01-hero-tag">
+              <span className="m01-hero-tag-dot" />
+              <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
+            </p>
+            <h2 className="m01-gal-title">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            {subtitle.trim() && (
+              <p className="m01-gal-sub">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </header>
+        )}
 
-        {/* 4×2 grid */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 48 }}>
-          {rows.map((row, ri) => (
-            <div key={ri} style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
-              {row.map((img, ci) => {
-                const globalIdx = ri * 4 + ci;
-                return (
-                  <div
-                    key={ci}
-                    onMouseEnter={() => setHovered(globalIdx)}
-                    onMouseLeave={() => setHovered(null)}
-                    style={{
-                      aspectRatio: "1",
-                      overflow: "hidden",
-                      background: "#141414",
-                      position: "relative",
-                    }}
-                  >
-                    {img.url ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={img.url}
-                        alt={img.alt ?? ""}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          display: "block",
-                          transform: hovered === globalIdx ? "scale(1.06)" : "scale(1)",
-                          transition: "transform 0.4s ease",
-                        }}
-                      />
-                    ) : (
-                      <div style={{ width: "100%", height: "100%", background: "#1A1A1A" }} />
-                    )}
-                  </div>
-                );
-              })}
+        <div className="m01-gal-grid">
+          {padded.map((img, i) => (
+            <div key={i} className="m01-gal-cell">
+              <GenericEditableImage sectionId={sectionId} field={`galleryImage_${i}`} src={img.url} className="m01-gal-img-wrap">
+                {img.url ? (
+                  <Image src={img.url} alt={img.alt ?? `Gallery ${i + 1}`} fill className="m01-gal-img" sizes="(max-width: 900px) 50vw, 25vw" unoptimized={shouldSkipNextImageOptimization(img.url)} />
+                ) : (
+                  <div style={{ width: "100%", height: "100%", background: "#1A1A1A" }} />
+                )}
+              </GenericEditableImage>
+              <div className="m01-gal-bracket" />
             </div>
           ))}
         </div>
 
-        {/* Instagram CTA */}
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className="m01-gal-cta-wrap">
           <a
             href={instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onMouseEnter={() => setCtaHovered(true)}
-            onMouseLeave={() => setCtaHovered(false)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              padding: "16px 36px",
-              fontFamily: FONT,
-              fontSize: 13,
-              fontWeight: 500,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color: ctaHovered ? "#0A0A0A" : GOLD,
-              background: ctaHovered ? GOLD : "transparent",
-              border: `1px solid ${ctaHovered ? GOLD : GOLDDIM}`,
-              textDecoration: "none",
-              transition: "all 0.25s ease",
-            }}
+            className="m01-hero-cta m01-gal-cta"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
               <circle cx="12" cy="12" r="4"/>
               <circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
             </svg>
-            Sledovat na Instagramu
+            <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span" />
           </a>
         </div>
       </div>
@@ -1415,9 +843,6 @@ function Massage01GalleryInsta({
   );
 }
 
-// ── tattoo-01-gallery ─────────────────────────────────────────────────────────
-// Galerie s nadpisem, paddingem, tmavý bg — 4-col mřížka s lightboxem
-// ─────────────────────────────────────────────────────────────────────────────
 function GalleryTattoo01({
   content,
   sectionId,
@@ -1430,9 +855,31 @@ function GalleryTattoo01({
   rawArray: unknown[];
 }) {
   const heading = String(content.heading ?? "Naše práce");
+  const eyebrow = String(content.eyebrow ?? "Portfolio");
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const ACCENT = "#ff5c4b";
-  const SANS   = "Arial, Helvetica, sans-serif";
+
+  const headerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [headerVis, setHeaderVis] = useState(false);
+  const [gridVis, setGridVis] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setHeaderVis(true); obs.disconnect(); } }, { threshold: 0.3 });
+    if (headerRef.current) obs.observe(headerRef.current);
+    return () => obs.disconnect();
+  }, []);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setGridVis(true); obs.disconnect(); } }, { threshold: 0.1 });
+    if (gridRef.current) obs.observe(gridRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setActiveImage(null); };
+    if (activeImage) window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [activeImage]);
 
   return (
     <section
@@ -1440,32 +887,26 @@ function GalleryTattoo01({
       data-template="tattoo-01"
       style={{ backgroundColor: "#111111" }}
     >
-      {/* Nadpis s paddingem */}
-      <div style={{ padding: "clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px) clamp(48px, 6vw, 72px)", textAlign: "center" }}>
+      <div
+        ref={headerRef}
+        className={`t01-gal-reveal ${headerVis ? "t01-visible" : ""}`}
+        style={{ padding: "clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px) clamp(48px, 6vw, 72px)", textAlign: "center" }}
+      >
+        <p style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: ACCENT, margin: "0 0 16px" }}>
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </p>
         <div style={{ width: 48, height: 3, backgroundColor: ACCENT, margin: "0 auto 24px" }} aria-hidden />
-        <h2
-          style={{
-            fontFamily: "'Arial Black', Arial, sans-serif",
-            fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-            fontWeight: 900,
-            color: "#ffffff",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-            margin: 0,
-          }}
-        >
+        <h2 style={{
+          fontFamily: "'Arial Black', Arial, sans-serif",
+          fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+          fontWeight: 900, color: "#ffffff",
+          textTransform: "uppercase", letterSpacing: "0.06em", margin: 0,
+        }}>
           <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
         </h2>
       </div>
 
-      {/* 4-col mřížka — edge-to-edge */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: 3,
-        }}
-      >
+      <div ref={gridRef} className="t01-gal-grid">
         {images.map((img, i) => (
           <GenericEditableImage
             key={i}
@@ -1473,13 +914,12 @@ function GalleryTattoo01({
             field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
             src={img.url!}
             alt={img.alt || ""}
-            className="relative w-full"
-            style={{ overflow: "hidden" }}
+            className={`t01-gal-reveal ${gridVis ? "t01-visible" : ""}`}
+            style={{ overflow: "hidden", transitionDelay: gridVis ? `${i * 0.07}s` : "0s" }}
           >
             <button
               type="button"
-              className="relative block w-full overflow-hidden border-0 bg-transparent p-0 group"
-              style={{ aspectRatio: "1 / 1", cursor: "zoom-in" }}
+              className="t01-gal-tile"
               onClick={() => setActiveImage(img)}
               aria-label="Zobrazit větší obrázek"
             >
@@ -1488,39 +928,28 @@ function GalleryTattoo01({
                 alt={img.alt || ""}
                 width={400}
                 height={400}
-                className="h-full w-full object-cover"
-                style={{ transition: "transform 0.5s ease, filter 0.5s ease" }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)";
-                  (e.currentTarget as HTMLImageElement).style.filter = "brightness(1.1)";
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLImageElement).style.transform = "scale(1)";
-                  (e.currentTarget as HTMLImageElement).style.filter = "none";
-                }}
                 sizes="(max-width: 600px) 50vw, 25vw"
                 unoptimized={shouldSkipNextImageOptimization(img.url)}
               />
-              {/* Červený hover overlay */}
-              <div
-                style={{
-                  position: "absolute", inset: 0,
-                  backgroundColor: ACCENT,
-                  opacity: 0,
-                  transition: "opacity 0.3s",
-                  pointerEvents: "none",
-                }}
-                className="t01-gallery-hover"
-              />
+              <span className="t01-gal-overlay" aria-hidden>
+                <span className="t01-gal-zoom">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 3 21 3 21 9" />
+                    <polyline points="9 21 3 21 3 15" />
+                    <line x1="21" y1="3" x2="14" y2="10" />
+                    <line x1="3" y1="21" x2="10" y2="14" />
+                  </svg>
+                  <span className="t01-gal-rule" />
+                  <span className="t01-gal-label">Zobrazit</span>
+                </span>
+              </span>
             </button>
           </GenericEditableImage>
         ))}
       </div>
 
-      {/* Spodní padding */}
       <div style={{ height: "clamp(48px, 7vw, 80px)" }} />
 
-      {/* Lightbox */}
       {activeImage?.url && (
         <button
           className="gallery-lightbox"
@@ -1536,143 +965,133 @@ function GalleryTattoo01({
       )}
 
       <style>{`
-        .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;border:0;background:rgba(0,0,0,0.92);cursor:zoom-out;}
+        .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;border:0;background:rgba(0,0,0,0.92);cursor:pointer;}
         .gallery-lightbox-frame{display:block;max-width:min(1100px,94vw);max-height:88vh;}
         .gallery-lightbox-frame img{display:block;max-width:100%;max-height:88vh;width:auto;height:auto;object-fit:contain;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
-        .t01-gallery-hover { opacity: 0 !important; }
-        button:hover .t01-gallery-hover { opacity: 0.08 !important; }
-        @media(max-width:900px){[data-template="tattoo-01"] #galerie .t01-grid{grid-template-columns:repeat(3,1fr) !important;}}
-        @media(max-width:540px){[data-template="tattoo-01"] #galerie .t01-grid{grid-template-columns:repeat(2,1fr) !important;}}
-        @media(max-width:900px){[data-template="tattoo-01"] #galerie>div:nth-child(2){grid-template-columns:repeat(3,1fr) !important;}}
-        @media(max-width:540px){[data-template="tattoo-01"] #galerie>div:nth-child(2){grid-template-columns:repeat(2,1fr) !important;}}
       `}</style>
     </section>
   );
 }
 
 // ── tattoo-02-gallery ─────────────────────────────────────────────────────────
-// Záložky Tattoo / Piercing, masonry-like 3-col grid, tmavá sekce, zlaté akcenty.
+// "Shadow Ink" — Tattoo/Piercing taby, 3-col grid, tmavá sekce, gold akcenty.
+// Lightbox (keyboard nav + counter), luxe SVG kurzor, gold corner brackets.
+// CSS v globals (t02-gal-*). Conditional header. resolveNavHref na CTA.
 // ─────────────────────────────────────────────────────────────────────────────
-function GalleryTattoo02({ content, sectionId }: {
+function GalleryTattoo02({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
   sectionId: number;
+  tenantSlug?: string;
+  isAdmin?: boolean;
 }) {
-  const c       = content as Record<string, unknown>;
-  const heading = String(c.heading    ?? "Portfolio");
+  const c = content as Record<string, unknown>;
+
+  const eyebrowRaw = c.eyebrow;
+  const headingRaw = c.heading;
+  const eyebrow = eyebrowRaw === undefined ? "Naše práce" : String(eyebrowRaw);
+  const heading = headingRaw === undefined ? "Portfolio" : String(headingRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim());
+
   const tabs    = (c.tabs as string[]) ?? ["Tattoo", "Piercing"];
   const images  = (c.images as Array<{ url: string; alt: string; tab: string }>) ?? [];
+  const ctaText = String(c.ctaText ?? "Objednat konzultaci");
+  const ctaHref = String(c.ctaHref ?? "/kontakt");
 
   const [activeTab, setActiveTab] = useState(tabs[0] ?? "Tattoo");
+  const [lightbox, setLightbox] = useState<number | null>(null);
   const filtered = images.filter(img => img.tab === activeTab);
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowLeft")  setLightbox(v => (v === null ? null : (v - 1 + filtered.length) % filtered.length));
+      if (e.key === "ArrowRight") setLightbox(v => (v === null ? null : (v + 1) % filtered.length));
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [lightbox, filtered.length]);
 
   const GOLD = "#BF8A1D";
   const DARK = "#111111";
+  const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <>
-      <style>{`
-        .tg02-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-        }
-        @media (max-width: 860px) { .tg02-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 480px) { .tg02-grid { grid-template-columns: 1fr 1fr; gap: 4px; } }
-        .tg02-img-wrap {
-          overflow: hidden;
-          aspect-ratio: 1 / 1;
-          cursor: pointer;
-        }
-        .tg02-img-wrap img {
-          width: 100%; height: 100%;
-          object-fit: cover;
-          transition: transform 0.4s ease;
-          display: block;
-        }
-        .tg02-img-wrap:hover img { transform: scale(1.06); }
-        .tg02-tab {
-          background: none; border: none; cursor: pointer;
-          font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: 700;
-          letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 10px 0; margin: 0 20px;
-          color: rgba(255,255,255,0.45);
-          border-bottom: 2px solid transparent;
-          transition: color 0.2s, border-color 0.2s;
-        }
-        .tg02-tab.active { color: ${GOLD}; border-bottom-color: ${GOLD}; }
-        .tg02-tab:hover:not(.active) { color: rgba(255,255,255,0.75); }
-      `}</style>
-
-      <section
-        id="galerie"
-        data-section="gallery-tattoo-02"
-        style={{ background: DARK, padding: "clamp(64px,9vw,110px) 0" }}
-      >
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 48, padding: "0 24px" }}>
-          <p style={{
-            fontFamily: "Arial, sans-serif", fontSize: "0.7rem", fontWeight: 700,
-            color: GOLD, letterSpacing: "0.3em", textTransform: "uppercase",
-            margin: "0 0 14px",
-          }}>
-            Naše práce
-          </p>
+    <section id="galerie" data-template="tattoo-02" style={{ background: DARK, padding: "clamp(64px,9vw,110px) 0" }}>
+      {/* Header */}
+      {showHeader && (
+        <div style={{ textAlign: "center", marginBottom: 44, padding: "0 24px" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 13, marginBottom: 16 }}>
+            <span aria-hidden style={{ width: 32, height: 2, background: GOLD }} />
+            <GenericEditableText
+              sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+              style={{ fontFamily: "var(--font-oswald), 'Oswald', sans-serif", fontSize: "0.74rem", fontWeight: 600, color: GOLD, letterSpacing: "0.24em", textTransform: "uppercase" }}
+            />
+            <span aria-hidden style={{ width: 32, height: 2, background: GOLD }} />
+          </div>
           <h2 style={{
-            fontFamily: "'Arial Black', Arial, sans-serif",
-            fontWeight: 900, fontSize: "clamp(28px,4vw,46px)",
-            color: "#fff", margin: "0 0 32px", lineHeight: 1.1,
+            fontFamily: "var(--font-oswald), 'Oswald', sans-serif",
+            fontWeight: 700, fontSize: "clamp(30px,4vw,50px)",
+            color: "#fff", margin: 0, lineHeight: 1.05, textTransform: "uppercase", letterSpacing: "0.02em",
           }}>
             <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
           </h2>
+        </div>
+      )}
 
-          {/* Záložky */}
-          <div style={{ display: "flex", justifyContent: "center", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-            {tabs.map(tab => (
-              <button
-                key={tab}
-                className={`tg02-tab${activeTab === tab ? " active" : ""}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+      {/* Tabs */}
+      <div style={{ display: "flex", justifyContent: "center", borderBottom: "1px solid rgba(255,255,255,0.1)", maxWidth: 1200, margin: "0 auto 40px", padding: "0 24px" }}>
+        {tabs.map((tab, ti) => (
+          <button
+            key={tab}
+            className={`t02-tab${activeTab === tab ? " active" : ""}`}
+            onClick={() => { setActiveTab(tab); setLightbox(null); }}
+          >
+            <GenericEditableText sectionId={sectionId} field={`tabs.${ti}`} value={tab} tag="span" />
+          </button>
+        ))}
+      </div>
+
+      {/* Grid */}
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(12px,3vw,32px)" }}>
+        <div className="t02-gal-grid">
+          {filtered.map((img, i) => (
+            <div key={`${activeTab}-${i}`} className="t02-gal-cell" onClick={() => setLightbox(i)}>
+              <img src={img.url} alt={img.alt} loading="lazy" />
+              <span aria-hidden className="t02-gal-bracket tl" />
+              <span aria-hidden className="t02-gal-bracket br" />
+            </div>
+          ))}
         </div>
 
-        {/* Grid */}
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(12px,3vw,32px)" }}>
-          <div className="tg02-grid">
-            {filtered.map((img, i) => (
-              <div key={`${activeTab}-${i}`} className="tg02-img-wrap">
-                <img src={img.url} alt={img.alt} loading="lazy" />
-              </div>
-            ))}
-          </div>
-
-          {/* CTA pod gridem */}
-          <div style={{ textAlign: "center", marginTop: 48 }}>
-            <a
-              href="#kontakt"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 10,
-                background: GOLD, color: "#fff",
-                fontFamily: "Arial, sans-serif", fontSize: "0.78rem", fontWeight: 700,
-                letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none",
-                padding: "0 36px", height: 50,
-                transition: "background 0.2s",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = "#a87318")}
-              onMouseLeave={e => (e.currentTarget.style.background = GOLD)}
-            >
-              Objednat konzultaci
-              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
-                <path d="M1 5h14M10 1l5 4-5 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-          </div>
+        {/* CTA */}
+        <div style={{ textAlign: "center", marginTop: 48 }}>
+          <a href={resolveNavHref(ctaHref, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin)} data-btn="primary" className="t02-cta" style={{ textDecoration: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="t02-cta-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+              <path d="M1 5h14M10 1l5 4-5 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Lightbox */}
+      {lightbox !== null && filtered[lightbox] && (
+        <div className="t02-lb" onClick={() => setLightbox(null)}>
+          <button className="t02-lb-btn t02-lb-close" aria-label="Zavřít" onClick={(e) => { e.stopPropagation(); setLightbox(null); }}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+          </button>
+          <button className="t02-lb-btn t02-lb-prev" aria-label="Předchozí" onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v - 1 + filtered.length) % filtered.length)); }}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 4l-7 6 7 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          <button className="t02-lb-btn t02-lb-next" aria-label="Další" onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v + 1) % filtered.length)); }}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l7 6-7 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          <img src={filtered[lightbox].url} alt={filtered[lightbox].alt} onClick={(e) => e.stopPropagation()} />
+          <span className="t02-lb-counter">{pad(lightbox + 1)} / {pad(filtered.length)}</span>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -1682,73 +1101,139 @@ function GalleryTattoo02({ content, sectionId }: {
 // ─────────────────────────────────────────────────────────────────────────────
 function GalleryTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c          = content as Record<string, unknown>;
-  const heading    = String(c.heading    ?? "Ukázky práce");
-  const subheading = String(c.subheading ?? "Práce našich tatérů");
+  const headingRaw    = c.heading;
+  const subheadingRaw = c.subheading;
+  const heading    = headingRaw    === undefined ? "Ukázky práce" : String(headingRaw);
+  const subheading = subheadingRaw === undefined ? "Práce našich tatérů" : String(subheadingRaw);
+  const showHeader = !!(heading.trim() || subheading.trim());
   const rawImages  = (c.images as Array<{ url: string; alt: string }>) ?? [];
 
   const BG     = "#0A0A0E";
   const ACCENT = "#D41515";
 
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  useEffect(() => {
+    if (lightbox === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowLeft")  setLightbox(v => (v === null ? null : (v - 1 + rawImages.length) % rawImages.length));
+      if (e.key === "ArrowRight") setLightbox(v => (v === null ? null : (v + 1) % rawImages.length));
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [lightbox, rawImages.length]);
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+
   return (
-    <section id="galerie" style={{ backgroundColor: BG, padding: "clamp(48px,7vw,96px) clamp(20px,4vw,40px)" }}>
+    <section id="galerie" data-template="tattoo-03" style={{ backgroundColor: BG, padding: "clamp(56px,7vw,104px) clamp(20px,4vw,40px)" }}>
       <div style={{ maxWidth: 1360, margin: "0 auto" }}>
         {/* Nadpis */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: "0.75rem", fontWeight: 700,
-            color: ACCENT, letterSpacing: "0.18em",
-            textTransform: "uppercase", margin: "0 0 8px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-          <h2 style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(22px, 2.8vw, 38px)",
-            color: "#ffffff", margin: 0,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+              <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" style={{
+                fontFamily: "'Barlow Condensed','Oswald',sans-serif", fontSize: "0.9rem", fontWeight: 600,
+                letterSpacing: "0.26em", textTransform: "uppercase", color: ACCENT,
+              }} />
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+            </div>
+            <h2 style={{
+              fontFamily: "'Bebas Neue','Oswald',sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 56px)",
+              color: "#ffffff", margin: 0,
+              letterSpacing: "0.01em", textTransform: "uppercase", lineHeight: 1,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+          </div>
+        )}
 
         {/* 4-col mřížka */}
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(4, 1fr)",
-          gap: 8,
+          gap: 10,
         }} className="t03-gallery-grid">
-          <style>{`
-            @media (max-width: 900px) { .t03-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-            @media (max-width: 480px) { .t03-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-          `}</style>
           {rawImages.map((img, i) => (
             <div
               key={i}
+              className="t03-gal-cell"
+              onClick={() => setLightbox(i)}
               style={{
                 aspectRatio: "3/4",
                 overflow: "hidden",
                 backgroundColor: "#141414",
+                position: "relative",
               }}
             >
-              <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url} alt={img.alt} className="w-full h-full" style={{ width: "100%", height: "100%" }}>
+              <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url} alt={img.alt} className="w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
                 <img
                   src={img.url}
                   alt={img.alt}
+                  className="t03-gal-img"
                   style={{
                     width: "100%", height: "100%",
                     objectFit: "cover", objectPosition: "center",
-                    transition: "transform 0.4s ease",
+                    transition: "transform 0.5s ease, filter 0.5s ease",
                   }}
                   loading="lazy"
-                  onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
-                  onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
                 />
               </GenericEditableImage>
+              <span aria-hidden className="t03-gal-overlay" />
+              <span aria-hidden className="t03-gal-bracket" />
             </div>
           ))}
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightbox !== null && rawImages[lightbox] && (
+        <div
+          onClick={() => setLightbox(null)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 1000,
+            background: "rgba(6,6,9,0.94)",
+            backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: "clamp(20px,5vw,64px)",
+          }}
+        >
+          {/* Close */}
+          <button
+            aria-label="Zavřít"
+            onClick={(e) => { e.stopPropagation(); setLightbox(null); }}
+            className="t03-lb-btn"
+            style={{ position: "absolute", top: 24, right: 24, width: 46, height: 46, background: "transparent", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", fontSize: "1.4rem", cursor: "pointer", lineHeight: 1 }}
+          >×</button>
+          {/* Prev */}
+          <button
+            aria-label="Předchozí"
+            onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v - 1 + rawImages.length) % rawImages.length)); }}
+            className="t03-lb-btn"
+            style={{ position: "absolute", left: "clamp(12px,3vw,40px)", top: "50%", transform: "translateY(-50%)", width: 52, height: 52, background: "transparent", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}
+          >‹</button>
+          {/* Next */}
+          <button
+            aria-label="Další"
+            onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v + 1) % rawImages.length)); }}
+            className="t03-lb-btn"
+            style={{ position: "absolute", right: "clamp(12px,3vw,40px)", top: "50%", transform: "translateY(-50%)", width: 52, height: 52, background: "transparent", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", fontSize: "1.5rem", cursor: "pointer" }}
+          >›</button>
+          {/* Image + caption */}
+          <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: "min(880px, 92vw)", maxHeight: "86vh", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={rawImages[lightbox].url} alt={rawImages[lightbox].alt} style={{ maxWidth: "100%", maxHeight: "76vh", objectFit: "contain", border: "1px solid rgba(255,255,255,0.12)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 16, fontFamily: "'Barlow Condensed','Oswald',sans-serif", letterSpacing: "0.12em", textTransform: "uppercase", fontSize: "0.85rem", color: "rgba(255,255,255,0.7)" }}>
+              <span style={{ color: ACCENT, fontWeight: 700 }}>{pad(lightbox + 1)}</span>
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(255,255,255,0.3)" }} />
+              <span>{pad(rawImages.length)}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -2433,7 +1918,7 @@ function GalleryNails03({
 // ── clinic-03-gallery ─────────────────────────────────────────────────────────
 // Masonry-style 3-col grid: 1. řada velký + 2 menší, 2. řada 3 stejné
 // hover scale 1.04, outline gold CTA dole
-// Reference: yesvisage.cz — Proměny sekce
+// Reference: diamond-look.cz — Proměny sekce
 // ─────────────────────────────────────────────────────────────────────────────
 function GalleryClinic03({ content, sectionId, images }: { content: Record<string,unknown>; sectionId: number; images: GalleryImage[] }) {
   const GOLD   = "#97855F";
@@ -2447,6 +1932,7 @@ function GalleryClinic03({ content, sectionId, images }: { content: Record<strin
   const title   = String(content.title   ?? "Proměny našich klientů");
   const kicker  = String(content.kicker  ?? "Z dokonalých proměn spokojení klienti");
   const ctaText = String(content.ctaText ?? "Všechny proměny");
+  const ctaHref = String(content.ctaHref ?? "#kontakt");
 
   const fallback = [
     { url: "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=600&q=80", alt: "Proměna 1" },
@@ -2505,7 +1991,7 @@ function GalleryClinic03({ content, sectionId, images }: { content: Record<strin
         {/* CTA */}
         <div style={{ textAlign: "center" }}>
           <a
-            href="#kontakt"
+            href={ctaHref}
             style={{ display: "inline-flex", alignItems: "center", height: 48, padding: "0 36px", border: `1px solid ${GOLD}`, color: GOLD, fontFamily: FONT, fontSize: "0.85rem", fontWeight: 400, letterSpacing: "0.08em", textDecoration: "none", transition: "all 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = WHITE; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD; }}
@@ -2749,79 +2235,106 @@ function GalleryFitness02({
 }
 
 // ── restaurant-03-gallery ──────────────────────────────────────────────────────
-// Dark #0c351a bg, zlatý kicker + bílý serif H2 centrovaně
-// 4-col grid landscape fotek (3:2 aspect) s hover zlatým overlay + scale
-// Dole: zlaté outline CTA "Celá galerie" (pokud ctaText vyplněno)
-// Ref: lacasalatina.cz galerie — 600×400 food a atmosféra fotky
+// La Casa Dorada — luxe deep-green #0c351a + gold. Ornament header, čistý
+// symetrický 4-col grid s custom gold expand-corner cursorem, gold corner brackets
+// reveal, gradient overlay + caption slide-up, image zoom. Sdílený lightbox
+// s prev/next/counter/caption + keyboard nav. Conditional header pro /galerie.
 // ─────────────────────────────────────────────────────────────────────────────
 function GalleryRestaurant03({ content, sectionId, images }: { content: Record<string, unknown>; sectionId: number; images: GalleryImage[] }) {
   const id      = String(content.id      ?? "galerie");
-  const tagline = String(content.tagline ?? "Atmosféra");
-  const title   = String(content.title   ?? "Nahlédněte\nk nám.");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Atmosféra" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Nahlédněte\nk nám." : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const ctaText = String(content.ctaText ?? "");
   const ctaHref = String(content.ctaHref ?? "/galerie");
 
-  const BG   = "#0d1b2a";
-  const GOLD = "#e05e3f";
+  const BG   = "#0c351a";
+  const GOLD = "#b97d26";
+  const GOLD_LT = "#d4a24c";
   const WHITE = "#ffffff";
   const FONT = "Georgia, 'Times New Roman', serif";
   const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const FALLBACK_IMGS: GalleryImage[] = [
-    { url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Restaurace" },
-    { url: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Jídlo" },
-    { url: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Ceviche" },
-    { url: "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Bar" },
-    { url: "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Grill" },
-    { url: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Steak" },
-    { url: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Mořské plody" },
-    { url: "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=533&fit=crop&fm=webp&q=80", alt: "Suroviny" },
-  ];
+  const FALLBACK_IMGS: GalleryImage[] = Array.from({ length: 8 }, (_, i) => ({
+    url: `/templates/restaurant-03/gal-${i + 1}.webp`, alt: `Fotka ${i + 1}`,
+  }));
 
   const contentImgs = normalizeImages((content as Record<string, unknown>).images);
   const pool = images.length > 0 ? images : contentImgs.length > 0 ? contentImgs : FALLBACK_IMGS;
   const displayed = pool.slice(0, 8);
 
+  // Lightbox
+  const [lbIdx, setLbIdx] = useState<number | null>(null);
+  const open = lbIdx !== null;
+  const close = useCallback(() => setLbIdx(null), []);
+  const prev = useCallback(() => setLbIdx(i => (i === null ? i : (i - 1 + displayed.length) % displayed.length)), [displayed.length]);
+  const next = useCallback(() => setLbIdx(i => (i === null ? i : (i + 1) % displayed.length)), [displayed.length]);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === "ArrowRight") next();
+    };
+    document.addEventListener("keydown", h);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", h); document.body.style.overflow = ""; };
+  }, [open, close, prev, next]);
+
+  const active = open ? displayed[lbIdx!] : null;
+  const activeSrc = active ? (active.fullUrl || active.url || "") : "";
+
   return (
-    <section id={id} data-variant="restaurant-03-gallery" style={{ backgroundColor: BG, padding: "96px 0", fontFamily: SANS }}>
+    <section id={id} data-template="restaurant-03" data-variant="restaurant-03-gallery" style={{ backgroundColor: BG, padding: "clamp(72px,10vw,116px) 0", fontFamily: SANS }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 4vw, 48px)" }}>
 
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, margin: "0 0 12px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 400, color: WHITE, margin: 0, lineHeight: 1.2, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <div style={{ width: 40, height: 1, backgroundColor: GOLD, margin: "20px auto 0", opacity: 0.5 }} />
-        </div>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 50 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <span aria-hidden style={{ width: 34, height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD})` }} />
+              <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                style={{ fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT }} />
+              <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+              <span aria-hidden style={{ width: 34, height: 1, background: `linear-gradient(to left, ${GOLD}00, ${GOLD})` }} />
+            </div>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.6vw, 48px)", fontWeight: 400, color: WHITE, margin: 0, lineHeight: 1.16, whiteSpace: "pre-line" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+          </div>
+        )}
 
-        {/* 4-col grid */}
-        <div className="r03-gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
+        {/* Symetrický 4-col grid */}
+        <div className="r03-gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
           {displayed.map((img, i) => {
             const src = img.fullUrl || img.url || "";
+            const cap = img.alt ?? `Fotka ${i + 1}`;
             return (
               <div
                 key={i}
                 className="r03-gallery-item"
-                style={{ position: "relative", overflow: "hidden", aspectRatio: "3/2", cursor: "pointer" }}
+                onClick={() => setLbIdx(i)}
+                style={{ position: "relative", overflow: "hidden", aspectRatio: "3/2", borderRadius: 2 }}
               >
-                <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={src} alt={img.alt ?? `Fotka ${i + 1}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={src} alt={cap} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
                   <img
                     src={src}
-                    alt={img.alt ?? `Fotka ${i + 1}`}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block", transition: "transform 0.45s ease" }}
+                    alt={cap}
+                    className="r03-gallery-img"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                     loading="lazy"
                   />
                 </GenericEditableImage>
-                {/* Coral hover overlay */}
-                <div className="r03-gallery-overlay" style={{
-                  position: "absolute", inset: 0,
-                  backgroundColor: `${GOLD}33`,
-                  opacity: 0, transition: "opacity 0.3s ease",
-                  pointerEvents: "none",
-                }} />
+                {/* Gradient overlay + caption */}
+                <div className="r03-gallery-overlay" aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,45,21,0.85), rgba(10,45,21,0) 55%)", opacity: 0, transition: "opacity 0.4s ease", pointerEvents: "none", display: "flex", alignItems: "flex-end", padding: 16 }}>
+                  <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 500, letterSpacing: "0.08em", color: WHITE, textTransform: "uppercase", transform: "translateY(8px)", transition: "transform 0.4s ease" }} className="r03-gallery-cap">{cap}</span>
+                </div>
+                {/* Gold corner brackets */}
+                <span aria-hidden className="r03-gallery-corner r03-gallery-corner--tl" />
+                <span aria-hidden className="r03-gallery-corner r03-gallery-corner--br" />
               </div>
             );
           })}
@@ -2829,28 +2342,66 @@ function GalleryRestaurant03({ content, sectionId, images }: { content: Record<s
 
         {/* CTA */}
         {ctaText && (
-          <div style={{ textAlign: "center", marginTop: 40 }}>
+          <div style={{ textAlign: "center", marginTop: 44 }}>
             <a
               href={ctaHref}
               data-btn="primary"
               style={{
-                fontFamily: SANS, fontSize: 11, fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                color: GOLD, textDecoration: "none",
-                padding: "12px 32px", border: `1px solid ${GOLD}`,
-                display: "inline-block", transition: "background-color 0.2s, color 0.2s",
+                fontFamily: SANS, fontSize: 11.5, fontWeight: 600,
+                letterSpacing: "0.16em", textTransform: "uppercase",
+                color: GOLD_LT, textDecoration: "none",
+                padding: "13px 34px", border: `1px solid ${GOLD}`, borderRadius: 2,
+                display: "inline-flex", alignItems: "center", gap: 10,
+                transition: "background-color 0.3s, color 0.3s, transform 0.3s",
               }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = WHITE; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD; }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = BG; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD_LT; e.currentTarget.style.transform = "translateY(0)"; }}
             >
+              <span aria-hidden style={{ width: 6, height: 6, background: "currentColor", transform: "rotate(45deg)" }} />
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
         )}
       </div>
+
+      {/* Lightbox */}
+      {open && active && (
+        <div
+          onClick={close}
+          style={{ position: "fixed", inset: 0, zIndex: 3000, background: "rgba(6,24,14,0.94)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "clamp(20px,5vw,64px)" }}
+        >
+          {/* Counter */}
+          <div style={{ position: "absolute", top: 26, left: 0, right: 0, textAlign: "center", fontFamily: FONT, fontSize: 15, letterSpacing: "0.2em", color: GOLD_LT }}>
+            {String(lbIdx! + 1).padStart(2, "0")} <span style={{ opacity: 0.5 }}>/ {String(displayed.length).padStart(2, "0")}</span>
+          </div>
+          {/* Close */}
+          <button onClick={(e) => { e.stopPropagation(); close(); }} aria-label="Zavřít" style={{ position: "absolute", top: 20, right: 24, background: "none", border: "none", color: WHITE, fontSize: 30, lineHeight: 1, cursor: "pointer", padding: 8 }}>×</button>
+          {/* Prev */}
+          <button onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Předchozí" className="r03-lb-nav" style={{ position: "absolute", left: "clamp(8px,3vw,32px)", top: "50%", transform: "translateY(-50%)", background: "rgba(185,125,38,0.12)", border: `1px solid ${GOLD}`, color: GOLD_LT, width: 48, height: 48, borderRadius: "50%", cursor: "pointer", fontSize: 20 }}>‹</button>
+          {/* Image */}
+          <figure onClick={(e) => e.stopPropagation()} style={{ margin: 0, maxWidth: "min(1000px,92vw)", maxHeight: "82vh", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+            <img src={activeSrc} alt={active.alt ?? ""} style={{ maxWidth: "100%", maxHeight: "72vh", objectFit: "contain", display: "block", borderRadius: 2, boxShadow: "0 30px 80px rgba(0,0,0,0.6)" }} />
+            {active.alt && <figcaption style={{ fontFamily: SANS, fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase", color: `${WHITE}cc` }}>{active.alt}</figcaption>}
+          </figure>
+          {/* Next */}
+          <button onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Další" className="r03-lb-nav" style={{ position: "absolute", right: "clamp(8px,3vw,32px)", top: "50%", transform: "translateY(-50%)", background: "rgba(185,125,38,0.12)", border: `1px solid ${GOLD}`, color: GOLD_LT, width: 48, height: 48, borderRadius: "50%", cursor: "pointer", fontSize: 20 }}>›</button>
+        </div>
+      )}
+
       <style>{`
-        .r03-gallery-item:hover img { transform: scale(1.06); }
-        .r03-gallery-item:hover .r03-gallery-overlay { opacity: 1; }
+        [data-template="restaurant-03"] .r03-gallery-item {
+          cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23d4a24c' stroke-width='1.5'%3E%3Cpath d='M4 12V4h8'/%3E%3Cpath d='M28 4h8v8'/%3E%3Cpath d='M36 28v8h-8'/%3E%3Cpath d='M12 36H4v-8'/%3E%3C/g%3E%3Ccircle cx='20' cy='20' r='1.6' fill='%23d4a24c'/%3E%3C/svg%3E") 20 20, zoom-in;
+        }
+        [data-template="restaurant-03"] .r03-gallery-img { transition: transform 0.7s cubic-bezier(.2,.7,.2,1); }
+        [data-template="restaurant-03"] .r03-gallery-item:hover .r03-gallery-img { transform: scale(1.08); }
+        [data-template="restaurant-03"] .r03-gallery-item:hover .r03-gallery-overlay { opacity: 1; }
+        [data-template="restaurant-03"] .r03-gallery-item:hover .r03-gallery-cap { transform: translateY(0) !important; }
+        [data-template="restaurant-03"] .r03-gallery-corner { position: absolute; width: 15px; height: 15px; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; }
+        [data-template="restaurant-03"] .r03-gallery-corner--tl { top: 11px; left: 11px; border-top: 1px solid ${GOLD_LT}; border-left: 1px solid ${GOLD_LT}; transform: translate(6px,6px); }
+        [data-template="restaurant-03"] .r03-gallery-corner--br { bottom: 11px; right: 11px; border-bottom: 1px solid ${GOLD_LT}; border-right: 1px solid ${GOLD_LT}; transform: translate(-6px,-6px); }
+        [data-template="restaurant-03"] .r03-gallery-item:hover .r03-gallery-corner { opacity: 1; transform: translate(0,0); }
+        [data-template="restaurant-03"] .r03-lb-nav { transition: background-color 0.25s, color 0.25s; }
+        [data-template="restaurant-03"] .r03-lb-nav:hover { background: ${GOLD} !important; color: ${BG} !important; }
         @media(max-width:900px){ .r03-gallery-grid{ grid-template-columns: repeat(2,1fr)!important; } }
         @media(max-width:480px){ .r03-gallery-grid{ grid-template-columns: 1fr!important; } }
       `}</style>
@@ -3222,85 +2773,160 @@ function GalleryStavba01({ content, sectionId }: { content: Record<string, unkno
 
   interface GalleryItem { title: string; category?: string; image: string; }
 
-  const tagline  = String(content.tagline  ?? "Portfolio");
-  const title    = String(content.title    ?? "Naše reference");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline  = taglineRaw === undefined ? "Portfolio" : String(taglineRaw);
+  const title    = titleRaw   === undefined ? "Naše reference" : String(titleRaw);
   const subtitle = String(content.subtitle ?? "");
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
   const items    = (content.items as GalleryItem[]) ?? [];
 
   // collect unique categories for filter tabs
   const categories = ["Vše", ...Array.from(new Set(items.map(it => it.category).filter(Boolean) as string[]))];
   const [activeCategory, setActiveCategory] = useState("Vše");
-  const [lightbox, setLightbox] = useState<string | null>(null);
+  const [lightIdx, setLightIdx] = useState<number | null>(null);
 
   const filtered = activeCategory === "Vše" ? items : items.filter(it => it.category === activeCategory);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cells = Array.from(grid.querySelectorAll<HTMLElement>(".s01-gal-cell"));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          el.style.animationDelay = `${Math.max(0, cells.indexOf(el)) * 0.07}s`;
+          el.classList.add("s01-gal-vis");
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.1 });
+    cells.forEach((c) => obs.observe(c));
+    return () => obs.disconnect();
+  }, [filtered.length, activeCategory]);
+
+  const closeLb = useCallback(() => setLightIdx(null), []);
+  const prevLb = useCallback(() => setLightIdx((v) => (v === null ? v : (v - 1 + filtered.length) % filtered.length)), [filtered.length]);
+  const nextLb = useCallback(() => setLightIdx((v) => (v === null ? v : (v + 1) % filtered.length)), [filtered.length]);
+  useEffect(() => {
+    if (lightIdx === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowLeft") prevLb();
+      else if (e.key === "ArrowRight") nextLb();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightIdx, closeLb, prevLb, nextLb]);
+
+  const activeItem = lightIdx !== null ? filtered[lightIdx] : null;
 
   return (
     <section id={String(content.id ?? "reference")} style={{ backgroundColor: "#f8f7f4", fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
 
         {/* Header */}
+        {(showHeader || categories.length > 1) && (
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24, marginBottom: 40 }}>
+          {showHeader && (
           <div>
-            <p style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            {subtitle && <p style={{ color: GRAY, fontSize: "0.9rem", margin: "10px 0 0" }}>
+            {tagline.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ display: "block", width: 30, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                  style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", margin: 0 }} />
+              </div>
+            )}
+            {title.trim() && (
+              <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0 }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && <p style={{ color: GRAY, fontSize: "0.95rem", margin: "12px 0 0", maxWidth: 460, lineHeight: 1.6 }}>
               <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
             </p>}
           </div>
+          )}
 
           {/* Category filter pills */}
           {categories.length > 1 && (
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              {categories.map(cat => (
+              {categories.map(cat => {
+                const active = activeCategory === cat;
+                return (
                 <button key={cat} onClick={() => setActiveCategory(cat)}
-                  style={{ padding: "8px 18px", borderRadius: 999, border: "1.5px solid", fontFamily: FONT, fontSize: "0.82rem", fontWeight: 600, cursor: "pointer", transition: "all 0.18s",
-                    backgroundColor: activeCategory === cat ? ORANGE : "transparent",
-                    borderColor: activeCategory === cat ? ORANGE : "#d0d0d0",
-                    color: activeCategory === cat ? "#fff" : GRAY }}>
+                  className={`s01-gal-pill${active ? " is-active" : ""}`}
+                  style={{ padding: "8px 18px", borderRadius: 999, border: "1.5px solid", fontFamily: FONT, fontSize: "0.82rem", fontWeight: 600, cursor: "pointer",
+                    backgroundColor: active ? ORANGE : "transparent",
+                    borderColor: active ? ORANGE : "#d0d0d0",
+                    color: active ? "#fff" : GRAY }}>
                   {cat}
                 </button>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
+        )}
 
         {/* Uniform 3-col grid — all cards same 4:3 ratio */}
-        <div className="stavba-gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
-          {filtered.map((item, i) => (
-            <div key={`${item.image}-${i}`} onClick={() => setLightbox(item.image)}
-              style={{ position: "relative", borderRadius: 12, overflow: "hidden", cursor: "zoom-in", aspectRatio: "4/3", backgroundColor: "#e8e8e8" }}>
-              <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-                <Image src={item.image} alt={item.title} fill className="object-cover" style={{ transition: "transform 0.4s ease" }}
-                  sizes="(max-width:768px) 50vw, 33vw" unoptimized={shouldSkipNextImageOptimization(item.image)}
-                  onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = "scale(1.06)"; }}
-                  onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = "scale(1)"; }} />
+        <div ref={gridRef} className="stavba-gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
+          {filtered.map((item, i) => {
+            const origIdx = items.indexOf(item);
+            return (
+            <div key={`${item.image}-${i}`} onClick={() => setLightIdx(i)}
+              className="s01-gal-cell"
+              style={{ position: "relative", borderRadius: 12, overflow: "hidden", aspectRatio: "4/3", backgroundColor: "#e8e8e8" }}>
+              <GenericEditableImage sectionId={sectionId} field={`items.${origIdx}.image`} src={item.image} alt={item.title} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+                <Image src={item.image} alt={item.title} fill className="object-cover s01-gal-img"
+                  sizes="(max-width:768px) 50vw, 33vw" unoptimized={shouldSkipNextImageOptimization(item.image)} />
               </GenericEditableImage>
+              {/* Orange corner brackets on hover */}
+              <span className="s01-gal-bracket tl" aria-hidden="true" />
+              <span className="s01-gal-bracket br" aria-hidden="true" />
               {/* Bottom info bar — always visible */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%)", padding: "32px 16px 14px" }}>
+              <div className="s01-gal-info" style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(0,0,0,0.74) 0%, transparent 100%)", padding: "34px 16px 14px", zIndex: 1 }}>
                 {item.category && (
-                  <span style={{ display: "inline-block", backgroundColor: ORANGE, color: "#fff", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", padding: "2px 8px", borderRadius: 4, marginBottom: 5 }}>
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={item.category} tag="span" />
+                  <span style={{ display: "inline-block", backgroundColor: ORANGE, color: "#fff", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", padding: "2px 8px", borderRadius: 4, marginBottom: 6 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${origIdx}.category`} value={item.category} tag="span" />
                   </span>
                 )}
-                <div style={{ color: "#fff", fontSize: "0.875rem", fontWeight: 600, lineHeight: 1.3 }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
+                <div style={{ color: "#fff", fontSize: "0.9rem", fontWeight: 600, lineHeight: 1.3 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${origIdx}.title`} value={item.title} tag="span" />
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
 
-      {/* Lightbox */}
-      {lightbox && (
-        <div onClick={() => setLightbox(null)} style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.93)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999, cursor: "zoom-out", padding: 24 }}>
-          <img loading="lazy" src={lightbox} alt="" style={{ maxWidth: "90vw", maxHeight: "85vh", objectFit: "contain", borderRadius: 8 }} />
-          <button onClick={() => setLightbox(null)} style={{ position: "absolute", top: 20, right: 24, background: "rgba(255,255,255,0.12)", border: "none", cursor: "pointer", color: "#fff", width: 40, height: 40, borderRadius: "50%", fontSize: 20, display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+      {/* Lightbox with prev/next/counter/caption */}
+      {activeItem && lightIdx !== null && (
+        <div onClick={closeLb} style={{ position: "fixed", inset: 0, backgroundColor: "rgba(12,10,8,0.94)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 9999, padding: "72px 24px" }}>
+          <button onClick={closeLb} aria-label="Zavřít" style={{ position: "absolute", top: 20, right: 24, background: "rgba(255,255,255,0.12)", border: "none", cursor: "pointer", color: "#fff", width: 44, height: 44, borderRadius: "50%", fontSize: 20, display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+          {filtered.length > 1 && (
+            <button onClick={(e) => { e.stopPropagation(); prevLb(); }} aria-label="Předchozí" className="s01-glb-nav" style={{ position: "absolute", left: "clamp(12px,3vw,40px)", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.12)", border: "none", cursor: "pointer", color: "#fff", width: 48, height: 48, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+          )}
+          <img loading="lazy" src={activeItem.image} alt={activeItem.title} onClick={(e) => e.stopPropagation()} style={{ maxWidth: "min(1100px,90vw)", maxHeight: "78vh", objectFit: "contain", borderRadius: 8, boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }} />
+          {filtered.length > 1 && (
+            <button onClick={(e) => { e.stopPropagation(); nextLb(); }} aria-label="Další" className="s01-glb-nav" style={{ position: "absolute", right: "clamp(12px,3vw,40px)", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.12)", border: "none", cursor: "pointer", color: "#fff", width: 48, height: 48, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          )}
+          {/* Caption + counter */}
+          <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 20, textAlign: "center", color: "#fff", fontFamily: FONT }}>
+            {activeItem.category && <div style={{ color: ORANGE, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>{activeItem.category}</div>}
+            <div style={{ fontSize: "1rem", fontWeight: 600 }}>{activeItem.title}</div>
+            <div style={{ marginTop: 8, fontSize: "0.8rem", color: "rgba(255,255,255,0.55)", fontVariantNumeric: "tabular-nums", letterSpacing: "0.08em" }}>
+              {String(lightIdx + 1).padStart(2, "0")} / {String(filtered.length).padStart(2, "0")}
+            </div>
+          </div>
         </div>
       )}
 
@@ -4145,57 +3771,52 @@ function GalleryPethotel01({
 // - Hover: zoom + overlay s jménem + plemenem + zlatou čarou
 // ─────────────────────────────────────────────────────────────────────────────
 function GalleryGrooming01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const GOLD  = "#d0aa57";
-  const WHITE = "#ffffff";
   const DARK  = "#101417";
   const FONT  = "'Hanken Grotesk', 'Inter', sans-serif";
 
   type GItem = { name?: string; breed?: string; imageUrl?: string };
   const items   = (content.items as GItem[]) ?? [];
-  const heading = String(content.heading ?? "Naše výsledky");
-  const kicker  = String(content.kicker  ?? "změna je život");
+
+  const eyebrowRaw = (content as Record<string, unknown>).kicker;
+  const titleRaw   = (content as Record<string, unknown>).heading;
+  const kicker  = eyebrowRaw === undefined ? "Proměny k nepoznání" : String(eyebrowRaw);
+  const heading = titleRaw   === undefined ? "Naše výsledky" : String(titleRaw);
+  const showHeader = !!(kicker.trim() || heading.trim());
+
+  const [lightbox, setLightbox] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      else if (e.key === "ArrowRight") setLightbox(v => (v === null ? null : (v + 1) % items.length));
+      else if (e.key === "ArrowLeft") setLightbox(v => (v === null ? null : (v - 1 + items.length) % items.length));
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [lightbox, items.length]);
+
+  const active = lightbox !== null ? items[lightbox] : null;
 
   return (
     <section id="galerie" data-template="grooming-01-gallery" style={{ background: DARK, fontFamily: FONT }}>
-      <style>{`
-        .gr01gl-head{padding:80px 40px 56px;text-align:center;}
-        .gr01gl-kicker{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${GOLD};margin:0 0 12px;}
-        .gr01gl-h2{font-size:clamp(30px,4vw,52px);font-weight:700;color:${WHITE};margin:0;}
-        .gr01gl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 6px 6px;}
-        .gr01gl-item{position:relative;overflow:hidden;cursor:pointer;background:#1a1f22;aspect-ratio:1/1;}
-        .gr01gl-photo{width:100%;height:100%;background-size:cover;background-position:center top;transition:transform 0.6s cubic-bezier(.25,.46,.45,.94);}
-        .gr01gl-item:hover .gr01gl-photo{transform:scale(1.07);}
-        .gr01gl-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(16,20,23,0.88) 0%,transparent 55%);opacity:0;transition:opacity 0.35s;}
-        .gr01gl-item:hover .gr01gl-overlay{opacity:1;}
-        .gr01gl-info{position:absolute;bottom:0;left:0;right:0;padding:24px 20px;transform:translateY(12px);transition:transform 0.35s cubic-bezier(.25,.46,.45,.94),opacity 0.35s;opacity:0;}
-        .gr01gl-item:hover .gr01gl-info{transform:translateY(0);opacity:1;}
-        .gr01gl-gold-bar{width:28px;height:2px;background:${GOLD};margin-bottom:8px;}
-        .gr01gl-name{font-size:18px;font-weight:700;color:${WHITE};margin:0 0 3px;line-height:1.1;}
-        .gr01gl-breed{font-size:12px;color:rgba(255,255,255,0.65);font-weight:500;letter-spacing:0.5px;}
-        @media(max-width:900px){.gr01gl-grid{grid-template-columns:repeat(2,1fr);}}
-        @media(max-width:560px){
-          .gr01gl-grid{grid-template-columns:repeat(2,1fr);}
-          .gr01gl-head{padding:56px 24px 40px;}
-          .gr01gl-overlay{opacity:1;}
-          .gr01gl-info{transform:translateY(0);opacity:1;}
-        }
-      `}</style>
-
-      <div className="gr01gl-head">
-        <p className="gr01gl-kicker">
-          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-        </p>
-        <h2 className="gr01gl-h2">
-          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-        </h2>
-      </div>
+      {showHeader && (
+        <div className="gr01gl-head">
+          <p className="gr01gl-kicker">
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </p>
+          <h2 className="gr01gl-h2">
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
+        </div>
+      )}
 
       <div className="gr01gl-grid">
         {items.map((item, i) => (
-          <div
-            key={i}
-            className="gr01gl-item"
-          >
+          <div key={i} className="gr01gl-item" onClick={() => setLightbox(i)} role="button" tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setLightbox(i); } }}
+            aria-label={`Zvětšit: ${item.name ?? ""} ${item.breed ?? ""}`}>
             <GenericEditableImage
               sectionId={sectionId}
               field={`items.${i}.imageUrl`}
@@ -4210,6 +3831,8 @@ function GalleryGrooming01({ content, sectionId }: { content: Record<string, unk
               />
             </GenericEditableImage>
             <div className="gr01gl-overlay" aria-hidden="true" />
+            <span className="gr01gl-brk gr01gl-brk-tl" aria-hidden="true" />
+            <span className="gr01gl-brk gr01gl-brk-br" aria-hidden="true" />
             <div className="gr01gl-info">
               <div className="gr01gl-gold-bar" />
               <p className="gr01gl-name">
@@ -4222,6 +3845,24 @@ function GalleryGrooming01({ content, sectionId }: { content: Record<string, unk
           </div>
         ))}
       </div>
+
+      {active && (
+        <div className="gr01gl-lb" role="dialog" aria-modal="true" onClick={() => setLightbox(null)}>
+          <button className="gr01gl-lb-close" aria-label="Zavřít" onClick={() => setLightbox(null)}>×</button>
+          <button className="gr01gl-lb-nav gr01gl-lb-prev" aria-label="Předchozí"
+            onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v - 1 + items.length) % items.length)); }}>‹</button>
+          <figure className="gr01gl-lb-fig" onClick={(e) => e.stopPropagation()}>
+            <img src={active.imageUrl ?? ""} alt={`${active.name ?? ""} — ${active.breed ?? ""}`} className="gr01gl-lb-img" />
+            <figcaption className="gr01gl-lb-cap">
+              <span className="gr01gl-lb-count">{String((lightbox ?? 0) + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}</span>
+              <span className="gr01gl-lb-name">{active.name}</span>
+              <span className="gr01gl-lb-breed">{active.breed}</span>
+            </figcaption>
+          </figure>
+          <button className="gr01gl-lb-nav gr01gl-lb-next" aria-label="Další"
+            onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v + 1) % items.length)); }}>›</button>
+        </div>
+      )}
     </section>
   );
 }
@@ -4655,7 +4296,9 @@ function GalleryArch01Interiors({ content, sectionId, tenantSlug, isAdmin }: { c
 // - bílé pozadí, 4-sloupcový grid dlaždic s obrázky
 // - nadpis "Ocenění", CTA
 // ─────────────────────────────────────────────────────────────────────────────
-function GalleryArch01Awards({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function GalleryArch01Awards({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const ctaText = String(content.ctaText ?? "");
+  const ctaHref = String(content.ctaHref ?? "");
   type Item = { title?: string; imageUrl?: string; alt?: string };
   const items   = (content.items as Item[]) ?? [];
   const heading = String(content.heading ?? "Ocenění");
@@ -4680,6 +4323,18 @@ function GalleryArch01Awards({ content, sectionId }: { content: Record<string, u
       color: #111;
       margin: 0;
     }
+    .a01aw-more { display: flex; justify-content: center; margin-top: clamp(28px, 4vw, 48px); }
+    .a01aw-more-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: ${FONT}; font-size: 12px; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: #111; text-decoration: none;
+      padding-bottom: 4px; border-bottom: 1px solid rgba(17,17,17,0.25);
+      transition: border-color 0.3s ease, opacity 0.3s ease;
+    }
+    .a01aw-more-link:hover { border-color: #111; opacity: 0.7; }
+    .a01aw-more-arrow { transition: transform 0.3s ease; }
+    .a01aw-more-link:hover .a01aw-more-arrow { transform: translateX(4px); }
     .a01aw-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -4744,6 +4399,14 @@ function GalleryArch01Awards({ content, sectionId }: { content: Record<string, u
             </div>
           ))}
         </div>
+        {ctaText && (
+          <div className="a01aw-more">
+            <a href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)} className="a01aw-more-link">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <span className="a01aw-more-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        )}
       </section>
     </>
   );
@@ -4887,132 +4550,61 @@ function GalleryInstala02({ content, sectionId, tenantSlug, isAdmin }: { content
   const c = content as Record<string, unknown>;
   const [lightbox, setLightbox] = useState<number | null>(null);
 
-  const RED    = "#ee4036";
   const DARK   = "#0a0a0a";
-  const WHITE  = "#ffffff";
-  const FONT_H = "'Montserrat', sans-serif";
-  const FONT_B = "'Roboto', sans-serif";
 
-  const kicker   = String(c.kicker   ?? "Naše realizace");
-  const title    = String(c.title    ?? "Reference");
-  const subtitle = String(c.subtitle ?? "Vybrané dokončené projekty. Každá zakázka je pro nás výzvou k maximální pečlivosti.");
+  const kickerRaw = c.kicker as string | undefined;
+  const titleRaw  = c.title  as string | undefined;
+  const bodyRaw   = c.subtitle as string | undefined;
+  const hasText = (v: unknown) => typeof v === "string" && v.trim() !== "";
+  const showHeader = hasText(kickerRaw) || hasText(titleRaw) || hasText(bodyRaw);
+
+  const kicker   = String(kickerRaw ?? "Naše realizace");
+  const title    = String(titleRaw  ?? "Z čeho máme radost");
+  const subtitle = String(bodyRaw   ?? "Vybrané dokončené projekty. Každá zakázka je pro nás výzvou k maximální pečlivosti.");
   const images   = (c.images as Array<{ url: string; alt: string; caption: string }>) ?? [];
+  const siteMode = String(c.siteMode ?? "multipage");
+  const ctaText  = String(c.ctaText ?? "Chci také takový výsledek");
+  const ctaHref  = String(c.ctaHref ?? "/kontakt");
 
   const prev = () => setLightbox(l => l === null ? null : l === 0 ? images.length - 1 : l - 1);
   const next = () => setLightbox(l => l === null ? null : l === images.length - 1 ? 0 : l + 1);
 
+  // Klávesnice: Esc zavře, šipky listují
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lightbox, images.length]);
+
   // Grid position classes per index (for up to 8 images)
+  // t1–t8 = bento blok (t1 velká 2×2, t8 široká), t9+ = uniformní doplňkové řady
   const gridClass = ["i2gx-t1","i2gx-t2","i2gx-t3","i2gx-t4","i2gx-t5","i2gx-t6","i2gx-t7","i2gx-t8"];
 
   return (
     <section
       data-template="instala-02-gallery"
-      style={{ backgroundColor: DARK, fontFamily: FONT_B }}
+      style={{ backgroundColor: DARK, fontFamily: "'Roboto', sans-serif" }}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
-      <style>{`
-        /* ── header ── */
-        .i2gx-head   { max-width: 1280px; margin: 0 auto; padding: 88px 48px 56px; }
-        .i2gx-kicker { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${RED}; margin: 0 0 16px; display: flex; align-items: center; gap: 12px; }
-        .i2gx-kicker::before { content: ''; display: inline-block; width: 36px; height: 2px; background: ${RED}; }
-        .i2gx-h2     { font-family: ${FONT_H}; font-size: clamp(36px, 5vw, 68px); font-weight: 800; color: ${WHITE}; line-height: 1; margin: 0 0 16px; letter-spacing: -0.02em; }
-        .i2gx-h2 span.accent { color: ${RED}; }
-        .i2gx-sub    { font-size: 15px; color: #666; max-width: 520px; line-height: 1.65; margin: 0; }
-
-        /* ── grid ── */
-        .i2gx-grid   {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          grid-template-rows: 310px 310px 240px;
-          gap: 3px;
-        }
-        /* tile positions */
-        .i2gx-t1 { grid-column: 1 / 3; grid-row: 1 / 3; }
-        .i2gx-t2 { grid-column: 3;     grid-row: 1; }
-        .i2gx-t3 { grid-column: 4;     grid-row: 1; }
-        .i2gx-t4 { grid-column: 3;     grid-row: 2; }
-        .i2gx-t5 { grid-column: 4;     grid-row: 2; }
-        .i2gx-t6 { grid-column: 1;     grid-row: 3; }
-        .i2gx-t7 { grid-column: 2;     grid-row: 3; }
-        .i2gx-t8 { grid-column: 3 / 5; grid-row: 3; }
-
-        /* tile base */
-        .i2gx-tile   { position: relative; overflow: hidden; cursor: zoom-in; }
-        .i2gx-tile-img-wrap { position: absolute; inset: 0; transition: transform .6s cubic-bezier(.25,.46,.45,.94); }
-        .i2gx-tile:hover .i2gx-tile-img-wrap { transform: scale(1.07); }
-
-        /* overlay */
-        .i2gx-ov     { position: absolute; inset: 0; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%); opacity: 0; transition: opacity .35s; }
-        .i2gx-tile:hover .i2gx-ov { opacity: 1; }
-
-        /* red bottom line */
-        .i2gx-tile::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: ${RED}; z-index: 2; transition: width .4s ease; }
-        .i2gx-tile:hover::after { width: 100%; }
-
-        .i2gx-cap-label { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: ${RED}; margin-bottom: 5px; }
-        .i2gx-cap-title { font-family: ${FONT_H}; font-size: 15px; font-weight: 700; color: ${WHITE}; line-height: 1.3; }
-        .i2gx-t1 .i2gx-cap-title { font-size: 20px; }
-
-        /* zoom icon */
-        .i2gx-zoom   { position: absolute; top: 20px; right: 20px; z-index: 2; width: 36px; height: 36px; background: rgba(255,255,255,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.8); transition: opacity .3s, transform .3s; backdrop-filter: blur(4px); }
-        .i2gx-tile:hover .i2gx-zoom { opacity: 1; transform: scale(1); }
-
-        /* bottom strip */
-        .i2gx-strip  { max-width: 1280px; margin: 0 auto; padding: 32px 48px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-        .i2gx-count  { font-family: ${FONT_H}; font-size: 12px; font-weight: 600; color: #555; letter-spacing: 0.06em; text-transform: uppercase; }
-        .i2gx-count strong { color: ${RED}; font-size: 28px; font-weight: 800; display: block; line-height: 1; margin-bottom: 2px; }
-        .i2gx-cta    { font-family: ${FONT_H}; font-size: 13px; font-weight: 700; color: ${WHITE}; background: ${RED}; padding: 12px 24px; border-radius: 6px; text-decoration: none; letter-spacing: 0.03em; display: inline-flex; align-items: center; gap: 8px; }
-        .i2gx-cta:hover { background: #c42d2d; }
-
-        /* ── lightbox ── */
-        .i2gx-lb     { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: i2gx-fade .25s ease; }
-        @keyframes i2gx-fade { from { opacity:0 } to { opacity:1 } }
-        .i2gx-lb-inner { display: flex; flex-direction: column; align-items: center; max-width: 92vw; }
-        .i2gx-lb-img  { max-width: 88vw; max-height: 80vh; width: auto; height: auto; border-radius: 6px; object-fit: contain; display: block; box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
-        .i2gx-lb-meta { margin-top: 20px; text-align: center; }
-        .i2gx-lb-cap  { font-family: ${FONT_H}; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
-        .i2gx-lb-counter { font-family: ${FONT_H}; font-size: 12px; color: #444; margin-top: 6px; }
-        .i2gx-lb-close { position: fixed; top: 20px; right: 24px; background: rgba(255,255,255,0.08); border: none; color: #fff; cursor: pointer; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background .2s; }
-        .i2gx-lb-close:hover { background: ${RED}; }
-        .i2gx-lb-nav  { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #fff; cursor: pointer; width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background .2s, border-color .2s; }
-        .i2gx-lb-nav:hover { background: ${RED}; border-color: ${RED}; }
-        .i2gx-lb-prev { left: 20px; }
-        .i2gx-lb-next { right: 20px; }
-
-        /* ── mobile ── */
-        @media (max-width: 900px) {
-          .i2gx-head { padding: 56px 20px 36px; }
-          .i2gx-grid {
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(4, 200px);
-          }
-          .i2gx-t1 { grid-column: 1 / 3; grid-row: 1; }
-          .i2gx-t2 { grid-column: 1;     grid-row: 2; }
-          .i2gx-t3 { grid-column: 2;     grid-row: 2; }
-          .i2gx-t4 { grid-column: 1;     grid-row: 3; }
-          .i2gx-t5 { grid-column: 2;     grid-row: 3; }
-          .i2gx-t6 { grid-column: 1;     grid-row: 4; }
-          .i2gx-t7 { grid-column: 2;     grid-row: 4; }
-          .i2gx-t8 { display: none; }
-          .i2gx-strip { padding: 24px 20px; }
-        }
-      `}</style>
-
       {/* Header */}
-      <div className="i2gx-head">
-        <p className="i2gx-kicker">
-          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-        </p>
-        <h2 className="i2gx-h2">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          <span className="accent"> —</span>
-        </h2>
-        <p className="i2gx-sub">
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
-      </div>
+      {showHeader && (
+        <div className="i2gx-head">
+          <p className="i2gx-kicker">
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </p>
+          <h2 className="i2gx-h2">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          <p className="i2gx-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        </div>
+      )}
 
       {/* Grid */}
       <div className="i2gx-grid">
@@ -5063,8 +4655,8 @@ function GalleryInstala02({ content, sectionId, tenantSlug, isAdmin }: { content
           <strong>{images.length}</strong>
           dokončených realizací v galerii
         </div>
-        <a href="/kontakt" className="i2gx-cta">
-          Chci také takový výsledek
+        <a href={resolveNavHref(ctaHref, siteMode, tenantSlug, isAdmin)} className="i2gx-cta">
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
             <path d="M5 12h14M12 5l7 7-7 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
@@ -5112,7 +4704,7 @@ function GalleryInstala02({ content, sectionId, tenantSlug, isAdmin }: { content
 }
 
 // ── klima-01-gallery ──────────────────────────────────────────────────────────
-// 1:1 pragoclima.cz „Naše práce": světlé bg, eyebrow + title na střed,
+// 1:1 aircomfort-klima.cz „Naše práce": světlé bg, eyebrow + title na střed,
 // 3-sloupcový masonry grid realizačních fotek s tagem, lightbox, CTA dole
 // ─────────────────────────────────────────────────────────────────────────────
 function GalleryKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
@@ -5279,76 +4871,68 @@ function GalleryKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 // Inspirace — nadpis + podnadpis + 5-sloupcová galerie s hover overlay
 // ─────────────────────────────────────────────────────────────────────────────
 function InspirationFloors01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const GREEN = "#007d47";
-  const WHITE = "#ffffff";
-  const DARK  = "#212529";
   const FONT  = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const title    = String(content.title    ?? "Inspirace");
-  const subtitle = String(content.subtitle ?? "Najděte podlahu, která bude nejvíce odpovídat vašim potřebám.");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Inspirace pro váš domov" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Podívejte se, jak podlaha promění prostor" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Realizace z různých typů interiérů — nechte se inspirovat a najděte ten svůj." : String(subtitleRaw);
+  const allLabel = String((content as Record<string, unknown>).allLabel ?? "Zobrazit vše");
+  const allHref  = String((content as Record<string, unknown>).allHref ?? "/sluzby");
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
   type Img = { url: string; alt: string; caption: string; href: string };
   const images = (content.images as Img[]) ?? [
-    { url: "/clones/supellex/user/www-supellex-cz/inspiration/dlc00116-2-420x236.jpg",                      alt: "Podlaha do bytu",        caption: "Podlaha do bytu? Vsaďte na vinyl",              href: "/sluzby" },
-    { url: "/clones/supellex/user/www-supellex-cz/inspiration/db00114-2-420x236.jpg",                       alt: "Podlahy do ložnice",     caption: "Vinylové podlahy do ložnice",                   href: "/sluzby" },
-    { url: "/clones/supellex/user/www-supellex-cz/inspiration/lucienahp-420x236.jpg",                       alt: "Podlahy obývací pokoj",  caption: "Dřevěné podlahy do obývacího pokoje",           href: "/sluzby" },
-    { url: "/clones/supellex/user/www-supellex-cz/inspiration/loznice-na-web-420x236.jpg",                  alt: "Jak vybrat podlahu",     caption: "Jak vybrat podlahu do ložnice",                  href: "/sluzby" },
-    { url: "/clones/supellex/user/www-supellex-cz/inspiration/detsky-pokoj-foto-na-webtowebp-420x236.jpg", alt: "Podlaha dětský pokoj",   caption: "Podlaha do dětského pokoje — bezpečná a odolná", href: "/sluzby" },
+    { url: "/templates/floors-01/ins-1.webp", alt: "Obývací pokoj vinyl", caption: "Moderní obývák — vinyl s dekorem dřeva", href: "/sluzby" },
+    { url: "/templates/floors-01/ins-2.webp", alt: "Home office", caption: "Home office — podlaha, která motivuje", href: "/sluzby" },
+    { url: "/templates/floors-01/ins-3.webp", alt: "Ložnice světlé dřevo", caption: "Ložnice ve světlém dřevu", href: "/sluzby" },
+    { url: "/templates/floors-01/ins-4.webp", alt: "Kuchyň a jídelna", caption: "Kuchyň + jídelna — odolná podlaha bez kompromisů", href: "/sluzby" },
+    { url: "/templates/floors-01/ins-5.webp", alt: "Relaxační koutek koberec", caption: "Klidná zóna s měkkým kobercem", href: "/sluzby" },
   ];
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    const base = `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href.startsWith("http") || href.startsWith("#")) return href;
-    return `${base}${href.startsWith("/") ? href : "/" + href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const ArrowLine = () => (<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>);
 
   return (
-    <>
-      <style>{`
-        .f01i-card { overflow: hidden; border-radius: 6px; position: relative; display: block; }
-        .f01i-card img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s ease; }
-        .f01i-card:hover img { transform: scale(1.06); }
-        .f01i-overlay { position: absolute; inset: 0; background: linear-gradient(transparent 40%, rgba(0,0,0,0.65) 100%); opacity: 0; transition: opacity 0.3s ease; border-radius: 6px; }
-        .f01i-card:hover .f01i-overlay { opacity: 1; }
-        .f01i-caption { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 14px 12px; color: #fff; font-size: 13px; font-weight: 600; line-height: 1.35; transform: translateY(6px); transition: transform 0.3s ease; opacity: 0; }
-        .f01i-card:hover .f01i-caption { transform: translateY(0); opacity: 1; }
-        @media (max-width: 900px) { .f01i-grid { grid-template-columns: repeat(3, 1fr) !important; } }
-        @media (max-width: 600px) { .f01i-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-      `}</style>
-      <section style={{ padding: "64px 20px", background: WHITE, fontFamily: FONT }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          {/* Header */}
-          <div style={{ marginBottom: 40, display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-            <div>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{ fontSize: 30, fontWeight: 800, color: DARK, margin: "0 0 8px", letterSpacing: "-0.01em" }}>
-                {title}
-              </GenericEditableText>
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{ fontSize: 15, color: "#6c757d", margin: 0, lineHeight: 1.5 }}>
-                {subtitle}
-              </GenericEditableText>
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
+      <div className="f01i-section">
+        <div className="f01i-wrap">
+          {showHeader && (
+            <div className="f01i-head">
+              <div>
+                {eyebrow.trim() && (
+                  <span className="f01i-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+                )}
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="f01i-title" />
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="f01i-sub" />
+              </div>
+              <a href={resolve(allHref)} className="f01i-all">
+                <GenericEditableText sectionId={sectionId} field="allLabel" value={allLabel} tag="span" />
+                <ArrowLine />
+              </a>
             </div>
-            <a href={resolve("/sluzby")} style={{ fontSize: 13, fontWeight: 700, color: GREEN, textDecoration: "none", borderBottom: `2px solid ${GREEN}`, paddingBottom: 2, whiteSpace: "nowrap" }}>
-              Zobrazit vše →
-            </a>
-          </div>
+          )}
 
-          {/* Grid */}
-          <div className="f01i-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+          <div className="f01i-grid">
             {images.map((img, i) => (
-              <a key={i} href={resolve(img.href)} className="f01i-card" style={{ textDecoration: "none" }}>
+              <a key={i} href={resolve(img.href)} className="f01i-card">
                 <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url} alt={img.alt} style={{ position: "absolute", inset: 0 }}>
                   <img src={img.url} alt={img.alt} loading="lazy" />
                 </GenericEditableImage>
-                <div className="f01i-overlay" />
-                <div className="f01i-caption">
-                  <GenericEditableText sectionId={sectionId} field={`images.${i}.caption`} value={img.caption} tag="span">{img.caption}</GenericEditableText>
+                <div className="f01i-ov" aria-hidden="true" />
+                <div className="f01i-cap">
+                  <span className="f01i-cap-text"><GenericEditableText sectionId={sectionId} field={`images.${i}.caption`} value={img.caption} tag="span">{img.caption}</GenericEditableText></span>
+                  <span className="f01i-cap-arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg></span>
                 </div>
               </a>
             ))}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -5857,6 +5441,7 @@ function GalleryDdd01({ content, sectionId }: { content: Record<string,unknown>;
           margin-bottom: 0.5rem;
         }
         .ddd01g-h2 {
+          font-family: 'Figtree', system-ui, sans-serif;
           color: ${DARK};
           font-size: clamp(1.625rem, 0.89vw + 1.45rem, 2.25rem);
           font-weight: 700;
@@ -5888,7 +5473,12 @@ function GalleryDdd01({ content, sectionId }: { content: Record<string,unknown>;
           object-fit: cover;
           display: block;
         }
+        .ddd01g-card > *:not(.ddd01g-caption) {
+          width: 100%;
+          height: 100%;
+        }
         .ddd01g-caption {
+          z-index: 1;
           position: absolute;
           bottom: 0;
           left: 0;
@@ -6667,7 +6257,11 @@ function GalleryMalir02({ content, sectionId }: { content: Record<string, unknow
   const [activeFilter, setActiveFilter] = useState("Vybrané");
   const [lightbox, setLightbox]         = useState<number | null>(null);
 
-  const filtered = activeFilter === "Vybrané" ? rawImages : rawImages.filter(img => img.category === activeFilter);
+  // "Vybrané" = obrázky s featured:true (pokud jsou označené), jinak všechny
+  const hasFeatured = rawImages.some(img => (img as { featured?: boolean }).featured === true);
+  const filtered = activeFilter === "Vybrané"
+    ? (hasFeatured ? rawImages.filter(img => (img as { featured?: boolean }).featured === true) : rawImages)
+    : rawImages.filter(img => img.category === activeFilter);
 
   const prev = () => setLightbox(i => i !== null ? (i - 1 + filtered.length) % filtered.length : 0);
   const next = () => setLightbox(i => i !== null ? (i + 1) % filtered.length : 0);
@@ -7298,118 +6892,127 @@ function GalleryEvents01({ content, sectionId }: { content: Record<string, unkno
 // 4-col masonry-style grid, červený hover overlay + zoom, lightbox.
 // ─────────────────────────────────────────────────────────────────────────────
 function GalleryRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const tagline = String(content.tagline ?? "Jak to u nás vypadá?");
-  const title   = String(content.title   ?? "Prostředí\na atmosféra.");
+  const tagline = String(content.tagline ?? "");
+  const title   = String(content.title   ?? "");
   const ctaText = String(content.ctaText ?? "Celá galerie");
   const ctaHref = String(content.ctaHref ?? "/galerie");
   const images  = (content.images as Array<{ url: string; alt?: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const showHeader = !!(tagline.trim() || title.trim());
 
   const DARK  = "#0d1f0a";
+  const SURF  = "#152d11";
   const RED   = "#c41c1c";
   const CREAM = "#f5f0e8";
-  const MUTED = "#8fa889";
   const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
   const SANS  = "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif";
 
   const [lightbox, setLightbox] = useState<number | null>(null);
-  const [hovIdx, setHovIdx]     = useState<number | null>(null);
 
-  const resolve = (href: string) => {
-    if (!href.startsWith("/")) return href;
-    if (!tenantSlug) return href;
-    return isAdmin ? `/demo/${tenantSlug}/admin/page${href}` : `/demo/${tenantSlug}${href}`;
-  };
-
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin ?? false);
   const close = () => setLightbox(null);
   const prev  = () => setLightbox(i => (i !== null ? (i - 1 + images.length) % images.length : null));
   const next  = () => setLightbox(i => (i !== null ? (i + 1) % images.length : null));
 
-  return (
-    <section id="galerie" style={{ background: DARK, padding: "clamp(64px, 10vw, 120px) clamp(24px, 6vw, 80px)" }}>
-      {/* Header */}
-      <div style={{
-        maxWidth: 1180, margin: "0 auto 48px",
-        display: "flex", flexWrap: "wrap", gap: 24,
-        alignItems: "flex-end", justifyContent: "space-between",
-      }}>
-        <div>
-          <p style={{
-            fontFamily: SANS, fontSize: 11, fontWeight: 700,
-            letterSpacing: "0.22em", textTransform: "uppercase",
-            color: RED, margin: "0 0 16px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{
-            fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 50px)", fontWeight: 400,
-            fontStyle: "italic", color: CREAM, margin: 0, lineHeight: 1.12,
-            whiteSpace: "pre-line",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
-        {ctaText && ctaHref && (
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{
-              display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 700,
-              letterSpacing: "0.14em", textTransform: "uppercase",
-              color: CREAM, textDecoration: "none",
-              padding: "13px 28px", border: `1px solid ${RED}`, borderRadius: 2,
-              transition: "background-color 0.2s",
-              flexShrink: 0,
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = RED)}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-        )}
-      </div>
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
-      {/* Grid */}
-      <div style={{
-        maxWidth: 1180, margin: "0 auto",
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: 8,
-      }} className="r04-gal-grid">
+  return (
+    <section
+      id="galerie"
+      data-template="restaurant-04"
+      style={{ background: DARK, padding: "clamp(80px, 12vw, 140px) clamp(24px, 6vw, 80px)" }}
+    >
+      {/* Header — conditional */}
+      {showHeader && (
+        <div style={{
+          maxWidth: 1200, margin: "0 auto 56px",
+          display: "flex", flexWrap: "wrap", gap: 24,
+          alignItems: "flex-end", justifyContent: "space-between",
+        }}>
+          <div>
+            {tagline && (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 16px" }}>
+                <span style={{ width: 28, height: 1, background: RED }} />
+                <p style={{
+                  fontFamily: SANS, fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  color: RED, margin: 0,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </p>
+              </div>
+            )}
+            {title && (
+              <h2 style={{
+                fontFamily: SERIF, fontSize: "clamp(28px, 4.5vw, 52px)", fontWeight: 400,
+                fontStyle: "italic", color: CREAM, margin: 0, lineHeight: 1.1,
+                whiteSpace: "pre-line",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+          </div>
+          {ctaText && ctaHref && (
+            <a
+              href={resolve(ctaHref)}
+              data-btn="primary"
+              className="r04-gal-cta"
+              style={{
+                display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 700,
+                letterSpacing: "0.14em", textTransform: "uppercase",
+                color: CREAM, textDecoration: "none",
+                padding: "14px 32px", border: `1px solid ${RED}`, borderRadius: 2,
+                flexShrink: 0,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+          )}
+        </div>
+      )}
+
+      {/* Bento-style grid — 2 rows, mixed spans */}
+      <div style={{ maxWidth: 1200, margin: "0 auto" }} className="r04-gal-grid">
         {images.map((img, i) => (
           <div
             key={i}
+            className="r04-gal-item"
             onClick={() => setLightbox(i)}
-            onMouseEnter={() => setHovIdx(i)}
-            onMouseLeave={() => setHovIdx(null)}
             style={{
               position: "relative", overflow: "hidden",
-              aspectRatio: "4/3",
-              cursor: "zoom-in",
-              borderRadius: 2,
+              cursor: "zoom-in", borderRadius: 3,
+              background: SURF,
             }}
           >
             <img
               src={img.url}
               alt={img.alt ?? ""}
+              loading="lazy"
               style={{
                 width: "100%", height: "100%", objectFit: "cover", display: "block",
-                transition: "transform 0.5s ease",
-                transform: hovIdx === i ? "scale(1.07)" : "scale(1)",
+                transition: "transform 0.6s cubic-bezier(0.22,1,0.36,1)",
               }}
             />
-            {/* Red overlay on hover */}
-            <div style={{
+            {/* Hover overlay */}
+            <div className="r04-gal-overlay" style={{
               position: "absolute", inset: 0,
-              background: `rgba(196,28,28,${hovIdx === i ? "0.35" : "0"})`,
-              transition: "background 0.35s",
+              background: `linear-gradient(135deg, ${RED}00 0%, ${RED}55 100%)`,
+              opacity: 0, transition: "opacity 0.4s",
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>
-              {hovIdx === i && (
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <circle cx="14" cy="14" r="13" stroke={CREAM} strokeWidth="1.5"/>
-                  <path d="M10 14h8M14 10v8" stroke={CREAM} strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-              )}
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style={{ opacity: 0.9 }}>
+                <circle cx="16" cy="16" r="15" stroke={CREAM} strokeWidth="1.2"/>
+                <path d="M11 16h10M16 11v10" stroke={CREAM} strokeWidth="1.2" strokeLinecap="round"/>
+              </svg>
             </div>
           </div>
         ))}
@@ -7421,17 +7024,19 @@ function GalleryRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { cont
           onClick={close}
           style={{
             position: "fixed", inset: 0, zIndex: 9999,
-            background: "rgba(0,0,0,0.92)",
+            background: `${DARK}f5`,
             display: "flex", alignItems: "center", justifyContent: "center",
+            backdropFilter: "blur(8px)",
           }}
         >
-          {/* Prev */}
           <button
             onClick={e => { e.stopPropagation(); prev(); }}
+            className="r04-lb-btn"
+            aria-label="Předchozí"
             style={{
-              position: "absolute", left: 24, top: "50%", transform: "translateY(-50%)",
-              background: "rgba(0,0,0,0.5)", border: `1px solid ${CREAM}44`,
-              borderRadius: "50%", width: 48, height: 48,
+              position: "absolute", left: 20, top: "50%", transform: "translateY(-50%)",
+              background: `${DARK}aa`, border: `1px solid ${CREAM}33`,
+              borderRadius: "50%", width: 52, height: 52,
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", color: CREAM,
             }}
@@ -7440,23 +7045,24 @@ function GalleryRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { cont
               <path d="M11 4L6 9L11 14" stroke={CREAM} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          {/* Image */}
           <img
             src={images[lightbox]?.url}
             alt={images[lightbox]?.alt ?? ""}
             onClick={e => e.stopPropagation()}
             style={{
-              maxWidth: "90vw", maxHeight: "88vh",
-              objectFit: "contain", borderRadius: 2,
+              maxWidth: "88vw", maxHeight: "86vh",
+              objectFit: "contain", borderRadius: 3,
+              boxShadow: "0 32px 80px -20px rgba(0,0,0,0.7)",
             }}
           />
-          {/* Next */}
           <button
             onClick={e => { e.stopPropagation(); next(); }}
+            className="r04-lb-btn"
+            aria-label="Další"
             style={{
-              position: "absolute", right: 24, top: "50%", transform: "translateY(-50%)",
-              background: "rgba(0,0,0,0.5)", border: `1px solid ${CREAM}44`,
-              borderRadius: "50%", width: 48, height: 48,
+              position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)",
+              background: `${DARK}aa`, border: `1px solid ${CREAM}33`,
+              borderRadius: "50%", width: 52, height: 52,
               display: "flex", alignItems: "center", justifyContent: "center",
               cursor: "pointer", color: CREAM,
             }}
@@ -7465,30 +7071,27 @@ function GalleryRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { cont
               <path d="M7 4L12 9L7 14" stroke={CREAM} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
-          {/* Close */}
           <button
             onClick={close}
+            className="r04-lb-close"
+            aria-label="Zavřít"
             style={{
-              position: "absolute", top: 20, right: 20,
-              background: "none", border: "none",
-              color: CREAM, fontSize: 32, cursor: "pointer", lineHeight: 1,
+              position: "absolute", top: 20, right: 24,
+              background: `${DARK}99`, border: `1px solid ${CREAM}33`,
+              borderRadius: "50%", width: 44, height: 44,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", color: CREAM, fontSize: 22, lineHeight: 1,
             }}
           >×</button>
-          {/* Counter */}
           <p style={{
-            position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)",
-            fontFamily: SANS, fontSize: 12, color: `${CREAM}88`, margin: 0,
-            letterSpacing: "0.1em",
+            position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
+            fontFamily: SANS, fontSize: 12, color: `${CREAM}77`, margin: 0,
+            letterSpacing: "0.14em", fontWeight: 600,
           }}>
             {lightbox + 1} / {images.length}
           </p>
         </div>
       )}
-
-      <style>{`
-        @media (max-width: 900px) { .r04-gal-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media (max-width: 500px) { .r04-gal-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
     </section>
   );
 }
@@ -8272,4 +7875,531 @@ function GalleryBarberDark({
       )}
     </section>
   );
+}
+
+
+// barber-04 galerie. Vlastní komponenta, aby se hooks nevolaly až za early
+// returny dispatcheru — jinak změna varianty za běhu mění počet hooks.
+function GalleryBarber04({ content, images, rawArray, activeImage, setActiveImage, sectionId }: { content: Record<string, unknown>; images: GalleryImage[]; rawArray: unknown[]; activeImage: GalleryImage | null; setActiveImage: (img: GalleryImage | null) => void; sectionId: number }) {
+    const title    = String((content as { title?: string }).title    ?? "Naše práce");
+    const subtitle = String((content as { subtitle?: string }).subtitle ?? "Střihy · Holení · Péče o vousy");
+    const headRef  = useRef<HTMLDivElement>(null);
+    const gridRef  = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const els = [headRef.current, gridRef.current].filter(Boolean) as HTMLElement[];
+      const observers = els.map((el) => {
+        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("b04-vis"); obs.disconnect(); } }, { threshold: 0.12 });
+        obs.observe(el);
+        return obs;
+      });
+      return () => observers.forEach((o) => o.disconnect());
+    }, []);
+    return (
+      <section style={{ background: "#0a0806", padding: "88px 0 100px" }} data-template="barber-04">
+        {/* Header */}
+        <div ref={headRef} className="b04-reveal" style={{ textAlign: "center", marginBottom: 60, padding: "0 24px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 18 }}>
+            <div style={{ height: 1, width: 48, background: "#d5b981" }} />
+            <p style={{ color: "#d5b981", fontSize: 11, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", margin: 0, whiteSpace: "nowrap" }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+            <div style={{ height: 1, width: 48, background: "#d5b981" }} />
+          </div>
+          <h2 style={{ fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif", fontSize: "clamp(52px,7vw,84px)", color: "#fff", letterSpacing: "0.10em", lineHeight: 1, margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+        </div>
+
+        {/* Grid */}
+        <div
+          ref={gridRef}
+          className="b04-gal-grid b04-reveal"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 4,
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "0 clamp(16px, 4vw, 24px)",
+            animationDelay: "0.15s",
+          }}
+        >
+          {images.map((img, i) => (
+            <GenericEditableImage
+              key={i}
+              sectionId={sectionId}
+              field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
+              fullField={typeof rawArray[i] === "string" ? undefined : `images.${i}.fullUrl`}
+              src={img.url ?? ""}
+              alt={img.alt ?? ""}
+              className="b04-gal-cell"
+              style={{ overflow: "hidden" }}
+            >
+              <button
+                type="button"
+                style={{
+                  position: "relative",
+                  display: "block",
+                  width: "100%",
+                  aspectRatio: "3 / 4",
+                  background: "#1a1a1a",
+                  border: 0,
+                  padding: 0,
+                  cursor: "pointer",
+                  overflow: "hidden",
+                }}
+                onClick={() => setActiveImage(img)}
+                aria-label="Zobrazit"
+              >
+                {img.url ? (
+                  <Image
+                    src={img.url}
+                    alt={img.alt ?? ""}
+                    fill
+                    className="b04-gal-img"
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    style={{ objectFit: "cover", transition: "transform 0.55s ease" }}
+                    unoptimized={shouldSkipNextImageOptimization(img.url)}
+                  />
+                ) : (
+                  <div style={{ position: "absolute", inset: 0, background: "#111" }} />
+                )}
+                <span className="b04-gal-over" aria-hidden>
+                  <span className="b04-gal-icon">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 10V4h6M24 10V4h-6M4 18v6h6M24 18v6h-6" stroke="#d5b981" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </span>
+              </button>
+            </GenericEditableImage>
+          ))}
+        </div>
+
+        {/* Lightbox */}
+        {activeImage?.url && (
+          <button className="b04-gal-lb" type="button" onClick={() => setActiveImage(null)} aria-label="Zavřít náhled">
+            <span className="b04-gal-lb-frame">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt ?? ""} />
+            </span>
+          </button>
+        )}
+
+        <style>{`
+          @keyframes b04FadeUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+          .b04-reveal { opacity: 0; }
+          .b04-reveal.b04-vis { animation: b04FadeUp 0.72s cubic-bezier(.22,.68,0,1.2) forwards; }
+          .b04-gal-cell { display: block; }
+          .b04-gal-cell button { border-radius: 0 !important; }
+          .b04-gal-img { transform-origin: center; }
+          .b04-gal-cell:hover .b04-gal-img { transform: scale(1.07) !important; }
+          .b04-gal-over {
+            position: absolute; inset: 0; z-index: 2;
+            background: transparent;
+            box-shadow: inset 0 0 0 0 rgba(213,185,129,0);
+            transition: background 0.35s ease, box-shadow 0.35s ease;
+            display: grid; place-items: center;
+            pointer-events: none;
+          }
+          .b04-gal-icon {
+            display: grid; place-items: center;
+            opacity: 0; transition: opacity 0.35s ease, transform 0.35s ease; transform: scale(0.75);
+          }
+          .b04-gal-cell:hover .b04-gal-over { background: rgba(10,8,6,0.48); box-shadow: inset 0 0 0 1.5px rgba(213,185,129,0.65); }
+          .b04-gal-cell:hover .b04-gal-icon { opacity: 1; transform: scale(1); }
+          .b04-gal-lb {
+            position: fixed; inset: 0; z-index: 9000; display: grid; place-items: center;
+            padding: 24px; border: 0; background: rgba(0,0,0,0.93); cursor: pointer;
+          }
+          .b04-gal-lb-frame { display: block; max-width: min(1100px,94vw); max-height: 90vh; }
+          .b04-gal-lb-frame img {
+            display: block; max-width: 100%; max-height: 90vh;
+            width: auto; height: auto; object-fit: contain;
+            box-shadow: 0 32px 100px rgba(0,0,0,0.7);
+          }
+          @media (max-width: 900px)  { .b04-gal-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+          @media (max-width: 480px)  { .b04-gal-grid { gap: 2px !important; } }
+        `}</style>
+      </section>
+    );
+}
+
+// four-col / four-col-contained. Vlastní komponenta, aby se hooks nevolaly až
+// za early returny dispatcheru — jinak změna varianty za běhu mění počet hooks.
+function GalleryFourCol({ content, variant, images, rawArray, activeImage, setActiveImage, sectionId }: { content: Record<string, unknown>; variant?: string; images: GalleryImage[]; rawArray: unknown[]; activeImage: GalleryImage | null; setActiveImage: (img: GalleryImage | null) => void; sectionId: number }) {
+  const c = content as { title?: string };
+    const contained = variant === "four-col-contained";
+    const tileRadius = contained ? 0 : 0;
+    const isB02 = !contained;
+    const b02Eyebrow  = String((content as Record<string, unknown>).eyebrow ?? "");
+    const b02Subtitle = String((content as Record<string, unknown>).subtitle ?? "");
+    const b03gHeadRef = useRef<HTMLHeadingElement>(null);
+    const b03gGridRef = useRef<HTMLDivElement>(null);
+    const b02HeaderRef = useRef<HTMLDivElement>(null);
+    const b02GridRef   = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      if (contained) {
+        const els = [b03gHeadRef.current, b03gGridRef.current].filter(Boolean) as HTMLElement[];
+        const obs = els.map((el, i) => {
+          const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03g-vis"); o.disconnect(); } }, { threshold: 0.08 });
+          o.observe(el); return o;
+        });
+        return () => obs.forEach(o => o.disconnect());
+      } else {
+        const els = [b02HeaderRef.current, b02GridRef.current].filter(Boolean) as HTMLElement[];
+        const obs = els.map((el, i) => {
+          const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b02a-vis"); o.disconnect(); } }, { threshold: 0.08 });
+          o.observe(el); return o;
+        });
+        return () => obs.forEach(o => o.disconnect());
+      }
+    }, [contained]);
+    return (
+      <section
+        style={{
+          padding: contained ? "clamp(96px, 13vw, 150px) 0" : 0,
+          backgroundColor: contained ? "#1c1410" : "#1a1410",
+          position: contained ? "relative" : undefined,
+          overflow: contained ? "hidden" : undefined,
+        }}
+        data-template={contained ? "barber-03" : (isB02 ? "barber-02" : undefined)}
+      >
+        {/* barber-02 header strip — DARK pre-section creates rhythm cream → dark → cream */}
+        {isB02 && (c.title || b02Eyebrow || b02Subtitle) && (
+          <div
+            ref={b02HeaderRef}
+            className="b02a-reveal"
+            style={{
+              backgroundColor: "#1a1410",
+              padding: "clamp(80px, 11vw, 120px) clamp(20px, 5vw, 40px) clamp(60px, 9vw, 96px)",
+              textAlign: "center",
+              position: "relative",
+              borderTop: "1px solid rgba(212,169,110,0.18)",
+            }}
+          >
+            {/* Top decorative gold hairline accent */}
+            <div aria-hidden style={{
+              position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+              width: 120, height: 1,
+              background: "linear-gradient(90deg, transparent, #d4a96e 50%, transparent)",
+            }} />
+
+            {b02Eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#d4a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={b02Eyebrow} tag="span" />
+                </span>
+                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
+              </div>
+            )}
+            {c.title && (
+              <h2 style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.15,
+                letterSpacing: "0.04em",
+                color: "#f5efe6",
+                margin: "0 auto 18px",
+                maxWidth: 720,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
+              </h2>
+            )}
+            {b02Subtitle && (
+              <p style={{
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                fontWeight: 300,
+                color: "rgba(245,239,230,0.7)",
+                lineHeight: 1.7,
+                margin: "0 auto",
+                maxWidth: 620,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={b02Subtitle} tag="span" />
+              </p>
+            )}
+            {/* Bottom decorative rule */}
+            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 32 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
+              <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
+            </div>
+          </div>
+        )}
+        <style>{`
+          [data-four-col-gallery] { grid-template-columns: repeat(2, 1fr) !important; }
+          @media (min-width: 640px) { [data-four-col-gallery] { grid-template-columns: repeat(4, 1fr) !important; } }
+        `}</style>
+        {contained && <style>{`
+          @keyframes b03FadeUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+          .b03g-reveal { opacity: 0; }
+          .b03g-reveal.b03g-vis { animation: b03FadeUp 0.72s cubic-bezier(.22,.68,0,1.2) forwards; }
+        `}</style>}
+        {contained && (() => {
+          const b03Eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
+          const b03Subtitle = String((content as Record<string, unknown>).subtitle ?? "");
+          if (!b03Eyebrow && !b03Subtitle && !c.title) return null;
+          return (
+            <>
+              {/* Top + bottom gold hairlines + warm radial glow — sit on the parent section */}
+              <div aria-hidden style={{
+                position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+                width: 180, height: 1,
+                background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+              }} />
+              <div aria-hidden style={{
+                position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+                width: 180, height: 1,
+                background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
+              }} />
+              <div aria-hidden style={{
+                position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+                background: "radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.07) 0%, transparent 55%)",
+              }} />
+              <div
+                ref={b03gHeadRef}
+                className="b03g-reveal text-center"
+                style={{
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  padding: "0 24px",
+                  marginBottom: "clamp(48px, 7vw, 72px)",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                {b03Eyebrow && (
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+                    <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                    <span style={{
+                      fontFamily: "'Libre Baskerville', Georgia, serif",
+                      fontStyle: "italic",
+                      fontSize: "12px",
+                      letterSpacing: "0.28em",
+                      textTransform: "uppercase",
+                      color: "#c8a96e",
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field="eyebrow" value={b03Eyebrow} tag="span" />
+                    </span>
+                    <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                  </div>
+                )}
+                {c.title && (
+                  <h2 style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "clamp(2rem, 4.2vw, 3rem)",
+                    fontWeight: 700,
+                    lineHeight: 1.12,
+                    letterSpacing: "0.04em",
+                    color: "#f5efe6",
+                    textTransform: "uppercase",
+                    margin: "0 auto 18px",
+                    maxWidth: 720,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
+                  </h2>
+                )}
+                {b03Subtitle && (
+                  <p style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontStyle: "italic",
+                    fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                    color: "rgba(245,239,230,0.72)",
+                    lineHeight: 1.7,
+                    margin: "0 auto",
+                    maxWidth: 580,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="subtitle" value={b03Subtitle} tag="span" />
+                  </p>
+                )}
+                {/* Diamond rule */}
+                <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
+                  <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+                  <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+                  <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+                </div>
+              </div>
+            </>
+          );
+        })()}
+        <div
+          ref={contained ? b03gGridRef : b02GridRef}
+          data-four-col-gallery
+          className={contained ? "b03g-reveal" : "b02a-reveal"}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: contained ? "clamp(8px, 1.5vw, 16px)" : "6px",
+            maxWidth: contained ? 1200 : undefined,
+            margin: contained ? "0 auto" : undefined,
+            padding: contained ? "0 clamp(16px, 4vw, 24px)" : undefined,
+          }}
+        >
+          {images.map((img, i) => (
+            <GenericEditableImage
+              key={i}
+              sectionId={sectionId}
+              field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
+              fullField={typeof rawArray[i] === "string" ? undefined : `images.${i}.fullUrl`}
+              src={img.url!}
+              alt={img.alt || ""}
+              className="relative w-full"
+              style={{ overflow: "hidden", borderRadius: 0 }}
+            >
+              <button
+                type="button"
+                className="b03g-cell relative block w-full overflow-hidden border-0 bg-transparent p-0"
+                style={{ aspectRatio: "1 / 1", cursor: "pointer", borderRadius: 0 }}
+                onClick={() => setActiveImage(img)}
+                aria-label="Zobrazit větší obrázek"
+              >
+                <Image
+                  src={img.url!}
+                  alt={img.alt || ""}
+                  width={400}
+                  height={400}
+                  className="b03g-img h-full w-full object-cover"
+                  style={{ transition: "transform 0.5s cubic-bezier(.22,.68,0,1.2)" }}
+                  sizes="(max-width: 600px) 50vw, 25vw"
+                  unoptimized={shouldSkipNextImageOptimization(img.url)}
+                />
+                <span className="b03g-overlay" aria-hidden="true">
+                  <svg className="b03g-expand" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    {/* top-left corner */}
+                    <polyline points="4,14 4,4 14,4" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    {/* top-right corner */}
+                    <polyline points="30,4 40,4 40,14" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    {/* bottom-right corner */}
+                    <polyline points="40,30 40,40 30,40" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    {/* bottom-left corner */}
+                    <polyline points="14,40 4,40 4,30" stroke="#c8a96e" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+            </GenericEditableImage>
+          ))}
+        </div>
+        {activeImage?.url && (() => {
+          const activeIdx = images.findIndex(im => im.url === activeImage.url);
+          const goPrev = () => { if (activeIdx > 0) setActiveImage(images[activeIdx - 1]); };
+          const goNext = () => { if (activeIdx >= 0 && activeIdx < images.length - 1) setActiveImage(images[activeIdx + 1]); };
+          return (
+            <div
+              className="gallery-lightbox"
+              role="dialog"
+              aria-modal="true"
+              onClick={() => setActiveImage(null)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setActiveImage(null);
+                if (e.key === "ArrowLeft") goPrev();
+                if (e.key === "ArrowRight") goNext();
+              }}
+              tabIndex={-1}
+              ref={(el) => { if (el) el.focus(); }}
+            >
+              <button
+                className="gallery-lb-close"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setActiveImage(null); }}
+                aria-label="Zavřít náhled"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+
+              {activeIdx > 0 && (
+                <button
+                  className="gallery-lb-nav gallery-lb-prev"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                  aria-label="Předchozí obrázek"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                </button>
+              )}
+              {activeIdx >= 0 && activeIdx < images.length - 1 && (
+                <button
+                  className="gallery-lb-nav gallery-lb-next"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goNext(); }}
+                  aria-label="Další obrázek"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </button>
+              )}
+
+              <span className="gallery-lightbox-frame" onClick={(e) => e.stopPropagation()}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img key={activeImage.url} loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt || ""} />
+              </span>
+
+              {activeImage.alt && (
+                <div className="gallery-lb-caption">{activeImage.alt}</div>
+              )}
+
+              {activeIdx >= 0 && (
+                <div className="gallery-lb-counter">
+                  <span>{String(activeIdx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
+                </div>
+              )}
+            </div>
+          );
+        })()}
+        <style>{`
+          .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;background:rgba(8,8,8,0.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;animation:b02LbFade 0.25s ease;}
+          @keyframes b02LbFade{from{opacity:0;}to{opacity:1;}}
+          .gallery-lightbox-frame{display:block;max-width:min(1100px,94vw);max-height:82vh;cursor:default;animation:b02LbZoom 0.4s cubic-bezier(.22,.68,0,1.1);}
+          @keyframes b02LbZoom{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+          .gallery-lightbox-frame img{display:block;max-width:100%;max-height:82vh;width:auto;height:auto;border-radius:4px;object-fit:contain;box-shadow:0 30px 100px rgba(0,0,0,0.7);}
+          .gallery-lb-close,.gallery-lb-nav{position:absolute;background:rgba(255,255,255,0.06);border:1px solid rgba(212,169,110,0.4);color:#fff;cursor:pointer;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.25s,border-color 0.25s,color 0.25s;}
+          .gallery-lb-close{top:28px;right:28px;}
+          .gallery-lb-prev{left:28px;top:50%;transform:translateY(-50%);}
+          .gallery-lb-next{right:28px;top:50%;transform:translateY(-50%);}
+          .gallery-lb-close:hover,.gallery-lb-nav:hover{background:rgba(212,169,110,0.2);border-color:#d4a96e;color:#d4a96e;}
+          .gallery-lb-counter{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(245,245,245,0.85);font-family:'Source Sans Pro',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.32em;text-transform:uppercase;display:flex;align-items:center;gap:14px;}
+          .gallery-lb-counter::before,.gallery-lb-counter::after{content:'';width:24px;height:1px;background:#d4a96e;}
+          .gallery-lb-caption{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);max-width:70vw;text-align:center;color:rgba(245,245,245,0.7);font-family:'Libre Baskerville',Georgia,serif;font-size:13px;font-style:italic;}
+          @media (max-width: 600px) {
+            .gallery-lb-prev{left:12px;}
+            .gallery-lb-next{right:12px;}
+            .gallery-lb-close{top:16px;right:16px;}
+          }
+          @media(max-width:900px){[data-four-col-gallery]{grid-template-columns:repeat(3,1fr) !important;}}
+          @media(max-width:600px){[data-four-col-gallery]{grid-template-columns:repeat(2,1fr) !important;}}
+          .b03g-cell { position: relative; }
+          .b03g-img { display: block; }
+          .b03g-cell:hover .b03g-img { transform: scale(1.08); }
+          .b03g-overlay {
+            position: absolute; inset: 0;
+            background: rgba(10,10,10,0.38);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+          }
+          .b03g-cell:hover .b03g-overlay { opacity: 1; }
+          .b03g-expand {
+            width: 44px; height: 44px;
+            opacity: 0;
+            transform: scale(0.7);
+            transition: opacity 0.35s ease 0.05s, transform 0.35s cubic-bezier(.22,.68,0,1.2) 0.05s;
+          }
+          .b03g-cell:hover .b03g-expand { opacity: 1; transform: scale(1); }
+        `}</style>
+      </section>
+    );
 }

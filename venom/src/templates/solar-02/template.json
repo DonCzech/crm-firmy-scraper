@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "solar-02",
-  "name": "Demo Greensie",
+  "name": "SOLARK",
   "industry": "solar",
   "skeleton": "b2b-trade",
   "version": "1.0.0",
@@ -9,19 +9,49 @@
   "description": "Fotovoltaika pro firmy, obce, SVJ i RD — komplexní energetická řešení. Tmavý navbar s announcement barem, zelený #79c44f akcent, video hero, DM Sans font. Sekce: partner 3-kroky, segmenty 4-col, services 6-grid, 5-step process, reference, contact form, footer. Inspirováno greensie.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Segments → Services → Process → Testimonials → Contact → Footer",
   "extraSections": [
-    { "type": "promo",   "variant": "solar-02-process",  "reason": "5-step process sekce — b2b-trade skeleton ji nemá, ale je klíčová pro konverzi" },
-    { "type": "contact", "variant": "solar-02-contact",  "reason": "Poptávkový formulář — nahrazuje standardní contact ze skeletonu vlastním dark-bg designem" }
+    {
+      "type": "promo",
+      "variant": "solar-02-process",
+      "reason": "5-step process sekce — b2b-trade skeleton ji nemá, ale je klíčová pro konverzi"
+    },
+    {
+      "type": "contact",
+      "variant": "solar-02-contact",
+      "reason": "Poptávkový formulář — nahrazuje standardní contact ze skeletonu vlastním dark-bg designem"
+    }
   ],
   "skippedSections": [
-    { "pos": 6,  "name": "Pricing/Estimate", "reason": "Ceny jsou individuální; CTA formulář nahrazuje ceník" },
-    { "pos": 9,  "name": "Contact/CTA",     "reason": "CTA sekce nahrazena vlastním solar-02-contact formulářem (type=contact)" },
-    { "pos": 7,  "name": "Portfolio/Gallery","reason": "Originál greensie.cz nemá portfolio galerii" },
-    { "pos": 10, "name": "Service area",     "reason": "Originál nemá mapu — pokrytí celé ČR zmíněno v textu" },
-    { "pos": 11, "name": "FAQ",              "reason": "Originál greensie.cz nemá FAQ sekci" }
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceny jsou individuální; CTA formulář nahrazuje ceník"
+    },
+    {
+      "pos": 9,
+      "name": "Contact/CTA",
+      "reason": "CTA sekce nahrazena vlastním solar-02-contact formulářem (type=contact)"
+    },
+    {
+      "pos": 7,
+      "name": "Portfolio/Gallery",
+      "reason": "Originál greensie.cz nemá portfolio galerii"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Originál nemá mapu — pokrytí celé ČR zmíněno v textu"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál greensie.cz nemá FAQ sekci"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,15 +59,51 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",       "variant": "solar-02-navbar",       "contentRef": "navbar"       },
-        { "type": "hero",         "variant": "solar-02-hero",         "contentRef": "hero"         },
-        { "type": "about",        "variant": "solar-02-about",        "contentRef": "about"        },
-        { "type": "services",     "variant": "solar-02-segments",     "contentRef": "segments"     },
-        { "type": "services",     "variant": "solar-02-services",     "contentRef": "services"     },
-        { "type": "promo",        "variant": "solar-02-process",      "contentRef": "process"      },
-        { "type": "testimonials", "variant": "solar-02-testimonials", "contentRef": "testimonials" },
-        { "type": "contact",      "variant": "solar-02-contact",      "contentRef": "contact"      },
-        { "type": "footer",       "variant": "solar-02-footer",       "contentRef": "footer"       }
+        {
+          "type": "navbar",
+          "variant": "solar-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "solar-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "solar-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "solar-02-segments",
+          "contentRef": "segments"
+        },
+        {
+          "type": "services",
+          "variant": "solar-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "promo",
+          "variant": "solar-02-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "testimonials",
+          "variant": "solar-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "contact",
+          "variant": "solar-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "solar-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -46,7 +112,11 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "solar-02-navbar", "contentRef": "navbar" }
+        {
+          "type": "navbar",
+          "variant": "solar-02-navbar",
+          "contentRef": "navbar"
+        }
       ]
     }
   ],

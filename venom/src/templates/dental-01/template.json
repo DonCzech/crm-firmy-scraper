@@ -1,25 +1,66 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "dental-01",
-  "name": "Demo Magic Smile",
+  "name": "Dentia",
   "industry": "dental",
   "skeleton": "service-personal",
   "version": "0.1.0",
   "baseTemplate": null,
-  "description": "Zubní klinika — transparent→bílý navbar s teal #14a2a8 CTA, fullbleed hero s dark overlay a tagline, sekce služeb s kartami, O nás s pobočkami, CTA banner, kontakt. Inspirováno magicsmile.cz.",
+  "description": "Zubní klinika — transparent→bílý navbar s teal #14a2a8 CTA, fullbleed hero s dark overlay a tagline, sekce služeb s kartami, O nás s pobočkami, CTA banner, kontakt. Inspirováno dentia-klinika.cz.",
   "sectionOrderNote": "Navbar → Hero → Services → About → Promo → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Gallery",      "reason": "Originál nemá dedikovanou galerii na homepage" },
-    { "pos": 7,  "name": "Testimonials", "reason": "Recenze nejsou na homepage" },
-    { "pos": 9,  "name": "Pricing",      "reason": "Ceník na samostatné stránce" },
-    { "pos": 11, "name": "FAQ",          "reason": "FAQ není na homepage" }
+    {
+      "pos": 4,
+      "name": "Gallery",
+      "reason": "Originál nemá dedikovanou galerii na homepage"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je pokrytý services sekcí / individuální nacenění"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "Předloha galerii na homepage nemá"
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Recenze nejsou na homepage"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Předloha reference na homepage nemá"
+    },
+    {
+      "pos": 9,
+      "name": "Pricing",
+      "reason": "Ceník na samostatné stránce"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "FAQ není na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "name": "CTA Banner – pojišťovny + záruka", "reason": "Originál má výrazný fullbleed banner s informacemi o pojišťovnách a zárukou na implantáty" }
+    {
+      "type": "promo",
+      "name": "CTA Banner – pojišťovny + záruka",
+      "reason": "Originál má výrazný fullbleed banner s informacemi o pojišťovnách a zárukou na implantáty"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -27,13 +68,46 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",   "variant": "dental-01-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "dental-01-hero",     "contentRef": "hero" },
-        { "type": "services", "variant": "dental-01-services", "contentRef": "services" },
-        { "type": "about",    "variant": "dental-01-about",    "contentRef": "about" },
-        { "type": "promo",    "variant": "dental-01-promo",    "contentRef": "promo" },
-        { "type": "contact",  "variant": "dental-01-contact",  "contentRef": "contact" },
-        { "type": "footer",   "variant": "dental-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "dental-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "dental-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "dental-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "dental-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "dental-01-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "dental-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "dental-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "dental-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

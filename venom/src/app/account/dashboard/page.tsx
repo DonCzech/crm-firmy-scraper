@@ -99,11 +99,31 @@ export default function AccountDashboard() {
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-10">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Vítejte{user.name ? `, ${user.name}` : ""}!
-          </h1>
-          <p className="text-gray-500 mt-1">Správa vašich webových projektů</p>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Vítejte{user.name ? `, ${user.name}` : ""}!
+            </h1>
+            <p className="text-gray-500 mt-1">Správa vašich webových projektů</p>
+          </div>
+          {user.tenants.length > 0 && (
+            <div className="flex gap-2">
+              <a
+                href="/?onboarding=builder"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-xl shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:brightness-110 transition-all"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                Postavit cokoliv s AI
+              </a>
+              <a
+                href="/?onboarding=templates"
+                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                Nový web ze šablony
+              </a>
+            </div>
+          )}
         </div>
 
         {user.tenants.length === 0 ? (
@@ -114,13 +134,22 @@ export default function AccountDashboard() {
               </svg>
             </div>
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Zatím žádný projekt</h2>
-            <p className="text-gray-500 mb-6">Vytvořte si svůj první web</p>
-            <a
-              href="/"
-              className="inline-flex px-5 py-2.5 bg-violet-600 text-white font-semibold rounded-xl hover:bg-violet-700 transition-colors"
-            >
-              Vytvořit web
-            </a>
+            <p className="text-gray-500 mb-6">Vytvořte si svůj první web — s AI od nuly, nebo ze šablony</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <a
+                href="/?onboarding=builder"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-[0_4px_14px_rgba(124,58,237,0.35)] hover:brightness-110 transition-all"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                Postavit cokoliv s AI
+              </a>
+              <a
+                href="/?onboarding=templates"
+                className="inline-flex px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                Vybrat šablonu
+              </a>
+            </div>
           </div>
         ) : (
           <div className="grid gap-4">
@@ -152,6 +181,14 @@ export default function AccountDashboard() {
                     className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
                   >
                     Zobrazit
+                  </a>
+                  <a
+                    href={`/demo/${tenant.slug}/admin?builder=1`}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-600 to-indigo-600 rounded-xl hover:brightness-110 transition-all"
+                    title="Upravovat web konverzací s AI"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                    AI Builder
                   </a>
                   <a
                     href={`/demo/${tenant.slug}/admin`}

@@ -1,0 +1,820 @@
+{
+  "siteName": "Mobil Expres",
+  "seo": {
+    "title": "Mobil Expres — telefony, chytré hodinky a elektronika",
+    "description": "Nové i zánovní telefony, chytré hodinky, tablety, notebooky a příslušenství. Expresní doručení, výkup starých zařízení a záruka spokojenosti."
+  },
+  "navbar": {
+    "siteName": "Mobil Expres",
+    "logoUrl": "",
+    "searchPlaceholder": "Hledejte telefony, chytré hodinky, …",
+    "utility": {
+      "storesLabel": "Prodejny",
+      "storesHref": "/kontakt",
+      "contactLabel": "Kontakt",
+      "contactHref": "/kontakt",
+      "loginLabel": "Přihlásit",
+      "cartLabel": "Košík"
+    },
+    "quickLinks": [
+      {
+        "label": "Limitované nabídky",
+        "slug": "limitovane-nabidky",
+        "tone": "coral"
+      },
+      {
+        "label": "Výkup telefonů",
+        "slug": "vykup",
+        "tone": "cyan"
+      }
+    ],
+    "categories": [
+      {
+        "label": "Telefony",
+        "slug": "telefony",
+        "children": [
+          {
+            "label": "Apple iPhone",
+            "slug": "iphone",
+            "image": "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Samsung Galaxy",
+            "slug": "samsung",
+            "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Xiaomi",
+            "slug": "xiaomi",
+            "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Google Pixel",
+            "slug": "pixel",
+            "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Odolné telefony",
+            "slug": "odolne-telefony",
+            "image": "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Tlačítkové telefony",
+            "slug": "tlacitkove-telefony",
+            "image": "https://images.unsplash.com/photo-1584006682522-dc17d6c0d9ac?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Zánovní a použité",
+        "slug": "zanovni",
+        "children": [
+          {
+            "label": "Zánovní iPhone",
+            "slug": "zanovni-iphone",
+            "image": "https://images.unsplash.com/photo-1556656793-08538906a9f8?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Zánovní Samsung",
+            "slug": "zanovni-samsung",
+            "image": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Použité telefony",
+            "slug": "pouzite-telefony",
+            "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Zánovní tablety",
+            "slug": "zanovni-tablety",
+            "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Zánovní hodinky",
+            "slug": "zanovni-hodinky",
+            "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Jak funguje zánovní?",
+            "slug": "zanovni",
+            "image": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Chytré hodinky",
+        "slug": "hodinky",
+        "children": [
+          {
+            "label": "Apple Watch",
+            "slug": "apple-watch",
+            "image": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Samsung Galaxy Watch",
+            "slug": "galaxy-watch",
+            "image": "https://images.unsplash.com/photo-1617043786394-f977fa12eddf?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Garmin",
+            "slug": "garmin",
+            "image": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Chytré prsteny",
+            "slug": "chytre-prsteny",
+            "image": "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Chytré náramky",
+            "slug": "chytre-naramky",
+            "image": "https://images.unsplash.com/photo-1557438159-51eec7a6c9e8?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Řemínky",
+            "slug": "reminky",
+            "image": "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Příslušenství",
+        "slug": "prislusenstvi",
+        "children": [
+          {
+            "label": "Kryty a pouzdra",
+            "slug": "kryty",
+            "image": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Tvrzená skla",
+            "slug": "tvrzena-skla",
+            "image": "https://images.unsplash.com/photo-1603313011101-320f26a4f6f6?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Nabíječky a kabely",
+            "slug": "nabijecky",
+            "image": "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Powerbanky",
+            "slug": "powerbanky",
+            "image": "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Paměťové karty",
+            "slug": "pametove-karty",
+            "image": "https://images.unsplash.com/photo-1618410320928-25228d811631?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Držáky do auta",
+            "slug": "drzaky",
+            "image": "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Audio",
+        "slug": "audio",
+        "children": [
+          {
+            "label": "Bezdrátová sluchátka",
+            "slug": "bezdratova-sluchatka",
+            "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Sluchátka přes hlavu",
+            "slug": "sluchatka-pres-hlavu",
+            "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Reproduktory",
+            "slug": "reproduktory",
+            "image": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Soundbary",
+            "slug": "soundbary",
+            "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Mikrofony",
+            "slug": "mikrofony",
+            "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hi-Fi systémy",
+            "slug": "hifi",
+            "image": "https://images.unsplash.com/photo-1558756520-22cfe5d382ca?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Tablety a čtečky",
+        "slug": "tablety",
+        "children": [
+          {
+            "label": "Apple iPad",
+            "slug": "ipad",
+            "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Samsung Galaxy Tab",
+            "slug": "galaxy-tab",
+            "image": "https://images.unsplash.com/photo-1561154464-82e9adf32764?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Xiaomi Pad",
+            "slug": "xiaomi-pad",
+            "image": "https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Čtečky knih",
+            "slug": "ctecky",
+            "image": "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Klávesnice a pera",
+            "slug": "klavesnice-pera",
+            "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Dětské tablety",
+            "slug": "detske-tablety",
+            "image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Notebooky a PC",
+        "slug": "notebooky",
+        "children": [
+          {
+            "label": "Apple MacBook",
+            "slug": "macbook",
+            "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Notebooky",
+            "slug": "notebooky-windows",
+            "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Mac mini a stolní PC",
+            "slug": "stolni-pc",
+            "image": "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Monitory",
+            "slug": "monitory",
+            "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Myši a klávesnice",
+            "slug": "mysi-klavesnice",
+            "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Brašny a sleevy",
+            "slug": "brasny",
+            "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Gaming",
+        "slug": "gaming",
+        "children": [
+          {
+            "label": "PlayStation 5",
+            "slug": "playstation",
+            "image": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Xbox",
+            "slug": "xbox",
+            "image": "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Nintendo Switch",
+            "slug": "nintendo",
+            "image": "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Herní ovladače",
+            "slug": "ovladace",
+            "image": "https://images.unsplash.com/photo-1592840496694-26d035b52b48?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Herní sluchátka",
+            "slug": "herni-sluchatka",
+            "image": "https://images.unsplash.com/photo-1599669454699-248893623440?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hry",
+            "slug": "hry",
+            "image": "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Smart domácnost",
+        "slug": "smart",
+        "children": [
+          {
+            "label": "Chytré osvětlení",
+            "slug": "osvetleni",
+            "image": "https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Robotické vysavače",
+            "slug": "vysavace",
+            "image": "https://images.unsplash.com/photo-1518640467707-6811f4a6ab73?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Zabezpečení a kamery",
+            "slug": "zabezpeceni",
+            "image": "https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Chytré zásuvky",
+            "slug": "zasuvky",
+            "image": "https://images.unsplash.com/photo-1621274790572-7c32596bc67f?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Koloběžky a doprava",
+            "slug": "kolobezky",
+            "image": "https://images.unsplash.com/photo-1604868189265-219ba7bf7ea3?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Chytré váhy",
+            "slug": "vahy",
+            "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Foto a drony",
+        "slug": "foto-drony",
+        "children": [
+          {
+            "label": "Drony DJI",
+            "slug": "drony",
+            "image": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Akční kamery",
+            "slug": "akcni-kamery",
+            "image": "https://images.unsplash.com/photo-1526317899290-8dc2f30d4bd1?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Fotoaparáty",
+            "slug": "fotoaparaty",
+            "image": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Stativy a gimbaly",
+            "slug": "gimbaly",
+            "image": "https://images.unsplash.com/photo-1495707902641-75cac588d2e9?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Objektivy",
+            "slug": "objektivy",
+            "image": "https://images.unsplash.com/photo-1617005082133-548c4dd27f35?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Paměťová média",
+            "slug": "pametova-media",
+            "image": "https://images.unsplash.com/photo-1618410320928-25228d811631?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      }
+    ],
+    "drawer": {
+      "addedText": "Zboží přidáno do košíku",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "MOHLO BY VÁS ZAJÍMAT",
+      "recoCta": "DO KOŠÍKU",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Pokračovat v nákupu"
+    }
+  },
+  "hero": {
+    "slides": [
+      {
+        "tabLabel": "iPhone 17 Pro",
+        "kicker": "Novinka skladem",
+        "title": "Nový iPhone 17 Pro",
+        "text": "Titanový design, čip A19 Pro a foťák, který zvládne i noční koncert. Objednejte do 20:00 a zítra ho máte doma.",
+        "pricePill": "od 32 990 Kč",
+        "ctaText": "Prozkoumat nabídku",
+        "ctaHref": "/obchod?kategorie=iphone",
+        "image": "https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=1100&h=760&fit=crop&auto=format&q=80",
+        "bg": "linear-gradient(105deg, #eafaf3 0%, #d9f3ec 48%, #c4ece4 100%)",
+        "bubbles": [
+          {
+            "text": "Až 4 000 Kč sleva",
+            "tone": "coral"
+          },
+          {
+            "text": "Výkup na protiúčet",
+            "tone": "cyan"
+          },
+          {
+            "text": "Doprava zdarma",
+            "tone": "mint"
+          }
+        ]
+      },
+      {
+        "tabLabel": "Galaxy S26 family",
+        "kicker": "Samsung Galaxy",
+        "title": "Galaxy S26 family je tady",
+        "text": "Celá rodina Galaxy S26 skladem ve všech barvách. K předobjednávce nabíječka a chytrý prsten jako dárek.",
+        "pricePill": "od 18 490 Kč",
+        "ctaText": "Vybrat Galaxy",
+        "ctaHref": "/obchod?kategorie=samsung",
+        "image": "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=1100&h=760&fit=crop&auto=format&q=80",
+        "bg": "linear-gradient(105deg, #f1efff 0%, #e6e1ff 48%, #d8d1fb 100%)",
+        "bubbles": [
+          {
+            "text": "Dárek k nákupu",
+            "tone": "violet"
+          },
+          {
+            "text": "3 roky záruky",
+            "tone": "amber"
+          }
+        ]
+      },
+      {
+        "tabLabel": "Chytré hodinky",
+        "kicker": "Léto v pohybu",
+        "title": "Hodinky, které vás rozhýbou",
+        "text": "Apple Watch, Garmin i Galaxy Watch s měřením tepu, spánku a GPS. Řemínky navíc ke každému kusu.",
+        "pricePill": "od 3 490 Kč",
+        "ctaText": "Vybrat hodinky",
+        "ctaHref": "/obchod?kategorie=hodinky",
+        "image": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=1100&h=760&fit=crop&auto=format&q=80",
+        "bg": "linear-gradient(105deg, #fff3ec 0%, #ffe8d9 48%, #ffdcc4 100%)",
+        "bubbles": [
+          {
+            "text": "Řemínek zdarma",
+            "tone": "coral"
+          },
+          {
+            "text": "Skladem ihned",
+            "tone": "mint"
+          }
+        ]
+      },
+      {
+        "tabLabel": "Zánovní se zárukou",
+        "kicker": "Chytrá volba",
+        "title": "Zánovní telefony se zárukou 2 roky",
+        "text": "Prošly kontrolou 30 bodů, dostaly novou baterii a vypadají jako z krabice. Jen stojí o třetinu míň.",
+        "pricePill": "ušetříte až 40 %",
+        "ctaText": "Zobrazit zánovní",
+        "ctaHref": "/obchod?kategorie=zanovni",
+        "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1100&h=760&fit=crop&auto=format&q=80",
+        "bg": "linear-gradient(105deg, #eef4f9 0%, #e0ecf6 48%, #cfe3f2 100%)",
+        "bubbles": [
+          {
+            "text": "Kontrola 30 bodů",
+            "tone": "cyan"
+          },
+          {
+            "text": "Nová baterie",
+            "tone": "mint"
+          }
+        ]
+      },
+      {
+        "tabLabel": "Audio týden",
+        "kicker": "Akce týdne",
+        "title": "Audio týden: sluchátka od 990 Kč",
+        "text": "Bezdrátová sluchátka, reproduktory i soundbary se slevou až 35 %. Jen do neděle nebo do vyprodání zásob.",
+        "pricePill": "sleva až 35 %",
+        "ctaText": "Do audio sekce",
+        "ctaHref": "/obchod?kategorie=audio",
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1100&h=760&fit=crop&auto=format&q=80",
+        "bg": "linear-gradient(105deg, #fdf6e3 0%, #fbeecb 48%, #f7e3ae 100%)",
+        "bubbles": [
+          {
+            "text": "Sleva až 35 %",
+            "tone": "amber"
+          },
+          {
+            "text": "Jen do neděle",
+            "tone": "violet"
+          }
+        ]
+      }
+    ]
+  },
+  "productsPhones": {
+    "heading": "Nejprodávanější telefony",
+    "moreLabel": "Všechny telefony",
+    "moreHref": "/obchod?kategorie=telefony",
+    "categorySlug": "telefony",
+    "limit": 10
+  },
+  "productsDeals": {
+    "heading": "Limitované nabídky",
+    "moreLabel": "Všechny akce",
+    "moreHref": "/obchod?kategorie=limitovane-nabidky",
+    "categorySlug": "limitovane-nabidky",
+    "saleOnly": true,
+    "limit": 10
+  },
+  "productsAudio": {
+    "heading": "Audio, které si zamilujete",
+    "moreLabel": "Celá audio sekce",
+    "moreHref": "/obchod?kategorie=audio",
+    "categorySlug": "audio",
+    "limit": 10
+  },
+  "rentBanner": {
+    "heading": "Nevlastni. Prostě používej.",
+    "title": "Nový telefon nejvýhodněji",
+    "moreLabel": "Jak pronájem funguje",
+    "moreHref": "/obchod?kategorie=telefony",
+    "offers": [
+      {
+        "image": "https://images.unsplash.com/photo-1556656793-08538906a9f8?w=560&h=640&fit=crop&auto=format&q=80",
+        "name": "Apple iPhone",
+        "spec": "17, 256GB",
+        "monthly": "459 Kč",
+        "ctaText": "Pronajmout",
+        "href": "/obchod?kategorie=iphone"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=560&h=640&fit=crop&auto=format&q=80",
+        "name": "Apple iPhone",
+        "spec": "17 Pro, 256GB",
+        "monthly": "689 Kč",
+        "ctaText": "Pronajmout",
+        "href": "/obchod?kategorie=iphone"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Mobil Expres",
+    "linkRows": [
+      [
+        {
+          "label": "O nás",
+          "href": "/o-nas"
+        },
+        {
+          "label": "Kontakty",
+          "href": "/kontakt"
+        },
+        {
+          "label": "Spolupráce",
+          "href": "/kontakt"
+        },
+        {
+          "label": "Kariéra",
+          "href": "/kontakt"
+        },
+        {
+          "label": "Pro firmy",
+          "href": "/kontakt"
+        }
+      ],
+      [
+        {
+          "label": "Ochrana osobních údajů",
+          "href": "/obchodni-podminky"
+        },
+        {
+          "label": "Obchodní podmínky",
+          "href": "/obchodni-podminky"
+        },
+        {
+          "label": "Reklamační řád",
+          "href": "/obchodni-podminky"
+        }
+      ],
+      [
+        {
+          "label": "Reklamace a vrácení",
+          "href": "/obchodni-podminky"
+        },
+        {
+          "label": "Možnosti doručení",
+          "href": "/obchodni-podminky"
+        },
+        {
+          "label": "Výkup telefonů",
+          "href": "/obchod?kategorie=vykup"
+        }
+      ]
+    ],
+    "socials": [
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com"
+      },
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com"
+      },
+      {
+        "icon": "tiktok",
+        "href": "https://tiktok.com"
+      },
+      {
+        "icon": "youtube",
+        "href": "https://youtube.com"
+      }
+    ],
+    "hotline": {
+      "label": "Infolinka",
+      "phone": "+420 245 011 911",
+      "hours": "Po–Ne 8:00–20:00"
+    },
+    "newsletter": {
+      "placeholder": "Váš e-mail",
+      "buttonLabel": "OK",
+      "consent": "Chci dostávat informace o akčních nabídkách",
+      "doneText": "Díky! Akční nabídky vám budeme posílat."
+    },
+    "copyright": "© 2010–2026 Mobil Expres s.r.o. Všechna práva vyhrazena."
+  },
+  "articles": {
+    "kicker": "Magazín Mobil Expres",
+    "heading": "Poradíme, srovnáme, inspirujeme",
+    "moreLabel": "Všechny články",
+    "moreHref": "/magazin",
+    "articles": [
+      {
+        "image": "https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=1200&h=900&fit=crop&auto=format&q=80",
+        "category": "Srovnání",
+        "tone": "mint",
+        "title": "iPhone 17 vs. iPhone 17 Pro: za co si připlácíte a kdy to dává smysl",
+        "excerpt": "Titanový rám, teleobjektiv a ProMotion. Rozebrali jsme oba telefony do posledního čipu, abyste nemuseli platit za nic, co nevyužijete.",
+        "date": "12. července 2026",
+        "readTime": "8 min čtení",
+        "href": "/magazin"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=560&h=440&fit=crop&auto=format&q=80",
+        "category": "Návody",
+        "tone": "cyan",
+        "title": "Jak vybrat chytré hodinky podle sportu, který děláte",
+        "date": "8. července 2026",
+        "readTime": "6 min čtení",
+        "href": "/magazin"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=560&h=440&fit=crop&auto=format&q=80",
+        "category": "Zánovní",
+        "tone": "coral",
+        "title": "Zánovní telefon bez rizika: co přesně kontrolujeme ve 30 bodech",
+        "date": "3. července 2026",
+        "readTime": "5 min čtení",
+        "href": "/magazin"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=560&h=440&fit=crop&auto=format&q=80",
+        "category": "Tipy",
+        "tone": "violet",
+        "title": "ANC sluchátka do letadla i open space: 5 modelů, které opravdu tlumí",
+        "date": "28. června 2026",
+        "readTime": "7 min čtení",
+        "href": "/magazin"
+      }
+    ]
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "kicker": "Mobil Expres",
+        "title": "Technika, které můžete věřit",
+        "subtitle": "Už přes 15 let prodáváme, vykupujeme a servisujeme telefony a chytrou elektroniku. Férově, rychle a s expresním doručením po celé ČR."
+      },
+      "about": {
+        "blocks": [
+          {
+            "heading": "Kdo jsme",
+            "text": "Mobil Expres začínal v roce 2010 jako malý servis telefonů v Praze. Dnes provozujeme 13 prodejen po celé republice, vlastní servisní centrum a e-shop, který doručuje do druhého dne. Pořád nás ale baví to samé — pomáhat lidem vybrat techniku, která jim bude dobře sloužit."
+          },
+          {
+            "heading": "Proč nakupovat u nás",
+            "text": "Nejsme překupníci. Každé zařízení, které prodáváme, projde rukama našich techniků — ať jde o novinku, nebo zánovní kousek s prodlouženou zárukou.",
+            "bullets": [
+              "Expresní doručení — objednáte do 20:00, zítra máte doma",
+              "Výkup starého zařízení na protiúčet s bonusem",
+              "Zánovní telefony se zárukou 2 roky a kontrolou 30 bodů",
+              "13 prodejen — rezervace online, vyzvednutí do 30 minut",
+              "Vlastní servis s originálními díly"
+            ]
+          },
+          {
+            "heading": "Nevlastni. Prostě používej.",
+            "text": "Jako první v ČR jsme spustili pronájem telefonů a elektroniky. Nejnovější iPhone nebo MacBook můžete mít za fixní měsíční částku — bez závazků, s pojištěním v ceně a možností kdykoliv přejít na novější model."
+          }
+        ]
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "kicker": "Jsme tu pro vás",
+        "title": "Kontakt",
+        "subtitle": "Infolinka denně 8:00–20:00, odpovídáme do pár minut. Nebo se zastavte na kterékoliv z 13 prodejen."
+      },
+      "contact": {
+        "phone": "+420 245 011 911",
+        "phoneHours": "Po–Ne 8:00–20:00",
+        "email": "info@mobilexpres.cz",
+        "address": "Revoluční 724/7, 110 00 Praha 1",
+        "storeHours": "Po–Pá 9:00–19:00 · So 9:00–14:00",
+        "formHeading": "Napište nám"
+      }
+    },
+    "podminky": {
+      "hero": {
+        "kicker": "Právní informace",
+        "title": "Obchodní podmínky",
+        "subtitle": "Vše o nákupu, doručení, reklamacích a vrácení zboží — srozumitelně a bez drobného písma."
+      },
+      "text": {
+        "blocks": [
+          {
+            "heading": "Objednávka a uzavření smlouvy",
+            "text": "Odesláním objednávky v e-shopu mobilexpres.cz uzavíráte kupní smlouvu se společností Mobil Expres s.r.o. Potvrzení objednávky vám přijde e-mailem do několika minut. Ceny jsou konečné, včetně DPH a všech poplatků."
+          },
+          {
+            "heading": "Doprava a doručení",
+            "text": "Objednávky přijaté do 20:00 expedujeme tentýž den. Doručení kurýrem po celé ČR zpravidla následující pracovní den.",
+            "bullets": [
+              "Osobní odběr na prodejně — zdarma, připraveno do 30 minut",
+              "Kurýr na adresu — od 99 Kč, zdarma nad 3 000 Kč",
+              "Výdejní boxy — od 69 Kč, doručení do 24 hodin"
+            ]
+          },
+          {
+            "heading": "Vrácení zboží a reklamace",
+            "text": "Zboží zakoupené v e-shopu můžete vrátit do 30 dnů bez udání důvodu — stačí ho přinést na prodejnu nebo poslat na naši adresu. Na nové zboží poskytujeme záruku 24 měsíců, na zánovní 24 měsíců a na použité 12 měsíců. Reklamace vyřizujeme zpravidla do 7 dnů ve vlastním servisu."
+          },
+          {
+            "heading": "Ochrana osobních údajů",
+            "text": "S vašimi údaji nakládáme podle GDPR. Používáme je výhradně k vyřízení objednávky, případně k zasílání novinek, pokud jste se přihlásili k odběru. Údaje nikdy nepředáváme třetím stranám k marketingovým účelům. Odhlásit se můžete jedním klikem v každém e-mailu."
+          }
+        ]
+      }
+    },
+    "magazin": {
+      "hero": {
+        "kicker": "Magazín Mobil Expres",
+        "title": "Recenze, návody a novinky",
+        "subtitle": "Testujeme telefony dřív, než je začneme prodávat. Tady najdete, co jsme zjistili — bez marketingových řečí."
+      },
+      "articles2": {
+        "kicker": "Dále z magazínu",
+        "heading": "Návody a tipy",
+        "articles": [
+          {
+            "tone": "violet",
+            "category": "Návod",
+            "title": "Jak přenést data ze starého telefonu za 10 minut",
+            "excerpt": "Kompletní průvodce přenosem kontaktů, fotek i aplikací — pro iPhone i Android, bez kabelu a bez stresu.",
+            "date": "8. července 2026",
+            "readTime": "6 min čtení",
+            "image": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=900&h=620&fit=crop&auto=format&q=80"
+          },
+          {
+            "tone": "mint",
+            "category": "Poradna",
+            "title": "Zánovní vs. použitý telefon: v čem je rozdíl?",
+            "excerpt": "Oba ušetří tisíce, ale nejsou to stejné kategorie. Vysvětlujeme, co u nás znamená zánovní a proč má plnou záruku.",
+            "date": "5. července 2026",
+            "readTime": "4 min čtení",
+            "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=900&h=620&fit=crop&auto=format&q=80"
+          },
+          {
+            "tone": "coral",
+            "category": "Tipy",
+            "title": "5 způsobů, jak prodloužit výdrž baterie",
+            "excerpt": "Od adaptivního jasu po správné nabíjení. Jednoduché kroky, díky kterým baterie vydrží déle — dnes i za dva roky.",
+            "date": "1. července 2026",
+            "readTime": "5 min čtení",
+            "image": "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=900&h=620&fit=crop&auto=format&q=80"
+          },
+          {
+            "tone": "cyan",
+            "category": "Srovnání",
+            "title": "Bezdrátová sluchátka do 3 000 Kč: velký test",
+            "excerpt": "Porovnali jsme 8 modelů podle zvuku, výdrže a pohodlí. Vítěz vás možná překvapí.",
+            "date": "28. června 2026",
+            "readTime": "8 min čtení",
+            "image": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=900&h=620&fit=crop&auto=format&q=80"
+          }
+        ]
+      }
+    }
+  }
+}

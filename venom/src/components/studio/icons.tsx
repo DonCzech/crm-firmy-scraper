@@ -44,7 +44,7 @@ import {
   Square as PhSquare, TextStrikethrough, DeviceTablet, Tag as PhTag, Trash,
   TextT, TextUnderline, ArrowUUpLeft, UploadSimple,
   User as PhUser, Users as PhUsers, X as PhX,
-  MagnifyingGlassPlus, MagnifyingGlassMinus,
+  MagnifyingGlassPlus, MagnifyingGlassMinus, ArrowsOutSimple,
 } from "@phosphor-icons/react";
 
 export interface IconProps extends Omit<PhosphorIconProps, "weight" | "size"> {
@@ -140,6 +140,7 @@ export const Mail = wrap(EnvelopeSimple);
 export const Map = wrap(MapTrifold);
 export const Megaphone = wrap(PhMegaphone);
 export const MessageSquare = wrap(Chat);
+export const Maximize2 = wrap(ArrowsOutSimple);
 export const Minus = wrap(PhMinus);
 export const Monitor = wrap(PhMonitor);
 export const MoreHorizontal = wrap(DotsThree);

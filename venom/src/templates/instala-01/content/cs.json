@@ -8,11 +8,26 @@
     "ctaText": "Zavolejte nám",
     "ctaHref": "tel:+420602987654",
     "links": [
-      { "label": "Úvod",      "href": "/"           },
-      { "label": "O nás",     "href": "#o-nas"      },
-      { "label": "Služby",    "href": "#sluzby"     },
-      { "label": "Reference", "href": "#reference"  },
-      { "label": "Kontakt",   "href": "#kontakt"    }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -33,15 +48,40 @@
     "subtitle": "15 let zkušeností, stovky spokojených zákazníků.",
     "body": "Jsme rodinná firma se silnými kořeny v Brně. Od roku 2009 poskytujeme komplexní instalatérské, topenářské a plynařské služby pro domácnosti i firmy. Každou zakázku řešíme pečlivě a s důrazem na trvanlivost výsledku — protože víme, že šetřit na kvalitě se nevyplácí.",
     "features": [
-      { "title": "15 let na trhu",             "description": "Roky praxe a stovky zakázek nás naučily, jak každý problém vyřešit rychle a správně napoprvé.", "icon": "star" },
-      { "title": "Platná oprávnění",            "description": "Disponujeme všemi potřebnými certifikáty a oprávněními pro práci s plynem i tlakovými systémy.", "icon": "shield" },
-      { "title": "Individuální přístup",        "description": "Ke každé zakázce přistupujeme jako k jedinečné situaci. Navrhujeme řešení šitá na míru vašemu objektu.", "icon": "settings" },
-      { "title": "Termíny jsou pro nás závazné", "description": "Přijdeme tehdy, kdy jsme se dohodli. Práci předáme v dohodnutém čase a bez skrytých příplatků.", "icon": "clock" }
+      {
+        "title": "15 let na trhu",
+        "description": "Roky praxe a stovky zakázek nás naučily, jak každý problém vyřešit rychle a správně napoprvé.",
+        "icon": "star"
+      },
+      {
+        "title": "Platná oprávnění",
+        "description": "Disponujeme všemi potřebnými certifikáty a oprávněními pro práci s plynem i tlakovými systémy.",
+        "icon": "shield"
+      },
+      {
+        "title": "Individuální přístup",
+        "description": "Ke každé zakázce přistupujeme jako k jedinečné situaci. Navrhujeme řešení šitá na míru vašemu objektu.",
+        "icon": "settings"
+      },
+      {
+        "title": "Termíny jsou pro nás závazné",
+        "description": "Přijdeme tehdy, kdy jsme se dohodli. Práci předáme v dohodnutém čase a bez skrytých příplatků.",
+        "icon": "clock"
+      }
     ],
     "stats": [
-      { "value": "1200+", "label": "dokončených zakázek" },
-      { "value": "15+",   "label": "let zkušeností"      },
-      { "value": "24/7",  "label": "havarijní služba"    }
+      {
+        "value": "1200+",
+        "label": "dokončených zakázek"
+      },
+      {
+        "value": "15+",
+        "label": "let zkušeností"
+      },
+      {
+        "value": "24/7",
+        "label": "havarijní služba"
+      }
     ],
     "image": "/assets/instala-01/a88a6c834b-h1-about-img-01-640x1024.jpg",
     "phone": "+420 602 987 654",
@@ -52,17 +92,48 @@
     "title": "Kompletní péče o vaše rozvody",
     "subtitle": "Od drobných oprav po komplexní rekonstrukce. Poradíme si s plynem, vodou, topením i kanalizací — vše pod jednou střechou.",
     "items": [
-      { "name": "Plynařské práce",     "title": "Plynařské práce",     "description": "Pokládka nových rozvodů, výměna spotřebičů, revize a opravy. Pracujeme bezpečně a v souladu s normami.",          "ctaText": "Více o službě", "ctaHref": "/sluzby", "icon": "flame",             "image": "/assets/instala-01/0d1aadbb59-Commercial-gas-safe-services.jpg" },
-      { "name": "Instalatérské práce", "title": "Instalatérské práce", "description": "Montáž vodovodního potrubí, výměna baterií a spotřebičů, odstranění havárií. Rychle a čistě.",                     "ctaText": "Více o službě", "ctaHref": "/sluzby", "icon": "droplets",          "image": "/assets/instala-01/e51451812c-plumbing-service-1024x683.webp" },
-      { "name": "Topenářské práce",    "title": "Topenářské práce",    "description": "Instalace a servis kotlů, podlahového topení i radiátorů. Postaráme se o teplo ve vašem domě po celý rok.",        "ctaText": "Více o službě", "ctaHref": "/sluzby", "icon": "thermometer",       "image": "/assets/instala-01/179f8a97ed-heating-services-1-1024x683.webp" },
-      { "name": "Kanalizační práce",   "title": "Kanalizační práce",   "description": "Čištění ucpaného potrubí, opravy přípojek a instalace nové kanalizace. Moderní technika, minimální výkopové práce.", "ctaText": "Více o službě", "ctaHref": "/sluzby", "icon": "arrow-down-circle", "image": "/assets/instala-01/ef21760e70-topeni-plus-cisteni-topnych-sytemu-1-1024x681-1.jpg" }
+      {
+        "name": "Plynařské práce",
+        "title": "Plynařské práce",
+        "description": "Pokládka nových rozvodů, výměna spotřebičů, revize a opravy. Pracujeme bezpečně a v souladu s normami.",
+        "ctaText": "Více o službě",
+        "ctaHref": "/sluzby",
+        "icon": "flame",
+        "image": "/assets/instala-01/0d1aadbb59-Commercial-gas-safe-services.jpg"
+      },
+      {
+        "name": "Instalatérské práce",
+        "title": "Instalatérské práce",
+        "description": "Montáž vodovodního potrubí, výměna baterií a spotřebičů, odstranění havárií. Rychle a čistě.",
+        "ctaText": "Více o službě",
+        "ctaHref": "/sluzby",
+        "icon": "droplets",
+        "image": "/assets/instala-01/e51451812c-plumbing-service-1024x683.webp"
+      },
+      {
+        "name": "Topenářské práce",
+        "title": "Topenářské práce",
+        "description": "Instalace a servis kotlů, podlahového topení i radiátorů. Postaráme se o teplo ve vašem domě po celý rok.",
+        "ctaText": "Více o službě",
+        "ctaHref": "/sluzby",
+        "icon": "thermometer",
+        "image": "/assets/instala-01/179f8a97ed-heating-services-1-1024x683.webp"
+      },
+      {
+        "name": "Kanalizační práce",
+        "title": "Kanalizační práce",
+        "description": "Čištění ucpaného potrubí, opravy přípojek a instalace nové kanalizace. Moderní technika, minimální výkopové práce.",
+        "ctaText": "Více o službě",
+        "ctaHref": "/sluzby",
+        "icon": "arrow-down-circle",
+        "image": "/assets/instala-01/ef21760e70-topeni-plus-cisteni-topnych-sytemu-1-1024x681-1.jpg"
+      }
     ]
   },
   "cta": {
     "kicker": "Poptávka zdarma a bez závazků",
     "title": "Napište nám",
     "subtitle": "Popište svůj problém nebo záměr a my vám do 24 hodin zašleme konkrétní cenovou nabídku.",
-    "fields": ["name", "email", "phone", "subject", "message"],
     "submitText": "Odeslat poptávku",
     "email": "servis@vodoinstalace-brno.cz"
   },
@@ -72,9 +143,24 @@
     "subtitle": "Tři důvody, proč nám zákazníci v Brně a okolí věří již přes 15 let.",
     "testimonials": [],
     "items": [
-      { "icon": "check-circle", "title": "Záruka kvality",    "text": "Na všechny naše práce poskytujeme písemnou záruku. Pokud by se cokoliv pokazilo, přijedeme a opravíme to zdarma.", "description": "Na všechny naše práce poskytujeme písemnou záruku. Pokud by se cokoliv pokazilo, přijedeme a opravíme to zdarma." },
-      { "icon": "zap",          "title": "Havarijní výjezd",  "text": "Havárii vyřešíme do hodiny od vašeho zavolání — 24 hodin denně, 7 dní v týdnu, včetně svátků.", "description": "Havárii vyřešíme do hodiny od vašeho zavolání — 24 hodin denně, 7 dní v týdnu, včetně svátků." },
-      { "icon": "tag",          "title": "Férová cena",        "text": "Cenu sdělíme předem a při práci se od ní neodchýlíme. Žádné skryté poplatky ani nepříjemná překvapení na faktuře.", "description": "Cenu sdělíme předem a při práci se od ní neodchýlíme. Žádné skryté poplatky ani nepříjemná překvapení na faktuře." }
+      {
+        "icon": "check-circle",
+        "title": "Záruka kvality",
+        "text": "Na všechny naše práce poskytujeme písemnou záruku. Pokud by se cokoliv pokazilo, přijedeme a opravíme to zdarma.",
+        "description": "Na všechny naše práce poskytujeme písemnou záruku. Pokud by se cokoliv pokazilo, přijedeme a opravíme to zdarma."
+      },
+      {
+        "icon": "zap",
+        "title": "Havarijní výjezd",
+        "text": "Havárii vyřešíme do hodiny od vašeho zavolání — 24 hodin denně, 7 dní v týdnu, včetně svátků.",
+        "description": "Havárii vyřešíme do hodiny od vašeho zavolání — 24 hodin denně, 7 dní v týdnu, včetně svátků."
+      },
+      {
+        "icon": "tag",
+        "title": "Férová cena",
+        "text": "Cenu sdělíme předem a při práci se od ní neodchýlíme. Žádné skryté poplatky ani nepříjemná překvapení na faktuře.",
+        "description": "Cenu sdělíme předem a při práci se od ní neodchýlíme. Žádné skryté poplatky ani nepříjemná překvapení na faktuře."
+      }
     ]
   },
   "contact": {
@@ -84,8 +170,13 @@
     "email": "servis@vodoinstalace-brno.cz",
     "address": "Purkyňova 45, 612 00 Brno",
     "hours": "Po–Pá 7:00–17:00, So 8:00–12:00, havarijní linka 24/7",
-    "submitText": "Odeslat poptávku",
-    "fields": ["name", "email", "phone", "subject", "message"]
+    "fields": [
+      "name",
+      "email",
+      "phone",
+      "subject",
+      "message"
+    ]
   },
   "footer": {
     "siteName": "Vodoinstalace Brno",
@@ -99,15 +190,36 @@
     "instagram": "https://instagram.com/vodoinstalace-brno",
     "copyright": "© 2026 Vodoinstalace Brno s.r.o. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Plynařské práce",     "href": "/sluzby" },
-      { "label": "Instalatérské práce", "href": "/sluzby" },
-      { "label": "Topenářské práce",    "href": "/sluzby" },
-      { "label": "Kanalizační práce",   "href": "/sluzby" },
-      { "label": "Havarijní servis",    "href": "/sluzby" }
+      {
+        "label": "Plynařské práce",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Instalatérské práce",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Topenářské práce",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Kanalizační práce",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Havarijní servis",
+        "href": "/sluzby"
+      }
     ],
     "legalLinks": [
-      { "label": "Ochrana osobních údajů", "href": "/ochrana-osobnich-udaju" },
-      { "label": "Zásady cookies",         "href": "/zasady-cookies"         }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/ochrana-osobnich-udaju"
+      },
+      {
+        "label": "Zásady cookies",
+        "href": "/zasady-cookies"
+      }
     ]
   },
   "pages": {

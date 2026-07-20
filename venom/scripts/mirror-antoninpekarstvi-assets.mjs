@@ -344,7 +344,7 @@ function walkDir(dir) {
     const full = path.join(dir, f);
     if (fs.statSync(full).isDirectory()) { walkDir(full); continue; }
     if (f.endsWith('.css')) {
-      let css = fs.readFileSync(full, 'utf8');
+      const css = fs.readFileSync(full, 'utf8');
       const fixed = fixCssUrls(css, full);
       if (fixed !== css) fs.writeFileSync(full, fixed);
     }

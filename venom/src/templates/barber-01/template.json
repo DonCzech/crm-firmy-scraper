@@ -7,7 +7,10 @@
   "baseTemplate": null,
   "i18n": {
     "default": "cs",
-    "supported": ["cs", "en"]
+    "supported": [
+      "cs",
+      "en"
+    ]
   },
   "pages": [
     {
@@ -15,48 +18,149 @@
       "isHomepage": true,
       "titleKey": "pages.home.title",
       "sections": [
-        { "type": "navbar",        "variant": "barber-dark",    "contentRef": "navbar" },
-        { "type": "hero",          "variant": "hero-luxury-dark", "contentRef": "home.hero" },
-        { "type": "services",      "variant": "pricing-list",   "contentRef": "home.services" },
-        { "type": "gallery",       "variant": "masonry",        "contentRef": "home.gallery" },
-        { "type": "testimonials",  "variant": "slider",         "contentRef": "home.testimonials" },
-        { "type": "team",          "variant": "cards-grid",     "contentRef": "home.team" },
-        { "type": "rezora-cta",    "variant": "barber-dark",    "contentRef": "home.cta" },
-        { "type": "opening-hours", "variant": "default",        "contentRef": "home.hours" },
-        { "type": "faq",           "variant": "default",        "contentRef": "home.faq" },
-        { "type": "contact",       "variant": "default",        "contentRef": "home.contact" },
-        { "type": "footer",        "variant": "barber-dark",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "barber-dark",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-luxury-dark",
+          "contentRef": "home.hero"
+        },
+        {
+          "type": "services",
+          "variant": "pricing-list",
+          "contentRef": "home.services"
+        },
+        {
+          "type": "gallery",
+          "variant": "masonry",
+          "contentRef": "home.gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "slider",
+          "contentRef": "home.testimonials"
+        },
+        {
+          "type": "team",
+          "variant": "cards-grid",
+          "contentRef": "home.team"
+        },
+        {
+          "type": "rezora-cta",
+          "variant": "barber-dark",
+          "contentRef": "home.cta"
+        },
+        {
+          "type": "opening-hours",
+          "variant": "default",
+          "contentRef": "home.hours"
+        },
+        {
+          "type": "faq",
+          "variant": "default",
+          "contentRef": "home.faq"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "barber-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "default",
+          "contentRef": "home.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "barber-dark",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "o-nas",
       "titleKey": "pages.about.title",
       "sections": [
-        { "type": "navbar",  "variant": "barber-dark",    "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",  "contentRef": "about.hero" },
-        { "type": "about",   "variant": "two-col",        "contentRef": "about.body" },
-        { "type": "team",    "variant": "cards-grid",     "contentRef": "home.team" },
-        { "type": "footer",  "variant": "barber-dark",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "barber-dark",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "about.hero"
+        },
+        {
+          "type": "about",
+          "variant": "two-col",
+          "contentRef": "about.body"
+        },
+        {
+          "type": "team",
+          "variant": "cards-grid",
+          "contentRef": "home.team"
+        },
+        {
+          "type": "footer",
+          "variant": "barber-dark",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "galerie",
       "titleKey": "pages.gallery.title",
       "sections": [
-        { "type": "navbar",   "variant": "barber-dark",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",  "contentRef": "gallery.hero" },
-        { "type": "gallery",  "variant": "masonry",        "contentRef": "home.gallery" },
-        { "type": "footer",   "variant": "barber-dark",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "barber-dark",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "gallery.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "masonry",
+          "contentRef": "home.gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "barber-dark",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "kontakt",
       "titleKey": "pages.contact.title",
       "sections": [
-        { "type": "navbar",           "variant": "barber-dark",  "contentRef": "navbar" },
-        { "type": "contact",          "variant": "default",      "contentRef": "home.contact" },
-        { "type": "opening-hours",    "variant": "default",      "contentRef": "home.hours" },
-        { "type": "footer",           "variant": "barber-dark",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "barber-dark",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "default",
+          "contentRef": "home.contact"
+        },
+        {
+          "type": "opening-hours",
+          "variant": "default",
+          "contentRef": "home.hours"
+        },
+        {
+          "type": "footer",
+          "variant": "barber-dark",
+          "contentRef": "footer"
+        }
       ]
     }
   ],
@@ -65,5 +169,38 @@
   },
   "images": {
     "manifest": "./images/manifest.json"
-  }
+  },
+  "skeleton": "service-personal",
+  "sectionOrderNote": "Navbar → Hero → Services(ceník) → Gallery → Testimonials → Team → Rezora CTA → Hours → FAQ → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "About",
+      "reason": "O nás má vlastní podstránku /o-nas — homepage drží dark-luxury minimalismus"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je součástí services sekce (variant pricing-list s cenami)"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "Nahrazeno rezora-cta rezervačním widgetem (extraSections)"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "rezora-cta",
+      "reason": "Rezervační CTA widget Rezora — signature šablony"
+    },
+    {
+      "type": "opening-hours",
+      "reason": "Otevírací doba na homepage — standard barbershopů"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ]
 }

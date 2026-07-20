@@ -1,18 +1,32 @@
 {
   "navbar": {
-    "siteName": "Demo Magic Smile",
+    "siteName": "Dentia",
     "ctaText": "Objednat se",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "ÚVOD",    "href": "/" },
-      { "label": "O NÁS",   "href": "#o-nas" },
-      { "label": "POBOČKY", "href": "#pobocky" },
-      { "label": "SLUŽBY",  "href": "#sluzby" },
-      { "label": "KONTAKT", "href": "#kontakt" }
+      {
+        "label": "ÚVOD",
+        "href": "/"
+      },
+      {
+        "label": "O NÁS",
+        "href": "#o-nas"
+      },
+      {
+        "label": "POBOČKY",
+        "href": "#pobocky"
+      },
+      {
+        "label": "SLUŽBY",
+        "href": "#sluzby"
+      },
+      {
+        "label": "KONTAKT",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
-    "heading": "Demo Dental Care – Profesionální péče o úsměv",
     "backgroundUrl": "/templates/dental-01/hero-bg.webp"
   },
   "services": {
@@ -52,8 +66,14 @@
     "ctaText": "Více o nás",
     "ctaHref": "#kontakt",
     "branches": [
-      { "name": "Ukázková 123", "city": "Praha 1" },
-      { "name": "Ukázková 456", "city": "Praha 9" }
+      {
+        "name": "Ukázková 123",
+        "city": "Praha 1"
+      },
+      {
+        "name": "Ukázková 456",
+        "city": "Praha 9"
+      }
     ]
   },
   "promo": {
@@ -85,10 +105,30 @@
     "igHref": "https://instagram.com/demo",
     "copyright": "© 2025 Dental CARE. Všechna práva vyhrazena.",
     "links": [
-      { "label": "O nás",   "href": "#o-nas" },
-      { "label": "Pobočky", "href": "#pobocky" },
-      { "label": "Služby",  "href": "#sluzby" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Pobočky",
+        "href": "#pobocky"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se k nám",
+      "subtitle": "Vyberte ošetření, lékaře a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

@@ -1,122 +1,99 @@
 {
   "navbar": {
-    "siteName": "Podlahové studio",
+    "siteName": "PARKETO",
     "logoUrl": "",
-    "phone": "+420 704 123 456",
-    "email": "info@demo.cz",
-    "searchPlaceholder": "Hledejte podlahy, lišty, lepidla...",
+    "phone": "+420 704 118 260",
+    "email": "studio@parketo.cz",
+    "searchPlaceholder": "Hledejte podlahy, lišty, lepidla…",
+    "supportLabel": "Poradna zdarma:",
+    "accountLabel": "Můj účet",
+    "cartLabel": "Košík",
     "links": [
-      { "label": "Podlahy",          "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Stavební chemie",  "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Lišty",            "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Koberce",          "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Terasy",           "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Laky a oleje",     "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "O nás",            "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Novinky",          "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Ceník",            "href": "/demo/floors-01-v2/sluzby"  },
-      { "label": "Kontakt",          "href": "/demo/floors-01-v2/kontakt" }
+      { "label": "Podlahy",          "href": "/sluzby"  },
+      { "label": "Stavební chemie",  "href": "/sluzby"  },
+      { "label": "Lišty",            "href": "/sluzby"  },
+      { "label": "Koberce",          "href": "/sluzby"  },
+      { "label": "Terasy",           "href": "/sluzby"  },
+      { "label": "Laky a oleje",     "href": "/sluzby"  },
+      { "label": "O nás",            "href": "/sluzby"  },
+      { "label": "Novinky",          "href": "/sluzby"  },
+      { "label": "Ceník",            "href": "/sluzby"  },
+      { "label": "Kontakt",          "href": "/kontakt" }
     ],
     "categories": []
   },
   "hero": {
     "slides": [
-      {
-        "image": "/assets/floors-01/5b72c21b05-juglans-50-lvre-3088-naturals.jpg",
-        "alt": "Vinylové podlahy kolekce 2026",
-        "text": "Nová sezóna, nové kolekce — vyberte si podlahu, která vás oslní",
-        "ctaText": "Prozkoumat",
-        "ctaHref": "/demo/floors-01-v2/sluzby"
-      },
-      {
-        "image": "/assets/floors-01/09a3ec64c7-aspecta.jpg",
-        "alt": "Designové podlahy pro moderní interiéry",
-        "text": "Designové podlahy pro moderní interiéry — trvanlivost i elegance v jednom",
-        "ctaText": "Zobrazit kolekci",
-        "ctaHref": "/demo/floors-01-v2/sluzby"
-      },
-      {
-        "image": "/assets/floors-01/536835ca4d-merit-slider-3.jpg",
-        "alt": "SPC podlahy s akustickou podložkou",
-        "text": "SPC podlahy s akustickou podložkou — krok po podlaze, který neslyšíte",
-        "ctaText": "Dostupné skladem",
-        "ctaHref": "/demo/floors-01-v2/sluzby"
-      },
-      {
-        "image": "/assets/floors-01/b8e2d14783-family.jpg",
-        "alt": "Masivní dřevěné podlahy",
-        "text": "Masivní dřevo — přírodní krása, která zraje a krásní s každým rokem",
-        "ctaText": "Zjistit více",
-        "ctaHref": "/demo/floors-01-v2/sluzby"
-      },
-      {
-        "image": "/assets/floors-01/3333b56836-stauf-chemie-pro-jistou-pokladku.jpg",
-        "alt": "Pokládková chemie a příslušenství",
-        "text": "Kompletní sortiment pokládkové chemie — vše na jedno místo",
-        "ctaText": "Nakoupit",
-        "ctaHref": "/demo/floors-01-v2/sluzby"
-      }
+      { "image": "/templates/floors-01/hero-1.webp", "alt": "Prémiové vinylové podlahy", "eyebrow": "Nová sezóna",       "text": "Vinylové dílce s prémiovým designem a dokonalou odolností",         "ctaText": "Vybrat kolekci",    "ctaHref": "/sluzby" },
+      { "image": "/templates/floors-01/hero-2.webp", "alt": "Designové podlahy",         "eyebrow": "Kolekce 2026",      "text": "Designové podlahy pro moderní interiéry — trvanlivost i elegance",  "ctaText": "Prohlédnout",       "ctaHref": "/sluzby" },
+      { "image": "/templates/floors-01/hero-3.webp", "alt": "SPC podlahy",               "eyebrow": "Skladem",           "text": "SPC podlahy s akustickou podložkou — pohodlí a pevnost v jednom",   "ctaText": "Zobrazit skladem",  "ctaHref": "/sluzby" },
+      { "image": "/templates/floors-01/hero-4.webp", "alt": "Dřevěné podlahy",           "eyebrow": "Masiv & třívrstvé", "text": "Evropský dub — přírodní krása, která zraje s každým rokem",         "ctaText": "Vybrat dřevo",      "ctaHref": "/sluzby" },
+      { "image": "/templates/floors-01/hero-5.webp", "alt": "Terasy a exteriér",         "eyebrow": "Exteriér",          "text": "Terasová prkna a dlažba — vaše zahrada s dokonalým povrchem",       "ctaText": "Terasy",            "ctaHref": "/sluzby" }
     ],
     "sidePosts": [
-      {
-        "image": "/assets/floors-01/1fcda1c948-skladweb-1000x500-383x292.jpg",
-        "alt": "Nový vzorkový sklad",
-        "label": "Prohlédněte si náš nový vzorkový sklad",
-        "href": "/demo/floors-01-v2/sluzby"
-      },
-      {
-        "image": "/assets/floors-01/19d29ba332-pxl-20260225-120606422-10-383x292.jpg",
-        "alt": "Průvodce výběrem podlahy",
-        "label": "Jak vybrat podlahu na 20 let — praktický průvodce",
-        "href": "/demo/floors-01-v2/sluzby"
-      }
+      { "image": "/templates/floors-01/side-1.webp", "alt": "Vzorkový showroom", "label": "Prohlédněte si náš nový vzorkový showroom",        "href": "/sluzby" },
+      { "image": "/templates/floors-01/side-2.webp", "alt": "Průvodce výběrem",  "label": "Jak vybrat podlahu na 20 let — praktický průvodce", "href": "/sluzby" }
     ]
   },
   "showrooms": {
+    "image": "/templates/floors-01/showroom.webp",
+    "eyebrow": "5 showroomů po celé ČR",
+    "title": "Osahejte si podlahy naživo",
+    "navLabel": "Navštivte nás",
+    "badgeNum": "800+",
+    "badgeText": "vzorků na jednom místě",
     "bullets": [
       "Zkušení poradci vám pomohou vybrat podlahu přesně na míru vašemu prostoru i rozpočtu.",
-      "Fyzicky si osahejte přes 800 vzorků podlah, koberců a teras — vše na jednom místě."
+      "Fyzicky si osaháte přes 800 vzorků podlah, koberců a teras — vše na jednom místě."
     ],
     "locations": [
-      { "label": "Praha – Západ",  "href": "/demo/floors-01-v2/kontakt" },
-      { "label": "Brno – Centrum", "href": "/demo/floors-01-v2/kontakt" },
-      { "label": "Olomouc",        "href": "/demo/floors-01-v2/kontakt" },
-      { "label": "České Budějovice", "href": "/demo/floors-01-v2/kontakt" },
-      { "label": "Liberec",        "href": "/demo/floors-01-v2/kontakt" }
+      { "label": "Praha – Západ",     "href": "/kontakt" },
+      { "label": "Brno – Centrum",    "href": "/kontakt" },
+      { "label": "Olomouc",           "href": "/kontakt" },
+      { "label": "České Budějovice",  "href": "/kontakt" },
+      { "label": "Liberec",           "href": "/kontakt" }
     ]
   },
   "inspiration": {
-    "title": "Inspirace pro váš domov",
-    "subtitle": "Prohlédněte si realizace z různých typů prostor a nechte se inspirovat.",
+    "eyebrow": "Inspirace pro váš domov",
+    "title": "Podívejte se, jak podlaha promění prostor",
+    "subtitle": "Realizace z různých typů interiérů — nechte se inspirovat a najděte ten svůj.",
+    "allLabel": "Zobrazit vše",
+    "allHref": "/sluzby",
     "images": [
-      { "url": "/assets/floors-01/7e4e2f83d5-dlc00116-2-420x236.jpg",                      "alt": "Obývací pokoj vinyl",      "caption": "Moderní obývák — vinyl s dekorem betonu",            "href": "/demo/floors-01-v2/sluzby" },
-      { "url": "/assets/floors-01/512ca860ef-db00114-2-420x236.jpg",                       "alt": "Ložnice světlé dřevo",     "caption": "Ložnice ve světlém dřevu — klidná atmosféra",        "href": "/demo/floors-01-v2/sluzby" },
-      { "url": "/assets/floors-01/baeb2867ad-lucienahp-420x236.jpg",                       "alt": "Kuchyň a jídelna",        "caption": "Kuchyň + jídelna — odolná podlaha bez kompromisů",   "href": "/demo/floors-01-v2/sluzby" },
-      { "url": "/assets/floors-01/4102f9bea6-loznice-na-web-420x236.jpg",                  "alt": "Pracovna home office",    "caption": "Home office — podlaha, která motivuje k práci",       "href": "/demo/floors-01-v2/sluzby" },
-      { "url": "/assets/floors-01/f22ce3a7e0-detsky-pokoj-foto-na-webtowebp-420x236.jpg", "alt": "Dětský pokoj měkká podlaha", "caption": "Dětský pokoj — měkký koberec plný barvy a hravosti", "href": "/demo/floors-01-v2/sluzby" }
+      { "url": "/templates/floors-01/ins-1.webp", "alt": "Obývací pokoj vinyl",       "caption": "Moderní obývák — vinyl s dekorem dřeva",             "href": "/sluzby" },
+      { "url": "/templates/floors-01/ins-2.webp", "alt": "Home office",               "caption": "Home office — podlaha, která motivuje",              "href": "/sluzby" },
+      { "url": "/templates/floors-01/ins-3.webp", "alt": "Ložnice světlé dřevo",      "caption": "Ložnice ve světlém dřevu",                           "href": "/sluzby" },
+      { "url": "/templates/floors-01/ins-4.webp", "alt": "Kuchyň a jídelna",          "caption": "Kuchyň + jídelna — odolná podlaha bez kompromisů",   "href": "/sluzby" },
+      { "url": "/templates/floors-01/ins-5.webp", "alt": "Relaxační koutek koberec",  "caption": "Klidná zóna s měkkým kobercem",                      "href": "/sluzby" }
     ]
   },
   "benefits": {
+    "eyebrow": "Proč PARKETO",
     "title": "S námi to máte jednoduché",
     "items": [
-      { "icon": "🏅", "title": "18 let praxe",      "text": "Přes 12 000 spokojených zákazníků a tisíce úspěšných realizací po celé ČR",       "href": "/demo/floors-01-v2/sluzby" },
-      { "icon": "🛠️", "title": "Montáž na klíč",   "text": "Zajistíme pokládku od přípravy podkladu až po finální lišty — vy jen vybíráte",   "href": "/demo/floors-01-v2/sluzby" },
-      { "icon": "📐", "title": "Měření zdarma",     "text": "Technik přijede zaměřit prostor a poradí s výběrem materiálu přímo u vás doma",   "href": "/demo/floors-01-v2/sluzby" },
-      { "icon": "🔄", "title": "Záruka 5 let",      "text": "Na všechny podlahy i provedenou montáž poskytujeme pětiletou záruku kvality",     "href": "/demo/floors-01-v2/sluzby" }
+      { "icon": "award",    "title": "18 let praxe",   "text": "Přes 12 000 spokojených zákazníků a tisíce úspěšných realizací po celé ČR.",   "href": "/sluzby" },
+      { "icon": "install",  "title": "Montáž na klíč", "text": "Zajistíme pokládku od přípravy podkladu až po finální lišty — vy jen vybíráte.", "href": "/sluzby" },
+      { "icon": "measure",  "title": "Měření zdarma",  "text": "Technik přijede zaměřit prostor a poradí s výběrem materiálu přímo u vás doma.", "href": "/sluzby" },
+      { "icon": "warranty", "title": "Záruka 5 let",   "text": "Na všechny podlahy i provedenou montáž poskytujeme pětiletou záruku kvality.",   "href": "/sluzby" }
     ]
   },
   "blog": {
+    "eyebrow": "Blog & rady",
     "title": "Ze světa podlah",
     "posts": [
-      { "image": "/assets/floors-01/d6342a9604-skladweb-1000x500.jpg",                     "tag": "Trend",    "title": "Velkoformátové dlaždice vs. vinyl: co vybrat do koupelny v roce 2026?",  "href": "/demo/floors-01-v2/sluzby" },
-      { "image": "/assets/floors-01/424925109e-pxl-20260225-120606422-10.jpg",             "tag": "Průvodce", "title": "Podlahové vytápění a vinylové podlahy — funguje to dohromady?",          "href": "/demo/floors-01-v2/sluzby" },
-      { "image": "/assets/floors-01/1811e63b85-coretec-tytan-odolnost-bez-kompromisu.jpg", "tag": "Novinka",  "title": "Herringbone je zpět: klasický vzor rybí kost v moderním provedení",      "href": "/demo/floors-01-v2/sluzby" }
+      { "image": "/templates/floors-01/blog-1.webp", "tag": "Trend",    "title": "Velkoformátové dlaždice vs. vinyl: co vybrat do koupelny v roce 2026?", "href": "/sluzby" },
+      { "image": "/templates/floors-01/blog-2.webp", "tag": "Průvodce", "title": "Podlahové vytápění a vinylové podlahy — funguje to dohromady?",         "href": "/sluzby" },
+      { "image": "/templates/floors-01/blog-3.webp", "tag": "Novinka",  "title": "Herringbone je zpět: klasický vzor rybí kost v moderním provedení",     "href": "/sluzby" }
     ],
     "moreLinkText": "Všechny články",
-    "moreLinkHref": "/demo/floors-01-v2/sluzby"
+    "moreLinkHref": "/sluzby",
+    "readLabel": "Číst více"
   },
   "faq": {
-    "title": "Časté dotazy",
+    "eyebrow": "Časté dotazy",
+    "title": "Na co se nejčastěji ptáte?",
+    "subtitle": "Nenašli jste odpověď? Zavolejte nám nebo se stavte v kterémkoli showroomu.",
     "items": [
       {
         "question": "Jak dlouho trvá pokládka podlahy v bytě 3+1?",
@@ -137,64 +114,68 @@
     ]
   },
   "footer": {
-    "newsletterTitle": "Nové kolekce, sezónní slevy a tipy pro váš domov. Odebírejte novinky zdarma.",
+    "siteName": "PARKETO",
+    "tagline": "Podlahové studio · pokládka na klíč",
+    "newsletterEyebrow": "Odebírejte novinky",
+    "newsletterTitle": "Nové kolekce, sezónní slevy a tipy pro váš domov — zdarma do schránky.",
     "newsletterPlaceholder": "Váš e-mail",
     "newsletterCta": "Přihlásit se",
+    "contactTitle": "Kontakt",
     "columns": [
       {
         "title": "Podlahy",
         "links": [
-          { "label": "Vinylové podlahy",    "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Laminátové podlahy",  "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Dřevěné podlahy",     "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Koberce",             "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Venkovní terasy",     "href": "/demo/floors-01-v2/sluzby" }
+          { "label": "Vinylové podlahy",    "href": "/sluzby" },
+          { "label": "Laminátové podlahy",  "href": "/sluzby" },
+          { "label": "Dřevěné podlahy",     "href": "/sluzby" },
+          { "label": "Koberce",             "href": "/sluzby" },
+          { "label": "Venkovní terasy",     "href": "/sluzby" }
         ]
       },
       {
         "title": "Montáž a služby",
         "links": [
-          { "label": "Pokládka podlah",     "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Měření zdarma",       "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Příprava podkladu",   "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Opravy a renovace",   "href": "/demo/floors-01-v2/sluzby" }
+          { "label": "Pokládka podlah",     "href": "/sluzby" },
+          { "label": "Měření zdarma",       "href": "/sluzby" },
+          { "label": "Příprava podkladu",   "href": "/sluzby" },
+          { "label": "Opravy a renovace",   "href": "/sluzby" }
         ]
       },
       {
         "title": "Showroomy",
         "links": [
-          { "label": "Praha – Západ",       "href": "/demo/floors-01-v2/kontakt" },
-          { "label": "Brno – Centrum",      "href": "/demo/floors-01-v2/kontakt" },
-          { "label": "Olomouc",             "href": "/demo/floors-01-v2/kontakt" },
-          { "label": "České Budějovice",    "href": "/demo/floors-01-v2/kontakt" },
-          { "label": "Liberec",             "href": "/demo/floors-01-v2/kontakt" }
+          { "label": "Praha – Západ",       "href": "/kontakt" },
+          { "label": "Brno – Centrum",      "href": "/kontakt" },
+          { "label": "Olomouc",             "href": "/kontakt" },
+          { "label": "České Budějovice",    "href": "/kontakt" },
+          { "label": "Liberec",             "href": "/kontakt" }
         ]
       },
       {
         "title": "Společnost",
         "links": [
-          { "label": "O nás",               "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Reference",           "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Kariéra",             "href": "/demo/floors-01-v2/sluzby" },
-          { "label": "Obchodní podmínky",   "href": "/demo/floors-01-v2/kontakt" },
-          { "label": "GDPR",                "href": "/demo/floors-01-v2/kontakt" }
+          { "label": "O nás",               "href": "/sluzby" },
+          { "label": "Reference",           "href": "/sluzby" },
+          { "label": "Kariéra",             "href": "/sluzby" },
+          { "label": "Obchodní podmínky",   "href": "/kontakt" },
+          { "label": "GDPR",                "href": "/kontakt" }
         ]
       }
     ],
     "contact": {
       "address": "Ukázková 123, 110 00 Praha 1",
-      "phone": "+420 704 123 456",
-      "email": "info@demo.cz"
+      "phone": "+420 704 118 260",
+      "email": "studio@parketo.cz"
     },
-    "copyright": "© 2026 Podlahové studio s.r.o. Všechna práva vyhrazena."
+    "copyright": "© 2026 PARKETO s.r.o. Všechna práva vyhrazena."
   },
   "pages": {
     "sluzby": {
-      "seoTitle": "Kolekce podlah a koberců | Podlahové studio",
+      "seoTitle": "Kolekce podlah a koberců | PARKETO",
       "seoDescription": "Vinylové, dřevěné, laminátové podlahy a koberce. Pokládka na klíč, měření zdarma, 5 showroomů po celé ČR."
     },
     "kontakt": {
-      "seoTitle": "Kontakt a showroomy | Podlahové studio",
+      "seoTitle": "Kontakt a showroomy | PARKETO",
       "seoDescription": "Navštivte nás v jednom z 5 showroomů. Praha, Brno, Olomouc, České Budějovice, Liberec. Poradíme s výběrem i montáží."
     }
   }

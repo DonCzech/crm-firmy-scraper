@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getGoPayPayment } from "@/lib/gopay";
 import { activateGoPaySubscription, initDb, query } from "@/lib/db";
+import { creditTopup } from "@/lib/ai-designer/credits";
+import { getCreditPack } from "@/lib/ai-designer/pricing";
 
 export const maxDuration = 60;
 
@@ -35,6 +37,30 @@ async function handle(req: NextRequest) {
     const row = rows[0];
 
     if (!row) return NextResponse.json({ received: true });
+
+    if (row.type === "ai_credits") {
+      await query(
+        `UPDATE gopay_payments
+         SET status = $1, raw_response = $2, updated_at = now()
+         WHERE order_number = $3`,
+        [gopayStatus(payment.state), JSON.stringify(payment), row.order_number]
+      );
+
+      if (payment.state === "PAID") {
+        // AIC-<pack>-<ts>-<rand> → kredity dle balíčku; připsání je idempotentní
+        const pack = getCreditPack(row.order_number.split("-")[1] ?? "");
+        if (pack) await creditTopup(row.tenant_id, row.order_number, pack.credits);
+      }
+
+      await query(
+        `INSERT INTO payment_attempts
+           (tenant_id, provider, action, gopay_id, order_number, status, raw_response)
+         VALUES ($1, 'gopay', 'webhook', $2, $3, $4, $5)`,
+        [row.tenant_id, id, row.order_number, gopayStatus(payment.state), JSON.stringify(payment)]
+      );
+
+      return NextResponse.json({ received: true });
+    }
 
     if (row.type === "recurring") {
       await query(

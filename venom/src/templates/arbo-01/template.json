@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "arbo-01",
-  "name": "Demo Lesarb",
+  "name": "Zelarbo",
   "industry": "arbo",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -43,7 +43,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -51,14 +53,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",       "variant": "arbo-01-navbar",       "contentRef": "navbar"       },
-        { "type": "hero",         "variant": "arbo-01-hero",         "contentRef": "hero"         },
-        { "type": "services",     "variant": "arbo-01-services",     "contentRef": "services"     },
-        { "type": "about",        "variant": "arbo-01-about",        "contentRef": "about"        },
-        { "type": "testimonials", "variant": "arbo-01-testimonials", "contentRef": "testimonials" },
-        { "type": "gallery",      "variant": "arbo-01-gallery",      "contentRef": "gallery"      },
-        { "type": "contact",      "variant": "arbo-01-contact",      "contentRef": "contact"      },
-        { "type": "footer",       "variant": "arbo-01-footer",       "contentRef": "footer"       }
+        {
+          "type": "navbar",
+          "variant": "arbo-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "arbo-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "arbo-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "arbo-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "testimonials",
+          "variant": "arbo-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "gallery",
+          "variant": "arbo-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "contact",
+          "variant": "arbo-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "arbo-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

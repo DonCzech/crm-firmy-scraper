@@ -103,7 +103,7 @@ function LocationsCafe04({ content, sectionId }: { content: Record<string, unkno
   };
   const eyebrow  = String(content.eyebrow ?? "Otevírací doba");
   const title    = String(content.title    ?? "Najdete nás na čtyřech místech.");
-  const tagline  = String(content.tagline  ?? "Každá pobočka má vlastní charakter — od klidných Vinohrad po rušný Karlín.");
+  const tagline  = String(content.tagline ?? content.subtitle ?? "Každá pobočka má vlastní charakter — od klidných Vinohrad po rušný Karlín.");
   const branches = (content.branches as Branch[]) ?? [];
 
   return (

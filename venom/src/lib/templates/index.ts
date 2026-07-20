@@ -1,4 +1,5 @@
 export { barberTemplate } from "./barber";
+export { blankTemplate } from "./blank";
 export { wellnessTemplate } from "./wellness";
 export { lawyerTemplate } from "./lawyer";
 export { asteraTemplate } from "./astera";
@@ -6,6 +7,7 @@ export { cafe01Template } from "./cafe-01";
 export type { TemplateDefinition, DesignTokens, SectionConfig } from "./types";
 
 import { barberTemplate } from "./barber";
+import { blankTemplate } from "./blank";
 import { wellnessTemplate } from "./wellness";
 import { lawyerTemplate } from "./lawyer";
 import { asteraTemplate } from "./astera";
@@ -13,6 +15,7 @@ import { cafe01Template } from "./cafe-01";
 import type { TemplateDefinition } from "./types";
 
 export const TEMPLATES: Record<string, TemplateDefinition> = {
+  "blank-01": blankTemplate,
   "barber-01": barberTemplate,
   barber: barberTemplate,
   wellness: wellnessTemplate,

@@ -1,5 +1,5 @@
 import pg from 'pg';
-const pool = new pg.Pool({ connectionString: 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require' });
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 const r = await pool.query(`SELECT id FROM tenants WHERE slug=$1`, ['praha-masaze-demo']);
 const tid = r.rows[0].id;

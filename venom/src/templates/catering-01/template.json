@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "catering-01",
-  "name": "Demo Catering Praha",
+  "name": "Nordic Catering",
   "industry": "catering",
   "skeleton": "gastro",
   "version": "0.1.0",
@@ -9,22 +9,59 @@
   "description": "Prémiová cateringová společnost — firemní a společenské akce. Tmavý teal #1c373a design, zlatý #baae8c akcent, krémové #fefff1 pozadí, Libre Baskerville serif heading. Hamburger navbar s centrovaným logem, hero s food sliderem, logo pás partnerů, 4 service karty, tým, timeline, galerie akcí, kontakt. Inspirováno perfectcatering.cz.",
   "sectionOrderNote": "Navbar → Hero → Partners → Services → Team → Timeline → Gallery → About → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Pricing",         "reason": "Cena cateringu je vždy na míru — není ceník na homepage" },
-    { "pos": 6,  "name": "Reservations/CTA","reason": "Originál nemá rezervační CTA blok — kontaktní formulář je v contact sekci" },
-    { "pos": 8,  "name": "Testimonials",    "reason": "Originál nemá dedikovanou sekci recenzí na homepage" },
-    { "pos": 9,  "name": "Events/Blog",      "reason": "Originál nemá sekci aktualit nebo blog na homepage" },
-    { "pos": 10, "name": "FAQ",             "reason": "FAQ není součástí homepage flow originálu" }
+    {
+      "pos": 4,
+      "name": "Pricing",
+      "reason": "Cena cateringu je vždy na míru — není ceník na homepage"
+    },
+    {
+      "pos": 6,
+      "name": "Reservations/CTA",
+      "reason": "Originál nemá rezervační CTA blok — kontaktní formulář je v contact sekci"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál nemá dedikovanou sekci recenzí na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Events/Blog",
+      "reason": "Originál nemá sekci aktualit nebo blog na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není součástí homepage flow originálu"
+    }
   ],
   "extraSections": [
-    { "type": "stats",    "reason": "Logo ribbon partnerů — marquee pás s klientskými logy/jmény (catering-01-partners)" },
-    { "type": "team",     "reason": "Tým — grid všech členů týmu s fotkami a rolemi (catering-01-team)" },
-    { "type": "stats",    "reason": "Timeline — milníky firmy od 2004 (catering-01-timeline)" },
-    { "type": "about",    "reason": "Outro — příběh firmy, zakladatelský příběh (catering-01-about)" },
-    { "type": "services", "reason": "4 service karty cateringu — Gastro skeleton nemá services v default pořadí; přidáno jako extra" }
+    {
+      "type": "stats",
+      "reason": "Logo ribbon partnerů — marquee pás s klientskými logy/jmény (catering-01-partners)"
+    },
+    {
+      "type": "team",
+      "reason": "Tým — grid všech členů týmu s fotkami a rolemi (catering-01-team)"
+    },
+    {
+      "type": "stats",
+      "reason": "Timeline — milníky firmy od 2004 (catering-01-timeline)"
+    },
+    {
+      "type": "about",
+      "reason": "Outro — příběh firmy, zakladatelský příběh (catering-01-about)"
+    },
+    {
+      "type": "services",
+      "reason": "4 service karty cateringu — Gastro skeleton nemá services v default pořadí; přidáno jako extra"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -32,16 +69,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",  "variant": "catering-01-navbar",    "contentRef": "navbar"   },
-        { "type": "hero",    "variant": "catering-01-hero",      "contentRef": "hero"     },
-        { "type": "stats",   "variant": "catering-01-partners",  "contentRef": "partners" },
-        { "type": "services","variant": "catering-01-services",  "contentRef": "services" },
-        { "type": "team",    "variant": "catering-01-team",      "contentRef": "team"     },
-        { "type": "stats",   "variant": "catering-01-timeline",  "contentRef": "timeline" },
-        { "type": "gallery", "variant": "gallery-universal",   "contentRef": "gallery"  },
-        { "type": "about",   "variant": "catering-01-about",     "contentRef": "about"    },
-        { "type": "contact", "variant": "catering-01-contact",   "contentRef": "contact"  },
-        { "type": "footer",  "variant": "catering-01-footer",    "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "catering-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "catering-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "catering-01-partners",
+          "contentRef": "partners"
+        },
+        {
+          "type": "services",
+          "variant": "catering-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "team",
+          "variant": "catering-01-team",
+          "contentRef": "team"
+        },
+        {
+          "type": "stats",
+          "variant": "catering-01-timeline",
+          "contentRef": "timeline"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "about",
+          "variant": "catering-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "contact",
+          "variant": "catering-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "catering-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -50,10 +127,26 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "catering-01-navbar",   "contentRef": "navbar"              },
-        { "type": "hero",     "variant": "hero-centered",        "contentRef": "pages.sluzby.hero"   },
-        { "type": "services", "variant": "catering-01-services", "contentRef": "pages.sluzby.services" },
-        { "type": "footer",   "variant": "catering-01-footer",   "contentRef": "footer"              }
+        {
+          "type": "navbar",
+          "variant": "catering-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "catering-01-services",
+          "contentRef": "pages.sluzby.services"
+        },
+        {
+          "type": "footer",
+          "variant": "catering-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -62,11 +155,31 @@
       "seoTitleKey": "pages.o-nas.seoTitle",
       "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "catering-01-navbar",  "contentRef": "navbar"            },
-        { "type": "hero",    "variant": "hero-centered",       "contentRef": "pages.o-nas.hero"  },
-        { "type": "about",   "variant": "catering-01-about",   "contentRef": "about"             },
-        { "type": "team",    "variant": "catering-01-team",    "contentRef": "team"              },
-        { "type": "footer",  "variant": "catering-01-footer",  "contentRef": "footer"            }
+        {
+          "type": "navbar",
+          "variant": "catering-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "catering-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "team",
+          "variant": "catering-01-team",
+          "contentRef": "team"
+        },
+        {
+          "type": "footer",
+          "variant": "catering-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -75,10 +188,26 @@
       "seoTitleKey": "pages.galerie.seoTitle",
       "seoDescriptionKey": "pages.galerie.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "catering-01-navbar",  "contentRef": "navbar"              },
-        { "type": "hero",    "variant": "hero-centered",       "contentRef": "pages.galerie.hero"  },
-        { "type": "gallery", "variant": "gallery-universal", "contentRef": "pages.galerie.gallery" },
-        { "type": "footer",  "variant": "catering-01-footer",  "contentRef": "footer"              }
+        {
+          "type": "navbar",
+          "variant": "catering-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.galerie.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "pages.galerie.gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "catering-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -87,9 +216,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "catering-01-navbar",  "contentRef": "navbar"  },
-        { "type": "contact", "variant": "catering-01-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "catering-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "catering-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "catering-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "catering-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

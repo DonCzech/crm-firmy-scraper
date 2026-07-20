@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#1fbfae",
+    "secondary":  "#16161d",
+    "accent":     "#e84393",
+    "background": "#ffffff",
+    "surface":    "#f4f5f7",
+    "text":       "#16161d",
+    "textMuted":  "#8b8f9c",
+    "border":     "#e8e9ed"
+  },
+  "typography": {
+    "fontHeading": "'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif",
+    "fontBody":    "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif"
+  }
+}

@@ -23,6 +23,7 @@ import { Eshop13Listing } from "@/components/storefront/Eshop13Listing";
 import { Eshop14Listing } from "@/components/storefront/Eshop14Listing";
 import { Eshop15Listing } from "@/components/storefront/Eshop15Listing";
 import { Eshop16Listing } from "@/components/storefront/Eshop16Listing";
+import { Eshop20Listing } from "@/components/storefront/Eshop20Listing";
 import { Eshop17Listing } from "@/components/storefront/Eshop17Listing";
 import { Eshop18Listing } from "@/components/storefront/Eshop18Listing";
 import { Eshop19Listing } from "@/components/storefront/Eshop19Listing";
@@ -139,7 +140,7 @@ async function StorefrontListingPage({ params, searchParams }: Props) {
 
   // eshop-08 (bonami): DO KOŠÍKU přímo z listingu potřebuje default variant id
   const defaultVariantIds = new Map<number, number>();
-  if ((chromeKey === "eshop-08" || chromeKey === "eshop-09" || chromeKey === "eshop-12" || chromeKey === "eshop-14" || chromeKey === "eshop-15" || chromeKey === "eshop-16" || chromeKey === "eshop-18" || chromeKey === "eshop-19") && items.length) {
+  if ((chromeKey === "eshop-08" || chromeKey === "eshop-09" || chromeKey === "eshop-12" || chromeKey === "eshop-14" || chromeKey === "eshop-15" || chromeKey === "eshop-16" || chromeKey === "eshop-18" || chromeKey === "eshop-19" || chromeKey === "eshop-20") && items.length) {
     const rows = await query<{ product_id: number; id: number }>(
       `SELECT DISTINCT ON (product_id) product_id, id FROM product_variants
        WHERE tenant_id = $1 AND product_id = ANY($2::int[])
@@ -181,7 +182,7 @@ async function StorefrontListingPage({ params, searchParams }: Props) {
       <main className="min-h-screen bg-white text-[#111]">
         {(() => {
           // eshop-09: doplňkové služby košíku (skrytá kategorie) nepatří do katalogu
-          const listItems = chromeKey === "eshop-09" ? items.filter((p) => !p.slug.startsWith("sluzba-")) : items;
+          const listItems = (chromeKey === "eshop-09" || chromeKey === "eshop-20") ? items.filter((p) => !p.slug.startsWith("sluzba-")) : items;
           const mappedItems = listItems.map((p) => {
             let flags: Record<string, boolean> = {};
             try { flags = JSON.parse(p.flags || "{}"); } catch { /* noop */ }
@@ -294,6 +295,44 @@ async function StorefrontListingPage({ params, searchParams }: Props) {
             return (
               <Eshop19Listing
                 items={es19Items}
+                categories={headerCategories.map((c) => ({ id: c.id, slug: c.slug, name: c.name, parent_id: c.parent_id, product_count: c.product_count, image_url: c.image_url }))}
+                activeCategory={kategorie ?? null}
+                categoryName={category?.name ?? (q ? `Hledání: ${q}` : "Celý sortiment")}
+                categoryDescription={category?.description ?? null}
+                basePath={basePath}
+                tenantSlug={tenantSlug}
+                currency={displayCurrency}
+                total={total}
+                page={page}
+                pages={pages}
+                perPage={perPage}
+              />
+            );
+          }
+
+          // eshop-20 (Vykuk, dedoles DNA): rovnou katalog bez mezistránky
+          if (chromeKey === "eshop-20") {
+            const es20Items = listItems.map((p) => {
+              let flags: Record<string, unknown> = {};
+              try { flags = JSON.parse(p.flags || "{}"); } catch { /* noop */ }
+              return {
+                id: p.id,
+                slug: p.slug,
+                title: p.title,
+                subtitle: p.subtitle,
+                brand: p.brand,
+                image_url: p.image_url,
+                price_min_cents: convertCents(p.price_min_cents, fx),
+                compare_at_max_cents: p.compare_at_max_cents == null ? null : convertCents(p.compare_at_max_cents, fx),
+                stock_total: p.stock_total,
+                default_variant_id: defaultVariantIds.get(p.id) ?? null,
+                is_new: !!flags.new,
+                is_summer: !!flags.summer,
+              };
+            });
+            return (
+              <Eshop20Listing
+                items={es20Items}
                 categories={headerCategories.map((c) => ({ id: c.id, slug: c.slug, name: c.name, parent_id: c.parent_id, product_count: c.product_count, image_url: c.image_url }))}
                 activeCategory={kategorie ?? null}
                 categoryName={category?.name ?? (q ? `Hledání: ${q}` : "Celý sortiment")}

@@ -1,55 +1,21 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { existsSync, readdirSync } from "fs";
-import path from "path";
 import { ArrowRight } from "lucide-react";
 import { PlatformHeader } from "@/components/PlatformHeader";
 import { PlatformFooter } from "@/components/PlatformFooter";
-import { query } from "@/lib/db";
 import type { PlatformLocale } from "@/lib/platform-i18n";
 import { platformPath } from "@/lib/platform-i18n";
-import { DesignGallery, type DesignTemplate } from "./DesignGallery";
+import { CATEGORIES, getDesignTemplates } from "@/lib/templates/design-catalog";
+import { DesignGallery } from "./DesignGallery";
 
 export const metadata: Metadata = {
   title: "Vybrat design — Webero",
   description:
-    "Kompletní katalog šablon. Začněte konceptem webu místo prázdné stránky — 99+ designů pro každý obor, plně editovatelné.",
+    "Kompletní katalog šablon. Začněte konceptem webu místo prázdné stránky — 100+ designů pro každý obor, plně editovatelné.",
 };
 
 export const dynamic = "force-dynamic";
 export const revalidate = 300;
-
-const INDUSTRY_LABEL: Record<string, string> = {
-  ananda: "Wellness", arbo: "Arboristika", arch: "Architekti",
-  autoservis: "Autoservis", autoskola: "Autoškoly", bakery: "Pekárny",
-  barber: "Barbershop", beauty: "Kosmetika", cafe: "Kavárny",
-  catering: "Catering", chalet: "Chalupy", clean: "Úklid",
-  clinic: "Kliniky", ddd: "DDD služby", dental: "Stomatologie",
-  dj: "DJ", edu: "Vzdělávání", elektro: "Elektrikáři",
-  events: "Eventy", fitness: "Fitness", floors: "Podlahy",
-  florist: "Květinářství", fyzio: "Fyzioterapie", garden: "Zahrady",
-  grooming: "Grooming", hair: "Holičství", hotel: "Hotely",
-  instala: "Instalatéři", kids: "Dětské služby", klempir: "Klempíři",
-  klima: "Klimatizace", lang: "Jazykové školy", lawyer: "Advokáti",
-  legal: "Právní služby", malir: "Malíři", massage: "Masáže",
-  nails: "Nehtové studio", ortho: "Ortodoncie", "peak-cut": "Barbershop",
-  pethotel: "Pet hotely", photo: "Fotografové", reality: "Reality",
-  restaurant: "Restaurace", solar: "Fotovoltaika", stavba: "Stavba",
-  sweet: "Cukrárny", tattoo: "Tetování", ucetni: "Účetnictví",
-  vet: "Veterináři", video: "Videoprodukce", lifestyle: "Lifestyle",
-};
-
-const CATEGORIES: { label: string; prefixes: string[] }[] = [
-  { label: "Vše",          prefixes: [] },
-  { label: "Krása & péče", prefixes: ["barber", "beauty", "nails", "hair", "tattoo", "massage", "grooming", "peak-cut"] },
-  { label: "Zdraví",       prefixes: ["clinic", "dental", "ortho", "vet", "fyzio", "fitness", "ananda"] },
-  { label: "Gastronomie",  prefixes: ["restaurant", "cafe", "bakery", "sweet", "catering"] },
-  { label: "Ubytování",    prefixes: ["hotel", "chalet"] },
-  { label: "Reality",      prefixes: ["reality"] },
-  { label: "Řemesla",      prefixes: ["stavba", "elektro", "instala", "malir", "klempir", "klima", "floors", "solar", "autoservis"] },
-  { label: "Služby",       prefixes: ["ucetni", "lawyer", "legal", "autoskola", "lang", "kids", "edu", "clean", "ddd", "arbo", "florist", "garden", "pethotel"] },
-  { label: "Kreativní",    prefixes: ["photo", "video", "dj", "events", "arch"] },
-];
 
 const COPY = {
   cs: {
@@ -76,68 +42,8 @@ const COPY = {
   },
 } as const;
 
-function findPreview(slug: string): string | null {
-  const dir = path.join(process.cwd(), "public", "templates", slug);
-  if (!existsSync(dir)) return null;
-  const candidates = [
-    `showcase/desktop-full.png`,
-    `showcase/desktop-hero.png`,
-    `preview.webp`,
-    `hero-bg.webp`,
-    `hero.webp`,
-    `hero-1.webp`,
-    `hero-art.webp`,
-    `hero-2.webp`,
-    `preview.png`,
-  ];
-  for (const c of candidates) {
-    if (existsSync(path.join(dir, c))) return `/templates/${slug}/${c}`;
-  }
-  return null;
-}
-
-function industryFromSlug(slug: string): string {
-  if (slug.startsWith("peak-cut")) return INDUSTRY_LABEL["peak-cut"];
-  const base = slug.split("-")[0];
-  return INDUSTRY_LABEL[base] || "Šablona";
-}
-
-function prettyName(slug: string): string {
-  return slug.replace(/(\w+)-(\d+)/, "$1 — $2").replace(/-/g, " ");
-}
-
-async function getTemplates(): Promise<DesignTemplate[]> {
-  const root = path.join(process.cwd(), "public", "templates");
-  if (!existsSync(root)) return [];
-  const slugs = readdirSync(root).filter((s) => !s.startsWith("."));
-
-  let dbMeta: Map<string, { name: string; industry: string; demoSlug: string | null }> = new Map();
-  try {
-    const rows = await query<{ key: string; name: string; industry: string; primary_demo_slug: string | null }>(
-      `SELECT key, name, industry, primary_demo_slug FROM templates WHERE status = 'active'`,
-    );
-    dbMeta = new Map(rows.map((r) => [r.key, { name: r.name, industry: r.industry, demoSlug: r.primary_demo_slug }]));
-  } catch {}
-
-  const items: DesignTemplate[] = [];
-  for (const slug of slugs) {
-    const preview = findPreview(slug);
-    if (!preview) continue;
-    const meta = dbMeta.get(slug);
-    items.push({
-      slug,
-      name: meta?.name || prettyName(slug),
-      industry: meta?.industry || industryFromSlug(slug),
-      preview,
-      demoSlug: meta?.demoSlug ?? null,
-    });
-  }
-  items.sort((a, b) => a.slug.localeCompare(b.slug));
-  return items;
-}
-
 export async function PickDesignPageContent({ locale = "cs" }: { locale?: PlatformLocale } = {}) {
-  const templates = await getTemplates();
+  const templates = await getDesignTemplates();
   const copy = COPY[locale];
 
   return (

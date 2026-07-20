@@ -1,0 +1,106 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "artist-01",
+  "name": "Viktorie Lánská",
+  "industry": "artist",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Osobní web zpěvačky / umělkyně — editorial luxe. Teplá ivory plocha, granátový akcent #9b1c31, Cormorant Garamond serif + Inter. Sekce: Hero portrét → Poslední album → Koncerty/Tour → Novinky → E-shop merch → Instagram galerie → Footer. Inspirováno strukturou osobních webů umělců (image-heavy, cinematic).",
+  "sectionOrderNote": "Navbar → Hero → Album → Tour → News → Eshop → Instagram → Footer",
+  "i18n": {
+    "default": "cs",
+    "supported": [
+      "cs"
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "artist-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "artist-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "artist-01-album",
+          "contentRef": "album"
+        },
+        {
+          "type": "services",
+          "variant": "artist-01-concerts",
+          "contentRef": "concerts"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "artist-01-news",
+          "contentRef": "news"
+        },
+        {
+          "type": "promo",
+          "variant": "artist-01-instagram",
+          "contentRef": "instagram"
+        },
+        {
+          "type": "footer",
+          "variant": "artist-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "About",
+      "reason": "Předloha nemá samostatný About blok na homepage"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je pokrytý services sekcí / individuální nacenění"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "Předloha galerii na homepage nemá"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Předloha tým neprezentuje"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Předloha reference na homepage nemá"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "CTA roli nese hero + kontakt sekce"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "Kontakt má vlastní podstránku"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Předloha FAQ nemá"
+    }
+  ]
+}

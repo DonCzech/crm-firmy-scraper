@@ -16,6 +16,7 @@ interface Props {
 }
 
 export function FaqSection({ content, variant, sectionId }: Props) {
+  if (variant === "eshop-02-faq")     return <FaqEshop02 content={content} sectionId={sectionId} />;
   if (variant === "stavba-01-faq")    return <FaqStavba01 content={content} sectionId={sectionId} />;
   if (variant === "ortho-01-faq")     return <FaqOrtho01 content={content} sectionId={sectionId} />;
   if (variant === "faq-fitness-01")   return <FaqFitness01 content={content} sectionId={sectionId} />;
@@ -24,9 +25,16 @@ export function FaqSection({ content, variant, sectionId }: Props) {
   if (variant === "instala-02-faq")   return <FaqInstala02 content={content} sectionId={sectionId} />;
   if (variant === "floors-01-faq")    return <FaqFloors01 content={content} sectionId={sectionId} />;
   if (variant === "malir-01-faq")     return <FaqMalir01  content={content} sectionId={sectionId} />;
-  if (variant === "ananda-01-faq")    return <FaqAnanda01 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-faq")    return <FaqHarmonie01 content={content} sectionId={sectionId} />;
   if (variant === "florist-01-faq")   return <FaqFlorist01 content={content} sectionId={sectionId} />;
 
+  return <FaqDefault content={content} variant={variant} sectionId={sectionId} />;
+}
+
+// Výchozí varianty (barber-dark + fallback). Vlastní komponenta, aby se hooks
+// nevolaly až za early returny dispatcheru — jinak změna varianty za běhu
+// mění počet hooks a React spadne.
+function FaqDefault({ content, variant, sectionId }: { content: Record<string, unknown>; variant?: string; sectionId: number }) {
   // Support both field name conventions: faq[]{question,answer} and items[]{q,a} (generator)
   const faq = (
     (content as { faq?: FaqItem[] }).faq ??
@@ -298,53 +306,90 @@ function FaqStavba01({ content, sectionId }: { content: Record<string, unknown>;
   const GRAY   = "#6b6b6b";
   const FONT   = "'Inter', sans-serif";
 
-  const tagline = String(content.tagline ?? "Časté dotazy");
-  const title   = String(content.title   ?? "Odpovědi na\nčasté otázky");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const subtitleRaw = content.subtitle;
+  const tagline  = taglineRaw  === undefined ? "Časté dotazy" : String(taglineRaw);
+  const title    = titleRaw    === undefined ? "Odpovědi na\nčasté otázky" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
   const items   = (content.items as FaqItem[]) ?? [];
 
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const sec = secRef.current;
+    if (!sec) return;
+    const els = Array.from(sec.querySelectorAll<HTMLElement>(".s01-faq-reveal"));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { (e.target as HTMLElement).classList.add("s01-faq-vis"); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id={String(content.id ?? "faq")} style={{ backgroundColor: "#f8f7f4", fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
+    <section ref={secRef} id={String(content.id ?? "faq")} style={{ backgroundColor: "#f8f7f4", fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
         <div className="stavba-faq-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
 
           {/* Left — sticky header */}
-          <div style={{ position: "sticky", top: 100 }}>
-            <p style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0, whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+          {showHeader && (
+          <div className="s01-faq-reveal" style={{ position: "sticky", top: 100 }}>
+            {tagline.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ display: "block", width: 30, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                  style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", margin: 0 }} />
+              </div>
+            )}
+            {title.trim() && (
+              <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0, whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p style={{ color: GRAY, fontSize: "0.95rem", lineHeight: 1.7, margin: "16px 0 0", maxWidth: 380 }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
           </div>
+          )}
 
           {/* Right — accordion */}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {items.map((item, i) => (
-              <div key={i} style={{ borderBottom: "1px solid #e0e0e0" }}>
+          <div className="s01-faq-reveal s01-faq-reveal-2" style={{ display: "flex", flexDirection: "column", gridColumn: showHeader ? "auto" : "1 / -1" }}>
+            {items.map((item, i) => {
+              const isOpen = open === i;
+              return (
+              <div key={i} className={`s01-faq-item${isOpen ? " is-open" : ""}`}>
                 <button
-                  onClick={() => setOpen(open === i ? null : i)}
+                  className="s01-faq-btn"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpen(isOpen ? null : i)}
                   style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "22px 0", background: "none", border: "none", cursor: "pointer", textAlign: "left", fontFamily: FONT }}
                 >
-                  <span style={{ color: DARK, fontSize: "0.95rem", fontWeight: 600, lineHeight: 1.4 }}>
+                  <span className="s01-faq-q" style={{ color: DARK, fontSize: "0.98rem", fontWeight: 600, lineHeight: 1.4 }}>
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" />
                   </span>
-                  <span style={{ flexShrink: 0, width: 26, height: 26, borderRadius: "50%", backgroundColor: open === i ? ORANGE : "#e8e8e8", display: "flex", alignItems: "center", justifyContent: "center", transition: "background-color 0.2s" }}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={open === i ? "#fff" : GRAY} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" style={{ transition: "transform 0.2s", transform: open === i ? "rotate(180deg)" : "rotate(0deg)" }}>
+                  <span style={{ flexShrink: 0, width: 28, height: 28, borderRadius: "50%", backgroundColor: isOpen ? ORANGE : "#e8e8e8", display: "flex", alignItems: "center", justifyContent: "center", transition: "background-color 0.25s" }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={isOpen ? "#fff" : GRAY} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" style={{ transition: "transform 0.28s cubic-bezier(.4,0,.2,1)", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
                       <path d="M6 9l6 6 6-6"/>
                     </svg>
                   </span>
                 </button>
-                {open === i && (
-                  <div style={{ paddingBottom: 22 }}>
-                    <p style={{ color: GRAY, fontSize: "0.9rem", lineHeight: 1.75, margin: 0 }}>
+                <div className="s01-faq-ans">
+                  <div className="s01-faq-ans-inner">
+                    <p style={{ color: GRAY, fontSize: "0.92rem", lineHeight: 1.75, margin: 0, paddingBottom: 22 }}>
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" />
                     </p>
                   </div>
-                )}
+                </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
@@ -362,39 +407,38 @@ function FaqGrooming01({ content, sectionId }: { content: Record<string, unknown
   const FONT = "'Hanken Grotesk', 'Inter', sans-serif";
 
   type FItem = { question?: string; answer?: string };
-  const heading = String(content.heading ?? "Časté dotazy");
-  const kicker  = String(content.kicker  ?? "FAQ");
+  const eyebrowRaw  = (content as Record<string, unknown>).kicker;
+  const titleRaw    = (content as Record<string, unknown>).heading;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const kicker   = eyebrowRaw  === undefined ? "FAQ" : String(eyebrowRaw);
+  const heading  = titleRaw    === undefined ? "Časté dotazy" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Nenašli jste odpověď? Napište nám — rádi poradíme s čímkoli okolo péče o vašeho mazlíčka." : String(subtitleRaw);
+  const showHeader = !!(kicker.trim() || heading.trim() || subtitle.trim());
   const items   = (content.items as FItem[]) ?? [];
 
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section id="faq" data-template="grooming-01-faq" style={{ background: "#f6f6f6", fontFamily: FONT }}>
-      <style>{`
-        .gr01fq-inner{max-width:860px;margin:0 auto;padding:clamp(64px,8vw,100px) clamp(20px,5vw,48px);}
-        .gr01fq-kicker{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${GOLD};margin:0 0 14px;text-align:center;}
-        .gr01fq-h2{font-size:clamp(28px,3.5vw,44px);font-weight:700;color:${DARK};margin:0 0 56px;text-align:center;line-height:1.15;}
-        .gr01fq-item{border-bottom:1px solid #e0e0e0;}
-        .gr01fq-item:first-of-type{border-top:1px solid #e0e0e0;}
-        .gr01fq-btn{width:100%;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0;text-align:left;}
-        .gr01fq-q{font-size:17px;font-weight:600;color:${DARK};line-height:1.4;flex:1;}
-        .gr01fq-icon{width:28px;height:28px;border-radius:50%;border:2px solid ${GOLD};display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.2s;}
-        .gr01fq-btn[aria-expanded="true"] .gr01fq-icon{background:${GOLD};}
-        .gr01fq-icon svg{transition:transform 0.3s;}
-        .gr01fq-btn[aria-expanded="true"] .gr01fq-icon svg{transform:rotate(45deg);}
-        .gr01fq-answer{overflow:hidden;transition:max-height 0.35s cubic-bezier(.4,0,.2,1),padding 0.35s;}
-        .gr01fq-answer p{font-size:15px;color:#555;line-height:1.7;padding-bottom:24px;margin:0;}
-      `}</style>
       <div className="gr01fq-inner">
-        <p className="gr01fq-kicker">
-          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-        </p>
-        <h2 className="gr01fq-h2">
-          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-        </h2>
+        {showHeader && (
+          <div className="gr01fq-head">
+            <p className="gr01fq-kicker">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="gr01fq-h2">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            {subtitle.trim() && (
+              <p className="gr01fq-sub">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
         <div>
           {items.map((item, i) => (
-            <div key={i} className="gr01fq-item">
+            <div key={i} className={`gr01fq-item${open === i ? " open" : ""}`}>
               <button
                 className="gr01fq-btn"
                 aria-expanded={open === i}
@@ -405,18 +449,17 @@ function FaqGrooming01({ content, sectionId }: { content: Record<string, unknown
                 </span>
                 <span className="gr01fq-icon" aria-hidden="true">
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <line x1="6" y1="0" x2="6" y2="12" stroke={open === i ? DARK : GOLD} strokeWidth="2" strokeLinecap="round"/>
-                    <line x1="0" y1="6" x2="12" y2="6" stroke={open === i ? DARK : GOLD} strokeWidth="2" strokeLinecap="round"/>
+                    <line x1="6" y1="0" x2="6" y2="12" className="gr01fq-icon-v" strokeWidth="2" strokeLinecap="round"/>
+                    <line x1="0" y1="6" x2="12" y2="6" strokeWidth="2" strokeLinecap="round"/>
                   </svg>
                 </span>
               </button>
-              <div
-                className="gr01fq-answer"
-                style={{ maxHeight: open === i ? "400px" : "0px" }}
-              >
-                <p>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer ?? ""} tag="span" />
-                </p>
+              <div className="gr01fq-answer" style={{ gridTemplateRows: open === i ? "1fr" : "0fr" }}>
+                <div className="gr01fq-answer-inner">
+                  <p>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer ?? ""} tag="span" />
+                  </p>
+                </div>
               </div>
             </div>
           ))}
@@ -647,69 +690,38 @@ function FaqInstala02({ content, sectionId }: { content: Record<string, unknown>
   const c = content as Record<string, unknown>;
   const [open, setOpen] = useState<number | null>(null);
 
-  const RED    = "#ee4036";
-  const DARK   = "#111111";
   const WHITE  = "#ffffff";
-  const FONT_H = "'Montserrat', sans-serif";
-  const FONT_B = "'Roboto', sans-serif";
 
-  const kicker   = String(c.kicker   ?? "Časté dotazy");
-  const title    = String(c.title    ?? "Odpovědi na vaše otázky");
-  const subtitle = String(c.subtitle ?? "Nenašli jste odpověď? Zavolejte nám.");
+  const kickerRaw = c.kicker as string | undefined;
+  const titleRaw  = c.title  as string | undefined;
+  const bodyRaw   = c.subtitle as string | undefined;
+  const hasText = (v: unknown) => typeof v === "string" && v.trim() !== "";
+  const showHeader = hasText(kickerRaw) || hasText(titleRaw) || hasText(bodyRaw);
+
+  const kicker   = String(kickerRaw ?? "Časté dotazy");
+  const title    = String(titleRaw  ?? "Máte otázky? Máme odpovědi.");
+  const subtitle = String(bodyRaw   ?? "Pokud tu svoji nenajdete, zavolejte — rádi poradíme.");
   const items    = (c.items as Array<{ question: string; answer: string }>) ?? [];
 
   return (
     <section
       data-template="instala-02-faq"
-      style={{ backgroundColor: WHITE, fontFamily: FONT_B, padding: "96px 0" }}
+      style={{ backgroundColor: WHITE, fontFamily: "'Roboto', sans-serif", padding: "96px 0" }}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
-      <style>{`        .i2faq-outer   { max-width: 880px; margin: 0 auto; padding: 0 48px; }
-        .i2faq-header  { text-align: center; margin-bottom: 52px; }
-        .i2faq-kicker  { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${RED}; margin: 0 0 14px; display: flex; align-items: center; justify-content: center; gap: 12px; }
-        .i2faq-kicker::before, .i2faq-kicker::after { content: ''; display: inline-block; width: 32px; height: 2px; background: ${RED}; }
-        .i2faq-h2      { font-family: ${FONT_H}; font-size: clamp(26px, 3vw, 40px); font-weight: 800; color: ${DARK}; margin: 0 0 12px; line-height: 1.15; }
-        .i2faq-sub     { font-size: 15px; color: #888; margin: 0; }
-
-        .i2faq-list    { display: flex; flex-direction: column; gap: 0; border: 1.5px solid #e8e8e8; border-radius: 14px; overflow: hidden; }
-        .i2faq-item    { border-bottom: 1px solid #e8e8e8; }
-        .i2faq-item:last-child { border-bottom: none; }
-
-        .i2faq-btn     { width: 100%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 28px; text-align: left; transition: background .15s; }
-        .i2faq-btn:hover { background: #fafafa; }
-        .i2faq-btn.active { background: #fff8f7; }
-
-        .i2faq-q       { font-family: ${FONT_H}; font-size: 15px; font-weight: 700; color: ${DARK}; line-height: 1.4; }
-        .i2faq-btn.active .i2faq-q { color: ${RED}; }
-
-        .i2faq-icon    { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #ddd; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s, border-color .2s, transform .3s; }
-        .i2faq-btn.active .i2faq-icon { background: ${RED}; border-color: ${RED}; transform: rotate(45deg); }
-
-        .i2faq-body    { max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; }
-        .i2faq-body.open { max-height: 400px; }
-        .i2faq-a       { padding: 0 28px 22px; font-size: 15px; color: #555; line-height: 1.72; margin: 0; }
-
-        @media (max-width: 640px) {
-          .i2faq-outer { padding: 0 16px !important; }
-          .i2faq-btn   { padding: 18px 20px !important; }
-          .i2faq-a     { padding: 0 20px 18px !important; }
-        }
-      `}</style>
-
       <div className="i2faq-outer">
-        <div className="i2faq-header">
-          <p className="i2faq-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="i2faq-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p className="i2faq-sub">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        </div>
+        {showHeader && (
+          <div className="i2faq-header">
+            <p className="i2faq-kicker">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="i2faq-h2">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p className="i2faq-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
 
         <div className="i2faq-list">
           {items.map((item, i) => (
@@ -743,151 +755,195 @@ function FaqInstala02({ content, sectionId }: { content: Record<string, unknown>
 
 // ── floors-01-faq ─────────────────────────────────────────────────────────────
 function FaqFloors01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
+  const FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
 
-  const GREEN  = "#007d47";
-  const DARK   = "#212529";
-  const BORDER = "#dee2e6";
-  const FONT   = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Časté dotazy" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Na co se nejčastěji ptáte?" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Nenašli jste odpověď? Zavolejte nám nebo se stavte v kterémkoli showroomu." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
-  const title = String(content.title ?? "Na co se nejčastěji ptáte?");
   type Item = { question: string; answer: string };
   const items = (content.items as Item[]) ?? [
-    { question: "Jak vybrat správnou podlahu?",           answer: "Naprostým základem při výběru podlahoviny jsou vaše preference a způsob života. Neexistuje jedna univerzální podlaha — záleží na tom, zda preferujete snadnou údržbu, maximální komfort nebo specifický vzhled. Po technické stránce Vám rádi poradíme v kterémkoli showroomu." },
-    { question: "Je vhodné podlahové vytápění?",          answer: "Záleží na materiálu. Podlahové vytápění bylo primárně vyvinuto pro dlažby. Pro dřevo či vinyl může být problematické — časté změny teplot poškozují materiál. V každém případě vám rádi poradíme, která podlaha je s podlahovým vytápěním kompatibilní." },
-    { question: "Jaké jsou vlastnosti vinylových podlah?", answer: "Vinylové podlahy jsou oblíbené díky své pevnosti, voděodolnosti a věrohodné imitaci dřeva či kamene. Jejich nevýhodou je tepelná roztažnost — nejsou vhodné pro prostory vystavené extrémním teplotám (nad 26 °C nebo pod 15 °C)." },
+    { question: "Jak dlouho trvá pokládka podlahy v bytě 3+1?", answer: "Standardní byt o rozloze 70–80 m² zvládneme pokládat za 1–2 pracovní dny. Záleží na typu podlahy, stavu podkladu a potřebě nivelace. Po dohodě vám vytvoříme přesný harmonogram prací tak, aby byl zásah do vašeho života co nejkratší." },
+    { question: "Musím podlahu před pokládkou přebrousit nebo vyrovnat?", answer: "Záleží na stavu stávajícího podkladu. Naši technici provedou bezplatnou prohlídku a změří rovnost podlahy. Pokud je třeba nivelace, připravíme podklad profesionální samonivelační hmotou — vše je součástí nabídky na klíč." },
+    { question: "Jaký je rozdíl mezi vinylovou podlahou a laminátovou?", answer: "Vinyl je 100% vodoodolný a vhodný do koupelny, kuchyně nebo podkroví. Laminát je přírodního původu (dřevo), lépe se opravuje a má příjemnější teplotu pod nohama, ale nesnáší dlouhodobou vlhkost. Oba typy mají srovnatelnou životnost 15–25 let při správné péči." },
+    { question: "Dodáváte podlahy i mimo Prahu?", answer: "Ano, dodáváme po celé České republice. Máme 5 showroomů od Prahy po Liberec. Montáž zajišťujeme do okruhu 100 km od každého showroomu, vzdálenější lokality řešíme individuálně — stačí nás kontaktovat." },
   ];
 
   return (
-    <>
-      <style>{`
-        @media (max-width: 600px) {
-          .f01faq-section { padding: 40px 16px !important; }
-          .f01faq-answer { padding-right: 8px !important; }
-        }
-      `}</style>
-      <section className="f01faq-section" style={{ padding: "72px 20px", background: "#fff", fontFamily: FONT }}>
-        <div style={{ maxWidth: 820, margin: "0 auto" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
-            style={{ fontSize: 28, fontWeight: 800, color: DARK, textAlign: "center", margin: "0 0 48px", letterSpacing: "-0.01em" }}>
-            {title}
-          </GenericEditableText>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
+      <div className="f01faq-section">
+        <div className="f01faq-wrap">
+          {showHeader && (
+            <div className="f01faq-head">
+              {eyebrow.trim() && (
+                <span className="f01faq-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+              )}
+              {title.trim() && <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="f01faq-title" />}
+              {subtitle.trim() && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="f01faq-sub" />}
+            </div>
+          )}
+          <div className="f01faq-list">
             {items.map((item, i) => {
               const isOpen = open === i;
               return (
-                <div key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
-                  <button
-                    onClick={() => setOpen(isOpen ? null : i)}
-                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 0", background: "none", border: "none", cursor: "pointer", textAlign: "left", gap: 16, fontFamily: FONT }}
-                  >
-                    <span style={{ fontSize: 16, fontWeight: 700, color: isOpen ? GREEN : DARK, lineHeight: 1.4, flex: 1 }}>
+                <div key={i} className={`f01faq-item${isOpen ? " is-open" : ""}`}>
+                  <button className="f01faq-q" onClick={() => setOpen(isOpen ? null : i)} aria-expanded={isOpen}>
+                    <span className="f01faq-qtext">
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span">{item.question}</GenericEditableText>
                     </span>
-                    <span style={{ width: 28, height: 28, borderRadius: "50%", flexShrink: 0, background: isOpen ? GREEN : "transparent", border: `2px solid ${isOpen ? GREEN : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s, border-color 0.2s" }}>
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.25s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
-                        <path d="M2 4l4 4 4-4" stroke={isOpen ? "#fff" : DARK} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                    <span className="f01faq-icon" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke={isOpen ? "#fff" : "#007d47"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
                     </span>
                   </button>
-                  <div style={{ overflow: "hidden", maxHeight: isOpen ? 400 : 0, transition: "max-height 0.3s ease" }}>
-                    <p className="f01faq-answer" style={{ fontSize: 15, color: "#495057", lineHeight: 1.7, margin: "0 0 20px", paddingRight: 44 }}>
+                  <div className="f01faq-a" style={{ maxHeight: isOpen ? 600 : 0 }}>
+                    <div className="f01faq-a-inner">
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span">{item.answer}</GenericEditableText>
-                    </p>
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
 // ── malir-01-faq ──────────────────────────────────────────────────────────────
-// 1:1 petrovomalovani.cz FAQ:
-// - Světle šedé pozadí #f5f5f5, padding 80px 30px
-// - Centrovaný blok max-width 770px
-// - Amber tagline + Playfair H2, subtitle
-// - Accordion: bílé karty, Raleway 900 otázka, amber chevron rotuje
-// - Odpověď: 16px, šedá, text-align left, slide down
+// VYLEPŠENO (luxe malíř):
+// - Bílé bg, max-width 780px, accordion s amber numbered badges
+// - Hover: amber left border + subtle lift, active amber bg accent
+// - Amber chevron rotace, dashed amber separator
+// - Conditional header, staggered reveal
 // ─────────────────────────────────────────────────────────────────────────────
 function FaqMalir01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const [open, setOpen] = useState<number | null>(null);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   const AMBER    = "#E79B0E";
   const DARK     = "#1a1a1a";
   const MUTED    = "#555555";
-  const PLAYFAIR = "'Playfair Display', 'Times New Roman', serif";
-  const RALEWAY  = "'Raleway', sans-serif";
+  const SURFACE  = "#f8f7f5";
+  const FONT_H   = "'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Raleway', sans-serif";
 
-  const tagline  = String(content.tagline  ?? "Otázky a odpovědi");
-  const title    = String(content.title    ?? "Časté dotazy");
-  const subtitle = String(content.subtitle ?? "Podívejte se, jaké jsou nejčastější dotazy.");
+  const eyebrow  = String(content.eyebrow ?? content.tagline ?? "Časté dotazy");
+  const title    = String(content.title ?? "Odpovědi na vaše otázky");
+  const subtitle = String(content.subtitle ?? "Nenašli jste odpověď? Zavolejte nám a rádi vám poradíme.");
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
   type FaqEntry = { question: string; answer: string };
+  const defaultItems: FaqEntry[] = [
+    { question: "Jak rychle se dostanu na řadu?", answer: "Standardní čekací lhůta je 2–3 týdny. U menších zakázek (1–2 místnosti) jsme schopni nastoupit i dříve. Přesný termín domluvíme při nezávazné prohlídce." },
+    { question: "Musím si sehnat barvy sám?", answer: "Ne, materiál je součástí zakázky. Používáme barvy Primalex Polar a Dulux — zajistíme i přesný odstín dle vzorníku. Pokud preferujete jinou značku, rádi vyhovíme." },
+    { question: "Jak probíhá příprava bytu?", answer: "Stačí sundat obrazy a záclony. Veškeré zakrývání nábytku, podlah a zárubní zajistíme. Po dokončení vše odkryjeme a odneseme odpad." },
+    { question: "Jak se stanoví cena?", answer: "Cenu určujeme po osobní prohlídce nebo na základě fotografií a rozměrů. Orientační cena malování bytu 50 m² začíná od 9 000 Kč včetně materiálu. Finální cena závisí na stavu zdí a zvoleném odstínu." },
+    { question: "Provádíte i stěrkování stěn?", answer: "Ano, jemné stěrkování je naše specialita. Stěnu napenetrujeme, naneseme dvě vrstvy stěrky a vybrousíme do hladka — ideální pro moderní interiéry bez jediné nerovnosti." },
+  ];
   const items: FaqEntry[] = Array.isArray(content.items) && (content.items as unknown[]).length
     ? (content.items as FaqEntry[])
-    : [];
+    : defaultItems;
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600;900&display=swap" />
-      <style>{`        .m01f-section { background: #f5f5f5; padding: 80px 30px; font-family: ${RALEWAY}; }
-        .m01f-inner { max-width: 770px; margin: 0 auto; }
-        .m01f-header { text-align: center; margin-bottom: 48px; }
-        .m01f-tagline { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: ${AMBER}; margin-bottom: 12px; }
-        .m01f-title { font-family: ${PLAYFAIR}; font-size: 36px; font-weight: 800; color: ${DARK}; margin: 0 0 12px; }
-        .m01f-subtitle { font-size: 15px; color: ${MUTED}; margin: 0; line-height: 1.6; }
-        .m01f-item { background: #fff; border-radius: 4px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
-        .m01f-question { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; cursor: pointer; text-align: left; background: none; border: none; width: 100%; font-family: ${RALEWAY}; font-size: 16px; font-weight: 900; color: ${DARK}; line-height: 1.4; }
-        .m01f-chevron { flex-shrink: 0; transition: transform 0.3s ease; color: ${AMBER}; }
-        .m01f-chevron.open { transform: rotate(180deg); }
-        .m01f-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
-        .m01f-answer.open { max-height: 600px; }
-        .m01f-answer-inner { padding: 0 24px 20px; font-size: 15px; line-height: 1.8; color: ${MUTED}; text-align: left; border-top: 2px dashed rgba(158,113,97,0.25); padding-top: 16px; }
-        @media (max-width: 600px) { .m01f-section { padding: 60px 16px; } .m01f-title { font-size: 28px; } }
-      `}</style>
-
-      <section id="faq" className="m01f-section" data-template="malir-01">
-        <div className="m01f-inner">
-          <div className="m01f-header">
-            <p className="m01f-tagline">
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">{tagline}</GenericEditableText>
-            </p>
-            <h2 className="m01f-title">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">{title}</GenericEditableText>
-            </h2>
-            <p className="m01f-subtitle">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
-            </p>
+    <section id="faq" data-template="malir-01" style={{
+      background: "#ffffff", padding: "clamp(60px, 10vw, 110px) 0", fontFamily: FONT_B,
+    }}>
+      <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 24px" }}>
+        {/* Header */}
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 52px)" }}>
+            <div className="m01f-reveal" style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 14 }}>
+              <span style={{ width: 32, height: 1, background: AMBER }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                fontFamily: FONT_B, fontWeight: 600, fontSize: 12, color: AMBER,
+                letterSpacing: "0.14em", textTransform: "uppercase" as const,
+              }} />
+              <span style={{ width: 32, height: 1, background: AMBER }} />
+            </div>
+            <div className="m01f-reveal" style={{ animationDelay: "0.1s" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+                fontFamily: FONT_H, fontWeight: 800,
+                fontSize: "clamp(26px, 3.5vw, 40px)", lineHeight: 1.2,
+                color: DARK, margin: "0 0 12px",
+              }} />
+            </div>
+            {subtitle.trim() && (
+              <div className="m01f-reveal" style={{ animationDelay: "0.15s" }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{
+                  fontFamily: FONT_B, fontSize: 15, color: MUTED, margin: 0, lineHeight: 1.6,
+                }} />
+              </div>
+            )}
           </div>
+        )}
 
-          {items.map((item, i) => (
-            <div key={i} className="m01f-item">
-              <button className="m01f-question" onClick={() => setOpen(open === i ? null : i)}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span">{item.question}</GenericEditableText>
-                <svg className={`m01f-chevron${open === i ? " open" : ""}`} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </button>
-              <div className={`m01f-answer${open === i ? " open" : ""}`}>
-                <div className="m01f-answer-inner">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span">{item.answer}</GenericEditableText>
+        {/* Accordion */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {items.map((item, i) => {
+            const isOpen = openIdx === i;
+            return (
+              <div key={i} className={`m01f-item m01f-reveal${isOpen ? " m01f-active" : ""}`} style={{
+                animationDelay: `${0.1 + i * 0.06}s`,
+                background: isOpen ? `${AMBER}08` : SURFACE,
+                borderRadius: 6, overflow: "hidden",
+                border: `1px solid ${isOpen ? `${AMBER}30` : "rgba(0,0,0,0.04)"}`,
+                transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+              }}>
+                <button onClick={() => setOpenIdx(isOpen ? null : i)} style={{
+                  display: "flex", alignItems: "center", gap: 16,
+                  padding: "20px 24px", cursor: "pointer",
+                  textAlign: "left", background: "none", border: "none", width: "100%",
+                }}>
+                  {/* Number badge */}
+                  <span style={{
+                    width: 32, height: 32, borderRadius: "50%", flexShrink: 0,
+                    background: isOpen ? AMBER : `${AMBER}18`,
+                    color: isOpen ? "#ffffff" : AMBER,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: FONT_H, fontWeight: 700, fontSize: 14,
+                    transition: "all 0.3s",
+                  }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" style={{
+                    fontFamily: FONT_B, fontSize: 16, fontWeight: 700,
+                    color: DARK, lineHeight: 1.4, flex: 1,
+                  }} />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{
+                    flexShrink: 0, transition: "transform 0.35s cubic-bezier(.4,0,.2,1)",
+                    transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}>
+                    <polyline points="6 9 12 15 18 9" />
+                  </svg>
+                </button>
+                <div style={{
+                  maxHeight: isOpen ? 600 : 0, overflow: "hidden",
+                  transition: "max-height 0.45s cubic-bezier(.4,0,.2,1)",
+                }}>
+                  <div style={{
+                    padding: "0 24px 22px 72px",
+                    fontSize: 15, lineHeight: 1.8, color: MUTED,
+                    borderTop: `1px dashed ${AMBER}30`,
+                    paddingTop: 16, marginLeft: 0, marginRight: 0,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
-function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function FaqHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD   = "#AA813A";
   const CREAM  = "#F2EDE4";
   const BORDER = "#e2d8cc";
@@ -909,7 +965,7 @@ function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>;
         .an01faq-a { overflow: hidden; max-height: 0; transition: max-height .32s ease, padding .28s ease; font-family: 'Jost', sans-serif; font-size: 15px; line-height: 1.7; color: #64748b; }
         .an01faq-a.open { max-height: 400px; padding-bottom: 20px; }
       `}</style>
-      <section className="an01faq" data-template="ananda-01-faq">
+      <section className="an01faq" data-template="harmonie-01-faq">
         <div className="an01faq-inner">
           <h2 className="an01faq-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
@@ -1095,6 +1151,111 @@ function FaqFlorist01({ content, sectionId }: { content: Record<string, unknown>
                 </div>
               );
             })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — Shoptet Classic DNA
+ * FAQ: vlevo nadpis + kontaktní karta, vpravo akordeon
+ * s modrými plus/minus terčíky.
+ * ============================================================ */
+
+function FaqEshop02({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const BLUE = "#1266cc";
+  const DARK = "#142b45";
+  const MUTED = "#64748b";
+  const BORDER = "#e3e9f0";
+  const SURFACE = "#f5f8fb";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const eyebrow = content.eyebrow === undefined ? "Časté dotazy" : String(content.eyebrow);
+  const heading = content.heading === undefined ? "Vše, co potřebujete vědět" : String(content.heading);
+  const text = content.text === undefined ? "" : String(content.text);
+  const contactTitle = content.contactTitle === undefined ? "Nenašli jste odpověď?" : String(content.contactTitle);
+  const contactPhone = content.contactPhone === undefined ? "+420 777 123 456" : String(content.contactPhone);
+  const contactEmail = content.contactEmail === undefined ? "info@modrykosik.cz" : String(content.contactEmail);
+  const contactNote = content.contactNote === undefined ? "Po–Ne 8:00–20:00" : String(content.contactNote);
+  const items = Array.isArray(content.items) ? (content.items as Array<Record<string, unknown>>) : [];
+
+  const [open, setOpen] = useState<number>(0);
+
+  return (
+    <section className="wc2f" data-variant="eshop-02-faq" id={typeof content.anchorId === "string" ? content.anchorId : "faq"}>
+      <style>{`
+        .wc2f { background: #fff; color: ${DARK}; font-family: ${SANS}; }
+        .wc2f-inner { max-width: 1280px; margin: 0 auto; padding: clamp(48px,6vw,84px) 24px; }
+        .wc2f-grid { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(32px,5vw,72px); align-items: start; }
+        @media (max-width: 900px) { .wc2f-grid { grid-template-columns: 1fr; } }
+        .wc2f-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: ${BLUE}; margin: 0 0 8px; }
+        .wc2f-title { font-size: clamp(24px,3vw,36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; margin: 0 0 14px; color: ${DARK}; }
+        .wc2f-text { font-size: 15px; line-height: 1.7; color: ${MUTED}; margin: 0 0 26px; max-width: 420px; }
+        .wc2f-contact { background: ${SURFACE}; border: 1px solid ${BORDER}; border-radius: 14px; padding: 22px; max-width: 420px; }
+        .wc2f-contact-title { font-size: 16px; font-weight: 700; color: ${DARK}; margin: 0 0 14px; }
+        .wc2f-contact-row { display: flex; align-items: center; gap: 11px; text-decoration: none; color: ${DARK}; font-size: 14.5px; font-weight: 700; padding: 6px 0; }
+        .wc2f-contact-row:hover { color: ${BLUE}; }
+        .wc2f-contact-ico { flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: ${BLUE}; color: #fff; display: grid; place-items: center; }
+        .wc2f-contact-note { display: block; font-size: 12.5px; font-weight: 400; color: ${MUTED}; margin-top: 10px; }
+        .wc2f-list { display: flex; flex-direction: column; gap: 10px; }
+        .wc2f-item { background: #fff; border: 1px solid ${BORDER}; border-radius: 12px; overflow: hidden; transition: border-color .2s, box-shadow .25s; }
+        .wc2f-item[data-open="true"] { border-color: ${BLUE}; box-shadow: 0 8px 24px rgba(18,102,204,0.08); }
+        .wc2f-q { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; background: none; border: 0; cursor: pointer; text-align: left; padding: 17px 20px; font-family: inherit; font-size: 15.5px; font-weight: 700; color: ${DARK}; }
+        .wc2f-q:hover { color: ${BLUE}; }
+        .wc2f-toggle { flex-shrink: 0; width: 28px; height: 28px; border-radius: 999px; background: ${SURFACE}; color: ${BLUE}; display: grid; place-items: center; transition: background .2s, color .2s, transform .3s; }
+        .wc2f-item[data-open="true"] .wc2f-toggle { background: ${BLUE}; color: #fff; transform: rotate(45deg); }
+        .wc2f-a { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+        .wc2f-item[data-open="true"] .wc2f-a { max-height: 400px; }
+        .wc2f-a-inner { padding: 0 20px 18px; font-size: 14.5px; line-height: 1.7; color: ${MUTED}; }
+      `}</style>
+      <div className="wc2f-inner">
+        <div className="wc2f-grid">
+          <div>
+            {eyebrow.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p" className="wc2f-eyebrow" />
+            )}
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" className="wc2f-title" />
+            {text.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="text" value={text} tag="p" className="wc2f-text" />
+            )}
+            <div className="wc2f-contact">
+              <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="p" className="wc2f-contact-title" />
+              <a className="wc2f-contact-row" href={`tel:${contactPhone.replace(/\s/g, "")}`}>
+                <span className="wc2f-contact-ico" aria-hidden>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </span>
+                <GenericEditableText sectionId={sectionId} field="contactPhone" value={contactPhone} tag="span" />
+              </a>
+              <a className="wc2f-contact-row" href={`mailto:${contactEmail}`}>
+                <span className="wc2f-contact-ico" aria-hidden>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                </span>
+                <GenericEditableText sectionId={sectionId} field="contactEmail" value={contactEmail} tag="span" />
+              </a>
+              <GenericEditableText sectionId={sectionId} field="contactNote" value={contactNote} tag="span" className="wc2f-contact-note" />
+            </div>
+          </div>
+          <div className="wc2f-list">
+            {items.map((item, i) => (
+              <div className="wc2f-item" data-open={open === i} key={i}>
+                <button type="button" className="wc2f-q" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={String(item.question ?? "")} tag="span" />
+                  <span className="wc2f-toggle" aria-hidden>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div className="wc2f-a">
+                  <div className="wc2f-a-inner">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={String(item.answer ?? "")} tag="span" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

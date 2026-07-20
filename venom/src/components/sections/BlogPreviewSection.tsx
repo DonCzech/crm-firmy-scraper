@@ -6,6 +6,27 @@ import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 
+function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
+  if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
+  if (href.startsWith("/#")) return href.slice(1);
+  return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
+}
+
+function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isAdmin = false) {
+  if (siteMode === "onepage") {
+    if (href.startsWith("/#")) return resolveDemoHref("/", tenantSlug, isAdmin) + href.slice(1);
+    if (href === "/" || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return resolveDemoHref(href, tenantSlug, isAdmin);
+    const slug = href.replace(/^\//, "");
+    return resolveDemoHref("/", tenantSlug, isAdmin) + "#" + slug;
+  }
+  if (href.startsWith("/#")) {
+    const anchor = href.slice(2);
+    return resolveDemoHref("/" + anchor, tenantSlug, isAdmin);
+  }
+  return resolveDemoHref(href, tenantSlug, isAdmin);
+}
+
 interface BlogPost {
   id: number;
   slug: string;
@@ -35,9 +56,11 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
   const limit = Math.min(Number(c.count ?? 3), 6);
   const isCafeFilled = variant === "cafe-filled-cards";
 
+  if (variant === "artist-01-news")    return <NewsArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "cafe-04-blog")      return <BlogCafe04 content={content} sectionId={sectionId} />;
   if (variant === "reality-02-blog")   return <BlogReality02 content={content} sectionId={sectionId} />;
-  if (variant === "legal-02-blog")     return <BlogLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} />;
+  if (variant === "reality-05-blog")   return <BlogReality05 content={content} sectionId={sectionId} />;
+  if (variant === "legal-02-blog")     return <BlogLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "reality-03-blog")   return <BlogReality03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ucetni-02-blog")    return <BlogUcetni02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ucetni-04-blog")    return <BlogUcetni04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -147,8 +170,28 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
       </section>
     );
   }
+  return <BlogPreviewDefault content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+}
+
+// Výchozí varianty (cafe-filled + fallback s načítáním postů). Vlastní komponenta,
+// aby se hooks nevolaly až za early returny dispatcheru.
+function BlogPreviewDefault({ content, variant, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; variant?: string; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as BlogPreviewContent & { items?: Array<{ title: string; excerpt?: string; image?: string; date?: string; href?: string }>; posts?: Array<{ title: string; excerpt?: string; image?: string; date?: string; href?: string }>; buttonText?: string };
+  const limit = Math.min(Number(c.count ?? 3), 6);
+  const isCafeFilled = variant === "cafe-filled-cards";
+
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Musí běžet před early returnem varianty, aby bylo pořadí hooks stabilní.
+  useEffect(() => {
+    if (!tenantSlug) { setLoading(false); return; }
+    fetch(`/api/demo/${tenantSlug}/blog?limit=${limit}&published=true`)
+      .then((r) => r.ok ? r.json() as Promise<{ posts: BlogPost[] }> : Promise.resolve({ posts: [] }))
+      .then(({ posts: p }) => setPosts(p ?? []))
+      .catch(() => setPosts([]))
+      .finally(() => setLoading(false));
+  }, [tenantSlug, limit]);
 
   if (isCafeFilled) {
     const items = c.items ?? [];
@@ -188,7 +231,11 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
                     </GenericEditableImage>
                   )}
                   <div className="cafe01-blog__overlay" aria-hidden="true" />
-                  <div className="cafe01-blog__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</div>
+                  {(it as Record<string, unknown>).category ? (
+                    <span className="cafe01-blog__tag">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={String((it as Record<string, unknown>).category)} tag="span" />
+                    </span>
+                  ) : null}
                 </div>
                 <div className="cafe01-blog__body">
                   {it.date && (
@@ -223,15 +270,6 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
       </section>
     );
   }
-
-  useEffect(() => {
-    if (!tenantSlug) { setLoading(false); return; }
-    fetch(`/api/demo/${tenantSlug}/blog?limit=${limit}&published=true`)
-      .then((r) => r.ok ? r.json() as Promise<{ posts: BlogPost[] }> : Promise.resolve({ posts: [] }))
-      .then(({ posts: p }) => setPosts(p ?? []))
-      .catch(() => setPosts([]))
-      .finally(() => setLoading(false));
-  }, [tenantSlug, limit]);
 
   const base = tenantSlug ? `/demo/${tenantSlug}` : "#";
 
@@ -446,7 +484,17 @@ function BlogCafe04({ content, sectionId }: { content: Record<string, unknown>; 
 // Heading: split-layout (H2 vlevo, popis vpravo) + velký ghost nápis "BLOG"
 // ─────────────────────────────────────────────────────────────────────────────
 function BlogReality03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const items = (content.items as Array<{ title: string; image?: string; href?: string }>) ?? [];
+  const items = (content.items as Array<{ title: string; image?: string; href?: string; excerpt?: string }>) ?? [];
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const headingRaw = (content as Record<string, unknown>).heading;
+  const eyebrow  = eyebrowRaw === undefined ? "Realitní rádce" : String(eyebrowRaw);
+  const heading  = headingRaw === undefined ? "Tipy, trendy\na realitní novinky" : String(headingRaw);
+  const subtitle = String(content.subtitle ?? "Vše, co potřebujete vědět o koupi, prodeji a pronájmu nemovitostí — v jednom místě.");
+  const allLabel = String(content.allLabel ?? "Všechny články");
+  const allHref  = String(content.allHref ?? "/blog");
+  const ctaLabel = String(content.ctaLabel ?? "Číst více");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const showHeader = !!(eyebrow.trim() || heading.trim());
 
   const DARK  = "#132538";
   const OCHRE = "#e38a6a";
@@ -464,16 +512,13 @@ function BlogReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
     return () => obs.disconnect();
   }, []);
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || href.startsWith("#")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <section
       ref={sectionRef}
       id="blog"
+      data-template="reality-03"
       style={{ position: "relative", backgroundColor: "#edeae4", fontFamily: SANS, padding: "clamp(64px, 9vw, 110px) clamp(20px, 4vw, 64px)", overflow: "hidden" }}
     >
       {/* Dekorativní ghost nápis */}
@@ -484,6 +529,7 @@ function BlogReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
       <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
 
         {/* Heading — split layout */}
+        {showHeader && (
         <div style={{
           display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "clamp(20px, 4vw, 48px)",
           marginBottom: "clamp(40px, 6vw, 68px)",
@@ -491,26 +537,26 @@ function BlogReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           transition: "opacity 0.65s ease, transform 0.65s ease",
         }}>
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 12px" }}>Realitní rádce</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 12px" }}>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </p>
             <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 700, color: DARK, margin: 0, letterSpacing: "-0.04em", lineHeight: 1.1 }}>
-              Tipy, trendy<br/>a realitní novinky
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" style={{ whiteSpace: "pre-line" }} />
             </h2>
           </div>
           <div style={{ maxWidth: 340, display: "flex", flexDirection: "column", gap: 20, paddingBottom: 4 }}>
-            <p style={{ fontSize: 15, color: "#777", lineHeight: 1.7, margin: 0 }}>
-              Vše, co potřebujete vědět o koupi, prodeji a pronájmu nemovitostí — v jednom místě.
-            </p>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{ fontSize: 15, color: "#777", lineHeight: 1.7, margin: 0 }} />
             <a
-              href={resolve("#blog")}
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: DARK, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase", alignSelf: "flex-start", paddingBottom: 3, borderBottom: `2px solid ${OCHRE}`, transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = OCHRE)}
-              onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+              href={resolve(allHref)}
+              className="r03-blog-all"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: DARK, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase", alignSelf: "flex-start", paddingBottom: 3, borderBottom: `2px solid ${OCHRE}`, transition: "color 0.2s, gap 0.25s" }}
             >
-              Všechny články
+              <GenericEditableText sectionId={sectionId} field="allLabel" value={allLabel} tag="span" />
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
         </div>
+        )}
 
         {/* 3 portrait karty */}
         <div data-r03-blog-grid style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
@@ -553,14 +599,10 @@ function BlogReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
 
                 {/* Obsah dole */}
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "clamp(20px, 3vw, 30px)" }}>
-                  <h3 className="r03-blog-title" style={{ fontFamily: SANS, fontSize: "clamp(1rem, 1.4vw, 1.2rem)", fontWeight: 700, color: WHITE, margin: 0, lineHeight: 1.38 }}>
-                    {item.title}
-                  </h3>
-                  <p className="r03-blog-excerpt" style={{ fontFamily: SANS, fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.62, margin: "12px 0 0" }}>
-                    Přečtěte si náš pohled na téma realitního trhu a poradenství.
-                  </p>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="h3" className="r03-blog-title" style={{ fontFamily: SANS, fontSize: "clamp(1rem, 1.4vw, 1.2rem)", fontWeight: 700, color: WHITE, margin: 0, lineHeight: 1.38 }} />
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.excerpt`} value={String(item.excerpt ?? "Přečtěte si náš pohled na téma realitního trhu a poradenství.")} tag="p" className="r03-blog-excerpt" style={{ fontFamily: SANS, fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.62, margin: "12px 0 0" }} />
                   <span className="r03-blog-cta" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 16, fontFamily: SANS, fontSize: 11, fontWeight: 800, color: OCHRE, textTransform: "uppercase", letterSpacing: "0.12em" }}>
-                    Číst více
+                    <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span" />
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </span>
                 </div>
@@ -739,70 +781,213 @@ function BlogReality02({ content, sectionId }: { content: Record<string, unknown
   );
 }
 
-function BlogLegal02({ content, sectionId, tenantSlug }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string }) {
+// ── reality-05-blog ──────────────────────────────────────────────────────────
+function BlogReality05({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const c = content as {
+    eyebrow?: string; title?: string; subtitle?: string;
+    ctaText?: string; ctaHref?: string;
+    posts?: Array<{ title: string; excerpt?: string; category?: string; image?: string; ctaText?: string; ctaHref?: string }>;
+  };
+
+  const eyebrowRaw  = c.eyebrow;
+  const titleRaw    = c.title;
+  const subtitleRaw = c.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Aktuality" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Z realitního světa" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+  const ctaText = c.ctaText ?? "Všechny články";
+  const ctaHref = c.ctaHref ?? "/blog";
+  const posts   = c.posts ?? [];
+
+  const GOLD  = "#CFA968";
+  const DARK  = "#1c1c1c";
+  const CREAM = "#f8f5f0";
+  const SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  return (
+    <section id="blog" data-template="reality-05" style={{ backgroundColor: CREAM, fontFamily: SANS }}>
+      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "80px clamp(20px,5vw,48px) 88px" }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: GOLD, display: "block", marginBottom: 12 }}
+              />
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                style={{ fontSize: "clamp(26px,3vw,36px)", fontWeight: 700, color: DARK, margin: "0 0 12px", lineHeight: 1.2 }}
+              />
+            )}
+            <div style={{ width: 40, height: 2, backgroundColor: GOLD, margin: "0 auto", opacity: 0.5 }} />
+          </div>
+        )}
+
+        <div className="r05-blog-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+          {posts.map((post, i) => (
+            <article key={`r05-blog-${i}`} className="r05-blog-card" style={{
+              background: "#fff", overflow: "hidden", display: "flex", flexDirection: "column",
+              border: "1px solid rgba(207,169,104,0.12)",
+              transition: "transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s",
+            }}>
+              {/* Image */}
+              <div style={{ position: "relative", paddingTop: "58%", overflow: "hidden" }}>
+                {post.image && (
+                  <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={post.image} alt={post.title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                    <img className="r05-blog-img" src={post.image} alt={post.title} loading="lazy"
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }}
+                    />
+                  </GenericEditableImage>
+                )}
+                {post.category && (
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.category`} value={post.category} tag="span"
+                    style={{
+                      position: "absolute", top: 14, left: 14, zIndex: 1,
+                      fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const,
+                      backgroundColor: GOLD, color: "#111", padding: "4px 12px",
+                    }}
+                  />
+                )}
+              </div>
+              {/* Content */}
+              <div style={{ padding: "22px 24px 26px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}>
+                <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="h3"
+                  style={{ fontSize: 17, fontWeight: 700, color: DARK, margin: 0, lineHeight: 1.4 }}
+                />
+                {post.excerpt && (
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={post.excerpt} tag="p"
+                    style={{ fontSize: 14, color: "#666", lineHeight: 1.65, margin: 0 }}
+                  />
+                )}
+                <a href={post.ctaHref ?? "/blog"} className="r05-blog-readmore" style={{
+                  marginTop: "auto", paddingTop: 10,
+                  fontSize: 12, fontWeight: 700, color: GOLD, textDecoration: "none",
+                  letterSpacing: "0.06em", textTransform: "uppercase" as const,
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  transition: "color 0.2s",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.ctaText`} value={post.ctaText ?? "Číst více"} tag="span" />
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* CTA button */}
+        <div style={{ textAlign: "center", marginTop: 48 }}>
+          <a
+            href={ctaHref}
+            className="r05-blog-cta"
+            style={{
+              display: "inline-block", padding: "12px 36px",
+              border: `2px solid ${GOLD}`, color: GOLD,
+              fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const,
+              textDecoration: "none", transition: "background-color 0.25s, color 0.25s",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BlogLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = content as Record<string, unknown>;
 
   const NAVY   = "#143171";
   const ORANGE = "#EB5C2E";
   const FONT_B = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_R = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const title   = (c.title   as string) ?? "Vzděláváme laiky i odborníky, píšeme, přednášíme a školíme";
-  const ctaText = (c.ctaText as string) ?? "Všechny novinky";
-  const ctaHref = (c.ctaHref as string) ?? "/aktuality";
+  const eyebrowRaw = c.tagline;
+  const titleRaw   = c.title;
+  const eyebrow = eyebrowRaw === undefined ? "Aktuálně" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Novinky z advokátní kanceláře" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
 
-  type Post = { title: string; date: string; image: string; href: string; tag?: string };
+  const ctaText = String(c.ctaText ?? "Všechny novinky");
+  const ctaHref = String(c.ctaHref ?? "/aktuality");
+  const readMore = String(c.readMoreLabel ?? "Číst více");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  type Post = { title: string; excerpt?: string; date: string; image: string; href: string; tag?: string };
   const posts: Post[] = Array.isArray(c.posts) ? (c.posts as Post[]) : [];
-
-  const resolve = (href: string) => tenantSlug ? `/demo/${tenantSlug}${href}` : href;
-  const CARD_COLORS = [ORANGE, NAVY, ORANGE];
+  const CARD_COLORS = [ORANGE, NAVY];
 
   const formatDate = (d: string) => {
-    try { return new Date(d).toLocaleDateString("cs-CZ", { day: "numeric", month: "numeric", year: "numeric" }); }
+    try { return new Date(d).toLocaleDateString("cs-CZ", { day: "numeric", month: "long", year: "numeric" }); }
     catch { return d; }
   };
 
   return (
-    <section data-variant="legal-02-blog" style={{ backgroundColor: "#fff", padding: "80px 0" }}>
+    <section id="aktuality" data-template="legal-02" style={{ backgroundColor: "#fff", padding: "clamp(72px,9vw,110px) 0" }}>
       <style>{`
         @font-face { font-family:'bw_gradualbold'; src:url('/templates/legal-02/bwgradual-bold-webfont.woff2') format('woff2'); font-display:swap; }
-        .l02b-card { display:flex; flex-direction:column; position:relative; overflow:hidden; }
+        .l02b-card { display:flex; flex-direction:column; position:relative; overflow:hidden; border-radius:4px; }
         .l02b-link { position:absolute; inset:0; z-index:9; display:block; }
-        .l02b-txt  { padding:35px 30px 40px; display:flex; flex-direction:column; flex:1; }
-        .l02b-info { display:flex; gap:12px; margin-bottom:16px; font-family:'bw_gradualbold',sans-serif; font-size:13px; color:rgba(255,255,255,.75); }
-        .l02b-h3   { font-family:'bw_gradualbold',sans-serif; font-size:22px; line-height:1.35; color:#fff; margin:0; }
-        .l02b-cta  { display:inline-flex; align-items:center; gap:10px; border:2px solid #143171; border-radius:30px; color:#143171; padding:14px 40px; margin-top:48px; font-family:'bw_gradualbold','Montserrat',sans-serif; font-size:17px; text-decoration:none; transition:background .2s,color .2s; }
-        .l02b-cta:hover { background:#143171; color:#fff; }
-        @media (max-width:900px) { .l02b-grid { grid-template-columns:1fr !important; } }
+        .l02b-txt  { padding:32px 30px 36px; display:flex; flex-direction:column; flex:1; }
+        .l02b-info { display:flex; align-items:center; gap:10px; margin-bottom:16px; font-family:'bw_gradualbold',sans-serif; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:rgba(255,255,255,.82); }
+        .l02b-info-dot { width:5px; height:5px; border-radius:50%; background:currentColor; opacity:.6; }
+        .l02b-h3   { font-family:'bw_gradualbold',sans-serif; font-size:21px; line-height:1.32; color:#fff; margin:0; }
+        .l02b-exc  { font-family:${FONT_R}; font-size:14.5px; line-height:1.6; color:rgba(255,255,255,.8); margin:14px 0 0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+        @media (max-width:900px) { .l02b-grid { grid-template-columns:1fr !important; } .l02b-outer { padding-left:24px !important; padding-right:24px !important; } }
       `}</style>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px" }}>
-        <div style={{ maxWidth: 720, marginBottom: 48 }}>
-          <h2 style={{ fontFamily: FONT_B, fontSize: 48, lineHeight: "56px", color: NAVY, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
-
-        <div className="l02b-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
-          {posts.map((post, i) => (
-            <div key={i} className="l02b-card">
-              <a href={resolve(post.href)} className="l02b-link" aria-label={post.title} />
-              <div style={{ position: "relative", width: "100%", paddingBottom: "54.28%", height: 0, overflow: "hidden" }}>
-                <Image src={post.image} alt={post.title} fill style={{ objectFit: "cover" }} unoptimized />
+      <div className="l02b-outer" style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px" }}>
+        {showHeader && (
+          <div style={{ maxWidth: 760, marginBottom: 52 }}>
+            {eyebrow.trim() && (
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                <span style={{ width: 40, height: 2, background: ORANGE, display: "block" }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={eyebrow} tag="p"
+                  style={{ fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: ORANGE, margin: 0 }} />
               </div>
-              <div className="l02b-txt" style={{ backgroundColor: CARD_COLORS[i % 2] }}>
-                <div className="l02b-info">
-                  {post.tag && <span>{post.tag}</span>}
-                  <span>{formatDate(post.date)}</span>
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                style={{ fontFamily: FONT_B, fontSize: "clamp(32px,3.8vw,48px)", lineHeight: 1.1, color: NAVY, margin: 0, letterSpacing: "-0.01em" }} />
+            )}
+          </div>
+        )}
+
+        <div className="l02b-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          {posts.map((post, i) => {
+            const panel = CARD_COLORS[i % 2];
+            return (
+              <div key={i} className="l02b-card">
+                <a href={resolve(post.href)} className="l02b-link" aria-label={post.title} />
+                <div style={{ position: "relative", width: "100%", paddingBottom: "62%", height: 0, overflow: "hidden" }}>
+                  <Image className="l02b-img" src={post.image} alt={post.title} fill style={{ objectFit: "cover" }} unoptimized />
                 </div>
-                <h3 className="l02b-h3">{post.title}</h3>
+                <div className="l02b-txt" style={{ backgroundColor: panel }}>
+                  <div className="l02b-info">
+                    <GenericEditableText sectionId={sectionId} field={`posts.${i}.date`} value={formatDate(post.date)} tag="span" />
+                  </div>
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="h3" className="l02b-h3" />
+                  {post.excerpt && (
+                    <GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={post.excerpt} tag="p" className="l02b-exc" />
+                  )}
+                  <span className="l02b-more" style={{ color: "#fff" }} aria-hidden="true">
+                    {readMore}
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        <a href={resolve(ctaHref)} data-btn="primary" className="l02b-cta">
-          {ctaText}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <a href={resolve(ctaHref)} data-btn="primary" className="l02b-cta"
+          style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `2px solid ${NAVY}`, borderRadius: 40, color: NAVY, padding: "15px 42px", marginTop: 52, fontFamily: FONT_B, fontSize: 17, textDecoration: "none" }}>
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </a>
@@ -1507,73 +1692,65 @@ function BlogUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
 // 3-sloupcový blog preview + "Další aktuality" odkaz
 // ─────────────────────────────────────────────────────────────────────────────
 function BlogFloors01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const GREEN  = "#007d47";
-  const DARK   = "#212529";
-  const BORDER = "#e9ecef";
   const FONT   = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const title        = String(content.title        ?? "Aktuality");
-  const moreLinkText = String(content.moreLinkText ?? "Další aktuality");
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const eyebrow = eyebrowRaw === undefined ? "Blog & rady" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Ze světa podlah" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+  const moreLinkText = String(content.moreLinkText ?? "Všechny články");
   const moreLinkHref = String(content.moreLinkHref ?? "/sluzby");
+  const readLabel    = String(content.readLabel ?? "Číst více");
 
   type Post = { image: string; tag: string; title: string; href: string };
   const posts = (content.posts as Post[]) ?? [
-    { image: "/clones/supellex/user/www-supellex-cz/blog/skladweb-1000x500.jpg",                     tag: "Novinka", title: "Otevřeli jsme nový showroom podlah v Praze",                 href: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/blog/pxl-20260225-120606422-10.jpg",             tag: "Novinka", title: "Kompletní portfolio vinylových a hybridních podlah",         href: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/blog/coretec-tytan-odolnost-bez-kompromisu.jpg", tag: "Novinka", title: "Nové odolné podlahy 100 % bez PVC — ta pravá pro váš domov", href: "/sluzby" },
+    { image: "/templates/floors-01/blog-1.webp", tag: "Trend",    title: "Velkoformátové dlaždice vs. vinyl: co vybrat do koupelny v roce 2026?", href: "/sluzby" },
+    { image: "/templates/floors-01/blog-2.webp", tag: "Průvodce", title: "Podlahové vytápění a vinylové podlahy — funguje to dohromady?", href: "/sluzby" },
+    { image: "/templates/floors-01/blog-3.webp", tag: "Novinka",  title: "Herringbone je zpět: klasický vzor rybí kost v moderním provedení", href: "/sluzby" },
   ];
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    const base = `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href.startsWith("http") || href.startsWith("#")) return href;
-    return `${base}${href.startsWith("/") ? href : "/" + href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const ArrowLine = () => (<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>);
 
   return (
-    <>
-      <style>{`
-        .f01bl-card { border: 1px solid ${BORDER}; border-radius: 8px; overflow: hidden; background: #fff; transition: box-shadow 0.2s, transform 0.2s; display: flex; flex-direction: column; }
-        .f01bl-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.10); transform: translateY(-3px); }
-        .f01bl-img-wrap { overflow: hidden; }
-        .f01bl-card img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s; }
-        .f01bl-card:hover img { transform: scale(1.04); }
-        @media (max-width: 768px) { .f01bl-grid { grid-template-columns: 1fr !important; } }
-        @media (max-width: 1024px) and (min-width: 769px) { .f01bl-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-      `}</style>
-      <section style={{ padding: "64px 20px", background: "#f8f9fa", fontFamily: FONT }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 36, flexWrap: "wrap", gap: 12 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{ fontSize: 28, fontWeight: 800, color: DARK, margin: 0, letterSpacing: "-0.01em" }}>
-              {title}
-            </GenericEditableText>
-            <a href={resolve(moreLinkHref)} style={{ fontSize: 13, fontWeight: 700, color: GREEN, textDecoration: "none", borderBottom: `2px solid ${GREEN}`, paddingBottom: 2 }}>
-              {moreLinkText} →
-            </a>
-          </div>
-          <div className="f01bl-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
+      <div className="f01bl-section">
+        <div className="f01bl-wrap">
+          {showHeader && (
+            <div className="f01bl-head">
+              <div>
+                {eyebrow.trim() && (
+                  <span className="f01bl-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+                )}
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="f01bl-title" />
+              </div>
+              <a href={resolve(moreLinkHref)} className="f01bl-all">
+                <GenericEditableText sectionId={sectionId} field="moreLinkText" value={moreLinkText} tag="span" />
+                <ArrowLine />
+              </a>
+            </div>
+          )}
+          <div className="f01bl-grid">
             {posts.map((post, i) => (
-              <a key={i} href={resolve(post.href)} className="f01bl-card" style={{ textDecoration: "none" }}>
-                <div className="f01bl-img-wrap">
-                  <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={post.image} alt={post.title}>
+              <a key={i} href={resolve(post.href)} className="f01bl-card">
+                <div className="f01bl-imgwrap">
+                  <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={post.image} alt={post.title} style={{ position: "absolute", inset: 0 }}>
                     <img src={post.image} alt={post.title} loading="lazy" />
                   </GenericEditableImage>
+                  <span className="f01bl-tag"><GenericEditableText sectionId={sectionId} field={`posts.${i}.tag`} value={post.tag} tag="span">{post.tag}</GenericEditableText></span>
                 </div>
-                <div style={{ padding: "20px 22px 24px", flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
-                  <span style={{ display: "inline-block", padding: "3px 10px", background: GREEN, color: "#fff", borderRadius: 3, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", alignSelf: "flex-start" }}>
-                    <GenericEditableText sectionId={sectionId} field={`posts.${i}.tag`} value={post.tag} tag="span">{post.tag}</GenericEditableText>
-                  </span>
-                  <p style={{ fontSize: 15, fontWeight: 700, color: DARK, margin: 0, lineHeight: 1.45 }}>
-                    <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="span">{post.title}</GenericEditableText>
-                  </p>
-                  <span style={{ marginTop: "auto", fontSize: 13, color: GREEN, fontWeight: 600 }}>Číst více →</span>
+                <div className="f01bl-body">
+                  <p className="f01bl-ptitle"><GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="span">{post.title}</GenericEditableText></p>
+                  <span className="f01bl-read"><GenericEditableText sectionId={sectionId} field="readLabel" value={readLabel} tag="span" /><ArrowLine /></span>
                 </div>
               </a>
             ))}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -1651,6 +1828,171 @@ function BlogClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
               </a>
             ))}
           </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── artist-01-news (Novinky) ─────────────────────────────────────────────────────
+// 1:1 luciebila.com #news: 3 foto-dlaždice, obrázek fill + hover overlay reveal
+// s titulkem. Elevace: image zoom 1.08 + granátový gradient overlay slide-up,
+// vždy viditelný datum badge + kategorie, titulek slide-up, "číst více" arrow.
+// "Další..." btn-red pod gridem.
+// ─────────────────────────────────────────────────────────────────────────────
+type Ar01News = { image?: string; date?: string; category?: string; title?: string; excerpt?: string; href?: string };
+
+function NewsArtist01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Aktuálně" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Novinky" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Ze zákulisí, z pódia i z nahrávacího studia." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const ctaText   = String(content.ctaText ?? "Další novinky");
+  const ctaHref   = String(content.ctaHref ?? "/novinky");
+  const readLabel = String(content.readLabel ?? "Číst více");
+
+  const items = (content.posts as Ar01News[]) ?? [
+    { image: "/templates/artist-01/news-1.webp", date: "24. 9. 2026", category: "Turné",  title: "Turné Střepy a světlo startuje v říjnu", excerpt: "Osmnáct měst, jeden orchestr a písně, které jsem ještě nikdy nezpívala živě.", href: "/novinky" },
+    { image: "/templates/artist-01/news-2.webp", date: "9. 9. 2026",  category: "Studio", title: "Nová píseň Amen vychází jako singl", excerpt: "Komorní balada nahraná jedním dechem — bez střihu, bez korekcí.", href: "/novinky" },
+    { image: "/templates/artist-01/news-3.webp", date: "28. 8. 2026", category: "Ocenění", title: "Cena Anděl za album roku poputovala k nám", excerpt: "Děkuji všem, kteří tuhle desku dělali se mnou. Patří vám.", href: "/novinky" },
+  ];
+
+  const RED = "#9b1c31";
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Roboto:wght@300;400;500;700&display=swap" />
+      <style>{`
+        .ar01-news { background: #fff; padding: 96px 40px; }
+        .ar01-news-wrap { max-width: 1180px; margin: 0 auto; }
+        .ar01-news-head { text-align: center; margin-bottom: 60px; }
+        .ar01-news-eyebrow {
+          display: block; font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: .34em; text-transform: uppercase; color: ${RED}; margin-bottom: 14px;
+        }
+        .ar01-news-title {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+          font-size: clamp(38px, 5vw, 60px); font-weight: 600; color: #14100e; margin: 0 0 16px; line-height: 1.02;
+        }
+        .ar01-news-sub { font-family: 'Roboto', sans-serif; font-size: 17px; line-height: 28px; color: #6b6258; max-width: 560px; margin: 0 auto; }
+        .ar01-news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+        .ar01-news-card {
+          position: relative; display: block; overflow: hidden;
+          aspect-ratio: 4/5; text-decoration: none;
+          background: #14100e;
+          box-shadow: 0 20px 44px -28px rgba(20,16,14,.5);
+        }
+        .ar01-news-img { position: absolute; inset: 0; }
+        .ar01-news-img img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 1.1s cubic-bezier(.32,.72,0,1), filter 1.1s;
+          filter: brightness(.86) saturate(1.02);
+        }
+        .ar01-news-card:hover .ar01-news-img img { transform: scale(1.08); filter: brightness(.7); }
+        .ar01-news-grad {
+          position: absolute; inset: 0; z-index: 2;
+          background: linear-gradient(to top, rgba(20,16,14,.92) 0%, rgba(20,16,14,.5) 40%, rgba(20,16,14,0) 72%);
+          transition: background .5s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-news-card:hover .ar01-news-grad {
+          background: linear-gradient(to top, rgba(120,18,36,.94) 0%, rgba(60,12,20,.62) 46%, rgba(20,16,14,.15) 100%);
+        }
+        .ar01-news-badge {
+          position: absolute; top: 18px; left: 18px; z-index: 3;
+          display: inline-flex; align-items: center; gap: 8px;
+          font-family: 'Roboto', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+          color: #fff; background: rgba(155,28,49,.9); padding: 7px 13px; border-radius: 2px;
+          box-shadow: 0 6px 16px -6px rgba(0,0,0,.5);
+        }
+        .ar01-news-body {
+          position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+          padding: 26px 24px 28px; text-align: left;
+        }
+        .ar01-news-date {
+          display: block; font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500;
+          letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.78); margin-bottom: 10px;
+        }
+        .ar01-news-h3 {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 25px; font-weight: 600; line-height: 1.16;
+          color: #fff; margin: 0 0 8px;
+        }
+        .ar01-news-excerpt {
+          font-family: 'Roboto', sans-serif; font-size: 14.5px; line-height: 22px; color: rgba(255,255,255,.82);
+          margin: 0; max-height: 0; opacity: 0; overflow: hidden;
+          transition: max-height .5s cubic-bezier(.32,.72,0,1), opacity .5s, margin .5s;
+        }
+        .ar01-news-card:hover .ar01-news-excerpt { max-height: 90px; opacity: 1; margin-top: 4px; }
+        .ar01-news-more {
+          display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+          font-family: 'Roboto', sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #fff; opacity: 0; transform: translateY(8px);
+          transition: opacity .45s cubic-bezier(.32,.72,0,1) .05s, transform .45s cubic-bezier(.32,.72,0,1) .05s;
+        }
+        .ar01-news-card:hover .ar01-news-more { opacity: 1; transform: translateY(0); }
+        .ar01-news-more svg { transition: transform .35s cubic-bezier(.32,.72,0,1); }
+        .ar01-news-card:hover .ar01-news-more svg { transform: translateX(4px); }
+        .ar01-news-cta { text-align: center; margin-top: 56px; }
+        .ar01-news-cta a {
+          position: relative; overflow: hidden; display: inline-block;
+          font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #fff; text-decoration: none; padding: 15px 44px; border-radius: 50px; background: ${RED};
+          box-shadow: 0 12px 26px -12px rgba(155,28,49,.7);
+          transition: box-shadow .4s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-news-cta a::before { content: ""; position: absolute; inset: 0; background: #14100e; transform: translateY(101%); transition: transform .45s cubic-bezier(.32,.72,0,1); z-index: -1; }
+        .ar01-news-cta a:hover { box-shadow: 0 16px 34px -12px rgba(20,16,14,.55); }
+        .ar01-news-cta a:hover::before { transform: translateY(0); }
+        @media (max-width: 1000px) { .ar01-news-grid { grid-template-columns: repeat(2, 1fr); } .ar01-news-card:nth-child(3) { grid-column: span 2; aspect-ratio: 16/7; } }
+        @media (max-width: 640px) { .ar01-news { padding: 64px 22px; } .ar01-news-grid { grid-template-columns: 1fr; } .ar01-news-card, .ar01-news-card:nth-child(3) { aspect-ratio: 4/5; grid-column: auto; } }
+      `}</style>
+
+      <section className="ar01-news" data-template="artist-01" id="novinky">
+        <div className="ar01-news-wrap">
+          {showHeader && (
+            <div className="ar01-news-head">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="ar01-news-eyebrow" />
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ar01-news-title" />
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="ar01-news-sub" />
+            </div>
+          )}
+
+          <div className="ar01-news-grid">
+            {items.map((n, i) => (
+              <a className="ar01-news-card" key={i} href={resolve(String(n.href ?? ctaHref))}>
+                <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={String(n.image ?? "")} alt={String(n.title ?? "")} className="ar01-news-img">
+                  <img src={String(n.image ?? "")} alt={String(n.title ?? "")} />
+                </GenericEditableImage>
+                <span className="ar01-news-grad" aria-hidden="true" />
+                <span className="ar01-news-badge">
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.category`} value={String(n.category ?? "")} tag="span">{n.category}</GenericEditableText>
+                </span>
+                <div className="ar01-news-body">
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.date`} value={String(n.date ?? "")} tag="span" className="ar01-news-date" />
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={String(n.title ?? "")} tag="h3" className="ar01-news-h3" />
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={String(n.excerpt ?? "")} tag="p" className="ar01-news-excerpt" />
+                  <span className="ar01-news-more">
+                    {readLabel}
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          {ctaText.trim() && (
+            <div className="ar01-news-cta">
+              <a href={resolve(ctaHref)}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span">{ctaText}</GenericEditableText>
+              </a>
+            </div>
+          )}
         </div>
       </section>
     </>

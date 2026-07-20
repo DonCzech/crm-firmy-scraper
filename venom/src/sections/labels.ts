@@ -23,6 +23,7 @@ export const SECTION_TYPE_LABELS: Record<string, string> = {
   products: "Produkty",
   stats: "Statistiky",
   freeform: "Volné plátno",
+  "ai-custom": "AI sekce",
 };
 
 export function getSectionTypeLabel(type: string): string {

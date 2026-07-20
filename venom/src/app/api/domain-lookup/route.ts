@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
 import { queryOne } from "@/lib/db";
+import { requireInternalToken } from "@/lib/platform-admin";
 
 // Internal endpoint used only by proxy/middleware for custom domain resolution.
 // Protected by INTERNAL_API_TOKEN to prevent abuse.
 export async function GET(req: NextRequest) {
-  const token = req.headers.get("x-internal-token");
-  if (token !== (process.env.INTERNAL_API_TOKEN ?? "")) {
+  if (!requireInternalToken(req)) {
     return Response.json({ error: "Forbidden" }, { status: 403 });
   }
 

@@ -10,3 +10,21 @@
   --bb-dark-2: #0f0a07;
   --bb-cream: #f7f3ec;
 }
+
+/* barber-03 — pricing table: prices never wrap mid-amount */
+.b03s-table th:not(:first-child),
+.b03s-table td:not(:first-child) {
+  white-space: nowrap;
+}
+
+/* barber-03 testimonials — 5 cards: center the orphan row (3 + 2 centered) */
+@media (min-width: 1024px) {
+  section[data-template="barber-03"] .grid:has(> .b03t-card:nth-child(5):last-child) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  section[data-template="barber-03"] .grid:has(> .b03t-card:nth-child(5):last-child) > .b03t-card {
+    flex: 0 1 calc(33.333% - 22px);
+  }
+}

@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "cafe-02",
-  "name": "Demo Café Savoy",
+  "name": "Café Belvedere",
   "industry": "cafe",
   "skeleton": "gastro",
   "version": "1.0.0",
@@ -9,11 +9,31 @@
   "description": "Vídeňská kavárna — bílý navbar s centrovaným logem, fullbleed interior hero se sliderem, 2-col about příběh, menu kategorie, zlatá CTA rezervace, kontakt + mapa. Inspirováno cafesavoy.cz (Ambiente).",
   "sectionOrderNote": "Navbar → Hero → About → Services (menu) → CTA → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Pricing",      "reason": "Kavárna nemá klasický ceník na homepage — nabídka menu je součástí menu stránky" },
-    { "pos": 5,  "name": "Gallery",      "reason": "Galerie (Interiér) je na samostatné podstránce /interier; homepage nese atmosféru přes hero slider a about foto" },
-    { "pos": 8,  "name": "Testimonials", "reason": "Hodnocení jsou na samostatné podstránce /hodnoceni; homepage nemá recenze" },
-    { "pos": 9,  "name": "Team",         "reason": "Tým není součástí homepage flow originálu" },
-    { "pos": 10, "name": "FAQ",          "reason": "FAQ není v homepage flow originálu" }
+    {
+      "pos": 4,
+      "name": "Pricing",
+      "reason": "Kavárna nemá klasický ceník na homepage — nabídka menu je součástí menu stránky"
+    },
+    {
+      "pos": 5,
+      "name": "Gallery",
+      "reason": "Galerie (Interiér) je na samostatné podstránce /interier; homepage nese atmosféru přes hero slider a about foto"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Hodnocení jsou na samostatné podstránce /hodnoceni; homepage nemá recenze"
+    },
+    {
+      "pos": 9,
+      "name": "Team",
+      "reason": "Tým není součástí homepage flow originálu"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není v homepage flow originálu"
+    }
   ],
   "extraSections": [
     {
@@ -25,7 +45,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -33,13 +55,41 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",   "variant": "cafe-02-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "cafe-02-hero",     "contentRef": "hero" },
-        { "type": "about",    "variant": "cafe-02-about",    "contentRef": "about" },
-        { "type": "services", "variant": "cafe-02-menu",     "contentRef": "services" },
-        { "type": "cta",      "variant": "cafe-02-cta",      "contentRef": "cta" },
-        { "type": "contact",  "variant": "cafe-02-contact",  "contentRef": "contact" },
-        { "type": "footer",   "variant": "cafe-02-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "cafe-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "cafe-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "cafe-02-menu",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "cafe-02-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "contact",
+          "variant": "cafe-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -48,10 +98,26 @@
       "seoTitleKey": "pages.menu.seoTitle",
       "seoDescriptionKey": "pages.menu.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "cafe-02-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",    "contentRef": "pages.menu.hero" },
-        { "type": "services", "variant": "cafe-02-menu",     "contentRef": "pages.menu.services" },
-        { "type": "footer",   "variant": "cafe-02-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.menu.hero"
+        },
+        {
+          "type": "services",
+          "variant": "cafe-02-menu",
+          "contentRef": "pages.menu.services"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -60,10 +126,26 @@
       "seoTitleKey": "pages.rezervace.seoTitle",
       "seoDescriptionKey": "pages.rezervace.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "cafe-02-navbar",   "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",    "contentRef": "pages.rezervace.hero" },
-        { "type": "contact", "variant": "cafe-02-contact",  "contentRef": "contact" },
-        { "type": "footer",  "variant": "cafe-02-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.rezervace.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "cafe-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -72,10 +154,26 @@
       "seoTitleKey": "pages.o-nas.seoTitle",
       "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "cafe-02-navbar",   "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",    "contentRef": "pages.o-nas.hero" },
-        { "type": "about",   "variant": "cafe-02-about",    "contentRef": "pages.o-nas.about" },
-        { "type": "footer",  "variant": "cafe-02-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "cafe-02-about",
+          "contentRef": "pages.o-nas.about"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -84,9 +182,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "cafe-02-navbar",   "contentRef": "navbar" },
-        { "type": "contact", "variant": "cafe-02-contact",  "contentRef": "contact" },
-        { "type": "footer",  "variant": "cafe-02-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "cafe-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

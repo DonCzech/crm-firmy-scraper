@@ -1,88 +1,113 @@
 {
   "navbar": {
-    "siteName":          "FinHypotéky s.r.o.",
-    "logoUrl":           "/templates/ucetni-03/logo.svg",
-    "ctaText":           "Hypoteční kalkulačka",
-    "ctaHref":           "#kalkulacka",
-    "ctaSecondaryText":  "Pro poradce",
-    "ctaSecondaryHref":  "#kontakt",
-    "phone":             "800 222 333",
-    "topBarText":        "Poradenství zcela zdarma. Volejte:",
+    "siteName": "FinHypotéky s.r.o.",
+    "logoUrl": "/templates/ucetni-03/logo.svg",
+    "ctaText": "Hypoteční kalkulačka",
+    "ctaHref": "#kalkulacka",
+    "ctaSecondaryText": "Pro poradce",
+    "ctaSecondaryHref": "#kontakt",
+    "phone": "800 222 333",
+    "topBarText": "Poradenství zcela zdarma. Volejte:",
     "links": [
-      { "label": "Produkty a služby", "href": "/sluzby" },
-      { "label": "Pobočky",           "href": "/pobocky" },
-      { "label": "Blog",              "href": "/blog" },
-      { "label": "Staňte se makléřem","href": "/kariera" }
+      {
+        "label": "Produkty a služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Pobočky",
+        "href": "/pobocky"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Staňte se makléřem",
+        "href": "/kariera"
+      }
     ]
   },
   "hero": {
-    "title":    "Vaše hypotéka za nejlepších podmínek — garantovaně.",
+    "title": "Vaše hypotéka za nejlepších podmínek — garantovaně.",
     "subtitle": "Srovnáme nabídky všech bank v ČR a vyjednáme sazbu, kterou sami nedostanete. Bez poplatků, bez závazků — vše zařídíme za vás.",
-    "bgImage":  "/images/template-gallery/ucetni-03-hero-bg.jpg",
-    "ctaText":  "Spočítat hypotéku",
-    "ctaHref":  "#kalkulacka",
+    "bgImage": "/images/template-gallery/ucetni-03-hero-bg.jpg",
+    "ctaText": "Spočítat hypotéku",
+    "ctaHref": "#kalkulacka",
     "ctaSecondaryText": "Kontaktovat poradce",
     "ctaSecondaryHref": "#kontakt",
-    "trustBadges": ["Zdarma, bez závazků", "15+ let zkušeností", "22 partnerských bank"]
+    "trustBadges": [
+      "Zdarma, bez závazků",
+      "15+ let zkušeností",
+      "22 partnerských bank"
+    ]
   },
   "stats": {
     "items": [
-      { "value": "2 400",   "label": "certifikovaných poradců" },
-      { "value": "84 mld",  "label": "Kč sjednaných hypoték ročně" },
-      { "value": "15+",     "label": "let na hypotečním trhu" }
+      {
+        "value": "2 400",
+        "label": "certifikovaných poradců"
+      },
+      {
+        "value": "84 mld",
+        "label": "Kč sjednaných hypoték ročně"
+      },
+      {
+        "value": "15+",
+        "label": "let na hypotečním trhu"
+      }
     ]
   },
   "services": {
     "title": "Proč volit FinHypotéky",
-    "lead":  "Komplexní servis od prvního setkání až po čerpání hypotéky — vše na jednom místě.",
+    "lead": "Komplexní servis od prvního setkání až po čerpání hypotéky — vše na jednom místě.",
     "services": [],
     "items": [
       {
-        "name":        "Kompletní vyřízení",
+        "name": "Kompletní vyřízení",
         "description": "Postaráme se o veškerou dokumentaci, komunikaci s bankou i katastrem. Vy se soustředíte na výběr nemovitosti.",
-        "icon":        "briefcase"
+        "icon": "briefcase"
       },
       {
-        "name":        "Nejnižší sazba na trhu",
+        "name": "Nejnižší sazba na trhu",
         "description": "Díky objemu sjednaných hypoték vyjednáváme sazby, které nejsou dostupné přes přepážku banky.",
-        "icon":        "trending-down"
+        "icon": "trending-down"
       },
       {
-        "name":        "Služba zcela zdarma",
+        "name": "Služba zcela zdarma",
         "description": "Poradenství je pro vás bez poplatku. Naši poradci jsou odměňováni bankou, nikoliv vámi.",
-        "icon":        "check-circle"
+        "icon": "check-circle"
       },
       {
-        "name":        "Pobočky po celé ČR",
+        "name": "Pobočky po celé ČR",
         "description": "Přes 120 poboček ve všech krajích. Váš poradce je vždy dostupný — osobně, online i telefonicky.",
-        "icon":        "map-pin"
+        "icon": "map-pin"
       }
     ]
   },
   "about": {
-    "title":    "Tým odborníků, kteří vám skutečně pomohou",
+    "title": "Tým odborníků, kteří vám skutečně pomohou",
     "subtitle": "Poradenství s lidským přístupem",
-    "lead":     "FinHypotéky s.r.o. je nezávislý hypoteční zprostředkovatel s více než 15 lety zkušeností. Spolupracujeme s 22 bankami a stavebními spořitelnami v ČR.",
-    "body":     "Každý klient je pro nás jedinečný. Proto připravujeme řešení přesně na míru vaší životní situaci — ať jde o první hypotéku, refinancování stávajícího úvěru nebo investiční nemovitost. Naše poradkyně a poradci pravidelně absolvují certifikace a sledují aktuální vývoj sazeb.",
-    "ctaText":  "Více o společnosti",
-    "ctaHref":  "/o-nas",
+    "lead": "FinHypotéky s.r.o. je nezávislý hypoteční zprostředkovatel s více než 15 lety zkušeností. Spolupracujeme s 22 bankami a stavebními spořitelnami v ČR.",
+    "body": "Každý klient je pro nás jedinečný. Proto připravujeme řešení přesně na míru vaší životní situaci — ať jde o první hypotéku, refinancování stávajícího úvěru nebo investiční nemovitost. Naše poradkyně a poradci pravidelně absolvují certifikace a sledují aktuální vývoj sazeb.",
+    "ctaText": "Více o společnosti",
+    "ctaHref": "/o-nas",
     "imageUrl": "/images/template-gallery/ucetni-03-about.jpg"
   },
   "faq": {
     "title": "Poradna",
-    "lead":  "Odpovídáme na nejčastější otázky klientů. Nenašli jste odpověď? Zavolejte nám nebo napište.",
+    "lead": "Odpovídáme na nejčastější otázky klientů. Nenašli jste odpověď? Zavolejte nám nebo napište.",
     "items": [
       {
         "question": "Jako OSVČ — mohu vůbec hypotéku získat?",
-        "answer":   "Ano, OSVČ mohou hypotéku získat. Klíčové jsou doložitelné příjmy — zpravidla poslední 2 daňová přiznání a výpis z podnikatelského účtu. Náš poradce vám pomůže vybrat banku, která vaši situaci ocení nejlépe."
+        "answer": "Ano, OSVČ mohou hypotéku získat. Klíčové jsou doložitelné příjmy — zpravidla poslední 2 daňová přiznání a výpis z podnikatelského účtu. Náš poradce vám pomůže vybrat banku, která vaši situaci ocení nejlépe."
       },
       {
         "question": "O kolik mohu požádat a jak rychle hypotéku dostanu?",
-        "answer":   "Výše hypotéky závisí na příjmech, hodnotě nemovitosti a aktuálním LTV (poměr úvěru k ceně). Schválení trvá obvykle 5–14 pracovních dní. V urgentních případech umíme zrychlit celý proces."
+        "answer": "Výše hypotéky závisí na příjmech, hodnotě nemovitosti a aktuálním LTV (poměr úvěru k ceně). Schválení trvá obvykle 5–14 pracovních dní. V urgentních případech umíme zrychlit celý proces."
       },
       {
         "question": "Co dělat, pokud mi banka hypotéku zamítla?",
-        "answer":   "Zamítnutí jednou institucí neznamená konec. Každá banka hodnotí žadatele odlišně. Naši poradci znají podmínky všech partnerských bank a najdou alternativu, která vám vyhovuje."
+        "answer": "Zamítnutí jednou institucí neznamená konec. Každá banka hodnotí žadatele odlišně. Naši poradci znají podmínky všech partnerských bank a najdou alternativu, která vám vyhovuje."
       }
     ]
   },
@@ -90,12 +115,12 @@
     "eyebrow": "Kontakt",
     "heading": "Domluvte si bezplatnou konzultaci",
     "subheading": "Řeknete nám, co plánujete — my vám připravíme přehled možností ještě ten den. Žádné závazky, žádné skryté poplatky.",
-    "title":   "Domluvte si bezplatnou konzultaci",
-    "lead":    "Řeknete nám, co plánujete — my vám připravíme přehled možností ještě ten den. Žádné závazky, žádné skryté poplatky.",
-    "phone":   "+420 800 222 333",
-    "email":   "info@finhypoteky.cz",
+    "title": "Domluvte si bezplatnou konzultaci",
+    "lead": "Řeknete nám, co plánujete — my vám připravíme přehled možností ještě ten den. Žádné závazky, žádné skryté poplatky.",
+    "phone": "+420 800 222 333",
+    "email": "info@finhypoteky.cz",
     "address": "Nové náměstí 18, 110 00 Praha 1",
-    "hours":   "Po–Pá 8:00–19:00",
+    "hours": "Po–Pá 8:00–19:00",
     "infoPhoneLabel": "Telefon",
     "infoEmailLabel": "E-mail",
     "infoAddressLabel": "Adresa",
@@ -110,13 +135,12 @@
   },
   "footer": {
     "siteName": "FinHypotéky s.r.o.",
-    "tagline":  "Nezávislý hypoteční makléř — srovnáme celý trh a vyjednáme pro vás nejlepší sazbu.",
-    "logoUrl":  "/templates/ucetni-03/logo.svg",
-    "email":    "info@finhypoteky.cz",
-    "phone":    "+420 800 222 333",
-    "address":  "Nové náměstí 18, 110 00 Praha 1",
-    "ico":      "09876543",
-    "web":      "https://finhypoteky.cz",
+    "tagline": "Nezávislý hypoteční makléř — srovnáme celý trh a vyjednáme pro vás nejlepší sazbu.",
+    "logoUrl": "/templates/ucetni-03/logo.svg",
+    "email": "info@finhypoteky.cz",
+    "phone": "+420 800 222 333",
+    "address": "Nové náměstí 18, 110 00 Praha 1",
+    "ico": "09876543",
     "navColTitle": "Navigace",
     "contactColTitle": "Kontakt",
     "ftPhoneLabel": "Telefon",
@@ -124,73 +148,106 @@
     "ftAddressLabel": "Adresa",
     "ftIcoLabel": "IČO",
     "socials": [
-      { "icon": "linkedin",  "href": "https://linkedin.com/company/finhypoteky",  "label": "LinkedIn" },
-      { "icon": "facebook",  "href": "https://facebook.com/finhypoteky",          "label": "Facebook" },
-      { "icon": "instagram", "href": "https://instagram.com/finhypoteky",         "label": "Instagram" }
+      {
+        "icon": "linkedin",
+        "href": "https://linkedin.com/company/finhypoteky",
+        "label": "LinkedIn"
+      },
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/finhypoteky",
+        "label": "Facebook"
+      },
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com/finhypoteky",
+        "label": "Instagram"
+      }
     ],
     "links": [
-      { "label": "Úvod",         "href": "/" },
-      { "label": "Služby",       "href": "/sluzby" },
-      { "label": "O nás",        "href": "/o-nas" },
-      { "label": "Novinky",      "href": "/novinky" },
-      { "label": "Kontakt",      "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Novinky",
+        "href": "/novinky"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "legalLinks": [
-      { "label": "Ochrana osobních údajů", "href": "#gdpr" },
-      { "label": "Obchodní podmínky",      "href": "#podminky" }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "#podminky"
+      }
     ],
     "copyright": "© 2026 FinHypotéky s.r.o. Všechna práva vyhrazena."
   },
   "pages": {
     "o-nas": {
-      "seoTitle":       "O společnosti | FinHypotéky s.r.o.",
+      "seoTitle": "O společnosti | FinHypotéky s.r.o.",
       "seoDescription": "Nezávislý hypoteční makléř s 15 lety zkušeností. Spolupracujeme se 22 bankami a pomáháme klientům po celé ČR.",
       "hero": {
-        "title":    "O společnosti",
+        "title": "O společnosti",
         "subtitle": "FinHypotéky s.r.o. — nezávislý hypoteční poradce, který srovnává celý trh a vyjednává nejlepší podmínky pro vás.",
         "breadcrumb": "Domů",
         "breadcrumbHref": "/"
       }
     },
     "kontakt": {
-      "seoTitle":       "Kontakt | FinHypotéky s.r.o.",
+      "seoTitle": "Kontakt | FinHypotéky s.r.o.",
       "seoDescription": "Kontaktujte FinHypotéky — bezplatná konzultace, pobočky po celé ČR. Praha 1, Nové náměstí 18."
     },
     "sluzby": {
-      "seoTitle":       "Služby | FinHypotéky s.r.o.",
+      "seoTitle": "Služby | FinHypotéky s.r.o.",
       "seoDescription": "Kompletní hypoteční servis — od prvního porovnání sazeb až po podpis smlouvy u banky.",
       "hero": {
-        "title":    "Naše služby",
+        "title": "Naše služby",
         "subtitle": "Kompletní hypoteční servis od prvního porovnání sazeb až po podpis smlouvy u banky.",
         "breadcrumb": "Domů",
         "breadcrumbHref": "/"
       }
     },
     "pobocky": {
-      "seoTitle":       "Pobočky | FinHypotéky s.r.o.",
+      "seoTitle": "Pobočky | FinHypotéky s.r.o.",
       "seoDescription": "Navštivte nás osobně — působíme v Praze, Brně a dalších krajských městech.",
       "hero": {
-        "title":    "Pobočky",
+        "title": "Pobočky",
         "subtitle": "Navštivte nás osobně — působíme v Praze, Brně a dalších krajských městech.",
         "breadcrumb": "Domů",
         "breadcrumbHref": "/"
       }
     },
     "novinky": {
-      "seoTitle":       "Novinky & poradna | FinHypotéky s.r.o.",
+      "seoTitle": "Novinky & poradna | FinHypotéky s.r.o.",
       "seoDescription": "Tipy k financování bydlení, novinky z trhu a odpovědi na nejčastější dotazy.",
       "hero": {
-        "title":    "Novinky & poradna",
+        "title": "Novinky & poradna",
         "subtitle": "Tipy k financování bydlení, novinky z trhu a odpovědi na nejčastější dotazy.",
         "breadcrumb": "Domů",
         "breadcrumbHref": "/"
       }
     },
     "kariera": {
-      "seoTitle":       "Kariéra | FinHypotéky s.r.o.",
+      "seoTitle": "Kariéra | FinHypotéky s.r.o.",
       "seoDescription": "Přidejte se k nám — hledáme kolegy, kteří chtějí pomáhat lidem s nejdůležitější investicí života.",
       "hero": {
-        "title":    "Kariéra",
+        "title": "Kariéra",
         "subtitle": "Přidejte se k nám — hledáme kolegy, kteří chtějí pomáhat lidem s nejdůležitější investicí života.",
         "breadcrumb": "Domů",
         "breadcrumbHref": "/"

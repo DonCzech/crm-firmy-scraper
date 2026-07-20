@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#9b1c31",
+    "secondary":  "#1a1613",
+    "background": "#faf7f2",
+    "surface":    "#f2ece3",
+    "text":       "#1a1613",
+    "textMuted":  "#6b6258",
+    "accent":     "#9b1c31",
+    "border":     "#e6ddd0"
+  },
+  "typography": {
+    "fontHeading": "'Cormorant Garamond', Georgia, serif",
+    "fontBody":    "'Inter', system-ui, -apple-system, sans-serif",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "2px",
+    "lg":   "4px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "personality": "editorial",
+    "section":     "airy"
+  }
+}

@@ -19,11 +19,10 @@ import { NotificationsPanel } from "./NotificationsPanel";
 import { HelpPanel } from "./HelpPanel";
 import { HistoryPanel } from "./HistoryPanel";
 import { WixAddOverlay } from "./panels/WixAddOverlay";
-import { WixAddButton } from "./panels/WixAddButton";
 import { ReorderSectionsModal } from "./panels/ReorderSectionsModal";
-import { ArrowUpDown } from "@/components/studio/icons";
+import { ListOrdered } from "@/components/studio/icons";
 import { SetupChecklist } from "./SetupChecklist";
-import { AIPanel } from "./AIPanel";
+import { BuilderShell } from "@/components/builder/BuilderShell";
 import { useHotkey } from "./ui";
 import "./design-tokens.css";
 import type { StudioState } from "./TenantStudioView";
@@ -71,6 +70,7 @@ function useIsMobile(bp = 768) {
 export function StudioShell({ state }: { state: StudioState }) {
   const studio = useStudio();
   const { sidebarOpen } = studio;
+  const minimal = studio.editorTheme === "apple";
   const isMobile = useIsMobile();
   const [reorderOpen, setReorderOpen] = useState(false);
   const mobileChromeInitialized = useRef(false);
@@ -102,14 +102,15 @@ export function StudioShell({ state }: { state: StudioState }) {
   function startRpDrag(e: React.PointerEvent) {
     if (isMobile) return;
     if ((e.target as HTMLElement).closest("button,input,select,textarea,a")) return;
-    const startX = rpPos?.x ?? Math.max(0, window.innerWidth - 264);
+    const floatingPanelWidth = minimal ? 288 : 264;
+    const startX = rpPos?.x ?? Math.max(0, window.innerWidth - floatingPanelWidth);
     const startY = rpPos?.y ?? 44;
     rpDrag.current = { mx: e.clientX, my: e.clientY, px: startX, py: startY };
     e.currentTarget.setPointerCapture(e.pointerId);
     const move = (ev: PointerEvent) => {
       if (!rpDrag.current) return;
       setRpPos({
-        x: Math.max(0, Math.min(window.innerWidth - 264, rpDrag.current.px + ev.clientX - rpDrag.current.mx)),
+        x: Math.max(0, Math.min(window.innerWidth - floatingPanelWidth, rpDrag.current.px + ev.clientX - rpDrag.current.mx)),
         y: Math.max(44, Math.min(window.innerHeight - 120, rpDrag.current.py + ev.clientY - rpDrag.current.my)),
       });
     };
@@ -120,6 +121,19 @@ export function StudioShell({ state }: { state: StudioState }) {
     }, { once: true });
   }
 
+  // AI Builder je režim Studia — otevřený stav zrcadlíme do URL (?builder=1),
+  // aby přežil reload (F5, návrat z GoPay) a šlo na něj odkazovat.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const inUrl = url.searchParams.get("builder") === "1";
+    if (studio.builderOpen === inUrl) return;
+    if (studio.builderOpen) url.searchParams.set("builder", "1");
+    else url.searchParams.delete("builder");
+    window.history.replaceState(null, "", url.toString());
+  }, [studio.builderOpen]);
+
+  // Builder je nemodální drawer — Studio vedle něj zůstává plně ovladatelné,
+  // zkratky proto běží pořád.
   useHotkey("?",      () => studio.setShortcutsOpen(true));
   useHotkey("cmd+k",  () => studio.setCommandPaletteOpen(true));
   useHotkey("P",      () => studio.setLeftPanel(studio.leftPanel === "pages"   ? null : "pages"));
@@ -135,13 +149,28 @@ export function StudioShell({ state }: { state: StudioState }) {
       className="fixed inset-0 flex flex-col bg-[var(--vs-bg-soft)]"
       onKeyDown={(e) => { if (e.key === "Escape") studio.setSelection(null); }}
     >
-      <StudioTopBar state={state} onHelp={() => studio.setShortcutsOpen(true)} isMobile={isMobile} />
-      {!isMobile && <SecondaryActionBar state={state} onOpenReorder={() => setReorderOpen(true)} />}
+      <StudioTopBar
+        state={state}
+        onHelp={() => studio.setShortcutsOpen(true)}
+        isMobile={isMobile}
+        secondaryActions={!isMobile
+          ? <SecondaryActions state={state} onOpenReorder={() => setReorderOpen(true)} />
+          : null}
+      />
       <SaveErrorBanner state={state} />
 
       <div className="relative flex flex-1 min-h-0">
         {/* Rail — mobile can collapse it so the preview uses the full viewport width */}
         {!(isMobile && studio.mobileRailCollapsed) && <StudioLeftRail />}
+
+        {/* AI Builder — slide-out drawer vedle railu; živý náhled = canvas vpravo */}
+        {studio.builderOpen && (
+          <BuilderShell
+            slug={state.tenant.slug}
+            projectName={state.page?.title?.trim() || "Nový projekt"}
+            onClose={() => studio.setBuilderOpen(false)}
+          />
+        )}
 
         {/* Left panel — desktop: inline (pushes canvas); mobile: overlay drawer */}
         {sidebarOpen && !(isMobile && studio.settingsView) && !(isMobile && studio.mobileRailCollapsed) && (
@@ -153,11 +182,11 @@ export function StudioShell({ state }: { state: StudioState }) {
               />
             )}
             <div
-              className="flex flex-col border-r border-[var(--vs-border)] bg-[rgba(18,18,20,0.78)] backdrop-blur-xl overflow-x-hidden shadow-[inset_1px_0_rgba(255,255,255,0.035),8px_0_28px_rgba(0,0,0,0.18)]"
+              className="vs-side-panel flex flex-col border-r border-[var(--vs-border)] bg-[var(--vs-chrome-panel)] backdrop-blur-xl overflow-x-hidden shadow-[inset_1px_0_var(--vs-chrome-highlight),8px_0_28px_rgba(15,23,42,0.10)]"
               style={
                 isMobile
                   ? { position: "absolute", left: 55, top: 0, bottom: 0, width: "min(280px, calc(100vw - 55px))", zIndex: 75 }
-                  : { width: 220, flexShrink: 0 }
+                  : { width: minimal ? 252 : 220, flexShrink: 0 }
               }
             >
               <StudioLeftPanel state={state} />
@@ -193,7 +222,10 @@ export function StudioShell({ state }: { state: StudioState }) {
               </div>
             </div>
           ) : (
-            <div className="absolute right-0 top-0 bottom-0 w-[260px] z-[50] border-l border-[var(--vs-border)] bg-[rgba(18,18,20,0.78)] backdrop-blur-xl overflow-hidden shadow-[-8px_0_28px_rgba(0,0,0,0.24),inset_1px_0_rgba(255,255,255,0.035)]">
+            <div
+              className="vs-inspector-panel absolute right-0 top-0 bottom-0 w-[260px] z-[50] border-l border-[var(--vs-border)] bg-[var(--vs-chrome-panel)] backdrop-blur-xl overflow-hidden shadow-[-8px_0_28px_rgba(15,23,42,0.12),inset_1px_0_var(--vs-chrome-highlight)]"
+              style={minimal ? { width: 284 } : undefined}
+            >
               <StudioRightPanel state={state} onStartDrag={startRpDrag} />
             </div>
           )
@@ -204,7 +236,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       {studio.rightPanel && rpPos && !isMobile && (
         <div
           className="vs-glass fixed z-[150] flex flex-col w-[260px] rounded-xl border border-[var(--vs-border-strong)] shadow-[var(--vs-shadow-xl)] overflow-hidden"
-          style={{ left: rpPos.x, top: rpPos.y, maxHeight: `calc(100vh - ${rpPos.y + 16}px)` }}
+          style={{ left: rpPos.x, top: rpPos.y, width: minimal ? 284 : 260, maxHeight: `calc(100vh - ${rpPos.y + 16}px)` }}
         >
           <StudioRightPanel state={state} onStartDrag={startRpDrag} isFloating />
         </div>
@@ -219,7 +251,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       <HelpPanel tenantSlug={state.tenant.slug} />
       <HistoryPanel state={state} />
       <StudioToast />
-      <OnboardingTour tenantSlug={state.tenant.slug} />
+      {!studio.builderOpen && <OnboardingTour tenantSlug={state.tenant.slug} />}
 
       {studio.assetsOpen && (
         <AssetsGallery state={state} onClose={() => studio.setAssetsOpen(false)} />
@@ -231,48 +263,32 @@ export function StudioShell({ state }: { state: StudioState }) {
       {!isMobile && <ReorderSectionsModal open={reorderOpen} onClose={() => setReorderOpen(false)} state={state} />}
 
       {studio.checklistOpen && <SetupChecklist state={state} />}
-      {studio.aiPanelOpen && !isMobile && <AIPanel state={state} />}
     </div>
   );
 }
 
-/**
- * Wix-style secondary action row. Sits between the dark top bar and the
- * canvas. Houses the brand-aligned equivalents of Wix's
- * "Ask Aria / Change Layout / Replace Background" cluster. We keep our
- * dark surface but mimic the airy spacing and pill divider pattern.
- */
-function SecondaryActionBar({ state, onOpenReorder }: { state: StudioState; onOpenReorder: () => void }) {
-  const studio = useStudio();
+function SecondaryActions({
+  state,
+  onOpenReorder,
+}: {
+  state: StudioState;
+  onOpenReorder: () => void;
+}) {
   const hasSections = state.sections.length > 0;
 
   return (
-    <div className="shrink-0 flex h-[42px] items-center justify-center gap-1 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.72)] px-3 backdrop-blur-xl">
-      <WixAddButton />
-      <span className="mx-2 h-3.5 w-px bg-[var(--vs-border)]" />
-
-      <button
-        type="button"
-        title="AI návrhy a opravy textů"
-        onClick={() => studio.setAiPanelOpen(!studio.aiPanelOpen)}
-        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(212,212,216,0.15)] text-[var(--vs-cta-text)]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
-      >
-        <span className="text-[var(--vs-cta-text)]">✨</span>
-        <span>Pomocník AI</span>
-      </button>
-      <span className="mx-1 h-3.5 w-px bg-[var(--vs-border)]" />
-
+    <>
       <button
         type="button"
         title={hasSections ? "Drag-and-drop přeuspořádání sekcí na stránce" : "Stránka nemá žádné sekce"}
         onClick={onOpenReorder}
         disabled={!hasSections}
-        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${hasSections ? "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]" : "text-[var(--vs-text-dim)] opacity-50 cursor-not-allowed"}`}
+        className={`vs-inline-reorder flex h-8 items-center gap-1.5 rounded-md px-2.5 text-[12.5px] transition-colors ${hasSections ? "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]" : "text-[var(--vs-text-dim)] opacity-50 cursor-not-allowed"}`}
       >
-        <ArrowUpDown size={14} strokeWidth={1.8} />
-        <span>Změnit pořadí</span>
+        <ListOrdered size={15} weight="duotone" />
+        <span>Seřadit sekce</span>
       </button>
-    </div>
+    </>
   );
 }
 
@@ -300,7 +316,7 @@ function TrialBanner({ sidebarOpen, state }: { sidebarOpen: boolean; state: Stud
   }
 
   return (
-    <div className="shrink-0 flex border-t border-[var(--vs-border)] bg-[rgba(18,18,20,0.78)] backdrop-blur-xl">
+    <div className="vs-trialbar shrink-0 flex border-t border-[var(--vs-border)] bg-[var(--vs-chrome-panel)] backdrop-blur-xl">
       <div style={{ width: sidebarOpen ? 275 : 55, transition: "width 0.2s ease-in-out" }} className="shrink-0 border-r border-[var(--vs-border)]" />
       <div className="flex flex-1 items-center justify-center gap-4 px-4 py-2.5">
         <span className="text-[12px] text-[var(--vs-text-muted)] text-center">
@@ -314,7 +330,7 @@ function TrialBanner({ sidebarOpen, state }: { sidebarOpen: boolean; state: Stud
         <button
           type="button"
           onClick={goToBilling}
-          className="shrink-0 rounded-md bg-[var(--vs-cta-grad)] px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)] transition-[filter,box-shadow] duration-100 hover:brightness-110 hover:shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_10px_28px_rgba(var(--vs-cta-rgb),0.46)]"
+          className="vs-subscribe-button shrink-0 rounded-md bg-[var(--vs-cta-grad)] px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)] transition-[filter,box-shadow] duration-100 hover:brightness-110 hover:shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_10px_28px_rgba(var(--vs-cta-rgb),0.46)]"
         >
           Předplatit · 499 Kč/měs.
         </button>

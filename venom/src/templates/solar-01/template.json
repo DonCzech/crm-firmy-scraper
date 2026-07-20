@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "solar-01",
-  "name": "Demo Solar",
+  "name": "HeliosTech",
   "industry": "solar",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -57,7 +57,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -65,13 +67,41 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "solar-01-navbar",   "contentRef": "navbar"   },
-        { "type": "hero",     "variant": "solar-01-hero",     "contentRef": "hero"     },
-        { "type": "stats",    "variant": "solar-01-stats",    "contentRef": "stats"    },
-        { "type": "services", "variant": "solar-01-services", "contentRef": "services" },
-        { "type": "promo",    "variant": "solar-01-process",  "contentRef": "process"  },
-        { "type": "cta",      "variant": "solar-01-cta",      "contentRef": "cta"      },
-        { "type": "footer",   "variant": "solar-01-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "solar-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "solar-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "solar-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "services",
+          "variant": "solar-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "promo",
+          "variant": "solar-01-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "cta",
+          "variant": "solar-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "solar-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -80,10 +110,26 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "solar-01-navbar",   "contentRef": "navbar"   },
-        { "type": "services", "variant": "solar-01-services", "contentRef": "services" },
-        { "type": "cta",      "variant": "solar-01-cta",      "contentRef": "cta"      },
-        { "type": "footer",   "variant": "solar-01-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "solar-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "services",
+          "variant": "solar-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "solar-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "solar-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -92,9 +138,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "solar-01-navbar", "contentRef": "navbar" },
-        { "type": "cta",    "variant": "solar-01-cta",    "contentRef": "cta"    },
-        { "type": "footer", "variant": "solar-01-footer", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "solar-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "cta",
+          "variant": "solar-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "solar-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

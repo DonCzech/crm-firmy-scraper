@@ -1,43 +1,73 @@
 {
   "siteName": "Barbery",
   "tagline": "Pánský barbershop v centru Prahy — řemeslný střih a tradiční holení.",
-
   "navbar": {
     "logoUrl": "/templates/barber-03/logo.svg",
     "siteName": "Barbery",
     "links": [
-      { "label": "Služby",   "href": "/sluzby" },
-      { "label": "O nás",    "href": "/onas" },
-      { "label": "Akce",     "href": "/akce" },
-      { "label": "Ceník",    "href": "/cenik" },
-      { "label": "FAQ",      "href": "/faq" },
-      { "label": "Galerie",  "href": "/galerie" },
-      { "label": "Kontakty", "href": "/kontakt" }
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/onas"
+      },
+      {
+        "label": "Akce",
+        "href": "/akce"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "FAQ",
+        "href": "/faq"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakty",
+        "href": "/kontakt"
+      }
     ],
     "ctaText": "",
     "ctaHref": "",
-    "sticky": true,
     "transparent": true,
     "hamburgerBreakpoint": 992,
     "topbar": {
-      "phone": { "label": "+420 704 123 456", "href": "tel:+420704123456" },
+      "phone": {
+        "label": "+420 704 123 456",
+        "href": "tel:+420704123456"
+      },
       "social": [
-        { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com/demo" }
+        {
+          "icon": "instagram",
+          "label": "Instagram",
+          "href": "https://instagram.com/demo"
+        }
       ]
     }
   },
-
   "hero": {
     "title": "Pánský střih jako tradiční řemeslo",
     "subtitle": "",
     "ctaText": "",
     "ctaHref": "",
-    "backgroundImage": { "__placeholder": [1920, 1280, "Hero — warm dark holičství"] },
+    "backgroundImage": {
+      "__placeholder": [
+        1920,
+        1280,
+        "Hero — warm dark holičství"
+      ]
+    },
     "hoursLines": [],
     "address": "",
     "scrollIndicator": false
   },
-
   "footer": {
     "logoUrl": "/templates/barber-03/logo.svg",
     "siteName": "Barbery",
@@ -48,82 +78,270 @@
     "mapEmbedUrl": "https://maps.google.com/maps?q=Ukazkova+123+Praha+1&t=&z=15&ie=UTF8&iwloc=&output=embed",
     "hoursTitle": "Otevírací doba",
     "hours": [
-      { "day": "Po–Pá", "value": "9:00 – 18:00" },
-      { "day": "So",    "value": "9:00 – 14:00" }
+      {
+        "day": "Po–Pá",
+        "value": "9:00 – 18:00"
+      },
+      {
+        "day": "So",
+        "value": "9:00 – 14:00"
+      }
     ],
     "socials": [
-      { "label": "Instagram", "href": "https://instagram.com/demo" }
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      }
     ],
     "legal": "Barbery s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
   },
-
   "gallery": {
     "title": "Galerie",
     "images": [
-      { "url": { "__placeholder": [1000, 1000, "Galerie 1"] }, "alt": "Demo galerie 1" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 2"] }, "alt": "Demo galerie 2" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 3"] }, "alt": "Demo galerie 3" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 4"] }, "alt": "Demo galerie 4" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 5"] }, "alt": "Demo galerie 5" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 6"] }, "alt": "Demo galerie 6" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 7"] }, "alt": "Demo galerie 7" },
-      { "url": { "__placeholder": [1000, 1000, "Galerie 8"] }, "alt": "Demo galerie 8" }
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 1"
+          ]
+        },
+        "alt": "Demo galerie 1"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 2"
+          ]
+        },
+        "alt": "Demo galerie 2"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 3"
+          ]
+        },
+        "alt": "Demo galerie 3"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 4"
+          ]
+        },
+        "alt": "Demo galerie 4"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 5"
+          ]
+        },
+        "alt": "Demo galerie 5"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 6"
+          ]
+        },
+        "alt": "Demo galerie 6"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 7"
+          ]
+        },
+        "alt": "Demo galerie 7"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            1000,
+            1000,
+            "Galerie 8"
+          ]
+        },
+        "alt": "Demo galerie 8"
+      }
     ]
   },
-
   "pricing": {
     "leftTitle": "O Barbery",
     "rightTitle": "Holičské služby",
-    "videoPoster": { "__placeholder": [1200, 675, "Video — holičské studio"] },
-    "columns": ["Junior", "Barber / Pro", "Senior / Top"],
+    "videoPoster": {
+      "__placeholder": [
+        1200,
+        675,
+        "Video — holičské studio"
+      ]
+    },
+    "columns": [
+      "Junior",
+      "Barber / Pro",
+      "Senior / Top"
+    ],
     "rows": [
-      { "service": "Klasický střih",                "prices": ["400 Kč", "550 Kč", "700 Kč"] },
-      { "service": "Střih a úprava vousů",          "prices": ["500 Kč", "750 Kč", "900 Kč"] },
-      { "service": "Střih dlouhých vlasů",          "prices": ["400 Kč", "650 Kč", "800 Kč"] },
-      { "service": "Holení horkým ručníkem",        "prices": ["—",      "450 Kč", "550 Kč"] },
-      { "service": "Úprava vousů",                  "prices": ["250 Kč", "350 Kč", "450 Kč"] },
-      { "service": "Dětský střih (5–12 let)",       "prices": ["350 Kč", "400 Kč", "450 Kč"] }
+      {
+        "service": "Klasický střih",
+        "prices": [
+          "400 Kč",
+          "550 Kč",
+          "700 Kč"
+        ]
+      },
+      {
+        "service": "Střih a úprava vousů",
+        "prices": [
+          "500 Kč",
+          "750 Kč",
+          "900 Kč"
+        ]
+      },
+      {
+        "service": "Střih dlouhých vlasů",
+        "prices": [
+          "400 Kč",
+          "650 Kč",
+          "800 Kč"
+        ]
+      },
+      {
+        "service": "Holení horkým ručníkem",
+        "prices": [
+          "—",
+          "450 Kč",
+          "550 Kč"
+        ]
+      },
+      {
+        "service": "Úprava vousů",
+        "prices": [
+          "250 Kč",
+          "350 Kč",
+          "450 Kč"
+        ]
+      },
+      {
+        "service": "Dětský střih (5–12 let)",
+        "prices": [
+          "350 Kč",
+          "400 Kč",
+          "450 Kč"
+        ]
+      }
     ],
     "notes": [
       "Ke každé službě podáváme čerstvou kávu, vodu nebo drink.",
       "Ceny jsou orientační — finální cena záleží na délce vlasů a zvoleném ošetření."
     ],
     "ctas": [
-      { "label": "Kompletní ceník",  "href": "#cenik",      "primary": true  },
-      { "label": "Online rezervace", "href": "#rezervace",  "primary": false }
+      {
+        "label": "Kompletní ceník",
+        "href": "#cenik",
+        "primary": true
+      },
+      {
+        "label": "Online rezervace",
+        "href": "#rezervace",
+        "primary": false
+      }
     ]
   },
-
   "about": {
     "title": "O nás",
     "lead": "Pánská péče je řemeslo. V Barbery věnujeme každému zákazníkovi tolik času, kolik si zaslouží — bez spěchu, s důrazem na detail a tradiční techniky.",
     "body": "Tým holičů, kteří chápou, že střih není jen účes, ale součást vašeho stylu. Pracujeme s klasickými břitvami, horkým ručníkem a kvalitní kosmetikou. Atmosféra teplých tónů, dřeva a kůže vám dovolí na chvíli vypnout.",
-    "image": { "__placeholder": [1200, 900, "About — interiér holičství"] }
+    "image": {
+      "__placeholder": [
+        1200,
+        900,
+        "About — interiér holičství"
+      ]
+    }
   },
-
   "testimonials": {
     "title": "Recenze",
     "testimonials": [
-      { "name": "Jan Novák", "rating": 5, "text": "Profesionální přístup od první návštěvy. Holení horkým ručníkem je rituál sám o sobě. Doporučuji každému." },
-      { "name": "Petra Svobodová", "rating": 5, "text": "Manželovi tady stříhají vlasy už druhý rok a vždy odchází spokojený. Atmosféra je výborná." },
-      { "name": "Tomáš Dvořák", "rating": 5, "text": "Klasický střih a úprava vousů — přesně to, co jsem hledal. Tým rozumí řemeslu." },
-      { "name": "Eva Procházková", "rating": 5, "text": "Brala jsem syna na první dětský střih. Trpěliví, přátelští, profesionální. Hned jsme se objednali zpátky." },
-      { "name": "Martin Černý", "rating": 5, "text": "Konečně místo, kde se vyznají v dlouhých vlasech. Předtím to byla loterie." }
+      {
+        "name": "Jan Novák",
+        "rating": 5,
+        "text": "Profesionální přístup od první návštěvy. Holení horkým ručníkem je rituál sám o sobě. Doporučuji každému."
+      },
+      {
+        "name": "Petra Svobodová",
+        "rating": 5,
+        "text": "Manželovi tady stříhají vlasy už druhý rok a vždy odchází spokojený. Atmosféra je výborná."
+      },
+      {
+        "name": "Tomáš Dvořák",
+        "rating": 5,
+        "text": "Klasický střih a úprava vousů — přesně to, co jsem hledal. Tým rozumí řemeslu."
+      },
+      {
+        "name": "Eva Procházková",
+        "rating": 5,
+        "text": "Brala jsem syna na první dětský střih. Trpěliví, přátelští, profesionální. Hned jsme se objednali zpátky."
+      },
+      {
+        "name": "Martin Černý",
+        "rating": 5,
+        "text": "Konečně místo, kde se vyznají v dlouhých vlasech. Předtím to byla loterie."
+      }
     ]
   },
-
   "promo": {
     "cards": [
       {
-        "bgImage": { "__placeholder": [800, 600, "Promo karta 1"] },
-        "bullets": ["Káva", "Voda", "Drink"],
+        "bgImage": {
+          "__placeholder": [
+            800,
+            600,
+            "Promo karta 1"
+          ]
+        },
+        "bullets": [
+          "Káva",
+          "Voda",
+          "Drink"
+        ],
         "desc": "Ke každé objednané službě v našem studiu."
       },
       {
-        "bgImage": { "__placeholder": [800, 600, "Promo karta 2"] },
-        "bullets": ["Dárek"],
+        "bgImage": {
+          "__placeholder": [
+            800,
+            600,
+            "Promo karta 2"
+          ]
+        },
+        "bullets": [
+          "Dárek"
+        ],
         "desc": "Každá 5. návštěva — věrnostní dárek od Barbery."
       }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte se u nás",
+      "subtitle": "Vyberte službu, barbera a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

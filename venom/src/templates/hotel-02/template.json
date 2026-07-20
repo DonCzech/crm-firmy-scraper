@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "hotel-02",
-  "name": "Demo Hotel Atlantis",
+  "name": "Relax Hotel",
   "industry": "hotel",
   "skeleton": "gastro",
   "version": "0.1.0",
@@ -56,7 +56,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -64,14 +66,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "hotel-02-navbar",   "contentRef": "navbar"   },
-        { "type": "hero",     "variant": "hotel-02-hero",     "contentRef": "hero"     },
-        { "type": "about",    "variant": "hotel-02-about",    "contentRef": "about"    },
-        { "type": "stats",    "variant": "hotel-02-features", "contentRef": "features" },
-        { "type": "services", "variant": "hotel-02-rooms",    "contentRef": "rooms"    },
-        { "type": "promo",    "variant": "hotel-02-packages", "contentRef": "packages" },
-        { "type": "gallery",  "variant": "hotel-02-gallery",  "contentRef": "gallery"  },
-        { "type": "footer",   "variant": "hotel-02-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "hotel-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hotel-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "hotel-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "stats",
+          "variant": "hotel-02-features",
+          "contentRef": "features"
+        },
+        {
+          "type": "services",
+          "variant": "hotel-02-rooms",
+          "contentRef": "rooms"
+        },
+        {
+          "type": "promo",
+          "variant": "hotel-02-packages",
+          "contentRef": "packages"
+        },
+        {
+          "type": "gallery",
+          "variant": "hotel-02-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "hotel-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

@@ -1,0 +1,11 @@
+import { chromium } from "playwright-core";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV/ef33a2ed-919f-4c3e-ba3e-6a9515fab0e7/scratchpad";
+const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const ctx = await browser.newContext({ viewport: { width: 1600, height: 900 } });
+const page = await ctx.newPage();
+const url = "http://localhost:3015/demo/restaurant-04-v2?ts=" + Date.now();
+await page.goto(url, { waitUntil: "networkidle", timeout: 90000 });
+await page.waitForTimeout(2000);
+await page.screenshot({ path: `${OUT}/r04-full.png`, fullPage: true });
+await browser.close();
+console.log("done");

@@ -99,7 +99,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Webero — Professional websites in 5 minutes",
-    description: "Live editor, 99+ templates, EU hosting. No developer needed.",
+    description: "Live editor, 100+ templates, EU hosting. No developer needed.",
     images: ["/templates/arch-01/hero-1.webp"],
   },
   icons: {
@@ -145,7 +145,7 @@ const schemaProduct = {
   "@type": "Product",
   "@id": `${BASE}/#product`,
   name: "Webero",
-  description: "A professional website with a live editor, 99+ templates, EU hosting, and support.",
+  description: "A professional website with a live editor, 100+ templates, EU hosting, and support.",
   brand: { "@id": `${BASE}/#organization` },
   offers: {
     "@type": "Offer",
@@ -231,11 +231,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     ...schemaProduct,
     description: locale === "en"
       ? schemaProduct.description
-      : "Profesionální web s live editorem, 99+ šablonami, EU hostingem a českou podporou.",
+      : "Profesionální web s live editorem, 100+ šablonami, EU hostingem a českou podporou.",
   };
 
   return (
-    <html lang={locale} className={`${libreBaskerville.variable} ${sourceSans.variable} ${oswald.variable} ${overpass.variable} ${overpassMono.variable} ${instrumentSerif.variable}`}>
+    // suppressHydrationWarning: StudioThemeScript (admin) nastavuje data-vs-*
+    // atributy na <html> ještě před hydratací (anti-FOUC tématu editoru) —
+    // potlačení platí jen pro atributy tohoto elementu, ne pro potomky.
+    <html lang={locale} suppressHydrationWarning className={`${libreBaskerville.variable} ${sourceSans.variable} ${oswald.variable} ${overpass.variable} ${overpassMono.variable} ${instrumentSerif.variable}`}>
       <head>
         {/* next/font self-hosts all font files — no runtime Google Fonts requests */}
         {/* arch-01 LCP preload moved to src/app/page.tsx (landing only, not demo pages) */}

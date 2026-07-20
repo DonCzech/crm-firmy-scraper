@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "garden-01",
-  "name": "Demo Gerberra",
+  "name": "VERDÉ Zahrady",
   "industry": "garden",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -53,7 +53,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -61,12 +63,36 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",  "variant": "garden-01-navbar",  "contentRef": "navbar"  },
-        { "type": "hero",    "variant": "garden-01-hero",    "contentRef": "hero"    },
-        { "type": "gallery", "variant": "garden-01-gallery", "contentRef": "gallery" },
-        { "type": "about",   "variant": "garden-01-about",   "contentRef": "about"   },
-        { "type": "contact", "variant": "garden-01-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "garden-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "garden-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "garden-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "garden-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "about",
+          "variant": "garden-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "contact",
+          "variant": "garden-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "garden-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -75,8 +101,16 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "garden-01-navbar",  "contentRef": "navbar"  },
-        { "type": "footer",  "variant": "garden-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "garden-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "footer",
+          "variant": "garden-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -85,9 +119,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "garden-01-navbar",  "contentRef": "navbar"  },
-        { "type": "contact", "variant": "garden-01-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "garden-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "garden-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "garden-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "garden-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

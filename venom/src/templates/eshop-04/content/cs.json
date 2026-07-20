@@ -1,0 +1,378 @@
+{
+  "siteName": "Pastelka",
+  "seo": {
+    "title": "Pastelka — obchod, který vám udělá radost",
+    "description": "Móda, kosmetika, domácnost i drobné radosti v pastelových barvách. Doprava zdarma od 990 Kč, odeslání do 24 hodin a 3 000+ výdejních míst."
+  },
+  "navbar": {
+    "siteName": "Pastelka",
+    "motto": "obchod, který vám udělá radost",
+    "logoUrl": "",
+    "topLinks": [],
+    "ctaText": "Nakupovat",
+    "ctaHref": "/obchod",
+    "links": [
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Blog",
+        "href": "#blog"
+      },
+      {
+        "label": "Značky",
+        "href": "/obchod"
+      }
+    ],
+    "categories": [
+      {
+        "label": "Kosmetika",
+        "slug": "kosmetika",
+        "children": [
+          {
+            "label": "Péče o pleť",
+            "slug": "pece-o-plet"
+          },
+          {
+            "label": "Vlasová kosmetika",
+            "slug": "vlasova-kosmetika"
+          },
+          {
+            "label": "Parfémy",
+            "slug": "parfemy"
+          },
+          {
+            "label": "BIO & EKO",
+            "slug": "bio-eko"
+          }
+        ]
+      },
+      {
+        "label": "Oblečení",
+        "slug": "obleceni",
+        "children": [
+          {
+            "label": "Dámské",
+            "slug": "damske"
+          },
+          {
+            "label": "Pánské",
+            "slug": "panske"
+          },
+          {
+            "label": "Dětské",
+            "slug": "detske"
+          },
+          {
+            "label": "Trička & Polokošile",
+            "slug": "tricka"
+          },
+          {
+            "label": "Mikiny & Svetry",
+            "slug": "mikiny"
+          },
+          {
+            "label": "Bundy & Kabáty",
+            "slug": "bundy"
+          }
+        ]
+      },
+      {
+        "label": "Domácnost",
+        "slug": "domacnost",
+        "children": [
+          {
+            "label": "Svíčky & Vůně",
+            "slug": "svicky-vune"
+          },
+          {
+            "label": "Textil & Povlečení",
+            "slug": "textil"
+          },
+          {
+            "label": "Kuchyně",
+            "slug": "kuchyne"
+          },
+          {
+            "label": "Dekorace",
+            "slug": "dekorace"
+          },
+          {
+            "label": "Osvětlení",
+            "slug": "osvetleni"
+          }
+        ]
+      }
+    ],
+    "highlightLinks": [],
+    "currency": "CZK"
+  },
+  "hero": {
+    "slides": [
+      {
+        "image": "/templates/eshop-04/hero-moda.webp",
+        "imageAlt": "Jarní kolekce",
+        "heading": "Jarní kolekce plná barev",
+        "text": "Nové kousky, které rozzáří váš šatník. Doprava zdarma od 990 Kč.",
+        "ctaText": "Přejít do nabídky",
+        "ctaHref": "/obchod?kategorie=obleceni"
+      },
+      {
+        "image": "/templates/eshop-04/hero-kosmetika.webp",
+        "imageAlt": "Kosmetika",
+        "heading": "Péče, kterou si zasloužíte",
+        "text": "Přírodní kosmetika a parfémy od ověřených značek.",
+        "ctaText": "Přejít do nabídky",
+        "ctaHref": "/obchod?kategorie=kosmetika"
+      }
+    ],
+    "bottomBanners": [
+      {
+        "image": "/templates/eshop-04/side-domacnost.webp",
+        "imageAlt": "Útulný domov",
+        "heading": "Nová kolekce do domácnosti",
+        "text": "Svíčky, textil a dekorace, které promění každý pokoj v místo, kam se budete těšit.",
+        "linkText": "Přejít do nabídky",
+        "href": "/obchod?kategorie=domacnost"
+      },
+      {
+        "image": "/templates/eshop-04/side-elektronika.webp",
+        "imageAlt": "Chytré doplňky",
+        "heading": "Chytré doplňky na každý den",
+        "text": "Sluchátka a hodinky, které si zamilujete — vybrali jsme kousky s nejlepším poměrem ceny a výkonu.",
+        "linkText": "Přejít do nabídky",
+        "href": "/obchod?kategorie=elektronika"
+      }
+    ]
+  },
+  "benefits": {
+    "items": [
+      {
+        "icon": "gift",
+        "title": "Dárek zdarma",
+        "text": "ke každé objednávce nad 1 500 Kč"
+      },
+      {
+        "icon": "box",
+        "title": "Doručení do druhého dne",
+        "text": "na jakékoliv místo"
+      },
+      {
+        "icon": "refresh",
+        "title": "Garance vrácení",
+        "text": "30 dní na rozmyšlenou"
+      },
+      {
+        "icon": "pin",
+        "title": "3 000+ výdejních míst",
+        "text": "po celé České republice"
+      }
+    ]
+  },
+  "doporucujeme": {
+    "heading": "Doporučujeme",
+    "ctaLabel": "Zobrazit vše",
+    "ctaHref": "/obchod",
+    "source": "newest",
+    "limit": 8,
+    "columns": 4
+  },
+  "banner": {
+    "image": "/templates/eshop-04/banner-vyprodej.webp",
+    "imageAlt": "Letní akce",
+    "badge": "Jen tento týden",
+    "heading": "Letní výprodej až −40 %",
+    "text": "Vybrané kousky z módy, kosmetiky i domácnosti za sluníčkové ceny.",
+    "ctaText": "Nakupovat akce",
+    "ctaHref": "/obchod?kategorie=akce"
+  },
+  "novinky": {
+    "heading": "Novinky v obchodě",
+    "ctaLabel": "Všechny novinky",
+    "ctaHref": "/obchod?kategorie=novinky",
+    "categorySlug": "novinky",
+    "limit": 8,
+    "columns": 4
+  },
+  "blog": {
+    "heading": "Čtěte na našem blogu",
+    "items": [
+      {
+        "image": "/templates/eshop-04/blog-outfit.webp",
+        "title": "Jak sladit outfit s jarní náladou",
+        "text": "Pastelové tóny letos vládnou. Poradíme, jak je kombinovat, aby vám to slušelo.",
+        "href": "/o-nas"
+      },
+      {
+        "image": "/templates/eshop-04/blog-rutina.webp",
+        "title": "Ranní rutina s přírodní kosmetikou",
+        "text": "Pět kroků k rozzářené pleti s produkty, které najdete u nás.",
+        "href": "/o-nas"
+      },
+      {
+        "image": "/templates/eshop-04/blog-obyvak.webp",
+        "title": "Útulný obývák za víkend",
+        "text": "Svíčky, textil a pár chytrých doplňků — proměna, kterou zvládnete sami.",
+        "href": "/o-nas"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Pastelka",
+    "tagline": "Obchod, který vám udělá radost. Móda, kosmetika a bydlení v barvách, které ladí — posíláme s láskou už od roku 2018.",
+    "phone": "+420 731 222 333",
+    "email": "dobryden@pastelka.cz",
+    "address": "Květinová 21, 602 00 Brno",
+    "openNote": "Po–Pá 9:00–17:00. Na e-maily odpovídáme do 24 hodin.",
+    "shopTitle": "Nakupujte",
+    "shopLinks": [
+      {
+        "label": "Oblečení",
+        "href": "/obchod?kategorie=obleceni"
+      },
+      {
+        "label": "Kosmetika",
+        "href": "/obchod?kategorie=kosmetika"
+      },
+      {
+        "label": "Domácnost",
+        "href": "/obchod?kategorie=domacnost"
+      },
+      {
+        "label": "Boty",
+        "href": "/obchod?kategorie=boty"
+      },
+      {
+        "label": "Akce",
+        "href": "/obchod?kategorie=akce"
+      },
+      {
+        "label": "Novinky",
+        "href": "/obchod?kategorie=novinky"
+      }
+    ],
+    "infoTitle": "Informace",
+    "infoLinks": [
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Doprava a platba",
+        "href": "/doprava-a-platba"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Reklamace a vrácení",
+        "href": "/doprava-a-platba"
+      }
+    ],
+    "payments": [
+      "Visa",
+      "Mastercard",
+      "Apple Pay",
+      "Google Pay",
+      "Bankovní převod",
+      "Dobírka"
+    ],
+    "nlHeading": "Odebírat newsletter",
+    "nlPlaceholder": "Vaše e-mailová adresa",
+    "nlButton": "Odebírat",
+    "nlNote": "Vložením e-mailu souhlasíte s podmínkami ochrany osobních údajů.",
+    "contactName": "Petra Pastelková"
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "heading": "O nás",
+        "text": "Pastelka vznikla v Brně z lásky k hezkým věcem. Vybíráme jen to, co nám samotným dělá radost — a posíláme to dál."
+      },
+      "banner": {
+        "image": "/templates/eshop-04/banner-onas.webp",
+        "imageAlt": "Náš tým",
+        "badge": "Náš příběh",
+        "heading": "Malý obchod s velkým srdcem",
+        "text": "Vlastní sklad v Brně, pečlivě balené zásilky a podpora, která si na vás udělá čas.",
+        "ctaText": "Nakupovat",
+        "ctaHref": "/obchod"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "heading": "Kontakt",
+        "text": "Napište nám, zavolejte, nebo se stavte na kávu do našeho brněnského studia."
+      },
+      "contact": {
+        "phone": "+420 731 222 333",
+        "email": "dobryden@pastelka.cz",
+        "address": "Květinová 21, 602 00 Brno",
+        "hours": "Po–Pá 9:00–17:00",
+        "formTitle": "Napište nám",
+        "formText": "Odpovídáme do 24 hodin, obvykle mnohem dřív."
+      }
+    },
+    "doprava": {
+      "hero": {
+        "heading": "Doprava a platba",
+        "text": "Doprava zdarma od 990 Kč. Objednávky do 14:00 odesíláme ještě tentýž den."
+      },
+      "shipping": {
+        "shippingTitle": "Doprava",
+        "shippingItems": [
+          {
+            "name": "Zásilkovna — výdejní místo",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "69 Kč"
+          },
+          {
+            "name": "Balíkovna České pošty",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "65 Kč"
+          },
+          {
+            "name": "PPL kurýr na adresu",
+            "note": "doručení následující pracovní den",
+            "price": "99 Kč"
+          },
+          {
+            "name": "Osobní odběr — Brno",
+            "note": "Květinová 21, Po–Pá 9:00–17:00",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Objednávka nad 990 Kč",
+            "note": "platí pro všechny dopravce",
+            "price": "Zdarma"
+          }
+        ],
+        "paymentTitle": "Platba",
+        "paymentItems": [
+          {
+            "name": "Platební kartou online",
+            "note": "Visa, Mastercard, Apple Pay, Google Pay",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Bankovní převod",
+            "note": "zboží odesíláme po připsání platby",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Dobírka",
+            "note": "platba při převzetí zásilky",
+            "price": "39 Kč"
+          }
+        ],
+        "note": "Ceny dopravy platí pro zásilky do 20 kg v rámci České republiky. Doručení na Slovensko řešíme individuálně — napište nám."
+      }
+    }
+  }
+}

@@ -81,7 +81,7 @@ Viz `docs/pravidla.md` + memory `feedback_venom_execution.md`.
 `http://localhost:3015/demo/SLUG-demo`
 
 ### DB připojení:
-`postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
+`<REDACTED_DATABASE_URL>`
 
 ### Chrome:
 `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`

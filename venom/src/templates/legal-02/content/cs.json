@@ -3,56 +3,100 @@
     "siteName": "DOLEŽAL & PARTNEŘI",
     "logoUrl": "/templates/legal-02/logo.svg",
     "links": [
-      { "label": "O nás",           "href": "/o-nas" },
-      { "label": "Tým",             "href": "/tym" },
-      { "label": "Naše služby",     "href": "/sluzby" },
-      { "label": "Aktuálně",        "href": "/aktuality" },
-      { "label": "Kariéra",         "href": "/kariera" },
-      { "label": "Kontaktujte nás", "href": "/kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Tým",
+        "href": "/tym"
+      },
+      {
+        "label": "Naše služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Aktuálně",
+        "href": "/aktuality"
+      },
+      {
+        "label": "Kariéra",
+        "href": "/kariera"
+      },
+      {
+        "label": "Kontaktujte nás",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
     "tagline": "Advokátní kancelář · Praha",
     "title": "Vaše právo\nnaše priorita",
     "subtitle": "Chráníme zájmy firem i jednotlivců s přesností, důsledností a osobním přístupem.",
     "ctaText": "Konzultace zdarma",
     "ctaHref": "/kontakt",
-    "videoId": "76mKfaR1064",
+    "videoId": "",
     "stats": [
-      { "value": "80+",  "label": "právníků" },
-      { "value": "45+",  "label": "zaměstnanců" },
-      { "value": "28+",  "label": "let na trhu" },
-      { "value": "11",   "label": "partnerů" }
+      {
+        "value": "80+",
+        "label": "právníků"
+      },
+      {
+        "value": "45+",
+        "label": "zaměstnanců"
+      },
+      {
+        "value": "28+",
+        "label": "let na trhu"
+      },
+      {
+        "value": "11",
+        "label": "partnerů"
+      }
     ],
     "numberTitle": "Přes 28 let budujeme\ndůvěru a výsledky",
     "numberBody": "Od roku 1997 stojíme po boku těch, kteří potřebují spolehlivého právního partnera. Zastupujeme přední české i mezinárodní firmy, veřejné instituce a fyzické osoby v celém spektru právních odvětví — od fúzí a akvizic po správní řízení a restrukturalizace.",
     "numberCtaText": "Více o nás",
-    "numberCtaHref": "/o-nas",
-    "bgImage": "/templates/legal-02/hero-bg.jpg"
+    "numberCtaHref": "/o-nas"
   },
-
   "about": {
     "tagline": "O kanceláři",
     "title": "Přes 28 let stojíme\nna straně klientů",
     "body": "Doležal & Partneři je pražská advokátní kancelář s jasnou filozofií: každý případ si zaslouží hloubkovou analýzu, strategické myšlení a osobní angažovanost. Náš tým 80 právníků pokrývá všechna klíčová odvětví a je připraven řešit i nejsložitější právní situace. Věříme, že právo má sloužit lidem — ne naopak.",
     "ctaText": "Poznejte nás blíže",
     "ctaHref": "/o-nas",
-    "image": "/templates/legal-02/about-bg.jpg"
+    "image": "/templates/legal-02/about-bg.webp"
   },
-
   "services": {
     "title": "Komplexní právní péče\nve všech oblastech",
     "subtitle": "Specializujeme se tam, kde se věci komplikují — a přinášíme řešení, která obstojí.",
     "ctaText": "Zobrazit všechny služby",
     "ctaHref": "/sluzby",
     "services": [
-      { "name": "Soutěžní a regulatorní právo",    "description": "Zastupování v řízeních před ÚOHS i Evropskou komisí." },
-      { "name": "Mezinárodní obchodní právo",       "description": "Přeshraniční transakce, smlouvy a arbitráže." },
-      { "name": "Pracovní právo",                   "description": "Pracovní smlouvy, výpovědi, kolektivní vyjednávání." },
-      { "name": "Restrukturalizace a insolvence",   "description": "Správa úpadku, oddlužení a reorganizační plány." },
-      { "name": "Správní právo a veřejné zakázky",  "description": "Řízení před správními orgány a zadávání zakázek." },
-      { "name": "Právo duševního vlastnictví",      "description": "Ochranné známky, patenty, autorská práva." }
+      {
+        "name": "Soutěžní a regulatorní právo",
+        "description": "Zastupování v řízeních před ÚOHS i Evropskou komisí."
+      },
+      {
+        "name": "Mezinárodní obchodní právo",
+        "description": "Přeshraniční transakce, smlouvy a arbitráže."
+      },
+      {
+        "name": "Pracovní právo",
+        "description": "Pracovní smlouvy, výpovědi, kolektivní vyjednávání."
+      },
+      {
+        "name": "Restrukturalizace a insolvence",
+        "description": "Správa úpadku, oddlužení a reorganizační plány."
+      },
+      {
+        "name": "Správní právo a veřejné zakázky",
+        "description": "Řízení před správními orgány a zadávání zakázek."
+      },
+      {
+        "name": "Právo duševního vlastnictví",
+        "description": "Ochranné známky, patenty, autorská práva."
+      }
     ],
     "groups": [
       {
@@ -79,7 +123,6 @@
       }
     ]
   },
-
   "blog": {
     "tagline": "Aktuálně",
     "title": "Novinky z advokátní kanceláře",
@@ -90,26 +133,25 @@
         "title": "ESG regulace 2025: nové povinnosti, které nemohou ignorovat ani střední firmy",
         "excerpt": "Evropská směrnice CSRD se letos dotkne tisíců českých společností. Přinášíme přehled povinností a praktické rady, jak se připravit.",
         "date": "2026-05-18",
-        "image": "/templates/legal-02/blog-1.jpg",
+        "image": "/templates/legal-02/blog-1.webp",
         "href": "/aktuality"
       },
       {
         "title": "Konec anonymních vlastníků: co přinesl zákon o skutečných majitelích firem",
         "excerpt": "Analýza dopadů novely zákona č. 37/2021 Sb. a přehled sankcí, které hrozí firmám nesplňujícím evidenční povinnosti.",
         "date": "2026-04-30",
-        "image": "/templates/legal-02/blog-2.jpg",
+        "image": "/templates/legal-02/blog-2.webp",
         "href": "/aktuality"
       },
       {
         "title": "GDPR a práva zaměstnanců: kdy smíte monitorovat pracovní zařízení a kdy ne",
         "excerpt": "Zaměstnavatelé stále tápou v tom, co GDPR dovoluje. Na konkrétních příkladech vysvětlujeme hranice zákonného monitoringu.",
         "date": "2026-04-12",
-        "image": "/templates/legal-02/blog-3.jpg",
+        "image": "/templates/legal-02/blog-3.webp",
         "href": "/aktuality"
       }
     ]
   },
-
   "contact": {
     "tagline": "Kontakt",
     "title": "Pojďme to vyřešit společně",
@@ -122,17 +164,31 @@
     "instagram": "https://instagram.com/demo",
     "linkedin": "https://linkedin.com/company/demo"
   },
-
   "footer": {
     "siteName": "DOLEŽAL & PARTNEŘI",
     "logoUrl": "/templates/legal-02/logo.svg",
     "tagline": "Advokátní kancelář pro firmy, instituce i soukromé klienty.",
     "links": [
-      { "label": "O nás",       "href": "/o-nas" },
-      { "label": "Naše služby", "href": "/sluzby" },
-      { "label": "Aktuálně",   "href": "/aktuality" },
-      { "label": "Kariéra",    "href": "/kariera" },
-      { "label": "Kontakt",    "href": "/kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Naše služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Aktuálně",
+        "href": "/aktuality"
+      },
+      {
+        "label": "Kariéra",
+        "href": "/kariera"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "address": "Revoluční 15, 110 00 Praha 1",
     "phone": "226 555 800",
@@ -144,13 +200,11 @@
     "linkedin": "https://linkedin.com/company/demo",
     "copyright": "© 2026 DOLEŽAL & PARTNEŘI, advokátní kancelář s.r.o. Všechna práva vyhrazena."
   },
-
   "pages": {
     "o-nas": {
       "seoTitle": "O nás | DOLEŽAL & PARTNEŘI",
       "seoDescription": "Pražská advokátní kancelář s 28letou tradicí. Přes 80 právníků specializovaných v obchodním, korporátním a regulatorním právu.",
       "hero": {
-        "tagline": "O kanceláři",
         "title": "DOLEŽAL & PARTNEŘI",
         "subtitle": "Advokátní kancelář s 28letou tradicí a jasnou filozofií.",
         "ctaText": "Kontaktujte nás",
@@ -161,7 +215,6 @@
       "seoTitle": "Naše služby | DOLEŽAL & PARTNEŘI",
       "seoDescription": "Komplexní právní poradenství — soutěžní právo, M&A, pracovní právo, insolvence, správní řízení a více.",
       "hero": {
-        "tagline": "Právní poradenství",
         "title": "Naše specializace",
         "subtitle": "Zastupujeme klienty tam, kde je to nejdůležitější.",
         "ctaText": "Kontaktujte nás",

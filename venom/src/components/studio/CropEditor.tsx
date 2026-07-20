@@ -41,13 +41,13 @@ export function CropEditor({ file, aspect, onConfirm, onCancel }: Props) {
 
   return (
     <div className="fixed inset-0 z-[9999] flex flex-col bg-black/90">
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 text-white">
+      <div className="flex items-center justify-between border-b border-[var(--vs-border-strong)] px-4 py-3 text-[var(--vs-text)]">
         <span className="text-sm font-semibold">Oříznout obrázek</span>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-md px-3 py-1.5 text-xs font-semibold text-white/70 hover:text-white"
+            className="rounded-md px-3 py-1.5 text-xs font-semibold text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
           >
             Zrušit
           </button>
@@ -74,8 +74,8 @@ export function CropEditor({ file, aspect, onConfirm, onCancel }: Props) {
           />
         )}
       </div>
-      <div className="border-t border-white/10 px-4 py-3">
-        <label className="flex items-center gap-3 text-xs text-white/80">
+      <div className="border-t border-[var(--vs-border-strong)] px-4 py-3">
+        <label className="flex items-center gap-3 text-xs text-[var(--vs-text-soft)]">
           <span className="w-12">Zoom</span>
           <input
             type="range"

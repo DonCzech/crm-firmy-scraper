@@ -19,7 +19,7 @@ const PRODUCTS_CS = [
     perex:
       "Plnohodnotná firemní prezentace s desítkami sekcí, blogem, kontaktními formuláři a vícejazyčnou variantou.",
     bullets: [
-      "99+ profi šablon pro každý obor",
+      "100+ profi šablon pro každý obor",
       "Vlastní doména a SSL v ceně",
       "Editor v reálném čase přímo na stránce",
       "PageSpeed 95+ z výroby",
@@ -74,7 +74,7 @@ const PRODUCTS_EN = [
     perex:
       "A complete company website with dozens of sections, blog, contact forms, and multilingual versions.",
     bullets: [
-      "99+ professional templates for every industry",
+      "100+ professional templates for every industry",
       "Custom domain and SSL included",
       "Real-time editor directly on the page",
       "PageSpeed 95+ out of the box",

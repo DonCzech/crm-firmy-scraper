@@ -73,7 +73,7 @@ async function copyAsset(srcUrlPath, templateKey) {
 
 async function processFile(filePath, key) {
   if (!existsSync(filePath)) return { rewrites: 0, missing: 0 };
-  let raw = await fs.readFile(filePath, "utf-8");
+  const raw = await fs.readFile(filePath, "utf-8");
   const rewriteMap = new Map();
   let missing = 0;
   for (const pattern of RESIDUE_PATTERNS) {
@@ -107,7 +107,7 @@ async function processTemplate(key) {
     console.log(`  ${DRY_RUN ? "[DRY] " : "✓ "}${key}/skin.css: ${skinResult.rewrites} URLs rewritten`);
   }
 
-  let raw = await fs.readFile(contentPath, "utf-8");
+  const raw = await fs.readFile(contentPath, "utf-8");
   const rewriteMap = new Map(); // oldUrl → newUrl
   let missing = 0;
 

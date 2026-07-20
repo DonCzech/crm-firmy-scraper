@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { query } from "@/lib/db";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3015";
+const BASE = process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://webero.co";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;

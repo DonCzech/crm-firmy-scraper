@@ -7,34 +7,108 @@
     "ctaHref": "/kontakt",
     "language": "CZ",
     "topLinks": [
-      { "label": "O nás", "href": "/o-nas" },
-      { "label": "Novinky",   "href": "/novinky" },
-      { "label": "Kariéra",   "href": "/kariera" },
-      { "label": "Kontakty",  "href": "/kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Novinky",
+        "href": "/novinky"
+      },
+      {
+        "label": "Kariéra",
+        "href": "/kariera"
+      },
+      {
+        "label": "Kontakty",
+        "href": "/kontakt"
+      }
     ],
     "links": [
-      { "label": "Akce",      "href": "/akce",       "badge": "sale" },
-      { "label": "Zákroky",   "href": "/zakroky",    "megaMenu": true },
-      { "label": "Ceník",     "href": "/cenik" },
-      { "label": "Lékaři",    "href": "/lekari" },
-      { "label": "Celebrity", "href": "/celebrity" },
-      { "label": "Proměny",   "href": "/promeny" }
+      {
+        "label": "Akce",
+        "href": "/akce",
+        "badge": "sale"
+      },
+      {
+        "label": "Zákroky",
+        "href": "/zakroky",
+        "megaMenu": true
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Lékaři",
+        "href": "/lekari"
+      },
+      {
+        "label": "Celebrity",
+        "href": "/celebrity"
+      },
+      {
+        "label": "Proměny",
+        "href": "/promeny"
+      }
     ],
     "megaMenu": {
       "categories": [
-        { "num": "01", "label": "Hlava a obličej",   "image": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "02", "label": "Tělo a hubnutí",    "image": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "03", "label": "Prsa & dekolt",     "image": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "04", "label": "Žíly a cévy",       "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "05", "label": "Laserová ošetření", "image": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "06", "label": "Zdraví a prevence", "image": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "07", "label": "Intimní oblast",    "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "08", "label": "Pro muže",          "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80" },
-        { "num": "09", "label": "Beauty zone",       "image": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=200&h=200&q=80" }
+        {
+          "num": "01",
+          "label": "Hlava a obličej",
+          "image": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "02",
+          "label": "Tělo a hubnutí",
+          "image": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "03",
+          "label": "Prsa & dekolt",
+          "image": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "04",
+          "label": "Žíly a cévy",
+          "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "05",
+          "label": "Laserová ošetření",
+          "image": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "06",
+          "label": "Zdraví a prevence",
+          "image": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "07",
+          "label": "Intimní oblast",
+          "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "08",
+          "label": "Pro muže",
+          "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80"
+        },
+        {
+          "num": "09",
+          "label": "Beauty zone",
+          "image": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=200&h=200&q=80"
+        }
       ],
       "footer": [
-        { "label": "Všechny zákroky", "href": "/zakroky" },
-        { "label": "Časté otázky",    "href": "/kontakt" }
+        {
+          "label": "Všechny zákroky",
+          "href": "/zakroky"
+        },
+        {
+          "label": "Časté otázky",
+          "href": "/kontakt"
+        }
       ]
     }
   },
@@ -160,12 +234,30 @@
     "ctaText": "Všechny proměny",
     "ctaHref": "#kontakt",
     "images": [
-      { "url": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — plastika nosu" },
-      { "url": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — výplně a botulotoxin" },
-      { "url": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — laserová liposukce" },
-      { "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — lifting obličeje" },
-      { "url": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — plastická chirurgie" },
-      { "url": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — rejuvenace pleti" }
+      {
+        "url": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=600&q=80",
+        "alt": "Proměna — plastika nosu"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80",
+        "alt": "Proměna — výplně a botulotoxin"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=600&q=80",
+        "alt": "Proměna — laserová liposukce"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
+        "alt": "Proměna — lifting obličeje"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=600&q=80",
+        "alt": "Proměna — plastická chirurgie"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&q=80",
+        "alt": "Proměna — rejuvenace pleti"
+      }
     ]
   },
   "about": {
@@ -175,9 +267,18 @@
     "ctaText": "Poznat náš tým",
     "ctaHref": "#kontakt",
     "stats": [
-      { "value": "40+",     "label": "Specializovaných lékařů" },
-      { "value": "30 000+", "label": "Spokojených klientů ročně" },
-      { "value": "20+",     "label": "Let na trhu" }
+      {
+        "value": "40+",
+        "label": "Specializovaných lékařů"
+      },
+      {
+        "value": "30 000+",
+        "label": "Spokojených klientů ročně"
+      },
+      {
+        "value": "20+",
+        "label": "Let na trhu"
+      }
     ],
     "imageUrl": "https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=800&q=80"
   },
@@ -190,7 +291,7 @@
     "ctaHref": "#kontakt",
     "badges": [
       "Nejdůvěryhodnější značka 2020",
-      "Superbrand ČR & SR",
+      "Klinika roku ČR & SR",
       "Mezinárodní pečeť kvality"
     ]
   },
@@ -216,12 +317,35 @@
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
     "links": [
-      { "label": "Akce",    "href": "/sluzby" },
-      { "label": "Zákroky", "href": "/sluzby" },
-      { "label": "Ceník",   "href": "/kontakt" },
-      { "label": "Lékaři",  "href": "/o-nas" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Akce",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Zákroky",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Lékaři",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "copyright": "© 2026 Diamond Look. Všechna práva vyhrazena."
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se na vyšetření",
+      "subtitle": "Vyberte vyšetření, lékaře a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

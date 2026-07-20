@@ -1,27 +1,42 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-
-interface ContentBlock {
-  type: string;
-  text?: string;
-  url?: string;
-  alt?: string;
-  items?: string[];
-  ctaText?: string;
-  ctaHref?: string;
-}
+import Link from "next/link";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import {
+  ArrowLeft, Check, Loader2, Trash2, Eye, Type, Heading2, Image as ImageIcon,
+  LayoutGrid, Quote, List, MousePointerClick, Minus, Video, Code2, Search, Send, CalendarClock,
+} from "lucide-react";
+import type { BlogBlock } from "@/lib/blog/content";
+import { wordCount, readingTimeMinutes } from "@/lib/blog/content";
+import { type EditorBlock, toEditorBlocks, toContentBlocks, defaultBlock, BLOCK_LABELS, newUid } from "./blog-editor/types";
+import { BlockCard } from "./blog-editor/BlockCard";
+import { ImageField } from "./blog-editor/ImageField";
 
 interface PostData {
   slug: string;
   title: string;
   excerpt: string;
-  content: ContentBlock[];
   featured_image: string;
+  og_image: string;
   author: string;
   category: string;
-  tags: string;
+  tags: string[];
   status: "draft" | "published";
   seo_title: string;
   seo_description: string;
@@ -31,12 +46,12 @@ interface PostData {
 
 interface Props {
   tenantSlug: string;
-  initial?: Partial<Omit<PostData, "content" | "tags">> & {
-    id?: number;
-    content?: ContentBlock[];
-    tags?: string;
-  };
   postSlug?: string;
+  initial?: Partial<Omit<PostData, "tags">> & {
+    id?: number;
+    content?: BlogBlock[];
+    tags?: string[] | string;
+  };
 }
 
 function slugify(text: string): string {
@@ -49,129 +64,183 @@ function slugify(text: string): string {
     .slice(0, 100);
 }
 
-const BLOCK_LABELS: Record<string, string> = {
-  text: "Odstavec",
-  heading: "Nadpis H2",
-  image: "Obrázek",
-  quote: "Citát",
-  list: "Seznam",
-  cta: "CTA tlačítko",
+const BLOCK_ICONS: Record<string, React.ReactNode> = {
+  text: <Type size={14} />,
+  heading: <Heading2 size={14} />,
+  image: <ImageIcon size={14} />,
+  gallery: <LayoutGrid size={14} />,
+  quote: <Quote size={14} />,
+  list: <List size={14} />,
+  cta: <MousePointerClick size={14} />,
+  divider: <Minus size={14} />,
+  video: <Video size={14} />,
+  code: <Code2 size={14} />,
 };
+
+const inputCls =
+  "w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-violet-400";
+const labelCls = "block text-xs font-semibold text-gray-600 mb-1";
 
 export function BlogPostEditor({ tenantSlug, initial, postSlug }: Props) {
   const router = useRouter();
   const isNew = !postSlug;
+  // Prefer the numeric id for API calls — it stays stable when the slug is edited
+  const apiRef = initial?.id ?? postSlug;
+
+  const initialTags = Array.isArray(initial?.tags)
+    ? initial.tags
+    : (initial?.tags ?? "").split(",").map((t) => t.trim()).filter(Boolean);
 
   const [data, setData] = useState<PostData>({
     slug: initial?.slug ?? "",
     title: initial?.title ?? "",
     excerpt: initial?.excerpt ?? "",
-    content: initial?.content ?? [{ type: "text", text: "" }],
     featured_image: initial?.featured_image ?? "",
+    og_image: initial?.og_image ?? "",
     author: initial?.author ?? "",
     category: initial?.category ?? "",
-    tags: initial?.tags ?? "",
+    tags: initialTags,
     status: initial?.status ?? "draft",
     seo_title: initial?.seo_title ?? "",
     seo_description: initial?.seo_description ?? "",
     noindex: initial?.noindex ?? false,
     scheduled_at: initial?.scheduled_at ?? "",
   });
+  const [blocks, setBlocks] = useState<EditorBlock[]>(() => {
+    const parsed = toEditorBlocks(initial?.content);
+    return parsed.length ? parsed : [defaultBlock("text")];
+  });
 
   const [saving, setSaving] = useState(false);
   const [autoSaved, setAutoSaved] = useState(false);
+  const [dirty, setDirty] = useState(false);
   const [error, setError] = useState("");
   const [slugManual, setSlugManual] = useState(!isNew);
+  const [tagInput, setTagInput] = useState("");
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const dataRef = useRef(data);
   dataRef.current = data;
+  const blocksRef = useRef(blocks);
+  blocksRef.current = blocks;
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const words = useMemo(() => wordCount(toContentBlocks(blocks)), [blocks]);
+  const readMin = useMemo(() => readingTimeMinutes(toContentBlocks(blocks)), [blocks]);
 
   function set<K extends keyof PostData>(key: K, value: PostData[K]) {
+    setDirty(true);
     setData((prev) => {
       const next = { ...prev, [key]: value };
-      if (key === "title" && !slugManual) {
-        next.slug = slugify(String(value));
-        if (!next.seo_title) next.seo_title = String(value);
-      }
+      if (key === "title" && !slugManual) next.slug = slugify(String(value));
       return next;
     });
   }
 
-  function updateBlock(i: number, key: string, value: unknown) {
-    setData((prev) => {
-      const content = [...prev.content];
-      content[i] = { ...content[i], [key]: value };
-      return { ...prev, content };
+  function patchBlock(uid: string, patch: Partial<EditorBlock>) {
+    setDirty(true);
+    setBlocks((prev) => prev.map((b) => (b.uid === uid ? { ...b, ...patch } : b)));
+  }
+
+  function addBlock(type: string, afterUid?: string) {
+    setDirty(true);
+    setBlocks((prev) => {
+      const block = defaultBlock(type);
+      if (!afterUid) return [...prev, block];
+      const idx = prev.findIndex((b) => b.uid === afterUid);
+      const next = [...prev];
+      next.splice(idx + 1, 0, block);
+      return next;
     });
   }
 
-  function addBlock(type: string) {
-    const defaults: ContentBlock = { type };
-    if (type === "list") defaults.items = [""];
-    if (type === "cta") { defaults.ctaText = "Kontaktujte nás"; defaults.ctaHref = ""; }
-    setData((prev) => ({ ...prev, content: [...prev.content, defaults] }));
-  }
-
-  function removeBlock(i: number) {
-    setData((prev) => ({ ...prev, content: prev.content.filter((_, idx) => idx !== i) }));
-  }
-
-  function updateListItem(blockIdx: number, itemIdx: number, value: string) {
-    setData((prev) => {
-      const content = [...prev.content];
-      const block = { ...content[blockIdx] };
-      const items = [...(block.items ?? [])];
-      items[itemIdx] = value;
-      block.items = items;
-      content[blockIdx] = block;
-      return { ...prev, content };
+  function duplicateBlock(uid: string) {
+    setDirty(true);
+    setBlocks((prev) => {
+      const idx = prev.findIndex((b) => b.uid === uid);
+      if (idx < 0) return prev;
+      const copy: EditorBlock = JSON.parse(JSON.stringify(prev[idx]));
+      copy.uid = newUid();
+      const next = [...prev];
+      next.splice(idx + 1, 0, copy);
+      return next;
     });
   }
 
-  function addListItem(blockIdx: number) {
-    setData((prev) => {
-      const content = [...prev.content];
-      const block = { ...content[blockIdx] };
-      block.items = [...(block.items ?? []), ""];
-      content[blockIdx] = block;
-      return { ...prev, content };
+  function removeBlock(uid: string) {
+    setDirty(true);
+    setBlocks((prev) => prev.filter((b) => b.uid !== uid));
+  }
+
+  function moveBlock(uid: string, dir: -1 | 1) {
+    setDirty(true);
+    setBlocks((prev) => {
+      const idx = prev.findIndex((b) => b.uid === uid);
+      const target = idx + dir;
+      if (idx < 0 || target < 0 || target >= prev.length) return prev;
+      return arrayMove(prev, idx, target);
     });
   }
 
-  function removeListItem(blockIdx: number, itemIdx: number) {
-    setData((prev) => {
-      const content = [...prev.content];
-      const block = { ...content[blockIdx] };
-      block.items = (block.items ?? []).filter((_, i) => i !== itemIdx);
-      content[blockIdx] = block;
-      return { ...prev, content };
+  function onDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    setDirty(true);
+    setBlocks((prev) => {
+      const oldIdx = prev.findIndex((b) => b.uid === active.id);
+      const newIdx = prev.findIndex((b) => b.uid === over.id);
+      return arrayMove(prev, oldIdx, newIdx);
     });
   }
 
-  const buildPayload = useCallback((status: "draft" | "published") => ({
-    ...dataRef.current,
-    status,
-    tags: dataRef.current.tags.split(",").map((t) => t.trim()).filter(Boolean),
-    scheduled_at: dataRef.current.scheduled_at || null,
-  }), []);
+  function addTag(raw: string) {
+    const tag = raw.trim().replace(/,+$/, "");
+    if (!tag) return;
+    setDirty(true);
+    setData((prev) => (prev.tags.includes(tag) ? prev : { ...prev, tags: [...prev.tags, tag] }));
+    setTagInput("");
+  }
 
-  async function doSave(status: "draft" | "published", silent = false): Promise<boolean> {
+  const buildPayload = useCallback((status: "draft" | "published") => {
+    const d = dataRef.current;
+    return {
+      ...(d.slug ? { slug: d.slug } : {}),
+      title: d.title,
+      excerpt: d.excerpt,
+      content: toContentBlocks(blocksRef.current),
+      featured_image: d.featured_image || null,
+      og_image: d.og_image || null,
+      author: d.author,
+      category: d.category,
+      tags: d.tags,
+      status,
+      seo_title: d.seo_title || null,
+      seo_description: d.seo_description || null,
+      noindex: d.noindex,
+      scheduled_at: d.scheduled_at ? new Date(d.scheduled_at).toISOString() : null,
+    };
+  }, [isNew]);
+
+  const doSave = useCallback(async (status: "draft" | "published", silent = false): Promise<boolean> => {
     if (!silent) setSaving(true);
     setError("");
-    const payload = buildPayload(status);
-    const url = isNew ? `/api/demo/${tenantSlug}/blog` : `/api/demo/${tenantSlug}/blog/${postSlug}`;
-    const method = isNew ? "POST" : "PATCH";
+    const url = isNew ? `/api/demo/${tenantSlug}/blog` : `/api/demo/${tenantSlug}/blog/${apiRef}`;
     try {
       const res = await fetch(url, {
-        method,
+        method: isNew ? "POST" : "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(buildPayload(status)),
       });
       if (!res.ok) {
-        const d = await res.json() as { error?: string };
+        const d = (await res.json().catch(() => ({}))) as { error?: string };
         if (!silent) setError(d.error ?? "Chyba při ukládání");
         return false;
       }
+      setDirty(false);
       return true;
     } catch {
       if (!silent) setError("Nepodařilo se uložit");
@@ -179,7 +248,7 @@ export function BlogPostEditor({ tenantSlug, initial, postSlug }: Props) {
     } finally {
       if (!silent) setSaving(false);
     }
-  }
+  }, [isNew, tenantSlug, apiRef, buildPayload]);
 
   async function handleSave(status: "draft" | "published") {
     const ok = await doSave(status, false);
@@ -190,15 +259,15 @@ export function BlogPostEditor({ tenantSlug, initial, postSlug }: Props) {
   }
 
   async function handleDelete() {
-    if (!postSlug || !confirm("Opravdu smazat tento článek?")) return;
-    await fetch(`/api/demo/${tenantSlug}/blog/${postSlug}`, { method: "DELETE" });
+    if (!postSlug || !confirm("Opravdu smazat tento článek? Tuto akci nelze vrátit.")) return;
+    await fetch(`/api/demo/${tenantSlug}/blog/${apiRef}`, { method: "DELETE" });
     router.push(`/demo/${tenantSlug}/admin/blog`);
     router.refresh();
   }
 
-  // Autosave for existing posts (not new — no slug yet)
+  // Autosave existing posts
   useEffect(() => {
-    if (isNew) return;
+    if (isNew || !dirty) return;
     if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
     autosaveTimer.current = setTimeout(async () => {
       const ok = await doSave(dataRef.current.status, true);
@@ -206,27 +275,71 @@ export function BlogPostEditor({ tenantSlug, initial, postSlug }: Props) {
         setAutoSaved(true);
         setTimeout(() => setAutoSaved(false), 2000);
       }
-    }, 5000);
+    }, 4000);
     return () => { if (autosaveTimer.current) clearTimeout(autosaveTimer.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, blocks, isNew, dirty, doSave]);
 
-  const inputCls = "w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-400";
-  const labelCls = "block text-xs font-semibold text-gray-600 mb-1";
+  // Cmd/Ctrl+S
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+        e.preventDefault();
+        void doSave(dataRef.current.status, false).then((ok) => {
+          if (ok) {
+            setAutoSaved(true);
+            setTimeout(() => setAutoSaved(false), 2000);
+          }
+        });
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [doSave]);
+
+  const serpTitle = data.seo_title || data.title || "Název článku";
+  const serpDesc = data.seo_description || data.excerpt || "Popis článku pro vyhledávače…";
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top bar */}
-      <div className="bg-gray-900 text-white flex items-center justify-between px-4 py-2 text-sm sticky top-0 z-10">
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.back()} className="text-gray-400 hover:text-white">← Zpět</button>
-          <span className="font-semibold">{isNew ? "Nový článek" : "Upravit článek"}</span>
-          {autoSaved && <span className="text-green-400 text-xs">Automaticky uloženo ✓</span>}
+      {/* ── Top bar ─────────────────────────────────────────────────── */}
+      <div className="bg-gray-900 text-white flex items-center justify-between px-4 py-2 text-sm sticky top-0 z-30 gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <Link href={`/demo/${tenantSlug}/admin/blog`} className="text-gray-400 hover:text-white flex items-center gap-1 flex-shrink-0">
+            <ArrowLeft size={14} /> Články
+          </Link>
+          <span className="font-semibold truncate">{isNew ? "Nový článek" : data.title || "Upravit článek"}</span>
+          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex-shrink-0 ${
+            data.status === "published" ? "bg-green-500/20 text-green-300" : "bg-gray-600/50 text-gray-300"
+          }`}>
+            {data.status === "published" ? "Publikováno" : "Koncept"}
+          </span>
+          {autoSaved && (
+            <span className="text-green-400 text-xs flex items-center gap-1 flex-shrink-0">
+              <Check size={12} /> Uloženo
+            </span>
+          )}
+          {dirty && !autoSaved && !isNew && (
+            <span className="text-gray-500 text-xs flex-shrink-0">Neuložené změny…</span>
+          )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className="hidden md:inline text-xs text-gray-400 mr-1">
+            {words} slov · {readMin} min čtení
+          </span>
+          {!isNew && data.status === "published" && (
+            <a
+              href={`/demo/${tenantSlug}/blog/${data.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-800"
+              title="Zobrazit na webu"
+            >
+              <Eye size={15} />
+            </a>
+          )}
           {!isNew && (
-            <button onClick={handleDelete} className="text-red-400 hover:text-red-300 text-xs px-2 py-1">
-              Smazat
+            <button onClick={handleDelete} className="w-8 h-8 flex items-center justify-center rounded-lg text-red-400 hover:text-red-300 hover:bg-gray-800" title="Smazat článek">
+              <Trash2 size={15} />
             </button>
           )}
           <button
@@ -239,189 +352,222 @@ export function BlogPostEditor({ tenantSlug, initial, postSlug }: Props) {
           <button
             onClick={() => handleSave("published")}
             disabled={saving}
-            className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-700 disabled:opacity-60"
+            className="px-3.5 py-1.5 rounded-lg bg-violet-600 text-white text-xs font-semibold hover:bg-violet-500 disabled:opacity-60 flex items-center gap-1.5"
           >
+            {saving ? <Loader2 size={12} className="animate-spin" /> : <Send size={12} />}
             {saving ? "Ukládám…" : "Publikovat"}
           </button>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
-        {error && <p className="text-red-500 text-sm bg-red-50 rounded-lg px-4 py-3">{error}</p>}
+      <div className="max-w-6xl mx-auto px-4 py-8 grid lg:grid-cols-[1fr_320px] gap-8 items-start">
+        {/* ── Main column ───────────────────────────────────────────── */}
+        <div className="space-y-5 min-w-0">
+          {error && <p className="text-red-600 text-sm bg-red-50 border border-red-100 rounded-xl px-4 py-3">{error}</p>}
 
-        {/* Title */}
-        <div>
-          <label className={labelCls}>Nadpis článku *</label>
+          {/* Title */}
           <input
             type="text"
             value={data.title}
             onChange={(e) => set("title", e.target.value)}
-            className={`${inputCls} text-lg font-semibold`}
-            placeholder="Název vašeho článku"
+            className="w-full px-4 py-3 text-2xl font-bold rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder:text-gray-300"
+            placeholder="Název vašeho článku…"
           />
-        </div>
 
-        {/* Slug */}
-        <div>
-          <label className={labelCls}>
-            URL slug{" "}
-            <button type="button" onClick={() => setSlugManual(!slugManual)} className="ml-1 text-indigo-500 font-normal">
-              {slugManual ? "(auto)" : "(upravit)"}
-            </button>
-          </label>
-          <input
-            type="text"
-            value={data.slug}
-            onChange={(e) => { setSlugManual(true); set("slug", e.target.value); }}
-            className={`${inputCls} font-mono`}
-            placeholder="url-clanku"
-          />
-        </div>
+          {/* Slug */}
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-gray-400 text-xs">/blog/</span>
+            <input
+              type="text"
+              value={data.slug}
+              onChange={(e) => { setSlugManual(true); set("slug", slugify(e.target.value) || e.target.value); }}
+              className="flex-1 px-3 py-1.5 text-xs font-mono rounded-lg border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-violet-400"
+              placeholder="url-clanku"
+            />
+            {isNew && (
+              <button
+                type="button"
+                onClick={() => { setSlugManual(false); set("slug", slugify(data.title)); }}
+                className="text-xs text-violet-600 hover:underline flex-shrink-0"
+              >
+                auto
+              </button>
+            )}
+          </div>
 
-        {/* Excerpt */}
-        <div>
-          <label className={labelCls}>Perex (krátký popis)</label>
+          {/* Excerpt */}
           <textarea
             value={data.excerpt}
             onChange={(e) => set("excerpt", e.target.value)}
             rows={2}
-            className={`${inputCls} resize-none`}
-            placeholder="Krátký popis článku (zobrazí se v přehledu)"
+            className="w-full px-4 py-3 text-sm rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-violet-400 resize-none placeholder:text-gray-300"
+            placeholder="Perex — krátký úvod, který se zobrazí v přehledu a ve vyhledávačích…"
           />
-        </div>
 
-        {/* Featured image */}
-        <div>
-          <label className={labelCls}>Hlavní obrázek (URL)</label>
-          <input type="url" value={data.featured_image} onChange={(e) => set("featured_image", e.target.value)} className={inputCls} placeholder="https://" />
-        </div>
-
-        {/* Content blocks */}
-        <div>
-          <label className={labelCls}>Obsah článku</label>
-          <div className="space-y-3">
-            {data.content.map((block, i) => (
-              <div key={i} className="bg-white rounded-xl border border-gray-200 p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-semibold text-gray-500 uppercase">{BLOCK_LABELS[block.type] ?? block.type}</span>
-                  <button onClick={() => removeBlock(i)} className="text-red-400 hover:text-red-600 text-xs">Smazat</button>
+          {/* Blocks */}
+          <div>
+            <p className={labelCls}>Obsah článku</p>
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+              <SortableContext items={blocks.map((b) => b.uid)} strategy={verticalListSortingStrategy}>
+                <div className="space-y-3">
+                  {blocks.map((block, i) => (
+                    <BlockCard
+                      key={block.uid}
+                      block={block}
+                      tenantSlug={tenantSlug}
+                      isFirst={i === 0}
+                      isLast={i === blocks.length - 1}
+                      onChange={(patch) => patchBlock(block.uid, patch)}
+                      onDuplicate={() => duplicateBlock(block.uid)}
+                      onRemove={() => removeBlock(block.uid)}
+                      onMove={(dir) => moveBlock(block.uid, dir)}
+                      onInsertAfter={() => addBlock("text", block.uid)}
+                    />
+                  ))}
                 </div>
+              </SortableContext>
+            </DndContext>
 
-                {(block.type === "text" || block.type === "heading" || block.type === "quote") && (
-                  <textarea
-                    value={block.text ?? ""}
-                    onChange={(e) => updateBlock(i, "text", e.target.value)}
-                    rows={block.type === "heading" ? 1 : 4}
-                    className={`${inputCls} resize-none`}
-                    placeholder={block.type === "heading" ? "Nadpis sekce" : block.type === "quote" ? "Citát" : "Text odstavce"}
-                  />
-                )}
+            {/* Add-block palette */}
+            <div className="flex flex-wrap gap-2 mt-4 p-3 bg-white rounded-xl border border-gray-200">
+              {Object.keys(BLOCK_LABELS).map((type) => (
+                <button
+                  key={type}
+                  onClick={() => addBlock(type)}
+                  className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 hover:border-violet-400 hover:text-violet-700 hover:bg-violet-50 transition-colors flex items-center gap-1.5"
+                >
+                  {BLOCK_ICONS[type]} {BLOCK_LABELS[type]}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
 
-                {block.type === "image" && (
-                  <div className="space-y-2">
-                    <input type="url" value={block.url ?? ""} onChange={(e) => updateBlock(i, "url", e.target.value)} className={inputCls} placeholder="URL obrázku" />
-                    <input type="text" value={block.alt ?? ""} onChange={(e) => updateBlock(i, "alt", e.target.value)} className={inputCls} placeholder="Popis obrázku (alt text)" />
-                  </div>
-                )}
-
-                {block.type === "list" && (
-                  <div className="space-y-2">
-                    {(block.items ?? []).map((item, j) => (
-                      <div key={j} className="flex gap-2">
-                        <input
-                          type="text"
-                          value={item}
-                          onChange={(e) => updateListItem(i, j, e.target.value)}
-                          className={`${inputCls} flex-1`}
-                          placeholder={`Položka ${j + 1}`}
-                        />
-                        <button onClick={() => removeListItem(i, j)} className="text-red-400 hover:text-red-600 text-xs px-2">✕</button>
-                      </div>
-                    ))}
-                    <button onClick={() => addListItem(i)} className="text-xs text-indigo-600 hover:underline">+ Přidat položku</button>
-                  </div>
-                )}
-
-                {block.type === "cta" && (
-                  <div className="space-y-2">
-                    <input type="text" value={block.ctaText ?? ""} onChange={(e) => updateBlock(i, "ctaText", e.target.value)} className={inputCls} placeholder="Text tlačítka (např. Kontaktujte nás)" />
-                    <input type="url" value={block.ctaHref ?? ""} onChange={(e) => updateBlock(i, "ctaHref", e.target.value)} className={inputCls} placeholder="Odkaz (URL)" />
-                  </div>
-                )}
+        {/* ── Sidebar ───────────────────────────────────────────────── */}
+        <div className="space-y-5 lg:sticky lg:top-16">
+          {/* Publishing */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+            <p className="text-sm font-bold text-gray-800 flex items-center gap-2">
+              <CalendarClock size={15} className="text-violet-600" /> Publikace
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={labelCls}>Autor</label>
+                <input type="text" value={data.author} onChange={(e) => set("author", e.target.value)} className={inputCls} placeholder="Jméno" />
               </div>
-            ))}
+              <div>
+                <label className={labelCls}>Kategorie</label>
+                <input type="text" value={data.category} onChange={(e) => set("category", e.target.value)} className={inputCls} placeholder="Tipy…" />
+              </div>
+            </div>
+            <div>
+              <label className={labelCls}>Štítky</label>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {data.tags.map((tag) => (
+                  <span key={tag} className="px-2.5 py-1 bg-violet-50 text-violet-700 rounded-full text-xs font-medium flex items-center gap-1">
+                    {tag}
+                    <button
+                      onClick={() => { setDirty(true); setData((p) => ({ ...p, tags: p.tags.filter((t) => t !== tag) })); }}
+                      className="hover:text-violet-900"
+                      aria-label={`Odebrat štítek ${tag}`}
+                    >
+                      ✕
+                    </button>
+                  </span>
+                ))}
+              </div>
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v.endsWith(",")) addTag(v);
+                  else setTagInput(v);
+                }}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(tagInput); } }}
+                onBlur={() => addTag(tagInput)}
+                className={inputCls}
+                placeholder="Napište štítek a Enter"
+              />
+            </div>
+            <div>
+              <label className={labelCls}>Naplánované publikování</label>
+              <input
+                type="datetime-local"
+                value={data.scheduled_at}
+                onChange={(e) => set("scheduled_at", e.target.value)}
+                className={inputCls}
+              />
+              <p className="text-[11px] text-gray-400 mt-1">Koncept se v tento čas publikuje automaticky.</p>
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 mt-3">
-            {Object.keys(BLOCK_LABELS).map((type) => (
-              <button key={type} onClick={() => addBlock(type)} className="px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50">
-                + {BLOCK_LABELS[type]}
-              </button>
-            ))}
+          {/* Featured image */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-5">
+            <p className="text-sm font-bold text-gray-800 mb-3">Hlavní obrázek</p>
+            <ImageField tenantSlug={tenantSlug} value={data.featured_image} onChange={(url) => set("featured_image", url)} />
           </div>
-        </div>
 
-        {/* Meta */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className={labelCls}>Autor</label>
-            <input type="text" value={data.author} onChange={(e) => set("author", e.target.value)} className={inputCls} placeholder="Jméno autora" />
-          </div>
-          <div>
-            <label className={labelCls}>Kategorie</label>
-            <input type="text" value={data.category} onChange={(e) => set("category", e.target.value)} className={inputCls} placeholder="Tipy, Aktuality..." />
-          </div>
-        </div>
+          {/* SEO */}
+          <div className="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
+            <p className="text-sm font-bold text-gray-800 flex items-center gap-2">
+              <Search size={15} className="text-violet-600" /> SEO
+            </p>
 
-        <div>
-          <label className={labelCls}>Štítky (oddělené čárkou)</label>
-          <input type="text" value={data.tags} onChange={(e) => set("tags", e.target.value)} className={inputCls} placeholder="seo, tipy, novinky" />
-        </div>
+            {/* SERP preview */}
+            <div className="border border-gray-100 rounded-xl p-3.5 bg-gray-50">
+              <p className="text-[11px] text-gray-400 mb-1 truncate">
+                www.vase-domena.cz › blog › {data.slug || "url-clanku"}
+              </p>
+              <p className="text-[15px] leading-snug text-blue-700 font-medium line-clamp-1">{serpTitle}</p>
+              <p className="text-xs text-gray-600 mt-0.5 line-clamp-2">{serpDesc}</p>
+            </div>
 
-        {/* Scheduled publish */}
-        <div>
-          <label className={labelCls}>Naplánované publikování (volitelné)</label>
-          <input
-            type="datetime-local"
-            value={data.scheduled_at}
-            onChange={(e) => set("scheduled_at", e.target.value)}
-            className={inputCls}
-          />
-          <p className="text-xs text-gray-400 mt-1">Nechte prázdné pro okamžité publikování nebo uložení konceptu.</p>
-        </div>
-
-        {/* SEO */}
-        <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-4">
-          <p className="text-sm font-bold text-gray-800">SEO nastavení</p>
-          <div>
-            <label className={labelCls}>SEO title ({data.seo_title.length}/60)</label>
-            <input
-              type="text"
-              value={data.seo_title}
-              onChange={(e) => set("seo_title", e.target.value)}
-              className={`${inputCls} ${data.seo_title.length > 60 ? "border-orange-400" : ""}`}
-              placeholder={data.title || "SEO title"}
-            />
+            <div>
+              <label className={labelCls}>
+                SEO titulek{" "}
+                <span className={data.seo_title.length > 60 ? "text-orange-500" : "text-gray-400"}>
+                  ({data.seo_title.length}/60)
+                </span>
+              </label>
+              <input
+                type="text"
+                value={data.seo_title}
+                onChange={(e) => set("seo_title", e.target.value)}
+                className={`${inputCls} ${data.seo_title.length > 60 ? "border-orange-300" : ""}`}
+                placeholder={data.title || "SEO titulek"}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>
+                SEO popis{" "}
+                <span className={data.seo_description.length > 160 ? "text-orange-500" : "text-gray-400"}>
+                  ({data.seo_description.length}/160)
+                </span>
+              </label>
+              <textarea
+                value={data.seo_description}
+                onChange={(e) => set("seo_description", e.target.value)}
+                rows={3}
+                className={`${inputCls} resize-none ${data.seo_description.length > 160 ? "border-orange-300" : ""}`}
+                placeholder={data.excerpt || "Popis pro vyhledávače"}
+              />
+            </div>
+            <div>
+              <label className={labelCls}>OG obrázek pro sociální sítě (volitelné)</label>
+              <ImageField tenantSlug={tenantSlug} value={data.og_image} onChange={(url) => set("og_image", url)} compact />
+              <p className="text-[11px] text-gray-400 mt-1">Když není nastaven, použije se hlavní obrázek.</p>
+            </div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={data.noindex}
+                onChange={(e) => set("noindex", e.target.checked)}
+                className="rounded accent-violet-600"
+              />
+              <span className="text-sm text-gray-700">Nezařazovat do vyhledávačů (noindex)</span>
+            </label>
           </div>
-          <div>
-            <label className={labelCls}>SEO description ({data.seo_description.length}/160)</label>
-            <textarea
-              value={data.seo_description}
-              onChange={(e) => set("seo_description", e.target.value)}
-              rows={2}
-              className={`${inputCls} resize-none ${data.seo_description.length > 160 ? "border-orange-400" : ""}`}
-              placeholder={data.excerpt || "Popis článku pro vyhledávače"}
-            />
-          </div>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={data.noindex}
-              onChange={(e) => set("noindex", e.target.checked)}
-              className="rounded"
-            />
-            <span className="text-sm text-gray-700">Nezařazovat do vyhledávačů (noindex)</span>
-          </label>
         </div>
       </div>
     </div>

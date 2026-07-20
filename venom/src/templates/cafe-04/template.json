@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "cafe-04",
-  "name": "Demo Coffee Room",
+  "name": "Coffee Room",
   "industry": "cafe",
   "skeleton": "gastro",
   "version": "1.0.0",
@@ -9,19 +9,62 @@
   "description": "Specialty kavárna v urban stylu — tmavý transparentní navbar s bílým logem vlevo, fullscreen image slider hero se scroll indikátorem, about sekce o specialty kávě, multi-location otevírací doba (4 pobočky), blog preview 'Behind the mugs', newsletter CTA. Inspirováno coffeeroom.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Locations → Blog Preview → CTA (newsletter) → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Pricing",      "reason": "Kavárna nemá ceník na homepage — menu je na podstránce coffeebar" },
-    { "pos": 8,  "name": "Testimonials", "reason": "Originál nemá recenze v homepage flow" },
-    { "pos": 9,  "name": "Team",         "reason": "Tým není součástí homepage flow originálu" },
-    { "pos": 10, "name": "FAQ",          "reason": "FAQ není v homepage flow originálu" }
+    {
+      "pos": 4,
+      "name": "Pricing",
+      "reason": "Kavárna nemá ceník na homepage — menu je na podstránce coffeebar"
+    },
+    {
+      "pos": 5,
+      "name": "Gallery",
+      "reason": "Předloha galerii na homepage nemá"
+    },
+    {
+      "pos": 7,
+      "name": "Locations",
+      "reason": "Kontakt má vlastní podstránku"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál nemá recenze v homepage flow"
+    },
+    {
+      "pos": 9,
+      "name": "Team",
+      "reason": "Tým není součástí homepage flow originálu"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není v homepage flow originálu"
+    }
   ],
   "extraSections": [
-    { "name": "Locations / Opening Hours", "type": "opening-hours", "variant": "cafe-04-locations", "reason": "Originál má 4 pobočky s různými hodinami — komplex multi-location opening hours blok" },
-    { "name": "Blog preview", "type": "blog-preview", "variant": "cafe-04-blog", "reason": "Sekce 'Behind the mugs, lifestyle stories' — editorial blog blok na homepage" },
-    { "name": "Newsletter CTA", "type": "cta", "variant": "cafe-04-newsletter", "reason": "Email subscribe sekce 'don't miss anything' na homepage" }
+    {
+      "name": "Locations / Opening Hours",
+      "type": "opening-hours",
+      "variant": "cafe-04-locations",
+      "reason": "Originál má 4 pobočky s různými hodinami — komplex multi-location opening hours blok"
+    },
+    {
+      "name": "Blog preview",
+      "type": "blog-preview",
+      "variant": "cafe-04-blog",
+      "reason": "Sekce 'Behind the mugs, lifestyle stories' — editorial blog blok na homepage"
+    },
+    {
+      "name": "Newsletter CTA",
+      "type": "cta",
+      "variant": "cafe-04-newsletter",
+      "reason": "Email subscribe sekce 'don't miss anything' na homepage"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,13 +72,41 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",        "variant": "cafe-04-navbar",      "contentRef": "navbar" },
-        { "type": "hero",          "variant": "cafe-04-hero",        "contentRef": "hero" },
-        { "type": "about",         "variant": "cafe-04-about",       "contentRef": "about" },
-        { "type": "opening-hours", "variant": "cafe-04-locations",   "contentRef": "locations" },
-        { "type": "blog-preview",  "variant": "cafe-04-blog",        "contentRef": "blog" },
-        { "type": "cta",           "variant": "cafe-04-newsletter",  "contentRef": "newsletter" },
-        { "type": "footer",        "variant": "cafe-04-footer",      "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "cafe-04-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "cafe-04-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "opening-hours",
+          "variant": "cafe-04-locations",
+          "contentRef": "locations"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "cafe-04-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "cta",
+          "variant": "cafe-04-newsletter",
+          "contentRef": "newsletter"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-04-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -44,10 +115,26 @@
       "seoTitleKey": "pages.coffeebar.seoTitle",
       "seoDescriptionKey": "pages.coffeebar.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "cafe-04-navbar",  "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",   "contentRef": "pages.coffeebar.hero" },
-        { "type": "services", "variant": "cafe-04-menu",    "contentRef": "pages.coffeebar.services" },
-        { "type": "footer",   "variant": "cafe-04-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.coffeebar.hero"
+        },
+        {
+          "type": "services",
+          "variant": "cafe-04-menu",
+          "contentRef": "pages.coffeebar.services"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-04-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -56,9 +143,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "cafe-04-navbar",   "contentRef": "navbar" },
-        { "type": "contact",  "variant": "cafe-04-contact",  "contentRef": "contact" },
-        { "type": "footer",   "variant": "cafe-04-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "cafe-04-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-04-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

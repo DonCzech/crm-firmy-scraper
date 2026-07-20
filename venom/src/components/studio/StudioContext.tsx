@@ -159,8 +159,10 @@ export interface StudioContextValue {
   setCommandPaletteOpen: (v: boolean) => void;
   checklistOpen: boolean;
   setChecklistOpen: (v: boolean) => void;
-  aiPanelOpen: boolean;
-  setAiPanelOpen: (v: boolean) => void;
+  /** Fullscreen AI Builder — dominantní režim Studia (chat + živý náhled).
+   *  Otevřený stav se zrcadlí do URL (?builder=1), aby přežil reload a šel sdílet. */
+  builderOpen: boolean;
+  setBuilderOpen: (v: boolean) => void;
   historyPanelOpen: boolean;
   setHistoryPanelOpen: (v: boolean) => void;
   /** Barevné téma editoru (violet = default, viz design-tokens.css data-vs-theme) */
@@ -171,10 +173,10 @@ export interface StudioContextValue {
   setCustomThemeColor: (hex: string) => void;
 }
 
-export type EditorTheme = "violet" | "silver" | "indigo" | "custom";
+export type EditorTheme = "light" | "apple" | "violet" | "silver" | "indigo" | "custom";
 const EDITOR_THEME_KEY = "venom-studio.editor-theme";
 const EDITOR_THEME_COLOR_KEY = "venom-studio.editor-theme-color";
-const EDITOR_THEMES: EditorTheme[] = ["violet", "silver", "indigo", "custom"];
+const EDITOR_THEMES: EditorTheme[] = ["light", "apple", "violet", "silver", "indigo", "custom"];
 const DEFAULT_CUSTOM_COLOR = "#e91e63";
 
 export type CloneCommand =
@@ -185,7 +187,7 @@ export type CloneCommand =
 
 const StudioContext = createContext<StudioContextValue | null>(null);
 
-export function StudioProvider({ children }: { children: ReactNode }) {
+export function StudioProvider({ children, initialBuilderOpen = false }: { children: ReactNode; initialBuilderOpen?: boolean }) {
   const [selectedSectionId, setSelectedSectionId] = useState<number | null>(null);
   const [selectedField, setSelectedField] = useState<string | null>(null);
   const [breakpoint, setBreakpoint] = useState<StudioBreakpoint>("desktop");
@@ -227,25 +229,43 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [helpPanelOpen, setHelpPanelOpen] = useState<boolean>(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
   const [checklistOpen, setChecklistOpen] = useState<boolean>(false);
-  const [aiPanelOpen, setAiPanelOpen] = useState<boolean>(false);
+  const [builderOpen, setBuilderOpen] = useState<boolean>(initialBuilderOpen);
   const [historyPanelOpen, setHistoryPanelOpen] = useState<boolean>(false);
-  const [editorTheme, setEditorThemeState] = useState<EditorTheme>("violet");
+  // Světlé téma je výchozí — tmavé shell varianty (violet/silver/indigo)
+  // zůstávají volitelné přes přepínač; uložená volba v localStorage vyhrává.
+  // `null` = volba z localStorage ještě není načtená; do té doby se NESMÍ
+  // sahat na atributy <html>, které před prvním paintem nastavil blokující
+  // StudioThemeScript (anti-FOUC) — jinak by defaultní "light" bliklo přes
+  // uložené tmavé téma (a dřív naopak tmavý CSS default přes světlé).
+  const [editorTheme, setEditorThemeState] = useState<EditorTheme | null>(null);
   const [customThemeColor, setCustomThemeColorState] = useState<string>(DEFAULT_CUSTOM_COLOR);
   const [pendingAddEl, setPendingAddEl] = useState<{ sectionId: number; elementType: string } | null>(null);
 
   // Téma editoru: načíst z localStorage po mountu (SSR-safe) a aplikovat na <html>
   useEffect(() => {
+    let resolved: EditorTheme = "light";
     try {
       const stored = window.localStorage.getItem(EDITOR_THEME_KEY) as EditorTheme | null;
-      if (stored && EDITOR_THEMES.includes(stored)) setEditorThemeState(stored);
+      if (stored && EDITOR_THEMES.includes(stored)) resolved = stored;
       const storedColor = window.localStorage.getItem(EDITOR_THEME_COLOR_KEY);
       if (storedColor && /^#[0-9a-f]{6}$/i.test(storedColor)) setCustomThemeColorState(storedColor);
     } catch { /* ignore */ }
+    setEditorThemeState(resolved);
   }, []);
   useEffect(() => {
+    if (editorTheme === null) return;
     const root = document.documentElement;
+    root.removeAttribute("data-vs-style");
     if (editorTheme === "violet") root.removeAttribute("data-vs-theme");
-    else root.setAttribute("data-vs-theme", editorTheme);
+    else if (editorTheme === "apple") {
+      // Minimal is an independent, high-contrast light workspace skin.
+      // The persisted id stays stable for users who already selected it.
+      root.setAttribute("data-vs-theme", "light");
+      root.setAttribute("data-vs-style", "apple");
+    } else {
+      root.setAttribute("data-vs-theme", editorTheme);
+      if (editorTheme === "light") root.setAttribute("data-vs-style", "xora");
+    }
     // Custom téma = dynamicky generovaný <style> blok (stejné selektory jako
     // silver/indigo v design-tokens.css, jen hodnoty odvozené z vybrané barvy)
     const existing = document.getElementById("vs-custom-theme");
@@ -261,7 +281,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     } else if (existing) {
       existing.remove();
     }
-    return () => { root.removeAttribute("data-vs-theme"); };
+    return () => { root.removeAttribute("data-vs-theme"); root.removeAttribute("data-vs-style"); };
   }, [editorTheme, customThemeColor]);
   const setEditorTheme = (t: EditorTheme) => {
     setEditorThemeState(t);
@@ -377,7 +397,6 @@ export function StudioProvider({ children }: { children: ReactNode }) {
       setHelpPanelOpen(false);
       setCommandPaletteOpen(false);
       setChecklistOpen(false);
-      setAiPanelOpen(false);
       setHistoryPanelOpen(false);
       setPendingAddEl(null);
       setSelectedOverlayEl(null);
@@ -401,11 +420,11 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setCommandPaletteOpen,
     checklistOpen,
     setChecklistOpen,
-    aiPanelOpen,
-    setAiPanelOpen,
+    builderOpen,
+    setBuilderOpen,
     historyPanelOpen,
     setHistoryPanelOpen,
-    editorTheme,
+    editorTheme: editorTheme ?? "light",
     setEditorTheme,
     customThemeColor,
     setCustomThemeColor,
@@ -416,7 +435,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     overlayZOrderCmd,
     setOverlayZOrderCmd,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, historyPanelOpen, editorTheme, customThemeColor, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, builderOpen, historyPanelOpen, editorTheme, customThemeColor, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }

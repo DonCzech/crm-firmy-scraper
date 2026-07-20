@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "restaurant-02",
-  "name": "Demo Hybernská",
+  "name": "Restaurace Hybernská",
   "industry": "restaurant",
   "skeleton": "gastro",
   "version": "0.1.0",
@@ -9,18 +9,45 @@
   "description": "Klasická česká restaurace — solidní černý navbar, bílé contentu sekce, Poppins sans-serif, červený (#c0392b) akcent; horizontální nav s telefonem, fullscreen slider hero, split about, menu karty, CTA rezervace, kontakt s mapou. Inspirováno hybernska.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Services (menu) → CTA → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Menu",        "reason": "Nahrazeno vlastní restaurant-02-menu (type=services) — 3-col karty místo standardní pricing sekce" },
-    { "pos": 5,  "name": "Gallery",     "reason": "Galerie není součástí primárního homepage flow" },
-    { "pos": 8,  "name": "Testimonials","reason": "Recenze nejsou na primární homepage" },
-    { "pos": 9,  "name": "Team",        "reason": "Tým není součástí homepage flow" },
-    { "pos": 10, "name": "FAQ",         "reason": "FAQ není v homepage flow" }
+    {
+      "pos": 4,
+      "name": "Menu",
+      "reason": "Nahrazeno vlastní restaurant-02-menu (type=services) — 3-col karty místo standardní pricing sekce"
+    },
+    {
+      "pos": 5,
+      "name": "Gallery",
+      "reason": "Galerie není součástí primárního homepage flow"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Recenze nejsou na primární homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Team",
+      "reason": "Tým není součástí homepage flow"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není v homepage flow"
+    }
   ],
   "extraSections": [
-    { "name": "Menu sekce", "type": "services", "variant": "restaurant-02-menu", "reason": "Gastro skeleton nemá services — nahrazuje standardní Menu blok výpisem kategorií pro restauraci" }
+    {
+      "name": "Menu sekce",
+      "type": "services",
+      "variant": "restaurant-02-menu",
+      "reason": "Gastro skeleton nemá services — nahrazuje standardní Menu blok výpisem kategorií pro restauraci"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,13 +55,41 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",   "variant": "restaurant-02-navbar",  "contentRef": "navbar" },
-        { "type": "hero",     "variant": "restaurant-02-hero",    "contentRef": "hero" },
-        { "type": "about",    "variant": "restaurant-02-about",   "contentRef": "about" },
-        { "type": "services", "variant": "restaurant-02-menu",    "contentRef": "services" },
-        { "type": "cta",      "variant": "restaurant-02-cta",     "contentRef": "cta" },
-        { "type": "contact",  "variant": "restaurant-02-contact", "contentRef": "contact" },
-        { "type": "footer",   "variant": "restaurant-02-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "restaurant-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "restaurant-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "restaurant-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "restaurant-02-menu",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "restaurant-02-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "contact",
+          "variant": "restaurant-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "restaurant-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -43,10 +98,26 @@
       "seoTitleKey": "pages.menu.seoTitle",
       "seoDescriptionKey": "pages.menu.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "restaurant-02-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.menu.hero" },
-        { "type": "services","variant": "restaurant-02-menu",    "contentRef": "pages.menu.services" },
-        { "type": "footer",  "variant": "restaurant-02-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "restaurant-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.menu.hero"
+        },
+        {
+          "type": "services",
+          "variant": "restaurant-02-menu",
+          "contentRef": "pages.menu.services"
+        },
+        {
+          "type": "footer",
+          "variant": "restaurant-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -55,10 +126,26 @@
       "seoTitleKey": "pages.o-nas.seoTitle",
       "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "restaurant-02-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.o-nas.hero" },
-        { "type": "about",   "variant": "restaurant-02-about",   "contentRef": "pages.o-nas.about" },
-        { "type": "footer",  "variant": "restaurant-02-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "restaurant-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "restaurant-02-about",
+          "contentRef": "pages.o-nas.about"
+        },
+        {
+          "type": "footer",
+          "variant": "restaurant-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -67,9 +154,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "restaurant-02-navbar",  "contentRef": "navbar" },
-        { "type": "contact", "variant": "restaurant-02-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "restaurant-02-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "restaurant-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "restaurant-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "restaurant-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

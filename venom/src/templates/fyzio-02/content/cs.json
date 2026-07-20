@@ -1,195 +1,240 @@
 {
   "navbar": {
-    "siteName": "American Clinic",
+    "siteName": "Movia",
     "logoUrl": "/templates/fyzio-02/logo.svg",
     "ctaText": "Objednat se",
-    "ctaHref": "#rezervace",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
+    "ctaHref": "/kontakt",
+    "phone": "725 480 190",
+    "phoneLabel": "Objednávky",
+    "email": "recepce@movia.cz",
     "links": [
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Terapie",  "href": "#sluzby" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Tým",      "href": "#tym" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Terapie",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Tým",
+        "href": "/tym"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
-    "title": "Pohyb bez bolesti.\nZačíná tady.",
-    "tagline": "Prémiová fyzioterapie amerického standardu",
-    "body": "Kombinujeme nejnovější poznatky americké sportovní medicíny s individuálním přístupem. Pomáháme sportovcům, manažerům i seniorům vrátit se k tomu, co mají rádi.",
+    "title": "Vrátíme vaše tělo\ndo plného pohybu.",
+    "tagline": "Fyzioterapie & funkční neurologie",
+    "body": "V Movii spojujeme precizní manuální fyzioterapii s funkční neurologií. Najdeme příčinu obtíží — ne jen symptom — a sestavíme plán s měřitelným výsledkem.",
     "ctaText": "Objednat se online",
-    "ctaHref": "#rezervace",
-    "ctaSecondaryText": "Jak probíhá návštěva",
-    "ctaSecondaryHref": "#o-nas",
-    "image": "/clones/resetclinic/67eae6b510b7940c86a01571_DSC01862.avif",
-    "statsCount": "1 200+",
-    "statsLabel": "ošetřených pacientů",
-    "badge1": "15 let praxe",
-    "badge2": "Certifikace USA & EU"
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "Jak terapie probíhá",
+    "ctaSecondaryHref": "/o-nas",
+    "image": "/templates/fyzio-02/hero.webp",
+    "statsCount": "8 500+",
+    "statsLabel": "odterapovaných pacientů",
+    "badge1": "18 let praxe",
+    "badge2": "Smlouvy se ZP",
+    "rating": "4,9",
+    "ratingLabel": "Hodnocení na Google",
+    "floatBadge": "Individuální přístup"
   },
   "about": {
     "id": "o-nas",
     "tagline": "Náš přístup",
-    "title": "Fyzioterapie na úrovni světových standardů.",
-    "body": "V American Clinic vycházíme z amerického systému péče o pohybový aparát — přesná diagnostika, měřitelné cíle a transparentní plán léčby. Žádné dohady, jen fakta.",
+    "title": "Fyzioterapie, která hledá příčinu — ne jen symptom.",
+    "body": "V Movii propojujeme manuální medicínu s funkční neurologií. Každá terapie začíná důkladnou diagnostikou a končí měřitelným pokrokem.",
     "benefits": [
       {
         "icon": "check",
         "title": "Přesná diagnostika",
-        "body": "Každé ošetření začíná důkladným vyšetřením. Nenacházíme jen symptomy — hledáme příčiny, aby se problém skutečně vyřešil."
+        "body": "Než začneme cvičit, rozumíme problému. Vyšetření pohybu, nervového systému i každodenních návyků odhalí skutečnou příčinu vašich obtíží."
       },
       {
         "icon": "brain",
-        "title": "Americké metody",
-        "body": "Pracujeme s technikami SFMA, DNS a Dry Needling certifikovanými v USA. Výsledky, které se měří, ne jen cítí."
+        "title": "Funkční neurologie",
+        "body": "Pracujeme s tím, jak mozek řídí pohyb. Cílenou stimulací nervového systému urychlujeme hojení i tam, kde běžná rehabilitace nestačí."
       },
       {
         "icon": "user",
         "title": "Plán šitý na míru",
-        "body": "Každý klient odchází s písemným plánem terapie a jasným harmonogramem. Víte přesně, co a proč děláte."
+        "body": "Každý klient odchází s jasným písemným plánem terapie a domácího cvičení. Víte přesně, co děláte a proč to funguje."
       }
     ]
   },
   "services": {
     "id": "sluzby",
     "tagline": "Naše terapie",
-    "title": "Co pro vás uděláme",
-    "body": "Specializujeme se na bolesti pohybového aparátu, rehabilitaci po zranění i výkonnostní fyzioterapii pro sportovce.",
-    "ctaText": "Objednat se",
-    "ctaHref": "#rezervace",
-    "services": [],
+    "title": "Terapie, které vracejí do pohybu",
+    "body": "Specializujeme se na bolesti pohybového aparátu, rehabilitaci po úrazech a stavy, u kterých běžná fyzioterapie nestačí.",
+    "ctaText": "Objednat konzultaci",
+    "ctaHref": "/kontakt",
     "items": [
       {
-        "name": "Sportovní fyzioterapie",
-        "icon": "activity",
-        "title": "Sportovní fyzioterapie",
-        "description": "Návrat k výkonu po zranění nebo operaci. Pracujeme s amatérskými i profesionálními sportovci — rychle, bezpečně a měřitelně.",
-        "image": "/assets/fyzio-02/98639bc800-6970a373111eabcd2492d8b9_DSC01930.jpg"
-      },
-      {
-        "name": "Manuální terapie",
         "icon": "hand",
-        "title": "Manuální terapie",
-        "description": "Mobilizace kloubů, měkké techniky a myofasciální uvolnění podle amerického protokolu SFMA. Okamžitá úleva, dlouhodobý efekt.",
-        "image": "/clones/resetclinic/6970a4bd96de12e5e6f27139_RESET FYZIO8707.jpg"
+        "title": "Manuální fyzioterapie",
+        "description": "Mobilizace kloubů, měkké techniky a myofasciální uvolnění. Uvolníme napětí a obnovíme přirozený rozsah pohybu."
       },
       {
-        "name": "Dry Needling",
+        "icon": "brain",
+        "title": "Funkční neurologie",
+        "description": "Cílená stimulace nervového systému tam, kde klasická rehabilitace naráží — závratě, chronické bolesti i poúrazové stavy."
+      },
+      {
+        "icon": "activity",
+        "title": "Rehabilitace po úrazu a operaci",
+        "description": "Bezpečný a měřitelný návrat k plné zátěži, od prvních kroků po sport. Spolupracujeme s vaším lékařem."
+      },
+      {
         "icon": "zap",
-        "title": "Dry Needling",
-        "description": "Účinná metoda pro uvolnění trigger points a chronického svalového napětí. Certifikovaný postup, viditelné výsledky od první návštěvy.",
-        "image": "/clones/resetclinic/67eae6b510b7940c86a0155d_DSC01799.avif"
-      },
-      {
-        "name": "Online konzultace",
-        "icon": "monitor",
-        "title": "Online konzultace",
-        "description": "Konzultace pohybových problémů nebo cvičebního plánu na dálku. Ideální pro klienty z celé republiky nebo ze zahraničí.",
-        "image": "/clones/resetclinic/67eae6b510b7940c86a01570_DSC01829.avif"
+        "title": "Suchá jehla — Dry Needling",
+        "description": "Přesné uvolnění spouštěcích bodů a chronického svalového napětí. Úleva často už od první návštěvy."
       }
     ]
   },
   "cta": {
     "id": "rezervace",
-    "title": "Připraveni udělat první krok?",
-    "body": "Vstupní vyšetření trvá 60 minut. Odejdete s jasným plánem, ne jen s doporučením na volné prodejné léky.",
+    "tagline": "Objednání",
+    "title": "Uděláte první krok — o zbytek se postaráme my.",
+    "body": "Vstupní vyšetření trvá 60 minut. Odejdete s jasným plánem terapie a prvními cviky, ne jen s doporučením.",
     "ctaText": "Objednat se online",
-    "ctaHref": "https://demo.cz/rezervace",
-    "ctaSecondaryText": "Zavolat nám",
-    "ctaSecondaryHref": "tel:+420704123456",
-    "statsCount": "1 200+",
-    "statsLabel": "úspěšně ošetřených pacientů"
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "725 480 190",
+    "ctaSecondaryHref": "tel:+420725480190",
+    "chips": [
+      "Termíny do 48 hodin",
+      "Bez doporučení od lékaře",
+      "Smlouvy se zdravotními pojišťovnami"
+    ]
   },
   "team": {
     "id": "tym",
     "tagline": "Náš tým",
     "title": "Terapeuti, kteří vás vrátí do pohybu",
-    "body": "Každý člen týmu prošel certifikacemi v USA nebo Velké Británii. Neustále se vzdělávají, abyste vy měli přístup k nejmodernějším metodám.",
-    "ctaText": "O nás",
-    "ctaHref": "#o-nas",
+    "body": "Každý člen týmu se neustále vzdělává, abyste vy měli přístup k nejmodernějším metodám fyzioterapie i funkční neurologie.",
     "members": [
       {
         "name": "Mgr. Jakub Horák",
-        "role": "Hlavní terapeut — SFMA, DNS",
-        "bio": "15 let zkušeností v sportovní fyzioterapii. Absolvoval postgraduální kurzy v New Yorku a Londýně. Pracoval s olympijskými sportovci.",
-        "image": "/assets/fyzio-02/1bab8f1bc1-68ed06c64cf4c5b1fded8098_Stefan1.jpeg"
+        "role": "Vedoucí fyzioterapeut",
+        "bio": "18 let praxe, specialista na funkční neurologii. Postgraduální výcvik v Londýně a Vídni. Vede tým Movia od jeho založení.",
+        "image": "/templates/fyzio-02/team-1.webp"
       },
       {
         "name": "Bc. Lucie Marková",
-        "role": "Fyzioterapeut — Dry Needling, McKenzie",
-        "bio": "Specialistka na chronické bolesti páteře a kloubů. Certifikovaná McKenzie terapeutka s praxí v rehabilitačních centrech v ČR i Německu.",
-        "image": "/assets/fyzio-02/ac76ed7f34-68ed0acc428edc78da214216_Stepan2.jpeg"
+        "role": "Fyzioterapeutka — Dry Needling",
+        "bio": "Zaměřuje se na chronické bolesti páteře a poúrazovou rehabilitaci. Certifikovaná v metodách McKenzie a suché jehly.",
+        "image": "/templates/fyzio-02/team-2.webp"
       },
       {
         "name": "Mgr. Ondřej Šimánek",
-        "role": "Fyzioterapeut — Sportovní medicina",
-        "bio": "Specializace na návrat sportovců po operacích kolenního kloubu a ramene. Spolupracuje s několika prvoligovými fotbalovými kluby.",
-        "image": "/clones/resetclinic/67eae6b510b7940c86a01571_DSC01862.avif"
+        "role": "Fyzioterapeut — sportovní rehabilitace",
+        "bio": "Provází sportovce návratem po operacích kolene a ramene. Spolupracuje s několika ligovými kluby.",
+        "image": "/templates/fyzio-02/team-3.webp"
       }
     ]
   },
   "testimonials": {
     "id": "reference",
-    "tagline": "Co říkají klienti",
-    "title": "Výsledky mluví za vše",
-    "body": "Přes 1 200 spokojených klientů. Přečtěte si, co přinesla terapie v American Clinic do jejich života.",
-    "rating": "4.9",
-    "ratingLabel": "Průměrné hodnocení na Google",
-    "testimonials": [],
+    "tagline": "Reference",
+    "title": "Výsledky, které klienti cítí",
+    "body": "Přes 8 500 spokojených klientů. Přečtěte si, co jim terapie v Movii přinesla.",
+    "rating": "4,9",
+    "ratingLabel": "Hodnocení na Google",
     "items": [
       {
         "author": "Radek N.",
-        "role": "Amatérský cyklista",
-        "text": "Po operaci kolena jsem nevěřil, že se vrátím na kolo. Díky Jakubovi a jeho týmu jsem po čtyřech měsících absolvoval svůj první závod. Profesionální přístup na každém kroku.",
+        "role": "Rekreační cyklista",
+        "text": "Po operaci kolena jsem nevěřil, že se vrátím na kolo. Díky Jakubovi a jeho týmu jsem po čtyřech měsících zvládl první vyjížďku. Profesionální přístup na každém kroku.",
         "rating": 5
       },
       {
         "author": "Veronika H.",
         "role": "Manažerka",
-        "text": "Chronická bolest krční páteře mě trápila roky. Tři sezení a byl to jiný svět. Konečně někdo, kdo vysvětlí příčinu — ne jen doporučí prohřívání.",
+        "text": "Chronická bolest krční páteře mě trápila roky. Tři sezení a byl to jiný svět. Konečně mi někdo vysvětlil příčinu — ne jen doporučil obklady.",
         "rating": 5
       },
       {
         "author": "Pavel K.",
         "role": "Fotbalový trenér",
-        "text": "Posílám sem své svěřence a chodím sám. Dry Needling na spouštěcí body funguje lépe než cokoliv, co jsem dříve zkoušel. Rychle, efektivně, bez planých slibů.",
+        "text": "Posílám sem své svěřence i chodím sám. Práce se spouštěcími body funguje líp než cokoli, co jsem dřív zkoušel. Rychle a bez planých slibů.",
         "rating": 5
       }
     ]
   },
   "contact": {
     "id": "kontakt",
-    "tagline": "Kontakt",
+    "tagline": "Objednání",
     "title": "Objednejte se nebo se zeptejte",
-    "body": "Rádi zodpovíme jakékoliv dotazy ještě před první návštěvou. Stačí zavolat nebo napsat.",
-    "phone": "704 123 456",
-    "email": "email@demo.cz",
-    "address": "Ukázková 123",
-    "city": "110 00 Praha 1",
-    "hours": "Po–Pá 7:00–20:00",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo"
+    "body": "Rádi zodpovíme jakékoli dotazy ještě před první návštěvou. Stačí zavolat nebo vyplnit formulář.",
+    "phone": "725 480 190",
+    "email": "recepce@movia.cz",
+    "address": "Vinohradská 42",
+    "city": "120 00 Praha 2 — Vinohrady",
+    "hours": "Po–Pá 7:00–20:00, So 8:00–13:00",
+    "labelPhone": "Telefon",
+    "labelEmail": "E-mail",
+    "labelAddress": "Kde nás najdete",
+    "labelHours": "Ordinační hodiny",
+    "formTitle": "Napište nám",
+    "nameLabel": "Jméno a příjmení",
+    "emailLabel": "E-mail",
+    "phoneFieldLabel": "Telefon",
+    "messageLabel": "Co vás trápí?",
+    "submitLabel": "Odeslat poptávku",
+    "formNote": "Ozveme se vám do jednoho pracovního dne.",
+    "mapLat": "50.0782",
+    "mapLng": "14.4490"
   },
   "footer": {
-    "siteName": "American Clinic",
+    "siteName": "Movia",
     "logoUrl": "/templates/fyzio-02/logo.svg",
-    "tagline": "Fyzioterapie světové úrovně. V Praze.",
-    "phone": "704 123 456",
-    "email": "email@demo.cz",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "hours": "Po–Pá 7:00–20:00, So 8:00–12:00",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
-    "copyright": "© 2026 American Clinic. Všechna práva vyhrazena.",
+    "tagline": "Fyzioterapie a funkční neurologie. Vrátíme vás do plného pohybu.",
+    "phone": "725 480 190",
+    "email": "recepce@movia.cz",
+    "address": "Vinohradská 42, 120 00 Praha 2",
+    "hours": "Po–Pá 7:00–20:00, So 8:00–13:00",
+    "navLabel": "Navigace",
+    "contactLabel": "Kontakt",
+    "facebookUrl": "https://facebook.com/movia",
+    "instagramUrl": "https://instagram.com/movia",
+    "copyright": "© 2026 Movia. Všechna práva vyhrazena.",
     "links": [
-      { "label": "O nás",   "href": "#o-nas" },
-      { "label": "Terapie", "href": "#sluzby" },
-      { "label": "Tým",     "href": "#tym" },
-      { "label": "Ceník",   "href": "#cenik" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Terapie",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Tým",
+        "href": "/tym"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se na vyšetření",
+      "subtitle": "Vyberte vyšetření, terapeuta a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

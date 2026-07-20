@@ -100,19 +100,19 @@ export function ChangeTemplateModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
       <div
-        className="flex h-[80vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-[var(--vs-surface-2)] bg-[#0f0f10]"
+        className="flex h-[80vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-bg-soft)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex h-12 shrink-0 items-center justify-between border-b border-[var(--vs-surface-2)] px-4">
-          <h2 className="text-sm font-semibold text-white">
+          <h2 className="text-sm font-semibold text-[var(--vs-text)]">
             {step === "pick" && "Vyber novou šablonu"}
             {step === "preview" && "Náhled změny šablony"}
             {step === "applying" && "Měním šablonu…"}
             {step === "done" && "Šablona změněna"}
             {step === "error" && "Chyba"}
           </h2>
-          <button type="button" onClick={onClose} className="rounded p-1 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white">
+          <button type="button" onClick={onClose} className="rounded p-1 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -126,7 +126,7 @@ export function ChangeTemplateModal({
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Hledat (název, odvětví, klíč…)"
-                className="mb-3 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-white placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none"
+                className="mb-3 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none"
               />
               {catalog.length === 0 && (
                 <div className="px-2 py-8 text-center text-[12px] text-[var(--vs-text-dim)]">
@@ -150,7 +150,7 @@ export function ChangeTemplateModal({
                       }}
                     />
                     <div className="px-2.5 py-2">
-                      <div className="truncate text-[12px] font-medium text-white">{c.name}</div>
+                      <div className="truncate text-[12px] font-medium text-[var(--vs-text)]">{c.name}</div>
                       <div className="truncate text-[10.5px] text-[var(--vs-text-dim)]">{c.industry} · {c.key}</div>
                     </div>
                   </button>
@@ -192,7 +192,7 @@ export function ChangeTemplateModal({
                   <ArrowRight className="h-3.5 w-3.5" /> Nová šablona
                 </div>
                 <div className="text-[11px] text-[var(--vs-text-soft)]">
-                  <strong className="text-white">{preview.to.name}</strong> ({preview.to.industry})
+                  <strong className="text-[var(--vs-text)]">{preview.to.name}</strong> ({preview.to.industry})
                 </div>
                 <div className="mt-1 text-[10.5px] text-[var(--vs-text-dim)]">
                   {preview.to.sectionsCount} sekcí: {preview.to.sectionTypes.join(" → ")}

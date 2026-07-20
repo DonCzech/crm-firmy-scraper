@@ -102,6 +102,7 @@ function manifestToDefinition(manifest, theme, content) {
     name: manifest.name,
     industry: manifest.industry,
     version: manifest.version,
+    kind: manifest.kind ?? "website",
     designTokens,
     defaultSections,
     demoContent: resolvedContent,
@@ -145,11 +146,11 @@ async function main() {
       await pool.query("BEGIN");
       // Upsert template
       const tplRes = await pool.query(
-        `INSERT INTO templates (key, name, industry, current_version, status)
-         VALUES ($1, $2, $3, $4, 'active')
-         ON CONFLICT (key) DO UPDATE SET name = EXCLUDED.name, industry = EXCLUDED.industry, current_version = EXCLUDED.current_version, updated_at = now()
+        `INSERT INTO templates (key, name, industry, current_version, status, kind)
+         VALUES ($1, $2, $3, $4, 'active', $5)
+         ON CONFLICT (key) DO UPDATE SET name = EXCLUDED.name, industry = EXCLUDED.industry, current_version = EXCLUDED.current_version, kind = EXCLUDED.kind, updated_at = now()
          RETURNING id, xmax = 0 AS inserted`,
-        [tpl.key, tpl.name, tpl.industry, tpl.version]
+        [tpl.key, tpl.name, tpl.industry, tpl.version, tpl.kind ?? "website"]
       );
       const templateId = tplRes.rows[0].id;
 

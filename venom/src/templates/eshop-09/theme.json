@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#3ce0a6",
+    "secondary": "#1d2433",
+    "accent": "#22c993",
+    "background": "#ffffff",
+    "surface": "#f5f6f7",
+    "text": "#232a30",
+    "textMuted": "#8b949c",
+    "border": "#e8e9eb"
+  },
+  "typography": {
+    "fontHeading": "'Archivo', 'Helvetica Neue', Arial, sans-serif",
+    "fontBody": "'Archivo', 'Segoe UI', Arial, sans-serif"
+  }
+}

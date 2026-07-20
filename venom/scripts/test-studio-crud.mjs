@@ -39,7 +39,7 @@ console.log(`${BLD}tenant${RST}=${slug} id=${tenant.id} page=${pageId}\n`);
 
 const headers = {
   "Content-Type": "application/json",
-  "Cookie": `venom_access_${slug}=${token}`,
+  "Cookie": `webero_access_${slug}=${token}`,
   "Origin": BASE,
 };
 

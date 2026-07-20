@@ -1,12 +1,12 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "klima-01",
-  "name": "Demo PragoClima",
+  "name": "AirComfort",
   "industry": "klima",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
   "baseTemplate": null,
-  "description": "Klimatizace & tepelná čerpadla — B2B servisní firma od roku 1990. Bílý fixed navbar (74px, Outfit, červený #e30016 hover), hero 2-col (tmavý navy bg s modrou texturou: headline + CTA vlevo, produkt karta vpravo), stats pruh 3 čísla (modrý bg), promo katalog CTA, 6 service karet (grid), šedé about sekce 6 features, galerie realizací, navy footer. Inspirováno pragoclima.cz.",
+  "description": "Klimatizace & tepelná čerpadla — B2B servisní firma od roku 1990. Bílý fixed navbar (74px, Outfit, červený #e30016 hover), hero 2-col (tmavý navy bg s modrou texturou: headline + CTA vlevo, produkt karta vpravo), stats pruh 3 čísla (modrý bg), promo katalog CTA, 6 service karet (grid), šedé about sekce 6 features, galerie realizací, navy footer. Inspirováno aircomfort-klima.cz.",
   "sectionOrderNote": "Navbar → Hero → Stats → Promo → Services → About → Gallery → Footer",
   "skippedSections": [
     {
@@ -17,7 +17,7 @@
     {
       "pos": 6,
       "name": "Pricing/Estimate",
-      "reason": "Originál pragoclima.cz nenabízí ceník — ceny jsou individuální dle rozsahu zakázky, kontakt přes CTA"
+      "reason": "Originál aircomfort-klima.cz nenabízí ceník — ceny jsou individuální dle rozsahu zakázky, kontakt přes CTA"
     },
     {
       "pos": 8,
@@ -32,12 +32,12 @@
     {
       "pos": 10,
       "name": "Service area",
-      "reason": "Originál pragoclima.cz nemá mapu servisní oblasti — dvě pobočky jsou zmíněny v patičce (Praha + Ostrava)"
+      "reason": "Originál aircomfort-klima.cz nemá mapu servisní oblasti — dvě pobočky jsou zmíněny v patičce (Praha + Ostrava)"
     },
     {
       "pos": 11,
       "name": "FAQ",
-      "reason": "Originál pragoclima.cz nemá FAQ sekci"
+      "reason": "Originál aircomfort-klima.cz nemá FAQ sekci"
     }
   ],
   "extraSections": [
@@ -52,7 +52,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -60,14 +62,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "klima-01-navbar",   "contentRef": "navbar"   },
-        { "type": "hero",     "variant": "klima-01-hero",     "contentRef": "hero"     },
-        { "type": "stats",    "variant": "klima-01-stats",    "contentRef": "stats"    },
-        { "type": "promo",    "variant": "klima-01-catalog",  "contentRef": "catalog"  },
-        { "type": "services", "variant": "klima-01-services", "contentRef": "services" },
-        { "type": "about",    "variant": "klima-01-about",    "contentRef": "about"    },
-        { "type": "gallery",  "variant": "klima-01-gallery",  "contentRef": "gallery"  },
-        { "type": "footer",   "variant": "klima-01-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "klima-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "klima-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "promo",
+          "variant": "klima-01-catalog",
+          "contentRef": "catalog"
+        },
+        {
+          "type": "services",
+          "variant": "klima-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "klima-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -76,9 +110,26 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "klima-01-navbar",   "contentRef": "navbar"   },
-        { "type": "services", "variant": "klima-01-services", "contentRef": "services" },
-        { "type": "footer",   "variant": "klima-01-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "klima-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -87,9 +138,26 @@
       "seoTitleKey": "pages.reference.seoTitle",
       "seoDescriptionKey": "pages.reference.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "klima-01-navbar",  "contentRef": "navbar"  },
-        { "type": "gallery", "variant": "klima-01-gallery", "contentRef": "gallery" },
-        { "type": "footer",  "variant": "klima-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -98,9 +166,138 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "klima-01-navbar",  "contentRef": "navbar"  },
-        { "type": "about",   "variant": "klima-01-about",   "contentRef": "about"   },
-        { "type": "footer",  "variant": "klima-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "klima-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "pro-firmy",
+      "title": "Pro firmy",
+      "seoTitleKey": "pages.pro-firmy.seoTitle",
+      "seoDescriptionKey": "pages.pro-firmy.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "klima-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "katalog",
+      "title": "Katalog",
+      "seoTitleKey": "pages.katalog.seoTitle",
+      "seoDescriptionKey": "pages.katalog.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "klima-01-catalog",
+          "contentRef": "catalog"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "akce",
+      "title": "AKCE",
+      "seoTitleKey": "pages.akce.seoTitle",
+      "seoDescriptionKey": "pages.akce.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "klima-01-catalog",
+          "contentRef": "catalog"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "onas",
+      "title": "O nás",
+      "seoTitleKey": "pages.onas.seoTitle",
+      "seoDescriptionKey": "pages.onas.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klima-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klima-01-page",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "klima-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "footer",
+          "variant": "klima-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

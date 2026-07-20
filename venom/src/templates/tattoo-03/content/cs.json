@@ -1,16 +1,30 @@
 {
   "navbar": {
-    "siteName": "Demo Magic Tattoo Studio",
+    "siteName": "Crimson Needle",
     "logoUrl": "/templates/tattoo-03/logo.svg",
-    "phone": "704 123 456",
     "ctaText": "Kontaktujte nás",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Walk-In tetování", "href": "#walk-in" },
-      { "label": "Tetování",         "href": "#sluzby" },
-      { "label": "Ceník",            "href": "#cenik" },
-      { "label": "O studiu",         "href": "#o-nas" },
-      { "label": "Ukázky práce",     "href": "#galerie" }
+      {
+        "label": "Walk-In tetování",
+        "href": "#walk-in"
+      },
+      {
+        "label": "Tetování",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "O studiu",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Ukázky práce",
+        "href": "#galerie"
+      }
     ]
   },
   "hero": {
@@ -27,15 +41,27 @@
   "about": {
     "title": "Profesionální tetovací salon — kde jedinečný styl se setkává s mistrovstvím",
     "body": "Při práci používáme nejmodernější veganské tetovací barvy, které splňují přísné normy EU. Dbáme na dodržení hygienických pravidel pro vaši maximální bezpečnost a spokojenost.",
-    "text2": "Přijďte se inspirovat do Demo Magic Tattoo Studia, kde se každé tetování stává trvalou a milovanou součástí vašeho příběhu. Náš tým tvoří pečlivě vybraní tatéři s lidským přístupem.",
+    "text2": "Přijďte se inspirovat do Demo Crimson Needle Studia, kde se každé tetování stává trvalou a milovanou součástí vašeho příběhu. Náš tým tvoří pečlivě vybraní tatéři s lidským přístupem.",
     "ctaText": "Objednat se",
     "ctaHref": "#kontakt",
     "image": "/templates/tattoo-03/about-team.jpg",
     "stats": [
-      { "number": "15+",  "label": "let zkušeností" },
-      { "number": "1612", "label": "pozitivních recenzí" },
-      { "number": "4.9",  "label": "hvězdičkové hodnocení" },
-      { "number": "100%", "label": "spokojených klientů" }
+      {
+        "number": "15+",
+        "label": "let zkušeností"
+      },
+      {
+        "number": "1612",
+        "label": "pozitivních recenzí"
+      },
+      {
+        "number": "4.9",
+        "label": "hvězdičkové hodnocení"
+      },
+      {
+        "number": "100%",
+        "label": "spokojených klientů"
+      }
     ]
   },
   "services": {
@@ -75,7 +101,6 @@
   },
   "process": {
     "title": "Jak to probíhá?",
-    "body": "3 jednoduché kroky k dokonalému tetování — přijďte připraveni a my se postaráme o zbytek.",
     "heading": "Jak to probíhá?",
     "subheading": "3 jednoduché kroky k dokonalému tetování",
     "steps": [
@@ -100,19 +125,42 @@
     "heading": "Ukázky práce",
     "subheading": "Práce našich tatérů",
     "images": [
-      { "url": "/templates/tattoo-03/gallery-1.jpg", "alt": "Tetování ukázka 1" },
-      { "url": "/templates/tattoo-03/gallery-2.jpg", "alt": "Tetování ukázka 2" },
-      { "url": "/templates/tattoo-03/gallery-3.jpg", "alt": "Tetování ukázka 3" },
-      { "url": "/templates/tattoo-03/gallery-4.jpg", "alt": "Tetování ukázka 4" },
-      { "url": "/templates/tattoo-03/gallery-5.jpg", "alt": "Tetování ukázka 5" },
-      { "url": "/templates/tattoo-03/gallery-6.jpg", "alt": "Tetování ukázka 6" },
-      { "url": "/templates/tattoo-03/gallery-7.jpg", "alt": "Tetování ukázka 7" },
-      { "url": "/templates/tattoo-03/gallery-8.jpg", "alt": "Tetování ukázka 8" }
+      {
+        "url": "/templates/tattoo-03/gallery-1.jpg",
+        "alt": "Tetování ukázka 1"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-2.jpg",
+        "alt": "Tetování ukázka 2"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-3.jpg",
+        "alt": "Tetování ukázka 3"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-4.jpg",
+        "alt": "Tetování ukázka 4"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-5.jpg",
+        "alt": "Tetování ukázka 5"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-6.jpg",
+        "alt": "Tetování ukázka 6"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-7.jpg",
+        "alt": "Tetování ukázka 7"
+      },
+      {
+        "url": "/templates/tattoo-03/gallery-8.jpg",
+        "alt": "Tetování ukázka 8"
+      }
     ]
   },
   "testimonials": {
     "heading": "Co říkají naši klienti",
-    "subheading": "Přidejte se k tisícům spokojených klientů",
     "score": "4.9",
     "reviewCount": "1612",
     "testimonials": [
@@ -152,7 +200,6 @@
   },
   "contact": {
     "heading": "Kontaktujte nás",
-    "subheading": "Rezervace & informace",
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
     "email": "email@demo.cz",
@@ -173,11 +220,34 @@
     "instagram": "https://instagram.com/demo",
     "copyright": "© 2026 Demo Tattoo Studio. Všechna práva vyhrazena.",
     "navLinks": [
-      { "label": "Walk-In",      "href": "#walk-in" },
-      { "label": "Tetování",     "href": "#sluzby" },
-      { "label": "Galerie",      "href": "#galerie" },
-      { "label": "O studiu",     "href": "#o-nas" },
-      { "label": "Kontakt",      "href": "#kontakt" }
+      {
+        "label": "Walk-In",
+        "href": "#walk-in"
+      },
+      {
+        "label": "Tetování",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "O studiu",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si termín",
+      "subtitle": "Vyberte motiv, tatéra a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

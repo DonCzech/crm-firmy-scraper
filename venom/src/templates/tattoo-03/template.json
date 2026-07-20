@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "tattoo-03",
-  "name": "Demo Magic Tattoo Studio",
+  "name": "Crimson Needle",
   "industry": "tattoo",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,15 +9,37 @@
   "description": "Prémiové walk-in tetovací studio — tmavý (#0A0A0E) navbar s červeným CTA, fullbleed hero s recepční fotografií, 2-col about se statistikami, 4 service karty, 3-krokový proces, galerie prací, reference s hodnocením, kontakt, patička. Inspirováno magictattoo.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Services → Process → Gallery → Testimonials → Contact → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",      "reason": "ceník na podstránce /cenik, ne na homepage" },
-    { "pos": 7,  "name": "Team",         "reason": "tatéři na podstránce /tatteri" },
-    { "pos": 8,  "name": "Styles",       "reason": "styly tetování jsou obsahem galerie — engine neimplementuje carousel stylů" },
-    { "pos": 9,  "name": "Care/FAQ",     "reason": "péče o tetování je na podstránce /pece, ne na homepage" },
-    { "pos": 11, "name": "FAQ",          "reason": "magictattoo.cz nemá FAQ sekci na homepage — FAQ je na podstránce /faq" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "ceník na podstránce /cenik, ne na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "tatéři na podstránce /tatteri"
+    },
+    {
+      "pos": 8,
+      "name": "Styles",
+      "reason": "styly tetování jsou obsahem galerie — engine neimplementuje carousel stylů"
+    },
+    {
+      "pos": 9,
+      "name": "Care/FAQ",
+      "reason": "péče o tetování je na podstránce /pece, ne na homepage"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "magictattoo.cz nemá FAQ sekci na homepage — FAQ je na podstránce /faq"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -25,19 +47,66 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "tattoo-03-navbar",        "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-tattoo-03-dark",     "contentRef": "hero" },
-        { "type": "about",        "variant": "tattoo-03-about",         "contentRef": "about" },
-        { "type": "services",     "variant": "tattoo-03-services",      "contentRef": "services" },
-        { "type": "about",        "variant": "tattoo-03-process",       "contentRef": "process" },
-        { "type": "gallery",      "variant": "tattoo-03-gallery",       "contentRef": "gallery" },
-        { "type": "testimonials", "variant": "tattoo-03-testimonials",  "contentRef": "testimonials" },
-        { "type": "contact",      "variant": "tattoo-03-contact",       "contentRef": "contact" },
-        { "type": "footer",       "variant": "tattoo-03-footer",        "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "tattoo-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-tattoo-03-dark",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "tattoo-03-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "tattoo-03-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "tattoo-03-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "gallery",
+          "variant": "tattoo-03-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "tattoo-03-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "tattoo-03",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "tattoo-03-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "tattoo-03-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ]
 }

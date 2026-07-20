@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#8f1d3d",
+    "secondary": "#611028",
+    "accent": "#c9a24b",
+    "background": "#fdfbf8",
+    "surface": "#f7f1e8",
+    "text": "#241a1d",
+    "textMuted": "#7d6d72",
+    "border": "#eadfd6"
+  },
+  "typography": {
+    "fontHeading": "'Fraunces', 'Georgia', serif",
+    "fontBody": "'Instrument Sans', 'Segoe UI', Arial, sans-serif"
+  }
+}

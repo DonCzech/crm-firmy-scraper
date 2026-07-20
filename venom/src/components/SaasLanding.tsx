@@ -334,104 +334,203 @@ function MaskReveal({
 }
 
 /* ── Filterable templates gallery with category pills ──────────────────── */
-interface TemplateItem {
+export interface TemplateItem {
   key: string;
   name: string;
   industry: string;
+  /** English caption for the industry (used on /en). */
+  industryEn?: string;
   category: string;
+  /** English label for the category pill (used on /en). */
+  categoryEn?: string;
   src: string;
 }
 
 const TEMPLATE_LIST: TemplateItem[] = [
-  { key: "barber-03",  name: "barber — 03",  industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-03/showcase/desktop-full.webp" },
-  { key: "tattoo-01",  name: "tattoo — 01",  industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-01/hero-art.webp" },
-  { key: "nails-03",   name: "nails — 03",   industry: "Nehtové studio", category: "Nehtové studio", src: "/templates/nails-03/about-portrait.webp" },
-  { key: "reality-01", name: "reality — 01", industry: "Reality",        category: "Reality",        src: "/templates/reality-01/hero-bg.webp" },
-  { key: "dental-01",  name: "dental — 01",  industry: "Stomatologie",   category: "Stomatologie",   src: "/templates/dental-01/hero-bg.webp" },
-  { key: "peak-cut",   name: "peak — cut",   industry: "Barbershop",     category: "Barbershop",     src: "/templates/peak-cut/showcase/desktop-full.webp" },
-  { key: "tattoo-02",  name: "tattoo — 02",  industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-02/hero-bg.jpg" },
-  { key: "nails-02",   name: "nails — 02",   industry: "Nehtové studio", category: "Nehtové studio", src: "/templates/nails-02/gallery/gallery-1.webp" },
-  { key: "reality-02", name: "reality — 02", industry: "Reality",        category: "Reality",        src: "/templates/reality-02/hero.jpg" },
-  { key: "ortho-02",   name: "ortho — 02",   industry: "Stomatologie",   category: "Stomatologie",   src: "/templates/ortho-02/hero-bg.webp" },
-  { key: "barber-04",  name: "barber — 04",  industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-04/showcase/desktop-full.webp" },
-  { key: "solar-03",   name: "solar — 03",   industry: "Fotovoltaika",   category: "Fotovoltaika",   src: "/templates/solar-03/hero.webp" },
-  { key: "ananda-01",  name: "ananda — 01",  industry: "Wellness",       category: "Wellness",       src: "/templates/ananda-01/service-2.jpg" },
-  { key: "tattoo-03",  name: "tattoo — 03",  industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-03/gallery-7.jpg" },
-  { key: "barber-01",  name: "barber — 01",  industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-01/preview.webp" },
-  { key: "massage-01", name: "massage — 01", industry: "Wellness",       category: "Wellness",       src: "/templates/massage-01/gallery-1.webp" },
-  { key: "arch-01",    name: "arch — 01",    industry: "Architektura",   category: "Architektura",   src: "/templates/arch-01/hero-1.webp" },
-  { key: "ucetni-04",  name: "ucetni — 04",  industry: "Účetnictví",     category: "Účetnictví",     src: "/templates/ucetni-04/about.webp" },
+  { key: "barber-03",  name: "Barbery",             industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-03/showcase/desktop-full.webp" },
+  { key: "eshop-07",   name: "Néroli parfumerie",   industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-07/showcase/desktop-full.webp" },
+  { key: "tattoo-01",  name: "Inkwell Studio",      industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-01/showcase/desktop-full.webp" },
+  { key: "nails-03",   name: "Studio Krásy",        industry: "Nehtové studio", category: "Nehtové studio", src: "/templates/nails-03/showcase/desktop-full.webp" },
+  { key: "reality-01", name: "DOMUS Reality",       industry: "Reality",        category: "Reality",        src: "/templates/reality-01/showcase/desktop-full.webp" },
+  { key: "dental-01",  name: "Dentia",              industry: "Stomatologie",   category: "Stomatologie",   src: "/templates/dental-01/showcase/desktop-full.webp" },
+  { key: "peak-cut",   name: "Peak Cut",            industry: "Barbershop",     category: "Barbershop",     src: "/templates/peak-cut/showcase/desktop-full.webp" },
+  { key: "eshop-06",   name: "Ořeškárna",           industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-06/showcase/desktop-full.webp" },
+  { key: "tattoo-02",  name: "Shadow Ink",          industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-02/showcase/desktop-full.webp" },
+  { key: "nails-02",   name: "Premium Nails",       industry: "Nehtové studio", category: "Nehtové studio", src: "/templates/nails-02/showcase/desktop-full.webp" },
+  { key: "reality-02", name: "Realitní Průvodce",   industry: "Reality",        category: "Reality",        src: "/templates/reality-02/showcase/desktop-full.webp" },
+  { key: "ortho-02",   name: "Harmony Ortho",       industry: "Stomatologie",   category: "Stomatologie",   src: "/templates/ortho-02/showcase/desktop-full.webp" },
+  { key: "barber-04",  name: "Černý Fade",          industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-04/showcase/desktop-full.webp" },
+  { key: "solar-03",   name: "SolarPro",            industry: "Fotovoltaika",   category: "Fotovoltaika",   src: "/templates/solar-03/showcase/desktop-full.webp" },
+  { key: "eshop-08",   name: "Domea",               industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-08/showcase/desktop-full.webp" },
+  { key: "eshop-09",   name: "Mobil Expres",        industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-09/showcase/desktop-full.webp" },
+  { key: "tattoo-03",  name: "Crimson Needle",      industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-03/showcase/desktop-full.webp" },
+  { key: "barber-01",  name: "Dark Luxury",         industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-01/showcase/desktop-full.webp" },
+  { key: "massage-01", name: "Harmonie Masáže",     industry: "Wellness",       category: "Wellness",       src: "/templates/massage-01/showcase/desktop-full.webp" },
+  { key: "arch-01",    name: "Forma Studio",        industry: "Architektura",   category: "Architektura",   src: "/templates/arch-01/showcase/desktop-full.webp" },
+  { key: "ucetni-04",  name: "Prosperita Finance",  industry: "Účetnictví",     category: "Účetnictví",     src: "/templates/ucetni-04/showcase/desktop-full.webp" },
+  { key: "eshop-05",   name: "Hračkolandia",        industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-05/showcase/desktop-full.webp" },
+  { key: "eshop-01",   name: "Moderno Store",       industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-01/showcase/desktop-full.webp" },
+  { key: "eshop-02",   name: "Modrý Košík",         industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-02/showcase/desktop-full.webp" },
+  { key: "eshop-03",   name: "Pohodář",             industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-03/showcase/desktop-full.webp" },
+  { key: "eshop-04",   name: "Pastelka",            industry: "E-shop",         category: "E-shop",         src: "/templates/eshop-04/showcase/desktop-full.webp" },
 ];
 
-/* Lazy-loads CSS background-image only when the element enters the viewport. */
-function LazyBgDiv({
-  src,
-  className,
-  style,
-  role,
-  "aria-label": ariaLabel,
-  children,
+/* Template card with scroll-on-hover preview (same mechanism as /vybrat-design DesignGallery):
+   measures the rendered screenshot height and slides it via translateY at a constant speed.
+   Templates whose preview fits the frame (single image) simply don't scroll. */
+function TemplateCard({
+  t,
+  locale,
+  industryLabel,
+  onOpen,
 }: {
-  src: string;
-  className?: string;
-  style?: React.CSSProperties;
-  role?: string;
-  "aria-label"?: string;
-  children?: React.ReactNode;
+  t: TemplateItem;
+  locale: PlatformLocale;
+  industryLabel: string;
+  onOpen: (tpl?: { key: string; name: string }) => void;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [loaded, setLoaded] = useState(false);
+  const router = useRouter();
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [scrollPx, setScrollPx] = useState(0);
+  const [duration, setDuration] = useState(2400);
+
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setLoaded(true); obs.disconnect(); }
-    }, { rootMargin: "200px" });
-    obs.observe(el);
-    return () => obs.disconnect();
+    function recompute() {
+      const wrap = wrapRef.current;
+      const img = imgRef.current;
+      if (!wrap || !img) return;
+      const wW = wrap.clientWidth;
+      const wH = wrap.clientHeight;
+      const nW = img.naturalWidth;
+      const nH = img.naturalHeight;
+      if (!wW || !wH || !nW || !nH) return;
+      const renderedH = (nH / nW) * wW;
+      const dist = Math.max(0, renderedH - wH);
+      setScrollPx(dist);
+      const speed = 280; // px/s
+      setDuration(Math.max(2400, Math.min(5000, Math.round((dist / speed) * 1000))));
+    }
+    if (imgRef.current?.complete) recompute();
+    else imgRef.current?.addEventListener("load", recompute, { once: true });
+    const ro = new ResizeObserver(recompute);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    return () => ro.disconnect();
   }, []);
+
+  function startScroll() {
+    const el = imgRef.current;
+    if (!el || scrollPx <= 0) return;
+    el.style.transitionDuration = `${duration}ms`;
+    el.style.transitionTimingFunction = "cubic-bezier(0.4, 0, 0.2, 1)";
+    el.style.transform = `translateY(-${scrollPx}px)`;
+  }
+  function resetScroll() {
+    const el = imgRef.current;
+    if (!el) return;
+    el.style.transitionDuration = "900ms";
+    el.style.transitionTimingFunction = "cubic-bezier(0.22, 1, 0.36, 1)";
+    el.style.transform = "translateY(0)";
+  }
+
   return (
     <div
-      ref={ref}
-      className={className}
-      style={{ ...style, backgroundImage: loaded ? `url(${src})` : "none" }}
-      role={role}
-      aria-label={ariaLabel}
+      onClick={() => router.push(`/ukazka-sablon/${t.key}`)}
+      onMouseEnter={startScroll}
+      onMouseLeave={resetScroll}
     >
-      {children}
+      {/* Image with scroll-on-hover */}
+      <div
+        ref={wrapRef}
+        className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#fafafa] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.06)] transition-shadow duration-300 group-hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.18)]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          ref={imgRef}
+          src={t.src}
+          alt={t.name}
+          className="absolute left-0 top-0 block w-full will-change-transform"
+          style={{
+            height: "auto",
+            minHeight: "100%",
+            objectFit: "cover",
+            objectPosition: "top",
+            transform: "translateY(0)",
+            transitionProperty: "transform",
+            transitionDuration: `${duration}ms`,
+          }}
+          loading="lazy"
+        />
+        <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-center bg-gradient-to-t from-[#0a0a0a]/85 via-[#0a0a0a]/0 to-[#0a0a0a]/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+          <div className="pointer-events-auto flex w-full items-center justify-center gap-2 p-4 sm:p-5">
+            <button
+              onClick={(e) => { e.stopPropagation(); router.push(`/ukazka-sablon/${t.key}`); }}
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[12.5px] font-semibold text-white backdrop-blur-md transition hover:bg-white/20 sm:px-5"
+            >
+              {locale === "en" ? "View preview" : "Zobrazit náhled"}
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); onOpen({ key: t.key, name: t.name }); }}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0a0a0a] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] transition hover:bg-white/95 sm:px-5"
+            >
+              {locale === "en" ? "Start free" : "Začít zdarma"}
+              <ArrowRight size={13} />
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Caption — name first, then industry */}
+      <div className="mt-5">
+        <div className="text-[17px] font-bold tracking-[-0.01em] text-[#0a0a0a]">{t.name}</div>
+        <div className="mt-1 text-[13.5px] text-[#6b7280]">{industryLabel}</div>
+      </div>
     </div>
   );
 }
 
-function TemplatesGallery({ onOpen, locale = "cs" }: { onOpen: (tpl?: { key: string; name: string }) => void; locale?: PlatformLocale }) {
-  const router = useRouter();
-  const allLabel = locale === "en" ? "All" : "Vše";
-  const categoryLabels: Record<string, string> = locale === "en"
-    ? {
-        "Barbershop": "Barbershop",
-        "Tetování": "Tattoo",
-        "Nehtové studio": "Nail studio",
-        "Reality": "Real estate",
-        "Stomatologie": "Dental",
-        "Wellness": "Wellness",
-        "Fotovoltaika": "Solar",
-        "Architektura": "Architecture",
-        "Účetnictví": "Accounting",
-      }
-    : {};
-  const industryLabel = (value: string) => categoryLabels[value] ?? value;
-  const [category, setCategory] = useState<string>("Vše");
+/* Pill order for the full catalog (broad groups, same as /vybrat-design)
+   followed by the legacy per-industry labels used by the hardcoded fallback. */
+const GALLERY_CAT_ORDER = [
+  "Krása & péče", "Zdraví", "Gastronomie", "Ubytování", "Reality", "Řemesla", "Služby", "Kreativní", "E-shopy",
+  "Barbershop", "E-shop", "Tetování", "Nehtové studio", "Stomatologie", "Wellness", "Fotovoltaika", "Architektura", "Účetnictví",
+];
 
-  const catOrder = ["Barbershop", "Tetování", "Nehtové studio", "Reality", "Stomatologie", "Wellness", "Fotovoltaika", "Architektura", "Účetnictví"];
-  const catCounts = TEMPLATE_LIST.reduce<Record<string, number>>((acc, t) => { acc[t.category] = (acc[t.category] ?? 0) + 1; return acc; }, {});
+const PAGE_SIZE = 12;
+
+function TemplatesGallery({ templates, onOpen, locale = "cs" }: { templates?: TemplateItem[]; onOpen: (tpl?: { key: string; name: string }) => void; locale?: PlatformLocale }) {
+  const list = templates && templates.length > 0 ? templates : TEMPLATE_LIST;
+  const en = locale === "en";
+  const allLabel = en ? "All" : "Vše";
+  const legacyEnLabels: Record<string, string> = {
+    "Barbershop": "Barbershop",
+    "Tetování": "Tattoo",
+    "Nehtové studio": "Nail studio",
+    "Reality": "Real estate",
+    "Stomatologie": "Dental",
+    "Wellness": "Wellness",
+    "Fotovoltaika": "Solar",
+    "Architektura": "Architecture",
+    "Účetnictví": "Accounting",
+  };
+  // EN labels for category pills — taken from catalog items, legacy map as fallback
+  const catEnLabels: Record<string, string> = { ...legacyEnLabels };
+  for (const t of list) { if (t.categoryEn) catEnLabels[t.category] = t.categoryEn; }
+  const categoryLabel = (value: string) => (en ? catEnLabels[value] ?? value : value);
+  const industryLabel = (t: TemplateItem) => (en ? t.industryEn ?? legacyEnLabels[t.industry] ?? t.industry : t.industry);
+
+  const [category, setCategory] = useState<string>("Vše");
+  const [visible, setVisible] = useState(PAGE_SIZE);
+
+  const catCounts = list.reduce<Record<string, number>>((acc, t) => { acc[t.category] = (acc[t.category] ?? 0) + 1; return acc; }, {});
   const categories = [
-    { label: "Vše", displayLabel: allLabel, count: TEMPLATE_LIST.length },
-    ...catOrder.filter(c => catCounts[c]).map(c => ({ label: c, displayLabel: industryLabel(c), count: catCounts[c] })),
+    { label: "Vše", displayLabel: allLabel, count: list.length },
+    ...GALLERY_CAT_ORDER.filter(c => catCounts[c]).map(c => ({ label: c, displayLabel: categoryLabel(c), count: catCounts[c] })),
   ];
 
   const filtered = category === "Vše"
-    ? TEMPLATE_LIST
-    : TEMPLATE_LIST.filter(t => t.category === category);
+    ? list
+    : list.filter(t => t.category === category);
+  const shown = filtered.slice(0, visible);
 
   return (
     <>
@@ -442,7 +541,7 @@ function TemplatesGallery({ onOpen, locale = "cs" }: { onOpen: (tpl?: { key: str
           return (
             <button
               key={c.label}
-              onClick={() => setCategory(c.label)}
+              onClick={() => { setCategory(c.label); setVisible(PAGE_SIZE); }}
               className={
                 active
                   ? "inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-5 py-2 text-[13px] font-semibold text-white"
@@ -466,61 +565,38 @@ function TemplatesGallery({ onOpen, locale = "cs" }: { onOpen: (tpl?: { key: str
 
       {/* Cards grid — horizontal scroll on mobile, grid on sm+ */}
       <div className="flex gap-5 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory -mx-6 px-6 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:snap-none lg:grid-cols-3 lg:gap-6">
-        {filtered.map((t, i) => (
+        {shown.map((t, i) => (
           <Reveal
             key={t.key}
             as="article"
-            delay={i * 0.04}
+            delay={Math.min(i * 0.04, 0.4)}
             className="group cursor-pointer snap-start shrink-0 w-[78vw] sm:w-auto"
           >
-            <div onClick={() => router.push(`/ukazka-sablon/${t.key}`)}>
-              {/* Image with scroll-on-hover */}
-              <LazyBgDiv
-                src={t.src}
-                className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#fafafa] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.06)] transition-[background-position,box-shadow] duration-[5000ms] ease-linear group-hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.18)] group-hover:[background-position:0%_100%]"
-                style={{
-                  backgroundSize: "100% auto",
-                  backgroundPosition: "0% 0%",
-                  backgroundRepeat: "no-repeat",
-                  transitionDuration: "5000ms, 300ms",
-                }}
-                role="img"
-                aria-label={t.name}
-              >
-                <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-[#0a0a0a]/85 via-[#0a0a0a]/0 to-[#0a0a0a]/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="pointer-events-auto flex w-full items-center justify-center gap-2 p-4 sm:p-5">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); router.push(`/ukazka-sablon/${t.key}`); }}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[12.5px] font-semibold text-white backdrop-blur-md transition hover:bg-white/20 sm:px-5"
-                    >
-                      {locale === "en" ? "View preview" : "Zobrazit náhled"}
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); onOpen({ key: t.key, name: t.name }); }}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0a0a0a] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] transition hover:bg-white/95 sm:px-5"
-                    >
-                      {locale === "en" ? "Start free" : "Začít zdarma"}
-                      <ArrowRight size={13} />
-                    </button>
-                  </div>
-                </div>
-              </LazyBgDiv>
-              {/* Caption — name first, then industry */}
-              <div className="mt-5">
-                <div className="text-[17px] font-bold tracking-[-0.01em] text-[#0a0a0a]">{t.name}</div>
-                <div className="mt-1 text-[13.5px] text-[#6b7280]">{industryLabel(t.industry)}</div>
-              </div>
-            </div>
+            <TemplateCard t={t} locale={locale} industryLabel={industryLabel(t)} onOpen={onOpen} />
           </Reveal>
         ))}
       </div>
+
+      {/* Show more — reveals the next batch within the selected category */}
+      {filtered.length > visible && (
+        <div className="mt-12 flex justify-center">
+          <button
+            onClick={() => setVisible(v => v + PAGE_SIZE)}
+            className="inline-flex items-center gap-2 rounded-full border border-[#e5e5e5] bg-white px-7 py-3 text-[13.5px] font-semibold text-[#0a0a0a] transition hover:border-[#0a0a0a]"
+          >
+            {en
+              ? `Show more templates (${filtered.length - visible})`
+              : `Zobrazit další šablony (${filtered.length - visible})`}
+          </button>
+        </div>
+      )}
 
       {/* Empty state */}
       {filtered.length === 0 && (
         <div className="mt-10 rounded-2xl border border-dashed border-[#e5e5e5] bg-[#fafafa] py-16 text-center">
           <p className="text-[14.5px] text-[#666]">
             {locale === "en"
-              ? `We do not have a template for "${industryLabel(category)}" yet, but we are working on it.`
+              ? `We do not have a template for "${categoryLabel(category)}" yet, but we are working on it.`
               : `Pro kategorii „${category}" zatím nemáme šablonu, ale pracujeme na tom.`}
           </p>
           <button
@@ -532,6 +608,102 @@ function TemplatesGallery({ onOpen, locale = "cs" }: { onOpen: (tpl?: { key: str
         </div>
       )}
     </>
+  );
+}
+
+/* ── Interactive MacBook screen for the final CTA ────────────────────────
+   Shows a full-page template screenshot; each click smooth-scrolls one
+   viewport down (and back to top from the bottom), like browsing the site. */
+function CtaInteractiveScreen({ src, alt, locale = "cs" }: { src: string; alt: string; locale?: PlatformLocale }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [offset, setOffset] = useState(0);
+  const [maxDist, setMaxDist] = useState(0);
+  const [duration, setDuration] = useState(750);
+  const [interacted, setInteracted] = useState(false);
+
+  useEffect(() => {
+    function measure() {
+      const wrap = wrapRef.current;
+      const img = imgRef.current;
+      if (!wrap || !img) return;
+      const wW = wrap.clientWidth;
+      const wH = wrap.clientHeight;
+      const nW = img.naturalWidth;
+      const nH = img.naturalHeight;
+      if (!wW || !wH || !nW || !nH) return;
+      setMaxDist(Math.max(0, (nH / nW) * wW - wH));
+    }
+    if (imgRef.current?.complete) measure();
+    else imgRef.current?.addEventListener("load", measure, { once: true });
+    const ro = new ResizeObserver(measure);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  const atBottom = maxDist > 0 && offset >= maxDist - 2;
+
+  function handleClick() {
+    if (!maxDist) return;
+    setInteracted(true);
+    const wrapH = wrapRef.current?.clientHeight ?? 0;
+    if (atBottom) {
+      setDuration(1200);
+      setOffset(0);
+    } else {
+      setDuration(750);
+      setOffset(Math.min(offset + wrapH * 0.92, maxDist));
+    }
+  }
+
+  return (
+    <div
+      ref={wrapRef}
+      onClick={handleClick}
+      className="relative aspect-[16/10] cursor-pointer select-none overflow-hidden"
+      role="img"
+      aria-label={alt}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={imgRef}
+        src={src}
+        alt=""
+        loading="lazy"
+        draggable={false}
+        className="absolute left-0 top-0 block w-full will-change-transform"
+        style={{
+          transform: `translateY(-${offset}px)`,
+          transitionProperty: "transform",
+          transitionDuration: `${duration}ms`,
+          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+        }}
+      />
+      {/* Screen glare */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "linear-gradient(115deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.02) 30%, transparent 55%)" }}
+      />
+      {/* Click hint pill */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-2 z-10 flex justify-center">
+        <span
+          className={`flex items-center gap-1.5 rounded-full bg-[#0a0a0a]/85 px-3 py-1 text-[10px] font-semibold tracking-[0.02em] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur-md transition-opacity duration-300 ${
+            interacted ? "opacity-80" : "cta-hint-bob"
+          }`}
+        >
+          {atBottom
+            ? (locale === "en" ? "Back to top" : "Zpět nahoru")
+            : (locale === "en" ? "Click to browse" : "Klikněte a projděte web")}
+          <svg
+            width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+            className={`transition-transform duration-300 ${atBottom ? "rotate-180" : ""}`}
+          >
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </span>
+      </div>
+    </div>
   );
 }
 
@@ -655,76 +827,111 @@ function FAQSection({ locale = "cs" }: { locale?: PlatformLocale }) {
 
   return (
     <section className="relative bg-[#fafafa]">
-      <div className="mx-auto max-w-[1280px] px-6 py-28 lg:px-10 lg:py-36">
+      <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
 
-        <div className="mx-auto mb-16 max-w-[820px] text-center">
-          <p
-            className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
-            style={{ letterSpacing: "0.16em" }}
-          >
-            {locale === "en" ? "FAQ" : "Časté otázky"}
-          </p>
-          <h2
-            className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
-            style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
-          >
-            {locale === "en" ? "Need to know more?" : "Něco vás zajímá?"}
-          </h2>
-        </div>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
 
-        <div className="mx-auto max-w-[820px]">
-          {faqs.map((faq, i) => (
-            <Reveal key={faq.q} delay={i * 0.04}>
-              <div className="border-b border-[#ececec]">
-                <button
-                  onClick={() => setOpen(open === i ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-[#6366f1]"
-                  aria-expanded={open === i}
-                >
-                  <span className="text-[16px] font-semibold tracking-[-0.01em] text-[#0a0a0a]">
-                    {faq.q}
-                  </span>
-                  <span
-                    className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-full border border-[#e5e5e5] transition-all duration-300 ${
-                      open === i ? "rotate-45 border-[#0a0a0a] bg-[#0a0a0a] text-white" : "text-[#0a0a0a]"
-                    }`}
-                  >
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
-                      <path d="M12 5v14M5 12h14" />
-                    </svg>
-                  </span>
-                </button>
-                <div
-                  className="grid transition-all duration-400 ease-out"
-                  style={{
-                    gridTemplateRows: open === i ? "1fr" : "0fr",
-                    opacity: open === i ? 1 : 0,
-                  }}
-                >
-                  <div className="overflow-hidden">
-                    <p className="pb-6 pr-10 text-[15px] leading-[1.7] text-[#555]">
-                      {faq.a}
-                    </p>
-                  </div>
+          {/* LEFT — sticky header + support card */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <p
+              className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
+              style={{ letterSpacing: "0.16em" }}
+            >
+              {locale === "en" ? "FAQ" : "Časté otázky"}
+            </p>
+            <h2
+              className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
+              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
+            >
+              {locale === "en" ? "Need to know more?" : "Něco vás zajímá?"}
+            </h2>
+            <p className="mt-5 max-w-[420px] text-[15.5px] leading-[1.65] text-[#555]">
+              {locale === "en"
+                ? "The answers to what people ask most often before launching their website."
+                : "Odpovědi na to, co lidé před spuštěním webu řeší nejčastěji."}
+            </p>
+
+            {/* Support card */}
+            <div className="mt-9 max-w-[420px] rounded-2xl border border-[#ececec] bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center gap-3">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22c55e] opacity-60" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#22c55e]" />
+                </span>
+                <div className="text-[14px] font-semibold text-[#0a0a0a]">
+                  {locale === "en" ? "Human support" : "Česká podpora"}
                 </div>
               </div>
-            </Reveal>
-          ))}
-        </div>
+              <p className="mt-2.5 text-[13.5px] leading-[1.65] text-[#666]">
+                {locale === "en"
+                  ? "Did not find the answer? We reply the same business day, 9:00–17:00."
+                  : "Nenašli jste odpověď? Odpovídáme tentýž pracovní den, 9:00–17:00."}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <a
+                  href="mailto:podpora@webero.co"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#0a0a0a] px-4 py-2 text-[12.5px] font-semibold text-white transition hover:bg-[#1a1a1a]"
+                >
+                  {locale === "en" ? "Email us" : "Napište nám"}
+                </a>
+                <a
+                  href="tel:+420776123456"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#e5e5e5] bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0a0a0a] transition hover:border-[#0a0a0a]"
+                >
+                  +420 776 123 456
+                </a>
+              </div>
+            </div>
+          </div>
 
-        {/* Bottom — link to contact */}
-        <Reveal delay={0.4} className="mx-auto mt-12 max-w-[820px] text-center">
-          <p className="text-[14.5px] text-[#666]">
-            {locale === "en" ? "Did not find the answer?" : "Nenašli jste odpověď?"}{" "}
-            <a href="mailto:podpora@webero.co" className="font-semibold text-[#6366f1] hover:underline">
-              {locale === "en" ? "Email us" : "Napište nám"}
-            </a>{" "}
-            {locale === "en" ? "or call" : "nebo zavolejte"}{" "}
-            <a href="tel:+420776123456" className="font-semibold text-[#0a0a0a] hover:underline">
-              +420 776 123 456
-            </a>.
-          </p>
-        </Reveal>
+          {/* RIGHT — accordion card */}
+          <div className="overflow-hidden rounded-3xl border border-[#ececec] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
+            {faqs.map((faq, i) => (
+              <Reveal key={faq.q} delay={i * 0.04}>
+                <div className={i > 0 ? "border-t border-[#f1f1f1]" : ""}>
+                  <button
+                    onClick={() => setOpen(open === i ? null : i)}
+                    className="group/faq flex w-full items-center justify-between gap-4 px-6 py-5 text-left sm:px-8"
+                    aria-expanded={open === i}
+                  >
+                    <span
+                      className={`text-[15.5px] font-semibold tracking-[-0.01em] transition-colors duration-200 sm:text-[16px] ${
+                        open === i ? "text-[#0a0a0a]" : "text-[#374151] group-hover/faq:text-[#0a0a0a]"
+                      }`}
+                    >
+                      {faq.q}
+                    </span>
+                    <span
+                      className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-full border transition-all duration-300 ${
+                        open === i
+                          ? "rotate-45 border-[#0a0a0a] bg-[#0a0a0a] text-white"
+                          : "border-[#e5e5e5] text-[#0a0a0a] group-hover/faq:border-[#0a0a0a]"
+                      }`}
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+                        <path d="M12 5v14M5 12h14" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div
+                    className="grid transition-all duration-400 ease-out"
+                    style={{
+                      gridTemplateRows: open === i ? "1fr" : "0fr",
+                      opacity: open === i ? 1 : 0,
+                    }}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="px-6 pb-6 pr-14 text-[14.5px] leading-[1.7] text-[#555] sm:px-8 sm:pr-16">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+        </div>
       </div>
     </section>
   );
@@ -735,14 +942,14 @@ function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?
   const [annual, setAnnual] = useState(false);
 
   const features = locale === "en" ? [
-    "99+ professional templates",
+    "100+ professional templates",
     "No-code live editor",
     "Custom domain + SSL",
     "EU hosting + CDN",
     "SEO basics + sitemap",
     "Human support",
   ] : [
-    "99+ profesionálních šablon",
+    "100+ profesionálních šablon",
     "Live editor bez kódu",
     "Vlastní doména + SSL",
     "Hosting v EU + CDN",
@@ -753,7 +960,7 @@ function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?
   const comparisonRows = locale === "en" ? [
     { label: "Price", webero: "500 CZK/mo", wix: "600-1,200 CZK/mo", agency: "30,000+ CZK" },
     { label: "Launch time", webero: "5 minutes", wix: "30+ minutes", agency: "4-8 weeks" },
-    { label: "Industry templates", webero: "99+ ✓", wix: "Generic", agency: "Custom (extra)" },
+    { label: "Industry templates", webero: "100+ ✓", wix: "Generic", agency: "Custom (extra)" },
     { label: "Live editor", webero: "Click and edit", wix: "Drag & drop", agency: "None" },
     { label: "PageSpeed 90+", webero: "✓ out of the box", wix: "Usually no", agency: "Variable" },
     { label: "Support", webero: "✓", wix: "English docs", agency: "✓" },
@@ -761,7 +968,7 @@ function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?
   ] : [
     { label: "Cena",                webero: "500 Kč/měs",      wix: "600–1 200 Kč/měs",  agency: "30 000+ Kč" },
     { label: "Spuštění webu",        webero: "5 minut",         wix: "30+ minut",          agency: "4–8 týdnů" },
-    { label: "Šablony pro váš obor", webero: "99+ ✓",          wix: "Univerzální",        agency: "Custom (extra)" },
+    { label: "Šablony pro váš obor", webero: "100+ ✓",          wix: "Univerzální",        agency: "Custom (extra)" },
     { label: "Live editor",          webero: "Klikni a uprav",  wix: "Drag & drop",        agency: "Žádný" },
     { label: "PageSpeed 90+",        webero: "✓ z krabice",     wix: "Zpravidla ne",       agency: "Variabilní" },
     { label: "Česká podpora",        webero: "✓",                wix: "EN/anglicky",        agency: "✓" },
@@ -771,21 +978,21 @@ function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?
   return (
     <>
       {/* Section header */}
-      <div className="mx-auto mb-16 max-w-[820px] text-center lg:mb-20">
+      <div className="mx-auto mb-12 max-w-[820px] text-center lg:mb-16">
         <p
-          className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
-          style={{ letterSpacing: "0.18em" }}
+          className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
+          style={{ letterSpacing: "0.16em" }}
         >
           {locale === "en" ? "Pricing · Comparison" : "Ceník · Srovnání"}
         </p>
         <h2
           className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
-          style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
+          style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
         >
           {locale === "en" ? "One price." : "Jedna cena."}<br />
           <span className="text-[#9ca3af]">{locale === "en" ? "Everything included." : "Vše v ceně."}</span>
         </h2>
-        <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.65] text-[#555]">
+        <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
           {locale === "en"
             ? "No surprises. No upgrade maze. No hidden fees. Here is how Webero compares with the usual alternatives."
             : "Žádné překvapení. Žádné upgrady. Žádné skryté poplatky. Vedle vám ukazujeme, jak Webero stojí proti běžným alternativám."}
@@ -938,7 +1145,7 @@ function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?
           <div className="mb-6">
             <p
               className="mb-2 text-[11.5px] font-semibold uppercase text-[#6366f1]"
-              style={{ letterSpacing: "0.18em" }}
+              style={{ letterSpacing: "0.16em" }}
             >
               {locale === "en" ? "Comparison" : "Srovnání"}
             </p>
@@ -1129,7 +1336,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 function TestimonialCard({ t, locale = "cs" }: { t: Testimonial; locale?: PlatformLocale }) {
   return (
-    <article className="flex h-full flex-col rounded-3xl border border-[#ececec] bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-7 lg:p-8">
+    <article className="flex h-full flex-col rounded-3xl border border-[#ececec] bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-shadow duration-300 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.12)] sm:p-7 lg:p-8">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex gap-0.5">
           {[0,1,2,3,4].map((s) => (
@@ -1204,14 +1411,14 @@ function TestimonialsSlider({ locale = "cs" }: { locale?: PlatformLocale }) {
   }));
 
   return (
-    <div className="py-24 lg:py-36">
+    <div className="py-20 lg:py-28">
       <div className="mx-auto mb-12 max-w-[1280px] px-6 lg:mb-16 lg:px-10">
         <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
           <div>
-            <p className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.16em" }}>
+            <p className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.16em" }}>
               {locale === "en" ? "Reviews" : "Recenze"}
             </p>
-            <h2 className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]" style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}>
+            <h2 className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]" style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}>
               {locale === "en" ? "What our customers say." : "Co říkají naši zákazníci."}
             </h2>
             <p className="mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
@@ -1280,8 +1487,17 @@ function TestimonialsSlider({ locale = "cs" }: { locale?: PlatformLocale }) {
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="mt-8 flex items-center justify-center sm:justify-end">
+        {/* Controls — progress track + page counter + arrows */}
+        <div className="mt-8 flex items-center justify-between gap-6">
+          <div className="hidden h-[2px] flex-1 overflow-hidden rounded-full bg-[#ececec] sm:block">
+            <div
+              className="h-full rounded-full bg-[#0a0a0a] transition-[width] duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+              style={{ width: `${((page + 1) / pageCount) * 100}%` }}
+            />
+          </div>
+          <span className="text-[12.5px] font-medium tabular-nums text-[#888]">
+            {String(page + 1).padStart(2, "0")} <span className="text-[#d4d4d8]">/</span> {String(pageCount).padStart(2, "0")}
+          </span>
           <div className="flex gap-2.5">
             <button
               type="button"
@@ -1352,19 +1568,23 @@ const steps = [
   },
 ];
 
-/* ── Carousel slides ─────────────────────────────────────────────────────── */
+/* ── Carousel slides — real template screenshots (top crop of desktop-full),
+      framed in a browser chrome so they unmistakably read as websites. ──── */
 interface Slide {
   key: string;
   src: string;
   src800: string;
+  domain: string;
+  industry: { cs: string; en: string };
 }
 
 const SLIDES: Slide[] = [
-  { key: "arch-01",    src: "/templates/arch-01/hero-1.webp",       src800: "/templates/arch-01/hero-1-800.webp"      },
-  { key: "clinic-02",  src: "/templates/clinic-02/hero-bg.webp",    src800: "/templates/clinic-02/hero-bg-800.webp"   },
-  { key: "dental-01",  src: "/templates/dental-01/hero-bg.webp",    src800: "/templates/dental-01/hero-bg-800.webp"   },
-  { key: "reality-01", src: "/templates/reality-01/hero-bg.webp",   src800: "/templates/reality-01/hero-bg-800.webp"  },
-  { key: "solar-03",   src: "/templates/solar-03/hero.webp",        src800: "/templates/solar-03/hero-800.webp"       },
+  { key: "eshop-05",      src: "/templates/eshop-05/showcase/hero-card.webp?v=2",      src800: "/templates/eshop-05/showcase/hero-card-800.webp?v=2",      domain: "hrackolandia.webero.co", industry: { cs: "E-shop",       en: "E-shop" } },
+  { key: "barber-01",     src: "/templates/barber-01/showcase/hero-card.webp?v=2",     src800: "/templates/barber-01/showcase/hero-card-800.webp?v=2",     domain: "thebarber.webero.co",    industry: { cs: "Barbershop",   en: "Barbershop" } },
+  { key: "autoservis-03", src: "/templates/autoservis-03/showcase/hero-card.webp?v=2", src800: "/templates/autoservis-03/showcase/hero-card-800.webp?v=2", domain: "prochazka.webero.co",    industry: { cs: "Autoservis",   en: "Car service" } },
+  { key: "arch-01",       src: "/templates/arch-01/showcase/hero-card.webp?v=2",       src800: "/templates/arch-01/showcase/hero-card-800.webp?v=2",       domain: "architekta.webero.co",   industry: { cs: "Architektura", en: "Architecture" } },
+  { key: "bakery-02",     src: "/templates/bakery-02/showcase/hero-card.webp?v=2",     src800: "/templates/bakery-02/showcase/hero-card-800.webp?v=2",     domain: "umlyna.webero.co",       industry: { cs: "Pekárna",      en: "Bakery" } },
+  { key: "dj-01",         src: "/templates/dj-01/showcase/hero-card.webp?v=2",         src800: "/templates/dj-01/showcase/hero-card-800.webp?v=2",         domain: "nokturn.webero.co",      industry: { cs: "DJ & Eventy",  en: "DJ & Events" } },
 ];
 
 /**
@@ -1389,11 +1609,47 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
   const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const prevIdxRef = useRef(idx);
 
-  /* Always-on autoplay — resets timer after each manual slide change */
+  /* Click-to-scroll inside the active card (like browsing the template) */
+  const screenRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const imgRefs = useRef<Map<number, HTMLImageElement>>(new Map());
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const [scrollDuration, setScrollDuration] = useState(750);
+  const [atBottom, setAtBottom] = useState(false);
+  const [scrolledOnce, setScrolledOnce] = useState(false);
+
+  /* New slide → its screenshot starts back at the top */
   useEffect(() => {
+    setScrollOffset(0);
+    setAtBottom(false);
+  }, [idx]);
+
+  function handleScrollClick(e: React.MouseEvent, i: number) {
+    e.preventDefault();
+    e.stopPropagation();
+    const wrap = screenRefs.current.get(i);
+    const img = imgRefs.current.get(i);
+    if (!wrap || !img) return;
+    const maxDist = Math.max(0, img.clientHeight - wrap.clientHeight);
+    if (maxDist <= 0) return;
+    setScrolledOnce(true);
+    if (atBottom) {
+      setScrollDuration(1100);
+      setScrollOffset(0);
+      setAtBottom(false);
+    } else {
+      setScrollDuration(750);
+      const next = Math.min(scrollOffset + wrap.clientHeight * 0.88, maxDist);
+      setScrollOffset(next);
+      setAtBottom(next >= maxDist - 2);
+    }
+  }
+
+  /* Autoplay — pauses while the visitor is scrolled inside the active card */
+  useEffect(() => {
+    if (scrollOffset > 0) return;
     const t = setInterval(() => setIdx(i => (i + 1) % n), 5500);
     return () => clearInterval(t);
-  }, [n, idx]);
+  }, [n, idx, scrollOffset]);
 
   /* When idx changes, keep <img> mounted for slides exiting to |p|=2 until CSS transition finishes */
   useEffect(() => {
@@ -1489,7 +1745,7 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
             return (
               <div
                 key={i}
-                className="absolute inset-0 overflow-hidden rounded-[4px]"
+                className="absolute inset-0 flex flex-col overflow-hidden rounded-lg bg-white"
                 style={{
                   transform,
                   opacity,
@@ -1504,23 +1760,89 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
                 }}
                 onClick={(e) => handleCardClick(e, slide.key)}
               >
-                {/* Render img for active+adjacent slides, plus slides in exit animation */}
-                {(Math.abs(p) <= 1 || exitingSlides.has(i)) && (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={slide.src800}
-                    srcSet={`${slide.src800} 800w, ${slide.src} 1200w`}
-                    sizes="(max-width: 768px) 80vw, 42vw"
-                    alt={locale === "en" ? "Website template preview" : "Šablona webu — náhled"}
-                    className="h-full w-full object-cover"
-                    draggable={false}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    fetchPriority={i === 0 ? "high" : "auto"}
-                  />
-                )}
+                {/* Browser chrome — makes the screenshot unmistakably a website */}
+                <div className="flex flex-shrink-0 items-center gap-1.5 border-b border-[#ececec] bg-[#f7f7f7] px-3 py-[7px]">
+                  <span className="h-[7px] w-[7px] rounded-full bg-[#ff5f57]" />
+                  <span className="h-[7px] w-[7px] rounded-full bg-[#febc2e]" />
+                  <span className="h-[7px] w-[7px] rounded-full bg-[#28c840]" />
+                  <div className="mx-auto flex items-center gap-1 rounded-[5px] bg-white px-2.5 py-[3px] text-[9px] font-medium text-[#555] shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
+                    <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" aria-hidden>
+                      <rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 018 0v4" />
+                    </svg>
+                    {slide.domain}
+                  </div>
+                </div>
+                {/* Screenshot — click the pill to step-scroll through the template */}
+                <div
+                  ref={(el) => { if (el) screenRefs.current.set(i, el); else screenRefs.current.delete(i); }}
+                  className="relative min-h-0 flex-1 overflow-hidden"
+                >
+                  {/* Render img for active+adjacent slides, plus slides in exit animation */}
+                  {(Math.abs(p) <= 1 || exitingSlides.has(i)) && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      ref={(el) => { if (el) imgRefs.current.set(i, el); else imgRefs.current.delete(i); }}
+                      src={slide.src800}
+                      srcSet={`${slide.src800} 800w, ${slide.src} 1200w`}
+                      sizes="(max-width: 768px) 80vw, 42vw"
+                      alt={locale === "en" ? "Website template preview" : "Šablona webu — náhled"}
+                      className="absolute left-0 top-0 w-full will-change-transform"
+                      style={{
+                        height: "auto",
+                        minHeight: "100%",
+                        transform: `translateY(-${isActive ? scrollOffset : 0}px)`,
+                        transitionProperty: "transform",
+                        transitionDuration: `${scrollDuration}ms`,
+                        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                      }}
+                      draggable={false}
+                      loading={i === 0 ? "eager" : "lazy"}
+                      fetchPriority={i === 0 ? "high" : "auto"}
+                    />
+                  )}
+                  {/* Template chip — visible on the active card */}
+                  <div
+                    className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 rounded-full bg-[#0a0a0a]/80 px-3 py-1.5 text-[10.5px] font-semibold text-white shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all duration-500"
+                    style={{ opacity: isActive ? 1 : 0, transform: isActive ? "translateY(0)" : "translateY(6px)" }}
+                  >
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden>
+                      <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    </svg>
+                    {locale === "en" ? "Template" : "Šablona"}
+                    <span className="text-white/50">·</span>
+                    <span className="text-white/80">{slide.industry[locale === "en" ? "en" : "cs"]}</span>
+                  </div>
+                  {/* Scroll pill — steps down through the template, back to top at the end */}
+                  <div
+                    className="absolute inset-x-0 bottom-2.5 z-10 flex justify-center transition-all duration-500"
+                    style={{ opacity: isActive ? 1 : 0, transform: isActive ? "translateY(0)" : "translateY(6px)", pointerEvents: isActive ? "auto" : "none" }}
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => handleScrollClick(e, i)}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      onTouchStart={(e) => e.stopPropagation()}
+                      aria-label={locale === "en" ? "Scroll the template preview" : "Posunout náhled šablony"}
+                      className={`flex cursor-pointer items-center gap-1.5 rounded-full bg-[#0a0a0a]/85 px-3.5 py-1.5 text-[11px] font-semibold tracking-[0.02em] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)] backdrop-blur-md transition hover:bg-[#0a0a0a] active:scale-[0.96] ${
+                        scrolledOnce ? "" : "hero-scroll-bob"
+                      }`}
+                    >
+                      {atBottom
+                        ? (locale === "en" ? "Back to top" : "Zpět nahoru")
+                        : (locale === "en" ? "Scroll" : "Scrollujte")}
+                      <svg
+                        width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                        className={`transition-transform duration-300 ${atBottom ? "rotate-180" : ""}`}
+                      >
+                        <path d="M12 5v14M5 12l7 7 7-7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
                 {/* Dimming overlay for inactive cards */}
                 <div
-                  className="absolute inset-0 transition-opacity duration-700"
+                  className="pointer-events-none absolute inset-0 transition-opacity duration-700"
                   style={{ background: "rgba(0,0,0,0.35)", opacity: isActive ? 0 : 1 }}
                 />
               </div>
@@ -1549,6 +1871,18 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
         </span>
       </button>
 
+      {/* Scroll-pill idle bob until first interaction */}
+      <style>{`
+        @keyframes hero-scroll-bob {
+          0%, 100% { transform: translateY(0); }
+          50%      { transform: translateY(-4px); }
+        }
+        .hero-scroll-bob { animation: hero-scroll-bob 2.2s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-scroll-bob { animation: none; }
+        }
+      `}</style>
+
       {/* Dot indicators */}
       <div className="mt-5 flex justify-center gap-2">
         {SLIDES.map((_, i) => (
@@ -1571,6 +1905,8 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
 interface Props {
   locale?: PlatformLocale;
   approvedTemplates?: CatalogTemplate[];
+  /** Full template catalog for the homepage gallery (same set as /vybrat-design). */
+  galleryTemplates?: TemplateItem[];
   heroDesktopDemoUrl?: string | null;
   heroMobileDemoUrl?: string | null;
 }
@@ -1586,7 +1922,7 @@ const INDUSTRY_LABELS: Record<string, string> = {
   dj: "DJ", education: "Vzdělávání", pets: "Mazlíčci",
 };
 
-export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktopDemoUrl = null, heroMobileDemoUrl = null }: Props) {
+export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemplates = [], heroDesktopDemoUrl = null, heroMobileDemoUrl = null }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [activeTemplate, setActiveTemplate] = useState<{ key: string; name: string } | null>(null);
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
@@ -1640,6 +1976,15 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
     setActiveTemplate(tpl ?? null);
     setShowModal(true);
   }
+
+  // Deep-link z dashboardu: /?onboarding=builder | templates otevře modal
+  // rovnou na správném kroku (nový projekt pod existujícím účtem).
+  const [entryStep, setEntryStep] = useState<"ai-brief" | "templates" | undefined>(undefined);
+  useEffect(() => {
+    const entry = new URLSearchParams(window.location.search).get("onboarding");
+    if (entry === "builder") { setEntryStep("ai-brief"); setShowModal(true); }
+    else if (entry === "templates") { setEntryStep("templates"); setShowModal(true); }
+  }, []);
 
   const en = locale === "en";
 
@@ -1717,79 +2062,122 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
       {/* CLIENT LOGOS — slim trust strip just under hero                    */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section className="relative bg-white">
-        <div className="mx-auto max-w-[1280px] px-6 py-12 lg:px-10 lg:py-16">
-          <p className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4c9d4]">
-            {en ? "Websites built with Webero" : "Weby na Weberu"}
-          </p>
-          <div className="client-logos flex flex-wrap items-center justify-center gap-x-12 gap-y-8 text-[#9ca3af] sm:gap-x-16 lg:justify-between lg:gap-x-8">
+        <div className="mx-auto max-w-[1280px] px-6 py-14 lg:px-10 lg:py-[72px]">
 
-            <div className="client-logo flex items-center gap-3" aria-label="Banka Creditas">
-              <span className="grid h-9 w-9 place-items-center rounded-md bg-[#9ca3af] text-[19px] font-bold text-white">C</span>
-              <span className="text-[13px] font-bold leading-[1.05] tracking-[0.04em]">BANKA<br />CREDITAS</span>
-            </div>
-
-            <span className="client-logo text-[22.5px] font-normal tracking-[-0.01em]" aria-label="Studio Najbrt">Studio Najbrt</span>
-
-            <span className="client-logo text-[32.5px] font-black leading-none tracking-[0.04em]" style={{ fontFamily: "Georgia, serif" }} aria-label="IBM">IBM</span>
-
-            <span className="client-logo inline-flex items-baseline" aria-label="TEDx Prague">
-              <span className="text-[25px] font-black tracking-tight">TED</span>
-              <span className="-translate-y-1 text-[14px] font-bold">x</span>
-              <span className="text-[25px] font-normal tracking-tight">Prague</span>
-            </span>
-
-            <span className="client-logo text-[22.5px] font-black tracking-[-0.02em]" aria-label="Skanska">SKANSKA</span>
-
-            <div className="client-logo text-center leading-[1.05]" aria-label="Grandhotel Pupp Carlsbad">
-              <div className="text-[9.5px] font-medium tracking-[0.32em]">GRANDHOTEL</div>
-              <div className="text-[25px] font-light tracking-[0.04em]" style={{ fontFamily: "Georgia, serif" }}>PUPP</div>
-              <div className="text-[8px] tracking-[0.4em] text-[#b8bcc4]">CARLSBAD</div>
-            </div>
-
+          {/* Eyebrow with flanking hairlines */}
+          <div className="mb-10 flex items-center justify-center gap-5 sm:gap-7">
+            <span className="h-px w-12 bg-gradient-to-r from-transparent to-[#e2e5ec] sm:w-20" />
+            <p className="whitespace-nowrap text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b0b6c4]">
+              {en ? "Websites built with Webero" : "Weby na Weberu"}
+            </p>
+            <span className="h-px w-12 bg-gradient-to-l from-transparent to-[#e2e5ec] sm:w-20" />
           </div>
+
+          {/* Seamless marquee — masked edges, pauses on hover */}
+          <div className="logo-marquee-wrap relative overflow-hidden" aria-label={en ? "Client logos" : "Loga klientů"}>
+            <div className="logo-marquee flex w-max items-center">
+              {[0, 1].map((copy) => (
+                <div
+                  key={copy}
+                  aria-hidden={copy === 1}
+                  className="client-logos flex flex-none items-center gap-x-16 pr-16 text-[#a3a9b6] lg:gap-x-20 lg:pr-20"
+                >
+                  <div className="client-logo flex items-center gap-3" aria-label="Banka Creditas">
+                    <span className="logo-mark grid h-9 w-9 place-items-center rounded-md bg-[#a3a9b6] text-[19px] font-bold text-white">C</span>
+                    <span className="text-[13px] font-bold leading-[1.05] tracking-[0.04em]">BANKA<br />CREDITAS</span>
+                  </div>
+
+                  <span className="client-logo whitespace-nowrap text-[22.5px] font-normal tracking-[-0.01em]" aria-label="Studio Najbrt">Studio Najbrt</span>
+
+                  <span className="client-logo text-[32.5px] font-black leading-none tracking-[0.04em]" style={{ fontFamily: "Georgia, serif" }} aria-label="IBM">IBM</span>
+
+                  <span className="client-logo inline-flex items-baseline whitespace-nowrap" aria-label="TEDx Prague">
+                    <span className="text-[25px] font-black tracking-tight">TED</span>
+                    <span className="-translate-y-1 text-[14px] font-bold">x</span>
+                    <span className="text-[25px] font-normal tracking-tight">Prague</span>
+                  </span>
+
+                  <span className="client-logo text-[22.5px] font-black tracking-[-0.02em]" aria-label="Skanska">SKANSKA</span>
+
+                  <div className="client-logo text-center leading-[1.05]" aria-label="Grandhotel Pupp Carlsbad">
+                    <div className="text-[9.5px] font-medium tracking-[0.32em]">GRANDHOTEL</div>
+                    <div className="text-[25px] font-light tracking-[0.04em]" style={{ fontFamily: "Georgia, serif" }}>PUPP</div>
+                    <div className="text-[8px] tracking-[0.4em] text-[#c3c8d2]">CARLSBAD</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
         <style jsx>{`
-          .client-logos .client-logo { transition: color 0.35s ease, transform 0.35s ease, opacity 0.35s ease; cursor: default; }
-          .client-logos:hover .client-logo { opacity: 0.4; }
-          .client-logos .client-logo:hover { color: #0a0a0a; opacity: 1; transform: translateY(-2px); }
+          .logo-marquee-wrap {
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          }
+          .logo-marquee {
+            animation: logo-scroll 38s linear infinite;
+            will-change: transform;
+          }
+          .logo-marquee-wrap:hover .logo-marquee { animation-play-state: paused; }
+          @keyframes logo-scroll {
+            to { transform: translateX(-50%); }
+          }
+          .client-logo { transition: color 0.35s ease, transform 0.35s ease, opacity 0.35s ease; cursor: default; }
+          .logo-marquee-wrap:hover .client-logo { opacity: 0.35; }
+          .logo-marquee-wrap .client-logo:hover { color: #0a0a0a; opacity: 1; transform: translateY(-2px); }
+          .client-logo:hover .logo-mark { background: #0a0a0a; transition: background 0.35s ease; }
+          @media (prefers-reduced-motion: reduce) {
+            .logo-marquee { animation: none; }
+          }
         `}</style>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §1  FEATURES — Light section with big product visual + 3 cards   */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative bg-[#fafafa]">
-        <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
+      <section className="relative overflow-hidden bg-[#fafafa]">
+        {/* Ambient tint — ties the light section to the dark hero above */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
+          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(99,102,241,0.055), transparent 70%)" }}
+        />
+        <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
 
           {/* Header — animations disabled */}
-          <div className="mx-auto mb-20 max-w-[820px] text-center">
+          <div className="mx-auto mb-12 max-w-[820px] text-center lg:mb-16">
             <p
-              className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
+              className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
               style={{ letterSpacing: "0.16em" }}
             >
-              {en ? "All in one" : "Vše v jednom"}
+              {en ? "Live demo" : "Živá ukázka"}
             </p>
             <h2
               className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
-              style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
+              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
             >
-              {en ? "A website that feels like your business." : "Web jako vlastní byznys."}<br />
-              <span className="text-[#9ca3af]">{en ? "No compromises." : "Bez kompromisů."}</span>
+              {en ? "This is what your website will look like." : "Takhle bude vypadat váš web."}<br />
+              <span className="text-[#9ca3af]">{en ? "Live, not a mockup." : "Naživo, ne na obrázku."}</span>
             </h2>
-            <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.65] text-[#555]">
+            <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
               {en
-                ? "Templates, editor, hosting, SEO, and support. Everything for one fair price, without a developer or an agency."
-                : "Šablony, editor, hosting, SEO i česká podpora. Všechno za jednu férovou cenu — bez programátora a bez agentury."}
+                ? "The monitor below is running a real Webero template — scroll through it and click around. Templates, editor, hosting, and SEO, all for one fair price, without a developer."
+                : "Na monitoru níže běží skutečná šablona z Webera — posouvejte se v ní a klikejte. Šablony, editor, hosting i SEO dostanete za jednu férovou cenu, bez programátora."}
             </p>
           </div>
 
           {/* Big product visual — Apple Studio Display + iPhone side-by-side */}
           <Reveal delay={0.15} className="relative mx-auto mb-16 max-w-[1320px]">
+            {/* Soft ambient glow anchoring the devices to the ground */}
+            <div
+              className="pointer-events-none absolute -inset-x-16 -bottom-14 top-16"
+              style={{ background: "radial-gradient(55% 60% at 50% 68%, rgba(99,102,241,0.09), transparent 72%)" }}
+            />
             <div className="relative mx-auto flex flex-col items-center justify-center gap-8 pb-2 sm:flex-row sm:items-end sm:gap-8 md:gap-10">
 
               {/* ───── Apple Studio Display with live iframe + interactive hotspots ───── */}
-              <div className="relative hidden w-full flex-1 max-w-[1040px] sm:block">
-                <LiveDesktopFrame demoUrl={heroDesktopDemoUrl} maxWidth={1040} compact />
+              <div className="relative hidden w-full flex-1 max-w-[880px] sm:block">
+                <LiveDesktopFrame demoUrl={heroDesktopDemoUrl} maxWidth={880} compact locale={locale} />
 
                 <Hotspot
                   id="pagespeed" activeId={activeHotspot} setActiveId={setActiveHotspot}
@@ -1807,28 +2195,9 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
                 />
               </div>
 
-              {/* ───── iPhone with live mobile-viewport iframe + hotspots ───── */}
-              <div className="relative flex-shrink-0">
-                <LiveMobileFrame demoUrl={heroMobileDemoUrl} />
-
-                <div className="hidden sm:block">
-                <Hotspot
-                  id="mobile-first" activeId={activeHotspot} setActiveId={setActiveHotspot}
-                  top="42%" right="-34px"
-                  side="left"
-                  tooltipWidth={240}
-                  tone="indigo"
-                  label="Mobile-first"
-                  value={en ? "Perfect in your pocket" : "Perfektní i v kapse"}
-                  detail={en ? "Every template is optimized for mobile. Tap-to-call, native sharing, and no horizontal scroll." : "Každá šablona je optimalizovaná pro mobil. Tap-to-call, native share, žádný horizontální scroll."}
-                  icon={(
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="6" y="3" width="12" height="18" rx="2" />
-                      <path d="M11 18h2" />
-                    </svg>
-                  )}
-                />
-                </div>
+              {/* ───── iPhone with live mobile-viewport iframe — mobile only ───── */}
+              <div className="relative flex-shrink-0 sm:hidden">
+                <LiveMobileFrame demoUrl={heroMobileDemoUrl} locale={locale} />
               </div>
 
             </div>
@@ -1854,7 +2223,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
               },
               {
                 eyebrow: en ? "Templates" : "Šablony",
-                stat: "99+",
+                stat: "100+",
                 title: en ? "Pro templates." : "Profi šablon.",
                 desc: en ? "Pick an industry and get a ready-made website with content. Add your business name and you are close." : "Vyberete obor, dostanete hotový web s obsahem. Stačí dopsat název firmy.",
                 accent: "#0ea5e9",
@@ -1883,8 +2252,13 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
                 key={f.eyebrow}
                 delay={0.2 + i * 0.08}
                 as="article"
-                className="group relative col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white p-6 sm:col-span-1 sm:p-8 lg:col-span-4 transition-all duration-500 ease-out hover:-translate-y-[4px] hover:shadow-[0_24px_56px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]"
+                className="group relative col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white p-6 shadow-[0_1px_3px_rgba(10,10,10,0.04)] sm:col-span-1 sm:p-8 lg:col-span-4 transition-all duration-500 ease-out hover:-translate-y-[4px] hover:border-[#dfe0ea] hover:shadow-[0_24px_56px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]"
               >
+                {/* Accent hairline — subtle identity strip at the top */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, transparent, ${f.accent}66, transparent)` }}
+                />
                 <div
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
                   style={{ background: `radial-gradient(ellipse 100% 70% at 10% -10%, ${f.glow}, transparent 60%)` }}
@@ -1892,7 +2266,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
                 {/* Icon + label */}
                 <div className="relative mb-5 flex items-center gap-3">
                   <div
-                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110"
+                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
                     style={{ background: `linear-gradient(135deg, ${f.accent} 0%, ${f.accent}bb 100%)`, boxShadow: `0 4px 14px ${f.glow}` }}
                   >
                     {f.icon}
@@ -1916,35 +2290,41 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
               </Reveal>
             ))}
 
-            {/* ── Stat cards — span 3 cols each on 12-col grid ── */}
-            {[
-              { value: 500, suffix: "+",    label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
-              { value: 99,  suffix: "/100", label: "PageSpeed",          sub: "Google Lighthouse",       decimals: 0 },
-              { value: 4.9, suffix: "★",   label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
-              { value: 5,   suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
-            ].map((s, i) => (
-              <Reveal
-                key={s.label}
-                delay={0.38 + i * 0.07}
-                as="div"
-                className="group col-span-1 flex flex-col justify-between rounded-2xl border border-[#e8e8ef] bg-white p-5 sm:p-7 transition-all duration-400 lg:col-span-3 hover:-translate-y-[3px] hover:shadow-[0_16px_40px_rgba(0,0,0,0.07)]"
-              >
-                <div
-                  className="mb-3 font-bold leading-none tracking-[-0.04em] text-[#0a0a0a]"
-                  style={{ fontSize: "clamp(26px, 3.5vw, 46px)" }}
-                >
-                  {s.decimals === 1 ? (
-                    <span><CountUpDecimal to={s.value} duration={1.8} decimals={1} />{s.suffix}</span>
-                  ) : (
-                    <CountUp to={s.value} suffix={s.suffix} duration={1.8} />
-                  )}
-                </div>
-                <div>
-                  <div className="text-[14px] font-semibold text-[#0a0a0a]">{s.label}</div>
-                  <div className="mt-0.5 text-[12.5px] text-[#9ca3af]">{s.sub}</div>
-                </div>
-              </Reveal>
-            ))}
+            {/* ── Stat panel — one unified strip with hairline dividers ── */}
+            <Reveal
+              delay={0.38}
+              as="div"
+              className="col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white shadow-[0_1px_3px_rgba(10,10,10,0.04)] lg:col-span-12"
+            >
+              <div className="grid grid-cols-2 lg:grid-cols-4">
+                {[
+                  { value: 500, suffix: "+",    label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
+                  { value: 270, suffix: "+",    label: en ? "Edge locations" : "Edge lokalit", sub: en ? "Worldwide CDN" : "CDN po celém světě", decimals: 0 },
+                  { value: 4.9, suffix: "★",   label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
+                  { value: 5,   suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
+                ].map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={`group flex flex-col justify-between gap-5 border-[#eef0f5] p-5 transition-colors duration-300 hover:bg-[#fafaff] sm:p-7 ${i % 2 === 1 ? "border-l" : ""} ${i >= 2 ? "border-t" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l" : ""}`}
+                  >
+                    <div
+                      className="font-bold leading-none tracking-[-0.04em] text-[#0a0a0a]"
+                      style={{ fontSize: "clamp(26px, 3.5vw, 46px)" }}
+                    >
+                      {s.decimals === 1 ? (
+                        <span><CountUpDecimal to={s.value} duration={1.8} decimals={1} />{s.suffix}</span>
+                      ) : (
+                        <CountUp to={s.value} suffix={s.suffix} duration={1.8} />
+                      )}
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-semibold text-[#0a0a0a]">{s.label}</div>
+                      <div className="mt-0.5 text-[12.5px] text-[#9ca3af]">{s.sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
 
           </div>
         </div>
@@ -1962,152 +2342,159 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
             background: "radial-gradient(50% 60% at 50% 0%, rgba(99,102,241,0.10), transparent 70%)",
           }}
         />
-        <div className="relative mx-auto max-w-[1280px] px-6 py-24 lg:px-10 lg:py-32">
+        <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
 
-          <div className="mx-auto mb-14 max-w-[820px] lg:mb-20">
+          <div className="mx-auto mb-12 max-w-[820px] lg:mb-16">
             <p
-              className="mb-5 text-[12px] font-semibold uppercase text-[#a5b4fc]"
+              className="mb-4 text-[12px] font-semibold uppercase text-[#a5b4fc]"
               style={{ letterSpacing: "0.16em" }}
             >
               {en ? "Webero products" : "Produkty Webero"}
             </p>
             <h2
               className="font-sans font-semibold tracking-[-0.025em] text-white"
-              style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
+              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
             >
               {en ? "Thousands of needs." : "Tisíce potřeb."}<br />
               <span className="text-white/55">{en ? "One solid solution." : "Jedno solidní řešení."}</span>
             </h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
+          <div className="space-y-6 lg:space-y-8">
 
-            {/* Webové stránky */}
-            <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors hover:border-white/25">
-              <div className="p-8 lg:p-10">
-                <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(26px, 2.2vw, 34px)", lineHeight: "1.1" }}>
-                  {en ? "Websites" : "Webové stránky"}
-                </h3>
-                <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  {en
-                    ? "A complete business website with dozens of sections, a blog, and contact forms. Built to look and feel like serious web work."
-                    : "Plnohodnotná firemní prezentace s desítkami sekcí, blogem a kontaktními formuláři. Patří k nejlépe zpracovaným webům na internetu."}
-                </p>
-              </div>
-              <div className="relative mt-auto h-[280px] overflow-hidden px-6 sm:h-[320px] lg:h-[380px] lg:px-10">
-                <div className="absolute right-6 top-6 h-[230px] w-[78%] overflow-hidden rounded-t-xl border border-white/10 bg-[#141414] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[260px] lg:right-10 lg:h-[290px]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/templates/peak-cut/showcase/desktop-hero.webp" alt="Premium web — Peak Cut" className="h-full w-full object-cover object-top" loading="lazy" />
-                </div>
-                <div className="absolute -bottom-2 left-6 h-[170px] w-[62%] overflow-hidden rounded-t-xl border border-white/10 bg-[#141414] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[190px] lg:left-10 lg:h-[210px]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/templates/barber-03/showcase/desktop-hero.webp" alt="Premium web — Barber 03" className="h-full w-full object-cover object-top" loading="lazy" />
-                </div>
-              </div>
-            </article>
+            {/* ── Webové stránky — real templates: peak-cut + barber-03 ── */}
+            <article className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors duration-500 hover:border-white/20">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                style={{ background: "radial-gradient(60% 80% at 85% 20%, rgba(99,102,241,0.10), transparent 65%)" }}
+              />
+              <div className="relative grid items-center gap-8 lg:grid-cols-[1fr_1.25fr] lg:gap-4">
 
-            {/* Landing pages */}
-            <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors hover:border-white/25">
-              <div className="p-8 lg:p-10">
-                <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(26px, 2.2vw, 34px)", lineHeight: "1.1" }}>
-                  Landing pages
-                </h3>
-                <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  {en
-                    ? "One-page websites for campaigns, lead capture, and fast conversion. Strong performance, clean design, and A/B variants in minutes."
-                    : "Jednostránkové weby pro kampaně, sbírání leadů a rychlou konverzi. Vysoký výkon, čistý design, A/B varianty během minut."}
-                </p>
-              </div>
-              <div className="relative mt-auto flex h-[280px] items-end justify-center overflow-hidden sm:h-[320px] lg:h-[380px]">
-                <div className="relative z-10 h-[260px] w-[150px] overflow-hidden rounded-t-[26px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.8)] sm:h-[300px] sm:w-[170px] lg:h-[360px] lg:w-[200px]">
-                  <div className="absolute left-1/2 top-1 z-10 h-1 w-10 -translate-x-1/2 rounded-full bg-white/10" />
-                  <div className="h-full w-full overflow-hidden rounded-t-[20px]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/templates/barber-03/showcase/mobile-hero.webp" alt={en ? "Mobile landing page" : "Mobilní landing"} className="h-full w-full object-cover object-top" loading="lazy" />
-                  </div>
-                </div>
-                <div className="absolute -right-4 bottom-6 hidden h-[230px] w-[140px] -rotate-[8deg] overflow-hidden rounded-t-[22px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:block lg:h-[280px] lg:w-[160px]">
-                  <div className="h-full w-full overflow-hidden rounded-t-[16px]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/templates/peak-cut/showcase/mobile-hero.webp" alt={en ? "Mobile landing page variant" : "Mobilní landing varianta"} className="h-full w-full object-cover object-top" loading="lazy" />
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            {/* E-shop a katalog */}
-            <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors hover:border-white/25">
-              <div className="p-8 lg:p-10">
-                <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(26px, 2.2vw, 34px)", lineHeight: "1.1" }}>
-                  {en ? "E-shop and catalog" : "E-shop a katalog"}
-                </h3>
-                <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  {en
-                    ? "Sell products and services directly from your site. Stripe, invoices, inventory, and delivery in one interface without plugins."
-                    : "Prodávejte produkty i služby přímo z webu. Stripe, faktury, sklady a doprava — vše v jednom rozhraní bez pluginů."}
-                </p>
-              </div>
-              <div className="relative mt-auto h-[280px] overflow-hidden px-6 sm:h-[320px] lg:h-[360px] lg:px-10">
-                <div className="absolute inset-x-6 -bottom-2 h-[240px] overflow-hidden rounded-t-xl border border-white/10 bg-[#0f0f0f] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[280px] lg:inset-x-10 lg:h-[320px]">
-                  <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#141414] px-3 py-2">
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
-                    <span className="ml-2 h-3 flex-1 rounded bg-white/[0.06]" />
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 p-3 sm:gap-3 sm:p-4">
-                    {["peak-cut/showcase/section-1.png","peak-cut/showcase/section-2.png","peak-cut/showcase/section-3.png","barber-03/showcase/section-1.png","barber-03/showcase/section-2.png","barber-03/showcase/section-3.png"].map((src, i) => (
-                      <div key={i} className="overflow-hidden rounded-md border border-white/10 bg-[#141414]">
-                        <div className="aspect-[4/3] w-full overflow-hidden">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`/templates/${src}`} alt={`${en ? "Product" : "Produkt"} ${i+1}`} className="h-full w-full object-cover" loading="lazy" />
-                        </div>
-                        <div className="space-y-1 p-1.5">
-                          <div className="h-1.5 w-3/4 rounded bg-white/15" />
-                          <div className="h-1.5 w-1/2 rounded bg-[#a5b4fc]/40" />
-                        </div>
-                      </div>
+                {/* Text */}
+                <div className="p-8 pb-0 lg:p-12 lg:pr-4">
+                  <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(28px, 2.6vw, 40px)", lineHeight: "1.08" }}>
+                    {en ? "Websites" : "Webové stránky"}
+                  </h3>
+                  <p className="mt-4 max-w-[440px] text-[15px] leading-[1.7] text-white/65">
+                    {en
+                      ? "A complete business website with dozens of sections, a blog, and contact forms. Built to look and feel like serious web work."
+                      : "Plnohodnotná firemní prezentace s desítkami sekcí, blogem a kontaktními formuláři. Patří k nejlépe zpracovaným webům na internetu."}
+                  </p>
+                  <ul className="mt-6 space-y-2.5 text-[14px] text-white/75">
+                    {(en
+                      ? ["100+ industry templates with real copy", "Subpages, blog, and SEO included", "Editing directly on the page"]
+                      : ["100+ oborových šablon s hotovými texty", "Podstránky, blog i SEO v ceně", "Úpravy přímo na stránce"]
+                    ).map((b) => (
+                      <li key={b} className="flex items-center gap-2.5">
+                        <span className="grid h-4 w-4 flex-shrink-0 place-items-center rounded-full bg-[#6366f1]/25 text-[#a5b4fc]">
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><path d="M5 12l5 5L20 7"/></svg>
+                        </span>
+                        {b}
+                      </li>
                     ))}
+                  </ul>
+                  <a
+                    href="/ukazka-sablon"
+                    className="mt-8 inline-flex items-center gap-2 text-[14.5px] font-semibold text-white transition hover:text-[#a5b4fc]"
+                  >
+                    {en ? "Browse templates" : "Prohlédnout šablony"}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </a>
+                </div>
+
+                {/* Visual — real screenshots: desktop + phone overlay */}
+                <div className="relative h-[300px] overflow-hidden sm:h-[360px] lg:h-[440px]">
+                  <div className="absolute left-8 top-10 w-[86%] overflow-hidden rounded-xl border border-white/10 bg-[#141414] shadow-[0_40px_80px_-24px_rgba(0,0,0,0.8)] transition-transform duration-700 ease-out group-hover:-translate-y-2 lg:left-4 lg:top-14">
+                    <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#1a1a1a] px-3 py-2">
+                      <span className="h-2 w-2 rounded-full bg-white/20" />
+                      <span className="h-2 w-2 rounded-full bg-white/20" />
+                      <span className="h-2 w-2 rounded-full bg-white/20" />
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/templates/peak-cut/showcase/desktop-hero.webp" alt={en ? "Website template — Peak Cut barbershop" : "Šablona webu — barbershop Peak Cut"} className="aspect-[16/9] w-full object-cover object-top" loading="lazy" />
+                  </div>
+                  <div className="absolute -bottom-10 right-6 z-10 w-[120px] overflow-hidden rounded-[22px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] transition-transform duration-700 ease-out group-hover:-translate-y-3 sm:w-[140px] lg:right-12 lg:w-[160px]">
+                    <div className="overflow-hidden rounded-[16px]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/templates/barber-03/showcase/mobile-hero.webp" alt={en ? "Mobile view — Barbery" : "Mobilní zobrazení — Barbery"} className="aspect-[9/17] w-full object-cover object-top" loading="lazy" />
+                    </div>
                   </div>
                 </div>
+
               </div>
             </article>
 
-            {/* Content Hub */}
-            <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors hover:border-white/25">
-              <div className="p-8 lg:p-10">
-                <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(26px, 2.2vw, 34px)", lineHeight: "1.1" }}>
-                  Content Hub
-                </h3>
-                <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  {en
-                    ? "Blog, courses, and member areas. Create content and sell it as one-off access or a subscription. No developers."
-                    : "Blog, kurzy, členská sekce. Vytvářejte obsah, nabízejte ho jednorázově nebo formou předplatného. Bez vývojářů."}
-                </p>
-              </div>
-              <div className="relative mt-auto h-[280px] overflow-hidden px-6 sm:h-[320px] lg:h-[360px] lg:px-10">
-                <div className="absolute inset-x-6 -bottom-2 h-[240px] overflow-hidden rounded-t-xl border border-white/10 bg-[#0f0f0f] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[280px] lg:inset-x-10 lg:h-[320px]">
-                  <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#141414] px-3 py-2">
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
+            {/* ── E-shop — real stores: Néroli, Domea, Ořeškárna ── */}
+            <article className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors duration-500 hover:border-white/20">
+              <div
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                style={{ background: "radial-gradient(60% 80% at 15% 20%, rgba(16,185,129,0.10), transparent 65%)" }}
+              />
+              <div className="relative grid items-center gap-8 lg:grid-cols-[1.25fr_1fr] lg:gap-4">
+
+                {/* Visual — real screenshots, order-last on mobile */}
+                <div className="relative order-last h-[300px] overflow-hidden sm:h-[360px] lg:order-none lg:h-[440px]">
+                  {/* Back store — Domea */}
+                  <div className="absolute left-6 top-6 w-[70%] overflow-hidden rounded-xl border border-white/10 bg-[#141414] opacity-70 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] transition-all duration-700 ease-out group-hover:-translate-y-1 group-hover:opacity-85 lg:left-10 lg:top-8">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/templates/eshop-08/showcase/desktop-hero.webp" alt={en ? "E-shop — Domea home & living" : "E-shop — Domea bydlení"} className="aspect-[16/10] w-full object-cover object-top" loading="lazy" />
                   </div>
-                  <div className="space-y-2.5 p-4 sm:space-y-3 sm:p-5">
-                    {["peak-cut/showcase/section-4.png","barber-03/showcase/section-4.png","peak-cut/showcase/section-2.png"].map((src, i) => (
-                      <div key={i} className="flex items-center gap-3 rounded-lg border border-white/10 bg-[#141414] p-2 sm:gap-4 sm:p-3">
-                        <div className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-md sm:h-16 sm:w-24">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`/templates/${src}`} alt={`${en ? "Article" : "Článek"} ${i+1}`} className="h-full w-full object-cover" loading="lazy" />
-                        </div>
-                        <div className="flex-1 space-y-1.5">
-                          <div className="h-1.5 w-12 rounded bg-[#a5b4fc]/40" />
-                          <div className="h-2 w-full rounded bg-white/20" />
-                          <div className="h-1.5 w-2/3 rounded bg-white/10" />
-                        </div>
-                      </div>
-                    ))}
+                  {/* Front store — Néroli */}
+                  <div className="absolute bottom-[-14px] right-6 z-10 w-[80%] overflow-hidden rounded-xl border border-white/10 bg-[#141414] shadow-[0_40px_80px_-24px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-out group-hover:-translate-y-2 lg:right-4 lg:w-[82%]">
+                    <div className="flex items-center gap-1.5 border-b border-white/5 bg-[#1a1a1a] px-3 py-2">
+                      <span className="h-2 w-2 rounded-full bg-white/20" />
+                      <span className="h-2 w-2 rounded-full bg-white/20" />
+                      <span className="h-2 w-2 rounded-full bg-white/20" />
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/templates/eshop-07/showcase/desktop-hero.webp" alt={en ? "E-shop — Néroli perfumery" : "E-shop — Néroli parfumerie"} className="aspect-[16/9] w-full object-cover object-top" loading="lazy" />
+                  </div>
+                  {/* Floating cart badge */}
+                  <div className="absolute left-10 top-[52%] z-20 flex items-center gap-3 rounded-2xl border border-white/15 bg-[#0a0a0a]/90 px-4 py-3 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.7)] backdrop-blur transition-transform duration-700 ease-out group-hover:-translate-y-2 lg:left-16">
+                    <div className="grid h-9 w-9 place-items-center rounded-full bg-[#10b981] text-white">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#34d399]">{en ? "New order" : "Nová objednávka"}</div>
+                      <div className="text-[13px] font-semibold text-white">1 890 Kč</div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Text */}
+                <div className="p-8 pb-0 lg:p-12 lg:pl-4">
+                  <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(28px, 2.6vw, 40px)", lineHeight: "1.08" }}>
+                    E-shop
+                  </h3>
+                  <p className="mt-4 max-w-[440px] text-[15px] leading-[1.7] text-white/65">
+                    {en
+                      ? "Sell directly from your website. Cart, shipping, payments, and order management in one interface — no plugins."
+                      : "Prodávejte přímo z webu. Košík, doprava, platby i správa objednávek v jednom rozhraní — bez pluginů."}
+                  </p>
+                  <ul className="mt-6 space-y-2.5 text-[14px] text-white/75">
+                    {(en
+                      ? ["Online payments and invoicing", "Inventory, variants, and promo codes", "Smart search and mega menu"]
+                      : ["Online platby a fakturace", "Sklady, varianty a promo kódy", "Chytré vyhledávání a mega menu"]
+                    ).map((b) => (
+                      <li key={b} className="flex items-center gap-2.5">
+                        <span className="grid h-4 w-4 flex-shrink-0 place-items-center rounded-full bg-[#10b981]/25 text-[#6ee7b7]">
+                          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5"><path d="M5 12l5 5L20 7"/></svg>
+                        </span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="/demo/eshop-07-v2"
+                    className="mt-8 inline-flex items-center gap-2 text-[14.5px] font-semibold text-white transition hover:text-[#6ee7b7]"
+                  >
+                    {en ? "Open a live e-shop demo" : "Otevřít živé demo e-shopu"}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </a>
+                </div>
+
               </div>
             </article>
 
@@ -2119,31 +2506,31 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
       {/* §3  TEMPLATES — Light gallery with browser-chrome cards          */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section id="sablony" className="relative bg-white">
-        <div className="mx-auto max-w-[1280px] px-6 py-28 lg:px-10 lg:py-36">
+        <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
 
           {/* Header — animations disabled */}
-          <div className="mx-auto mb-12 max-w-[820px] text-center">
+          <div className="mx-auto mb-12 max-w-[820px] text-center lg:mb-16">
             <p
-              className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
+              className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
               style={{ letterSpacing: "0.16em" }}
             >
               {en ? "Templates" : "Šablony"}
             </p>
             <h2
               className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
-              style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
+              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
             >
-              99+ {en ? "templates." : "šablon."}<br />
+              100+ {en ? "templates." : "šablon."}<br />
               <span className="text-[#9ca3af]">{en ? "For every industry." : "Pro každý obor."}</span>
             </h2>
-            <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.65] text-[#555]">
+            <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
               {en
                 ? "Every template includes a homepage, subpages, images, and copy. Add your business name and publish."
                 : "Každá šablona má homepage, podstránky, obrázky i texty. Stačí dopsat název firmy a publikovat."}
             </p>
           </div>
 
-          <TemplatesGallery locale={locale} onOpen={(tpl) => openModal(tpl)} />
+          <TemplatesGallery templates={galleryTemplates} locale={locale} onOpen={(tpl) => openModal(tpl)} />
 
           {/* Bottom CTA */}
           <Reveal delay={0.3} className="mt-14 flex flex-col items-center gap-4">
@@ -2151,7 +2538,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
               href="/ukazka-sablon"
               className="inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-7 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1a1a1a]"
             >
-              {en ? "Browse all 99+ templates" : "Prohlédnout všech 99+ šablon"}
+              {en ? "Browse all 100+ templates" : "Prohlédnout všech 100+ šablon"}
               <ArrowRight className="h-4 w-4" />
             </a>
             <p className="text-[13px] text-[#888]">{en ? "We add 2-3 new templates every month." : "Pravidelně přidáváme 2–3 nové šablony každý měsíc."}</p>
@@ -2175,6 +2562,11 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
       {/* §5  FINAL CTA — Split layout with device mockup                  */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden bg-[#000]">
+        {/* Top hairline — softens the light→dark transition */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)" }}
+        />
         {/* Decorative gradient */}
         <div
           className="pointer-events-none absolute inset-0"
@@ -2193,14 +2585,14 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
           }}
         />
 
-        <div className="relative mx-auto max-w-[1280px] px-6 py-28 lg:px-10 lg:py-36">
+        <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
 
             {/* LEFT — Headline + CTA (no animations on text — always white) */}
             <div>
               <p
-                className="mb-6 text-[12px] font-semibold uppercase text-white"
-                style={{ letterSpacing: "0.18em" }}
+                className="mb-4 text-[12px] font-semibold uppercase text-white"
+                style={{ letterSpacing: "0.16em" }}
               >
                 {en ? "Start today" : "Začněte ještě dnes"}
               </p>
@@ -2219,7 +2611,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
               </h2>
 
               <Reveal delay={0.45} className="mt-7">
-                <p className="max-w-[460px] text-[16.5px] leading-[1.65] text-white">
+                <p className="max-w-[460px] text-[16px] leading-[1.65] text-white/75">
                   {en
                     ? "Start a demo, explore it, edit it, and decide only after you have seen it. No credit card, no developer."
                     : "Spusťte demo, projděte ho, upravte si ho — a teprve potom se rozhodněte. Bez kreditní karty, bez programátora."}
@@ -2241,7 +2633,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
                 </a>
               </Reveal>
 
-              <Reveal delay={0.75} className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-white">
+              <Reveal delay={0.75} className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-white/80">
                 <span className="flex items-center gap-1.5">
                   <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#22c55e]/20 text-[#22c55e]">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M5 12l5 5L20 7"/></svg>
@@ -2263,13 +2655,10 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
               </Reveal>
             </div>
 
-            {/* RIGHT — Device showcase: tilted MacBook with "Publikováno" badge */}
+            {/* RIGHT — Device showcase: tilted MacBook, screen slowly scrolls a real template */}
             <Reveal delay={0.3} className="relative">
               {/* Tilted MacBook */}
-              <div
-                className="relative mx-auto"
-                style={{ maxWidth: "500px", transform: "perspective(1400px) rotateY(-8deg) rotateX(4deg)" }}
-              >
+              <div className="cta-macbook relative mx-auto" style={{ maxWidth: "500px" }}>
                 <div
                   className="relative rounded-[14px_14px_3px_3px] bg-[#1a1a1a] p-[10px]"
                   style={{ boxShadow: "0 60px 120px -30px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06)" }}
@@ -2282,14 +2671,16 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
                       <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
                       <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
                       <span className="h-2 w-2 rounded-full bg-[#28c840]" />
-                      <div className="mx-auto rounded bg-white px-2 py-0.5 text-[9px] text-[#666] shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
-                        vasfirma.webero.co
+                      <div className="mx-auto flex items-center gap-1 rounded bg-white px-2 py-0.5 text-[9px] text-[#666] shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
+                        <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+                        hrackolandia.webero.co
                       </div>
                     </div>
-                    <div className="relative aspect-[16/10] overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/templates/clinic-02/hero-bg.webp" alt={en ? "Beauty clinic website preview" : "Náhled webu beauty kliniky"} loading="lazy" className="h-full w-full object-cover" />
-                    </div>
+                    <CtaInteractiveScreen
+                      src="/templates/eshop-05/showcase/desktop-full.webp"
+                      alt={en ? "Toy e-shop website preview" : "Náhled e-shopu s hračkami"}
+                      locale={locale}
+                    />
                   </div>
                 </div>
                 {/* base */}
@@ -2315,6 +2706,38 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
                   </div>
                 </div>
               </div>
+
+              {/* Floating PageSpeed chip */}
+              <div className="absolute -bottom-4 left-2 flex items-center gap-2.5 rounded-2xl border border-white/15 bg-[#0a0a0a]/90 px-3.5 py-2.5 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.6)] backdrop-blur sm:left-0">
+                <div className="grid h-8 w-8 place-items-center rounded-full bg-[#22c55e]/15 text-[#22c55e]">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-[12.5px] font-semibold leading-tight text-white">PageSpeed 99<span className="text-white/45">/100</span></div>
+                  <div className="text-[10px] leading-tight text-white/50">{en ? "Measured after publish" : "Měřeno po publikaci"}</div>
+                </div>
+              </div>
+
+              <style>{`
+                .cta-macbook {
+                  transform: perspective(1400px) rotateY(-8deg) rotateX(4deg);
+                  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+                }
+                .cta-macbook:hover {
+                  transform: perspective(1400px) rotateY(-3deg) rotateX(1.5deg);
+                }
+                @keyframes cta-hint-bob {
+                  0%, 100% { transform: translateY(0); }
+                  50%      { transform: translateY(-4px); }
+                }
+                .cta-hint-bob { animation: cta-hint-bob 2.2s ease-in-out infinite; }
+                @media (prefers-reduced-motion: reduce) {
+                  .cta-hint-bob { animation: none; }
+                  .cta-macbook, .cta-macbook:hover { transform: none; }
+                }
+              `}</style>
             </Reveal>
 
           </div>
@@ -2326,13 +2749,15 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktop
       {showModal && (
         <OnboardingModal
           locale={locale}
-          onClose={() => { setShowModal(false); setActiveTemplate(null); }}
+          onClose={() => { setShowModal(false); setActiveTemplate(null); setEntryStep(undefined); }}
+          initialStep={entryStep}
           initialTemplate={activeTemplate?.key}
           templateName={activeTemplate?.name}
           catalogTemplates={approvedTemplates.length > 0
             ? approvedTemplates.map((t): ModalTemplate => ({
                 key: t.key,
                 name: t.name,
+                industry: t.industry,
                 previewImage: t.previewPath ?? undefined,
                 demoUrl: t.demoUrl ?? undefined,
               }))

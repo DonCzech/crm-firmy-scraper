@@ -9,18 +9,48 @@
   "description": "Klinika estetické dermatologie — bílý 2-řádkový navbar s centrovaným wordmark logem, fullbleed hero s white-fade overlay a taglinem, Google reviews sekce, oblíbená ošetření cards, konzultace zdarma promo, about s feature checklist, newsletter CTA, kontakt + footer.",
   "sectionOrderNote": "Navbar → Hero → About → Services → Promo [extra] → Testimonials → CTA → Contact → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",   "reason": "ceník je na samostatné stránce; homepage jen odkazuje na kontakt/rezervace" },
-    { "pos": 6,  "name": "Gallery",   "reason": "homepage nemá dedikovanou galerii — fotky jsou integrované v sekcích" },
-    { "pos": 7,  "name": "Team",      "reason": "tým prezentován na podstránce, homepage ho neobsahuje" },
-    { "pos": 11, "name": "FAQ",       "reason": "homepage neobsahuje FAQ sekci" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "ceník je na samostatné stránce; homepage jen odkazuje na kontakt/rezervace"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "homepage nemá dedikovanou galerii — fotky jsou integrované v sekcích"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "tým prezentován na podstránce, homepage ho neobsahuje"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "homepage neobsahuje FAQ sekci"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "name": "Konzultace ZDARMA promo", "reason": "výrazná promo sekce nabízející bezplatnou vstupní konzultaci" },
-    { "type": "cta",   "name": "Newsletter CTA",          "reason": "newsletter sekce se slevou 10 % na první návštěvu" }
+    {
+      "type": "promo",
+      "name": "Konzultace ZDARMA promo",
+      "reason": "výrazná promo sekce nabízející bezplatnou vstupní konzultaci"
+    },
+    {
+      "type": "cta",
+      "name": "Newsletter CTA",
+      "reason": "newsletter sekce se slevou 10 % na první návštěvu"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,15 +58,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "clinic-02-navbar",       "contentRef": "navbar" },
-        { "type": "hero",         "variant": "clinic-02-hero",         "contentRef": "hero" },
-        { "type": "about",        "variant": "clinic-02-about",        "contentRef": "about" },
-        { "type": "services",     "variant": "clinic-02-services",     "contentRef": "services" },
-        { "type": "promo",        "variant": "clinic-02-promo",        "contentRef": "promo" },
-        { "type": "testimonials", "variant": "clinic-02-testimonials", "contentRef": "testimonials" },
-        { "type": "cta",          "variant": "clinic-02-cta",          "contentRef": "cta" },
-        { "type": "contact",      "variant": "clinic-02-contact",      "contentRef": "contact" },
-        { "type": "footer",       "variant": "clinic-02-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "clinic-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "clinic-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "clinic-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "clinic-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "promo",
+          "variant": "clinic-02-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "testimonials",
+          "variant": "clinic-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "cta",
+          "variant": "clinic-02-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "clinic-02",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "clinic-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "clinic-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

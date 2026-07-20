@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#3d9a50",
+    "secondary":  "#2b2b2b",
+    "accent":     "#d64541",
+    "background": "#ffffff",
+    "surface":    "#f4f4f2",
+    "text":       "#2b2b2b",
+    "textMuted":  "#8a8a86",
+    "border":     "#e6e6e3"
+  },
+  "typography": {
+    "fontHeading": "'DM Sans', 'Helvetica Neue', Arial, sans-serif",
+    "fontBody":    "'DM Sans', 'Segoe UI', Arial, sans-serif"
+  }
+}

@@ -30,7 +30,7 @@
 import pg from 'pg';
 
 const DB_URL = process.env.DATABASE_URL
-  || 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+  || process.env.DATABASE_URL;
 
 const templateKey = process.argv[2];
 if (!templateKey) {

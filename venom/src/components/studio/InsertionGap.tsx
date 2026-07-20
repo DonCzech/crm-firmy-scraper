@@ -122,7 +122,7 @@ export function InsertionGap({
               type="button"
               aria-label="Zavřít"
               onClick={() => setOpen(false)}
-              className="rounded p-1 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white"
+              className="rounded p-1 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
             >
               <X className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
@@ -145,7 +145,7 @@ export function InsertionGap({
                   <div className="flex h-8 w-8 items-center justify-center rounded bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover/btn:bg-[var(--vs-accent-bg)] group-hover/btn:text-[var(--vs-accent)]">
                     <Icon className="h-4 w-4" strokeWidth={1.75} />
                   </div>
-                  <div className="text-[12px] font-medium text-white">{item.label}</div>
+                  <div className="text-[12px] font-medium text-[var(--vs-text)]">{item.label}</div>
                   <div className="text-[10.5px] leading-snug text-[var(--vs-text-dim)]">{item.description}</div>
                 </button>
               );

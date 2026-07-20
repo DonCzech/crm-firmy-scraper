@@ -1,5 +1,6 @@
 import pg from 'pg';
-const pool = new pg.Pool({ connectionString: 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require' });
+import { existsSync } from 'fs';
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 const KILL = `<script id="venom-kill">(function(){
   var A=['localhost','127.0.0.1'];
@@ -17,7 +18,7 @@ const CSS_URLS = [
   `/clones/${SLUG}/css/bootstrap.min.css`,
   `/clones/${SLUG}/css/classic-themes.min.css`,
   `/clones/${SLUG}/css/5750.css`,
-].filter(u => { try { return require('fs').existsSync('public' + u); } catch { return true; } });
+].filter(u => { try { return existsSync('public' + u); } catch { return true; } });
 
 const JS_URLS = [
   `/clones/${SLUG}/js/jquery.min.js`,

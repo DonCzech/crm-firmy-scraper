@@ -31,6 +31,7 @@ function getNavItems(tenantSlug: string): { obecne: NavItem[]; pokrocile: NavIte
     pokrocile: [
       { label: "Integrace a API", href: `/demo/${tenantSlug}/admin/settings/api` },
       { label: "Záznam aktivity", href: `/demo/${tenantSlug}/admin/settings/activity` },
+      { label: "Vlastní kód", href: `/demo/${tenantSlug}/admin/settings/custom-code` },
       { label: "CSS třídy", href: `/demo/${tenantSlug}/admin/settings/css` },
       { label: "HTTP Hlavičky", href: `/demo/${tenantSlug}/admin/settings/headers` },
       { label: "Přesměrování", href: `/demo/${tenantSlug}/admin/settings/redirects` },

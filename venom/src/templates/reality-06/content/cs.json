@@ -5,41 +5,59 @@
     "logoAlt": "Dominik Krejčí – realitní makléř",
     "ctaText": "Nezávazná konzultace",
     "ctaHref": "#kontakt",
-    "phone": "704 123 456",
-    "email": "dominik@krejci-reality.cz",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "linkedinUrl": "https://linkedin.com/in/demo",
     "youtubeUrl": "https://youtube.com/demo",
     "links": [
-      { "label": "Nemovitosti",  "href": "#nemovitosti" },
-      { "label": "Reference",    "href": "#reference" },
-      { "label": "Služby",       "href": "#sluzby" },
-      { "label": "Online odhad", "href": "#odhad" },
-      { "label": "O mně",        "href": "#o-mne" },
-      { "label": "Kontakt",      "href": "#kontakt" }
+      {
+        "label": "Nemovitosti",
+        "href": "#nemovitosti"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Online odhad",
+        "href": "#odhad"
+      },
+      {
+        "label": "O mně",
+        "href": "#o-mne"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
-    "title": "Váš realitní makléř v Praze",
     "agentName": "Dominik Krejčí",
     "heading": "Váš realitní makléř v Praze",
-    "bgImage": "/assets/reality-06/87184cf5cd-hero-image-03.jpg",
     "agentImage": "/assets/reality-06/1c29b1dc93-jan.png",
-    "phone": "704 123 456",
-    "email": "dominik@krejci-reality.cz",
-    "whatsapp": "https://wa.me/420704123456",
-    "googleUrl": "#",
     "googleRating": "4,9",
     "stats": [
-      { "number": "10+", "label": "let praxe\nv realitách" },
-      { "number": "150+", "label": "Prodaných\nnemovitostí" },
-      { "number": "97 %", "label": "Spokojených\nklientů" }
+      {
+        "number": "10+",
+        "label": "let praxe\nv realitách"
+      },
+      {
+        "number": "150+",
+        "label": "Prodaných\nnemovitostí"
+      },
+      {
+        "number": "97 %",
+        "label": "Spokojených\nklientů"
+      }
     ]
   },
   "about": {
     "title": "O mně",
-    "body": "Pražský realitní makléř s desetiletou praxí a osobním přístupem.",
     "para1": "Jsem pražský realitní makléř s **více než 10 lety zkušeností**. Specializuji se na prodej a pronájem bytů a rodinných domů napříč celou Prahou. Každý klient u mě dostane **plný servis** — od profesionální fotografie a marketingu až po advokátní přípravu smluv. Mé heslo: **Férově, rychle a bez zbytečného stresu.**",
     "ctaText": "Kontaktujte mě",
     "ctaHref": "#kontakt"
@@ -48,12 +66,36 @@
     "title": "Služby",
     "subtitle": "Každou nemovitost propaguju naplno. Využívám profesionální fotografy, videoprohlídky, home staging i cílenou reklamu na sociálních sítích — aby Vaše nemovitost zaujala správné kupce co nejrychleji.",
     "services": [
-      { "name": "Profesionální fotografie", "title": "Profesionální fotografie", "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80" },
-      { "name": "Videoprohlídky",           "title": "Videoprohlídky",           "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&q=80" },
-      { "name": "Home staging",             "title": "Home staging",             "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop&q=80" },
-      { "name": "3D Virtuální prohlídky",   "title": "3D Virtuální prohlídky",   "image": "https://images.unsplash.com/photo-1600573472556-e636c2acda88?w=800&h=600&fit=crop&q=80" },
-      { "name": "Realitní marketing",       "title": "Realitní marketing",       "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80" },
-      { "name": "Advokátní servis",         "title": "Advokátní servis",         "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop&q=80" }
+      {
+        "name": "Profesionální fotografie",
+        "title": "Profesionální fotografie",
+        "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80"
+      },
+      {
+        "name": "Videoprohlídky",
+        "title": "Videoprohlídky",
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&q=80"
+      },
+      {
+        "name": "Home staging",
+        "title": "Home staging",
+        "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop&q=80"
+      },
+      {
+        "name": "3D Virtuální prohlídky",
+        "title": "3D Virtuální prohlídky",
+        "image": "https://images.unsplash.com/photo-1600573472556-e636c2acda88?w=800&h=600&fit=crop&q=80"
+      },
+      {
+        "name": "Realitní marketing",
+        "title": "Realitní marketing",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80"
+      },
+      {
+        "name": "Advokátní servis",
+        "title": "Advokátní servis",
+        "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop&q=80"
+      }
     ]
   },
   "listings": {
@@ -124,19 +166,52 @@
     "linkedinUrl": "https://linkedin.com/in/demo",
     "copyright": "© 2026 Dominik Krejčí, všechna práva vyhrazena.",
     "serviceLinks": [
-      { "label": "Profesionální fotografie", "href": "#sluzby" },
-      { "label": "Videoprohlídky",           "href": "#sluzby" },
-      { "label": "Home staging",             "href": "#sluzby" },
-      { "label": "3D Virtuální prohlídky",   "href": "#sluzby" },
-      { "label": "Realitní marketing",       "href": "#sluzby" },
-      { "label": "Advokátní servis",         "href": "#sluzby" }
+      {
+        "label": "Profesionální fotografie",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Videoprohlídky",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Home staging",
+        "href": "#sluzby"
+      },
+      {
+        "label": "3D Virtuální prohlídky",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Realitní marketing",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Advokátní servis",
+        "href": "#sluzby"
+      }
     ],
     "propertyLinks": [
-      { "label": "Byty prodej",           "href": "#nemovitosti" },
-      { "label": "Byty pronájem",         "href": "#nemovitosti" },
-      { "label": "Rodinné domy prodej",   "href": "#nemovitosti" },
-      { "label": "Rodinné domy pronájem", "href": "#nemovitosti" },
-      { "label": "Prodej pozemků",        "href": "#nemovitosti" }
+      {
+        "label": "Byty prodej",
+        "href": "#nemovitosti"
+      },
+      {
+        "label": "Byty pronájem",
+        "href": "#nemovitosti"
+      },
+      {
+        "label": "Rodinné domy prodej",
+        "href": "#nemovitosti"
+      },
+      {
+        "label": "Rodinné domy pronájem",
+        "href": "#nemovitosti"
+      },
+      {
+        "label": "Prodej pozemků",
+        "href": "#nemovitosti"
+      }
     ]
   },
   "pages": {

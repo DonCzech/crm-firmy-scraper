@@ -15,7 +15,7 @@
  *   node scripts/personalize-clone.mjs fade-room fade-room-demo
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, createWriteStream } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import https from 'https';
@@ -173,7 +173,7 @@ function replaceLogo(html) {
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
     const proto = url.startsWith('https') ? https : http;
-    const file = require('fs').createWriteStream(dest);
+    const file = createWriteStream(dest);
     proto.get(url, res => {
       if (res.statusCode === 302 || res.statusCode === 301) {
         file.close();

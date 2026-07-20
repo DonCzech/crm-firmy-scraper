@@ -9,15 +9,37 @@
   "description": "Kadeřnický salon s steel-blue navbarem (#92a8d1), Lato, bílé pozadí — fullwidth hero, 3-col service cards, about 2-col, galerie carousel. Inspirováno kim-impressive.cz.",
   "sectionOrderNote": "Navbar → Hero (fullwidth) → Services (3 cards) → CTA bar (phone) → About (2-col) → Gallery (carousel) → Contact → Footer",
   "skippedSections": [
-    { "pos": 1,  "name": "Header",       "reason": "Navbar je embedded v hero sekci (transparentní overlay, Astra-style)" },
-    { "pos": 5,  "name": "Pricing",      "reason": "kim-impressive.cz nemá ceník sekci na homepage" },
-    { "pos": 7,  "name": "Team",         "reason": "kim-impressive.cz nemá team sekci" },
-    { "pos": 8,  "name": "Testimonials", "reason": "kim-impressive.cz nemá recenze sekci" },
-    { "pos": 11, "name": "FAQ",          "reason": "kim-impressive.cz nemá FAQ sekci" }
+    {
+      "pos": 1,
+      "name": "Header",
+      "reason": "Navbar je embedded v hero sekci (transparentní overlay, Astra-style)"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "kim-impressive.cz nemá ceník sekci na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "kim-impressive.cz nemá team sekci"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "kim-impressive.cz nemá recenze sekci"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "kim-impressive.cz nemá FAQ sekci"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -25,17 +47,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "hero",         "variant": "hero-hair-04-with-navbar", "contentRef": "hero" },
-        { "type": "services",     "variant": "hair-04-service-cards",   "contentRef": "services" },
-        { "type": "cta",          "variant": "hair-04-cta-phone",       "contentRef": "cta" },
-        { "type": "about",        "variant": "about-hair-04-split",     "contentRef": "about" },
-        { "type": "gallery",      "variant": "hair-04-carousel",        "contentRef": "gallery" },
-        { "type": "contact",      "variant": "hair-04-contact",         "contentRef": "contact" },
-        { "type": "footer",       "variant": "hair-04-footer",          "contentRef": "footer" }
+        {
+          "type": "hero",
+          "variant": "hero-hair-04-with-navbar",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "hair-04-service-cards",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "hair-04-cta-phone",
+          "contentRef": "cta"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-04-split",
+          "contentRef": "about"
+        },
+        {
+          "type": "gallery",
+          "variant": "hair-04-carousel",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "hair-04",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "hair-04-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-04-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ]
 }

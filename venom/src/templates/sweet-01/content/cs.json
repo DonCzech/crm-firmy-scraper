@@ -3,22 +3,32 @@
     "siteName": "Cukrárna Eliška",
     "logoUrl": "/templates/sweet-01/logo.svg",
     "links": [
-      { "label": "Pobočky",    "href": "/pobocky" },
-      { "label": "O nás",      "href": "/o-nas" },
-      { "label": "Kariéra",    "href": "#kariera" },
-      { "label": "Kontakt",    "href": "/kontakt" }
+      {
+        "label": "Pobočky",
+        "href": "/pobocky"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kariéra",
+        "href": "#kariera"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "ctaText": "Objednat online",
     "ctaHref": "#objednat",
-    "phone": "704 123 456",
-    "email": "email@demo.cz"
+    "phone": "704 123 456"
   },
   "hero": {
     "title": "Sladké chvíle začínají tady",
     "subtitle": "Ručně vyráběné dezerty, čerstvé croissanty a domácí limonády každý den",
     "ctaText": "Prohlédnout nabídku",
-    "ctaHref": "#nabidka",
-    "bgImage": "/assets/sweet-01/797fa4da98-showcase.jpg"
+    "ctaHref": "#nabidka"
   },
   "usp": {
     "title": "Co nás odlišuje",
@@ -114,14 +124,22 @@
     "email": "email@demo.cz",
     "fbHref": "https://facebook.com/demo",
     "igHref": "https://instagram.com/demo",
-    "ytHref": "https://youtube.com/demo",
     "ico": "12345678",
     "hours": "Po–Pá 7:30–19:00, So–Ne 9:00–18:00",
     "copyright": "© 2025 Cukrárna Eliška. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Naše pobočky", "href": "/pobocky" },
-      { "label": "O cukrárně",   "href": "/o-nas" },
-      { "label": "Kontakt",      "href": "/kontakt" }
+      {
+        "label": "Naše pobočky",
+        "href": "/pobocky"
+      },
+      {
+        "label": "O cukrárně",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "pages": {

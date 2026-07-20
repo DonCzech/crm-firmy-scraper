@@ -21,13 +21,19 @@ interface Props {
 }
 
 export function TestimonialsSection({ content, variant, sectionId, isAdmin, tenantSlug }: Props) {
+  // Nahoře, aby se volal bezpodmínečně — pod early returny by změna varianty
+  // za běhu měnila počet hooks a React by spadl.
+  const [active, setActive] = useState(0);
+
+  if (variant === "eshop-02-testimonials") return <TestimonialsEshop02 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-07-reviews") return <TestimonialsEshop07 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-03-testimonials") return <TestimonialsStavba03 content={content} sectionId={sectionId} />;
   if (variant === "stavba-02-testimonials") return <TestimonialsStavba02 content={content} sectionId={sectionId} />;
   if (variant === "stavba-01-testimonials") return <TestimonialsStavba01 content={content} sectionId={sectionId} />;
   if (variant === "instala-01-testimonials") return <TestimonialsInstala01 content={content} sectionId={sectionId} />;
   if (variant === "fitness-01-testimonials-2col") return <TestimonialsFitness01 content={content} sectionId={sectionId} />;
-  if (variant === "ananda-01-testimonials")  return <TestimonialsAnanda01 content={content} sectionId={sectionId} />;
-  if (variant === "tawan-02-testimonials")   return <TestimonialsTawan02 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-testimonials")  return <TestimonialsHarmonie01 content={content} sectionId={sectionId} />;
+  if (variant === "thaimasaze-02-testimonials")   return <TestimonialsThaimasaze02 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-01-testimonials")  return <TestimonialsTattoo01 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-02-testimonials")  return <TestimonialsTattoo02 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-03-testimonials")  return <TestimonialsTattoo03 content={content} sectionId={sectionId} />;
@@ -53,7 +59,6 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
     )
   );
   const title = String(content.title ?? (variant === "slider" ? "Co říkají klienti" : "Reference"));
-  const [active, setActive] = useState(0);
 
   if (variant === "massage-01-testimonials-3col") return <Massage01Testimonials3col content={content} sectionId={sectionId} />;
   if (variant === "tawan-01-reviews") return <ReviewsTawan01 content={content} sectionId={sectionId} />;
@@ -65,6 +70,7 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
   if (variant === "solar-03-testimonials")     return <TestimonialsSolar03 content={content} sectionId={sectionId} />;
   if (variant === "solar-02-testimonials")     return <TestimonialsSolar02 content={content} sectionId={sectionId} />;
   if (variant === "klempir-01-testimonials")   return <TestimonialsKlempir01 content={content} sectionId={sectionId} />;
+  if (variant === "rekonstrukce-01-testimonials") return <TestimonialsRekonstrukce01 content={content} sectionId={sectionId} />;
   if (variant === "malir-01-testimonials")    return <TestimonialsMalir01 content={content} sectionId={sectionId} />;
   if (variant === "clean-02-testimonials")    return <TestimonialsClean02 content={content} sectionId={sectionId} />;
   if (variant === "garden-02-testimonials")   return <TestimonialsGarden02 content={content} sectionId={sectionId} />;
@@ -682,189 +688,7 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
     );
   }
 
-  if (variant === "barber-dark-3col") {
-    const eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
-    const subtitle = String((content as Record<string, unknown>).subtitle ?? "");
-    const headRef = useRef<HTMLDivElement>(null);
-    const gridRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-      const els = [headRef.current, gridRef.current].filter(Boolean) as HTMLElement[];
-      const obs = els.map((el, i) => {
-        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03t-vis"); o.disconnect(); } }, { threshold: 0.1 });
-        o.observe(el); return o;
-      });
-      return () => obs.forEach(o => o.disconnect());
-    }, []);
-    return (
-      <section
-        className="relative overflow-hidden"
-        style={{
-          backgroundColor: "#1c1410",
-          padding: "clamp(96px, 13vw, 150px) 24px",
-        }}
-        data-template="barber-03"
-      >
-        <style>{`
-          @keyframes b03TFadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
-          .b03t-reveal { opacity: 0; }
-          .b03t-reveal.b03t-vis { animation: b03TFadeUp 0.8s cubic-bezier(.22,.68,0,1.1) forwards; }
-        `}</style>
-
-        {/* Top + bottom gold hairlines — visual separation from neighbors */}
-        <div aria-hidden style={{
-          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-          width: 180, height: 1,
-          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
-        }} />
-        <div aria-hidden style={{
-          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
-          width: 180, height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
-        }} />
-
-        {/* Warm golden ambient glow center top */}
-        <div aria-hidden style={{
-          position: "absolute", inset: 0, pointerEvents: "none",
-          background: "radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.08) 0%, transparent 55%)",
-        }} />
-
-        <div className="max-w-[1240px] mx-auto" style={{ position: "relative", zIndex: 1 }}>
-          {/* Header — eyebrow + title + subtitle, cinematic urban editorial */}
-          <div
-            ref={headRef}
-            className="b03t-reveal text-center"
-            style={{ marginBottom: "clamp(56px, 8vw, 80px)" }}
-          >
-            {eyebrow && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
-                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-                <span style={{
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "12px",
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
-                  color: "#c8a96e",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-                </span>
-                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-              </div>
-            )}
-            <h2 style={{
-              fontFamily: "'Libre Baskerville', Georgia, serif",
-              fontSize: "clamp(2rem, 4.2vw, 3rem)",
-              fontWeight: 700,
-              lineHeight: 1.12,
-              letterSpacing: "0.04em",
-              color: "#f5efe6",
-              textTransform: "uppercase",
-              margin: "0 auto 22px",
-              maxWidth: 760,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            {subtitle && (
-              <p style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontStyle: "italic",
-                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
-                color: "rgba(245,239,230,0.72)",
-                lineHeight: 1.7,
-                margin: "0 auto",
-                maxWidth: 600,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-              </p>
-            )}
-            {/* Decorative rule */}
-            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
-              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
-            </div>
-          </div>
-
-          {/* Grid of testimonial cards */}
-          <div ref={gridRef} className="b03t-reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: "clamp(20px, 2.5vw, 32px)" }}>
-            {testimonials.map((t, i) => (
-              <div
-                key={i}
-                className="b03t-card relative"
-                style={{
-                  backgroundColor: "rgba(255,255,255,0.035)",
-                  border: "1px solid rgba(200,169,110,0.2)",
-                  padding: "44px 32px 32px",
-                  borderRadius: 2,
-                  animation: `b03TFadeUp 0.8s cubic-bezier(.22,.68,0,1.1) ${0.3 + i * 0.12}s both`,
-                }}
-              >
-                {/* Big opening quote mark — typographic editorial accent */}
-                <span aria-hidden style={{
-                  position: "absolute",
-                  top: -6, left: 26,
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontSize: "5rem",
-                  fontWeight: 700,
-                  color: "#c8a96e",
-                  lineHeight: 1,
-                  letterSpacing: "-0.05em",
-                  pointerEvents: "none",
-                }}>&ldquo;</span>
-
-                {/* Gold corner accent top-right — animates on hover */}
-                <span aria-hidden className="b03t-corner" style={{
-                  position: "absolute", top: 14, right: 14, width: 20, height: 20,
-                  borderTop: "1px solid #c8a96e", borderRight: "1px solid #c8a96e",
-                  transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
-                }} />
-
-                {/* Stars */}
-                <div className="flex gap-1 mb-5" style={{ color: "#c8a96e", letterSpacing: "0.16em", fontSize: "1rem" }}>
-                  {Array.from({ length: t.rating }).map((_, j) => (
-                    <span key={j} className="b03t-star" style={{
-                      display: "inline-block",
-                      transition: "transform 0.35s cubic-bezier(.22,.68,0,1.1)",
-                      transitionDelay: `${j * 0.05}s`,
-                    }}>★</span>
-                  ))}
-                </div>
-
-                {/* Quote text */}
-                <p style={{
-                  color: "rgba(245,239,230,0.88)",
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontStyle: "italic",
-                  lineHeight: 1.75,
-                  fontSize: "1rem",
-                  marginBottom: 28,
-                  letterSpacing: "0.01em",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={t.text} tag="span" />
-                </p>
-
-                {/* Decorative rule + name */}
-                <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: "auto" }}>
-                  <span aria-hidden style={{ width: 28, height: 1, backgroundColor: "#c8a96e" }} />
-                  <p style={{
-                    color: "#c8a96e",
-                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                    fontWeight: 700,
-                    fontSize: "0.78rem",
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    margin: 0,
-                  }}>
-                    <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.name`} value={t.name} tag="span" />
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
+  if (variant === "barber-dark-3col") return <TestimonialsBarberDark3col content={content} testimonials={testimonials} title={title} sectionId={sectionId} />;
 
   // Default: static-cards
   return (
@@ -910,50 +734,55 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
 // 3 karty viditelné, klonovaný track pro bezešvé opakování
 // ─────────────────────────────────────────────────────────────────────────────
 function Massage01Testimonials3col({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const sectionTag   = String(content.sectionTag   ?? "Reference");
-  const heading      = String(content.heading      ?? "Co říkají naši klienti");
-  const googleRating = String(content.googleRating ?? "4.9");
-  const googleCount  = String(content.googleCount  ?? "80 recenzí");
+  const cc = content as Record<string, unknown>;
+  const eyebrowRaw = cc.sectionTag;
+  const titleRaw   = cc.heading;
+  const sectionTag   = eyebrowRaw === undefined ? "Ohlasy klientů" : String(eyebrowRaw);
+  const heading      = titleRaw   === undefined ? "Co o nás říkají" : String(titleRaw);
+  const googleRating = String(cc.googleRating ?? "4.9");
+  const googleCount  = String(cc.googleCount  ?? "94 recenzí");
+  const showHeader = !!(sectionTag.trim() || heading.trim());
   const raw = (content.items as Array<{ text: string; author: string; stars: number }>) ?? [];
 
-  const SURFACE   = "#141414";
-  const BG        = "#0A0A0A";
-  const BORDER    = "#2A2520";
   const GOLD      = "#C9A962";
-  const TEXT      = "#F5F0E8";
+  const BORDER    = "#2A2520";
   const SECONDARY = "#A09888";
-  const STAR      = "#FBBF24";
-  const FONT      = "'Inter', sans-serif";
-  const SERIF     = "'Cormorant Garamond', serif";
 
-  const PER_VIEW = 4;
-  const GAP      = 24;
+  const GAP = 28;
 
-  // Pad to at least PER_VIEW items so we always have a full first page
-  const items = raw.length >= PER_VIEW
-    ? raw
-    : [...raw, ...raw, ...raw, ...raw].slice(0, PER_VIEW);
-  const track = [...items, ...items, ...items];
-  const startIdx = items.length;
-
-  const [idx, setIdx]             = useState(startIdx);
+  const [perView, setPerView] = useState(3);
+  const [idx, setIdx]             = useState(0);
   const [animated, setAnimated]   = useState(true);
   const viewportRef               = useRef<HTMLDivElement>(null);
   const [cardWidth, setCardWidth] = useState(0);
   const transitioning             = useRef(false);
-  const idxRef                    = useRef(startIdx);
+  const idxRef                    = useRef(0);
 
   useEffect(() => {
     const measure = () => {
       if (viewportRef.current) {
         const vw = viewportRef.current.offsetWidth;
-        setCardWidth((vw - GAP * (PER_VIEW - 1)) / PER_VIEW);
+        const pv = vw < 640 ? 1 : vw < 900 ? 2 : 3;
+        setPerView(pv);
+        setCardWidth((vw - GAP * (pv - 1)) / pv);
       }
     };
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, []);
+
+  // Pad to at least perView items so we always have a full first page
+  const items = raw.length >= perView
+    ? raw
+    : [...raw, ...raw, ...raw, ...raw].slice(0, perView);
+  const track = [...items, ...items, ...items];
+  const startIdx = items.length;
+
+  useEffect(() => {
+    idxRef.current = startIdx;
+    setIdx(startIdx);
+  }, [startIdx]);
 
   const offset = idx * (cardWidth + GAP);
 
@@ -984,111 +813,89 @@ function Massage01Testimonials3col({ content, sectionId }: { content: Record<str
     goTo(idxRef.current + 1);
   };
 
-  const StarIcon = ({ size = 16 }: { size?: number }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={STAR}>
+  const StarIcon = ({ size = 15 }: { size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={GOLD}>
       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
     </svg>
   );
 
-  const ArrowBtn = ({ dir, onClick }: { dir: "left" | "right"; onClick: () => void }) => {
-    const [hovered, setHovered] = useState(false);
-    return (
-      <button
-        onClick={onClick}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        aria-label={dir === "left" ? "Předchozí" : "Další"}
-        style={{
-          width: 48, height: 48, flexShrink: 0,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: "transparent",
-          border: `1px solid ${hovered ? GOLD : BORDER}`,
-          color: hovered ? GOLD : SECONDARY,
-          cursor: "pointer",
-          transition: "border-color 0.25s, color 0.25s",
-        }}
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          {dir === "left"
-            ? <path d="M15 18l-6-6 6-6"/>
-            : <path d="M9 18l6-6-6-6"/>
-          }
-        </svg>
-      </button>
-    );
-  };
+  const ArrowBtn = ({ dir, onClick }: { dir: "left" | "right"; onClick: () => void }) => (
+    <button onClick={onClick} aria-label={dir === "left" ? "Předchozí" : "Další"} className="m01-tst-arrow">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        {dir === "left" ? <path d="M15 18l-6-6 6-6"/> : <path d="M9 18l6-6-6-6"/>}
+      </svg>
+    </button>
+  );
 
   return (
     <section
       id="reference"
-      style={{ backgroundColor: SURFACE, padding: "100px 0" }}
+      className="m01-tst"
       data-template="massage-01"
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 80px" }}>
-        {/* Section header */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, textAlign: "center", marginBottom: 48 }}>
-          <p style={{ display: "inline-flex", alignItems: "center", gap: 8, color: GOLD, fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>
-            <span style={{ display: "inline-block", width: 6, height: 6, background: GOLD, borderRadius: "50%" }} />
-            <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 400, color: TEXT, lineHeight: 1.1, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+      <div className="m01-tst-inner">
+        {showHeader && (
+          <div className="m01-services-header" style={{ marginBottom: 36 }}>
+            <p className="m01-services-tag">
+              <span className="m01-services-tag-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
+            </p>
+            <h2 className="m01-services-h2">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+          </div>
+        )}
 
         {/* Google rating bar */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16, justifyContent: "center", flexWrap: "wrap", marginBottom: 48 }}>
-          <span style={{ fontFamily: FONT, fontSize: 20, fontWeight: 700, color: TEXT }}>
+        <div className="m01-tst-rating">
+          <span className="m01-tst-rating-num">
             <GenericEditableText sectionId={sectionId} field="googleRating" value={googleRating} tag="span" />
           </span>
-          <div style={{ display: "flex", gap: 4 }}>{[1,2,3,4,5].map(n => <StarIcon key={n} size={20} />)}</div>
-          <span style={{ fontFamily: FONT, fontSize: 14, fontWeight: 300, color: SECONDARY }}>
+          <span className="m01-tst-rating-stars">{[1,2,3,4,5].map(n => <StarIcon key={n} size={18} />)}</span>
+          <span className="m01-tst-rating-count">
             <GenericEditableText sectionId={sectionId} field="googleCount" value={googleCount} tag="span" />
           </span>
         </div>
 
         {/* Viewport */}
-        <div ref={viewportRef} style={{ overflow: "hidden", marginBottom: 32 }}>
+        <div ref={viewportRef} className="m01-tst-viewport">
           <div
             onTransitionEnd={handleTransitionEnd}
             style={{
               display: "flex",
               gap: GAP,
               transform: `translateX(-${offset}px)`,
-              transition: animated ? "transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
+              transition: animated ? "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
               willChange: "transform",
             }}
           >
-            {track.map((item, i) => (
-              <div
-                key={i}
-                style={{
-                  flexShrink: 0,
-                  width: cardWidth > 0 ? cardWidth : `calc((100% - ${GAP * (PER_VIEW - 1)}px) / ${PER_VIEW})`,
-                  background: BG,
-                  border: `1px solid ${BORDER}`,
-                  padding: 28,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 16,
-                }}
-              >
-                <div style={{ display: "flex", gap: 4 }}>
-                  {Array.from({ length: item.stars ?? 5 }).map((_, n) => <StarIcon key={n} />)}
+            {track.map((item, i) => {
+              const origIdx = i % items.length;
+              return (
+                <div
+                  key={i}
+                  className="m01-tst-card"
+                  style={{ width: cardWidth > 0 ? cardWidth : `calc((100% - ${GAP * (perView - 1)}px) / ${perView})` }}
+                >
+                  <span className="m01-tst-quote" aria-hidden="true">”</span>
+                  <div className="m01-tst-stars">
+                    {Array.from({ length: item.stars ?? 5 }).map((_, n) => <StarIcon key={n} />)}
+                  </div>
+                  <p className="m01-tst-text">
+                    <GenericEditableText sectionId={sectionId} field={`items.${origIdx}.text`} value={item.text} tag="span" />
+                  </p>
+                  <p className="m01-tst-author">
+                    <span className="m01-tst-author-line" aria-hidden="true" />
+                    <GenericEditableText sectionId={sectionId} field={`items.${origIdx}.author`} value={item.author} tag="span" />
+                  </p>
                 </div>
-                <p style={{ fontFamily: FONT, fontSize: 14, fontWeight: 300, color: SECONDARY, lineHeight: 1.6, margin: 0, flex: 1 }}>
-                  {item.text}
-                </p>
-                <p style={{ fontFamily: FONT, fontSize: 13, fontWeight: 500, color: TEXT, margin: 0 }}>
-                  {item.author}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* Šipky pod sliderem */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
+        <div className="m01-tst-arrows">
           <ArrowBtn dir="left" onClick={prev} />
           <ArrowBtn dir="right" onClick={next} />
         </div>
@@ -1223,9 +1030,9 @@ function ReviewsTawan01({ content, sectionId }: { content: Record<string, unknow
 }
 
 
-// ── ananda-01-testimonials ────────────────────────────────────────────────────
-function TestimonialsAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title      = String(content.title      ?? "VAŠE ZKUŠENOSTI S ANANDA SPA");
+// ── harmonie-01-testimonials ────────────────────────────────────────────────────
+function TestimonialsHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const title      = String(content.title      ?? "VAŠE ZKUŠENOSTI S HARMONIE SPA");
   const scoreLabel = String(content.scoreLabel ?? "Hodnocení obchodu");
   const score      = String(content.score      ?? "4.8/5.0");
   const countLabel = String(content.countLabel ?? "Počet názorů");
@@ -1234,13 +1041,21 @@ function TestimonialsAnanda01({ content, sectionId }: { content: Record<string, 
   type Review = { date: string; rating: number; text: string; author?: string };
   const reviews: Review[] = (content.reviews as Review[] | undefined) ?? [
     { date: "29.03.2026", rating: 4, author: "Jana K.",    text: "Masáž perfektní, indická masérka byla zdvořilá s citlivým přístupem." },
-    { date: "27.02.2026", rating: 5, author: "Petra N.",   text: "Ananda Spa mohu jen vřele doporučit. Velmi profesionální a lidský přístup, klidná atmosféra a opravdová péče o klienta." },
+    { date: "27.02.2026", rating: 5, author: "Petra N.",   text: "Harmonie SPA mohu jen vřele doporučit. Velmi profesionální a lidský přístup, klidná atmosféra a opravdová péče o klienta." },
     { date: "25.01.2026", rating: 5, author: "Martina V.", text: "Masáže byly hluboce uvolňující a ájurvéda provedena s citem a znalostí. Cítila jsem se zrelaxovaná ještě dlouho po návštěvě." },
     { date: "22.01.2026", rating: 5, author: "Lucie M.",   text: "Nádherné prostředí, profesionální přístup. Určitě se vrátím." },
   ];
 
   const [idx, setIdx] = useState(0);
-  const perView = 2;
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 640px)");
+    setIsMobile(mq.matches);
+    const h = (e: MediaQueryListEvent) => { setIsMobile(e.matches); setIdx(0); };
+    mq.addEventListener("change", h);
+    return () => mq.removeEventListener("change", h);
+  }, []);
+  const perView = isMobile ? 1 : 2;
   const maxIdx = Math.max(0, reviews.length - perView);
 
   const GOLD  = "#AA813A";
@@ -1259,44 +1074,13 @@ function TestimonialsAnanda01({ content, sectionId }: { content: Record<string, 
   );
 
   return (
-    <section id="recenze" style={{ backgroundColor: "#ffffff", padding: "80px 0" }}>
-      <style>{`
-        .ana-rev-wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
-        .ana-rev-body { display: grid; grid-template-columns: 220px 1fr; gap: 64px; align-items: start; margin-top: 56px; }
-        @media(max-width: 768px) { .ana-rev-body { grid-template-columns: 1fr; gap: 40px; } }
-        .ana-rev-slider { overflow: hidden; }
-        .ana-rev-track { display: flex; gap: 24px; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); }
-        .ana-rev-card {
-          flex: 0 0 calc(50% - 12px);
-          background: ${CREAM};
-          padding: 28px;
-          min-height: 180px;
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
-        }
-        @media(max-width: 640px) { .ana-rev-card { flex: 0 0 100%; } }
-        .ana-rev-nav { display: flex; gap: 12px; margin-top: 28px; }
-        .ana-rev-btn {
-          width: 44px; height: 44px;
-          border: 1.5px solid ${GOLD};
-          background: transparent;
-          cursor: pointer;
-          display: flex; align-items: center; justify-content: center;
-          transition: background 0.2s, color 0.2s;
-          color: ${GOLD};
-        }
-        .ana-rev-btn:hover { background: ${GOLD}; color: #fff; }
-        .ana-rev-btn:disabled { opacity: 0.3; cursor: default; }
-        .ana-rev-btn:disabled:hover { background: transparent; color: ${GOLD}; }
-      `}</style>
-
-      <div className="ana-rev-wrap">
+    <section id="recenze" data-template="harmonie-01" style={{ backgroundColor: "#ffffff", padding: "88px 0 96px" }}>
+      <div className="harmonie-rev-wrap">
         <h2 style={{ fontFamily: FONT, fontSize: "clamp(16px,2vw,20px)", fontWeight: 500, color: GOLD, letterSpacing: 5, textTransform: "uppercase", margin: 0, textAlign: "center" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h2>
 
-        <div className="ana-rev-body">
+        <div className="harmonie-rev-body">
           {/* Levý blok — skóre */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <p style={{ fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", color: TEXT, margin: 0 }}>{scoreLabel}</p>
@@ -1309,10 +1093,10 @@ function TestimonialsAnanda01({ content, sectionId }: { content: Record<string, 
 
           {/* Pravý blok — slider */}
           <div>
-            <div className="ana-rev-slider">
-              <div className="ana-rev-track" style={{ transform: `translateX(calc(-${idx} * (100% / 2 + 12px)))` }}>
+            <div className="harmonie-rev-slider">
+              <div className="harmonie-rev-track" style={{ transform: isMobile ? `translateX(calc(-${idx} * (100% + 24px)))` : `translateX(calc(-${idx} * (100% / 2 + 12px)))` }}>
                 {reviews.map((r, i) => (
-                  <div key={i} className="ana-rev-card">
+                  <div key={i} className="harmonie-rev-card">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <Stars n={r.rating} size={14} />
                       <span style={{ fontFamily: FONT, fontSize: 12, color: "#9b8e82", letterSpacing: 1 }}>{r.date}</span>
@@ -1326,11 +1110,11 @@ function TestimonialsAnanda01({ content, sectionId }: { content: Record<string, 
               </div>
             </div>
 
-            <div className="ana-rev-nav">
-              <button className="ana-rev-btn" onClick={() => setIdx(i => Math.max(0, i - 1))} disabled={idx === 0} aria-label="Předchozí">
+            <div className="harmonie-rev-nav">
+              <button className="harmonie-rev-btn" onClick={() => setIdx(i => Math.max(0, i - 1))} disabled={idx === 0} aria-label="Předchozí">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
-              <button className="ana-rev-btn" onClick={() => setIdx(i => Math.min(maxIdx, i + 1))} disabled={idx >= maxIdx} aria-label="Další">
+              <button className="harmonie-rev-btn" onClick={() => setIdx(i => Math.min(maxIdx, i + 1))} disabled={idx >= maxIdx} aria-label="Další">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 18l6-6-6-6"/></svg>
               </button>
             </div>
@@ -1341,98 +1125,63 @@ function TestimonialsAnanda01({ content, sectionId }: { content: Record<string, 
   );
 }
 
-// ─── tawan-02-testimonials ───────────────────────────────────────────────────
-function TestimonialsTawan02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  type Item = { text?: string; author?: string; name?: string };
-  const title = String(content.title ?? "Reference návštěvníků");
+// ─── thaimasaze-02-testimonials ───────────────────────────────────────────────────
+function TestimonialsThaimasaze02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const showHeader = content.showHeader !== false;
+  const eyebrow = String(content.eyebrow ?? "Co říkají naši hosté");
+  const title = String(content.title ?? "Skutečné zážitky,\nskutečná proměna");
+
+  type Item = { text?: string; author?: string; name?: string; role?: string };
   const raw = (content.items ?? content.testimonials ?? content.reviews ?? []) as Item[];
-  const items = raw.map(r => ({ text: r.text ?? "", author: r.author ?? r.name ?? "" }));
+  const DEFAULT_ITEMS: Item[] = [
+    { text: "Od první minuty jsem se cítila jako v Thajsku. Atmosféra, vůně, profesionalita — vše na nejvyšší úrovni.", author: "Lucie M.", role: "stálá klientka" },
+    { text: "Masáž lávovými kameny byla absolutně transformující. Odcházela jsem jako nový člověk.", author: "Petra K.", role: "první návštěva" },
+    { text: "Nejlepší thajská masáž v Praze. Chodím pravidelně už třetím rokem a kvalita je stále stejně výjimečná.", author: "Tomáš V.", role: "stálý klient" },
+    { text: "Aromaterapie tu má úplně jinou dimenzi. Cítila jsem se naprosto uvolněná ještě celý týden po návštěvě.", author: "Jana S.", role: "doporučení od přátel" },
+  ];
+  const items = raw.length > 0 ? raw.map(r => ({ text: r.text ?? "", author: r.author ?? r.name ?? "", role: r.role ?? "" })) : DEFAULT_ITEMS;
 
   const [active, setActive] = useState(0);
-  const [fading, setFading] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval>>(undefined);
-
-  const goTo = (idx: number) => {
-    if (idx === active) return;
-    setFading(true);
-    setTimeout(() => { setActive(idx); setFading(false); }, 320);
-  };
-
-  const advance = (dir: 1 | -1) => goTo((active + dir + items.length) % items.length);
-
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setActive(a => (a + 1) % items.length);
-        setFading(false);
-      }, 320);
-    }, 5000);
-    return () => clearInterval(timerRef.current);
+    const t = setInterval(() => setActive(a => (a + 1) % items.length), 6000);
+    return () => clearInterval(t);
   }, [items.length]);
 
-  const FONT   = "Candara, 'Trebuchet MS', Arial, sans-serif";
-  const ACCENT = "#AD8F78";
-
   return (
-    <section style={{
-      padding: "50px 0 70px",
-      textAlign: "center",
-      fontFamily: FONT,
-      backgroundImage: "url(/clones/escape/wp-content/themes/twentyseventeen/assets/images/flower-testimonial.png)",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "bottom right",
-      backgroundColor: "#fff",
-    }}>
-      <style>{`
-        .t02-sep { display: flex; align-items: center; column-gap: 10px; margin: 0 auto 30px; justify-content: center; }
-        .t02-sep::before, .t02-sep::after { content: ''; width: 60px; height: 1px; background: ${ACCENT}; }
-        .t02-tsm-quote { font-size: clamp(17px,2vw,22px); line-height: 1.9; color: rgba(60,47,37,0.7); margin: 0 0 20px; transition: opacity 0.32s ease; }
-        .t02-tsm-author { font-size: 18px; color: #3C2F25; font-weight: 600; transition: opacity 0.32s ease; }
-        .t02-tsm-dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
-        .t02-tsm-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(146,114,89,0.3); border: none; cursor: pointer; padding: 0; transition: background 0.2s, transform 0.2s; }
-        .t02-tsm-dot.active { background: ${ACCENT}; transform: scale(1.25); }
-        .t02-tsm-arrows { display: flex; justify-content: center; gap: 20px; margin-top: 28px; }
-        .t02-tsm-arr { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid ${ACCENT}; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: ${ACCENT}; transition: background 0.2s, color 0.2s; }
-        .t02-tsm-arr:hover { background: ${ACCENT}; color: #fff; }
-      `}</style>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
-        <h2 style={{ fontFamily: FONT, fontSize: "clamp(24px,3vw,38px)", fontWeight: 700, color: "#3C2F25", marginBottom: 0 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <div className="t02-sep">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img loading="lazy" src="/clones/escape/wp-content/uploads/2023/08/heart.png" alt="" style={{ height: 26 }} />
+    <section data-template="thaimasaze-02" className="t02-tsm">
+      {showHeader && (
+        <div className="t02-tsm-header">
+          <span className="t02-tsm-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
+          <h2 className="t02-tsm-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
         </div>
+      )}
 
-        <div style={{ maxWidth: 1040, margin: "0 auto" }}>
-          <p className="t02-tsm-quote" style={{ opacity: fading ? 0 : 1 }}>
-            <GenericEditableText sectionId={sectionId} field={`items.${active}.text`} value={items[active]?.text ?? ""} tag="span" />
-          </p>
-          <p className="t02-tsm-author" style={{ opacity: fading ? 0 : 1 }}>
-            — <GenericEditableText sectionId={sectionId} field={`items.${active}.author`} value={items[active]?.author ?? ""} tag="span" /> —
-          </p>
-        </div>
+      <div className="t02-tsm-grid">
+        {items.map((item, i) => (
+          <div key={i} className={`t02-tsm-card${i === active ? " t02-tsm-card--active" : ""}`}>
+            <svg className="t02-tsm-quote-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311C9.591 11.7 11 13.166 11 15c0 1.933-1.567 3.5-3.5 3.5-1.171 0-2.247-.566-2.917-1.179zM14.583 17.321C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311C19.591 11.7 21 13.166 21 15c0 1.933-1.567 3.5-3.5 3.5-1.171 0-2.247-.566-2.917-1.179z"/></svg>
+            <p className="t02-tsm-text">
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text ?? ""} tag="span" />
+            </p>
+            <div className="t02-tsm-author-row">
+              <div className="t02-tsm-avatar">{(item.author ?? "?")[0]}</div>
+              <div className="t02-tsm-author-info">
+                <strong><GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author ?? ""} tag="span" /></strong>
+                {item.role && <span className="t02-tsm-role">{item.role}</span>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
-        <div className="t02-tsm-arrows">
-          <button className="t02-tsm-arr" onClick={() => advance(-1)} aria-label="Předchozí">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M7 1.5L3 5L7 8.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-          <button className="t02-tsm-arr" onClick={() => advance(1)} aria-label="Další">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M3 1.5L7 5L3 8.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        </div>
-
-        <div className="t02-tsm-dots" role="tablist">
-          {items.map((_, i) => (
-            <button key={i} className={`t02-tsm-dot${i === active ? " active" : ""}`} onClick={() => goTo(i)} aria-label={`Reference ${i + 1}`} />
-          ))}
-        </div>
+      <div className="t02-tsm-dots" role="tablist">
+        {items.map((_, i) => (
+          <button key={i} className={`t02-tsm-dot${i === active ? " active" : ""}`} onClick={() => setActive(i)} aria-label={`Reference ${i + 1}`} />
+        ))}
       </div>
     </section>
   );
@@ -1441,10 +1190,25 @@ function TestimonialsTawan02({ content, sectionId }: { content: Record<string, u
 // ── tattoo-01-testimonials ────────────────────────────────────────────────────
 function TestimonialsTattoo01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const heading = String(content.heading ?? "Co říkají naši klienti");
-  type TItem = { text?: string; quote?: string; author?: string; image?: string };
+  const eyebrow = String(content.eyebrow ?? "Reference");
+  type TItem = { text?: string; quote?: string; author?: string; role?: string; image?: string };
   const items = (content.testimonials as TItem[]) ?? [];
   const ACCENT = "#ff5c4b";
-  const SANS   = "Arial, Helvetica, sans-serif";
+
+  const headRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [headVis, setHeadVis] = useState(false);
+  const [gridVis, setGridVis] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setHeadVis(true); o.disconnect(); } }, { threshold: 0.3 });
+    if (headRef.current) o.observe(headRef.current);
+    return () => o.disconnect();
+  }, []);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setGridVis(true); o.disconnect(); } }, { threshold: 0.12 });
+    if (gridRef.current) o.observe(gridRef.current);
+    return () => o.disconnect();
+  }, []);
 
   return (
     <section
@@ -1453,7 +1217,10 @@ function TestimonialsTattoo01({ content, sectionId }: { content: Record<string, 
       style={{ backgroundColor: "#0f0f0f", padding: "clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px)" }}
     >
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "clamp(40px, 6vw, 64px)" }}>
+        <div ref={headRef} className={`t01-gal-reveal ${headVis ? "t01-visible" : ""}`} style={{ textAlign: "center", marginBottom: "clamp(40px, 6vw, 64px)" }}>
+          <p style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: ACCENT, margin: "0 0 16px" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
           <div style={{ width: 48, height: 3, backgroundColor: ACCENT, margin: "0 auto 24px" }} aria-hidden />
           <h2
             style={{
@@ -1471,6 +1238,7 @@ function TestimonialsTattoo01({ content, sectionId }: { content: Record<string, 
         </div>
 
         <div
+          ref={gridRef}
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
@@ -1480,20 +1248,13 @@ function TestimonialsTattoo01({ content, sectionId }: { content: Record<string, 
           {items.map((item, i) => {
             const text   = item.text ?? item.quote ?? "";
             const author = item.author ?? "";
+            const role   = item.role ?? "";
             const image  = item.image ?? "";
             return (
               <div
                 key={i}
-                style={{
-                  position: "relative",
-                  overflow: "hidden",
-                  minHeight: 320,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-end",
-                  padding: "clamp(24px, 3vw, 36px)",
-                  backgroundColor: "#1a1a1a",
-                }}
+                className={`t01-testi-card t01-gal-reveal ${gridVis ? "t01-visible" : ""}`}
+                style={{ transitionDelay: gridVis ? `${i * 0.1}s` : "0s" }}
               >
                 {image && (
                   <>
@@ -1502,75 +1263,39 @@ function TestimonialsTattoo01({ content, sectionId }: { content: Record<string, 
                       field={`testimonials.${i}.image`}
                       src={image}
                       alt=""
-                      className="absolute inset-0 w-full h-full"
+                      className="t01-testi-bg"
                       style={{ position: "absolute" }}
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={image}
-                        alt=""
-                        aria-hidden
-                        style={{
-                          position: "absolute", inset: 0,
-                          width: "100%", height: "100%",
-                          objectFit: "cover", objectPosition: "center",
-                          display: "block",
-                          opacity: 0.28,
-                        }}
-                      />
+                      <img src={image} alt="" aria-hidden />
                     </GenericEditableImage>
-                    <div style={{
-                      position: "absolute", inset: 0,
-                      background: "linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.2) 100%)",
-                    }} aria-hidden />
+                    <div className="t01-testi-scrim" aria-hidden />
                   </>
                 )}
 
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    top: 20,
-                    left: "clamp(20px, 3vw, 32px)",
-                    fontFamily: "Georgia, serif",
-                    fontSize: "clamp(72px, 8vw, 96px)",
-                    fontWeight: 700,
-                    color: ACCENT,
-                    lineHeight: 1,
-                    opacity: 0.5,
-                    userSelect: "none",
-                  }}
-                >&ldquo;</div>
+                <div className="t01-testi-mark" aria-hidden>&ldquo;</div>
 
                 <div style={{ position: "relative", zIndex: 1 }}>
-                  <p
-                    style={{
-                      fontFamily: SANS,
-                      fontSize: "clamp(0.9rem, 1.3vw, 1rem)",
-                      fontWeight: 300,
-                      color: "rgba(255,255,255,0.88)",
-                      lineHeight: 1.7,
-                      margin: "0 0 20px",
-                      fontStyle: "italic",
-                    }}
-                  >
+                  <div className="t01-testi-stars" aria-hidden>
+                    {[0, 1, 2, 3, 4].map((s) => (
+                      <svg key={s} width="15" height="15" viewBox="0 0 24 24" fill={ACCENT}>
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <p className="t01-testi-text">
                     <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={text} tag="span" />
                   </p>
-
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <div style={{ width: 20, height: 1.5, backgroundColor: ACCENT, flexShrink: 0 }} aria-hidden />
-                    <span
-                      style={{
-                        fontFamily: SANS,
-                        fontSize: "0.78rem",
-                        fontWeight: 700,
-                        color: "#ffffff",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                      }}
-                    >
+                  <div className="t01-testi-author">
+                    <span className="t01-testi-tick" aria-hidden />
+                    <span className="t01-testi-name">
                       <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={author} tag="span" />
                     </span>
+                    {role && (
+                      <span className="t01-testi-role">
+                        <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={role} tag="span" />
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1589,16 +1314,21 @@ function TestimonialsTattoo02({ content, sectionId }: {
   content: Record<string, unknown>;
   sectionId: number;
 }) {
-  const c       = content as Record<string, unknown>;
-  const heading = String(c.heading ?? "Co říkají naši zákazníci");
-  const items   = (c.items as Array<{
-    author: string; role?: string; text: string; rating?: number;
-  }>) ?? [];
+  const c = content as Record<string, unknown>;
+
+  const eyebrowRaw = c.eyebrow;
+  const headingRaw = c.heading;
+  const eyebrow = eyebrowRaw === undefined ? "Recenze" : String(eyebrowRaw);
+  const heading = headingRaw === undefined ? "Co říkají naši klienti" : String(headingRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim());
+
+  const items = (c.items as Array<{ author: string; role?: string; text: string; rating?: number }>) ?? [];
 
   const GOLD = "#BF8A1D";
+  const FONT_DISPLAY = "var(--font-oswald), 'Oswald', sans-serif";
 
   const Stars = ({ count = 5 }: { count?: number }) => (
-    <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+    <div style={{ display: "flex", gap: 3, marginBottom: 18 }}>
       {Array.from({ length: 5 }).map((_, i) => (
         <svg key={i} width="16" height="16" viewBox="0 0 16 16" fill={i < count ? GOLD : "#e0e0e0"} aria-hidden>
           <path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z"/>
@@ -1608,248 +1338,234 @@ function TestimonialsTattoo02({ content, sectionId }: {
   );
 
   return (
-    <>
-      <style>{`
-        .tt02-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
-          max-width: 1100px;
-          margin: 0 auto;
-        }
-        @media (max-width: 860px) { .tt02-grid { grid-template-columns: 1fr; max-width: 520px; } }
-        .tt02-card {
-          background: #fff;
-          border: 1px solid #ebebeb;
-          padding: 36px 32px;
-          position: relative;
-          transition: box-shadow 0.25s, transform 0.25s;
-        }
-        .tt02-card:hover {
-          box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-          transform: translateY(-4px);
-        }
-        .tt02-card::before {
-          content: '"';
-          position: absolute; top: 20px; right: 28px;
-          font-size: 72px; line-height: 1;
-          color: ${GOLD}; opacity: 0.18;
-          font-family: Georgia, serif;
-        }
-      `}</style>
-
-      <section
-        id="recenze"
-        data-section="testimonials-tattoo-02"
-        style={{ background: "#f7f6f4", padding: "clamp(64px,9vw,110px) clamp(20px,4vw,48px)" }}
-      >
-        {/* Header */}
+    <section id="recenze" data-template="tattoo-02" style={{ background: "#f7f6f4", padding: "clamp(64px,9vw,110px) clamp(20px,4vw,48px)" }}>
+      {/* Header */}
+      {showHeader && (
         <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <p style={{
-            fontFamily: "Arial, sans-serif", fontSize: "0.7rem", fontWeight: 700,
-            color: GOLD, letterSpacing: "0.3em", textTransform: "uppercase",
-            margin: "0 0 14px",
-          }}>Recenze</p>
-          <div aria-hidden style={{ width: 48, height: 2, backgroundColor: GOLD, margin: "0 auto 20px" }} />
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 13, marginBottom: 16 }}>
+            <span aria-hidden style={{ width: 32, height: 2, background: GOLD }} />
+            <GenericEditableText
+              sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+              style={{ fontFamily: FONT_DISPLAY, fontSize: "0.74rem", fontWeight: 600, color: GOLD, letterSpacing: "0.24em", textTransform: "uppercase" }}
+            />
+            <span aria-hidden style={{ width: 32, height: 2, background: GOLD }} />
+          </div>
           <h2 style={{
-            fontFamily: "'Arial Black', Arial, sans-serif",
-            fontWeight: 900, fontSize: "clamp(26px,3.5vw,42px)",
-            color: "#1a1a1a", margin: 0, lineHeight: 1.15,
+            fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: "clamp(28px,3.6vw,46px)",
+            color: "#1a1a1a", margin: 0, lineHeight: 1.08, textTransform: "uppercase", letterSpacing: "0.02em",
           }}>
             <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
           </h2>
         </div>
+      )}
 
-        {/* Karty */}
-        <div className="tt02-grid">
-          {items.map((item, i) => {
-            const initials = item.author.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
-            return (
-              <div key={i} className="tt02-card">
-                <Stars count={item.rating ?? 5} />
-                <p style={{
-                  fontFamily: "Arial, sans-serif",
-                  fontSize: "0.95rem", color: "#444",
-                  lineHeight: 1.7, margin: "0 0 28px",
-                  fontStyle: "italic",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
-                </p>
-                <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                  {/* Iniciálový avatar */}
-                  <div style={{
-                    width: 44, height: 44, borderRadius: "50%",
-                    backgroundColor: GOLD,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontFamily: "'Arial Black', Arial, sans-serif",
-                    fontWeight: 900, fontSize: "0.85rem", color: "#fff",
-                    flexShrink: 0,
-                  }}>
-                    {initials}
+      {/* Cards */}
+      <div className="t02-tst-grid">
+        {items.map((item, i) => {
+          const initials = item.author.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+          return (
+            <div key={i} className="t02-tst-card">
+              <Stars count={item.rating ?? 5} />
+              <p style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.95rem", color: "#4a4a4a", lineHeight: 1.75, margin: "0 0 30px", position: "relative", zIndex: 1 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <div className="t02-tst-avatar" aria-hidden>{initials}</div>
+                <div>
+                  <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: "0.92rem", color: "#1a1a1a", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
                   </div>
-                  <div>
-                    <div style={{
-                      fontFamily: "Arial, sans-serif", fontWeight: 700,
-                      fontSize: "0.9rem", color: "#1a1a1a",
-                    }}>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
+                  {item.role && (
+                    <div style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.74rem", color: "#999", marginTop: 3 }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role} tag="span" />
                     </div>
-                    {item.role && (
-                      <div style={{
-                        fontFamily: "Arial, sans-serif", fontSize: "0.75rem",
-                        color: "#999", marginTop: 2,
-                      }}>
-                        <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role} tag="span" />
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
-                {/* Zlatá linka dole */}
-                <div aria-hidden style={{
-                  position: "absolute", bottom: 0, left: 0, right: 0,
-                  height: 3, backgroundColor: GOLD,
-                }} />
               </div>
-            );
-          })}
-        </div>
-      </section>
-    </>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
 // ── tattoo-03-testimonials ────────────────────────────────────────────────────
-// Tmavý bg #0e0e0e, velké skóre 4.9/5.0 + počet recenzí vlevo (1-col),
-// 3 bílé karty vpravo (hvězdičky + citát + autor) — magictattoo.cz inspired
+// Dark #0a0a0a, score box left (Bebas 96px score + crimson stars),
+// 3 review cards right with crimson top border + quote glyph + hover lift
 // ─────────────────────────────────────────────────────────────────────────────
 function TestimonialsTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c           = content as Record<string, unknown>;
-  const heading     = String(c.heading     ?? "Co říkají naši klienti");
-  const subheading  = String(c.subheading  ?? "Přidejte se k tisícům spokojených klientů");
+  const showHeader  = c.showHeader !== false;
+  const eyebrow     = String(c.eyebrow     ?? "Reference");
+  const heading     = String(c.heading     ?? "Slova pod kůží");
   const score       = String(c.score       ?? "4.9");
-  const reviewCount = String(c.reviewCount ?? "1612");
-  const rawItems    = (c.items as Array<{ text: string; author: string; rating: number }>) ?? [];
+  const scoreLabel  = String(c.scoreLabel  ?? "z 5.0");
+  const reviewCount = String(c.reviewCount ?? "1 280");
+  const reviewSuffix = String(c.reviewCountSuffix ?? "hodnocení");
+  const rawItems    = (c.items as Array<{ text: string; author: string; rating: number; role?: string }>) ?? [];
 
-  const BG     = "#0e0e0e";
   const ACCENT = "#D41515";
 
   return (
-    <section id="reference" style={{ backgroundColor: BG, padding: "clamp(48px,7vw,96px) clamp(20px,4vw,40px)" }}>
-      <div style={{ maxWidth: 1360, margin: "0 auto" }}>
-        {/* Nadpis */}
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: "0.75rem", fontWeight: 700,
-            color: ACCENT, letterSpacing: "0.18em",
-            textTransform: "uppercase", margin: "0 0 8px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-          <h2 style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(22px, 2.8vw, 38px)",
-            color: "#ffffff", margin: 0,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+    <section
+      id="reference"
+      data-template="tattoo-03"
+      style={{ backgroundColor: "#0a0a0a", padding: "clamp(56px,8vw,112px) clamp(20px,4vw,40px)", position: "relative", overflow: "hidden" }}
+    >
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600&family=Barlow:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
 
-        {/* Layout: skóre vlevo + karty vpravo */}
-        <div style={{
+      <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <span style={{ width: 32, height: 1, background: ACCENT, display: "block" }} />
+              <p style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: "0.72rem", fontWeight: 600,
+                color: ACCENT, letterSpacing: "0.22em",
+                textTransform: "uppercase", margin: 0,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </p>
+              <span style={{ width: 32, height: 1, background: ACCENT, display: "block" }} />
+            </div>
+            <h2 style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 56px)",
+              color: "#ffffff", margin: 0,
+              letterSpacing: "0.04em",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+          </div>
+        )}
+
+        <div className="t03-test-grid" style={{
           display: "grid",
-          gridTemplateColumns: "280px 1fr",
+          gridTemplateColumns: "300px 1fr",
           gap: 40,
           alignItems: "start",
-        }} className="t03-testimonials-grid">
-          <style>{`
-            @media (max-width: 900px) { .t03-testimonials-grid { grid-template-columns: 1fr !important; } }
-          `}</style>
-
-          {/* Skóre box */}
-          <div style={{
-            backgroundColor: "#141414",
-            border: "1px solid rgba(255,255,255,0.07)",
-            padding: "40px 32px",
+        }}>
+          {/* Score box */}
+          <div className="t03-test-score" style={{
+            background: "linear-gradient(160deg, #141414 0%, #0e0e0e 100%)",
+            border: "1px solid rgba(212,21,21,0.15)",
+            padding: "48px 36px",
             textAlign: "center",
+            position: "relative",
           }}>
+            <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 40, height: 2, background: ACCENT }} />
             <div style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
-              fontWeight: 900,
-              fontSize: 72,
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "clamp(72px, 8vw, 96px)",
               color: ACCENT,
-              lineHeight: 1,
-              marginBottom: 8,
+              lineHeight: 0.9,
+              marginBottom: 6,
             }}>
               <GenericEditableText sectionId={sectionId} field="score" value={score} tag="span" />
             </div>
             <div style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
-              fontSize: "0.82rem",
-              color: "rgba(255,255,255,0.55)",
-              marginBottom: 16,
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: "0.82rem", fontWeight: 400,
+              color: "rgba(255,255,255,0.45)",
+              letterSpacing: "0.08em",
+              marginBottom: 20,
             }}>
-              <GenericEditableText sectionId={sectionId} field="scoreLabel" value="z 5.0 hvězdiček" tag="span" />
+              <GenericEditableText sectionId={sectionId} field="scoreLabel" value={scoreLabel} tag="span" />
             </div>
-            {/* Hvězdičky */}
-            <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 16 }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: 5, marginBottom: 20 }}>
               {[0,1,2,3,4].map(i => (
-                <svg key={i} width="20" height="20" viewBox="0 0 18 18" fill={ACCENT}>
+                <svg key={i} width="18" height="18" viewBox="0 0 18 18" fill={ACCENT}>
                   <polygon points="9,1.5 11.5,6.5 17,7.3 13,11.2 14,17 9,14.2 4,17 5,11.2 1,7.3 6.5,6.5"/>
                 </svg>
               ))}
             </div>
+            <div style={{ width: 28, height: 1, background: "rgba(255,255,255,0.1)", margin: "0 auto 20px" }} />
             <div style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
-              fontSize: "0.78rem",
-              color: "rgba(255,255,255,0.45)",
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: "clamp(20px, 2vw, 28px)",
+              color: "#ffffff",
+              lineHeight: 1,
+              marginBottom: 4,
             }}>
-              <GenericEditableText sectionId={sectionId} field="reviewCount" value={reviewCount} tag="span" /><GenericEditableText sectionId={sectionId} field="reviewCountSuffix" value="+ recenzí" tag="span" />
+              <GenericEditableText sectionId={sectionId} field="reviewCount" value={reviewCount} tag="span" />
+            </div>
+            <div style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: "0.7rem",
+              color: "rgba(255,255,255,0.35)",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="reviewCountSuffix" value={reviewSuffix} tag="span" />
             </div>
           </div>
 
-          {/* Karty */}
+          {/* Review cards */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 16,
+            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+            gap: 20,
           }}>
             {rawItems.map((item, i) => (
               <div
                 key={i}
+                className="t03-test-card"
                 style={{
-                  backgroundColor: "#141414",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  padding: "28px 24px",
+                  background: "#111111",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderTop: `2px solid ${ACCENT}`,
+                  padding: "32px 28px 28px",
+                  position: "relative",
                 }}
               >
-                {/* Hvězdičky */}
-                <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                <div style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 52, lineHeight: 1,
+                  color: "rgba(212,21,21,0.18)",
+                  position: "absolute", top: 18, right: 24,
+                  pointerEvents: "none",
+                }}>&ldquo;</div>
+                <div style={{ display: "flex", gap: 3, marginBottom: 18 }}>
                   {[0,1,2,3,4].map(j => (
-                    <svg key={j} width="14" height="14" viewBox="0 0 18 18" fill={j < (item.rating ?? 5) ? ACCENT : "rgba(255,255,255,0.2)"}>
+                    <svg key={j} width="13" height="13" viewBox="0 0 18 18" fill={j < (item.rating ?? 5) ? ACCENT : "rgba(255,255,255,0.15)"}>
                       <polygon points="9,1.5 11.5,6.5 17,7.3 13,11.2 14,17 9,14.2 4,17 5,11.2 1,7.3 6.5,6.5"/>
                     </svg>
                   ))}
                 </div>
                 <p style={{
-                  fontFamily: "Arial, Helvetica, sans-serif",
+                  fontFamily: "'Barlow', sans-serif",
                   fontSize: "0.88rem",
-                  color: "rgba(255,255,255,0.75)",
-                  lineHeight: 1.7,
-                  margin: "0 0 20px",
+                  color: "rgba(255,255,255,0.7)",
+                  lineHeight: 1.75,
+                  margin: "0 0 22px",
                   fontStyle: "italic",
                 }}>
                   &ldquo;<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />&rdquo;
                 </p>
+                <div style={{ width: 20, height: 1, background: ACCENT, marginBottom: 14, opacity: 0.5 }} />
                 <div style={{
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  fontWeight: 700,
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontWeight: 600,
                   fontSize: "0.82rem",
                   color: "#ffffff",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
                 </div>
+                {item.role && (
+                  <div style={{
+                    fontFamily: "'Barlow', sans-serif",
+                    fontSize: "0.72rem",
+                    color: "rgba(255,255,255,0.35)",
+                    marginTop: 4,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role} tag="span" />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -2707,30 +2423,40 @@ function TestimonialsFitness01({ content, sectionId }: { content: Record<string,
 }
 
 // ── fyzio-02-testimonials ─────────────────────────────────────────────────────
-// Navy bg, centrovaný header, 3-col karty s hvězdami + citát + autor
-// Google rating badge vlevo, zlaté hvězdy
+// Navy #092029 band, split header (text + teal Google rating badge), 3 glassy
+// karty s teal uvozovkou + hvězdami + initial avatar. Reveal on scroll. Movia.
 // ─────────────────────────────────────────────────────────────────────────────
 function TestimonialsFyzio02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Item = { author?: string; role?: string; text?: string; rating?: number };
-  const tagline     = String(content.tagline     ?? "Reference");
-  const title       = String(content.title       ?? "Co říkají naši klienti");
-  const body        = String(content.body        ?? "");
-  const rating      = String(content.rating      ?? "5.0");
-  const ratingLabel = String(content.ratingLabel ?? "Průměrné hodnocení na Google");
   const id          = String(content.id          ?? "reference");
+  const rating      = String(content.rating      ?? "4,9");
+  const ratingLabel = String(content.ratingLabel ?? "Hodnocení na Google");
   const items       = ((content.items ?? content.testimonials) as Item[]) ?? [];
 
-  const NAVY  = "#1a2e4a";
-  const GOLD  = "#c9a84c";
-  const WHITE = "#ffffff";
-  const MUTED = "rgba(255,255,255,0.65)";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  // conditional header
+  const eyebrowRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const bodyRaw    = (content as Record<string, unknown>).body;
+  const tagline = eyebrowRaw === undefined ? "Reference" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Výsledky, které klienti cítí" : String(titleRaw);
+  const body    = bodyRaw    === undefined ? "Přes 8 500 spokojených klientů. Přečtěte si, co jim terapie v Movii přinesla." : String(bodyRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("fz2-vis"); obs.unobserve(e.target); } });
+    }, { threshold: 0.14 });
+    el.querySelectorAll<HTMLElement>("[data-fz2ts]").forEach(i => obs.observe(i));
+    return () => obs.disconnect();
+  }, []);
 
   const Stars = ({ count = 5 }: { count?: number }) => (
-    <div style={{ display: "flex", gap: 3 }}>
+    <div className="fz2-ts-stars" aria-hidden="true">
       {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < count ? GOLD : "rgba(201,168,76,0.25)"} xmlns="http://www.w3.org/2000/svg">
+        <svg key={i} width="15" height="15" viewBox="0 0 24 24" fill={i < count ? "currentColor" : "rgba(127,208,201,0.28)"}>
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
       ))}
@@ -2738,65 +2464,64 @@ function TestimonialsFyzio02({ content, sectionId }: { content: Record<string, u
   );
 
   return (
-    <section id={id} data-template="fyzio-02" style={{ backgroundColor: NAVY, padding: "80px 24px", fontFamily: SANS }}>
-      <style>{`
-        .f02-testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        @media(max-width: 900px) { .f02-testi-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media(max-width: 560px) { .f02-testi-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
+    <section ref={secRef} id={id} data-template="fyzio-02" className="fz2-ts">
+      <div className="fz2-ts-glow" aria-hidden="true" />
+      <div className="fz2-ts-inner">
+        {showHeader && (
+          <div className="fz2-ts-head fz2-reveal" data-fz2ts>
+            <div className="fz2-ts-head-txt">
+              {tagline.trim() && (
+                <span className="fz2-ts-pill">
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </span>
+              )}
+              {title.trim() && (
+                <h2 className="fz2-ts-title">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+              {body.trim() && (
+                <p className="fz2-ts-lead">
+                  <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+                </p>
+              )}
+            </div>
 
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24, marginBottom: 52 }}>
-          <div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-              <span style={{ width: 24, height: 2, backgroundColor: GOLD }} />
-              <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: GOLD, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            <div className="fz2-ts-rating">
+              <span className="fz2-ts-rating-num">
+                <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" />
+              </span>
+              <Stars count={5} />
+              <span className="fz2-ts-rating-label">
+                <GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span" />
               </span>
             </div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 400, color: WHITE, lineHeight: 1.2, marginBottom: body ? 12 : 0 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            {body && (
-              <p style={{ fontFamily: SANS, fontSize: 15, color: MUTED, lineHeight: 1.75, maxWidth: 480 }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-            )}
           </div>
+        )}
 
-          {/* Google rating badge */}
-          <div style={{ backgroundColor: "rgba(255,255,255,0.07)", borderRadius: 12, padding: "16px 24px", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, flexShrink: 0 }}>
-            <span style={{ fontFamily: SERIF, fontSize: "2rem", fontWeight: 400, color: WHITE, lineHeight: 1 }}>
-              <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" />
-            </span>
-            <Stars count={5} />
-            <span style={{ fontFamily: SANS, fontSize: 11, color: MUTED, textAlign: "center", maxWidth: 120 }}>
-              <GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span" />
-            </span>
-          </div>
-        </div>
-
-        {/* Karty */}
-        <div className="f02-testi-grid">
-          {items.map((item, i) => (
-            <div key={i} style={{ backgroundColor: "rgba(255,255,255,0.06)", borderRadius: 12, padding: "28px", border: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: 16 }}>
-              <Stars count={item.rating ?? 5} />
-              <p style={{ fontFamily: SANS, fontSize: 14, color: "rgba(255,255,255,0.82)", lineHeight: 1.75, margin: 0, flex: 1 }}>
-                „<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text ?? ""} tag="span" />"
-              </p>
-              <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 16 }}>
-                <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: WHITE, margin: 0 }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author ?? ""} tag="span" />
+        <div className="fz2-ts-grid">
+          {items.map((item, i) => {
+            const author = item.author ?? "";
+            const initial = author.trim().charAt(0).toUpperCase() || "•";
+            return (
+              <article key={i} className="fz2-ts-card fz2-reveal" data-fz2ts style={{ transitionDelay: `${i * 90}ms` }}>
+                <span className="fz2-ts-quote" aria-hidden="true">&ldquo;</span>
+                <Stars count={item.rating ?? 5} />
+                <p className="fz2-ts-text">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text ?? ""} tag="span" />
                 </p>
-                {item.role && (
-                  <p style={{ fontFamily: SANS, fontSize: 12, color: GOLD, margin: "2px 0 0" }}>
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role} tag="span" />
-                  </p>
-                )}
-              </div>
-            </div>
-          ))}
+                <div className="fz2-ts-author">
+                  <span className="fz2-ts-avatar" aria-hidden="true">{initial}</span>
+                  <span className="fz2-ts-author-meta">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={author} tag="strong" />
+                    {(item.role ?? "").trim() && (
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role ?? ""} tag="span" />
+                    )}
+                  </span>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -2810,8 +2535,12 @@ function TestimonialsFyzio02({ content, sectionId }: { content: Record<string, u
 // Scroll entrance: nadpis + uvozovák fade-up, karty fade in zleva
 // ─────────────────────────────────────────────────────────────────────────────
 function TestimonialsReality03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title = String(content.title ?? "Co o nás říkají");
-  const items = (content.items as Array<{ text: string; author: string; rating?: number }>) ?? [];
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const eyebrow = eyebrowRaw === undefined ? "Spokojení klienti" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Co o nás říkají" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+  const items = (content.items as Array<{ text: string; author: string; rating?: number; location?: string }>) ?? [];
 
   const DARK  = "#132538";
   const OCHRE = "#e38a6a";
@@ -2845,9 +2574,10 @@ function TestimonialsReality03({ content, sectionId }: { content: Record<string,
   );
 
   return (
-    <section ref={sectionRef} id="recenze" style={{ backgroundColor: BEIGE, fontFamily: SANS, padding: "clamp(64px, 9vw, 110px) 0", overflow: "hidden" }}>
+    <section ref={sectionRef} id="recenze" data-template="reality-03" style={{ backgroundColor: BEIGE, fontFamily: SANS, padding: "clamp(64px, 9vw, 110px) 0", overflow: "hidden" }}>
 
       {/* Heading */}
+      {showHeader && (
       <div style={{
         maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 4vw, 64px)",
         marginBottom: "clamp(40px, 6vw, 64px)",
@@ -2860,12 +2590,15 @@ function TestimonialsReality03({ content, sectionId }: { content: Record<string,
           <path d="M0 56V36.4C0 24.267 3.2 14.533 9.6 7.2 16 2.4 23.467 0 32 0v9.6c-5.333 0-9.6 1.867-12.8 5.6C16 18.933 14.4 24 14.4 30.4H28V56H0zm44 0V36.4c0-12.133 3.2-21.867 9.6-29.2C60 2.4 67.467 0 76 0v9.6c-5.333 0-9.6 1.867-12.8 5.6C60 18.933 58.4 24 58.4 30.4H72V56H44z" fill={OCHRE} fillOpacity="0.18"/>
         </svg>
         <div>
-          <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 10px" }}>Spokojení klienti</p>
+          <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 10px" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
           <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 700, color: DARK, margin: 0, letterSpacing: "-0.03em" }}>
-            <span>{title}</span>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
         </div>
       </div>
+      )}
 
       {/* Karusel track */}
       <div
@@ -2885,30 +2618,39 @@ function TestimonialsReality03({ content, sectionId }: { content: Record<string,
             transition: "opacity 0.8s ease 0.3s",
           }}
         >
-          {doubled.map((item, i) => (
+          {doubled.map((item, i) => {
+            const oi = i % (items.length || 1);
+            return (
             <div
               key={`r03-rev-${i}`}
+              className="r03-testi-card"
               style={{
                 width: "clamp(280px, 28vw, 380px)",
                 flexShrink: 0,
                 backgroundColor: "#fff",
-                borderRadius: 8,
+                borderRadius: 10,
                 padding: "clamp(24px, 3vw, 36px)",
                 boxShadow: "0 2px 16px rgba(19,37,56,0.07)",
                 display: "flex",
                 flexDirection: "column",
+                position: "relative",
+                transition: "transform 0.35s cubic-bezier(.4,0,.2,1), box-shadow 0.35s ease",
               }}
             >
               <Stars n={item.rating ?? 5} />
               <p style={{ fontSize: 15, color: "#444", lineHeight: 1.72, margin: "0 0 20px", flex: 1, fontStyle: "italic" }}>
-                „{item.text}"
+                „<GenericEditableText sectionId={sectionId} field={`items.${oi}.text`} value={item.text} tag="span" />"
               </p>
               <div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: DARK, margin: "0 0 8px" }}>{item.author}</p>
-                <div style={{ width: 28, height: 2, borderRadius: 1, backgroundColor: OCHRE }} />
+                <GenericEditableText sectionId={sectionId} field={`items.${oi}.author`} value={item.author} tag="p" style={{ fontSize: 14, fontWeight: 700, color: DARK, margin: "0 0 4px" }} />
+                {item.location && (
+                  <GenericEditableText sectionId={sectionId} field={`items.${oi}.location`} value={item.location} tag="p" style={{ fontSize: 12.5, color: "#8a929b", margin: "0 0 8px" }} />
+                )}
+                <div style={{ width: 28, height: 2, borderRadius: 1, backgroundColor: OCHRE, marginTop: 8 }} />
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -2927,40 +2669,72 @@ function TestimonialsReality03({ content, sectionId }: { content: Record<string,
 // Karta: velká uvozovka #1032CF nahoře + text recenze + hvězdičky zlaté + jméno
 // ─────────────────────────────────────────────────────────────────────────────
 function TestimonialsReality04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const sectionAnchor = String(content.id    ?? "recenze");
-  const title         = String(content.title ?? "Napsali o nás");
-  const items = (content.items as Array<{ name: string; rating: number; text: string }>) ?? [];
+  const sectionAnchor = String(content.id ?? "recenze");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Ohlasy klientů" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Napsali o nás" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Skutečné recenze lidí, kterým jsme pomohli s prodejem, koupí nebo pronájmem." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+  const items = (content.items as Array<{ name: string; rating: number; text: string; role?: string }>) ?? [];
 
   const PRIMARY = "#1032CF";
-  const DARK    = "#241f0c";
-  const MUTED   = "#666";
+  const GREEN   = "#21b276";
+  const DARK    = "#141414";
+  const MUTED   = "#6b7280";
   const GOLD    = "#f5a623";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
+  const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]?.toUpperCase() ?? "").join("");
+
   return (
-    <section id={sectionAnchor} style={{ backgroundColor: "#f8f8f8", padding: "clamp(56px, 7vw, 96px) 0" }}>
+    <section id={sectionAnchor} style={{ backgroundColor: "#fff", padding: "clamp(56px, 7vw, 100px) 0" }} data-template="reality-04">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
 
-        <h2 style={{ fontFamily: SANS, fontSize: "clamp(24px, 2.8vw, 36px)", fontWeight: 700, color: DARK, marginTop: 0, marginBottom: "clamp(32px, 4vw, 52px)" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
+        {showHeader && (
+          <div style={{ maxWidth: 640, marginBottom: "clamp(32px, 4vw, 52px)" }}>
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, margin: "0 0 12px" }} />
+            )}
+            {title.trim() && (
+              <h2 style={{ fontFamily: SANS, fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 700, color: DARK, margin: "0 0 14px", lineHeight: 1.15, letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p style={{ fontFamily: SANS, fontSize: 16.5, color: MUTED, margin: 0, lineHeight: 1.6 }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="r04-testi-grid">
           {items.map((item, i) => (
-            <div key={i} style={{ backgroundColor: "#fff", borderRadius: 8, padding: "clamp(24px, 3vw, 36px)", display: "flex", flexDirection: "column", gap: 16, border: "1px solid #e8e8e8" }}>
+            <div key={i} className="r04-testi-card">
               {/* Velká uvozovka */}
-              <div style={{ fontFamily: "Georgia, serif", fontSize: 64, lineHeight: 0.8, color: PRIMARY, opacity: 0.18, userSelect: "none", marginBottom: 4 }}>&ldquo;</div>
+              <span className="r04-testi-quote" aria-hidden="true">&ldquo;</span>
+              {/* Hvězdičky */}
+              <div style={{ color: GOLD, fontSize: 16, letterSpacing: 2, marginBottom: 14 }}>
+                {"\u2605".repeat(Math.min(5, item.rating ?? 5))}
+              </div>
               {/* Text recenze */}
-              <p style={{ fontFamily: SANS, fontSize: 15, lineHeight: 1.7, color: DARK, margin: 0, flex: 1 }}>
+              <p style={{ fontFamily: SANS, fontSize: 15.5, lineHeight: 1.75, color: "#33383f", margin: 0, flex: 1 }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
               </p>
-              {/* Hvězdičky */}
-              <div style={{ color: GOLD, fontSize: 16, letterSpacing: 2 }}>
-                {"★".repeat(Math.min(5, item.rating ?? 5))}
-              </div>
-              {/* Jméno */}
-              <div style={{ fontFamily: SANS, fontSize: 14, fontWeight: 600, color: MUTED, borderTop: "1px solid #e8e8e8", paddingTop: 14 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+              {/* Autor */}
+              <div style={{ display: "flex", alignItems: "center", gap: 12, borderTop: "1px solid #eef0f4", paddingTop: 18, marginTop: 20 }}>
+                <span className="r04-testi-avatar">{initials(item.name)}</span>
+                <span style={{ display: "block" }}>
+                  <span style={{ display: "block", fontFamily: SANS, fontSize: 14.5, fontWeight: 700, color: DARK }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+                  </span>
+                  <span style={{ display: "block", fontFamily: SANS, fontSize: 13, color: MUTED, marginTop: 2 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={String(item.role ?? "Spokojený klient")} tag="span" />
+                  </span>
+                </span>
               </div>
             </div>
           ))}
@@ -2983,8 +2757,13 @@ function TestimonialsReality04({ content, sectionId }: { content: Record<string,
 // Hover: zlatý border-top 3px
 // ─────────────────────────────────────────────────────────────────────────────
 function TestimonialsReality05({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title    = String(content.title   ?? "Reference");
-  const bgImage  = String(content.bgImage ?? "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop&q=80");
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const eyebrow  = eyebrowRaw  === undefined ? "Ohlasy klientů" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Reference" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
+  const bgImage  = String(content.bgImage ?? "/templates/reality-05/testi-bg.webp");
   type Item = { text: string; author: string };
   const items = (content.testimonials as Item[]) ?? [];
 
@@ -2993,55 +2772,58 @@ function TestimonialsReality05({ content, sectionId }: { content: Record<string,
   const SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
   return (
-    <section style={{ position: "relative", overflow: "hidden", backgroundColor: "#1c1c1c" }} id="reference" data-r05-testi>
-      {/* BG foto — editovatelné přes GenericEditableImage */}
-      <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }}>
+    <section id="reference" data-template="reality-05" style={{ position: "relative", overflow: "hidden", backgroundColor: "#0a0a0a" }}>
+      {/* BG image */}
+      <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0 }}>
         <img loading="lazy" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
       </GenericEditableImage>
-      {/* pointerEvents none: kliky prochází na GenericEditableImage */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.78)", zIndex: 1, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.68) 100%)", zIndex: 1, pointerEvents: "none" }} />
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "72px clamp(20px,5vw,60px)" }}>
-        {/* Nadpis */}
-        <div style={{ textAlign: "center", marginBottom: "clamp(40px,5vw,60px)" }}>
-          <p style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }}>
-            Co říkají klienti
-          </p>
-          <GenericEditableText
-            sectionId={sectionId} field="title" value={title} tag="h2"
-            style={{ fontFamily: SANS, fontSize: "clamp(24px,3vw,38px)", fontWeight: 700, color: WHITE, margin: 0 }}
-          />
-        </div>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "84px clamp(20px,5vw,60px) 88px" }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: GOLD, display: "block", marginBottom: 14 }}
+              />
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                style={{ fontFamily: SANS, fontSize: "clamp(26px,3vw,38px)", fontWeight: 700, color: WHITE, margin: "0 0 14px", lineHeight: 1.2 }}
+              />
+            )}
+            <div style={{ width: 40, height: 2, backgroundColor: GOLD, margin: "0 auto", opacity: 0.5 }} />
+          </div>
+        )}
 
-        {/* Grid karet */}
+        {/* Cards grid */}
         <div className="r05-testi-grid">
           {items.map((item, i) => (
-            <div
-              key={i}
-              className="r05-testi-card"
-              style={{ backgroundColor: "rgba(255,255,255,0.06)", borderTop: `3px solid transparent`, padding: "28px 26px", display: "flex", flexDirection: "column", gap: 16, transition: "border-color 0.2s, background-color 0.2s" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderTopColor = GOLD; (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.1)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderTopColor = "transparent"; (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.06)"; }}
-            >
-              {/* Zlatý uvozovkový glyph */}
-              <span style={{ fontFamily: "Georgia, serif", fontSize: 56, lineHeight: 1, color: GOLD, display: "block", marginBottom: -8, opacity: 0.9 }}>"</span>
+            <div key={i} className="r05-testi-card" style={{
+              backgroundColor: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(207,169,104,0.1)",
+              padding: "32px 28px", display: "flex", flexDirection: "column", gap: 16,
+              position: "relative" as const,
+              transition: "border-color 0.3s, background-color 0.3s, transform 0.3s",
+            }}>
+              {/* Gold top accent line */}
+              <div style={{ position: "absolute", top: 0, left: 28, right: 28, height: 2, backgroundColor: GOLD, opacity: 0, transition: "opacity 0.3s" }} className="r05-testi-accent" />
+              {/* Quote mark */}
+              <span style={{ fontFamily: "Georgia, serif", fontSize: 52, lineHeight: 0.8, color: GOLD, display: "block", opacity: 0.6 }}>&ldquo;</span>
               <GenericEditableText
                 sectionId={sectionId} field={`testimonials.${i}.text`} value={item.text} tag="p"
-                style={{ fontFamily: SANS, fontSize: 14.5, lineHeight: 1.7, color: "rgba(255,255,255,0.88)", margin: 0, flex: 1 }}
+                style={{ fontFamily: SANS, fontSize: 15, lineHeight: 1.75, color: "rgba(255,255,255,0.85)", margin: 0, flex: 1, fontStyle: "italic" }}
               />
-              <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: "#aaaaaa", margin: 0, letterSpacing: "0.04em" }}>
-                — <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={item.author} tag="span" />
-              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 4 }}>
+                <div style={{ width: 20, height: 1, backgroundColor: GOLD, opacity: 0.5 }} />
+                <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={item.author} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.6)", letterSpacing: "0.04em", textTransform: "uppercase" as const }}
+                />
+              </div>
             </div>
           ))}
         </div>
       </div>
-
-      <style>{`
-        .r05-testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2vw, 24px); }
-        @media (max-width: 900px) { .r05-testi-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 560px) { .r05-testi-grid { grid-template-columns: 1fr; } }
-      `}</style>
     </section>
   );
 }
@@ -3304,78 +3086,90 @@ function TestimonialsOrtho01({ content, sectionId }: { content: Record<string, u
 function TestimonialsOrtho02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const BEIGE  = "#B7B3A5";
   const DARK   = "#1a1a1a";
-  const MUTED  = "#888";
-  const FONT   = "'Raleway', 'Montserrat', Arial, sans-serif";
+  const MUTED  = "#777";
+  const GOLD   = "#b39f6b";
+  const FONT   = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
 
-  const heading    = String(content.heading    ?? "Nejvíce nás těší vytvářet krásné úsměvy");
-  const subheading = String(content.subheading ?? "Reference");
-  const body       = String(content.body       ?? "Přesvědčte se sami — naši pacienti mluví za vše.");
+  const eyebrowRaw  = (content as Record<string,unknown>).subheading;
+  const titleRaw    = (content as Record<string,unknown>).heading;
+  const bodyRaw     = (content as Record<string,unknown>).body;
+  const eyebrow  = eyebrowRaw === undefined ? "Co říkají pacienti" : String(eyebrowRaw);
+  const title    = titleRaw   === undefined ? "Úsměvy, které mluví za vše" : String(titleRaw);
+  const body     = bodyRaw    === undefined ? "Přečtěte si zkušenosti těch, kteří naší péčí prošli." : String(bodyRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || body.trim());
 
   type Item = { author: string; handle: string; text: string; rating: number };
   const rawItems = (content.items ?? []) as Item[];
-  const items: Item[] = Array.isArray(rawItems) ? rawItems : [];
+  const defaultItems: Item[] = [
+    { author: "Markéta V.", handle: "pacientka · alignery", text: "Neviditelné rovnátka splnily přesně to, co jsem si přála. Po deseti měsících mám úsměv, za který se nestydím. Celý tým byl neuvěřitelně vstřícný.", rating: 5 },
+    { author: "Petr K.",    handle: "pacient · klasická",   text: "Jako dospělý jsem váhal, jestli není pozdě na rovnátka. Dnes vím, že to bylo jedno z nejlepších rozhodnutí. Profesionální přístup od první konzultace.", rating: 5 },
+    { author: "Lucie N.",   handle: "maminka · dětská",     text: "Syn se léčby zpočátku bál, ale tady ho vždy přivítali s trpělivostí a milým slovem. Výsledek je skvělý a celá rodina je nadšená.",                   rating: 5 },
+  ];
+  const items: Item[] = (Array.isArray(rawItems) && rawItems.length > 0) ? rawItems : defaultItems;
 
   return (
     <section
       id="reference"
-      data-section-type="testimonials"
-      data-variant="ortho-02-testimonials"
-      style={{ backgroundColor: "#fff", padding: "clamp(64px, 8vw, 112px) 0", fontFamily: FONT }}
+      data-template="ortho-02"
+      style={{ backgroundColor: "#faf9f7", padding: "clamp(72px, 9vw, 120px) 0", fontFamily: FONT }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 64px)" }}>
-          <p style={{ fontSize: "clamp(0.7rem, 1vw, 0.78rem)", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: MUTED, marginBottom: 14 }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-          <h2 style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)", fontWeight: 300, color: DARK, margin: "0 auto 18px", lineHeight: 1.25, maxWidth: 760 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.05rem)", color: MUTED, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto" }}>
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-        </div>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: "clamp(48px, 6vw, 72px)" }}>
+            <p style={{ fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, marginBottom: 16 }}>
+              <GenericEditableText sectionId={sectionId} field="subheading" value={eyebrow} tag="span" />
+            </p>
+            <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.4rem)", fontWeight: 300, color: DARK, margin: "0 auto 18px", lineHeight: 1.3, maxWidth: 700 }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={title} tag="span" />
+            </h2>
+            <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.02rem)", color: MUTED, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto", fontFamily: FONT_B, lineHeight: 1.7 }}>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          </div>
+        )}
 
-        {/* Cards */}
-        <div className="o02-testi-row" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "clamp(16px, 2vw, 28px)" }}>
+        <div className="o02-testi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "clamp(16px, 2vw, 28px)" }}>
           {items.map((item, i) => (
-            <div key={i} style={{
-              border: "1px solid #e8e5e0",
-              borderRadius: 4,
-              padding: "clamp(24px, 3vw, 36px)",
+            <div key={i} className="o02-testi-card" style={{
+              border: "1px solid #edeae5",
+              borderRadius: 6,
+              padding: "clamp(28px, 3.5vw, 40px)",
               display: "flex",
               flexDirection: "column",
-              gap: 16,
-              backgroundColor: "#fafaf9",
+              gap: 18,
+              backgroundColor: "#ffffff",
+              transition: "transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease",
             }}>
-              <p style={{ fontSize: "0.85rem", fontWeight: 600, color: BEIGE, letterSpacing: "0.05em", margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.handle`} value={item.handle} tag="span" />
-              </p>
+              {/* Stars */}
               <div style={{ display: "flex", gap: 3 }}>
                 {Array.from({ length: item.rating ?? 5 }).map((_, s) => (
-                  <svg key={s} width="14" height="14" viewBox="0 0 24 24" fill={BEIGE} aria-hidden>
+                  <svg key={s} width="15" height="15" viewBox="0 0 24 24" fill={GOLD} aria-hidden="true">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                 ))}
               </div>
-              <blockquote style={{ margin: 0, padding: 0 }}>
-                <p style={{ fontSize: "clamp(0.88rem, 1.1vw, 0.97rem)", color: "#444", lineHeight: 1.75, fontStyle: "italic", margin: 0 }}>
+
+              {/* Quote */}
+              <blockquote style={{ margin: 0, padding: 0, flex: 1 }}>
+                <p style={{ fontSize: "clamp(0.88rem, 1.1vw, 0.95rem)", color: "#555", lineHeight: 1.75, fontStyle: "italic", margin: 0, fontFamily: FONT_B }}>
                   &ldquo;<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />&rdquo;
                 </p>
               </blockquote>
-              <p style={{ fontSize: "0.88rem", fontWeight: 600, color: DARK, margin: 0, borderTop: "1px solid #e8e5e0", paddingTop: 16 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
-              </p>
+
+              {/* Author */}
+              <div style={{ borderTop: "1px solid #edeae5", paddingTop: 18, display: "flex", flexDirection: "column", gap: 4 }}>
+                <p style={{ fontSize: "0.92rem", fontWeight: 600, color: DARK, margin: 0, fontFamily: FONT }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
+                </p>
+                <p style={{ fontSize: "0.78rem", fontWeight: 500, color: BEIGE, letterSpacing: "0.04em", margin: 0, fontFamily: FONT }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.handle`} value={item.handle} tag="span" />
+                </p>
+              </div>
             </div>
           ))}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .o02-testi-row { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -3390,11 +3184,34 @@ function TestimonialsStavba01({ content, sectionId }: { content: Record<string, 
 
   interface Item { name: string; role?: string; text: string; stars?: number; }
 
-  const tagline     = String(content.tagline     ?? "Co říkají klienti");
-  const title       = String(content.title       ?? "Reference\nnaších zákazníků");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Co říkají klienti" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Reference\nnaších zákazníků" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const rating      = String(content.rating      ?? "4.9");
   const reviewCount = String(content.reviewCount ?? "");
+  const reviewSuffix = String(content.reviewSuffix ?? "recenzí");
   const items       = (content.items as Item[]) ?? [];
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>(".s01-testi-card"));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          el.style.animationDelay = `${Math.max(0, cards.indexOf(el)) * 0.1}s`;
+          el.classList.add("s01-testi-vis");
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.14 });
+    cards.forEach((c) => obs.observe(c));
+    return () => obs.disconnect();
+  }, [items.length]);
 
   const Stars = ({ count = 5 }: { count?: number }) => (
     <div style={{ display: "flex", gap: 2 }}>
@@ -3411,43 +3228,56 @@ function TestimonialsStavba01({ content, sectionId }: { content: Record<string, 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
 
         {/* Header row */}
+        {(showHeader || reviewCount) && (
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 56, gap: 24, flexWrap: "wrap" }}>
+          {showHeader && (
           <div>
-            <p style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0, whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+            {tagline.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ display: "block", width: 30, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                  style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", margin: 0 }} />
+              </div>
+            )}
+            {title.trim() && (
+              <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0, whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
           </div>
+          )}
           {/* Rating badge */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, backgroundColor: "#fff", borderRadius: 12, padding: "16px 24px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)", flexShrink: 0 }}>
+          {reviewCount && (
+          <div className="s01-testi-rating" style={{ display: "flex", alignItems: "center", gap: 14, backgroundColor: "#fff", borderRadius: 12, padding: "16px 24px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)", flexShrink: 0 }}>
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: "2rem", fontWeight: 800, color: DARK, lineHeight: 1 }}>
                 <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" />
               </div>
               <div style={{ marginTop: 4 }}><Stars /></div>
-              {reviewCount && (
-                <div style={{ color: GRAY, fontSize: "0.75rem", marginTop: 4 }}>
-                  <GenericEditableText sectionId={sectionId} field="reviewCount" value={reviewCount} tag="span" /> recenzí
-                </div>
-              )}
+              <div style={{ color: GRAY, fontSize: "0.75rem", marginTop: 4 }}>
+                <GenericEditableText sectionId={sectionId} field="reviewCount" value={reviewCount} tag="span" />{" "}
+                <GenericEditableText sectionId={sectionId} field="reviewSuffix" value={reviewSuffix} tag="span" />
+              </div>
             </div>
           </div>
+          )}
         </div>
+        )}
 
         {/* Cards */}
-        <div className="stavba-testi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
+        <div ref={gridRef} className="stavba-testi-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
           {items.map((item, i) => (
-            <div key={i} style={{ backgroundColor: "#fff", borderRadius: 16, padding: 32, display: "flex", flexDirection: "column", gap: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+            <div key={i} className="s01-testi-card" style={{ backgroundColor: "#fff", borderRadius: 16, padding: 32, display: "flex", flexDirection: "column", gap: 16, boxShadow: "0 1px 3px rgba(0,0,0,0.06)", overflow: "hidden" }}>
+              {/* Decorative quote glyph */}
+              <span className="s01-testi-quote" aria-hidden="true" style={{ position: "absolute", top: 14, right: 24, fontSize: "5rem", lineHeight: 1, fontFamily: "Georgia, serif", fontWeight: 700, pointerEvents: "none" }}>&rdquo;</span>
               {/* Stars */}
               <Stars count={item.stars ?? 5} />
               {/* Quote */}
-              <p style={{ color: DARK, fontSize: "0.925rem", lineHeight: 1.75, margin: 0, flex: 1 }}>
-                „<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />"
+              <p style={{ color: DARK, fontSize: "0.925rem", lineHeight: 1.75, margin: 0, flex: 1, position: "relative", zIndex: 1 }}>
+                &bdquo;<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />&ldquo;
               </p>
               {/* Author */}
-              <div style={{ borderTop: "1px solid #f0f0f0", paddingTop: 16 }}>
+              <div style={{ borderTop: "1px solid #f0f0f0", paddingTop: 16, position: "relative", zIndex: 1 }}>
                 <div style={{ fontWeight: 700, fontSize: "0.9rem", color: DARK }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
                 </div>
@@ -4916,32 +4746,40 @@ function TestimonialsKlempir01({ content, sectionId }: TestimonialsK01Props) {
 }
 
 // ── malir-01-testimonials ─────────────────────────────────────────────────────
-// 1:1 petrovomalovani.cz reference sekce:
-// - Bílé pozadí, padding 80px 30px, text-align center
-// - Amber tagline + Playfair H2, subtitle s Google odkazem
-// - 3 bílé karty v řadě (mobile: sloupec):
-//   každá karta: 5 amber hvězdiček nahoře, text recenze, tučné jméno
+// VYLEPŠENO (luxe malíř):
+// - Surface bg #f8f7f5, 3 karty s amber quote mark, initial-avatary
+// - Google rating badge (4.9 stars), hover lift+amber glow
+// - Conditional header, staggered reveal
 // ─────────────────────────────────────────────────────────────────────────────
 function TestimonialsMalir01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const AMBER    = "#E79B0E";
   const DARK     = "#1a1a1a";
   const MUTED    = "#555555";
-  const PLAYFAIR = "'Playfair Display', 'Times New Roman', serif";
-  const RALEWAY  = "'Raleway', sans-serif";
+  const SURFACE  = "#f8f7f5";
+  const FONT_H   = "'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Raleway', sans-serif";
 
-  const tagline  = String(content.tagline  ?? "Co říkají zákazníci");
-  const title    = String(content.title    ?? "Řekli o nás");
-  const subtitle = String(content.subtitle ?? "Všechna naše hodnocení si můžete ověřit na Google.com");
+  const eyebrow  = String(content.eyebrow ?? content.tagline ?? "Reference");
+  const title    = String(content.title ?? "Co o nás říkají klienti");
+  const subtitle = String(content.subtitle ?? "");
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+  const googleRating = Number(content.googleRating ?? 4.9);
+  const googleCount  = String(content.googleReviewCount ?? "60+");
 
   type ReviewItem = { text: string; name: string; role?: string };
+  const defaultItems: ReviewItem[] = [
+    { text: "Pánové přišli přesně na čas, pracovali pečlivě a rychle. Celý byt vypadá jako nový — a hlavně, po sobě dokonale uklidili. Naprostá spokojenost.", name: "Jana Kovářová", role: "Praha 6" },
+    { text: "Objednal jsem vymalování celého domu. Cena odpovídala nabídce, termín splněn na den. Poradili s výběrem odstínu a výsledek předčil očekávání. Vřele doporučuji.", name: "Martin Dvořák", role: "Praha-západ" },
+    { text: "Perfektní renovace oken — lakování dopadlo skvěle, vypadají jako nová. Rychlá komunikace, férový přístup a hlavně krásný výsledek. Příště se obrátím znovu.", name: "Eva Procházková", role: "Praha 4" },
+  ];
   const items: ReviewItem[] = Array.isArray(content.items) && (content.items as unknown[]).length
     ? (content.items as ReviewItem[])
-    : [];
+    : defaultItems;
 
-  const Stars = () => (
-    <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+  const Stars = ({ size = 16 }: { size?: number }) => (
+    <div style={{ display: "flex", gap: 2 }}>
       {[1,2,3,4,5].map(i => (
-        <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill={AMBER} aria-hidden="true">
+        <svg key={i} width={size} height={size} viewBox="0 0 24 24" fill={AMBER} aria-hidden="true">
           <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
         </svg>
       ))}
@@ -4949,57 +4787,98 @@ function TestimonialsMalir01({ content, sectionId }: { content: Record<string, u
   );
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600;700&display=swap" />
-      <style>{`        .m01t-section { background: #ffffff; padding: 80px 30px; font-family: ${RALEWAY}; text-align: center; }
-        .m01t-header { max-width: 770px; margin: 0 auto 48px; }
-        .m01t-tagline { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: ${AMBER}; margin-bottom: 12px; }
-        .m01t-title { font-family: ${PLAYFAIR}; font-size: 36px; font-weight: 800; color: ${DARK}; margin: 0 0 12px; }
-        .m01t-subtitle { font-size: 15px; color: ${MUTED}; margin: 0; line-height: 1.6; }
-        .m01t-grid { display: flex; gap: 24px; max-width: 1100px; margin: 0 auto; }
-        .m01t-card { flex: 1; background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; padding: 28px 24px; text-align: left; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-        .m01t-text { font-size: 15px; line-height: 1.8; color: ${MUTED}; margin: 0 0 20px; flex: 1; }
-        .m01t-author { font-size: 14px; font-weight: 700; color: ${DARK}; }
-        .m01t-role { font-size: 13px; color: #999; margin-top: 2px; }
-        @media (max-width: 768px) { .m01t-grid { flex-direction: column; } }
-        @media (max-width: 600px) { .m01t-section { padding: 60px 16px; } .m01t-title { font-size: 28px; } }
-      `}</style>
-
-      <section id="hodnoceni" className="m01t-section" data-template="malir-01">
-        <div className="m01t-header">
-          <p className="m01t-tagline">
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">{tagline}</GenericEditableText>
-          </p>
-          <h2 className="m01t-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">{title}</GenericEditableText>
-          </h2>
-          <p className="m01t-subtitle">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
-          </p>
-        </div>
-
-        <div className="m01t-grid">
-          {items.map((item, i) => (
-            <div key={i} className="m01t-card">
-              <Stars />
-              <p className="m01t-text">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span">{item.text}</GenericEditableText>
-              </p>
-              <div className="m01t-author">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span">{item.name}</GenericEditableText>
-              </div>
-              {item.role && (
-                <div className="m01t-role">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role} tag="span">{item.role}</GenericEditableText>
-                </div>
-              )}
+    <section id="hodnoceni" data-template="malir-01" style={{
+      background: SURFACE, padding: "clamp(60px, 10vw, 110px) 0", fontFamily: FONT_B,
+    }}>
+      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 30px" }}>
+        {/* Header */}
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 52px)" }}>
+            <div className="m01t-reveal" style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 14 }}>
+              <span style={{ width: 32, height: 1, background: AMBER }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                fontFamily: FONT_B, fontWeight: 600, fontSize: 12, color: AMBER,
+                letterSpacing: "0.14em", textTransform: "uppercase" as const,
+              }} />
+              <span style={{ width: 32, height: 1, background: AMBER }} />
             </div>
-          ))}
+            <div className="m01t-reveal" style={{ animationDelay: "0.1s" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+                fontFamily: FONT_H, fontWeight: 800,
+                fontSize: "clamp(26px, 3.5vw, 40px)", lineHeight: 1.2,
+                color: DARK, margin: "0 0 8px",
+              }} />
+            </div>
+            {/* Google rating badge */}
+            <div className="m01t-reveal" style={{ animationDelay: "0.15s", display: "flex", alignItems: "center", gap: 10, justifyContent: "center", marginTop: 14 }}>
+              <Stars size={14} />
+              <GenericEditableText sectionId={sectionId} field="googleRating" value={String(googleRating)} tag="span" style={{
+                fontFamily: FONT_B, fontWeight: 700, fontSize: 15, color: DARK,
+              }} />
+              <span style={{ color: MUTED, fontSize: 13 }}>·</span>
+              <GenericEditableText sectionId={sectionId} field="googleReviewCount" value={googleCount} tag="span" style={{
+                fontFamily: FONT_B, fontWeight: 400, fontSize: 13, color: MUTED,
+              }} />
+              <span style={{ fontFamily: FONT_B, fontSize: 13, color: MUTED }}>hodnocení na Google</span>
+            </div>
+          </div>
+        )}
+
+        {/* Cards grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(16px, 2vw, 24px)" }}>
+          {items.map((item, i) => {
+            const initials = item.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+            return (
+              <div key={i} className="m01t-card m01t-reveal" style={{
+                animationDelay: `${0.1 + i * 0.08}s`,
+                background: "#ffffff", borderRadius: 8,
+                padding: "clamp(24px, 3vw, 32px)",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+                border: "1px solid rgba(0,0,0,0.04)",
+                display: "flex", flexDirection: "column",
+                transition: "all 0.35s cubic-bezier(.4,0,.2,1)",
+                position: "relative",
+              }}>
+                {/* Amber quote mark */}
+                <svg width="28" height="22" viewBox="0 0 28 22" fill={`${AMBER}20`} aria-hidden="true" style={{ marginBottom: 14, flexShrink: 0 }}>
+                  <path d="M0 22V13.2C0 9.27 .87 6.17 2.6 3.9 4.33 1.63 6.93.23 10.4 0l.93 3.47c-2.2.47-3.77 1.4-4.7 2.8-.93 1.4-1.4 3.13-1.4 5.2h4.5V22H0zm16.27 0V13.2c0-3.93.87-7.03 2.6-9.3C20.6 1.63 23.2.23 26.67 0l.93 3.47c-2.2.47-3.77 1.4-4.7 2.8-.93 1.4-1.4 3.13-1.4 5.2h4.5V22h-9.73z"/>
+                </svg>
+
+                <Stars />
+
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="p" style={{
+                  fontFamily: FONT_B, fontSize: 15, lineHeight: 1.8,
+                  color: MUTED, margin: "14px 0 22px", flex: 1,
+                  fontStyle: "italic" as const,
+                }} />
+
+                {/* Author */}
+                <div style={{ display: "flex", alignItems: "center", gap: 12, borderTop: `1px solid ${AMBER}15`, paddingTop: 16 }}>
+                  {/* Initial avatar */}
+                  <div style={{
+                    width: 40, height: 40, borderRadius: "50%",
+                    background: `${AMBER}18`, color: AMBER,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: FONT_B, fontWeight: 700, fontSize: 14,
+                    flexShrink: 0,
+                  }}>{initials}</div>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="div" style={{
+                      fontFamily: FONT_B, fontSize: 14, fontWeight: 700, color: DARK, lineHeight: 1.3,
+                    }} />
+                    {item.role && (
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={item.role} tag="div" style={{
+                        fontFamily: FONT_B, fontSize: 12, color: `${MUTED}bb`, marginTop: 2,
+                      }} />
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -5080,47 +4959,137 @@ function TestimonialsClean02({ content, sectionId }: { content: Record<string, u
 
 /* ─── garden-02: Testimonials — 3-col cards, white bg, stars ──────────────── */
 function TestimonialsGarden02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title    = (content.title    as string) ?? "Co o nás říkají klienti";
-  const subtitle = (content.subtitle as string) ?? "";
+  const eyebrowRaw  = content.eyebrow;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Reference" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Slovo mají naši klienti" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Přes 200 spokojených zákazníků v Praze a okolí — přečtěte si jejich příběhy." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
   const items = ((content.testimonials as Array<{
     rating?: number; text?: string; author?: string; source?: string;
   }>) ?? []);
 
   const PRIMARY = "#95c11f";
   const DARK    = "#1a2a0a";
+  const SURFACE = "#f5f5f0";
   const FONT    = "'Inter', Arial, sans-serif";
 
   return (
     <>
       <style>{`
-        .g02tm-section { background: #f5f5f0; padding: 88px 0; font-family: ${FONT}; }
-        .g02tm-inner   { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-        .g02tm-head    { text-align: center; margin-bottom: 52px; }
-        .g02tm-kicker  { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: ${PRIMARY}; margin-bottom: 14px; }
-        .g02tm-kicker::before, .g02tm-kicker::after { content: ""; display: block; width: 24px; height: 2px; background: ${PRIMARY}; }
-        .g02tm-h2      { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; color: ${DARK}; margin: 0 0 10px; line-height: 1.25; }
-        .g02tm-sub     { font-size: 1rem; color: #666; max-width: 580px; margin: 0 auto; line-height: 1.6; }
-        .g02tm-grid    { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr)); }
-        .g02tm-card    { background: #fff; border-radius: 14px; padding: 28px 28px 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
-        .g02tm-stars   { display: flex; gap: 3px; }
-        .g02tm-star    { color: ${PRIMARY}; font-size: 1.1rem; line-height: 1; }
-        .g02tm-text    { font-size: 0.97rem; color: #444; line-height: 1.7; flex: 1; font-style: italic; }
-        .g02tm-footer  { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid #e8e8e0; }
-        .g02tm-author  { font-size: 0.88rem; font-weight: 700; color: ${DARK}; }
-        .g02tm-source  { font-size: 0.75rem; color: #999; font-weight: 500; }
+        .g02tm-section {
+          background: ${SURFACE}; padding: 100px 0;
+          font-family: ${FONT}; position: relative; overflow: hidden;
+        }
+        .g02tm-section::after {
+          content: ""; position: absolute; top: -60px; right: -40px;
+          width: 200px; height: 200px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(149,193,31,0.06) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .g02tm-inner { max-width: 1160px; margin: 0 auto; padding: 0 1.5rem; position: relative; z-index: 1; }
+        .g02tm-head { text-align: center; margin-bottom: 3.2rem; }
+        .g02tm-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.7rem; font-weight: 600;
+          letter-spacing: 0.16em; text-transform: uppercase;
+          color: ${PRIMARY}; margin-bottom: 1rem;
+        }
+        .g02tm-eyebrow-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: ${PRIMARY}; box-shadow: 0 0 8px rgba(149,193,31,0.5);
+        }
+        .g02tm-h2 {
+          font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800;
+          color: ${DARK}; margin: 0 0 0.8rem; line-height: 1.15;
+          letter-spacing: -0.02em;
+        }
+        .g02tm-sub {
+          font-size: 1rem; color: #666; max-width: 560px;
+          margin: 0 auto; line-height: 1.7;
+        }
+        .g02tm-grid {
+          display: grid; gap: 1.25rem;
+          grid-template-columns: repeat(auto-fit, minmax(min(320px,100%), 1fr));
+        }
+        .g02tm-card {
+          background: #fff; border-radius: 16px;
+          padding: 1.75rem 1.75rem 1.5rem;
+          display: flex; flex-direction: column; gap: 1rem;
+          box-shadow: 0 2px 16px rgba(26,42,10,0.06);
+          border: 1px solid transparent;
+          position: relative; overflow: hidden;
+          transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+        }
+        .g02tm-card::before {
+          content: ""; position: absolute; top: 0; left: 0; right: 0;
+          height: 3px; background: ${PRIMARY};
+          transform: scaleX(0); transform-origin: left;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1.1);
+        }
+        .g02tm-card:hover {
+          border-color: rgba(149,193,31,0.15);
+          box-shadow: 0 8px 32px rgba(26,42,10,0.10);
+          transform: translateY(-4px);
+        }
+        .g02tm-card:hover::before { transform: scaleX(1); }
+        .g02tm-quote-icon {
+          color: ${PRIMARY}; opacity: 0.2; font-size: 2.2rem;
+          line-height: 1; font-family: Georgia, serif;
+          position: absolute; top: 1rem; right: 1.2rem;
+        }
+        .g02tm-stars { display: flex; gap: 2px; }
+        .g02tm-star { color: ${PRIMARY}; font-size: 0.95rem; line-height: 1; }
+        .g02tm-text {
+          font-size: 0.95rem; color: #444; line-height: 1.75;
+          flex: 1; font-style: italic;
+        }
+        .g02tm-footer {
+          display: flex; align-items: center; gap: 0.75rem;
+          padding-top: 0.8rem; border-top: 1px solid #eee;
+        }
+        .g02tm-avatar {
+          width: 38px; height: 38px; border-radius: 50%;
+          background: ${DARK}; color: ${PRIMARY};
+          display: flex; align-items: center; justify-content: center;
+          font-family: ${FONT}; font-size: 0.82rem; font-weight: 700;
+          flex-shrink: 0;
+        }
+        .g02tm-meta { display: flex; flex-direction: column; }
+        .g02tm-author { font-size: 0.88rem; font-weight: 700; color: ${DARK}; }
+        .g02tm-source { font-size: 0.7rem; color: #999; font-weight: 500; margin-top: 0.1rem; }
       `}</style>
-      <section className="g02tm-section">
+      <section className="g02tm-section" data-template="garden-02" id="reference">
         <div className="g02tm-inner">
-          <div className="g02tm-head">
-            <div className="g02tm-kicker">Reference</div>
-            <h2 className="g02tm-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
-            {subtitle && <p className="g02tm-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
-          </div>
+          {showHeader && (
+            <div className="g02tm-head">
+              {eyebrow.trim() && (
+                <div className="g02tm-eyebrow">
+                  <span className="g02tm-eyebrow-dot" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </div>
+              )}
+              {title.trim() && (
+                <h2 className="g02tm-h2">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+              {subtitle.trim() && (
+                <p className="g02tm-sub">
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+                </p>
+              )}
+            </div>
+          )}
           <div className="g02tm-grid">
             {items.map((item, i) => {
               const stars = Math.min(5, Math.max(0, item.rating ?? 5));
+              const initials = (item.author ?? "").split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
               return (
                 <div key={i} className="g02tm-card">
+                  <span className="g02tm-quote-icon" aria-hidden="true">&ldquo;</span>
                   <div className="g02tm-stars">
                     {Array.from({ length: stars }).map((_, s) => <span key={s} className="g02tm-star">★</span>)}
                   </div>
@@ -5128,10 +5097,17 @@ function TestimonialsGarden02({ content, sectionId }: { content: Record<string, 
                     <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={item.text ?? ""} tag="span" />
                   </p>
                   <div className="g02tm-footer">
-                    <span className="g02tm-author">
-                      <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={item.author ?? ""} tag="span" />
-                    </span>
-                    {item.source && <span className="g02tm-source">{item.source}</span>}
+                    <div className="g02tm-avatar" aria-hidden="true">{initials}</div>
+                    <div className="g02tm-meta">
+                      <span className="g02tm-author">
+                        <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={item.author ?? ""} tag="span" />
+                      </span>
+                      {item.source && (
+                        <span className="g02tm-source">
+                          <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.source`} value={item.source} tag="span" />
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
@@ -5517,4 +5493,483 @@ function TestimonialsVideo01({ content, sectionId, isAdmin }: {
       </div>
     </section>
   );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — Shoptet Classic DNA
+ * Recenze zákazníků: světlé karty s hvězdami, iniciál-avatar,
+ * štítek "Ověřený zákazník", agregované hodnocení v hlavičce.
+ * ============================================================ */
+
+function Eshop02Stars({ rating }: { rating: number }) {
+  return (
+    <span className="wc2t-stars" aria-label={`${rating} z 5 hvězdiček`}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill={i <= rating ? "#f5a623" : "#dbe3ec"} aria-hidden>
+          <path d="M12 2l2.9 6.26 6.6.7-4.95 4.57 1.37 6.47L12 16.77 6.08 20l1.37-6.47L2.5 8.96l6.6-.7L12 2z"/>
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+function TestimonialsEshop02({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const BLUE = "#1266cc";
+  const DARK = "#142b45";
+  const MUTED = "#64748b";
+  const BORDER = "#e3e9f0";
+  const SURFACE = "#f5f8fb";
+  const GREEN = "#1f9d55";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const eyebrow = content.eyebrow === undefined ? "Recenze" : String(content.eyebrow);
+  const heading = content.heading === undefined ? "Co říkají naši zákazníci" : String(content.heading);
+  const aggValue = content.aggValue === undefined ? "4,9" : String(content.aggValue);
+  const aggLabel = content.aggLabel === undefined ? "z 12 000+ ověřených recenzí" : String(content.aggLabel);
+  const items = Array.isArray(content.items) ? (content.items as Array<Record<string, unknown>>) : [];
+
+  return (
+    <section className="wc2t" data-variant="eshop-02-testimonials" id={typeof content.anchorId === "string" ? content.anchorId : "recenze"}>
+      <style>{`
+        .wc2t { background: ${SURFACE}; color: ${DARK}; font-family: ${SANS}; }
+        .wc2t-inner { max-width: 1280px; margin: 0 auto; padding: clamp(48px,6vw,84px) 24px; }
+        .wc2t-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: clamp(24px,3.5vw,38px); }
+        @media (max-width: 720px) { .wc2t-head { flex-direction: column; align-items: flex-start; gap: 16px; } }
+        .wc2t-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: ${BLUE}; margin: 0 0 8px; }
+        .wc2t-title { font-size: clamp(24px,3vw,36px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 0; color: ${DARK}; }
+        .wc2t-agg { flex-shrink: 0; display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid ${BORDER}; border-radius: 12px; padding: 12px 18px; }
+        .wc2t-agg-value { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; color: ${DARK}; line-height: 1; }
+        .wc2t-agg-meta { display: flex; flex-direction: column; gap: 3px; }
+        .wc2t-agg-label { font-size: 12.5px; color: ${MUTED}; }
+        .wc2t-stars { display: inline-flex; gap: 2px; }
+        .wc2t-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px,1.6vw,20px); }
+        @media (max-width: 980px) { .wc2t-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 620px) { .wc2t-grid { grid-template-columns: 1fr; } }
+        .wc2t-card { display: flex; flex-direction: column; gap: 12px; background: #fff; border: 1px solid ${BORDER}; border-radius: 12px; padding: 22px; transition: border-color .2s, box-shadow .25s; }
+        .wc2t-card:hover { border-color: ${BLUE}; box-shadow: 0 10px 28px rgba(18,102,204,0.10); }
+        .wc2t-text { font-size: 14.5px; line-height: 1.7; color: #3b4a5e; margin: 0; flex: 1; }
+        .wc2t-foot { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid ${BORDER}; }
+        .wc2t-avatar { flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px; background: ${BLUE}; color: #fff; display: grid; place-items: center; font-size: 15px; font-weight: 700; }
+        .wc2t-name { display: block; font-size: 14px; font-weight: 700; color: ${DARK}; }
+        .wc2t-verified { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: ${GREEN}; }
+      `}</style>
+      <div className="wc2t-inner">
+        <div className="wc2t-head">
+          <div>
+            {eyebrow.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p" className="wc2t-eyebrow" />
+            )}
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" className="wc2t-title" />
+          </div>
+          <div className="wc2t-agg">
+            <GenericEditableText sectionId={sectionId} field="aggValue" value={aggValue} tag="span" className="wc2t-agg-value" />
+            <div className="wc2t-agg-meta">
+              <Eshop02Stars rating={5} />
+              <GenericEditableText sectionId={sectionId} field="aggLabel" value={aggLabel} tag="span" className="wc2t-agg-label" />
+            </div>
+          </div>
+        </div>
+        <div className="wc2t-grid">
+          {items.map((item, i) => {
+            const name = String(item.name ?? "");
+            const initial = name.trim().charAt(0).toUpperCase() || "Z";
+            const rating = Math.min(5, Math.max(1, Number(item.rating) || 5));
+            return (
+              <article className="wc2t-card" key={i}>
+                <Eshop02Stars rating={rating} />
+                <p className="wc2t-text">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={String(item.text ?? "")} tag="span" />
+                </p>
+                <div className="wc2t-foot">
+                  <span className="wc2t-avatar" aria-hidden>{initial}</span>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" className="wc2t-name" />
+                    <span className="wc2t-verified">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                      Ověřený zákazník
+                    </span>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-reviews ────────────────────────────────────────────────────────────
+// Kosmetika-zdravi.cz DNA (Néroli parfumerie): centrovaný kicker s hvězdami +
+// uppercase nadpis, 3 bílé karty s hairline borderem (jméno + hvězdy, datum,
+// text, podtržený odkaz na produkt, volitelná miniatura), šipky po stranách.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07Review = { name: string; date?: string; text: string; rating?: number; productLabel?: string; productHref?: string; image?: string };
+
+function TestimonialsEshop07({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const c = content as { kicker?: string; heading?: string; reviews?: Es07Review[] };
+  const reviews = c.reviews ?? [];
+
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const BORDER = "#e8e9ed";
+  const SURFACE = "#f4f5f7";
+  const GOLD = "#f0b429";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+
+  const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+  const scrollBy = (dir: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>(".es07r-card");
+    el.scrollBy({ left: dir * ((card?.offsetWidth ?? 400) + 18), behavior: "smooth" });
+  };
+
+  if (!reviews.length) return null;
+
+  const Stars = ({ n = 5 }: { n?: number }) => (
+    <span style={{ display: "inline-flex", gap: 2 }} aria-label={`${n} z 5 hvězdiček`}>
+      {[1, 2, 3, 4, 5].map(s => (
+        <svg key={s} width="14" height="14" viewBox="0 0 20 20" fill={s <= n ? GOLD : BORDER}><path d="M10 1l2.39 4.84L18 6.71l-4 3.9.94 5.5L10 13.4l-4.94 2.71.94-5.5-4-3.9 5.61-.87L10 1z" /></svg>
+      ))}
+    </span>
+  );
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "48px 0 40px" }} data-variant="eshop-07-reviews">
+      <style>{`
+        .es07r-track { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 2px; }
+        .es07r-track::-webkit-scrollbar { display: none; }
+        .es07r-card { flex: 0 0 calc(33.33% - 12px); min-width: 300px; scroll-snap-align: start; border: 1px solid ${BORDER}; border-radius: 12px; padding: 24px 26px; background: #fff; transition: border-color 0.16s, transform 0.16s, box-shadow 0.16s; }
+        .es07r-card:hover { border-color: ${INK}; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(22,22,29,0.07); }
+        .es07r-product { color: ${INK}; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; transition: color 0.14s; }
+        .es07r-product:hover { color: #14a99a; }
+        .es07r-arrow { position: absolute; top: 46%; z-index: 5; width: 42px; height: 42px; border: 1px solid ${BORDER}; border-radius: 50%; background: #fff; color: ${INK}; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, transform 0.15s; box-shadow: 0 8px 22px rgba(22,22,29,0.12); }
+        .es07r-arrow:hover { background: ${INK}; border-color: ${INK}; color: #fff; transform: scale(1.05); }
+        @media (max-width: 720px) { .es07r-arrow { display: none; } .es07r-track { margin: 0 -24px; padding: 2px 24px; } }
+      `}</style>
+      <div style={{ position: "relative", maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ textAlign: "center", marginBottom: 30 }}>
+          {c.kicker && (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
+              <Stars n={5} />
+              <GenericEditableText sectionId={sectionId} field="kicker" value={String(c.kicker)} tag="span" style={{
+                fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: MUTED,
+              }} />
+            </div>
+          )}
+          {c.heading && (
+            <GenericEditableText sectionId={sectionId} field="heading" value={String(c.heading)} tag="h2" style={{
+              fontFamily: SANS, fontSize: "clamp(19px, 2.2vw, 26px)", fontWeight: 800, color: INK,
+              textTransform: "uppercase", letterSpacing: "0.06em", margin: 0,
+            }} />
+          )}
+        </div>
+
+        <div className="es07r-track" ref={trackRef}>
+          {reviews.map((r, i) => (
+            <article key={i} className="es07r-card">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                <span style={{ fontSize: 15.5, fontWeight: 800, color: INK }}>{r.name}</span>
+                <Stars n={Math.max(1, Math.min(5, Math.round(r.rating ?? 5)))} />
+              </div>
+              {r.date && <div style={{ marginTop: 4, fontSize: 12.5, fontWeight: 500, color: MUTED }}>{r.date}</div>}
+              <p style={{ margin: "14px 0 0", fontSize: 14, fontWeight: 500, lineHeight: 1.65, color: "#3d3f4a" }}>{r.text}</p>
+              {(r.productLabel || r.image) && (
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 16, paddingTop: 14, borderTop: `1px solid ${BORDER}` }}>
+                  {r.image && (
+                    <img src={r.image} alt="" width="44" height="44" loading="lazy" style={{ width: 44, height: 44, borderRadius: 8, objectFit: "cover", background: SURFACE, flexShrink: 0 }} />
+                  )}
+                  {r.productLabel && (
+                    <a href={isAdmin ? "#" : `${base}${r.productHref ?? "/obchod"}`} className="es07r-product" style={{ fontSize: 13.5, lineHeight: 1.4 }}>{r.productLabel}</a>
+                  )}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+
+        {reviews.length > 3 && (
+          <>
+            <button className="es07r-arrow" style={{ left: 8 }} aria-label="Předchozí" onClick={() => scrollBy(-1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <button className="es07r-arrow" style={{ right: 8 }} aria-label="Další" onClick={() => scrollBy(1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// rekonstrukce-01 — Byty & Jádra reference karty
+// - světlé bg #faf8f5, Inter font, ambrová #C2622B akcent, grafitová #1F1B17
+// - eyebrow + H2 + subtitle centrované, ambrová linka pod H2
+// - grid karet (bílé bg, radius 12, jemný stín), velké ambrové uvozovky,
+//   italic text, jméno tučně + lokalita šedě
+// - Responsive: 2-col @992px, 1-col @700px
+// ─────────────────────────────────────────────────────────────────────────────
+type R01Review = { text?: string; name?: string; location?: string };
+
+function TestimonialsRekonstrukce01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const FONT  = "'Inter', sans-serif";
+  const AMBER = "#C2622B";
+  const DARK  = "#1F1B17";
+
+  const eyebrow  = String(content.eyebrow  ?? "Reference");
+  const title    = String(content.title    ?? "Naši spokojení klienti");
+  const subtitle = String(content.subtitle ?? "");
+  const items    = (Array.isArray(content.items) ? content.items : []) as R01Review[];
+
+  return (
+    <>
+      <style>{`
+        .r01-testi { background: #faf8f5; padding: clamp(64px, 9vw, 110px) 0; font-family: ${FONT}; }
+        .r01-testi-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .r01-testi-eyebrow { display: block; text-align: center; color: ${AMBER}; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; margin: 0 0 12px; }
+        .r01-testi-h2 { text-align: center; color: ${DARK}; font-size: clamp(28px, 3.4vw, 42px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; margin: 0 0 16px; }
+        .r01-testi-h2::after { content: ''; display: block; width: 56px; height: 3px; background: ${AMBER}; border-radius: 2px; margin: 18px auto 0; }
+        .r01-testi-sub { text-align: center; color: #6f675e; font-size: 16px; line-height: 1.65; max-width: 620px; margin: 0 auto 48px; }
+        .r01-testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .r01-testi-card { background: #fff; border-radius: 12px; padding: 34px 30px 30px; box-shadow: 0 6px 24px rgba(31,27,23,0.06); border: 1px solid rgba(31,27,23,0.05); display: flex; flex-direction: column; }
+        .r01-testi-quote { color: ${AMBER}; font-size: 44px; line-height: 1; font-weight: 800; font-family: Georgia, serif; margin-bottom: 12px; }
+        .r01-testi-text { color: #4a443d; font-style: italic; font-size: 15px; line-height: 1.7; margin: 0 0 22px; flex-grow: 1; }
+        .r01-testi-name { color: ${DARK}; font-weight: 700; font-size: 15px; margin: 0; }
+        .r01-testi-loc { color: #9a9188; font-size: 13px; margin: 3px 0 0; }
+        @media (max-width: 992px) { .r01-testi-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 700px) { .r01-testi-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <section id="reference" className="r01-testi" data-template="rekonstrukce-01">
+        <div className="r01-testi-container">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="r01-testi-eyebrow" />
+          <h2 className="r01-testi-h2">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {subtitle.trim() && (
+            <p className="r01-testi-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+          <div className="r01-testi-grid">
+            {items.map((item, i) => (
+              <div key={i} className="r01-testi-card">
+                <span className="r01-testi-quote" aria-hidden>&ldquo;</span>
+                <p className="r01-testi-text">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={String(item.text ?? "")} tag="span" />
+                </p>
+                <p className="r01-testi-name">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(item.name ?? "")} tag="span" />
+                </p>
+                {String(item.location ?? "").trim() && (
+                  <p className="r01-testi-loc">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.location`} value={String(item.location ?? "")} tag="span" />
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+// barber-03 3col. Vlastní komponenta, aby se hooks nevolaly až za early
+// returny dispatcheru — jinak změna varianty za běhu mění počet hooks.
+function TestimonialsBarberDark3col({ content, testimonials, title, sectionId }: { content: Record<string, unknown>; testimonials: Testimonial[]; title: string; sectionId: number }) {
+    const eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
+    const subtitle = String((content as Record<string, unknown>).subtitle ?? "");
+    const headRef = useRef<HTMLDivElement>(null);
+    const gridRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const els = [headRef.current, gridRef.current].filter(Boolean) as HTMLElement[];
+      const obs = els.map((el, i) => {
+        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03t-vis"); o.disconnect(); } }, { threshold: 0.1 });
+        o.observe(el); return o;
+      });
+      return () => obs.forEach(o => o.disconnect());
+    }, []);
+    return (
+      <section
+        className="relative overflow-hidden"
+        style={{
+          backgroundColor: "#1c1410",
+          padding: "clamp(96px, 13vw, 150px) 24px",
+        }}
+        data-template="barber-03"
+      >
+        <style>{`
+          @keyframes b03TFadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+          .b03t-reveal { opacity: 0; }
+          .b03t-reveal.b03t-vis { animation: b03TFadeUp 0.8s cubic-bezier(.22,.68,0,1.1) forwards; }
+        `}</style>
+
+        {/* Top + bottom gold hairlines — visual separation from neighbors */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1,
+          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1,
+          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
+        }} />
+
+        {/* Warm golden ambient glow center top */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          background: "radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.08) 0%, transparent 55%)",
+        }} />
+
+        <div className="max-w-[1240px] mx-auto" style={{ position: "relative", zIndex: 1 }}>
+          {/* Header — eyebrow + title + subtitle, cinematic urban editorial */}
+          <div
+            ref={headRef}
+            className="b03t-reveal text-center"
+            style={{ marginBottom: "clamp(56px, 8vw, 80px)" }}
+          >
+            {eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                  color: "#c8a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+              </div>
+            )}
+            <h2 style={{
+              fontFamily: "'Libre Baskerville', Georgia, serif",
+              fontSize: "clamp(2rem, 4.2vw, 3rem)",
+              fontWeight: 700,
+              lineHeight: 1.12,
+              letterSpacing: "0.04em",
+              color: "#f5efe6",
+              textTransform: "uppercase",
+              margin: "0 auto 22px",
+              maxWidth: 760,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            {subtitle && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                color: "rgba(245,239,230,0.72)",
+                lineHeight: 1.7,
+                margin: "0 auto",
+                maxWidth: 600,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+            {/* Decorative rule */}
+            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+            </div>
+          </div>
+
+          {/* Grid of testimonial cards */}
+          <div ref={gridRef} className="b03t-reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: "clamp(20px, 2.5vw, 32px)" }}>
+            {testimonials.map((t, i) => (
+              <div
+                key={i}
+                className="b03t-card relative"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.035)",
+                  border: "1px solid rgba(200,169,110,0.2)",
+                  padding: "44px 32px 32px",
+                  borderRadius: 2,
+                  animation: `b03TFadeUp 0.8s cubic-bezier(.22,.68,0,1.1) ${0.3 + i * 0.12}s both`,
+                }}
+              >
+                {/* Big opening quote mark — typographic editorial accent */}
+                <span aria-hidden style={{
+                  position: "absolute",
+                  top: -6, left: 26,
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontSize: "5rem",
+                  fontWeight: 700,
+                  color: "#c8a96e",
+                  lineHeight: 1,
+                  letterSpacing: "-0.05em",
+                  pointerEvents: "none",
+                }}>&ldquo;</span>
+
+                {/* Gold corner accent top-right — animates on hover */}
+                <span aria-hidden className="b03t-corner" style={{
+                  position: "absolute", top: 14, right: 14, width: 20, height: 20,
+                  borderTop: "1px solid #c8a96e", borderRight: "1px solid #c8a96e",
+                  transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+                }} />
+
+                {/* Stars */}
+                <div className="flex gap-1 mb-5" style={{ color: "#c8a96e", letterSpacing: "0.16em", fontSize: "1rem" }}>
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <span key={j} className="b03t-star" style={{
+                      display: "inline-block",
+                      transition: "transform 0.35s cubic-bezier(.22,.68,0,1.1)",
+                      transitionDelay: `${j * 0.05}s`,
+                    }}>★</span>
+                  ))}
+                </div>
+
+                {/* Quote text */}
+                <p style={{
+                  color: "rgba(245,239,230,0.88)",
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  lineHeight: 1.75,
+                  fontSize: "1rem",
+                  marginBottom: 28,
+                  letterSpacing: "0.01em",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={t.text} tag="span" />
+                </p>
+
+                {/* Decorative rule + name */}
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: "auto" }}>
+                  <span aria-hidden style={{ width: 28, height: 1, backgroundColor: "#c8a96e" }} />
+                  <p style={{
+                    color: "#c8a96e",
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontWeight: 700,
+                    fontSize: "0.78rem",
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    margin: 0,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.name`} value={t.name} tag="span" />
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
 }

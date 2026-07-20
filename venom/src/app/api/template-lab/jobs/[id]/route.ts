@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getJob } from "@/lib/template-lab/workflow";
+import { requirePlatformAdmin } from "@/lib/platform-admin";
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const auth = requirePlatformAdmin(req);
+  if (!auth.ok) return auth.response;
   const { id } = await params;
   const job = getJob(id);
   if (!job) {

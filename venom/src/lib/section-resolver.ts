@@ -9,6 +9,7 @@
  * Existing tenants stay on 'legacy' path until migration.
  */
 import { query, queryOne, type Section, type Tenant } from "./db";
+import { hydrateCommerceSections } from "./commerce/section-data";
 
 // ── Public types ──────────────────────────────────────────────────────────────
 
@@ -46,7 +47,7 @@ export type TenantWithKey = Tenant & { template_key?: string };
 
 // ── Template version cache (LRU, 5 min TTL) ───────────────────────────────────
 
-const TEMPLATE_CACHE_TTL_MS = 5 * 60 * 1000;
+const TEMPLATE_CACHE_TTL_MS = 5 * 60 * 1000; // 5m
 const TEMPLATE_CACHE_MAX = 100;
 const templateCache = new Map<string, { data: TemplateVersionRow; expires: number }>();
 
@@ -317,7 +318,7 @@ export async function resolveAllSections(
   const siteModeLegacy = tenant.site_mode ?? "multipage";
   const anyV2 = sections.some((s) => s.content_source === "v2");
   if (!anyV2) {
-    return sections.map((s) => {
+    const legacy = sections.map((s) => {
       if (s.section_type === "navbar") {
         const cs = (s.settings ?? {}) as Record<string, unknown>;
         const ct = (cs.content ?? {}) as Record<string, unknown>;
@@ -325,6 +326,7 @@ export async function resolveAllSections(
       }
       return { ...s, _resolvedSource: "legacy" as const, _modifiedPaths: [] };
     });
+    return hydrateCommerceSections(tenant.id, tenant.slug, legacy);
   }
 
   const tplKeyRow = await queryOne<{ key: string }>(
@@ -335,7 +337,7 @@ export async function resolveAllSections(
 
   const siteMode = tenant.site_mode ?? "multipage";
 
-  return Promise.all(
+  const resolvedAll = await Promise.all(
     sections.map(async (s) => {
       const resolved = await resolveSectionContent(s, tenantWithKey);
       const currentSettings = (s.settings ?? {}) as Record<string, unknown>;
@@ -350,6 +352,10 @@ export async function resolveAllSections(
       };
     })
   );
+
+  // Commerce sekce (product-grid / featured-products / category-grid) dostanou
+  // po vyřešení obsahu ještě datový payload `content.__commerce` (no-op jinde).
+  return hydrateCommerceSections(tenant.id, tenant.slug, resolvedAll);
 }
 
 // ── Test helpers (for unit tests, no DB) ──────────────────────────────────────

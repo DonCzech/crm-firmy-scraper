@@ -1,0 +1,14 @@
+import { chromium } from "playwright-core";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV-CRM/4a00ae5a-b11c-461e-b4a9-9748d2b4fba7/scratchpad";
+const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const page = await (await browser.newContext({ viewport: { width: 1600, height: 1250 } })).newPage();
+await page.goto("http://localhost:3015/demo/eshop-16-v2?ts=" + Date.now(), { waitUntil: "load", timeout: 90000 });
+await page.waitForTimeout(5000);
+await page.screenshot({ path: `${OUT}/es16-cats.png` });
+const mob = await (await browser.newContext({ viewport: { width: 390, height: 1100 } })).newPage();
+await mob.goto("http://localhost:3015/demo/eshop-16-v2?ts=" + Date.now(), { waitUntil: "load", timeout: 90000 });
+await mob.waitForTimeout(4000);
+await mob.evaluate(() => window.scrollBy(0, 600));
+await mob.waitForTimeout(1000);
+await mob.screenshot({ path: `${OUT}/es16-cats-mobile.png` });
+await browser.close(); console.log("done");

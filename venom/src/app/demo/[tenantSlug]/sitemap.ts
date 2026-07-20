@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getTenantBySlug, getTenantPages, query } from "@/lib/db";
+import { getShopByTenantId } from "@/lib/commerce/shop";
 
-// force-dynamic: tenant slugs are not statically enumerable at build time
 export const dynamic = "force-dynamic";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
@@ -63,5 +63,28 @@ export default async function sitemap({
       priority: 0.6,
     }));
 
-  return [...pageEntries, ...blogIndex, ...categoryEntries, ...postEntries];
+  // Commerce: shop listing + product detail pages
+  const shopEntries: MetadataRoute.Sitemap = [];
+  try {
+    const shop = await getShopByTenantId(tenant.id);
+    if (shop) {
+      shopEntries.push({ url: `${base}/obchod`, lastModified: new Date(), changeFrequency: "daily", priority: 0.9 });
+      const products = await query<{ slug: string; updated_at: string }>(
+        "SELECT slug, updated_at FROM products WHERE tenant_id = $1 AND status = 'active' ORDER BY updated_at DESC LIMIT 5000",
+        [tenant.id]
+      );
+      for (const p of products) {
+        shopEntries.push({ url: `${base}/obchod/${p.slug}`, lastModified: new Date(p.updated_at), changeFrequency: "weekly", priority: 0.7 });
+      }
+      const cats = await query<{ slug: string }>(
+        "SELECT slug FROM product_categories WHERE tenant_id = $1 AND is_visible = true",
+        [tenant.id]
+      );
+      for (const c of cats) {
+        shopEntries.push({ url: `${base}/obchod?kategorie=${c.slug}`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.6 });
+      }
+    }
+  } catch { /* commerce not initialized */ }
+
+  return [...pageEntries, ...blogIndex, ...categoryEntries, ...postEntries, ...shopEntries];
 }

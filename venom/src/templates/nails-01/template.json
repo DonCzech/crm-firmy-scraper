@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "nails-01",
-  "name": "Demo Soho Nails & Spa",
+  "name": "Noir Nails & Spa",
   "industry": "nails",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,18 +9,47 @@
   "description": "Prémiové nehtové studio — floating krémový (#f4f1e9) navbar s burgundy (#79142b) CTA, promo banner, 2-col about s filozofií, 4 service kategorie (manikúra/pedikúra/řasy/kadeřnictví), produktová sekce, CTA rezervace, galerie interiéru, patička. Inspirováno soho-nails.cz.",
   "sectionOrderNote": "Navbar → Promo → About → Services → Products → CTA → Gallery → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",      "reason": "ceník je na samostatné stránce /price-list, ne na homepage" },
-    { "pos": 7,  "name": "Testimonials", "reason": "originál nemá recenze na homepage" },
-    { "pos": 8,  "name": "Contact form", "reason": "originál používá jen odkaz na rezervaci (Reservio iframe), ne formulář" },
-    { "pos": 10, "name": "Locations",    "reason": "adresa je v patičce, samostatná contact sekce na homepage není" },
-    { "pos": 11, "name": "FAQ",          "reason": "originál nemá FAQ sekci" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "ceník je na samostatné stránce /price-list, ne na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "originál nemá recenze na homepage"
+    },
+    {
+      "pos": 8,
+      "name": "Contact form",
+      "reason": "originál používá jen odkaz na rezervaci (Reservio iframe), ne formulář"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "adresa je v patičce, samostatná contact sekce na homepage není"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "originál nemá FAQ sekci"
+    }
   ],
   "extraSections": [
-    { "type": "products", "reason": "sekce brandových produktů (Blazingstar/OPI/CNDC/Footlogix) — specifická pro nails industry, není v service-personal skeleton" }
+    {
+      "type": "products",
+      "reason": "sekce brandových produktů (Blazingstar/OPI/CNDC/Footlogix) — specifická pro nails industry, není v service-personal skeleton"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,14 +57,51 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",    "variant": "nails-01-navbar",    "contentRef": "navbar" },
-        { "type": "hero",      "variant": "nails-01-hero",      "contentRef": "hero" },
-        { "type": "about",     "variant": "nails-01-about",     "contentRef": "about" },
-        { "type": "services",  "variant": "nails-01-services",  "contentRef": "services" },
-        { "type": "products",  "variant": "nails-01-products",  "contentRef": "products" },
-        { "type": "cta",       "variant": "nails-01-cta",       "contentRef": "cta" },
-        { "type": "gallery",   "variant": "nails-01-gallery",   "contentRef": "gallery" },
-        { "type": "footer",    "variant": "nails-01-footer",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "nails-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "nails-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "nails-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "nails-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "products",
+          "variant": "nails-01-products",
+          "contentRef": "products"
+        },
+        {
+          "type": "cta",
+          "variant": "nails-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "gallery",
+          "variant": "nails-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "nails-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "footer",
+          "variant": "nails-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

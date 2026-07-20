@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#c8f53c",
+    "secondary": "#0a0a0b",
+    "accent": "#7a5cff",
+    "background": "#ffffff",
+    "surface": "#f4f4f3",
+    "text": "#121212",
+    "textMuted": "#6f6f6f",
+    "border": "#e6e6e4"
+  },
+  "typography": {
+    "fontHeading": "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif",
+    "fontBody": "'Barlow', 'Segoe UI', Arial, sans-serif"
+  }
+}

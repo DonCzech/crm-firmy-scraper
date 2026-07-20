@@ -642,7 +642,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
             {/* SYSTÉMOVÉ STRÁNKY */}
             <NavSection title="SYSTÉMOVÉ STRÁNKY">
               {systemPages.length === 0 ? (
-                <p className="px-4 py-2 text-[13px] text-[#6b7280]">404</p>
+                <p className="px-4 py-2 text-[13px] text-[var(--vs-text-muted)]">404</p>
               ) : (
                 systemPages.map((p) => (
                   <PageItem key={p.id} page={p} active={p.id === state.page.id} onNavigate={() => navigateTo(p)} onDelete={() => deletePage(p)} onSettings={() => setSettingsPage(p)} busy={busy} navigating={navigatingPageId === p.id} />
@@ -673,7 +673,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
 function SearchHeader({ search, onSearch }: { search: string; onSearch: (v: string) => void }) {
   return (
     <div className="flex h-[52px] shrink-0 items-center gap-2.5 px-4 border-b border-[var(--vs-border)]">
-      <Search className="h-[15px] w-[15px] text-[#4b5563] shrink-0" strokeWidth={1.8} />
+      <Search className="h-[15px] w-[15px] text-[var(--vs-text-muted)] shrink-0" strokeWidth={1.8} />
       <input
         type="text"
         value={search}
@@ -682,7 +682,7 @@ function SearchHeader({ search, onSearch }: { search: string; onSearch: (v: stri
         className="flex-1 bg-transparent text-[14px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:outline-none"
       />
       {search && (
-        <button type="button" onClick={() => onSearch("")} className="h-5 w-5 flex items-center justify-center rounded text-[#4b5563] hover:text-[#9ca3af]">
+        <button type="button" onClick={() => onSearch("")} className="h-5 w-5 flex items-center justify-center rounded text-[var(--vs-text-dim)] hover:text-[var(--vs-text)]">
           <X className="h-3.5 w-3.5" />
         </button>
       )}
@@ -712,11 +712,11 @@ function NavSection({
           onClick={() => setOpen((v) => !v)}
           className="flex flex-1 items-center gap-1.5 text-left"
         >
-          <span className="text-[11px] font-bold tracking-[0.10em] text-[#6b7280] uppercase">
+          <span className="text-[11px] font-bold tracking-[0.10em] text-[var(--vs-text-muted)] uppercase">
             {title}
           </span>
           <ChevronUp
-            className="h-3 w-3 text-[#6b7280] transition-transform duration-150"
+            className="h-3 w-3 text-[var(--vs-text-muted)] transition-transform duration-150"
             style={{ transform: open ? "rotate(0deg)" : "rotate(-180deg)" }}
             strokeWidth={2.5}
           />
@@ -726,7 +726,7 @@ function NavSection({
             type="button"
             onClick={onAdd}
             aria-label="Přidat stránku"
-            className="flex h-5 w-5 items-center justify-center rounded text-[#6b7280] hover:text-[#9ca3af] transition-colors"
+            className="flex h-5 w-5 items-center justify-center rounded text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
           >
             <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
           </button>
@@ -743,7 +743,7 @@ function NavSection({
 /* ── EmptyPlaceholder ────────────────────────────────────────────────────── */
 function EmptyPlaceholder() {
   return (
-    <p className="px-4 py-2 text-[13px] italic text-[#4b5563] leading-snug">
+    <p className="px-4 py-2 text-[13px] italic text-[var(--vs-text-muted)] leading-snug">
       Přidejte nebo přetáhněte<br />první položku
     </p>
   );
@@ -801,7 +801,7 @@ function PageItem({
     >
       {/* Drag handle */}
       <div className={`shrink-0 mr-1 transition-opacity duration-100 ${hover ? "opacity-100" : "opacity-0"}`}>
-        <GripVertical className="h-3.5 w-3.5 text-[#4b5563]" strokeWidth={1.5} />
+        <GripVertical className="h-3.5 w-3.5 text-[var(--vs-text-dim)]" strokeWidth={1.5} />
       </div>
 
       {/* Title + link icon.
@@ -811,7 +811,7 @@ function PageItem({
           "Studio Břitva"). The stored title remains the source of truth for
           SEO and for the editor's title field. */}
       <span className={`flex-1 text-[14px] font-medium leading-snug truncate flex items-center min-w-0 ${
-        active ? "text-[#f4f4f7]" : "text-[#9ca3af]"
+        active ? "text-[var(--vs-text)]" : "text-[var(--vs-text-muted)]"
       }`}>
         {p.is_homepage ? "Homepage" : p.title}
         <LinkIcon />
@@ -822,7 +822,7 @@ function PageItem({
         <Loader2 className="ml-1.5 h-3.5 w-3.5 shrink-0 animate-spin text-[var(--vs-accent-hi)]" strokeWidth={2} />
       )}
       {p.is_homepage && !hover && !navigating && (
-        <Home className="h-3.5 w-3.5 shrink-0 text-[#6b7280] ml-1.5" strokeWidth={1.5} />
+        <Home className="h-3.5 w-3.5 shrink-0 text-[var(--vs-text-muted)] ml-1.5" strokeWidth={1.5} />
       )}
       {!p.is_homepage && p.status === "draft" && !hover && !navigating && (
         <span className="ml-1.5 shrink-0 text-[10px] font-medium uppercase tracking-wide text-[#f59e0b] opacity-70">
@@ -837,7 +837,7 @@ function PageItem({
             type="button"
             disabled={busy}
             onClick={(e) => { e.stopPropagation(); onSettings(); }}
-            className="h-6 w-6 flex items-center justify-center rounded text-[#6b7280] hover:bg-[var(--vs-surface-3)] hover:text-[#9ca3af] disabled:opacity-40 transition-colors"
+            className="h-6 w-6 flex items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-3)] hover:text-[var(--vs-text)] disabled:opacity-40 transition-colors"
           >
             <Settings2 className="h-3.5 w-3.5" strokeWidth={1.5} />
           </button>
@@ -846,7 +846,7 @@ function PageItem({
               type="button"
               disabled={busy}
               onClick={(e) => { e.stopPropagation(); onDelete(); }}
-              className="h-6 w-6 flex items-center justify-center rounded text-[#6b7280] hover:bg-[rgba(248,113,113,0.15)] hover:text-[var(--vs-danger)] disabled:opacity-40 transition-colors"
+              className="h-6 w-6 flex items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-danger-bg)] hover:text-[var(--vs-danger)] disabled:opacity-40 transition-colors"
             >
               <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
             </button>

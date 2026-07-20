@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "garden-02",
-  "name": "Demo PolGarden",
+  "name": "EdenPro",
   "industry": "garden",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -9,21 +9,57 @@
   "description": "Realizace zahrad Praha a okolí — zelená #95c11f + tmavá #1a2a0a. Transparent fixed navbar s zelenobílým logem → bílý on-scroll + phone CTA pill, fullscreen hero s overlayem, TV embed sekce, personal story 2-col + photo-stack, media dark sekce, recenze, CTA, tmavý footer. Inspirováno polgarden.cz.",
   "sectionOrderNote": "Navbar → Hero → Promo (TV) → About → Promo (Media) → Testimonials → CTA → Footer",
   "skippedSections": [
-    { "pos": 3,  "name": "Services",         "reason": "Originál nemá dedikovanou services sekci na homepage — služby jsou v Nabízíme podstránce" },
-    { "pos": 4,  "name": "Gallery",          "reason": "Originál nemá gallery grid na homepage — fotky jsou v photo-stack about sekci" },
-    { "pos": 5,  "name": "Map",              "reason": "Oblast Praha a okolí je uvedena v navbar, footeru — bez mapy" },
-    { "pos": 6,  "name": "Pricing/Estimate", "reason": "Ceny jsou individuální — nabídky na míru, bez ceníku na homepage" },
-    { "pos": 7,  "name": "Portfolio",        "reason": "Realizace jsou na podstránce sluzby — homepage nemá standalone gallery" },
-    { "pos": 10, "name": "Service area",     "reason": "Oblast Praha a Středočeský kraj je uvedena v navbar a footeru — bez mapy" },
-    { "pos": 11, "name": "FAQ",              "reason": "Originál nemá FAQ sekci na homepage" }
+    {
+      "pos": 3,
+      "name": "Services",
+      "reason": "Originál nemá dedikovanou services sekci na homepage — služby jsou v Nabízíme podstránce"
+    },
+    {
+      "pos": 4,
+      "name": "Gallery",
+      "reason": "Originál nemá gallery grid na homepage — fotky jsou v photo-stack about sekci"
+    },
+    {
+      "pos": 5,
+      "name": "Map",
+      "reason": "Oblast Praha a okolí je uvedena v navbar, footeru — bez mapy"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceny jsou individuální — nabídky na míru, bez ceníku na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Portfolio",
+      "reason": "Realizace jsou na podstránce sluzby — homepage nemá standalone gallery"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Oblast Praha a Středočeský kraj je uvedena v navbar a footeru — bez mapy"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál nemá FAQ sekci na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "reason": "TV sekce — embed Vimeo pořadu Polopatě s titulkem 'Natočila o nás ČT'" },
-    { "type": "promo", "reason": "Media sekce — dark bg, 2 video embeds (TV Nova + ČT)" }
+    {
+      "type": "promo",
+      "reason": "TV sekce — embed Vimeo pořadu Polopatě s titulkem 'Natočila o nás ČT'"
+    },
+    {
+      "type": "promo",
+      "reason": "Media sekce — dark bg, 2 video embeds (TV Nova + ČT)"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -31,14 +67,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",       "variant": "garden-02-navbar",       "contentRef": "navbar" },
-        { "type": "hero",         "variant": "garden-02-hero",         "contentRef": "hero" },
-        { "type": "promo",        "variant": "garden-02-tv",           "contentRef": "tv" },
-        { "type": "about",        "variant": "garden-02-about",        "contentRef": "about" },
-        { "type": "promo",        "variant": "garden-02-media",        "contentRef": "media" },
-        { "type": "testimonials", "variant": "garden-02-testimonials", "contentRef": "testimonials" },
-        { "type": "cta",          "variant": "garden-02-cta",          "contentRef": "cta" },
-        { "type": "footer",       "variant": "garden-02-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "garden-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "garden-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "garden-02-tv",
+          "contentRef": "tv"
+        },
+        {
+          "type": "about",
+          "variant": "garden-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "garden-02-media",
+          "contentRef": "media"
+        },
+        {
+          "type": "testimonials",
+          "variant": "garden-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "cta",
+          "variant": "garden-02-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "garden-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -47,8 +115,16 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "garden-02-navbar", "contentRef": "navbar" },
-        { "type": "footer", "variant": "garden-02-footer", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "garden-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "footer",
+          "variant": "garden-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -57,8 +133,16 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "garden-02-navbar", "contentRef": "navbar" },
-        { "type": "footer", "variant": "garden-02-footer", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "garden-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "footer",
+          "variant": "garden-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

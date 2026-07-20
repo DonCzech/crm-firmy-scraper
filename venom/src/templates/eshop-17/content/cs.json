@@ -1,0 +1,689 @@
+{
+  "siteName": "Rozkvět",
+  "seo": {
+    "title": "Rozkvět — čerstvé květiny s rozvozem po celé ČR",
+    "description": "Kytice růží, míchané kytice i květinové krabičky. Vážeme až na vaši objednávku ze 100% čerstvých květin a doručujeme vlastními chlazenými vozy. Doprava zdarma nad 1 590 Kč."
+  },
+  "navbar": {
+    "siteName": "Rozkvět",
+    "tagline": "květiny s příběhem",
+    "logoUrl": "",
+    "topLinks": [
+      {
+        "label": "Jak nakupovat",
+        "href": "/obchod"
+      },
+      {
+        "label": "Magazín",
+        "href": "/obchod"
+      },
+      {
+        "label": "Fotky od zákazníků",
+        "href": "/obchod"
+      },
+      {
+        "label": "Vzkazy a přání",
+        "href": "/obchod"
+      }
+    ],
+    "courierLink": {
+      "text": "Očekáváte doručení kytice?",
+      "linkText": "Sledujte polohu našich kurýrů na mapě",
+      "href": "/obchod"
+    },
+    "searchPlaceholder": "Co hledáte? Např. 100 rudých růží…",
+    "phone": {
+      "number": "704 123 456",
+      "hours": "Ne–Pá 8–21, So 9–17",
+      "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=96&h=96&fit=crop&auto=format&q=75"
+    },
+    "utility": {
+      "loginLabel": "Přihlášení",
+      "cartLabel": "Košík"
+    },
+    "mainNav": [
+      {
+        "label": "100 růží",
+        "href": "/obchod?kategorie=kytice-100-kvetu"
+      },
+      {
+        "label": "Kytice",
+        "href": "/obchod?kategorie=kytice",
+        "mega": {
+          "tiles": [
+            {
+              "label": "Kytice růží",
+              "slug": "kytice-ruzi",
+              "image": "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Míchané kytice",
+              "slug": "michane-kytice",
+              "image": "https://images.unsplash.com/photo-1452827073306-6e6e661baf57?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Kytice tvaru srdce",
+              "slug": "kytice-tvaru-srdce",
+              "image": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Kytice 100 květů",
+              "slug": "kytice-100-kvetu",
+              "image": "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Svatební kytice",
+              "slug": "svatebni-kytice",
+              "image": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Smuteční kytice",
+              "slug": "smutecni-kytice",
+              "image": "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Levné svazky",
+              "slug": "levne-svazky",
+              "image": "https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Sezónní kytice",
+              "slug": "sezonni-kytice",
+              "image": "https://images.unsplash.com/photo-1522748906645-95d8adfd52c7?w=360&h=270&fit=crop&auto=format&q=75"
+            }
+          ],
+          "aside": {
+            "heading": "Mohlo by vás před nákupem zajímat",
+            "links": [
+              {
+                "label": "Jak si rychle vybrat kytici",
+                "href": "/obchod"
+              },
+              {
+                "label": "Co říkáte počtem květin v kytici?",
+                "href": "/obchod"
+              },
+              {
+                "label": "Sudé versus liché počty květin",
+                "href": "/obchod"
+              },
+              {
+                "label": "Básničky, přáníčka a vzkazy ke květinám",
+                "href": "/obchod"
+              },
+              {
+                "label": "Jak vážeme kytice na přání",
+                "href": "/obchod"
+              },
+              {
+                "label": "Jak dlouho vydrží kytice",
+                "href": "/obchod"
+              },
+              {
+                "label": "Tipy na dárky z květin",
+                "href": "/obchod"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "Růže",
+        "href": "/obchod?kategorie=ruze",
+        "mega": {
+          "tiles": [
+            {
+              "label": "Červené a rudé růže",
+              "slug": "cervene-ruze",
+              "image": "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Luxusní růže",
+              "slug": "luxusni-ruze",
+              "image": "https://images.unsplash.com/photo-1496062031456-07b8f162a322?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Metrové a dlouhé růže",
+              "slug": "metrove-ruze",
+              "image": "https://images.unsplash.com/photo-1599733594230-6b823276abcc?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Barvené a modré růže",
+              "slug": "barvene-ruze",
+              "image": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Bílé růže",
+              "slug": "bile-ruze",
+              "image": "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Růžové růže",
+              "slug": "ruzove-ruze",
+              "image": "https://images.unsplash.com/photo-1591886960571-74d43a9d4166?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Mnohokvěté trsové růže",
+              "slug": "trsove-ruze",
+              "image": "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Růže na svatbu",
+              "slug": "ruze-na-svatbu",
+              "image": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Zahradní růže",
+              "slug": "zahradni-ruze",
+              "image": "https://images.unsplash.com/photo-1457089328109-e5d9bd499191?w=360&h=270&fit=crop&auto=format&q=75"
+            }
+          ],
+          "aside": {
+            "heading": "Mohlo by vás před nákupem zajímat",
+            "links": [
+              {
+                "label": "Jak se starat o řezané růže",
+                "href": "/obchod"
+              },
+              {
+                "label": "Velikosti květů a stonků růží",
+                "href": "/obchod"
+              },
+              {
+                "label": "Kolik stojí růže",
+                "href": "/obchod"
+              },
+              {
+                "label": "Jak dlouho vydrží růže",
+                "href": "/obchod"
+              },
+              {
+                "label": "Kolik růží k narozeninám",
+                "href": "/obchod"
+              },
+              {
+                "label": "Význam barev růží",
+                "href": "/obchod"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "Květiny",
+        "href": "/obchod?kategorie=kvetiny",
+        "mega": {
+          "tiles": [
+            {
+              "label": "Tulipány",
+              "slug": "tulipany",
+              "image": "https://images.unsplash.com/photo-1520763185298-1b434c919102?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Pivoňky",
+              "slug": "pivonky",
+              "image": "https://images.unsplash.com/photo-1591886960571-74d43a9d4166?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Slunečnice",
+              "slug": "slunecnice",
+              "image": "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Gerbery",
+              "slug": "gerbery",
+              "image": "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Lilie",
+              "slug": "lilie",
+              "image": "https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Eustomy",
+              "slug": "eustomy",
+              "image": "https://images.unsplash.com/photo-1469259943454-aa100abba749?w=360&h=270&fit=crop&auto=format&q=75"
+            }
+          ],
+          "aside": {
+            "heading": "Mohlo by vás před nákupem zajímat",
+            "links": [
+              {
+                "label": "Sezónní průvodce květinami",
+                "href": "/obchod"
+              },
+              {
+                "label": "Jak prodloužit život řezaných květin",
+                "href": "/obchod"
+              },
+              {
+                "label": "Květinová etiketa",
+                "href": "/obchod"
+              },
+              {
+                "label": "Které květiny voní nejvíc",
+                "href": "/obchod"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "Krabičky",
+        "href": "/obchod?kategorie=krabicky",
+        "mega": {
+          "tiles": [
+            {
+              "label": "Kulaté flowerboxy",
+              "slug": "flowerboxy",
+              "image": "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Srdcové boxy",
+              "slug": "srdcove-boxy",
+              "image": "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Boxy s pralinkami",
+              "slug": "boxy-s-pralinkami",
+              "image": "https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Sušené květiny",
+              "slug": "susene-kvetiny",
+              "image": "https://images.unsplash.com/photo-1477511801984-4ad318ed9846?w=360&h=270&fit=crop&auto=format&q=75"
+            }
+          ],
+          "aside": {
+            "heading": "Mohlo by vás před nákupem zajímat",
+            "links": [
+              {
+                "label": "Jak pečovat o flowerbox",
+                "href": "/obchod"
+              },
+              {
+                "label": "Kytice, nebo krabička?",
+                "href": "/obchod"
+              },
+              {
+                "label": "Krabičky se vzkazem",
+                "href": "/obchod"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "Doplňky",
+        "href": "/obchod?kategorie=doplnky",
+        "mega": {
+          "tiles": [
+            {
+              "label": "Vázy",
+              "slug": "vazy",
+              "image": "https://images.unsplash.com/photo-1533616688419-b7a585564566?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Proutěné věnce",
+              "slug": "vence",
+              "image": "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Stuhy a přání",
+              "slug": "stuhy-a-prani",
+              "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=360&h=270&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Svíčky",
+              "slug": "svicky",
+              "image": "https://images.unsplash.com/photo-1602523961358-f9f03dd557db?w=360&h=270&fit=crop&auto=format&q=75"
+            }
+          ],
+          "aside": {
+            "heading": "Mohlo by vás před nákupem zajímat",
+            "links": [
+              {
+                "label": "Jaká váza ke které kytici",
+                "href": "/obchod"
+              },
+              {
+                "label": "Dárkové balení a vzkazy",
+                "href": "/obchod"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "label": "Výprodej",
+        "href": "/obchod?kategorie=vyprodej"
+      }
+    ],
+    "secondaryNav": [
+      {
+        "label": "Můj Rozkvět",
+        "href": "/obchod"
+      },
+      {
+        "label": "Příležitosti",
+        "href": "/obchod"
+      },
+      {
+        "label": "Rozvoz květin",
+        "href": "/obchod"
+      },
+      {
+        "label": "Kontakty",
+        "href": "/kontakt"
+      }
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "Hodí se k vaší kytici",
+      "recoCta": "DO KOŠÍKU",
+      "emptyText": "Váš košík je zatím prázdný. Kytici vážeme, až si vyberete.",
+      "continueText": "Pokračovat v nákupu",
+      "freeShippingThreshold": 159000,
+      "freeShippingLabel": "Do dopravy zdarma zbývá",
+      "freeShippingDone": "Máte dopravu zdarma!"
+    }
+  },
+  "hero": {
+    "slides": [
+      {
+        "kicker": "Přímo od pěstitelů",
+        "title": "Růže RUBÍN",
+        "titleAccent": "s květem XXL",
+        "text": "Naše vlajková odrůda s květem 6–7 cm, pěstovaná ve vysokohorských sklenících pod rovníkem. Ve váze vydrží přes týden — ručíme za to.",
+        "ctaText": "Podívám se",
+        "ctaHref": "/obchod?kategorie=cervene-ruze",
+        "image": "https://images.unsplash.com/photo-1496062031456-07b8f162a322?w=1600&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Gesto, na které se nezapomíná",
+        "title": "Kytice",
+        "titleAccent": "100 květů",
+        "text": "Sto růží řekne všechno za vás. Navážeme ji ráno, odpoledne ji doručí chlazený vůz — a fotku hotové kytice vám pošleme ještě před vyjetím.",
+        "ctaText": "Vybrat kytici",
+        "ctaHref": "/obchod?kategorie=kytice-100-kvetu",
+        "image": "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1600&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Svatby s Rozkvětem",
+        "title": "Váš velký den",
+        "titleAccent": "navážeme celý",
+        "text": "Od zásnubní kytice po výzdobu tabule. Floristka s vámi projde představy, sezónu i rozpočet a připraví návrh na míru.",
+        "ctaText": "Svatební floristika",
+        "ctaHref": "/obchod?kategorie=svatebni-kytice",
+        "image": "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1600&h=900&fit=crop&auto=format&q=80"
+      }
+    ],
+    "badges": [
+      {
+        "title": "Cena kvality",
+        "sub": "finalista 2023–2026"
+      },
+      {
+        "title": "21 000+ recenzí",
+        "sub": "ověřeno zákazníky"
+      }
+    ],
+    "courier": {
+      "heading": "Rozkvět doručuje po celé ČR vlastními chlazenými vozy",
+      "text": "Podívejte se, kde právě jede váš kurýr, a sledujte doručení své kytice online v mapě.",
+      "linkText": "Kde je váš kurýr?",
+      "linkHref": "/obchod"
+    }
+  },
+  "calendar": {
+    "kicker": "Kdo slaví jmeniny? Udělejte radost kyticí",
+    "items": [
+      {
+        "date": "17. 7.",
+        "name": "Martina",
+        "today": true
+      },
+      {
+        "date": "18. 7.",
+        "name": "Drahomíra"
+      },
+      {
+        "date": "19. 7.",
+        "name": "Čeněk"
+      },
+      {
+        "date": "20. 7.",
+        "name": "Ilja"
+      },
+      {
+        "date": "21. 7.",
+        "name": "Vítězslav"
+      },
+      {
+        "date": "22. 7.",
+        "name": "Magdaléna"
+      },
+      {
+        "date": "23. 7.",
+        "name": "Libor"
+      }
+    ],
+    "quote": {
+      "text": "Správně zvolená kytice umí říct víc než dlouhý dopis. A jmeniny jsou ta nejsnazší příležitost, jak někomu udělat radost — s Rozkvětem ji stihnete ještě dnes.",
+      "author": "Bohumil Vonásek",
+      "role": "lektor společenské etikety",
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=240&h=240&fit=crop&auto=format&q=75"
+    }
+  },
+  "favProducts": {
+    "heading": "Oblíbené květiny a kytice",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod",
+    "limit": 8
+  },
+  "benefits": {
+    "heading": "Proč většina lidí na internetu nakupuje květiny u nás",
+    "items": [
+      {
+        "title": "Vidíte skutečné foto doručených květin",
+        "image": "https://images.unsplash.com/photo-1452827073306-6e6e661baf57?w=600&h=460&fit=crop&auto=format&q=75"
+      },
+      {
+        "title": "Máte číslo na kurýra a doručení vidíte online",
+        "type": "map"
+      },
+      {
+        "title": "Získáte ověřenou kvalitu květin a služeb",
+        "type": "awards",
+        "awards": [
+          {
+            "title": "Cena kvality",
+            "sub": "finalista 2023–2026"
+          },
+          {
+            "title": "21 000+ recenzí",
+            "sub": "ověřeno zákazníky"
+          }
+        ]
+      },
+      {
+        "title": "Vyřešíme vám co potřebujete denně až do noci",
+        "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=460&fit=crop&auto=format&q=75"
+      },
+      {
+        "title": "Doručíme vám květiny zdravé chlazenými vozy",
+        "image": "https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=600&h=460&fit=crop&auto=format&q=75"
+      }
+    ]
+  },
+  "rosesProducts": {
+    "heading": "Čerstvé růže tento týden",
+    "moreLabel": "Všechny růže",
+    "moreHref": "/obchod?kategorie=ruze",
+    "limit": 4,
+    "source": "newest",
+    "categorySlug": "ruze"
+  },
+  "newsletter": {
+    "heading": "Novinky, inspirace a akce ze světa Rozkvětu. Newsletter posíláme jen jednou za čas, žádný spam nečekejte!",
+    "placeholder": "Zadejte e-mail",
+    "buttonText": "Přihlásit se",
+    "consentText": "Přihlášením souhlasíte se",
+    "consentLink": "zpracováním osobních údajů",
+    "successText": "Děkujeme! První kytice inspirace dorazí brzy."
+  },
+  "footer": {
+    "columns": [
+      {
+        "heading": "Zákaznický servis",
+        "links": [
+          {
+            "label": "Jak nakupovat",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kontakty",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Rozvoz květin",
+            "href": "/obchod"
+          },
+          {
+            "label": "Poloha kurýrů",
+            "href": "/obchod"
+          },
+          {
+            "label": "Platební způsoby",
+            "href": "/obchod"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Reklamační podmínky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Ochrana osobních údajů",
+            "href": "/obchod"
+          },
+          {
+            "label": "Cookies",
+            "href": "/obchod"
+          }
+        ]
+      },
+      {
+        "heading": "Inspirujeme vás",
+        "links": [
+          {
+            "label": "Magazín",
+            "href": "/obchod"
+          },
+          {
+            "label": "Svatby",
+            "href": "/obchod?kategorie=svatebni-kytice"
+          },
+          {
+            "label": "Smuteční floristika",
+            "href": "/obchod?kategorie=smutecni-kytice"
+          },
+          {
+            "label": "Květinová etiketa",
+            "href": "/obchod"
+          },
+          {
+            "label": "Fotky od zákazníků",
+            "href": "/obchod"
+          },
+          {
+            "label": "Zakázková floristika",
+            "href": "/obchod"
+          },
+          {
+            "label": "Fair trade květiny",
+            "href": "/obchod"
+          },
+          {
+            "label": "Poradna",
+            "href": "/obchod"
+          },
+          {
+            "label": "Vzkazy a přání",
+            "href": "/obchod"
+          }
+        ]
+      },
+      {
+        "heading": "O nás",
+        "links": [
+          {
+            "label": "Proč nakupovat u nás",
+            "href": "/obchod"
+          },
+          {
+            "label": "Velkoobchod & B2B",
+            "href": "/obchod"
+          },
+          {
+            "label": "Naše foto a video",
+            "href": "/obchod"
+          },
+          {
+            "label": "Recenze zákazníků",
+            "href": "/obchod"
+          },
+          {
+            "label": "Květinářství online",
+            "href": "/obchod"
+          },
+          {
+            "label": "Logistický sklad",
+            "href": "/obchod"
+          },
+          {
+            "label": "Volná místa",
+            "href": "/obchod"
+          },
+          {
+            "label": "Pro firmy",
+            "href": "/obchod"
+          }
+        ]
+      }
+    ],
+    "contact": {
+      "heading": "Potřebujete poradit?",
+      "phone": "704 123 456",
+      "hours": "Celý týden 8–21, So 9–17",
+      "email": "kvetiny@demo.cz",
+      "image": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&auto=format&q=75",
+      "cert": "Certifikovaný obchod"
+    },
+    "payments": [
+      "VISA",
+      "Mastercard",
+      "PayPal",
+      "Twisto"
+    ],
+    "awards": [
+      {
+        "title": "Cena kvality",
+        "sub": "finalista 2023–2026"
+      },
+      {
+        "title": "21 000+ recenzí",
+        "sub": "ověřeno zákazníky"
+      }
+    ],
+    "eco": [
+      "Fair flowers",
+      "Šetrné pěstování"
+    ],
+    "copyright": "© 2011–2026 Rozkvět Atelier s.r.o. Květiny vážeme už 15 let."
+  }
+}

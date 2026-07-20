@@ -1,17 +1,26 @@
 import { NextRequest } from "next/server";
+import { sanitizeRichContent, stripHtml } from "@/lib/sanitize-content";
 import { z } from "zod";
 import { getTenantBySlug, query, auditLog } from "@/lib/db";
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
+import { readingTimeMinutes, type BlogBlock } from "@/lib/blog/content";
+
+/** Accepts absolute http(s) URLs and site-relative paths (uploaded media). */
+const imageUrl = z.string().max(2000).refine(
+  (v) => /^https?:\/\//.test(v) || v.startsWith("/"),
+  "Neplatná URL obrázku"
+);
 
 const CreateSchema = z.object({
   slug: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/, "Slug může obsahovat jen a-z, 0-9, -"),
   title: z.string().min(1).max(200),
   excerpt: z.string().max(500).optional(),
   content: z.array(z.unknown()).default([]),
-  featured_image: z.string().url().optional(),
+  featured_image: imageUrl.optional().nullable(),
+  og_image: imageUrl.optional().nullable(),
   author: z.string().max(100).optional(),
   category: z.string().max(100).optional(),
-  tags: z.array(z.string()).default([]),
+  tags: z.array(z.string().max(60)).max(20).default([]),
   status: z.enum(["draft", "published"]).default("draft"),
   seo_title: z.string().max(200).optional(),
   seo_description: z.string().max(300).optional(),
@@ -38,14 +47,34 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     if (!auth.ok) return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const where: string[] = ["tenant_id = $1"];
+  const vals: unknown[] = [tenant.id];
+  if (publishedOnly) where.push("status = 'published'");
+
+  const statusFilter = url.searchParams.get("status");
+  if (!publishedOnly && (statusFilter === "draft" || statusFilter === "published")) {
+    vals.push(statusFilter);
+    where.push(`status = $${vals.length}`);
+  }
+  const category = url.searchParams.get("category");
+  if (category) {
+    vals.push(category);
+    where.push(`category = $${vals.length}`);
+  }
+  const q = url.searchParams.get("q")?.trim();
+  if (q) {
+    vals.push(`%${q}%`);
+    where.push(`(title ILIKE $${vals.length} OR slug ILIKE $${vals.length} OR excerpt ILIKE $${vals.length})`);
+  }
+
+  vals.push(limit);
   const posts = await query(
-    publishedOnly
-      ? `SELECT id, slug, title, excerpt, featured_image, author, category, tags, status, published_at, created_at
-         FROM blog_posts WHERE tenant_id = $1 AND status = 'published'
-         ORDER BY published_at DESC LIMIT $2`
-      : `SELECT id, slug, title, excerpt, featured_image, author, category, tags, status, published_at, created_at
-         FROM blog_posts WHERE tenant_id = $1 ORDER BY created_at DESC LIMIT $2`,
-    [tenant.id, limit]
+    `SELECT id, slug, title, excerpt, featured_image, author, category, tags, status,
+            published_at, scheduled_at, created_at, updated_at, reading_time_min, noindex
+     FROM blog_posts WHERE ${where.join(" AND ")}
+     ORDER BY ${publishedOnly ? "published_at DESC" : "COALESCE(published_at, created_at) DESC"}
+     LIMIT $${vals.length}`,
+    vals
   );
 
   return Response.json({ posts });
@@ -73,18 +102,23 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   );
   if (existing.length) return Response.json({ error: "Slug již existuje" }, { status: 409 });
 
+  const content = sanitizeRichContent(d.content);
+  const readingTime = readingTimeMinutes(content as BlogBlock[]);
+
   const rows = await query<{ id: number }>(
     `INSERT INTO blog_posts
-       (tenant_id, slug, title, excerpt, content, featured_image, author, category, tags, status,
-        seo_title, seo_description, noindex, scheduled_at, published_at)
-     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)
+       (tenant_id, slug, title, excerpt, content, featured_image, og_image, author, category, tags, status,
+        seo_title, seo_description, noindex, scheduled_at, published_at, reading_time_min)
+     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
      RETURNING id`,
     [
-      tenant.id, d.slug, d.title, d.excerpt ?? null,
-      JSON.stringify(d.content), d.featured_image ?? null, d.author ?? null,
+      tenant.id, d.slug, stripHtml(d.title), d.excerpt ? stripHtml(d.excerpt) : null,
+      JSON.stringify(content), d.featured_image ?? null, d.og_image ?? null,
+      d.author ? stripHtml(d.author) : null,
       d.category ?? null, d.tags, d.status, d.seo_title ?? null, d.seo_description ?? null,
       d.noindex ?? false, d.scheduled_at ?? null,
       d.status === "published" ? new Date().toISOString() : null,
+      readingTime,
     ]
   );
 

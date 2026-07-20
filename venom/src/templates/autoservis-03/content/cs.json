@@ -5,15 +5,35 @@
     "ctaText": "REZERVACE",
     "ctaHref": "#kontakt",
     "phone": "704 123 456",
-    "email": "info@demo.cz",
     "links": [
-      { "label": "Domů",        "href": "/" },
-      { "label": "Naše práce",  "href": "/#prace" },
-      { "label": "Služby",      "href": "/sluzby" },
-      { "label": "Ceník",       "href": "/#cenik" },
-      { "label": "Galerie",     "href": "/#galerie" },
-      { "label": "Dostupnost",  "href": "/#dostupnost" },
-      { "label": "Kontakt",     "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Naše práce",
+        "href": "/#prace"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "/#cenik"
+      },
+      {
+        "label": "Galerie",
+        "href": "/#galerie"
+      },
+      {
+        "label": "Dostupnost",
+        "href": "/#dostupnost"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
@@ -30,10 +50,22 @@
   "stats": {
     "id": "statistiky",
     "items": [
-      { "value": "15+",   "label": "let zkušeností" },
-      { "value": "3 000+","label": "spokojených zákazníků" },
-      { "value": "4.8★",  "label": "hodnocení na Google" },
-      { "value": "24h",   "label": "express opravy" }
+      {
+        "value": "15+",
+        "label": "let zkušeností"
+      },
+      {
+        "value": "3 000+",
+        "label": "spokojených zákazníků"
+      },
+      {
+        "value": "4.8★",
+        "label": "hodnocení na Google"
+      },
+      {
+        "value": "24h",
+        "label": "express opravy"
+      }
     ]
   },
   "services": {
@@ -93,12 +125,30 @@
     "title": "Výsledky, na které\njsme hrdí",
     "subtitle": "Každý servisní zásah provádíme s maximální precizností.",
     "items": [
-      { "url": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Servis BMW" },
-      { "url": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Pneuservis" },
-      { "url": "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Diagnostika" },
-      { "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Oprava motoru" },
-      { "url": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Výměna kol" },
-      { "url": "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Karoserie" }
+      {
+        "url": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&h=400&fit=crop&fm=webp&q=80",
+        "alt": "Servis BMW"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop&fm=webp&q=80",
+        "alt": "Pneuservis"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=600&h=400&fit=crop&fm=webp&q=80",
+        "alt": "Diagnostika"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&fm=webp&q=80",
+        "alt": "Oprava motoru"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&h=400&fit=crop&fm=webp&q=80",
+        "alt": "Výměna kol"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=600&h=400&fit=crop&fm=webp&q=80",
+        "alt": "Karoserie"
+      }
     ]
   },
   "about": {
@@ -140,22 +190,55 @@
       {
         "heading": "Autoservis",
         "rows": [
-          { "name": "Výměna brzdových destiček a kotoučů 1 osa", "price": "od 2 000 Kč*" },
-          { "name": "Výměna kapalin v chladicím systému",         "price": "od 1 200 Kč*" },
-          { "name": "Výměna motorového oleje",                     "price": "od 1 300 Kč*" },
-          { "name": "Diagnostika chyb a oprava elektroniky",       "price": "od 2 400 Kč*" },
-          { "name": "Mechanické práce",                            "price": "1 200 Kč/h*" }
+          {
+            "name": "Výměna brzdových destiček a kotoučů 1 osa",
+            "price": "od 2 000 Kč*"
+          },
+          {
+            "name": "Výměna kapalin v chladicím systému",
+            "price": "od 1 200 Kč*"
+          },
+          {
+            "name": "Výměna motorového oleje",
+            "price": "od 1 300 Kč*"
+          },
+          {
+            "name": "Diagnostika chyb a oprava elektroniky",
+            "price": "od 2 400 Kč*"
+          },
+          {
+            "name": "Mechanické práce",
+            "price": "1 200 Kč/h*"
+          }
         ]
       },
       {
         "heading": "Pneuservis",
         "rows": [
-          { "name": "Montáž + demontáž 1 ks kola z vozu",          "price": "140 Kč*" },
-          { "name": "Demontáž nebo montáž 1 ks pneu",              "price": "80 Kč*" },
-          { "name": "Vyvážení kola vč. závaží do 30 g / 1 kolo",   "price": "110 Kč*" },
-          { "name": "Oprava defektu",                               "price": "600 Kč*" },
-          { "name": "Diagnostika TPMS",                             "price": "500 Kč*" },
-          { "name": "Programovatelný TPMS ventil",                  "price": "900 Kč*" }
+          {
+            "name": "Montáž + demontáž 1 ks kola z vozu",
+            "price": "140 Kč*"
+          },
+          {
+            "name": "Demontáž nebo montáž 1 ks pneu",
+            "price": "80 Kč*"
+          },
+          {
+            "name": "Vyvážení kola vč. závaží do 30 g / 1 kolo",
+            "price": "110 Kč*"
+          },
+          {
+            "name": "Oprava defektu",
+            "price": "600 Kč*"
+          },
+          {
+            "name": "Diagnostika TPMS",
+            "price": "500 Kč*"
+          },
+          {
+            "name": "Programovatelný TPMS ventil",
+            "price": "900 Kč*"
+          }
         ]
       }
     ]
@@ -222,10 +305,22 @@
     "instagramUrl": "https://instagram.com/demo",
     "facebookUrl": "https://facebook.com/demo",
     "links": [
-      { "label": "Domů",    "href": "/" },
-      { "label": "Služby",  "href": "/sluzby" },
-      { "label": "Ceník",   "href": "/#cenik" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "/#cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "copyright": "© 2025 Demo Autoservis Tomáš. Všechna práva vyhrazena."
   },
@@ -237,6 +332,14 @@
     "kontakt": {
       "seoTitle": "Kontakt — Demo Autoservis Tomáš",
       "seoDescription": "Kontaktujte nás nebo se objednejte online."
+    }
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte servis",
+      "subtitle": "Vyberte úkon, technika a termín. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
     }
   }
 }

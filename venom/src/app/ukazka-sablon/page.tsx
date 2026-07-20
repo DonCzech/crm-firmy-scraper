@@ -9,7 +9,7 @@ import { query } from "@/lib/db";
 export const metadata: Metadata = {
   title: "Šablony — Webero",
   description:
-    "99+ profesionálních šablon pro každý obor. Restaurace, salóny, řemeslo, reality, ordinace a další. Live editor, SEO, hosting v ceně.",
+    "100+ profesionálních šablon pro každý obor. Restaurace, salóny, řemeslo, reality, ordinace a další. Live editor, SEO, hosting v ceně.",
   alternates: { canonical: "/ukazka-sablon" },
 };
 
@@ -235,7 +235,7 @@ export default async function ShowcaseIndexPage() {
                 letterSpacing: "-0.045em",
               }}
             >
-              99+
+              100+
             </h1>
             <h2
               className="mt-3 font-sans font-bold text-white"

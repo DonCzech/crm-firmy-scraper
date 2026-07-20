@@ -313,7 +313,7 @@ export function TypografieStyly() {
                 >
                   {r.label}
                 </span>
-                <span className="shrink-0 font-mono text-[10px] text-[#999]">{size}px · {weight}</span>
+                <span className="shrink-0 font-mono text-[10px] text-[var(--vs-text-muted)]">{size}px · {weight}</span>
               </div>
             );
           })}
@@ -327,7 +327,7 @@ export function TypografieStyly() {
                 <span className="truncate" style={{ fontSize: Math.max(12, size * 0.85), fontWeight: Number(weight), color, fontFamily: body, lineHeight: lh }}>
                   Odstavec — běžný text webu
                 </span>
-                <span className="shrink-0 font-mono text-[10px] text-[#999]">{size}px · {weight}</span>
+                <span className="shrink-0 font-mono text-[10px] text-[var(--vs-text-muted)]">{size}px · {weight}</span>
               </div>
             );
           })()}

@@ -1,0 +1,801 @@
+{
+  "siteName": "Zahradia",
+  "seo": {
+    "title": "Zahradia — vše pro zahradu, bazény a domov",
+    "description": "Zahradní technika, bazény a wellness, dům a dílna, elektrokola i chovatelské potřeby. Síť prodejen po celé ČR, vlastní servis a věrnostní program."
+  },
+  "navbar": {
+    "siteName": "Zahradia",
+    "logoUrl": "",
+    "tagline": "Váš čas",
+    "taglineBold": "na zahradě",
+    "phone": "220 180 190",
+    "searchPlaceholder": "Zahradní bazén",
+    "topLinks": [
+      {
+        "label": "Poradna",
+        "href": "/poradna"
+      },
+      {
+        "label": "Zahradní rádce",
+        "href": "/poradna"
+      },
+      {
+        "label": "Kontakty",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Vše o nákupu",
+        "href": "/doprava-a-platba",
+        "chevron": true
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas",
+        "chevron": true
+      },
+      {
+        "label": "Kariéra",
+        "href": "/o-nas"
+      }
+    ],
+    "utility": {
+      "cartLabel": "Košík",
+      "loginLabel": "Přihlásit",
+      "registerLabel": "Registrace",
+      "compareLabel": "Porovnání",
+      "wishlistLabel": "Oblíbené"
+    },
+    "megaAllLabel": "Vše z kategorie",
+    "usps": [
+      {
+        "icon": "store",
+        "line1": "Největší showroom zahrady",
+        "line2": "a wellness v ČR"
+      },
+      {
+        "icon": "people",
+        "line1": "Zkušení a proškolení",
+        "line2": "prodejci i servis"
+      },
+      {
+        "icon": "warehouse",
+        "line1": "Široká skladová zásoba",
+        "line2": "a rychlá expedice"
+      },
+      {
+        "icon": "truck",
+        "line1": "Doprava zdarma při nákupu",
+        "line2": "nad 2 990 Kč"
+      }
+    ],
+    "categories": [
+      {
+        "label": "Bazény",
+        "slug": "bazeny",
+        "children": [
+          {
+            "label": "Nadzemní bazény",
+            "slug": "bazeny",
+            "image": "https://images.unsplash.com/photo-1613977257365-aaae5a9817ff?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Luxusní zapuštěné bazény",
+            "slug": "luxusni-zapustene-bazeny",
+            "image": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Bazénové folie",
+            "slug": "bazenove-folie",
+            "image": "https://images.unsplash.com/photo-1562016600-ece13e8ba570?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Bazénové schůdky",
+            "slug": "bazenove-schudky",
+            "image": "https://images.unsplash.com/photo-1763521180108-fde66739af78?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Zastřešení a zakrytí",
+            "slug": "zastreseni-a-zakryti",
+            "image": "https://images.unsplash.com/photo-1602641405741-b8ed1ca2f546?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Ohřev bazénů",
+            "slug": "ohrev-bazenu",
+            "image": "https://images.unsplash.com/photo-1710829558360-6f8f5e49fedd?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Protiproudy",
+            "slug": "protiproudy",
+            "image": "https://images.unsplash.com/photo-1530549387789-4c1017266635?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Hračky do vody",
+            "slug": "hracky-do-vody",
+            "image": "https://images.unsplash.com/photo-1779653448281-a4c3bfb2e20f?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Bazénová chemie",
+        "slug": "bazenova-chemie",
+        "children": [
+          {
+            "label": "Bazénová chemie",
+            "slug": "bazenova-chemie",
+            "image": "https://images.unsplash.com/photo-1614667288602-9ac6e37318a7?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Bazénové filtrace",
+            "slug": "bazenove-filtrace",
+            "image": "https://images.unsplash.com/photo-1600542454033-f57a07bb2ea1?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Bazénové vysavače",
+            "slug": "bazenove-vysavace",
+            "image": "https://images.unsplash.com/photo-1722331240679-e2953d93ff33?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Bazénové příslušenství",
+            "slug": "bazenove-prislusenstvi",
+            "image": "https://images.unsplash.com/photo-1742353980377-b8e42932c590?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Solární sprchy",
+            "slug": "solarni-sprchy",
+            "image": "https://images.unsplash.com/photo-1771526087496-a988f64ee10f?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Vířivky a wellness",
+        "slug": "virivky",
+        "children": [
+          {
+            "label": "Vířivky",
+            "slug": "virivky",
+            "image": "https://images.unsplash.com/photo-1662150535993-2a8397f99603?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Sauny",
+            "slug": "sauny",
+            "image": "https://images.unsplash.com/photo-1728404259075-209cfb5bb89c?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Ochlazovací kádě",
+            "slug": "ochlazovaci-kade",
+            "image": "https://images.unsplash.com/photo-1713270281683-2a6f0ef76a9c?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Hřiště a hračky",
+        "slug": "pro-deti",
+        "children": [
+          {
+            "label": "Trampolíny",
+            "slug": "trampoliny",
+            "image": "https://images.unsplash.com/photo-1688450127382-7ee80e8bb5e1?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Houpačky a hřiště",
+            "slug": "houpacky",
+            "image": "https://images.unsplash.com/photo-1460788150444-d9dc07fa9dba?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Dětské bazény",
+            "slug": "detske-bazeny",
+            "image": "https://images.unsplash.com/photo-1758532978406-5197ed36e242?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Pískoviště a domky",
+            "slug": "piskoviste",
+            "image": "https://images.unsplash.com/photo-1529651490292-99f6f9ade9e8?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Zahrada",
+        "slug": "zahrada",
+        "children": [
+          {
+            "label": "Sekačky na trávu",
+            "slug": "sekacky-na-travu",
+            "image": "https://images.unsplash.com/photo-1458245201577-fc8a130b8829?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Zahradní traktory",
+            "slug": "zahradni-traktory",
+            "image": "https://images.unsplash.com/photo-1630709437016-ee675b9b29b8?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Křovinořezy a vyžínače",
+            "slug": "krovinorezy",
+            "image": "https://images.unsplash.com/photo-1779636489744-76eb81c44925?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Řetězové pily",
+            "slug": "retezove-pily",
+            "image": "https://images.unsplash.com/photo-1684332671569-b74fe5ad2142?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Vertikutátory",
+            "slug": "vertikutatory",
+            "image": "https://images.unsplash.com/photo-1605117882932-f9e32b03fea9?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Hadice a zavlažování",
+            "slug": "hadice-a-zavlazovani",
+            "image": "https://images.unsplash.com/photo-1684867430779-e66e779a19b7?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Zahradní grily",
+            "slug": "zahradni-grily",
+            "image": "https://images.unsplash.com/photo-1560358371-8460bf45a844?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Zahradní nábytek",
+            "slug": "zahradni-nabytek",
+            "image": "https://images.unsplash.com/photo-1621506821957-1b50ab7787a4?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Skleníky a fóliovníky",
+            "slug": "skleniky",
+            "image": "https://images.unsplash.com/photo-1622818171279-fe0b6a336835?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Zahradní domky",
+            "slug": "zahradni-domky",
+            "image": "https://images.unsplash.com/photo-1620393508176-1474bd6f6f9d?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Ruční nářadí",
+            "slug": "rucni-naradi",
+            "image": "https://images.unsplash.com/photo-1661712663315-d851d40bcf07?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "AKU technika",
+            "slug": "aku-technika",
+            "image": "https://images.unsplash.com/photo-1606676539940-12768ce0e762?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Dům a dílna",
+        "slug": "dum-a-dilna",
+        "children": [
+          {
+            "label": "Elektrocentrály",
+            "slug": "elektrocentraly",
+            "image": "https://images.unsplash.com/photo-1650785652040-5a2fc88ce902?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Čerpadla",
+            "slug": "cerpadla",
+            "image": "https://images.unsplash.com/photo-1761474911260-2274627be84f?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Vysavače a čisticí technika",
+            "slug": "cistici-technika",
+            "image": "https://images.unsplash.com/photo-1718152521364-b9655b8a7926?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Elektrické nářadí",
+            "slug": "elektricke-naradi",
+            "image": "https://images.unsplash.com/photo-1546827209-a218e99fdbe9?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Žebříky a schůdky",
+            "slug": "zebriky",
+            "image": "https://images.unsplash.com/photo-1635082627989-dcd12a107364?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Dílenský nábytek",
+            "slug": "dilensky-nabytek",
+            "image": "https://images.unsplash.com/photo-1426927308491-6380b6a9936f?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Chovatelské potřeby",
+        "slug": "chovatelske-potreby",
+        "children": [
+          {
+            "label": "Pro psy",
+            "slug": "pro-psy",
+            "image": "https://images.unsplash.com/photo-1714068691210-073dc52c6c1d?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Pro kočky",
+            "slug": "pro-kocky",
+            "image": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Ptactvo a hlodavci",
+            "slug": "ptactvo-a-hlodavci",
+            "image": "https://images.unsplash.com/photo-1722179256621-704c6ac6b9b8?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Boudy a pelíšky",
+            "slug": "boudy-a-pelisky",
+            "image": "https://images.unsplash.com/photo-1743763959056-41bbb557272d?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Elektrokola",
+        "slug": "elektrokola",
+        "children": [
+          {
+            "label": "Horská elektrokola",
+            "slug": "horska-elektrokola",
+            "image": "https://images.unsplash.com/photo-1635816048695-51dc43a7b24c?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Trekingová elektrokola",
+            "slug": "trekingova-elektrokola",
+            "image": "https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Městská elektrokola",
+            "slug": "mestska-elektrokola",
+            "image": "https://images.unsplash.com/photo-1501147830916-ce44a6359892?w=160&h=160&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Baterie a příslušenství",
+            "slug": "elektrokola-prislusenstvi",
+            "image": "https://images.unsplash.com/photo-1601971360277-7b4c8aa60894?w=160&h=160&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "label": "Výhodné sady",
+        "slug": "",
+        "href": "/obchod",
+        "tone": "highlight",
+        "children": []
+      }
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "MOHLO BY VÁS ZAJÍMAT",
+      "recoCta": "DO KOŠÍKU",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Pokračovat v nákupu",
+      "freeShippingThreshold": 299000,
+      "freeShippingLabel": "Do dopravy zdarma zbývá",
+      "freeShippingDone": "Máte dopravu zdarma!"
+    },
+    "yearsBadge": "již 25 let"
+  },
+  "hero": {
+    "slides": [
+      {
+        "kicker": "Sezóna bazénů je tady",
+        "title": "Léto začíná na vaší zahradě",
+        "text": "Nadzemní i zapuštěné bazény skladem, včetně chemie a filtrací. Poradíme s výběrem i instalací.",
+        "ctaText": "Vybrat bazén",
+        "ctaHref": "/obchod?kategorie=bazeny",
+        "cta2Text": "Bazénový rádce",
+        "cta2Href": "/poradna",
+        "image": "https://images.unsplash.com/photo-1613977257365-aaae5a9817ff?w=1800&h=700&fit=crop&auto=format&q=78"
+      },
+      {
+        "kicker": "Zahradní technika",
+        "title": "Trávník jako z katalogu",
+        "text": "Sekačky, traktory a AKU technika s vlastním servisem a náhradními díly po celé ČR.",
+        "ctaText": "Prohlédnout sekačky",
+        "ctaHref": "/obchod?kategorie=sekacky-na-travu",
+        "image": "https://images.unsplash.com/photo-1458245201577-fc8a130b8829?w=1800&h=700&fit=crop&auto=format&q=78"
+      },
+      {
+        "kicker": "Elektrokola",
+        "title": "Do kopce bez zadýchání",
+        "text": "Horská, trekingová i městská elektrokola. K nákupu bonus na příslušenství.",
+        "ctaText": "Vybrat elektrokolo",
+        "ctaHref": "/obchod?kategorie=elektrokola",
+        "image": "https://images.unsplash.com/photo-1635816048695-51dc43a7b24c?w=1800&h=700&fit=crop&auto=format&q=78"
+      }
+    ]
+  },
+  "favCategories": {
+    "heading": "Oblíbené kategorie",
+    "allLabel": "Všechny kategorie",
+    "allHref": "/obchod",
+    "items": [
+      {
+        "label": "Nadzemní bazény",
+        "slug": "bazeny",
+        "image": "https://images.unsplash.com/photo-1613977257365-aaae5a9817ff?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Vířivky",
+        "slug": "virivky",
+        "image": "https://images.unsplash.com/photo-1662150535993-2a8397f99603?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Trampolíny",
+        "slug": "trampoliny",
+        "image": "https://images.unsplash.com/photo-1688450127382-7ee80e8bb5e1?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Sekačky na trávu",
+        "slug": "sekacky-na-travu",
+        "image": "https://images.unsplash.com/photo-1458245201577-fc8a130b8829?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Zahradní grily",
+        "slug": "zahradni-grily",
+        "image": "https://images.unsplash.com/photo-1560358371-8460bf45a844?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Zahradní nábytek",
+        "slug": "zahradni-nabytek",
+        "image": "https://images.unsplash.com/photo-1621506821957-1b50ab7787a4?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Sauny",
+        "slug": "sauny",
+        "image": "https://images.unsplash.com/photo-1728404259075-209cfb5bb89c?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Elektrokola",
+        "slug": "elektrokola",
+        "image": "https://images.unsplash.com/photo-1635816048695-51dc43a7b24c?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Pro psy",
+        "slug": "pro-psy",
+        "image": "https://images.unsplash.com/photo-1714068691210-073dc52c6c1d?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Skleníky",
+        "slug": "skleniky",
+        "image": "https://images.unsplash.com/photo-1622818171279-fe0b6a336835?w=160&h=160&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Bazénová chemie",
+        "slug": "bazenova-chemie",
+        "image": "https://images.unsplash.com/photo-1614667288602-9ac6e37318a7?w=160&h=160&fit=crop&auto=format&q=75"
+      }
+    ]
+  },
+  "recommended": {
+    "heading": "Doporučujeme pro vás",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod",
+    "limit": 10
+  },
+  "articles": {
+    "heading": "Aktuality",
+    "moreLabel": "Přejít na výpis všech článků a novinek",
+    "moreHref": "/poradna",
+    "featured": {
+      "image": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&h=750&fit=crop&auto=format&q=78",
+      "date": "30. 6. 2026",
+      "title": "Jak vybrat bazén, který přežije i českou zimu",
+      "excerpt": "Nadzemní, nebo zapuštěný? Ocelová stěna, nebo rám? Projdeme s vámi všechny konstrukce, přípravu podloží i zazimování, aby vám bazén vydržel dlouhé roky.",
+      "href": "/poradna"
+    },
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1662150535993-2a8397f99603?w=400&h=300&fit=crop&auto=format&q=78",
+        "date": "12. 6. 2026",
+        "title": "Vířivky: klid a regenerace na vlastní terase",
+        "href": "/poradna"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1458245201577-fc8a130b8829?w=400&h=300&fit=crop&auto=format&q=78",
+        "date": "27. 5. 2026",
+        "title": "Robotické sekačky: budoucnost péče o trávník",
+        "href": "/poradna"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1635816048695-51dc43a7b24c?w=400&h=300&fit=crop&auto=format&q=78",
+        "date": "20. 5. 2026",
+        "title": "Elektrokolem na výlet: jak vybrat to pravé",
+        "href": "/poradna"
+      }
+    ]
+  },
+  "videos": {
+    "heading": "Zahradia na YouTube",
+    "moreLabel": "Všechna videa",
+    "moreHref": "#",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1606676539940-12768ce0e762?w=900&h=506&fit=crop&auto=format&q=78",
+        "title": "Velký test AKU sekaček 2026",
+        "href": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&h=506&fit=crop&auto=format&q=78",
+        "title": "Stavba zapuštěného bazénu krok za krokem",
+        "href": "#"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1621506821957-1b50ab7787a4?w=900&h=506&fit=crop&auto=format&q=78",
+        "title": "Dny zahradního nábytku v Zahradii",
+        "href": "#"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Zahradia",
+    "topLabel": "Přesunout nahoru",
+    "columns": [
+      {
+        "heading": "O nákupu",
+        "links": [
+          {
+            "label": "Možnosti dopravy",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Možnosti platby",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchodni-podminky"
+          },
+          {
+            "label": "Reklamační řád",
+            "href": "/obchodni-podminky"
+          },
+          {
+            "label": "Odstoupení od smlouvy",
+            "href": "/obchodni-podminky"
+          },
+          {
+            "label": "Ochrana soukromí",
+            "href": "/obchodni-podminky"
+          }
+        ]
+      },
+      {
+        "heading": "Naše služby",
+        "links": [
+          {
+            "label": "Přehled služeb",
+            "href": "/sluzby"
+          },
+          {
+            "label": "Servis a náhradní díly",
+            "href": "/servis"
+          },
+          {
+            "label": "Objednávky přes telefon",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Sledování zásilky",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Věrnostní program",
+            "href": "/vernostni-program"
+          }
+        ]
+      },
+      {
+        "heading": "O nás",
+        "links": [
+          {
+            "label": "O společnosti",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Prodejny",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Otevírací doba",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Poradna",
+            "href": "/poradna"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/o-nas"
+          }
+        ]
+      }
+    ],
+    "contactHeading": "Zůstaňte s námi v kontaktu",
+    "contactLinkLabel": "Potřebujete poradit?",
+    "contactLinkHref": "/poradna",
+    "phone": "220 180 190",
+    "phoneHours": "Po–Ne 8:00–18:00",
+    "partners": [
+      {
+        "sub": "hokejový klub",
+        "label": "HC Zahradia"
+      },
+      {
+        "sub": "rugby klub",
+        "label": "RC Zahradia Říčany"
+      }
+    ],
+    "paymentNote": "Platba kartou · Bankovní převod · Nákup na splátky",
+    "copyright": "© 2001–2026 Zahradia, a.s. Všechna práva vyhrazena."
+  },
+  "pageAbout": {
+    "heading": "O společnosti",
+    "intro": "Zahradia pomáhá českým zahradám už 25 let. Začínali jsme jako malý rodinný obchod se zahradní technikou, dnes provozujeme 54 prodejen, vlastní servisní síť a e-shop, který doručuje po celé republice.",
+    "sections": [
+      {
+        "title": "Co u nás najdete",
+        "text": "Kompletní vybavení pro zahradu, bazény a wellness, dům a dílnu i chovatelské potřeby. Sortiment vybíráme sami — každý produkt v nabídce prošel rukama našich specialistů a servisních techniků."
+      },
+      {
+        "title": "Vlastní servis",
+        "text": "Ke všemu, co prodáváme, držíme náhradní díly a autorizovaný servis. Sekačku, čerpadlo nebo elektrokolo vám opravíme zpravidla do týdne, v sezóně nabízíme i zápůjčky."
+      },
+      {
+        "title": "Kariéra",
+        "text": "Hledáme prodejce, servisní techniky i kolegy do e-commerce týmu. Napište nám na kariera@zahradia.cz — ozveme se do tří dnů."
+      }
+    ],
+    "ctaLabel": "Prohlédnout e-shop",
+    "ctaHref": "/obchod"
+  },
+  "pageContact": {
+    "heading": "Prodejny a kontakty",
+    "intro": "Jsme vám nablízku — 54 prodejen po celé ČR, zákaznická linka i online poradna. Zboží skladem připravíme k osobnímu odběru zpravidla do druhého dne.",
+    "cards": [
+      {
+        "title": "Zákaznická linka",
+        "lines": [
+          "220 180 190",
+          "Po–Ne 8:00–18:00",
+          "info@zahradia.cz"
+        ]
+      },
+      {
+        "title": "Centrála Praha",
+        "lines": [
+          "Zahradní 1250/12",
+          "140 00 Praha 4",
+          "Po–Pá 8:00–17:00"
+        ]
+      },
+      {
+        "title": "Servis a náhradní díly",
+        "lines": [
+          "servis@zahradia.cz",
+          "731 456 890",
+          "Příjem oprav na každé prodejně"
+        ]
+      }
+    ],
+    "sections": [
+      {
+        "title": "Osobní odběr",
+        "text": "Objednávku z e-shopu si můžete zdarma vyzvednout na kterékoli prodejně. O připravení vás informujeme SMS a e-mailem."
+      },
+      {
+        "title": "Prodejní síť",
+        "text": "Prodejny najdete ve všech krajských a většině okresních měst. Otevřeno máme sedm dní v týdnu včetně nedělí a svátků."
+      }
+    ],
+    "ctaLabel": "Napsat do poradny",
+    "ctaHref": "/poradna"
+  },
+  "pageShipping": {
+    "heading": "Doprava a platba",
+    "intro": "Doprava zdarma při nákupu nad 2 990 Kč. Menší zásilky odesíláme do 24 hodin, velké stroje a bazény vozíme vlastní přepravou s výnosem na místo.",
+    "sections": [
+      {
+        "title": "Možnosti dopravy",
+        "text": "Osobní odběr na prodejně — zdarma.\nBalíková přeprava do 30 kg — 99 Kč, zdarma nad 2 990 Kč.\nPaletová přeprava velkých strojů a bazénů — 490 Kč, zdarma nad 9 990 Kč.\nVlastní rozvoz s výnosem a instalací — dle regionu, termín domluvíme telefonicky."
+      },
+      {
+        "title": "Možnosti platby",
+        "text": "Platba kartou online, bankovním převodem, na dobírku i na splátky. Na prodejnách přijímáme hotovost, karty i benefitní poukázky."
+      },
+      {
+        "title": "Vrácení zboží",
+        "text": "Nepoužité zboží můžete vrátit do 30 dní od nákupu — v e-shopu i na kterékoli prodejně, bez udání důvodu."
+      }
+    ],
+    "ctaLabel": "Prohlédnout e-shop",
+    "ctaHref": "/obchod"
+  },
+  "pageAdvice": {
+    "heading": "Zahradní rádce",
+    "intro": "Nevíte, jaký bazén, sekačku nebo elektrokolo vybrat? Naši specialisté radí zdarma — online, po telefonu i na prodejnách.",
+    "sections": [
+      {
+        "title": "Jak vybrat bazén",
+        "text": "Rozhodují tři věci: velikost zahrady, hloubka pro plavce a způsob instalace. Nadzemní bazén postavíte za odpoledne, zapuštěný je investice na desítky let. Poradíme s výběrem konstrukce, filtrace i zastřešení."
+      },
+      {
+        "title": "Péče o trávník",
+        "text": "Na jaře vertikutace a první hnojení, v sezóně sekání jednou týdně, na podzim poslední nízké sečení. Pro trávníky nad 500 m² se vyplatí zahradní traktor nebo robotická sekačka."
+      },
+      {
+        "title": "Údržba bazénové vody",
+        "text": "Základ je stabilní pH 7,0–7,4, průběžná dezinfekce a filtrace alespoň 8 hodin denně v sezóně. Startovací sada chemie vydrží běžnému bazénu celé léto."
+      },
+      {
+        "title": "Zeptejte se specialistů",
+        "text": "Zavolejte na 220 180 190 nebo napište na poradna@zahradia.cz — odpovídáme do 24 hodin."
+      }
+    ],
+    "ctaLabel": "Prohlédnout e-shop",
+    "ctaHref": "/obchod"
+  },
+  "pageServices": {
+    "heading": "Naše služby",
+    "intro": "Nákupem to u nás nekončí. Postaráme se o dopravu, instalaci, servis i zazimování.",
+    "sections": [
+      {
+        "title": "Instalace bazénů a vířivek",
+        "text": "Zaměření na místě, příprava podloží, montáž technologie a zaškolení. Termíny držíme i ve špičce sezóny."
+      },
+      {
+        "title": "Servis zahradní techniky",
+        "text": "Autorizovaný servis s originálními náhradními díly. Běžnou opravu zvládneme do týdne, nabízíme i pravidelné jarní prohlídky."
+      },
+      {
+        "title": "Zazimování",
+        "text": "Bazény, vířivky i zavlažování připravíme na zimu — vypuštění, konzervace a jarní zprovoznění v jednom balíčku."
+      },
+      {
+        "title": "Objednávky přes telefon",
+        "text": "Nechcete objednávat online? Zavolejte na 220 180 190, objednávku vyřídíme s vámi."
+      }
+    ],
+    "ctaLabel": "Kontaktovat servis",
+    "ctaHref": "/kontakt"
+  },
+  "pageLoyalty": {
+    "heading": "Věrnostní program",
+    "intro": "Za každý nákup body, za body odměny. Registrace je zdarma a členství se vyplatí od prvního nákupu.",
+    "sections": [
+      {
+        "title": "Jak to funguje",
+        "text": "Za každých 100 Kč nákupu získáte 5 bodů. Body směníte za slevy na další nákup, prodlouženou záruku nebo sezónní servis zdarma."
+      },
+      {
+        "title": "Výhody členství",
+        "text": "Prodloužená záruka 5 let na zahradní techniku, přednostní servisní termíny, členské ceny vybraného zboží a pozvánky na sezónní akce na prodejnách."
+      },
+      {
+        "title": "Registrace",
+        "text": "Zaregistrujete se za minutu na kterékoli prodejně nebo online. Stačí e-mail — žádné kartičky nenosíte, vše je na telefonu."
+      }
+    ],
+    "ctaLabel": "Prohlédnout e-shop",
+    "ctaHref": "/obchod"
+  },
+  "pageTerms": {
+    "heading": "Obchodní podmínky",
+    "intro": "Přehledně a bez drobného písma — vaše práva při nákupu v Zahradii.",
+    "sections": [
+      {
+        "title": "Objednávka a kupní smlouva",
+        "text": "Odesláním objednávky vzniká kupní smlouva. Potvrzení s rekapitulací vám přijde e-mailem, objednávku můžete do expedice bezplatně upravit nebo zrušit."
+      },
+      {
+        "title": "Reklamační řád",
+        "text": "Na veškeré zboží poskytujeme záruku 24 měsíců, členům věrnostního programu prodlužujeme záruku zahradní techniky na 5 let. Reklamaci vyřídíme do 30 dní, zpravidla výrazně dříve."
+      },
+      {
+        "title": "Odstoupení od smlouvy",
+        "text": "Od smlouvy uzavřené online můžete odstoupit do 30 dní od převzetí zboží bez udání důvodu. Peníze vracíme stejnou cestou do 14 dní."
+      },
+      {
+        "title": "Ochrana osobních údajů",
+        "text": "S osobními údaji nakládáme podle GDPR. Údaje využíváme pouze pro vyřízení objednávky a — pokud si to přejete — pro zasílání novinek."
+      }
+    ],
+    "ctaLabel": "Prohlédnout e-shop",
+    "ctaHref": "/obchod"
+  }
+}

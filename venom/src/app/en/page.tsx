@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Webero - Professional websites in 5 minutes",
-    description: "Live editor, 99+ templates, EU hosting. No developer needed.",
+    description: "Live editor, 100+ templates, EU hosting. No developer needed.",
     images: ["/templates/arch-01/hero-1.webp"],
   },
 };

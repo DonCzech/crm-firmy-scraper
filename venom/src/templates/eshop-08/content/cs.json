@@ -1,0 +1,803 @@
+{
+  "siteName": "Domea",
+  "seo": {
+    "title": "Domea — nábytek, doplňky a inspirace pro krásné bydlení",
+    "description": "E-shop s každodenní dávkou inspirace a pečlivě vybraným nábytkem, doplňky a dekoracemi pro váš domov. Doprava od 99 Kč, návrh interiéru na míru."
+  },
+  "navbar": {
+    "siteName": "Domea",
+    "logoUrl": "",
+    "searchPlaceholder": "Hledat produkty, značky a další",
+    "announcement": {
+      "text": "Letní sleva 15 % s kódem LETO15",
+      "linkLabel": "Splňte si sen o krásném bydlení",
+      "linkHref": "/obchod?kategorie=slevy"
+    },
+    "giftLabel": "Dárek pro vás",
+    "giftHref": "/obchod?kategorie=slevy",
+    "registerLabel": "REGISTRACE",
+    "loginLabel": "PŘIHLÁŠENÍ",
+    "categoriesLabel": "KATEGORIE",
+    "roomsLabel": "MÍSTNOSTI",
+    "megaPromo": {
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=760&h=560&fit=crop&auto=format&q=80",
+      "title": "Letní kolekce",
+      "text": "Vše pro krásné léto doma i na zahradě",
+      "ctaText": "Prozkoumat",
+      "ctaHref": "/obchod"
+    },
+    "categories": [
+      {
+        "label": "Nábytek",
+        "slug": "nabytek",
+        "children": [
+          {
+            "label": "Sedací soupravy a pohovky",
+            "slug": "pohovky",
+            "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Křesla a taburety",
+            "slug": "kresla",
+            "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Postele a matrace",
+            "slug": "postele",
+            "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Stoly a židle",
+            "slug": "stoly",
+            "image": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Úložné prostory",
+            "slug": "ulozne-prostory",
+            "image": "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Odkládací stolky",
+            "slug": "stolky",
+            "image": "https://images.unsplash.com/photo-1499933374294-4584851497cc?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Lavice a věšáky",
+            "slug": "lavice",
+            "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Doplňky a dekorace",
+        "slug": "doplnky",
+        "children": [
+          {
+            "label": "Obrazy a plakáty",
+            "slug": "obrazy",
+            "image": "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Zrcadla",
+            "slug": "zrcadla",
+            "image": "https://images.unsplash.com/photo-1618220179428-22790b461013?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Vázy a květináče",
+            "slug": "vazy",
+            "image": "https://images.unsplash.com/photo-1578500494198-246f612d3b3d?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Svíčky a difuzéry",
+            "slug": "svicky",
+            "image": "https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hodiny",
+            "slug": "hodiny",
+            "image": "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Osvětlení",
+        "slug": "osvetleni",
+        "children": [
+          {
+            "label": "Stropní svítidla",
+            "slug": "stropni-svitidla",
+            "image": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Stolní lampy",
+            "slug": "stolni-lampy",
+            "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Stojací lampy",
+            "slug": "stojaci-lampy",
+            "image": "https://images.unsplash.com/photo-1567016432779-094069958ea5?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Venkovní osvětlení",
+            "slug": "venkovni-osvetleni",
+            "image": "https://images.unsplash.com/photo-1558882224-dda166733046?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Textil",
+        "slug": "textil",
+        "children": [
+          {
+            "label": "Koberce",
+            "slug": "koberce",
+            "image": "https://images.unsplash.com/photo-1600166898405-da9535204843?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Závěsy a záclony",
+            "slug": "zavesy",
+            "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Povlečení",
+            "slug": "povleceni",
+            "image": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Deky a plédy",
+            "slug": "deky",
+            "image": "https://images.unsplash.com/photo-1616627561950-9f746e330187?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Dekorační polštáře",
+            "slug": "polstare",
+            "image": "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Kuchyně a stolování",
+        "slug": "kuchyne",
+        "children": [
+          {
+            "label": "Nádobí a servírování",
+            "slug": "nadobi",
+            "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hrnky a sklenice",
+            "slug": "hrnky",
+            "image": "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Kuchyňské pomůcky",
+            "slug": "pomucky",
+            "image": "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Skladování potravin",
+            "slug": "skladovani",
+            "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Zahrada a balkon",
+        "slug": "zahrada",
+        "children": [
+          {
+            "label": "Zahradní sety",
+            "slug": "zahradni-sety",
+            "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Zahradní stolky",
+            "slug": "zahradni-stolky",
+            "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Venkovní koberce",
+            "slug": "venkovni-koberce",
+            "image": "https://images.unsplash.com/photo-1600166898405-da9535204843?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Grily a ohniště",
+            "slug": "grily",
+            "image": "https://images.unsplash.com/photo-1523986371872-9d3ba2e2a389?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Stínění a slunečníky",
+            "slug": "stineni",
+            "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Dětský svět",
+        "slug": "detsky-svet",
+        "children": [
+          {
+            "label": "Dětské postele",
+            "slug": "detske-postele",
+            "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Dětský textil",
+            "slug": "detsky-textil",
+            "image": "https://images.unsplash.com/photo-1522444195799-478538b28823?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hračky a dekorace",
+            "slug": "hracky",
+            "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Úložné boxy",
+            "slug": "detske-boxy",
+            "image": "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      }
+    ],
+    "rooms": [
+      {
+        "label": "Obývací pokoj",
+        "slug": "obyvaci-pokoj",
+        "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Ložnice",
+        "slug": "loznice",
+        "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Dětský pokoj",
+        "slug": "detsky-pokoj",
+        "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Kuchyně a jídelna",
+        "slug": "kuchyne-jidelna",
+        "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Koupelna",
+        "slug": "koupelna",
+        "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Předsíň",
+        "slug": "predsin",
+        "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Pracovna",
+        "slug": "pracovna",
+        "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Terasa a balkon",
+        "slug": "terasa",
+        "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=420&h=320&fit=crop&auto=format&q=80"
+      }
+    ],
+    "navLinks": [
+      {
+        "label": "Domea Extra",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Inspirace",
+        "href": "/inspirace"
+      },
+      {
+        "label": "Slevy & Outlet",
+        "href": "/obchod?kategorie=slevy",
+        "accent": true
+      },
+      {
+        "label": "Návrh interiéru",
+        "href": "/navrh-interieru"
+      },
+      {
+        "label": "Novinky",
+        "href": "/obchod"
+      },
+      {
+        "label": "Premium značky",
+        "href": "/obchod"
+      },
+      {
+        "label": "Pro profesionály",
+        "href": "/kontakt"
+      }
+    ],
+    "drawer": {
+      "addedText": "Kousek přidán do košíku",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "MOHLO BY VÁS TAKÉ ZAJÍMAT",
+      "recoCta": "DO KOŠÍKU",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Pokračovat v nákupu"
+    }
+  },
+  "favCategories": {
+    "label": "OBLÍBENÉ KATEGORIE",
+    "items": [
+      {
+        "label": "Zahradní sety",
+        "slug": "zahradni-sety",
+        "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Zahradní stolky",
+        "slug": "zahradni-stolky",
+        "image": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Venkovní koberce",
+        "slug": "venkovni-koberce",
+        "image": "https://images.unsplash.com/photo-1600166898405-da9535204843?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Sedací soupravy a pohovky",
+        "slug": "pohovky",
+        "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Postele a matrace",
+        "slug": "postele",
+        "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Úložné prostory",
+        "slug": "ulozne-prostory",
+        "image": "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Odkládací stolky",
+        "slug": "stolky",
+        "image": "https://images.unsplash.com/photo-1499933374294-4584851497cc?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Lavice",
+        "slug": "lavice",
+        "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Atypická zrcadla",
+        "slug": "zrcadla",
+        "image": "https://images.unsplash.com/photo-1618220179428-22790b461013?w=420&h=320&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Obrazy",
+        "slug": "obrazy",
+        "image": "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?w=420&h=320&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "hero": {
+    "main": {
+      "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&h=900&fit=crop&auto=format&q=80",
+      "title": "Zahradní kolekce",
+      "text": "Pro chvíle pod širým nebem",
+      "ctaText": "Prozkoumat",
+      "ctaHref": "/obchod?kategorie=zahrada"
+    },
+    "side": [
+      {
+        "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=450&fit=crop&auto=format&q=80",
+        "badge": "−15 %",
+        "title": "Letní sleva 15 %",
+        "text": "Vše pro krásné léto doma i na zahradě",
+        "href": "/obchod?kategorie=slevy"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=800&h=450&fit=crop&auto=format&q=80",
+        "title": "Dobrou chuť",
+        "text": "Vše pro vaření a stolování",
+        "href": "/obchod?kategorie=kuchyne"
+      }
+    ]
+  },
+  "productsNew": {
+    "heading": "Novinky na Domea",
+    "moreHref": "/obchod",
+    "limit": 10,
+    "source": "newest"
+  },
+  "outlet": {
+    "heading": "Akce a slevy",
+    "headingHref": "/obchod?kategorie=slevy",
+    "banners": [
+      {
+        "bg": "#e8b93b",
+        "eyebrow": "Summer Sale",
+        "big": "až −40 %",
+        "caption": "10 000+ produktů nyní ve výprodeji se slevou až 40 %",
+        "href": "/obchod?kategorie=slevy",
+        "light": true
+      },
+      {
+        "bg": "#2b2b2b",
+        "eyebrow": "Domea",
+        "title": "Outlet",
+        "caption": "Nábytek a doplňky za výrazně nižší ceny",
+        "href": "/obchod?kategorie=slevy",
+        "light": true
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=900&h=480&fit=crop&auto=format&q=80",
+        "title": "Zahrada ve slevě",
+        "caption": "Ušetřete na novém vybavení pro zahradu, balkon i terasu",
+        "href": "/obchod?kategorie=zahrada"
+      }
+    ]
+  },
+  "productsDeals": {
+    "heading": "Dnešní výhodné nabídky",
+    "moreHref": "/obchod?kategorie=slevy",
+    "categorySlug": "slevy",
+    "limit": 10
+  },
+  "editorial": {
+    "heading": "Právě na Domea",
+    "headingHref": "/inspirace",
+    "cards": [
+      {
+        "image": "https://images.unsplash.com/photo-1600166898405-da9535204843?w=800&h=560&fit=crop&auto=format&q=80",
+        "title": "Objevte koberce Flair Home s hebkými texturami a nadčasovým designem",
+        "href": "/obchod?kategorie=koberce"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?w=800&h=560&fit=crop&auto=format&q=80",
+        "title": "Nejnovější plakáty Atelier Sever pro moderní i minimalistický interiér",
+        "href": "/obchod?kategorie=obrazy"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800&h=560&fit=crop&auto=format&q=80",
+        "title": "Nordhem Kids přináší dětský nábytek a textil s láskou k přírodě",
+        "href": "/obchod?kategorie=detsky-svet"
+      }
+    ],
+    "promo": {
+      "bg": "#c9b49b",
+      "title": "Koberce pro každý kout domova",
+      "text": "Od útulného obýváku až po balkon či terasu. Objevte kolekce Flair Home pro interiér i venkovní prostory.",
+      "href": "/obchod?kategorie=koberce"
+    }
+  },
+  "roomsGrid": {
+    "heading": "Místnosti",
+    "items": [
+      {
+        "label": "Obývací pokoj",
+        "slug": "obyvaci-pokoj",
+        "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Ložnice",
+        "slug": "loznice",
+        "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=700&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Dětský pokoj",
+        "slug": "detsky-pokoj",
+        "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Terasa a balkon",
+        "slug": "terasa",
+        "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=700&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Koupelna",
+        "slug": "koupelna",
+        "image": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=700&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Kuchyně a jídelna",
+        "slug": "kuchyne-jidelna",
+        "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=700&h=500&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "articles": {
+    "heading": "Oblíbené články",
+    "headingHref": "/inspirace",
+    "posts": [
+      {
+        "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Domea návštěva: Chalupa mezi vinicemi, kde se potkává historie s moderním designem",
+        "text": "Rekonstrukce nešla podle plánu. Ale výsledek stojí za to.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Soft luxury trend 2026: Dřevo a kámen v interiéru",
+        "text": "Pusťte si domů teplo dřeva a eleganci kamene.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Domea návštěva: Scandi klid podle Lucie Janotové",
+        "text": "Světlý a harmonický interiér, kde vládne pohoda.",
+        "href": "/inspirace"
+      }
+    ]
+  },
+  "services": {
+    "heading": "Služby a podpora",
+    "links": [
+      {
+        "label": "Reklamace a vrácení",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Doprava",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Nejčastější dotazy",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Platba",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Kredity a slevové kódy",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Domea Home Studio",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Domea služby",
+        "href": "/vse-o-nakupu"
+      }
+    ]
+  },
+  "studio": {
+    "title": "Domea Home Studio",
+    "text": "Objevte tisíce produktů naživo a inspirujte se pro svůj domov. Náš tým vám pomůže s výběrem, online nákupem i návrhem interiéru na míru — včetně kuchyně.",
+    "ctaText": "HOME STUDIA",
+    "ctaHref": "/kontakt",
+    "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1100&h=640&fit=crop&auto=format&q=80"
+  },
+  "footer": {
+    "siteName": "Domea",
+    "statement": "E-shop s každodenní dávkou nové inspirace a pečlivě vybranou nabídkou produktů pro krásné bydlení.",
+    "columns": [
+      {
+        "heading": "Informace o nákupu",
+        "links": [
+          {
+            "label": "Vše o nákupu",
+            "href": "/vse-o-nakupu"
+          },
+          {
+            "label": "Doprava",
+            "href": "/vse-o-nakupu"
+          },
+          {
+            "label": "Reklamace a vrácení",
+            "href": "/vse-o-nakupu"
+          },
+          {
+            "label": "Platba",
+            "href": "/vse-o-nakupu"
+          },
+          {
+            "label": "Domea Home Studia",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Jak fungují kredity",
+            "href": "/vse-o-nakupu"
+          }
+        ]
+      },
+      {
+        "heading": "Více o Domea",
+        "links": [
+          {
+            "label": "Služby",
+            "href": "/vse-o-nakupu"
+          },
+          {
+            "label": "Kontakty",
+            "href": "/kontakt"
+          },
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Značky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Dárkové poukazy",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Pro profesionály",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Pro média",
+            "href": "/kontakt"
+          }
+        ]
+      }
+    ],
+    "socialsHeading": "Sledujte nás na sociálních sítích",
+    "socials": [
+      {
+        "icon": "facebook",
+        "href": "#"
+      },
+      {
+        "icon": "instagram",
+        "href": "#"
+      },
+      {
+        "icon": "pinterest",
+        "href": "#"
+      },
+      {
+        "icon": "youtube",
+        "href": "#"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Obchodní podmínky",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/vse-o-nakupu"
+      },
+      {
+        "label": "Pravidla a nastavení cookies",
+        "href": "/vse-o-nakupu"
+      }
+    ],
+    "copyright": "© 2026 Domea.cz, a.s. Všechna práva vyhrazena.",
+    "address": "Květinová 12, 110 00 Praha"
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Každý den nová inspirace a pečlivě vybrané kousky pro váš domov"
+      },
+      "about": {
+        "blocks": [
+          {
+            "heading": "Jak Domea vznikla",
+            "text": "Domea vznikla v roce 2016 z jednoduché frustrace: krásný nábytek buď stál jmění, nebo se na něj čekalo měsíce. Rozhodli jsme se to změnit — dnes nabízíme přes deset tisíc pečlivě vybraných produktů od českých i evropských značek, s doručením v řádu dní."
+          },
+          {
+            "heading": "Co pro vás děláme",
+            "text": "Nejsme jen e-shop. Naši interiéroví designéři připravují návrhy na míru, v Home Studiích si můžete tisíce kousků osahat naživo a poradna vám pomůže s výběrem od koberce po celou kuchyni.",
+            "bullets": [
+              "Přes 10 000 produktů skladem k okamžité expedici",
+              "Návrh interiéru na míru od našich designérů",
+              "Home Studia v Praze a Brně — vyzkoušejte naživo",
+              "60 dní na vrácení a doprava od 99 Kč"
+            ]
+          },
+          {
+            "heading": "Udržitelnost není fráze",
+            "text": "Preferujeme evropské výrobce, FSC certifikované dřevo a obaly bez zbytečného plastu. Vratky nezavážíme na skládku — repasujeme je a nabízíme v Domea Outlet za nižší ceny."
+          }
+        ]
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Jsme online každý všední den — rádi poradíme s výběrem i objednávkou"
+      },
+      "contact": {
+        "phone": "+420 245 501 610",
+        "phoneHours": "Po–Pá 08:00–18:00",
+        "email": "ahoj@domea.cz",
+        "address": "Domea.cz, a.s., Květinová 12, 110 00 Praha",
+        "formHeading": "Napište nám"
+      }
+    },
+    "vseONakupu": {
+      "hero": {
+        "title": "Vše o nákupu",
+        "subtitle": "Doprava, platba, vrácení i reklamace — přehledně na jednom místě"
+      },
+      "shipping": {
+        "blocks": [
+          {
+            "heading": "Doprava",
+            "text": "Menší zásilky vozíme přes PPL, GLS a Zásilkovnu od 99 Kč. Nadrozměrný nábytek doručuje naše dvoučlenná posádka až do bytu od 549 Kč — termín si vyberete v objednávce.",
+            "bullets": [
+              "Osobní odběr na výdejnách od 99 Kč",
+              "Doručení na adresu od 549 Kč",
+              "Vynáška do patra a montáž jako doplňková služba"
+            ]
+          },
+          {
+            "heading": "Platba",
+            "text": "Zaplatíte kartou (Visa, Mastercard), přes Apple Pay a Google Pay, bankovním převodem nebo na třetiny bez navýšení. Dobírka za příplatek 39 Kč."
+          },
+          {
+            "heading": "Vrácení a reklamace",
+            "text": "Na rozmyšlenou máte 60 dní. Zboží vyzvedneme u vás doma zdarma, peníze vracíme do 5 pracovních dnů od přijetí. Reklamace řešíme přednostně výměnou kusu, ať nečekáte."
+          },
+          {
+            "heading": "Slevové kódy a kredity",
+            "text": "Kód vložíte v košíku nebo v pokladně — sleva se přepočítá okamžitě. Za nákupy a recenze sbíráte kredity, kterými zaplatíte část příští objednávky."
+          }
+        ]
+      }
+    },
+    "blog": {
+      "hero": {
+        "title": "Inspirace",
+        "subtitle": "Návštěvy, trendy a rady od našich designérů"
+      }
+    }
+  },
+  "articlesPage": {
+    "heading": "",
+    "posts": [
+      {
+        "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Domea návštěva: Chalupa mezi vinicemi, kde se potkává historie s moderním designem",
+        "text": "Rekonstrukce nešla podle plánu. Ale výsledek stojí za to.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Soft luxury trend 2026: Dřevo a kámen v interiéru",
+        "text": "Pusťte si domů teplo dřeva a eleganci kamene.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Domea návštěva: Scandi klid podle Lucie Janotové",
+        "text": "Světlý a harmonický interiér, kde vládne pohoda.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Závěsy, které promění místnost: průvodce látkami a délkami",
+        "text": "Od voálu po blackout — co kam pověsit.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Malá kuchyně, velké plány: 7 chytrých úložných triků",
+        "text": "Jak vytěžit každý centimetr.",
+        "href": "/inspirace"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&h=520&fit=crop&auto=format&q=80",
+        "title": "Ložnice podle chronotypu: spíte jako sova, nebo skřivan?",
+        "text": "Barvy a světlo pro lepší spánek.",
+        "href": "/inspirace"
+      }
+    ]
+  }
+}

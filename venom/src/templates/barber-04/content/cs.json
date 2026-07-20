@@ -44,7 +44,6 @@
     ],
     "ctaText": "",
     "ctaHref": "",
-    "sticky": true,
     "transparent": true,
     "hamburgerBreakpoint": 1024,
     "topbar": {
@@ -516,5 +515,13 @@
         "icon": "shop"
       }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte se u nás",
+      "subtitle": "Vyberte službu, barbera a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

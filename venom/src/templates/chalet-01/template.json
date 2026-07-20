@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "chalet-01",
-  "name": "Demo Horský Chalet",
+  "name": "Bouda Na Vrchu",
   "industry": "chalet",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -47,7 +47,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -55,14 +57,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "chalet-01-navbar",    "contentRef": "navbar"    },
-        { "type": "hero",     "variant": "chalet-01-hero",      "contentRef": "hero"      },
-        { "type": "about",    "variant": "chalet-01-about",     "contentRef": "about"     },
-        { "type": "services", "variant": "chalet-01-amenities", "contentRef": "amenities" },
-        { "type": "gallery",  "variant": "chalet-01-gallery",   "contentRef": "gallery"   },
-        { "type": "promo",    "variant": "chalet-01-activities","contentRef": "activities"},
-        { "type": "cta",      "variant": "chalet-01-cta",       "contentRef": "cta"       },
-        { "type": "footer",   "variant": "chalet-01-footer",    "contentRef": "footer"    }
+        {
+          "type": "navbar",
+          "variant": "chalet-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "chalet-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "chalet-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "chalet-01-amenities",
+          "contentRef": "amenities"
+        },
+        {
+          "type": "gallery",
+          "variant": "chalet-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "promo",
+          "variant": "chalet-01-activities",
+          "contentRef": "activities"
+        },
+        {
+          "type": "cta",
+          "variant": "chalet-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "chalet-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

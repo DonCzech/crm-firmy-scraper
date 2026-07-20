@@ -197,23 +197,23 @@ export function CommandPalette({ state }: { state?: StudioState }) {
 
   return (
     <div
-      className="fixed inset-0 z-[300] flex items-start justify-center bg-black/60 p-3 pt-14 backdrop-blur-[3px] vs-enter sm:pt-16"
+      className="vs-command-backdrop fixed inset-0 z-[300] flex items-start justify-center bg-black/60 p-3 pt-14 backdrop-blur-[3px] vs-enter sm:pt-16"
       onClick={() => studio.setCommandPaletteOpen(false)}
     >
       <div
-        className="flex w-full max-w-[560px] max-h-[calc(100vh-72px)] flex-col overflow-hidden rounded-2xl bg-[var(--vs-surface)] shadow-[0_24px_64px_rgba(0,0,0,0.85)] ring-1 ring-[var(--vs-border-strong)]"
+        className="vs-overlay-panel flex w-full max-w-[560px] max-h-[calc(100vh-72px)] flex-col overflow-hidden rounded-2xl bg-[var(--vs-surface)] shadow-[0_24px_64px_rgba(0,0,0,0.85)] ring-1 ring-[var(--vs-border-strong)]"
         onClick={e => e.stopPropagation()}
         onKeyDown={onKeyDown}
       >
         {/* Search bar */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--vs-surface-2)]">
-          <Search className="h-4 w-4 text-[#6b7280] shrink-0" strokeWidth={1.75} />
+          <Search className="h-4 w-4 text-[var(--vs-text-muted)] shrink-0" strokeWidth={1.75} />
           <input
             ref={inputRef}
             value={query}
             onChange={e => { setQuery(e.target.value); setCursor(0); }}
             placeholder="Hledat příkazy, stránky, nastavení…"
-            className="flex-1 bg-transparent text-[14px] text-white placeholder-[#6b7280] outline-none"
+            className="flex-1 bg-transparent text-[14px] text-[var(--vs-text)] placeholder-[#6b7280] outline-none"
           />
           <kbd className="shrink-0 rounded-md bg-[var(--vs-surface-2)] px-2 py-1 text-[10px] font-mono text-[var(--vs-text-muted)]">ESC</kbd>
         </div>
@@ -221,7 +221,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
         {/* Results */}
         <div ref={listRef} className="flex-1 overflow-y-auto vs-scroll py-2">
           {groups.length === 0 ? (
-            <p className="py-10 text-center text-[13px] text-[#6b7280]">Nic nenalezeno</p>
+            <p className="py-10 text-center text-[13px] text-[var(--vs-text-muted)]">Nic nenalezeno</p>
           ) : (
             groups.map(group => (
               <div key={group.category}>
@@ -241,7 +241,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
                       onMouseEnter={() => setCursor(myIdx)}
                       className={clsx(
                         "w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors duration-75",
-                        active ? "bg-[var(--vs-surface-2)]" : "hover:bg-[#232325]"
+                        active ? "bg-[var(--vs-surface-2)]" : "hover:bg-[var(--vs-surface-3)]"
                       )}
                     >
                       {Icon ? (
@@ -249,7 +249,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
                       ) : (
                         <span className="h-4 w-4 shrink-0" />
                       )}
-                      <span className={clsx("flex-1 text-[13px]", active ? "text-white" : "text-[var(--vs-text-soft)]")}>
+                      <span className={clsx("flex-1 text-[13px]", active ? "text-[var(--vs-text)]" : "text-[var(--vs-text-soft)]")}>
                         {item.label}
                       </span>
                       {item.keys && item.keys.length > 0 && (

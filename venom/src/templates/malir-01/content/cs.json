@@ -5,13 +5,34 @@
     "phone": "704 123 456",
     "email": "info@demo.cz",
     "links": [
-      { "label": "Úvod",         "href": "/" },
-      { "label": "Malování",     "href": "/malování" },
-      { "label": "Lakování",     "href": "/lakování" },
-      { "label": "Ceník",        "href": "/cenik" },
-      { "label": "Reference",    "href": "/reference" },
-      { "label": "Časté dotazy", "href": "#faq" },
-      { "label": "Kontakt",      "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Malování",
+        "href": "/malování"
+      },
+      {
+        "label": "Lakování",
+        "href": "/lakování"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Časté dotazy",
+        "href": "#faq"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
@@ -58,7 +79,7 @@
   "promo": {
     "id": "benefity",
     "tagline": "Proč si vybrat nás",
-    "title": "5 důvodů, proč nás zákazníci volí znovu",
+    "title": "8 důvodů, proč nás zákazníci volí znovu",
     "items": [
       {
         "icon": "📅",
@@ -84,6 +105,21 @@
         "icon": "🎨",
         "title": "Poradíme s barvami",
         "description": "Nejste si jisti odstínem? Pomůžeme vám vybrat barvu, která bude sedět k vašemu nábytku i světlu."
+      },
+      {
+        "icon": "💰",
+        "title": "Férové ceny",
+        "description": "Cena odpovídá domluvené nabídce. Žádné skryté příplatky — co řekneme, to platí."
+      },
+      {
+        "icon": "📐",
+        "title": "Bezplatná prohlídka",
+        "description": "Přijedeme, prohlédneme prostory a připravíme přesnou nabídku — zcela zdarma a nezávazně."
+      },
+      {
+        "icon": "⭐",
+        "title": "20 let zkušeností",
+        "description": "Malujeme od roku 2001. Máme za sebou stovky bytů, domů a komerčních prostor po celé Praze."
       }
     ]
   },
@@ -147,24 +183,300 @@
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
     "email": "info@demo.cz",
-    "web": "https://demo.cz",
     "ic": "12345678",
     "copyright": "© 2025 Malířské práce",
     "links": [
-      { "label": "Malování",  "href": "/malování" },
-      { "label": "Lakování",  "href": "/lakování" },
-      { "label": "Reference", "href": "/reference" },
-      { "label": "Kontakt",   "href": "/kontakt" }
+      {
+        "label": "Malování",
+        "href": "/malování"
+      },
+      {
+        "label": "Lakování",
+        "href": "/lakování"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "social": {
-      "facebook":  "https://facebook.com/demo",
+      "facebook": "https://facebook.com/demo",
       "instagram": "https://instagram.com/demo"
     }
   },
   "pages": {
     "kontakt": {
       "seoTitle": "Kontakt | Malířské práce Praha",
-      "seoDescription": "Nezávazná cenová nabídka na malování interiérů a lakování oken a dveří. Volejte nebo napište."
+      "seoDescription": "Nezávazná cenová nabídka na malování interiérů a lakování oken a dveří. Volejte nebo napište.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Napište nám nebo zavolejte — rádi vám pomůžeme s výběrem a cenou.",
+        "breadcrumb": "Úvod",
+        "breadcrumbHref": "/",
+        "currentLabel": "Kontakt"
+      },
+      "contact": {
+        "showHeader": false,
+        "heading": "Kontaktujte nás",
+        "subheading": "Rádi vám připravíme nezávaznou cenovou nabídku.",
+        "email": "info@demo.cz",
+        "phone": "704 123 456",
+        "address": "Ukázková 123, 110 00 Praha 1",
+        "hours": "Po–Pá 8:00–17:00"
+      }
+    },
+    "malovani": {
+      "seoTitle": "Malování interiérů | Malířské práce Praha",
+      "seoDescription": "Profesionální malování bytů, domů a kanceláří v Praze a okolí. Prémiové barvy, čistá práce, záruka 2 roky.",
+      "hero": {
+        "title": "Malování interiérů",
+        "subtitle": "Precizní vymalování bytů, domů, kanceláří i komerčních prostor. Bílé i barevné odstíny.",
+        "breadcrumb": "Úvod",
+        "breadcrumbHref": "/",
+        "currentLabel": "Malování"
+      },
+      "services": {
+        "showHeader": false,
+        "tagline": "Postup práce",
+        "title": "Jak malujeme",
+        "items": [
+          {
+            "name": "Malování bytů",
+            "description": "Vymalování pokojů, chodeb, kuchyní i koupelen. Zakrytí nábytku a podlah, úklid po práci.",
+            "image": "/templates/malir-01/svc-malovani.webp",
+            "ctaText": "Chci nacenit",
+            "ctaHref": "/kontakt"
+          },
+          {
+            "name": "Malování kanceláří",
+            "description": "Malování komerčních prostor o víkendu nebo mimo provozní dobu. Minimální narušení provozu.",
+            "image": "/templates/malir-01/hero-2.webp",
+            "ctaText": "Chci nacenit",
+            "ctaHref": "/kontakt"
+          }
+        ]
+      },
+      "faq": {
+        "showHeader": false,
+        "tagline": "Otázky k malování",
+        "title": "Časté dotazy k malování",
+        "items": [
+          {
+            "question": "Kolik nátěrů je potřeba?",
+            "answer": "Standardně nanášíme 2 vrstvy barvy. U výrazných barevných změn (např. z tmavé na bílou) mohou být potřeba 3 vrstvy."
+          },
+          {
+            "question": "Jak dlouho trvá vymalování bytu?",
+            "answer": "Byt 2+kk zvládneme za 1–2 dny. Větší prostory 3+1 a více za 2–4 dny podle rozsahu a stavu stěn."
+          },
+          {
+            "question": "Jaké barvy používáte?",
+            "answer": "Pracujeme s barvami Primalex Polar, Dulux a Sigma. Nabízíme tisíce odstínů včetně tónování přímo na míru."
+          }
+        ]
+      }
+    },
+    "lakovani": {
+      "seoTitle": "Lakování oken a dveří | Malířské práce Praha",
+      "seoDescription": "Profesionální lakování a renovace oken, dveří a nábytku. Obnova dřeva bez výměny.",
+      "hero": {
+        "title": "Lakování a nátěry",
+        "subtitle": "Renovace a ochranné nátěry oken, dveří, zábradlí a dalších dřevěných prvků.",
+        "breadcrumb": "Úvod",
+        "breadcrumbHref": "/",
+        "currentLabel": "Lakování"
+      },
+      "services": {
+        "showHeader": false,
+        "tagline": "Naše speciality",
+        "title": "Co lakujeme",
+        "items": [
+          {
+            "name": "Lakování oken a dveří",
+            "description": "Obroušení, tmelení, základní nátěr a finální lak. Výsledek jako nový — bez nutnosti výměny.",
+            "image": "/templates/malir-01/svc-lakovani.webp",
+            "ctaText": "Chci nacenit",
+            "ctaHref": "/kontakt"
+          },
+          {
+            "name": "Nátěry zábradlí a plotů",
+            "description": "Antikorozní nátěry kovových prvků i lazurovací nátěry dřevěných plotů a pergol.",
+            "image": "/templates/malir-01/hero-3.webp",
+            "ctaText": "Chci nacenit",
+            "ctaHref": "/kontakt"
+          }
+        ]
+      },
+      "faq": {
+        "showHeader": false,
+        "tagline": "Otázky k lakování",
+        "title": "Časté dotazy k lakování",
+        "items": [
+          {
+            "question": "Musím vyndat okna?",
+            "answer": "Ne, okna lakujeme přímo na místě. Rámy obrousíme, zatmelíme a nalakujeme — sklo ochráníme malířskou páskou."
+          },
+          {
+            "question": "Kolik stojí nalakování jednoho okna?",
+            "answer": "Orientační cena za jedno standardní dvoukřídlé okno je od 1 200 Kč. Přesnou cenu stanovíme po prohlídce."
+          },
+          {
+            "question": "Jak dlouho vydrží nátěr?",
+            "answer": "Kvalitní lazura na exteriérový prvek vydrží 4–6 let, lak na interiérové dveře i 10+ let. Záleží na zatížení a údržbě."
+          }
+        ]
+      }
+    },
+    "cenik": {
+      "seoTitle": "Ceník malířských prací | Malířské práce Praha",
+      "seoDescription": "Orientační ceník malování interiérů a lakování oken a dveří. Přesná cena po nezávazné prohlídce.",
+      "hero": {
+        "title": "Ceník",
+        "subtitle": "Orientační ceny malířských a lakýrnických prací. Přesnou kalkulaci připravíme po prohlídce.",
+        "breadcrumb": "Úvod",
+        "breadcrumbHref": "/",
+        "currentLabel": "Ceník"
+      },
+      "pricing": {
+        "showHeader": false,
+        "heading": "Orientační ceník",
+        "subheading": "Ceny jsou orientační a závisí na stavu povrchů, výšce stropů a zvoleném materiálu. Přesnou nabídku připravíme po nezávazné prohlídce.",
+        "note": "Ceny jsou uvedeny včetně materiálu (barvy Primalex/Dulux, penetrace, stěrka). Přesnou cenu stanovíme po prohlídce.",
+        "ctaLabel": "Nezávazná poptávka",
+        "ctaHref": "/kontakt",
+        "groups": [
+          {
+            "title": "Malování interiérů",
+            "items": [
+              {
+                "name": "Byt 1+kk / 1+1 (do 45 m²)",
+                "price": "od 6 500 Kč"
+              },
+              {
+                "name": "Byt 2+kk / 2+1 (45–65 m²)",
+                "price": "od 8 500 Kč"
+              },
+              {
+                "name": "Byt 3+kk / 3+1 (65–90 m²)",
+                "price": "od 12 000 Kč"
+              },
+              {
+                "name": "Byt 4+kk a větší",
+                "price": "od 15 000 Kč"
+              },
+              {
+                "name": "Kancelářské prostory",
+                "price": "od 35 Kč/m²"
+              },
+              {
+                "name": "Stěrkování (hladká stěrka)",
+                "price": "od 120 Kč/m²"
+              }
+            ]
+          },
+          {
+            "title": "Lakování a nátěry",
+            "items": [
+              {
+                "name": "Okno dvoukřídlé — kompletní renovace",
+                "price": "od 1 200 Kč/ks"
+              },
+              {
+                "name": "Interiérové dveře — lakování",
+                "price": "od 800 Kč/ks"
+              },
+              {
+                "name": "Zárubeň — lakování",
+                "price": "od 400 Kč/ks"
+              },
+              {
+                "name": "Dřevěný plot — lazurování",
+                "price": "od 80 Kč/bm"
+              },
+              {
+                "name": "Zábradlí — antikorozní nátěr",
+                "price": "od 100 Kč/bm"
+              },
+              {
+                "name": "Radiátor — lakování",
+                "price": "od 450 Kč/ks"
+              }
+            ]
+          },
+          {
+            "title": "Doplňkové práce",
+            "items": [
+              {
+                "name": "Nezávazná prohlídka a cenová nabídka",
+                "price": "ZDARMA"
+              },
+              {
+                "name": "Odvoz a likvidace odpadu",
+                "price": "v ceně"
+              },
+              {
+                "name": "Zakrytí a ochrana nábytku",
+                "price": "v ceně"
+              },
+              {
+                "name": "Úklid po dokončení",
+                "price": "v ceně"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "reference": {
+      "seoTitle": "Reference | Malířské práce Praha",
+      "seoDescription": "Přečtěte si hodnocení zákazníků. 4.9 hvězd na Google, 63 recenzí.",
+      "hero": {
+        "title": "Reference",
+        "subtitle": "Co o nás říkají zákazníci. Všechna hodnocení si ověříte na Google.",
+        "breadcrumb": "Úvod",
+        "breadcrumbHref": "/",
+        "currentLabel": "Reference"
+      },
+      "testimonials": {
+        "showHeader": false,
+        "tagline": "Hodnocení zákazníků",
+        "title": "Řekli o nás",
+        "subtitle": "4.9 hvězd na Google, 63 recenzí — přesvědčte se sami.",
+        "googleRating": 4.9,
+        "googleReviewCount": 63,
+        "items": [
+          {
+            "text": "Přišli včas, pracovali rychle a čistě. Byt vypadá jako nový. Oceňuji, že vše zakryli a po sobě uklidili — ani koberec neměl flíček. Bez váhání doporučuji.",
+            "name": "Markéta V.",
+            "role": "Zákaznice, Praha 6"
+          },
+          {
+            "text": "Objednal jsem malování celého rodinného domu. Cena odpovídala nabídce, termín byl splněn přesně. Pánové byli ochotní, poradili s výběrem barev a výsledek předčil očekávání.",
+            "name": "Tomáš B.",
+            "role": "Zákazník, Praha-západ"
+          },
+          {
+            "text": "Rychlá reakce na poptávku, férová cena a profesionální provedení. Lakování oken dopadlo skvěle — vypadají jako nová. Určitě se obrátím znovu.",
+            "name": "Lenka H.",
+            "role": "Zákaznice, Praha 4"
+          }
+        ]
+      }
+    },
+    "faq": {
+      "seoTitle": "Časté dotazy | Malířské práce Praha",
+      "seoDescription": "Odpovědi na nejčastější otázky o malování interiérů, lakování oken a ceně zakázky.",
+      "hero": {
+        "title": "Časté dotazy",
+        "subtitle": "Odpovědi na otázky, které nám zákazníci pokládají nejčastěji.",
+        "breadcrumb": "Úvod",
+        "breadcrumbHref": "/",
+        "currentLabel": "Časté dotazy"
+      }
     }
   }
 }

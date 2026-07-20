@@ -1,0 +1,732 @@
+{
+  "siteName": "LUNELA",
+  "seo": {
+    "title": "LUNELA — šperky, které vyprávějí příběh | prsteny, náušnice, náhrdelníky",
+    "description": "LUNELA je e-shop se šperky značek AURELLE a PALMERA. Prsteny, náušnice, náhrdelníky a přívěsky s garancí pravosti, gravírováním na míru a dopravou zdarma nad 1 500 Kč."
+  },
+  "navbar": {
+    "siteName": "LUNELA",
+    "logoUrl": "",
+    "phone": "+420 601 001 201",
+    "phoneHours": "Po–Pá: 7:30–16:00",
+    "phoneAvatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=96&h=96&fit=crop&auto=format&q=80",
+    "searchPlaceholder": "Co hledáte?",
+    "announcement": {
+      "shippingPre": "Doprava",
+      "shippingBold": "ZDARMA",
+      "shippingMid": "při nákupu nad",
+      "shippingAmount": "1 500 Kč",
+      "promoLabel": "10 % SLEVA NA PRVNÍ OBJEDNÁVKU",
+      "promoHref": "/vyprodej"
+    },
+    "verifiedBadge": "OVĚŘENO ZÁKAZNÍKY",
+    "utility": {
+      "wishlistLabel": "Oblíbené",
+      "loginLabel": "Můj účet",
+      "cartLabel": "Košík"
+    },
+    "categories": [
+      {
+        "label": "Přívěsky",
+        "slug": "privesky",
+        "children": [
+          {
+            "label": "Stříbrné přívěsky",
+            "slug": "privesky-stribrne",
+            "image": "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Pozlacené přívěsky",
+            "slug": "privesky-pozlacene",
+            "image": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Přívěsky se symbolem",
+            "slug": "privesky-symboly",
+            "image": "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Sklo Murano",
+            "slug": "privesky-murano",
+            "image": "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Náramky",
+        "slug": "naramky",
+        "children": [
+          {
+            "label": "Článkové náramky",
+            "slug": "naramky-clankove",
+            "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Pevné náramky",
+            "slug": "naramky-pevne",
+            "image": "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Náramky se šňůrkou",
+            "slug": "naramky-snurka",
+            "image": "https://images.unsplash.com/photo-1590548784585-643d2b9f2925?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Perlové náramky",
+            "slug": "naramky-perlove",
+            "image": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Prsteny",
+        "slug": "prsteny",
+        "children": [
+          {
+            "label": "Stříbrné prsteny",
+            "slug": "prsteny-stribrne",
+            "image": "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Pozlacené prsteny",
+            "slug": "prsteny-pozlacene",
+            "image": "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Prsteny s kameny",
+            "slug": "prsteny-kameny",
+            "image": "https://images.unsplash.com/photo-1598560917505-59a3ad559071?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Snubní a zásnubní",
+            "slug": "prsteny-snubni",
+            "image": "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Náušnice",
+        "slug": "nausnice",
+        "children": [
+          {
+            "label": "Kruhové náušnice",
+            "slug": "nausnice-kruhy",
+            "image": "https://images.unsplash.com/photo-1630019852942-f89202989a59?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Pecky",
+            "slug": "nausnice-pecky",
+            "image": "https://images.unsplash.com/photo-1635767798638-3e25273a8236?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Visací náušnice",
+            "slug": "nausnice-visaci",
+            "image": "https://images.unsplash.com/photo-1610694955371-d4a3e0ce4b52?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Perlové náušnice",
+            "slug": "nausnice-perlove",
+            "image": "https://images.unsplash.com/photo-1629224316810-9d8805b95e76?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Náhrdelníky",
+        "slug": "nahrdelniky",
+        "children": [
+          {
+            "label": "Řetízky",
+            "slug": "nahrdelniky-retizky",
+            "image": "https://images.unsplash.com/photo-1599459183200-59c7687a0275?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Náhrdelníky s přívěskem",
+            "slug": "nahrdelniky-privesek",
+            "image": "https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Chokery",
+            "slug": "nahrdelniky-chokery",
+            "image": "https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Perlové náhrdelníky",
+            "slug": "nahrdelniky-perlove",
+            "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Kolekce",
+        "slug": "kolekce",
+        "children": [
+          {
+            "label": "AURELLE",
+            "slug": "kolekce-aurelle",
+            "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "PALMERA",
+            "slug": "kolekce-palmera",
+            "image": "https://images.unsplash.com/photo-1620656798579-1984d9e87df7?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Láska",
+            "slug": "kolekce-laska",
+            "image": "https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Elegance",
+            "slug": "kolekce-elegance",
+            "image": "https://images.unsplash.com/photo-1601821765780-754fa98637c1?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Dárky",
+        "slug": "darky",
+        "children": [
+          {
+            "label": "Pro partnerku",
+            "slug": "darky-partnerka",
+            "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Pro maminku",
+            "slug": "darky-maminka",
+            "image": "https://images.unsplash.com/photo-1617117811969-97f441511dee?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "K narozeninám",
+            "slug": "darky-narozeniny",
+            "image": "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=420&h=420&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Dárkové poukazy",
+            "slug": "darkove-poukazy",
+            "image": "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=420&h=420&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Gravírování",
+        "slug": "gravirovani"
+      }
+    ],
+    "secondaryLinks": [
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Prodejny & Kontakty",
+        "href": "/kontakt"
+      }
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "MOHLO BY SE VÁM LÍBIT",
+      "recoCta": "PŘIDAT",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Pokračovat v nákupu",
+      "freeShippingThreshold": 150000,
+      "freeShippingLabel": "Do dopravy zdarma zbývá",
+      "freeShippingDone": "Máte dopravu zdarma"
+    },
+    "promoChip": "10 % sleva"
+  },
+  "hero": {
+    "main": {
+      "image": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1100&h=530&fit=crop&auto=format&q=80",
+      "kicker": "NOVÁ KOLEKCE",
+      "brand": "AURELLE",
+      "ctaText": "OBJEVIT",
+      "href": "/obchod?kategorie=kolekce-aurelle"
+    },
+    "tiles": [
+      {
+        "type": "image",
+        "image": "https://images.unsplash.com/photo-1590166223826-12dee1677420?w=560&h=700&fit=crop&auto=format&q=80",
+        "href": "/obchod?kategorie=nausnice"
+      },
+      {
+        "type": "brand",
+        "brand": "PALMERA",
+        "label": "NOVÁ KOLEKCE",
+        "href": "/obchod?kategorie=kolekce-palmera"
+      },
+      {
+        "type": "image",
+        "image": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=560&h=700&fit=crop&auto=format&q=80",
+        "href": "/obchod?kategorie=nausnice-pecky"
+      },
+      {
+        "type": "image",
+        "image": "https://images.unsplash.com/photo-1599459183200-59c7687a0275?w=560&h=700&fit=crop&auto=format&q=80",
+        "href": "/obchod?kategorie=nahrdelniky-retizky"
+      }
+    ]
+  },
+  "newCollection": {
+    "heading": "Objevte nejnovější kolekci AURELLE",
+    "categorySlug": "kolekce-aurelle",
+    "limit": 8,
+    "badgeLabel": "Novinka"
+  },
+  "usp": {
+    "items": [
+      {
+        "icon": "exchange",
+        "title": "Výměna & Vrácení",
+        "text": "Výměna nebo vrácení do 30 dnů"
+      },
+      {
+        "icon": "tag",
+        "title": "Pravost & Původ",
+        "text": "Ručíme za pravost a původ našich šperků"
+      },
+      {
+        "icon": "badge",
+        "title": "Autorizovaný prodejce",
+        "text": "Jsme autorizovaný e-shop značek AURELLE a PALMERA"
+      },
+      {
+        "icon": "truck",
+        "title": "Doprava zdarma",
+        "text": "Dopravu zdarma získáte při nákupu nad 1 500 Kč"
+      },
+      {
+        "icon": "store",
+        "title": "Kamenné prodejny",
+        "text": "Máme 3 kamenné prodejny v ČR"
+      }
+    ]
+  },
+  "giftGrid": {
+    "heading": "Darujte radost s kolekcí AURELLE",
+    "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=900&h=1200&fit=crop&auto=format&q=80",
+    "brandOverlay": "AURELLE",
+    "href": "/obchod?kategorie=kolekce-aurelle",
+    "categorySlug": "kolekce-aurelle",
+    "source": "newest",
+    "limit": 4,
+    "badgeLabel": "Novinka"
+  },
+  "palmeraGrid": {
+    "heading": "PALMERA",
+    "image": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&h=1200&fit=crop&auto=format&q=80",
+    "brandOverlay": "PALMERA",
+    "href": "/obchod?kategorie=kolekce-palmera",
+    "categorySlug": "kolekce-palmera",
+    "limit": 4,
+    "badgeLabel": "Novinka",
+    "source": "newest"
+  },
+  "collectionBanners": {
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=900&h=1500&fit=crop&auto=format&q=80",
+        "brand": "AURELLE",
+        "label": "Láska",
+        "href": "/obchod?kategorie=kolekce-laska"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=900&h=1500&fit=crop&auto=format&q=80",
+        "brand": "AURELLE",
+        "label": "Elegance",
+        "href": "/obchod?kategorie=kolekce-elegance"
+      }
+    ]
+  },
+  "giftSelector": {
+    "kicker": "Vyberte šperk AURELLE",
+    "title": "jako dárek",
+    "ctaText": "Tipy na dárek",
+    "ctaHref": "/obchod?kategorie=darky",
+    "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=420&h=420&fit=crop&auto=format&q=80",
+    "items": [
+      {
+        "icon": "partner",
+        "pre": "Pro",
+        "label": "Partnerku",
+        "href": "/obchod?kategorie=darky-partnerka"
+      },
+      {
+        "icon": "mother",
+        "pre": "Pro",
+        "label": "Maminku",
+        "href": "/obchod?kategorie=darky-maminka"
+      },
+      {
+        "icon": "cake",
+        "pre": "Na",
+        "label": "Narozeniny",
+        "href": "/obchod?kategorie=darky-narozeniny"
+      },
+      {
+        "icon": "daughter",
+        "pre": "Pro",
+        "label": "Dceru",
+        "href": "/obchod?kategorie=darky"
+      },
+      {
+        "icon": "baby",
+        "pre": "Narození",
+        "label": "Dítěte",
+        "href": "/obchod?kategorie=darky"
+      },
+      {
+        "icon": "gift",
+        "pre": "Na",
+        "label": "Výročí",
+        "href": "/obchod?kategorie=darkove-poukazy"
+      }
+    ]
+  },
+  "editorial": {
+    "image": "https://images.unsplash.com/photo-1620656798579-1984d9e87df7?w=900&h=760&fit=crop&auto=format&q=80",
+    "verticalBrand": "PALMERA",
+    "title": "Šperky PALMERA: středomořská elegance nově v LUNELE",
+    "metaCategory": "Novinky",
+    "metaDate": "14. 4. 2026",
+    "text": "Do LUNELY přichází značka PALMERA a s ní lehkost jihu a nadčasový design. V nové sekci na vás čeká přes sto modelů pro každodenní nošení i sváteční příležitosti. Podívejte se, čím jsou šperky PALMERA výjimečné a které kousky patří mezi bestsellery.",
+    "ctaText": "Přečíst",
+    "ctaHref": "/clanky",
+    "sideImage": "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=700&h=700&fit=crop&auto=format&q=80"
+  },
+  "instagram": {
+    "kicker": "SLEDUJTE NÁS",
+    "title": "Buďte součástí našeho příběhu",
+    "socials": {
+      "facebook": "https://facebook.com",
+      "instagram": "https://instagram.com",
+      "tiktok": "https://tiktok.com"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=760&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=480&h=480&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=480&h=480&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=480&h=480&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1512310604669-443f26c35f52?w=1100&h=900&fit=crop&auto=format&q=80"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "facebook": "https://facebook.com",
+      "instagram": "https://instagram.com",
+      "tiktok": "https://tiktok.com"
+    },
+    "columns": [
+      {
+        "heading": "O nás",
+        "links": [
+          {
+            "label": "Blog",
+            "href": "/clanky"
+          },
+          {
+            "label": "O LUNELE",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Kontakty",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Prodejny",
+            "href": "/kontakt"
+          }
+        ]
+      },
+      {
+        "heading": "Vše o nákupu",
+        "links": [
+          {
+            "label": "Reklamace, výměna a vrácení zboží",
+            "href": "/vraceni"
+          },
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava"
+          },
+          {
+            "label": "Všeobecné obchodní podmínky",
+            "href": "/obchodni-podminky"
+          }
+        ]
+      },
+      {
+        "heading": "Rady a tipy",
+        "links": [
+          {
+            "label": "Všechny dotazy",
+            "href": "/faq"
+          },
+          {
+            "label": "Certifikace a ověření pravosti",
+            "href": "/faq"
+          },
+          {
+            "label": "Jak o šperky pečovat",
+            "href": "/faq"
+          },
+          {
+            "label": "Jak určit velikost prstenu",
+            "href": "/faq"
+          }
+        ]
+      }
+    ],
+    "contact": {
+      "heading": "Potřebujete poradit?",
+      "phone": "+420 601 001 201",
+      "hours": "Po–Pá: 7:30–16:00",
+      "email": "poradna@lunela.cz"
+    },
+    "newsletter": {
+      "heading": "Akce i novinky dostanete přednostně",
+      "placeholder": "Váš e-mail",
+      "button": "Odeslat",
+      "note": "Kliknutím na „Odeslat“ souhlasíte se",
+      "noteLink": "zpracováním osobních údajů."
+    },
+    "brandBadge": {
+      "name": "AURELLE",
+      "sub": "Autorizovaný prodejce"
+    },
+    "verifiedBadge": "OVĚŘENO ZÁKAZNÍKY",
+    "payments": [
+      "Mastercard",
+      "Visa",
+      "Platba 24",
+      "Apple Pay"
+    ],
+    "bottomLinks": [
+      {
+        "label": "Informace o webu",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/ochrana-osobnich-udaju"
+      },
+      {
+        "label": "Informace o cookies",
+        "href": "/ochrana-osobnich-udaju"
+      },
+      {
+        "label": "Mapa stránek",
+        "href": "/"
+      }
+    ],
+    "copyright": "© LUNELA 2026"
+  },
+  "pageAbout": {
+    "pageTitle": "O LUNELE",
+    "blocks": [
+      {
+        "heading": "Šperky, které vyprávějí příběh",
+        "paragraphs": [
+          "LUNELA vznikla z přesvědčení, že šperk není jen doplněk — je to vzpomínka, kterou nosíte s sebou. Od roku 2016 pečlivě vybíráme kolekce značek AURELLE a PALMERA a pomáháme našim zákazníkům najít kousky, které je budou provázet celý život.",
+          "Provozujeme tři kamenné prodejny a e-shop s kompletní nabídkou obou značek. Každý šperk, který od nás odchází, prošel rukama našich klenotníků a je zabalen v dárkové krabičce."
+        ],
+        "bullets": [
+          "Autorizovaný prodejce značek AURELLE a PALMERA",
+          "3 kamenné prodejny — Praha, Brno, Ostrava",
+          "Gravírování na míru do 48 hodin",
+          "Dárkové balení zdarma ke každé objednávce"
+        ]
+      },
+      {
+        "heading": "Garance pravosti a původu",
+        "paragraphs": [
+          "Všechny šperky nakupujeme výhradně z oficiální distribuce. Ke každému kousku vám na vyžádání vystavíme certifikát pravosti a u drahých kovů dokládáme puncovní značení."
+        ]
+      }
+    ]
+  },
+  "pageContact": {
+    "pageTitle": "Prodejny & Kontakty",
+    "infoHeading": "Potřebujete poradit?",
+    "phone": "+420 601 001 201",
+    "hours": "Po–Pá: 7:30–16:00",
+    "email": "poradna@lunela.cz",
+    "address": "LUNELA s.r.o., Květinová 12, 110 00 Praha 1",
+    "stores": [
+      {
+        "name": "LUNELA Praha",
+        "address": "Květinová 12, Praha 1",
+        "hours": "Po–So 9:00–19:00"
+      },
+      {
+        "name": "LUNELA Brno",
+        "address": "Zelný trh 8, Brno",
+        "hours": "Po–So 9:00–18:00"
+      },
+      {
+        "name": "LUNELA Ostrava",
+        "address": "Stodolní 24, Ostrava",
+        "hours": "Po–Pá 9:00–18:00"
+      }
+    ],
+    "formHeading": "Napište nám"
+  },
+  "pageShipping": {
+    "pageTitle": "Doprava a platba",
+    "blocks": [
+      {
+        "heading": "Doprava",
+        "paragraphs": [
+          "Objednávky přijaté do 14:00 expedujeme tentýž pracovní den. Nad 1 500 Kč je doprava zdarma u všech dopravců."
+        ],
+        "bullets": [
+          "Zásilkovna — výdejní místo od 79 Kč, doručení 1–2 dny",
+          "PPL / DPD na adresu — od 99 Kč, doručení do 24 hodin",
+          "Osobní odběr na prodejně — zdarma, připraveno do 2 hodin",
+          "Balík je pojištěný a diskrétně zabalený bez loga"
+        ]
+      },
+      {
+        "heading": "Platba",
+        "paragraphs": [
+          "Platit můžete kartou online, bankovním převodem, přes Apple Pay / Google Pay nebo na dobírku (+30 Kč). Všechny platby probíhají přes zabezpečenou bránu."
+        ]
+      }
+    ]
+  },
+  "pageFaq": {
+    "pageTitle": "Rady a tipy",
+    "blocks": [
+      {
+        "heading": "Jak určím správnou velikost prstenu?",
+        "paragraphs": [
+          "Nejjednodušší je změřit vnitřní průměr prstenu, který vám sedí — v milimetrech. Velikost 52 odpovídá průměru 16,5 mm, velikost 54 průměru 17,2 mm. Na každé prodejně vám velikost změříme zdarma, případně zašleme papírový měřič."
+        ]
+      },
+      {
+        "heading": "Jak o šperky pečovat?",
+        "paragraphs": [
+          "Šperky odkládejte před sprchou, sportem a spánkem. Parfém nanášejte dřív, než si šperk nasadíte. Uchovávejte je v látkovém sáčku nebo krabičce a čistěte jemným hadříkem — stříbro můžete oživit speciální čisticí utěrkou."
+        ]
+      },
+      {
+        "heading": "Jak funguje gravírování?",
+        "paragraphs": [
+          "U vybraných šperků nabízíme gravírování věnování, data či iniciál — do 20 znaků, hotové do 48 hodin. Gravírované šperky nelze vrátit, výměna velikosti je ale možná."
+        ]
+      },
+      {
+        "heading": "Certifikace a ověření pravosti",
+        "paragraphs": [
+          "Ke každému šperku vystavíme na vyžádání certifikát pravosti. Drahé kovy nesou puncovní značení dle českých norem."
+        ]
+      }
+    ]
+  },
+  "pageReturns": {
+    "pageTitle": "Reklamace, výměna a vrácení zboží",
+    "blocks": [
+      {
+        "heading": "Vrácení do 30 dnů",
+        "paragraphs": [
+          "Nesedla velikost nebo se šperk prostě netrefil? Nevadí. Zboží můžete bez udání důvodu vrátit nebo vyměnit do 30 dnů od doručení — stačí, aby bylo nepoužité a v původním balení."
+        ],
+        "bullets": [
+          "Vyplňte online formulář nebo napište na poradna@lunela.cz",
+          "Zboží zabalte včetně dárkové krabičky a certifikátu",
+          "Peníze vracíme do 14 dnů stejnou cestou, jakou jste platili",
+          "Výměnu velikosti odešleme zdarma"
+        ]
+      },
+      {
+        "heading": "Reklamace",
+        "paragraphs": [
+          "Na všechny šperky poskytujeme záruku 24 měsíců. Reklamaci vyřídíme nejpozději do 30 dnů, o průběhu vás budeme informovat e-mailem. Gravírované šperky nelze vrátit, vada materiálu je však vždy důvodem k reklamaci."
+        ]
+      }
+    ]
+  },
+  "pageTerms": {
+    "pageTitle": "Všeobecné obchodní podmínky",
+    "blocks": [
+      {
+        "heading": "1. Úvodní ustanovení",
+        "paragraphs": [
+          "Tyto obchodní podmínky upravují vztahy mezi společností LUNELA s.r.o., IČO 08 123 456, se sídlem Květinová 12, Praha 1 (dále jen „prodávající“), a zákazníkem e-shopu lunela.cz (dále jen „kupující“)."
+        ]
+      },
+      {
+        "heading": "2. Objednávka a uzavření smlouvy",
+        "paragraphs": [
+          "Odesláním objednávky kupující potvrzuje, že se seznámil s těmito podmínkami. Kupní smlouva vzniká potvrzením objednávky prodávajícím. Ceny jsou uvedeny včetně DPH a platí v okamžiku objednání."
+        ]
+      },
+      {
+        "heading": "3. Dodací a platební podmínky",
+        "paragraphs": [
+          "Zboží expedujeme do 24 hodin od přijetí platby, u dobírky od potvrzení objednávky. Podrobnosti o dopravcích a cenách najdete na stránce Doprava a platba."
+        ]
+      },
+      {
+        "heading": "4. Odstoupení od smlouvy",
+        "paragraphs": [
+          "Kupující má právo odstoupit od smlouvy do 30 dnů od převzetí zboží. Výjimku tvoří šperky upravené na míru (gravírování). Podrobný postup je popsán na stránce Reklamace a vrácení."
+        ]
+      }
+    ]
+  },
+  "pagePrivacy": {
+    "pageTitle": "Ochrana osobních údajů",
+    "blocks": [
+      {
+        "heading": "Jaké údaje zpracováváme",
+        "paragraphs": [
+          "Pro vyřízení objednávky zpracováváme jméno, doručovací adresu, e-mail a telefon. Údaje uchováváme po dobu nezbytnou pro plnění smlouvy a zákonných povinností (typicky 10 let u daňových dokladů)."
+        ]
+      },
+      {
+        "heading": "Newsletter a marketing",
+        "paragraphs": [
+          "E-mail pro zasílání novinek zpracováváme pouze s vaším souhlasem, který můžete kdykoli odvolat kliknutím na odkaz v patičce e-mailu."
+        ]
+      },
+      {
+        "heading": "Cookies",
+        "paragraphs": [
+          "Web používá nezbytné cookies pro fungování košíku a — s vaším souhlasem — analytické cookies pro zlepšování služeb. Nastavení můžete změnit v liště souborů cookies."
+        ]
+      },
+      {
+        "heading": "Vaše práva",
+        "paragraphs": [
+          "Máte právo na přístup ke svým údajům, jejich opravu, výmaz i přenositelnost. Pište na poradna@lunela.cz — odpovíme do 30 dnů."
+        ]
+      }
+    ]
+  },
+  "pageBlog": {
+    "pageTitle": "Blog",
+    "blocks": [
+      {
+        "heading": "Šperky PALMERA: středomořská elegance nově v LUNELE",
+        "paragraphs": [
+          "Novinky | 14. 4. 2026 — Do LUNELY přichází značka PALMERA a s ní lehkost jihu a nadčasový design. V nové sekci na vás čeká přes sto modelů pro každodenní nošení i sváteční příležitosti."
+        ]
+      },
+      {
+        "heading": "Jak vybrat zásnubní prsten, který sedí napoprvé",
+        "paragraphs": [
+          "Rady a tipy | 2. 3. 2026 — Tajně zjištěná velikost, tvar kamene podle tvaru ruky a tři pravidla, díky kterým se trefíte. Připravili jsme praktický průvodce podle zkušeností z našich prodejen."
+        ]
+      },
+      {
+        "heading": "Vrstvení náhrdelníků: 3 kombinace na jaro",
+        "paragraphs": [
+          "Styl | 18. 2. 2026 — Řetízky různých délek, jemný choker a jeden výrazný přívěsek. Ukazujeme kombinace, které fungují k výstřihu i roláku."
+        ]
+      }
+    ]
+  }
+}

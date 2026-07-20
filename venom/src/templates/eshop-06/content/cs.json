@@ -1,0 +1,927 @@
+{
+  "siteName": "Ořeškárna",
+  "seo": {
+    "title": "Ořeškárna — pražené ořechy, křupavé ovoce a poctivé směsi",
+    "description": "Rodinná pražírna ořechů, křupavé lyofilizované ovoce a poctivé směsi vlastní výroby. Osobní odběr na prodejnách, doprava zdarma od 1 999 Kč."
+  },
+  "hero": {
+    "autoplayMs": 6000,
+    "promos": [
+      {
+        "image": "/templates/eshop-06/u1508061253366-f7da158b6d46-1200x520.webp",
+        "title": "Výdejní boxy po celé ČR od 29 Kč",
+        "ctaText": "Jdu nakupovat",
+        "ctaHref": "/obchod",
+        "badge": "Doprava\nod 29 Kč"
+      },
+      {
+        "image": "/templates/eshop-06/u1481391319762-47dff72954d9-1200x520.webp",
+        "title": "Kešu kuličky ke každé objednávce zdarma",
+        "ctaText": "Chci dárek",
+        "ctaHref": "/obchod?kategorie=energeticke-kulicky",
+        "badge": "Dárek\nk nákupu"
+      }
+    ],
+    "slides": [
+      {
+        "image": "/templates/eshop-06/u1490474418585-ba9bad8fd0ea-2200x940.webp",
+        "bubble": "Letní směsi jsou zpět",
+        "bubbleColor": "#e04f70",
+        "text": "Vaše oblíbené osvěžující směsi právě dorazily na sklad. Nakupte je se slevou, dokud je z čeho vybírat.",
+        "ctaText": "Nakup, než zmizí",
+        "ctaHref": "/obchod?kategorie=krupko-smesi",
+        "badge": "Až\n−25 %"
+      },
+      {
+        "image": "/templates/eshop-06/u1601493700631-2b16ec4b4716-2200x940.webp",
+        "bubble": "Jahody v čokoládě",
+        "bubbleColor": "#7a4a2b",
+        "text": "Křupavé jahody obalené v poctivé mléčné čokoládě. Čerstvá novinka z naší dílny — dokud nedojde šarže.",
+        "ctaText": "Ochutnat novinku",
+        "ctaHref": "/obchod?kategorie=plody-v-cokolade",
+        "badge": "Novinka"
+      }
+    ]
+  },
+  "productsForYou": {
+    "heading": "Pro vás",
+    "badge": "Dárek od 1 499 Kč",
+    "limit": 8
+  },
+  "productsBestsellers": {
+    "heading": "Bestsellery",
+    "badge": "Dárek od 1 499 Kč",
+    "limit": 8,
+    "source": "newest"
+  },
+  "blog": {
+    "heading": "Blog",
+    "moreText": "Další články",
+    "moreHref": "/recepty",
+    "posts": [
+      {
+        "image": "/templates/eshop-06/u1512621776951-a57141f2eefd-1000x640.webp",
+        "chip": "Rozhovory",
+        "title": "Jak si běžkyně Klára hlídá energii při tréninku na maraton",
+        "meta": "28. 6. 2026 | 8 412× přečteno",
+        "href": "/recepty"
+      },
+      {
+        "image": "/templates/eshop-06/u1490474418585-ba9bad8fd0ea-1000x640.webp",
+        "chip": "Rady a tipy",
+        "title": "Pět svačin do kanceláře, které zaženou chuť na sladké",
+        "meta": "19. 6. 2026 | 6 108× přečteno",
+        "href": "/recepty"
+      },
+      {
+        "image": "/templates/eshop-06/u1509440159596-0249088772ff-1000x640.webp",
+        "chip": "Ze zákulisí",
+        "title": "Datlová pasta místo cukru: jak s ní pečeme my v Ořeškárně",
+        "meta": "9. 6. 2026 | 4 976× přečteno",
+        "href": "/recepty"
+      }
+    ]
+  },
+  "stores": {
+    "icon": "pin",
+    "iconBg": "#e8f1fb",
+    "image": "/templates/eshop-06/u1553531384-cc64ac80f931-1300x980.webp",
+    "heading": "Naše prodejny",
+    "text": "V Praze, Brně a Olomouci na vás čekají **kamenné prodejny Ořeškárny**. Přijďte si nabrat ořechy a křupavé ovoce **na váhu**, ochutnat, co právě pražíme, nebo si nechat namíchat **směs přesně podle chuti**. A když nakoupíte na prodejně, přibalíme vám **ochutnávku novinky** k vyzkoušení domů.",
+    "linkText": "Kde nás najdete?",
+    "linkHref": "/kontakt"
+  },
+  "team": {
+    "icon": "chef",
+    "iconBg": "#fdeef3",
+    "reverse": true,
+    "image": "/templates/eshop-06/u1556910103-1c02745aae4d-1300x980.webp",
+    "heading": "Tým Ořeškárny",
+    "text": "Začínali jsme před deseti lety s jednou pražičkou v garáži. Dnes je nás přes dvacet, ale jedno se nezměnilo: **každou šarži pražíme a balíme ručně** a než cokoli pustíme ven, **musí to projít našimi mlsnými jazyky**. Když mandle nekřupe tak, jak má, prostě ji nepošleme.",
+    "linkText": "Poznejte nás",
+    "linkHref": "/o-nas"
+  },
+  "social": {
+    "heading": "Sledujte nás",
+    "links": [
+      {
+        "kind": "facebook",
+        "href": "https://facebook.com"
+      },
+      {
+        "kind": "instagram",
+        "href": "https://instagram.com"
+      },
+      {
+        "kind": "youtube",
+        "href": "https://youtube.com"
+      },
+      {
+        "kind": "tiktok",
+        "href": "https://tiktok.com"
+      },
+      {
+        "kind": "linkedin",
+        "href": "https://linkedin.com"
+      }
+    ]
+  },
+  "usp": {
+    "items": [
+      {
+        "icon": "wheat",
+        "label": "Výběrové suroviny",
+        "bg": "#fdeef3"
+      },
+      {
+        "icon": "factory",
+        "label": "Vlastní pražírna",
+        "bg": "#eef7e6"
+      },
+      {
+        "icon": "tasting",
+        "label": "Ochutnávky na prodejně",
+        "bg": "#e8f1fb"
+      },
+      {
+        "icon": "bulb",
+        "label": "Směsi na přání",
+        "bg": "#fdf6dc"
+      },
+      {
+        "icon": "store",
+        "label": "Kamenné prodejny",
+        "bg": "#f3ecfb"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Ořeškárna",
+    "newsletterTitle": "Křupavé novinky a akce do e-mailu",
+    "newsletterNote": "Jednou za čtrnáct dní vám pošleme, co právě pražíme, recepty od našeho týmu a slevy jen pro odběratele. Žádný spam, slibujeme.",
+    "phone": "+420 730 155 902",
+    "email": "dobroty@oreskarna.cz",
+    "hours": "Po–Pá 8:00–16:30",
+    "socials": [
+      {
+        "kind": "facebook",
+        "href": "https://facebook.com"
+      },
+      {
+        "kind": "instagram",
+        "href": "https://instagram.com"
+      },
+      {
+        "kind": "youtube",
+        "href": "https://youtube.com"
+      },
+      {
+        "kind": "tiktok",
+        "href": "https://tiktok.com"
+      },
+      {
+        "kind": "linkedin",
+        "href": "https://linkedin.com"
+      }
+    ],
+    "columns": [
+      {
+        "title": "Ořeškárna",
+        "links": [
+          {
+            "label": "Náš příběh",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Prodejny",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Recepty",
+            "href": "/recepty"
+          },
+          {
+            "label": "Firemní odběry",
+            "href": "/firemni-odbery"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          }
+        ]
+      },
+      {
+        "title": "Nákupní rádce",
+        "links": [
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Vrácení zboží",
+            "href": "/vraceni-zbozi"
+          },
+          {
+            "label": "Časté dotazy",
+            "href": "/caste-dotazy"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchodni-podminky"
+          },
+          {
+            "label": "Ochrana osobních údajů",
+            "href": "/obchodni-podminky"
+          }
+        ]
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Nastavení cookies",
+        "href": "/obchodni-podminky"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "/obchodni-podminky"
+      },
+      {
+        "label": "Zásady zpracování osobních údajů",
+        "href": "/obchodni-podminky"
+      }
+    ],
+    "sticker": {
+      "text": "Psst! 100 Kč na první nákup",
+      "href": "/obchod"
+    }
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "title": "Náš příběh",
+        "subtitle": "Z jedné pražičky v garáži k vlastní pražírně a třem prodejnám. Pořád ale platí, že každou šarži ochutnáme, než ji pustíme k vám.",
+        "bg": "#fdeef3"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Poradíme s výběrem, namícháme směs na přání nebo domluvíme firemní odběr. Ozvěte se nám, jak je vám nejpohodlnější.",
+        "bg": "#e8f1fb"
+      },
+      "contact": {
+        "title": "Napište nám",
+        "lead": "Odpovídáme do jednoho pracovního dne. Když spěcháte, zavolejte — u telefonu je vždy někdo z pražírny, ne callcentrum.",
+        "phone": "+420 730 155 902",
+        "email": "dobroty@oreskarna.cz",
+        "hours": "Po–Pá 8:00–16:30",
+        "storesLabel": "Naše prodejny",
+        "stores": [
+          {
+            "city": "Praha — Vinohrady",
+            "address": "Slezská 1024/12, 120 00 Praha 2",
+            "hours": "Po–Pá 9:00–19:00, So 9:00–13:00"
+          },
+          {
+            "city": "Brno — Veveří",
+            "address": "Kounicova 268/44, 602 00 Brno",
+            "hours": "Po–Pá 9:00–18:00"
+          },
+          {
+            "city": "Olomouc — Centrum",
+            "address": "Ostružnická 325/8, 779 00 Olomouc",
+            "hours": "Po–Pá 9:00–17:30"
+          }
+        ],
+        "submitText": "Odeslat zprávu",
+        "successText": "Děkujeme za zprávu! Ozveme se do jednoho pracovního dne."
+      }
+    },
+    "doprava": {
+      "hero": {
+        "title": "Doprava a platba",
+        "subtitle": "Balíčky odesíláme do 24 hodin od objednání. Nad 1 999 Kč od nás máte dopravu zdarma — a křupat můžete už pozítří.",
+        "bg": "#eef7e6"
+      },
+      "shipping": {
+        "shippingTitle": "Doprava",
+        "shipping": [
+          {
+            "label": "Výdejní boxy po celé ČR",
+            "note": "Doručení do 2 pracovních dnů",
+            "price": "29 Kč"
+          },
+          {
+            "label": "Výdejní místa",
+            "note": "Přes 3 000 míst v ČR",
+            "price": "59 Kč"
+          },
+          {
+            "label": "Kurýr na adresu",
+            "note": "Doručení následující pracovní den",
+            "price": "89 Kč"
+          },
+          {
+            "label": "Osobní odběr na prodejně",
+            "note": "Praha, Brno, Olomouc — připraveno do 2 hodin",
+            "free": true
+          }
+        ],
+        "paymentTitle": "Platba",
+        "payments": [
+          {
+            "label": "Kartou online",
+            "note": "Visa, Mastercard, Apple Pay, Google Pay",
+            "free": true
+          },
+          {
+            "label": "Bankovním převodem",
+            "note": "Zboží odesíláme po připsání platby",
+            "free": true
+          },
+          {
+            "label": "Dobírka",
+            "note": "Platba při převzetí",
+            "price": "39 Kč"
+          }
+        ],
+        "note": "Nakupte nad 1 999 Kč a dopravu máte zdarma. Objednávky do 14:00 odesíláme ještě týž den."
+      }
+    },
+    "firmy": {
+      "hero": {
+        "title": "Firemní odběry",
+        "subtitle": "Křupání do kanceláře, dárkové koše pro klienty i pravidelné závozy. Firmám mícháme směsi na míru a fakturujeme s odloženou splatností.",
+        "bg": "#fdf6dc"
+      },
+      "split": {
+        "icon": "leaf",
+        "iconBg": "#eef7e6",
+        "image": "/templates/eshop-06/u1512621776951-a57141f2eefd-1300x980.webp",
+        "heading": "Co pro firmy děláme",
+        "text": "Pravidelné **závozy ořechů a ovoce do kanceláří** (týdně nebo měsíčně), **dárkové koše a dózy s vaším logem**, ochutnávkové balíčky na firemní akce a **množstevní slevy od 5 000 Kč** měsíčního odběru. Fakturujeme se splatností 14 dní a závoz po Praze a Brně máme vlastní.",
+        "linkText": "Chci nabídku pro firmu",
+        "linkHref": "/firemni-odbery#poptavka"
+      },
+      "contact": {
+        "title": "Poptávka pro firmy",
+        "lead": "Napište nám, kolik vás je a co vám chutná — do druhého dne pošleme nabídku šitou na míru.",
+        "phone": "+420 730 155 903",
+        "email": "firmy@oreskarna.cz",
+        "hours": "Po–Pá 8:00–16:30",
+        "storesLabel": "",
+        "stores": [],
+        "submitText": "Odeslat poptávku",
+        "successText": "Děkujeme! Nabídku pošleme do druhého pracovního dne."
+      }
+    },
+    "recepty": {
+      "hero": {
+        "title": "Recepty",
+        "subtitle": "Co vaříme a pečeme z vlastních surovin my v Ořeškárně. Každý recept jsme minimálně pětkrát testovali — na sobě.",
+        "bg": "#fdeef3"
+      },
+      "sladke": {
+        "heading": "Sladké pečení",
+        "moreText": "",
+        "moreHref": "/recepty",
+        "posts": [
+          {
+            "image": "/templates/eshop-06/u1509440159596-0249088772ff-1000x640.webp",
+            "chip": "Pečení",
+            "title": "Banánový chlebík s vlašskými ořechy a datlovou pastou",
+            "meta": "45 minut | pro začátečníky",
+            "href": "/recepty"
+          },
+          {
+            "image": "/templates/eshop-06/u1481391319762-47dff72954d9-1000x640.webp",
+            "chip": "Bez pečení",
+            "title": "Kuličky z datlí a kakaa, které zvládnou i děti",
+            "meta": "20 minut | 4 suroviny",
+            "href": "/recepty"
+          },
+          {
+            "image": "/templates/eshop-06/u1601493700631-2b16ec4b4716-1000x640.webp",
+            "chip": "Dezert",
+            "title": "Jogurtový pohár s křupavými jahodami a granolou",
+            "meta": "10 minut | bleskovka",
+            "href": "/recepty"
+          }
+        ]
+      },
+      "slane": {
+        "heading": "Slané a snídaně",
+        "moreText": "",
+        "moreHref": "/recepty",
+        "posts": [
+          {
+            "image": "/templates/eshop-06/u1512621776951-a57141f2eefd-1000x640.webp",
+            "chip": "Snídaně",
+            "title": "Overnight kaše s mangem, chia a praženými mandlemi",
+            "meta": "5 minut večer | ráno hotovo",
+            "href": "/recepty"
+          },
+          {
+            "image": "/templates/eshop-06/u1553531384-cc64ac80f931-1000x640.webp",
+            "chip": "Slané",
+            "title": "Pražené směsi tří chutí: rozmarýn, uzená paprika, chilli",
+            "meta": "30 minut | do zásoby",
+            "href": "/recepty"
+          },
+          {
+            "image": "/templates/eshop-06/u1490474418585-ba9bad8fd0ea-1000x640.webp",
+            "chip": "Svačina",
+            "title": "Energetické tyčinky bez cukru na výlet i do práce",
+            "meta": "35 minut | 8 kusů",
+            "href": "/recepty"
+          }
+        ]
+      }
+    },
+    "vraceni": {
+      "hero": {
+        "title": "Vrácení zboží",
+        "subtitle": "Nesedlo vám něco? Nevadí. Vrácení u nás vyřídíte za pár minut — a bez dohadování.",
+        "bg": "#e8f1fb"
+      },
+      "text": {
+        "blocks": [
+          {
+            "heading": "30 dní na rozmyšlenou",
+            "text": "Neotevřené zboží nám můžete vrátit do 30 dnů od doručení bez udání důvodu. Peníze posíláme zpět na účet do 5 pracovních dnů od přijetí vratky."
+          },
+          {
+            "heading": "Jak na to",
+            "text": "1. Napište nám na dobroty@oreskarna.cz číslo objednávky a co vracíte.\n2. Do druhého dne pošleme štítek pro zpětnou dopravu (se službou Bezplatné vrácení je zdarma, jinak 79 Kč).\n3. Balíček odneste na výdejní místo — o zbytek se postaráme."
+          },
+          {
+            "heading": "Otevřené potraviny",
+            "text": "Z hygienických důvodů nemůžeme přijmout zpět otevřené potraviny. Pokud ale zboží dorazilo poškozené nebo nechutná, jak má, napište nám — vyřešíme to náhradou nebo vrácením peněz. Fotka balení stačí."
+          },
+          {
+            "heading": "Reklamace",
+            "text": "Na všechno zboží se vztahuje zákonná odpovědnost za vady. Reklamaci vyřizujeme do 30 dnů, obvykle ale do týdne. Stačí e-mail s číslem objednávky a popisem problému."
+          }
+        ]
+      }
+    },
+    "faq": {
+      "hero": {
+        "title": "Časté dotazy",
+        "subtitle": "Nejčastější otázky z prodejen i ze zákaznické linky na jednom místě. Nenašli jste odpověď? Napište nám.",
+        "bg": "#eef7e6"
+      },
+      "faq": {
+        "heading": "",
+        "items": [
+          {
+            "q": "Kdy mi dorazí objednávka?",
+            "a": "Objednávky do 14:00 odesíláme ještě týž den. Do boxů a výdejních míst balíček dorazí obvykle do 2 pracovních dnů, kurýrem následující pracovní den."
+          },
+          {
+            "q": "Od kolika mám dopravu zdarma?",
+            "a": "Od 1 999 Kč. Osobní odběr na prodejnách v Praze, Brně a Olomouci je zdarma vždy — objednávku připravíme do 2 hodin."
+          },
+          {
+            "q": "Jak skladovat ořechy a křupavé ovoce?",
+            "a": "V suchu a temnu, ideálně do 20 °C. Lyofilizované ovoce po otevření dobře uzavřete — vzdušná vlhkost mu bere křupavost. Všechna naše balení mají zip."
+          },
+          {
+            "q": "Jsou vaše produkty bez lepku?",
+            "a": "Ořechy, sušené i lyofilizované ovoce lepek přirozeně neobsahují. Balíme ale v provozu, kde se zpracovávají i výrobky s obsahem lepku — přesné alergeny najdete u každého produktu."
+          },
+          {
+            "q": "Namícháte mi vlastní směs?",
+            "a": "Ano! Na prodejnách namícháme směs přesně podle chuti na počkání. Online si můžete vybrat z našich směsí Křupko®, nebo nám napište a připravíme vám vlastní recepturu od 2 kg."
+          },
+          {
+            "q": "Vystavíte fakturu na firmu?",
+            "a": "Samozřejmě — při objednávce stačí vyplnit IČO. Pro pravidelné firemní odběry máme samostatnou nabídku s množstevními slevami a odloženou splatností."
+          },
+          {
+            "q": "Co když mi zboží nebude chutnat?",
+            "a": "Neotevřené zboží vraťte do 30 dnů bez udání důvodu. A pokud něco nechutná, jak má, napište nám — vyřešíme náhradou nebo vrácením peněz."
+          }
+        ]
+      }
+    },
+    "podminky": {
+      "hero": {
+        "title": "Obchodní podmínky",
+        "subtitle": "Stručně, česky a bez kliček. Platné od 1. 6. 2026 pro nákupy v e-shopu Ořeškárna.",
+        "bg": "#f3ecfb"
+      },
+      "text": {
+        "blocks": [
+          {
+            "heading": "1. Úvodní ustanovení",
+            "text": "Tyto obchodní podmínky upravují vztah mezi společností Ořeškárna s.r.o., IČO 12345678, se sídlem Slezská 1024/12, 120 00 Praha 2 (prodávající), a zákazníkem (kupující) při nákupu v internetovém obchodě oreskarna.cz."
+          },
+          {
+            "heading": "2. Objednávka a uzavření smlouvy",
+            "text": "Odesláním objednávky kupující potvrzuje, že se seznámil s těmito podmínkami. Kupní smlouva vzniká potvrzením objednávky prodávajícím na e-mail kupujícího. Ceny jsou konečné, včetně DPH."
+          },
+          {
+            "heading": "3. Platební podmínky",
+            "text": "Platit lze kartou online, bankovním převodem nebo dobírkou (39 Kč). Při platbě převodem odesíláme zboží po připsání částky na účet. Zboží zůstává majetkem prodávajícího do úplného zaplacení."
+          },
+          {
+            "heading": "4. Dodací podmínky",
+            "text": "Objednávky přijaté do 14:00 v pracovní den expedujeme týž den. Doručujeme do výdejních boxů (od 29 Kč), na výdejní místa (59 Kč) a kurýrem (89 Kč). Nad 1 999 Kč je doprava zdarma. Osobní odběr na prodejnách je zdarma."
+          },
+          {
+            "heading": "5. Odstoupení od smlouvy",
+            "text": "Kupující má právo odstoupit od smlouvy do 30 dnů od převzetí zboží. Výjimkou jsou otevřené potraviny, které z hygienických důvodů vracet nelze. Podrobný postup najdete na stránce Vrácení zboží."
+          },
+          {
+            "heading": "6. Reklamace",
+            "text": "Práva z vadného plnění se řídí občanským zákoníkem. Reklamaci uplatníte e-mailem na dobroty@oreskarna.cz; vyřizujeme ji nejpozději do 30 dnů. O průběhu informujeme e-mailem."
+          },
+          {
+            "heading": "7. Ochrana osobních údajů",
+            "text": "Osobní údaje zpracováváme výhradně pro vyřízení objednávky a — se souhlasem — pro zasílání novinek, v souladu s GDPR. Údaje nepředáváme třetím stranám s výjimkou dopravců a platební brány."
+          },
+          {
+            "heading": "8. Závěrečná ustanovení",
+            "text": "Případné spory lze řešit mimosoudně u České obchodní inspekce (coi.cz). Tyto podmínky nabývají účinnosti 1. 6. 2026 a prodávající si vyhrazuje právo je měnit; pro objednávku platí znění účinné v okamžiku jejího odeslání."
+          }
+        ]
+      }
+    }
+  },
+  "navbar": {
+    "siteName": "Ořeškárna",
+    "logoUrl": "",
+    "searchPlaceholder": "Zkuste „pražené mandle“…",
+    "ribbonText": "",
+    "topLinks": [
+      {
+        "label": "Firemní odběry",
+        "href": "/firemni-odbery"
+      },
+      {
+        "label": "Náš příběh",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Recepty",
+        "href": "/recepty"
+      }
+    ],
+    "infoMenu": {
+      "label": "Nákupní rádce",
+      "links": [
+        {
+          "label": "Doprava a platba",
+          "href": "/doprava-a-platba"
+        },
+        {
+          "label": "Vrácení zboží",
+          "href": "/vraceni-zbozi"
+        },
+        {
+          "label": "Časté dotazy",
+          "href": "/caste-dotazy"
+        },
+        {
+          "label": "Obchodní podmínky",
+          "href": "/obchodni-podminky"
+        },
+        {
+          "label": "Kontakt",
+          "href": "/kontakt"
+        }
+      ]
+    },
+    "quickTags": [
+      {
+        "emoji": "🥇",
+        "label": "Výběrová kvalita",
+        "href": "/obchod?kategorie=vyberova-kvalita"
+      },
+      {
+        "emoji": "🔥",
+        "label": "Právě frčí",
+        "href": "/obchod?kategorie=prave-frci"
+      },
+      {
+        "emoji": "🆕",
+        "label": "Čerstvě naskladněno",
+        "href": "/obchod?kategorie=novinky"
+      },
+      {
+        "emoji": "🍫",
+        "label": "V čokoládě",
+        "href": "/obchod?kategorie=v-cokolade"
+      },
+      {
+        "emoji": "🥣",
+        "label": "Ke snídani",
+        "href": "/obchod?kategorie=ke-snidani"
+      },
+      {
+        "emoji": "🏃",
+        "label": "Na cesty",
+        "href": "/obchod?kategorie=na-cesty"
+      },
+      {
+        "emoji": "🎁",
+        "label": "Dárková balení",
+        "href": "/obchod?kategorie=darkova-baleni"
+      },
+      {
+        "emoji": "👨‍🍳",
+        "label": "Pro pekaře",
+        "href": "/obchod?kategorie=pro-pekare"
+      },
+      {
+        "emoji": "💚",
+        "label": "Oblíbené u vás",
+        "href": "/obchod?kategorie=oblibene"
+      },
+      {
+        "emoji": "🏷️",
+        "label": "Ve slevě",
+        "href": "/obchod?kategorie=ve-sleve"
+      }
+    ],
+    "megaHeadings": {
+      "categories": "Vyberte si",
+      "favorites": "Hitparáda",
+      "news": "Čerstvé novinky",
+      "rescue": "Poslední kusy"
+    },
+    "megaFavorites": [
+      {
+        "image": "/templates/eshop-06/u1601493700631-2b16ec4b4716-160x160.webp",
+        "title": "Křupavé jahodové plátky",
+        "price": "Od 119 Kč / 100g",
+        "oldPrice": "149 Kč / 100g",
+        "badge": "-20 %",
+        "href": "/obchod?kategorie=krupave-jahody"
+      }
+    ],
+    "megaNews": [
+      {
+        "image": "/templates/eshop-06/u1571748982800-fa51082c2224-160x160.webp",
+        "title": "Ranní kaše mango & chia",
+        "price": "Od 55 Kč / 100g",
+        "href": "/obchod?kategorie=ke-snidani"
+      },
+      {
+        "image": "/templates/eshop-06/u1464965911861-746a04b4bca6-160x160.webp",
+        "title": "Banánové chipsy bez cukru",
+        "price": "Od 49 Kč / 100g",
+        "href": "/obchod?kategorie=ovocne-chipsy"
+      }
+    ],
+    "megaRescue": [
+      {
+        "image": "/templates/eshop-06/u1615485290382-441e4d049cb5-160x160.webp",
+        "title": "Malinová drť — dojezd šarže",
+        "price": "Od 69 Kč / 100g",
+        "oldPrice": "105 Kč / 100g",
+        "badge": "-34 %",
+        "href": "/obchod?kategorie=ve-sleve"
+      }
+    ],
+    "megaBlog": {
+      "image": "/templates/eshop-06/u1490818387583-1baba5e638af-720x480.webp",
+      "chip": "Ze zákulisí",
+      "title": "Proč křupavé ovoce chutná jako čerstvě utržené? Nahlédněte do naší sušárny",
+      "meta": "2. 7. 2026 | 12 480× přečteno | 5 minut",
+      "href": "/recepty"
+    },
+    "categories": [
+      {
+        "label": "Ořechy",
+        "slug": "orechy",
+        "promoImage": "/templates/eshop-06/u1508061253366-f7da158b6d46-760x760.webp",
+        "children": [
+          {
+            "label": "Mandle",
+            "slug": "mandle"
+          },
+          {
+            "label": "Kešu",
+            "slug": "kesu"
+          },
+          {
+            "label": "Vlašské ořechy",
+            "slug": "vlasske-orechy"
+          },
+          {
+            "label": "Lískové ořechy",
+            "slug": "liskove-orechy"
+          },
+          {
+            "label": "Pistácie",
+            "slug": "pistacie"
+          },
+          {
+            "label": "Para ořechy",
+            "slug": "para-orechy"
+          },
+          {
+            "label": "Pekanové ořechy",
+            "slug": "pekanove-orechy"
+          },
+          {
+            "label": "Pražené směsi",
+            "slug": "prazene-smesi"
+          }
+        ],
+        "favorites": [
+          {
+            "image": "/templates/eshop-06/u1508061253366-f7da158b6d46-160x160.webp",
+            "title": "Mandle pražené na sucho",
+            "price": "Od 95 Kč / 100g",
+            "href": "/obchod?kategorie=mandle"
+          }
+        ]
+      },
+      {
+        "label": "Křupavé ovoce",
+        "slug": "krupave-ovoce",
+        "promoImage": "/templates/eshop-06/u1490474418585-ba9bad8fd0ea-760x760.webp",
+        "children": [
+          {
+            "label": "Jahody",
+            "slug": "krupave-jahody"
+          },
+          {
+            "label": "Maliny",
+            "slug": "krupave-maliny"
+          },
+          {
+            "label": "Mango",
+            "slug": "krupave-mango"
+          },
+          {
+            "label": "Ananas",
+            "slug": "krupavy-ananas"
+          },
+          {
+            "label": "Ovocné drtě",
+            "slug": "ovocne-drte"
+          },
+          {
+            "label": "Ovocné prášky do smoothie",
+            "slug": "ovocne-prasky"
+          },
+          {
+            "label": "Křupavá zelenina",
+            "slug": "krupava-zelenina"
+          },
+          {
+            "label": "Celé plody",
+            "slug": "cele-plody"
+          }
+        ]
+      },
+      {
+        "label": "Sušené plody",
+        "slug": "susene-plody",
+        "promoImage": "/templates/eshop-06/u1596591606975-97ee5cef3a1e-760x760.webp",
+        "children": [
+          {
+            "label": "Datle a fíky",
+            "slug": "datle-a-fiky"
+          },
+          {
+            "label": "Meruňky",
+            "slug": "merunky"
+          },
+          {
+            "label": "Švestky",
+            "slug": "svestky"
+          },
+          {
+            "label": "Brusinky a višně",
+            "slug": "brusinky-a-visne"
+          },
+          {
+            "label": "Tropické plody",
+            "slug": "tropicke-plody"
+          },
+          {
+            "label": "Kokosové plátky",
+            "slug": "kokosove-platky"
+          },
+          {
+            "label": "Bio výběr",
+            "slug": "bio-vyber"
+          }
+        ]
+      },
+      {
+        "label": "Mlsání",
+        "slug": "mlsani",
+        "promoImage": "/templates/eshop-06/u1481391319762-47dff72954d9-760x760.webp",
+        "children": [
+          {
+            "label": "Plody v čokoládě",
+            "slug": "plody-v-cokolade"
+          },
+          {
+            "label": "Ořechy v čokoládě",
+            "slug": "orechy-v-cokolade"
+          },
+          {
+            "label": "Energetické kuličky",
+            "slug": "energeticke-kulicky"
+          },
+          {
+            "label": "Ovocné chipsy",
+            "slug": "ovocne-chipsy"
+          },
+          {
+            "label": "Tyčinky a krekry",
+            "slug": "tycinky-a-krekry"
+          },
+          {
+            "label": "Svačinové kapsičky",
+            "slug": "svacinove-kapsicky"
+          }
+        ]
+      },
+      {
+        "label": "Křupko® směsi",
+        "slug": "krupko-smesi",
+        "promoImage": "/templates/eshop-06/u1470119693884-47d3a1d1f180-760x760.webp",
+        "children": [
+          {
+            "label": "Studentská klasika",
+            "slug": "studentska-klasika"
+          },
+          {
+            "label": "Sportovní mix",
+            "slug": "sportovni-mix"
+          },
+          {
+            "label": "Mix do kanceláře",
+            "slug": "mix-do-kancelare"
+          },
+          {
+            "label": "Slané pražené",
+            "slug": "slane-prazene"
+          },
+          {
+            "label": "Dárkové dózy",
+            "slug": "darkove-dozy"
+          }
+        ]
+      },
+      {
+        "label": "Do kuchyně",
+        "slug": "do-kuchyne",
+        "promoImage": "/templates/eshop-06/u1509440159596-0249088772ff-760x760.webp",
+        "children": [
+          {
+            "label": "Ořechová másla",
+            "slug": "orechova-masla"
+          },
+          {
+            "label": "Mouky a drtě na pečení",
+            "slug": "mouky-a-drte"
+          },
+          {
+            "label": "Kakao a kuvertura",
+            "slug": "kakao-a-kuvertura"
+          },
+          {
+            "label": "Přírodní sladidla",
+            "slug": "prirodni-sladidla"
+          },
+          {
+            "label": "Zdobení a posypy",
+            "slug": "zdobeni-a-posypy"
+          }
+        ]
+      },
+      {
+        "label": "Superpotraviny",
+        "slug": "superpotraviny",
+        "promoImage": "/templates/eshop-06/u1512621776951-a57141f2eefd-760x760.webp",
+        "children": [
+          {
+            "label": "Semínka a klíčky",
+            "slug": "seminka-a-klicky"
+          },
+          {
+            "label": "Zelené prášky",
+            "slug": "zelene-prasky"
+          },
+          {
+            "label": "Za studena lisované oleje",
+            "slug": "oleje"
+          },
+          {
+            "label": "Sypané čaje",
+            "slug": "sypane-caje"
+          }
+        ]
+      }
+    ]
+  }
+}

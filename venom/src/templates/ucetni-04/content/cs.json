@@ -5,14 +5,38 @@
     "ctaText": "Sjednat schůzku",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Úvod",           "href": "/" },
-      { "label": "Služby",         "href": "/" },
-      { "label": "Poradci",        "href": "/" },
-      { "label": "O společnosti",  "href": "/o-nas" },
-      { "label": "Partnerství",    "href": "/" },
-      { "label": "Kariéra",        "href": "/" },
-      { "label": "Pro média",      "href": "/" },
-      { "label": "Kontakt",        "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/"
+      },
+      {
+        "label": "Poradci",
+        "href": "/"
+      },
+      {
+        "label": "O společnosti",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Partnerství",
+        "href": "/"
+      },
+      {
+        "label": "Kariéra",
+        "href": "/"
+      },
+      {
+        "label": "Pro média",
+        "href": "/"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
@@ -22,19 +46,23 @@
     "ctaPrimaryText": "Domluvit konzultaci",
     "ctaPrimaryHref": "#kontakt",
     "ctaSecondaryText": "Co nabízíme",
-    "ctaSecondaryHref": "#sluzby",
-    "img1Url": "/templates/ucetni-04/hero/h1.webp",
-    "img2Url": "/templates/ucetni-04/hero/h4.webp",
-    "img3Url": "/templates/ucetni-04/hero/h3.webp",
-    "img4Url": "/templates/ucetni-04/hero/h2.webp",
-    "img5Url": "/templates/ucetni-04/hero/h5.webp"
+    "ctaSecondaryHref": "#sluzby"
   },
   "stats": {
     "heading": "Čísla, která hovoří za nás",
     "items": [
-      { "value": "12 400+", "label": "spokojených klientů" },
-      { "value": "340+",    "label": "certifikovaných poradců" },
-      { "value": "15",      "label": "let zkušeností" }
+      {
+        "value": "12 400+",
+        "label": "spokojených klientů"
+      },
+      {
+        "value": "340+",
+        "label": "certifikovaných poradců"
+      },
+      {
+        "value": "15",
+        "label": "let zkušeností"
+      }
     ]
   },
   "services": {
@@ -150,12 +178,30 @@
     "linkedin": "https://linkedin.com/company/prosperitafinance",
     "navHeading": "Důležité odkazy",
     "links": [
-      { "label": "Úvod",          "href": "/" },
-      { "label": "Naše služby",   "href": "/" },
-      { "label": "O společnosti", "href": "/o-nas" },
-      { "label": "Vzdělávání",    "href": "/" },
-      { "label": "Kariéra",       "href": "/" },
-      { "label": "Kontakt",       "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Naše služby",
+        "href": "/"
+      },
+      {
+        "label": "O společnosti",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Vzdělávání",
+        "href": "/"
+      },
+      {
+        "label": "Kariéra",
+        "href": "/"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "contactHeading": "Kontakt",
     "address": "Václavské náměstí 47",
@@ -163,12 +209,20 @@
     "phone": "777 234 567",
     "email": "info@prosperita-finance.cz",
     "ico": "06712345",
-    "web": "https://prosperita-finance.cz",
     "copyright": "© 2025 Prosperita Finance, a.s. Všechna práva vyhrazena.",
     "legal": [
-      { "label": "Ochrana osobních údajů", "href": "/" },
-      { "label": "Podmínky použití",       "href": "/" },
-      { "label": "Cookies",                "href": "/" }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/"
+      },
+      {
+        "label": "Podmínky použití",
+        "href": "/"
+      },
+      {
+        "label": "Cookies",
+        "href": "/"
+      }
     ]
   },
   "pages": {

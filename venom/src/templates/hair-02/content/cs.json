@@ -2,28 +2,61 @@
   "navbar": {
     "siteName": "Demo Hair Salon",
     "logoUrl": "",
-    "phone": "+420 704 123 456",
-    "email": "email@demo.cz",
     "links": [
-      { "label": "O salonu",  "href": "/o-nas" },
-      { "label": "Produkty",  "href": "/kontakt" },
-      { "label": "Ceník",     "href": "/o-nas#cenik" },
-      { "label": "Náš tým",   "href": "/o-nas#tym" },
-      { "label": "Galerie",   "href": "/galerie" },
-      { "label": "Kariéra",   "href": "/kontakt" },
-      { "label": "Kontakt",   "href": "/kontakt" },
-      { "label": "Recenze",   "href": "/#recenze" }
+      {
+        "label": "O salonu",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Produkty",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Ceník",
+        "href": "/o-nas#cenik"
+      },
+      {
+        "label": "Náš tým",
+        "href": "/o-nas#tym"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kariéra",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Recenze",
+        "href": "/#recenze"
+      }
     ],
     "socials": [
-      { "label": "Instagram", "href": "https://instagram.com/demo" },
-      { "label": "Facebook",  "href": "https://facebook.com/demo" }
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      }
     ]
   },
   "hero": {
-    "title": "Demo Hair Salon",
     "slides": [
-      { "image": "/assets/hair-02/4d26a316df-DSC0914.jpg",      "alt": "Recepce Demo Hair Salon" },
-      { "image": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg", "alt": "Interiér salonu" }
+      {
+        "image": "/assets/hair-02/4d26a316df-DSC0914.jpg",
+        "alt": "Recepce Demo Hair Salon"
+      },
+      {
+        "image": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg",
+        "alt": "Interiér salonu"
+      }
     ],
     "ctaText": "On-line rezervace",
     "ctaHref": "#kontakt"
@@ -40,10 +73,22 @@
       "Pracujeme s prémiovými vlasovými značkami a nabízíme kompletní portfolio včetně moderních technik zesvětlení a barvení. Fotky naší práce sledujte na Instagramu a Facebooku."
     ],
     "brands": [
-      { "name": "Demo Brand A", "logo": "" },
-      { "name": "Demo Brand B", "logo": "" },
-      { "name": "Demo Brand C", "logo": "" },
-      { "name": "Demo Brand D", "logo": "" }
+      {
+        "name": "Demo Brand A",
+        "logo": ""
+      },
+      {
+        "name": "Demo Brand B",
+        "logo": ""
+      },
+      {
+        "name": "Demo Brand C",
+        "logo": ""
+      },
+      {
+        "name": "Demo Brand D",
+        "logo": ""
+      }
     ]
   },
   "promo": {
@@ -67,25 +112,67 @@
   "gallery": {
     "title": "Naše práce",
     "images": [
-      { "url": "/assets/hair-02/4d26a316df-DSC0914.jpg",       "alt": "Interiér demo salonu" },
-      { "url": "/assets/hair-02/e3869b8d3c-DSC1072.jpg",        "alt": "Kadeřnické křeslo" },
-      { "url": "/assets/hair-02/0e78010331-DSC1106.jpg",        "alt": "Mytí vlasů" },
-      { "url": "/assets/hair-02/6861d0ad18-DSC0929.jpg",        "alt": "Barvení vlasů" },
-      { "url": "/assets/hair-02/2239235813-DSC1300.webp",       "alt": "Střih a styling" },
-      { "url": "/assets/hair-02/10a80d4b76-DSC1210.webp",       "alt": "Práce stylistky" },
-      { "url": "/assets/hair-02/df609aaa4b-DSC1598-3.webp",     "alt": "Balayage technika" },
-      { "url": "/assets/hair-02/19ca280349-IMG_0924.webp",      "alt": "Péče o vlasy" }
+      {
+        "url": "/assets/hair-02/4d26a316df-DSC0914.jpg",
+        "alt": "Interiér demo salonu"
+      },
+      {
+        "url": "/assets/hair-02/e3869b8d3c-DSC1072.jpg",
+        "alt": "Kadeřnické křeslo"
+      },
+      {
+        "url": "/assets/hair-02/0e78010331-DSC1106.jpg",
+        "alt": "Mytí vlasů"
+      },
+      {
+        "url": "/assets/hair-02/6861d0ad18-DSC0929.jpg",
+        "alt": "Barvení vlasů"
+      },
+      {
+        "url": "/assets/hair-02/2239235813-DSC1300.webp",
+        "alt": "Střih a styling"
+      },
+      {
+        "url": "/assets/hair-02/10a80d4b76-DSC1210.webp",
+        "alt": "Práce stylistky"
+      },
+      {
+        "url": "/assets/hair-02/df609aaa4b-DSC1598-3.webp",
+        "alt": "Balayage technika"
+      },
+      {
+        "url": "/assets/hair-02/19ca280349-IMG_0924.webp",
+        "alt": "Péče o vlasy"
+      }
     ]
   },
   "services": {
     "title": "Naše služby",
     "services": [
-      { "name": "Dámský střih",       "description": "Kompletní dámský střih s foukanou a finálním stylováním." },
-      { "name": "Pánský střih",       "description": "Precizní pánský střih přizpůsobený vašemu stylu." },
-      { "name": "Barvení",            "description": "Profesionální barvení vlasů prémiovými produkty — trvalý a zářivý výsledek." },
-      { "name": "Melír & balayage",   "description": "Přirozené rozjasnění, sun-kissed efekt nebo dramatický kontrast." },
-      { "name": "Keratinové ošetření","description": "Prohloubené ošetření pro zdravé, lesklé a snadno zvladatelné vlasy." },
-      { "name": "Dětský střih",       "description": "Příjemné střihání pro nejmenší zákazníky." }
+      {
+        "name": "Dámský střih",
+        "description": "Kompletní dámský střih s foukanou a finálním stylováním."
+      },
+      {
+        "name": "Pánský střih",
+        "description": "Precizní pánský střih přizpůsobený vašemu stylu."
+      },
+      {
+        "name": "Barvení",
+        "description": "Profesionální barvení vlasů prémiovými produkty — trvalý a zářivý výsledek."
+      },
+      {
+        "name": "Melír & balayage",
+        "description": "Přirozené rozjasnění, sun-kissed efekt nebo dramatický kontrast."
+      },
+      {
+        "name": "Keratinové ošetření",
+        "description": "Prohloubené ošetření pro zdravé, lesklé a snadno zvladatelné vlasy."
+      },
+      {
+        "name": "Dětský střih",
+        "description": "Příjemné střihání pro nejmenší zákazníky."
+      }
     ]
   },
   "testimonials": {
@@ -110,21 +197,34 @@
     ]
   },
   "footer": {
-    "siteName": "Demo Hair Salon",
     "heading": "Těšíme se na vás!",
-    "tagline": "Těšíme se na vás!",
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
     "address": "Demo ulice 12\n110 00 Praha 1",
     "hoursLabel": "Otevírací doba",
     "hours": [
-      { "day": "Pondělí – Pátek", "value": "9:00 – 20:00" },
-      { "day": "Sobota",          "value": "10:00 – 15:00" },
-      { "day": "Neděle",          "value": "Zavřeno" }
+      {
+        "day": "Pondělí – Pátek",
+        "value": "9:00 – 20:00"
+      },
+      {
+        "day": "Sobota",
+        "value": "10:00 – 15:00"
+      },
+      {
+        "day": "Neděle",
+        "value": "Zavřeno"
+      }
     ],
     "socials": [
-      { "label": "Instagram", "href": "https://instagram.com/demo" },
-      { "label": "Facebook",  "href": "https://facebook.com/demo" }
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      }
     ],
     "legal": "Demo Studio s.r.o. | IČ: 00000000 | DIČ: CZ00000000"
   },
@@ -142,6 +242,14 @@
         "subtitle": "Nabízíme kompletní kadeřnické služby pro dámy, pány i děti. Pracujeme s prémiovými vlasovými produkty a ovládáme nejmodernější techniky barvení a zesvětlení.",
         "backgroundImage": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg"
       }
+    }
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se online",
+      "subtitle": "Vyberte službu, kadeřníka a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
     }
   }
 }

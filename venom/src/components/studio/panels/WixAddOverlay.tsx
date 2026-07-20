@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * Wix-style "+ Přidat" overlay — single component that owns the floating
- * button, the 3-card popover (Prvky / Sekce / Stránky) and three full
- * panels (Elements, Sections, Pages).
+ * Wix-style "+ Přidat" overlay — "+ Přidat" otevírá rovnou panel Sekce
+ * (bez mezikroku s popoverem); Prvky / Sekce / Stránky se přepínají
+ * záložkami v hlavičce panelu.
  *
  * Mounted once by StudioShell. Self-contained state; the only outside
  * dependency is `state.addSection(type, variant, insertAtIndex?)`.
@@ -28,7 +28,10 @@ import {
   LIBRARY_CATEGORIES, PAGE_CATEGORIES, BUILT_IN_PAGES, buildRichLibrary, groupByCategory,
   type CategoryId, type SectionLibraryEntryRich, type StyleTag, type BuiltInPage,
 } from "@/sections/categories";
-import { setWixAdd, useWixAdd, useWixAddOptions, type WixAddView } from "./wix-add-state";
+import { curatedForTypes, type CuratedEntry } from "@/sections/curated";
+import { defaultElement, type ElementType as FreeformElementType } from "@/components/core/freeform";
+import { useStudio } from "../StudioContext";
+import { requestSectionInsert, setWixAdd, useWixAdd, useWixAddOptions, type WixAddView } from "./wix-add-state";
 
 type Tab = "elements" | "sections" | "pages";
 
@@ -42,7 +45,7 @@ export function WixAddOverlay({ state }: { state: StudioState }) {
     if (view === "closed") return;
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
-      setWixAdd(view === "popover" ? "closed" : "popover");
+      setWixAdd("closed");
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -50,127 +53,14 @@ export function WixAddOverlay({ state }: { state: StudioState }) {
 
   if (!mounted || view === "closed") return null;
 
-  const tab: Tab | null =
-    view === "elements" || view === "sections" || view === "pages" ? view : null;
-
   return createPortal(
-    <>
-      {view === "popover" && (
-        <ThreeCardPopover
-          onPick={(t) => setWixAdd(t)}
-          onClose={() => setWixAdd("closed")}
-        />
-      )}
-      {tab && (
-        <PanelModal
-          tab={tab}
-          state={state}
-          onSwitch={(t) => setWixAdd(t)}
-          onClose={() => setWixAdd("closed")}
-        />
-      )}
-    </>,
+    <PanelModal
+      tab={view}
+      state={state}
+      onSwitch={(t) => setWixAdd(t)}
+      onClose={() => setWixAdd("closed")}
+    />,
     document.body,
-  );
-}
-
-/* ── 3-card popover (Wix 1:1) ──────────────────────────────────────────── */
-
-function ThreeCardPopover({
-  onPick, onClose,
-}: { onPick: (t: Tab) => void; onClose: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  // Anchor to the +Add button so we follow its position whether it lives
-  // in SecondaryActionBar, the top bar, or elsewhere.
-  const [pos, setPos] = useState<{ left: number; top: number }>(() => ({ left: 80, top: 100 }));
-
-  useEffect(() => {
-    function place() {
-      const anchor = document.querySelector<HTMLElement>('[data-tour-id="wix-add-button"]');
-      if (!anchor) return;
-      const r = anchor.getBoundingClientRect();
-      setPos({ left: r.left, top: r.bottom + 8 });
-    }
-    place();
-    window.addEventListener("resize", place);
-    window.addEventListener("scroll", place, true);
-    return () => {
-      window.removeEventListener("resize", place);
-      window.removeEventListener("scroll", place, true);
-    };
-  }, []);
-
-  useEffect(() => {
-    function onDown(e: MouseEvent) {
-      if (ref.current?.contains(e.target as Node)) return;
-      const t = e.target as HTMLElement;
-      if (t.closest('[data-tour-id="wix-add-button"]')) return;
-      onClose();
-    }
-    document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
-  }, [onClose]);
-
-  const cards: Array<{ id: Tab; label: string; preview: React.ReactNode }> = [
-    { id: "elements", label: "Prvky",   preview: <PreviewElements /> },
-    { id: "sections", label: "Sekce",   preview: <PreviewSections /> },
-    { id: "pages",    label: "Stránky", preview: <PreviewPages /> },
-  ];
-
-  return (
-    <div
-      ref={ref}
-      className="fixed z-[10001] flex flex-col gap-2"
-      style={{ left: pos.left, top: pos.top }}
-    >
-      {cards.map((c, i) => (
-        <button
-          key={c.id}
-          type="button"
-          onClick={() => onPick(c.id)}
-          className={clsx(
-            "group flex items-center gap-3 rounded-xl bg-white pl-2 pr-5 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.32)]",
-            "hover:shadow-[0_14px_40px_rgba(0,0,0,0.38)] hover:-translate-y-px transition-all duration-150",
-            "w-[212px] text-left ring-1 ring-black/5",
-          )}
-          style={{ animationDelay: `${i * 40}ms` }}
-        >
-          <div className="h-[42px] w-[60px] shrink-0 rounded-lg overflow-hidden ring-1 ring-[#e5e7eb] bg-[#f9fafb] flex items-center justify-center">
-            {c.preview}
-          </div>
-          <span className="text-[14px] font-semibold text-[#111827]">{c.label}</span>
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function PreviewElements() {
-  return (
-    <svg width="40" height="28" viewBox="0 0 40 28" fill="none">
-      <rect x="2" y="3" width="14" height="6" rx="1.5" fill="#a78bfa" />
-      <rect x="2" y="12" width="20" height="3" rx="1" fill="#cbd5e1" />
-      <rect x="2" y="18" width="16" height="3" rx="1" fill="#cbd5e1" />
-      <rect x="24" y="3" width="14" height="22" rx="2" fill="#fde68a" />
-    </svg>
-  );
-}
-function PreviewSections() {
-  return (
-    <svg width="48" height="28" viewBox="0 0 48 28" fill="none">
-      <rect x="2" y="2" width="44" height="8" rx="1.5" fill="#1f2937" />
-      <rect x="2" y="12" width="20" height="14" rx="1.5" fill="#e5e7eb" />
-      <rect x="24" y="12" width="22" height="14" rx="1.5" fill="#fca5a5" />
-    </svg>
-  );
-}
-function PreviewPages() {
-  return (
-    <svg width="40" height="28" viewBox="0 0 40 28" fill="none">
-      <rect x="2" y="2" width="22" height="24" rx="1.5" fill="#e5e7eb" />
-      <rect x="16" y="6" width="22" height="20" rx="1.5" fill="#fde68a" stroke="#fff" strokeWidth="1" />
-      <rect x="30" y="9" width="6" height="2" rx="0.5" fill="#92400e" />
-    </svg>
   );
 }
 
@@ -268,7 +158,33 @@ interface SavedSectionRow {
   created_at: string;
 }
 
+/** Rodina šablon → čitelný český label oboru pro „Ze šablon" grouping. */
+const FAMILY_INDUSTRY_LABELS: Record<string, string> = {
+  harmonie: "Wellness", arbo: "Arboristika", arch: "Architekti", autoservis: "Autoservis",
+  autoskola: "Autoškola", bakery: "Pekárna", barber: "Barbershop", beauty: "Kosmetika",
+  cafe: "Kavárna", catering: "Catering", chalet: "Horská chata", clean: "Úklid",
+  clinic: "Klinika", ddd: "Deratizace", dental: "Zubní klinika", dj: "DJ",
+  edu: "Vzdělávání", elektro: "Elektrikář", eshop: "E-shop", events: "Eventy",
+  fitness: "Fitness", floors: "Podlahy", florist: "Květinářství", fyzio: "Fyzioterapie",
+  garden: "Zahrady", grooming: "Grooming", hair: "Kadeřnictví", hotel: "Hotel",
+  instala: "Instalatér", kids: "Dětské kroužky", klempir: "Klempíř", klima: "Klimatizace",
+  lang: "Jazyková škola", lawyer: "Advokáti", legal: "Právní služby", malir: "Malíř",
+  massage: "Masáže", nails: "Nehtové studio", ortho: "Ortodoncie", pethotel: "Psí hotel",
+  photo: "Fotograf", reality: "Reality", rekonstrukce: "Rekonstrukce", restaurant: "Restaurace",
+  solar: "Fotovoltaika", stavba: "Stavební firma", sweet: "Cukrárna", tattoo: "Tetování",
+  tawan: "Masáže", ucetni: "Účetnictví", vet: "Veterina", video: "Kameraman",
+};
+
+function familyLabel(family: string): string {
+  if (family === "generic") return "Univerzální";
+  const base = family.replace(/-\d+$/, "");
+  const industry = FAMILY_INDUSTRY_LABELS[base];
+  const num = family.match(/-(\d+)$/)?.[1];
+  return industry ? `${industry} ${num ?? ""}`.trim() : family;
+}
+
 function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => void }) {
+  const studio = useStudio();
   const opts = useWixAddOptions();
   const replaceMode = typeof opts.replaceSectionId === "number";
   const lib = useMemo(() => buildRichLibrary(), []);
@@ -285,9 +201,17 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
     return () => { cancelled = true; };
   }, [state.tenant.slug]);
 
-  async function addSaved(row: SavedSectionRow) {
-    await state.addSection(row.section_type, row.section_variant, undefined, row.settings);
+  function openPlacement(type: string, variant: string, label: string, settings?: Record<string, unknown>) {
     onClose();
+    studio.setSidebarOpen(true);
+    studio.setLeftPanel("layers");
+    // LayersPanel may mount as a result of the state change above. Dispatch
+    // after that render so it can receive the placement request reliably.
+    window.setTimeout(() => requestSectionInsert({ type, variant, label, settings }), 60);
+  }
+
+  async function addSaved(row: SavedSectionRow) {
+    openPlacement(row.section_type, row.section_variant, row.label, row.settings);
   }
 
   async function deleteSaved(id: number) {
@@ -305,45 +229,75 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
   }, [opts.filterType]);
 
   const [cat, setCat] = useState<CategoryId | "saved">(initialCat);
+  // When opened from a concrete type tile (e.g. Hero), show the complete
+  // catalogue immediately. The user explicitly asked to choose a layout;
+  // hiding 90+ variants behind another "Ze šablon" click defeats that flow.
+  const [mode, setMode] = useState<"curated" | "all">(opts.filterType ? "all" : "curated");
+  const [family, setFamily] = useState<string>("all");
   const [q, setQ] = useState("");
   const [tag, setTag] = useState<StyleTag | null>(null);
 
   const tenantIndustry = (state.tenant as { industry?: string }).industry || "*";
 
+  // Fulltext hledání přepíná do režimu „vše" — hledá se napříč celou kategorií.
+  const searching = q.trim().length > 0;
+  const effectiveMode = searching ? "all" : mode;
+
+  // Kurátorovaná („Doporučené") sada pro aktivní kategorii.
+  const curated: CuratedEntry[] = useMemo(() => {
+    if (cat === "saved") return [];
+    const c = LIBRARY_CATEGORIES.find(x => x.id === cat);
+    let items = c ? curatedForTypes(c.sectionTypes) : [];
+    if (opts.filterType) items = items.filter(e => e.type === opts.filterType);
+    if (tag) items = items.filter(e => e.tags.includes(tag));
+    return items;
+  }, [cat, opts.filterType, tag]);
+
+  // Rodiny šablon dostupné v aktivní kategorii (pro „Ze šablon" filtr).
+  const families = useMemo(() => {
+    if (cat === "saved") return [];
+    const counts = new Map<string, number>();
+    for (const e of grouped[cat] ?? []) counts.set(e.family, (counts.get(e.family) ?? 0) + 1);
+    return [...counts.entries()]
+      .sort((a, b) => (a[0] === "generic" ? -1 : b[0] === "generic" ? 1 : familyLabel(a[0]).localeCompare(familyLabel(b[0]), "cs")));
+  }, [grouped, cat]);
+
   const list = useMemo(() => {
     if (cat === "saved") return [];
     let items = grouped[cat] ?? [];
     if (opts.filterType) items = items.filter(e => e.type === opts.filterType);
+    if (!searching && family !== "all") items = items.filter(e => e.family === family);
     if (tag) items = items.filter(e => e.tags.includes(tag));
     const f = q.trim().toLowerCase();
     if (f) items = items.filter(e =>
       e.displayName.toLowerCase().includes(f) ||
       e.description.toLowerCase().includes(f) ||
-      e.family.toLowerCase().includes(f),
+      e.family.toLowerCase().includes(f) ||
+      familyLabel(e.family).toLowerCase().includes(f),
     );
     return [...items].sort((a, b) => {
       const aRel = a.industries.includes(tenantIndustry) ? 0 : a.industries.includes("*") ? 1 : 2;
       const bRel = b.industries.includes(tenantIndustry) ? 0 : b.industries.includes("*") ? 1 : 2;
-      return aRel - bRel;
+      if (aRel !== bRel) return aRel - bRel;
+      return a.family.localeCompare(b.family);
     });
-  }, [grouped, cat, q, tag, tenantIndustry, opts.filterType]);
+  }, [grouped, cat, q, tag, family, searching, tenantIndustry, opts.filterType]);
 
   // Tag chips available in current category
   const tagsAvailable = useMemo(() => {
     if (cat === "saved") return [];
-    const set = new Set<StyleTag>();
-    for (const e of grouped[cat] ?? []) for (const t of e.tags) set.add(t);
-    return [...set];
-  }, [grouped, cat]);
+    const source = effectiveMode === "curated" ? curated.flatMap(e => e.tags) : (grouped[cat] ?? []).flatMap(e => e.tags);
+    return [...new Set<StyleTag>(source as StyleTag[])];
+  }, [grouped, cat, curated, effectiveMode]);
 
-  async function add(entry: SectionLibraryEntryRich) {
+  async function add(type: string, variant: string) {
     if (replaceMode && opts.replaceSectionId) {
       // Swap variant in-place — preserves id, layout, content overrides
       try {
         const res = await fetch(`/api/demo/${state.tenant.slug}/sections/${opts.replaceSectionId}`, {
           method: "PATCH",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ section_variant: entry.variant }),
+          body: JSON.stringify({ section_variant: variant }),
         });
         if (!res.ok) {
           const j = await res.json().catch(() => ({}));
@@ -359,8 +313,8 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
       }
       return;
     }
-    await state.addSection(entry.type, entry.variant);
-    onClose();
+    const selected = lib.find(entry => entry.type === type && entry.variant === variant);
+    openPlacement(type, variant, selected?.displayName ?? selected?.label ?? type);
   }
 
   return (
@@ -399,7 +353,7 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
               <button
                 key={c.id}
                 type="button"
-                onClick={() => { setCat(c.id); setTag(null); }}
+                onClick={() => { setCat(c.id); setTag(null); setFamily("all"); }}
                 className={clsx(
                   "flex w-full items-center justify-between rounded-lg px-3 py-[7px] text-left text-[14px] transition-colors",
                   active ? "bg-[#111827] text-white" : "text-[#334155] hover:bg-[#f1f5f9]",
@@ -413,9 +367,29 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
         </nav>
       </aside>
 
-      {/* Right side — search + tag chips + grid */}
+      {/* Right side — mode switch + search + tag chips + grid */}
       <section className="flex flex-1 min-w-0 flex-col">
         <div className="flex items-center gap-3 border-b border-[#f1f5f9] px-6 py-3">
+          {cat !== "saved" && (
+            <div className="flex shrink-0 items-center rounded-lg bg-[#f1f5f9] p-0.5">
+              {([
+                ["curated", "Doporučené"],
+                ["all", `Ze šablon (${(grouped[cat as CategoryId] ?? []).length})`],
+              ] as const).map(([id, label]) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => { setMode(id); setTag(null); }}
+                  className={clsx(
+                    "rounded-md px-3 py-1.5 text-[12.5px] font-semibold transition-colors whitespace-nowrap",
+                    effectiveMode === id ? "bg-white text-[#0f172a] shadow-sm" : "text-[#64748b] hover:text-[#0f172a]",
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="relative flex-1 max-w-[420px]">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
             <input
@@ -448,6 +422,35 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
           </div>
         </div>
 
+        {/* Family filter — only in „Ze šablon" mode */}
+        {cat !== "saved" && effectiveMode === "all" && !searching && families.length > 1 && (
+          <div className="flex items-center gap-1.5 overflow-x-auto border-b border-[#f1f5f9] px-6 py-2.5">
+            <button
+              type="button"
+              onClick={() => setFamily("all")}
+              className={clsx(
+                "shrink-0 rounded-full border px-2.5 py-1 text-[11.5px] font-semibold transition-colors",
+                family === "all" ? "border-[#111827] bg-[#111827] text-white" : "border-[#e2e8f0] bg-white text-[#475569] hover:border-[#cbd5e1]",
+              )}
+            >
+              Všechny rodiny
+            </button>
+            {families.map(([f, count]) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setFamily(family === f ? "all" : f)}
+                className={clsx(
+                  "shrink-0 rounded-full border px-2.5 py-1 text-[11.5px] font-semibold transition-colors whitespace-nowrap",
+                  family === f ? "border-[#111827] bg-[#111827] text-white" : "border-[#e2e8f0] bg-white text-[#475569] hover:border-[#cbd5e1]",
+                )}
+              >
+                {familyLabel(f)} <span className="opacity-60">{count}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="flex-1 overflow-y-auto px-6 py-5">
           {cat === "saved" ? (
             saved.length === 0 ? (
@@ -459,12 +462,31 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
                 ))}
               </div>
             )
+          ) : effectiveMode === "curated" ? (
+            curated.length === 0 ? (
+              <div className="flex h-[300px] flex-col items-center justify-center gap-3 text-[13px] text-[#94a3b8]">
+                <span>Pro tuto kategorii zatím nejsou doporučené bloky.</span>
+                <button
+                  type="button"
+                  onClick={() => setMode("all")}
+                  className="rounded-lg bg-[#111827] px-4 py-2 text-[12.5px] font-semibold text-white hover:bg-[#1f2937]"
+                >
+                  Procházet vše ze šablon
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 gap-5">
+                {curated.map(entry => (
+                  <CuratedCard key={`${entry.type}-${entry.variant}`} entry={entry} onClick={() => void add(entry.type, entry.variant)} />
+                ))}
+              </div>
+            )
           ) : list.length === 0 ? (
             <Empty />
           ) : (
             <div className="grid grid-cols-3 gap-5">
               {list.map(entry => (
-                <VariantCard key={`${entry.type}-${entry.variant}`} entry={entry} onClick={() => void add(entry)} />
+                <VariantCard key={`${entry.type}-${entry.variant}`} entry={entry} onClick={() => void add(entry.type, entry.variant)} />
               ))}
             </div>
           )}
@@ -472,6 +494,49 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
         </div>
       </section>
     </>
+  );
+}
+
+/** Karta kurátorovaného bloku — čisté layout-first jméno + „přebírá barvy" badge. */
+function CuratedCard({ entry, onClick }: { entry: CuratedEntry; onClick: () => void }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const thumbUrl = `/section-thumbs/${entry.type}/${entry.variant}.webp`;
+  // Mock fallback reuses VariantPreview via minimal rich-entry shim.
+  const shim: SectionLibraryEntryRich = {
+    type: entry.type, variant: entry.variant, label: entry.name, description: entry.desc,
+    industries: ["*"], tags: entry.tags, displayName: entry.name, family: "generic",
+  };
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      title={entry.desc}
+      className="group flex flex-col text-left rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_10px_30px_rgba(63,63,70,0.15)] transition-all duration-150"
+    >
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
+        {imgFailed ? (
+          <VariantPreview entry={shim} />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={thumbUrl}
+            alt={entry.name}
+            loading="lazy"
+            className="h-full w-full object-cover object-top"
+            onError={() => setImgFailed(true)}
+          />
+        )}
+        {entry.themeAware && (
+          <span className="absolute left-2 top-2 rounded-full bg-[#111827]/85 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm">
+            Přebírá barvy webu
+          </span>
+        )}
+      </div>
+      <div className="px-3 py-2.5 border-t border-[#f1f5f9]">
+        <p className="text-[13px] font-semibold text-[#0f172a] truncate">{entry.name}</p>
+        <p className="mt-0.5 text-[11px] text-[#64748b] truncate">{entry.desc}</p>
+      </div>
+    </button>
   );
 }
 
@@ -531,6 +596,7 @@ function VariantCard({
     <button
       type="button"
       onClick={onClick}
+      title="Kliknutím vyberte pozici vložení"
       className="group flex flex-col text-left rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_10px_30px_rgba(63,63,70,0.15)] transition-all duration-150"
     >
       <div className="aspect-[16/10] w-full overflow-hidden">
@@ -747,15 +813,21 @@ interface ElementSpec {
   freeform: { type: "heading" | "text" | "button" | "image" | "divider" | "shape" | "icon"; props?: Record<string, unknown> };
 }
 
-// Curated free stock illustrations from undraw.co (MIT-license, no attribution).
-// These URLs are stable CDN paths.
+// Kurátorované stock ilustrace z undraw.co (open licence, bez atribuce).
+// SVG jsou stažené lokálně v public/stock/undraw — žádná runtime závislost na CDN.
 const STOCK_ILLUSTRATIONS = [
-  { id: "team",     label: "Tým",         url: "https://undraw.co/api/illustrations/team-collaboration" },
-  { id: "growth",   label: "Růst",        url: "https://undraw.co/api/illustrations/growth-analytics" },
-  { id: "design",   label: "Design",      url: "https://undraw.co/api/illustrations/design-process" },
-  { id: "happy",    label: "Spokojenost", url: "https://undraw.co/api/illustrations/happy-feeling" },
-  { id: "support",  label: "Podpora",     url: "https://undraw.co/api/illustrations/customer-support" },
-  { id: "deal",     label: "Dohoda",      url: "https://undraw.co/api/illustrations/business-deal" },
+  { id: "teamwork",  label: "Týmová práce",   url: "/stock/undraw/teamwork_zplp.svg" },
+  { id: "growth",    label: "Růst",           url: "/stock/undraw/growth-chart_4iho.svg" },
+  { id: "design",    label: "Design",         url: "/stock/undraw/design-components_c2hs.svg" },
+  { id: "support",   label: "Podpora",        url: "/stock/undraw/question-answered_ezyn.svg" },
+  { id: "meeting",   label: "Schůzka",        url: "/stock/undraw/remote-meeting_kqj0.svg" },
+  { id: "phone",     label: "Telefonát",      url: "/stock/undraw/phone-call_ov3z.svg" },
+  { id: "photo",     label: "Fotograf",       url: "/stock/undraw/photographer_2rbr.svg" },
+  { id: "moments",   label: "Momenty",        url: "/stock/undraw/moments-captured_3mk1.svg" },
+  { id: "plan",      label: "Byznys plán",    url: "/stock/undraw/business-plan_zrf7.svg" },
+  { id: "meet",      label: "Seznámení",      url: "/stock/undraw/nice-to-meet-you_sqin.svg" },
+  { id: "builder",   label: "Tvorba webu",    url: "/stock/undraw/mobile-site-builder_qibw.svg" },
+  { id: "idea",      label: "Nápad → plán",   url: "/stock/undraw/idea-to-plan_jnei.svg" },
 ];
 
 const ELEMENTS: ElementSpec[] = [
@@ -803,14 +875,38 @@ function ElementsPanel({ state, onClose }: { state: StudioState; onClose: () => 
     return list;
   }, [q, cat]);
 
-  // For now elements are persisted as freeform sections — we push a fresh
-  // freeform section onto the page (overlay editing in next session).
+  // Elements are persisted as freeform sections seeded with the chosen
+  // element, so the user lands on a canvas with their heading/button/shape
+  // already placed instead of an empty plátno.
   async function addElement(spec: ElementSpec) {
-    await state.addSection("freeform", "default");
-    // The freeform section auto-mounts an empty canvas. Wiring the element
-    // factory to seed an initial element type is a follow-up — for now the
-    // user gets a blank freeform canvas to drop the element manually.
-    void spec; // ack
+    const el = defaultElement(
+      (spec.freeform.type === "heading" || spec.freeform.type === "icon" ? "heading" : spec.freeform.type) as FreeformElementType,
+      1,
+    );
+    const p = spec.freeform.props ?? {};
+    if ("text" in el && typeof p.text === "string") el.text = p.text;
+    if (el.type === "button" && typeof p.variant === "string" && p.variant === "outline") {
+      el.style = { ...el.style, background: "transparent", color: "#0f172a", border: "2px solid #0f172a" };
+    }
+    if (el.type === "button" && p.shape === "pill") {
+      el.style = { ...el.style, borderRadius: 999 };
+    }
+    if (typeof p.fontSize === "number") el.style = { ...el.style, fontSize: p.fontSize };
+    if (el.type === "shape" && typeof p.color === "string") el.style = { ...el.style, background: p.color };
+    if (el.type === "shape" && p.shape === "circle") el.style = { ...el.style, borderRadius: 999 };
+
+    const content = { width: 1200, height: 480, background: "#ffffff", elements: [el] };
+    await state.addSection("freeform", "default", undefined, { content });
+    onClose();
+  }
+
+  // Stock ilustrace → freeform sekce s image elementem uprostřed plátna.
+  async function addIllustration(s: { id: string; label: string; url: string }) {
+    const el = defaultElement("image", 1);
+    if (el.type === "image") { el.src = s.url; el.alt = s.label; el.objectFit = "contain"; }
+    el.x = 400; el.y = 40; el.w = 400; el.h = 300;
+    const content = { width: 1200, height: 380, background: "#ffffff", elements: [el] };
+    await state.addSection("freeform", "default", undefined, { content });
     onClose();
   }
 
@@ -893,25 +989,26 @@ function ElementsPanel({ state, onClose }: { state: StudioState; onClose: () => 
 
           {(cat === "all" || cat === "stock") && (
             <Section title="Stock ilustrace (zdarma, undraw.co)">
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-4 gap-3">
                 {STOCK_ILLUSTRATIONS.map(s => (
                   <button
                     key={s.id}
                     type="button"
-                    onClick={() => void state.addSection("gallery", "default").then(onClose)}
+                    onClick={() => void addIllustration(s)}
                     className="group flex flex-col rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_8px_24px_rgba(63,63,70,0.12)] transition-all"
                   >
-                    <div className="aspect-[16/10] bg-gradient-to-br from-[#fef3c7] via-[#fce7f3] to-[#dbeafe] flex items-center justify-center">
-                      <Sparkles size={28} strokeWidth={1.4} className="text-[#475569]" />
+                    <div className="aspect-[16/10] flex items-center justify-center bg-[#fafbfc] p-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={s.url} alt={s.label} loading="lazy" className="h-full w-full object-contain" />
                     </div>
                     <div className="px-3 py-2 border-t border-[#f1f5f9]">
-                      <p className="text-[12.5px] font-semibold text-[#0f172a]">{s.label}</p>
+                      <p className="text-[12px] font-semibold text-[#0f172a] truncate">{s.label}</p>
                     </div>
                   </button>
                 ))}
               </div>
               <p className="mt-3 text-[11px] text-[#94a3b8]">
-                Plné napojení undraw.co API + drag-to-canvas — naplánováno do Sprintu 7. Tlačítka výše zatím vloží prázdnou galerii pro přidání obrázku.
+                Kliknutím vložíte ilustraci na stránku jako volné plátno — můžete ji přesouvat, měnit velikost a doplnit texty.
               </p>
             </Section>
           )}

@@ -1,33 +1,49 @@
 {
   "siteName": "Tlapkův Ráj",
   "siteDescription": "Psí hotel a denní školka v Brně — váš pejsek je u nás jako doma.",
-
   "navbar": {
     "siteName": "Tlapkův Ráj",
     "logoUrl": "",
     "links": [
-      { "label": "Úvod",       "href": "/" },
-      { "label": "Školka",     "href": "/sluzby" },
-      { "label": "Hotel",      "href": "/sluzby" },
-      { "label": "Grooming",   "href": "/sluzby" },
-      { "label": "Objednávka", "href": "/kontakt" },
-      { "label": "O nás",      "href": "/#o-nas" },
-      { "label": "Kontakt",    "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Školka",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Hotel",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Grooming",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Objednávka",
+        "href": "/kontakt"
+      },
+      {
+        "label": "O nás",
+        "href": "/#o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
-    "title": "Tlapkův Ráj — Psí hotel & školka Brno",
     "heading": "Váš pejsek si zaslouží víc než prázdný byt!",
     "subheading": "V Tlapkově Ráji trávíme dny hraním, procházkami a mazlením. Váš čtyřnohý kamarád se k nám vždycky rád vrátí.",
     "cta1Text": "Denní školka",
     "cta1Href": "/sluzby",
     "cta2Text": "Psí hotel",
     "cta2Href": "/sluzby",
-    "imageUrl": "/assets/pethotel-01/dd1a4bbdea-pes-maskot.png",
-    "imageAlt": "Šťastný pes v Tlapkově Ráji"
+    "backgroundImage": "/assets/pethotel-01/dd1a4bbdea-pes-maskot.png"
   },
-
   "services": {
     "heading": "Tři způsoby, jak se postarat o vašeho nejlepšího přítele",
     "services": [
@@ -57,11 +73,9 @@
       }
     ]
   },
-
   "year": {
     "text": "Psům se věnujeme s láskou už od roku 2009"
   },
-
   "whyus": {
     "heading": "Proč si psi u nás padají do tlapiček?",
     "items": [
@@ -85,35 +99,55 @@
     "ctaText": "Poznejte náš tým",
     "ctaHref": "/#o-nas"
   },
-
   "gallery": {
     "heading": "Pohled do našeho světa",
     "subheading": "Každý den plný pohybu, smíchu a psích radostí — sledujte nás na Instagramu",
     "instagramHandle": "@tlapkuv.raj.brno",
     "instagramUrl": "https://instagram.com/tlapkuv.raj.brno",
     "images": [
-      { "url": "/assets/pethotel-01/1fcb7b502b-469281151_1589634548305606_6072580135688645438_n.heiclow.jpg", "alt": "Psi si hrají na zahradě" },
-      { "url": "/assets/pethotel-01/5856a9222f-469338768_1830962894399306_2130309061888420602_n.heiclow.jpg", "alt": "Odpočinek po dopoledním běhání" },
-      { "url": "/assets/pethotel-01/c155784ac4-469264593_923764955999066_2693350891213891710_nlow.jpg",        "alt": "Skupinová procházka v parku" },
-      { "url": "/assets/pethotel-01/5435e64384-469285690_2005353606579004_9071313657991450221_nlow.jpg",        "alt": "Mazlení s naším týmem" }
+      {
+        "url": "/assets/pethotel-01/1fcb7b502b-469281151_1589634548305606_6072580135688645438_n.heiclow.jpg",
+        "alt": "Psi si hrají na zahradě"
+      },
+      {
+        "url": "/assets/pethotel-01/5856a9222f-469338768_1830962894399306_2130309061888420602_n.heiclow.jpg",
+        "alt": "Odpočinek po dopoledním běhání"
+      },
+      {
+        "url": "/assets/pethotel-01/c155784ac4-469264593_923764955999066_2693350891213891710_nlow.jpg",
+        "alt": "Skupinová procházka v parku"
+      },
+      {
+        "url": "/assets/pethotel-01/5435e64384-469285690_2005353606579004_9071313657991450221_nlow.jpg",
+        "alt": "Mazlení s naším týmem"
+      }
     ]
   },
-
   "about": {
-    "title": "Jsme Lucie a Tomáš — a psi jsou náš život",
     "id": "o-nas",
     "heading": "Jsme Lucie a Tomáš — a psi jsou náš život",
     "body": "Tlapkův Ráj jsme otevřeli, protože jsme sami věděli, jak těžké je nechat psa doma. Dnes se staráme o stovky spokojených čtyřnohých klientů a jejich majitelé vědí, že k nám mohou přijít s klidným srdcem.",
     "ctaText": "Napište nám",
     "ctaHref": "/kontakt",
     "stats": [
-      { "value": "3 200+", "label": "spokojených psů" },
-      { "value": "600 m²", "label": "zahrada & výběhy" },
-      { "value": "24 hod", "label": "péče bez přestávky" },
-      { "value": "15 let", "label": "zkušeností s psy" }
+      {
+        "value": "3 200+",
+        "label": "spokojených psů"
+      },
+      {
+        "value": "600 m²",
+        "label": "zahrada & výběhy"
+      },
+      {
+        "value": "24 hod",
+        "label": "péče bez přestávky"
+      },
+      {
+        "value": "15 let",
+        "label": "zkušeností s psy"
+      }
     ]
   },
-
   "contact": {
     "heading": "Rezervace",
     "subheading": "Zajistěte svému pejskovi místo ještě dnes — kapacita je omezená",
@@ -123,7 +157,6 @@
     "hours": "Po–Pá 7:00–19:00, So–Ne 8:00–17:00",
     "formNote": "Odpovídáme do 4 hodin v pracovní době."
   },
-
   "footer": {
     "siteName": "Tlapkův Ráj",
     "tagline": "Psí hotel a denní školka v Brně — váš pes je u nás doma.",
@@ -136,14 +169,28 @@
     "youtube": "https://youtube.com/@tlapkuvraj",
     "copyright": "© 2026 Tlapkův Ráj s.r.o. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Denní školka",  "href": "/sluzby" },
-      { "label": "Psí hotel",     "href": "/sluzby" },
-      { "label": "Psí grooming",  "href": "/sluzby" },
-      { "label": "Rezervace",     "href": "/kontakt" },
-      { "label": "Kontakt",       "href": "/kontakt" }
+      {
+        "label": "Denní školka",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Psí hotel",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Psí grooming",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Rezervace",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "pages": {
     "sluzby": {
       "seoTitle": "Naše služby — Tlapkův Ráj Brno",

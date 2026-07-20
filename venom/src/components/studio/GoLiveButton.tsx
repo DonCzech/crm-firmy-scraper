@@ -73,7 +73,7 @@ export function GoLiveButton({ state }: { state: StudioState }) {
   if (pf.phase === "loading" || pf.phase === "error") return null;
   if (pf.phase === "published") {
     return (
-      <span className="inline-flex h-8 items-center gap-1.5 rounded-md bg-emerald-500/15 px-3 text-xs font-medium text-emerald-300">
+      <span className="vs-golive-published inline-flex h-8 items-center gap-1.5 rounded-md bg-emerald-500/15 px-3 text-xs font-medium text-emerald-300">
         <Check className="h-3.5 w-3.5" strokeWidth={2.25} />
         Web je v provozu
       </span>
@@ -92,7 +92,7 @@ export function GoLiveButton({ state }: { state: StudioState }) {
         // dropdown). Ready = full "Spustit web" pill with rocket.
         className={
           blocked
-            ? `grid h-8 w-8 place-items-center rounded-md bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 transition-colors disabled:opacity-60`
+            ? `vs-golive-blocked grid h-8 w-8 place-items-center rounded-md bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 transition-colors disabled:opacity-60`
             : `inline-flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold bg-gradient-to-br from-emerald-500 to-emerald-700 text-white hover:from-emerald-400 hover:to-emerald-600 shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_2px_10px_rgba(16,185,129,0.35)] transition-[background,box-shadow] duration-150 disabled:opacity-60`
         }
         aria-label={blocked ? "Před spuštěním vyplň povinné údaje" : "Spustit web do produkce"}
@@ -112,7 +112,7 @@ export function GoLiveButton({ state }: { state: StudioState }) {
 
       {blocked && showMissing && (
         <div className="vs-glass vs-pop absolute right-0 top-10 z-50 w-72 rounded-lg border border-amber-500/40 p-3 text-[11px] shadow-[var(--vs-shadow-xl)]">
-          <div className="mb-1.5 font-medium text-amber-300">Před spuštěním webu doplň:</div>
+          <div className="vs-golive-warning-title mb-1.5 font-medium text-amber-300">Před spuštěním webu doplň:</div>
           <ul className="space-y-1 text-[var(--vs-text-soft)]">
             {pf.missing.map((m, i) => (
               <li key={i} className="flex items-start gap-1.5">

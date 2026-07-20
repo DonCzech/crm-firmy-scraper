@@ -2,15 +2,28 @@
   "navbar": {
     "siteName": "NOKTURN",
     "logoUrl": "",
-    "phone": "731 456 789",
     "ctaText": "",
-    "ctaHref": "#kontakt",
     "links": [
-      { "label": "Sety",       "href": "/sluzby"   },
-      { "label": "Klienti",    "href": "/reference" },
-      { "label": "Deník",      "href": "/tipy"      },
-      { "label": "Rezidenti",  "href": "/tym"       },
-      { "label": "Booking",    "href": "/kontakt"   }
+      {
+        "label": "Sety",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Klienti",
+        "href": "/reference"
+      },
+      {
+        "label": "Deník",
+        "href": "/tipy"
+      },
+      {
+        "label": "Rezidenti",
+        "href": "/tym"
+      },
+      {
+        "label": "Booking",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
@@ -24,14 +37,54 @@
   "services": {
     "heading": "Sety",
     "services": [
-      { "name": "Svatby",     "subtitle": "první tanec, po kterém přijde všechno ostatní",    "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-svatby.webp" },
-      { "name": "Corporate",  "subtitle": "elegantní kadence pro firemní večery a galavečeře","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-corporate.webp" },
-      { "name": "Oslavy",     "subtitle": "narozeniny, výročí, návraty domů — párty na míru", "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-oslavy.webp" },
-      { "name": "Plesy",      "subtitle": "orchestrální živý sál od otevírací fanfáry po půlnoc","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-plesy.webp" },
-      { "name": "Karaoke",    "subtitle": "otevřený mikrofon a rozšiřovaný katalog 4 000+ písní","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-karaoke.webp" },
-      { "name": "Videodisco", "subtitle": "synchronizovaný zvuk a klipy na LED stěně",         "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-videodisco.webp" },
-      { "name": "Ozvučení",   "subtitle": "line-array systémy, monitory a mixáž na profi úrovni","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-ozvuceni.webp" },
-      { "name": "Pronájem",   "subtitle": "aparatura, světla a truss bez čekání a s obsluhou", "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-pronajem.webp" }
+      {
+        "name": "Svatby",
+        "subtitle": "první tanec, po kterém přijde všechno ostatní",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-svatby.webp"
+      },
+      {
+        "name": "Corporate",
+        "subtitle": "elegantní kadence pro firemní večery a galavečeře",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-corporate.webp"
+      },
+      {
+        "name": "Oslavy",
+        "subtitle": "narozeniny, výročí, návraty domů — párty na míru",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-oslavy.webp"
+      },
+      {
+        "name": "Plesy",
+        "subtitle": "orchestrální živý sál od otevírací fanfáry po půlnoc",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-plesy.webp"
+      },
+      {
+        "name": "Karaoke",
+        "subtitle": "otevřený mikrofon a rozšiřovaný katalog 4 000+ písní",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-karaoke.webp"
+      },
+      {
+        "name": "Videodisco",
+        "subtitle": "synchronizovaný zvuk a klipy na LED stěně",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-videodisco.webp"
+      },
+      {
+        "name": "Ozvučení",
+        "subtitle": "line-array systémy, monitory a mixáž na profi úrovni",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-ozvuceni.webp"
+      },
+      {
+        "name": "Pronájem",
+        "subtitle": "aparatura, světla a truss bez čekání a s obsluhou",
+        "href": "#sluzby",
+        "imageUrl": "/templates/dj-01/svc-pronajem.webp"
+      }
     ],
     "ctaText": "Prohlédnout všechny sety",
     "ctaHref": "#sluzby"
@@ -63,16 +116,46 @@
     "eyebrow": "04 / KLIENTI",
     "heading": "Klienti",
     "items": [
-      { "name": "ČSOB",                 "logoUrl": "/assets/dj-01/1d1db4ec78-csob.svg"       },
-      { "name": "O2",                   "logoUrl": "/assets/dj-01/38a2a38210-o2.svg"         },
-      { "name": "BMW",                  "logoUrl": "/assets/dj-01/dfdc683716-bmw.svg"        },
-      { "name": "IKEA",                 "logoUrl": "/assets/dj-01/27bb1028f8-ikea.svg"       },
-      { "name": "KIK",                  "logoUrl": "/assets/dj-01/f2f238c89d-kik.svg"        },
-      { "name": "KPMG",                 "logoUrl": "/assets/dj-01/0a467f9ec7-kpmg.svg"       },
-      { "name": "Nespresso",            "logoUrl": "/assets/dj-01/f05dc2f9d1-nespresso.svg"  },
-      { "name": "OREA Hotels & Resorts","logoUrl": "/assets/dj-01/cdd82b2ace-orea.svg"       },
-      { "name": "Vorwerk",              "logoUrl": "/assets/dj-01/9390ad52cb-vorwerk.svg"    },
-      { "name": "Uniqa",                "logoUrl": "/assets/dj-01/70cf4cc2ad-uniqa.svg"      }
+      {
+        "name": "ČSOB",
+        "logoUrl": "/assets/dj-01/1d1db4ec78-csob.svg"
+      },
+      {
+        "name": "O2",
+        "logoUrl": "/assets/dj-01/38a2a38210-o2.svg"
+      },
+      {
+        "name": "BMW",
+        "logoUrl": "/assets/dj-01/dfdc683716-bmw.svg"
+      },
+      {
+        "name": "IKEA",
+        "logoUrl": "/assets/dj-01/27bb1028f8-ikea.svg"
+      },
+      {
+        "name": "KIK",
+        "logoUrl": "/assets/dj-01/f2f238c89d-kik.svg"
+      },
+      {
+        "name": "KPMG",
+        "logoUrl": "/assets/dj-01/0a467f9ec7-kpmg.svg"
+      },
+      {
+        "name": "Nespresso",
+        "logoUrl": "/assets/dj-01/f05dc2f9d1-nespresso.svg"
+      },
+      {
+        "name": "OREA Hotels & Resorts",
+        "logoUrl": "/assets/dj-01/cdd82b2ace-orea.svg"
+      },
+      {
+        "name": "Vorwerk",
+        "logoUrl": "/assets/dj-01/9390ad52cb-vorwerk.svg"
+      },
+      {
+        "name": "Uniqa",
+        "logoUrl": "/assets/dj-01/70cf4cc2ad-uniqa.svg"
+      }
     ]
   },
   "contact": {

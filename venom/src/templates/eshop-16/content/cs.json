@@ -1,0 +1,790 @@
+{
+  "siteName": "Spížka",
+  "seo": {
+    "title": "Spížka — online supermarket s doručením až ke dveřím",
+    "description": "Čerstvé potraviny, pečivo, maso i drogerie s doručením ještě dnes. Minimální nákup 699 Kč, záruka spokojenosti, jinak vracíme peníze."
+  },
+  "hero": {
+    "slides": [
+      {
+        "kicker": "Doručíme dnes už od 14:00",
+        "title": "Čerstvý nákup až ke dveřím",
+        "text": "Ovoce a zelenina jako z farmářského trhu, pečivo z ranní pece a všechno ostatní k tomu. Vy vaříte, my jezdíme.",
+        "ctaText": "Objednám si",
+        "ctaHref": "/obchod",
+        "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Tip do spížky",
+        "title": "Léto chutná jako gril a saláty",
+        "text": "Marinovaná masa, čerstvé bylinky i pečivo na gril — vše na jednom místě a s dovozem tam, kde právě grilujete.",
+        "ctaText": "Nakoupit na gril",
+        "ctaHref": "/obchod?kategorie=maso-a-ryby",
+        "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1600&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Pekárna a cukrárna",
+        "title": "Pečivo z ranní pece",
+        "text": "Křupavé rohlíky, kváskový chléb i zákusky ke kávě. Pečeme každé ráno, vozíme ještě teplé.",
+        "ctaText": "Prohlédnout pekárnu",
+        "ctaHref": "/obchod?kategorie=pekarna-a-cukrarna",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1600&h=900&fit=crop&auto=format&q=80"
+      }
+    ],
+    "side": {
+      "title": "VELKÉ",
+      "titleAccent": "slevy %",
+      "ctaText": "Objevit všechny slevy",
+      "ctaHref": "/obchod?kategorie=akcni-tyden",
+      "deals": [
+        {
+          "value": "-50 %",
+          "price": "9,90 Kč",
+          "image": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=200&h=200&fit=crop&auto=format&q=75"
+        },
+        {
+          "value": "-35 %",
+          "price": "44,90 Kč",
+          "image": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop&auto=format&q=75"
+        },
+        {
+          "value": "-30 %",
+          "price": "34,90 Kč",
+          "image": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&h=200&fit=crop&auto=format&q=75"
+        }
+      ]
+    }
+  },
+  "favCategories": {
+    "heading": "Vyberte si z naší široké nabídky",
+    "items": [
+      {
+        "label": "Pekárna a cukrárna",
+        "slug": "pekarna-a-cukrarna",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Ovoce a zelenina",
+        "slug": "ovoce-a-zelenina",
+        "image": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Maso a ryby",
+        "slug": "maso-a-ryby",
+        "image": "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Uzeniny a lahůdky",
+        "slug": "uzeniny-a-lahudky",
+        "image": "https://images.unsplash.com/photo-1542901031-ec5eeb518e83?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Mléčné a chlazené",
+        "slug": "mlecne-a-chlazene",
+        "image": "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Trvanlivé",
+        "slug": "trvanlive",
+        "image": "https://images.unsplash.com/photo-1518843875459-f738682238a6?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Mražené",
+        "slug": "mrazene",
+        "image": "https://images.unsplash.com/photo-1476887334197-56adbf254e1a?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Nápoje",
+        "slug": "napoje",
+        "image": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Zdraví a životní styl",
+        "slug": "zdravi-a-zivotni-styl",
+        "image": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Drogerie a kosmetika",
+        "slug": "drogerie-a-kosmetika",
+        "image": "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Pro děti",
+        "slug": "pro-deti",
+        "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=200&h=200&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Domácnost a zahrada",
+        "slug": "domacnost-a-zahrada",
+        "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=200&h=200&fit=crop&auto=format&q=75"
+      }
+    ]
+  },
+  "firstPurchase": {
+    "heading": "Pro váš první nákup",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod",
+    "limit": 10
+  },
+  "benefits": {
+    "heading": "Proč nakupovat ve Spížce",
+    "items": [
+      {
+        "icon": "bag",
+        "title": "Nákup snadno a jednoduše",
+        "text": "Objednáte za pár minut, doručíme dnes už od 14:00.",
+        "name": "Nákup snadno a jednoduše"
+      },
+      {
+        "icon": "multibuy",
+        "title": "Multikup — množstevní slevy",
+        "text": "Nakoupíte více, zaplatíte méně.",
+        "name": "Multikup — množstevní slevy"
+      },
+      {
+        "icon": "pricematch",
+        "title": "Srovnaná cena",
+        "text": "Stejné ceny jako v supermarketu, ale z pohodlí domova.",
+        "name": "Srovnaná cena"
+      },
+      {
+        "icon": "family",
+        "title": "Záruka spokojenosti",
+        "text": "Něco nesedí? Vrátíme vám peníze bez otázek.",
+        "name": "Záruka spokojenosti"
+      },
+      {
+        "icon": "leaf",
+        "title": "Zachraň jídlo",
+        "text": "Potraviny s blížící se spotřebou za zlomek ceny.",
+        "name": "Zachraň jídlo"
+      }
+    ]
+  },
+  "saleWeek": {
+    "heading": "Akční týden",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=akcni-tyden",
+    "limit": 10,
+    "source": "newest",
+    "categorySlug": "akcni-tyden",
+    "saleUntil": "do neděle",
+    "promo": {
+      "title": "Vidíte tu slevu?",
+      "text": "Každé pondělí nový výběr akcí. Jen dokud jsou skladem.",
+      "cta": "Objevit všechny"
+    }
+  },
+  "partners": {
+    "heading": "Od našich partnerů",
+    "items": [
+      {
+        "brand": "Pekárna Zrno",
+        "title": "Je čas na kváskový",
+        "text": "Pečeme každé ráno, vozíme ještě teplé.",
+        "image": "https://images.unsplash.com/photo-1486887396153-fa416526c108?w=900&h=400&fit=crop&auto=format&q=75",
+        "from": "#7a4a1f",
+        "to": "#4a2c10",
+        "dark": true
+      },
+      {
+        "brand": "Pražírna Vlna",
+        "title": "Namelte si to nejlepší",
+        "text": "Čerstvě pražená arabica z malé pražírny.",
+        "image": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=900&h=400&fit=crop&auto=format&q=75",
+        "from": "#3f152c",
+        "to": "#241a20",
+        "dark": true
+      },
+      {
+        "brand": "Mlékárna Habřina",
+        "title": "Čerstvě od nás z kopců",
+        "text": "Mléko, máslo a jogurty bez kompromisů.",
+        "image": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=900&h=400&fit=crop&auto=format&q=75",
+        "from": "#3e6b47",
+        "to": "#28492f",
+        "dark": true
+      },
+      {
+        "brand": "Farma Luka",
+        "title": "Zelenina jako z trhu",
+        "text": "Denní závozy přímo od farmářů.",
+        "image": "https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?w=900&h=400&fit=crop&auto=format&q=75",
+        "from": "#b8571f",
+        "to": "#7a3a12",
+        "dark": true
+      }
+    ]
+  },
+  "catFruit": {
+    "heading": "Ovoce a zelenina",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=ovoce-a-zelenina",
+    "limit": 10,
+    "source": "newest",
+    "categorySlug": "ovoce-a-zelenina"
+  },
+  "catBakery": {
+    "heading": "Pekárna a cukrárna",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=pekarna-a-cukrarna",
+    "limit": 10,
+    "source": "newest",
+    "categorySlug": "pekarna-a-cukrarna",
+    "tile": true
+  },
+  "appBanner": {
+    "title": "Spížka v kapse — nákup hotový za pár minut",
+    "text": "Skenujte, objednávejte, sledujte kurýra. Appka si pamatuje váš košík i oblíbené.",
+    "rating": "4,8/5"
+  },
+  "multibuy": {
+    "heading": "Multikup — nakoupíte více, zaplatíte méně",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=multikup",
+    "limit": 10,
+    "source": "newest",
+    "categorySlug": "multikup"
+  },
+  "priceMatch": {
+    "heading": "Srovnaná cena",
+    "subheading": "Nakupujte za stejné ceny jako v supermarketu, ale z pohodlí domova.",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=zvyhodnene",
+    "limit": 10,
+    "source": "newest",
+    "categorySlug": "zvyhodnene"
+  },
+  "news": {
+    "heading": "Novinky ve Spížce",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=novinky",
+    "limit": 10,
+    "source": "newest",
+    "categorySlug": "novinky"
+  },
+  "recipes": {
+    "heading": "Inspirace do kuchyně",
+    "subheading": "Recepty ze surovin, které máme právě skladem.",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1591386767153-987783380885?w=700&h=525&fit=crop&auto=format&q=75",
+        "title": "Hovězí guláš s cizrnou",
+        "time": "90 min",
+        "meta": "8 surovin • pro pokročilé"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?w=700&h=525&fit=crop&auto=format&q=75",
+        "title": "Domácí pizza margherita",
+        "time": "45 min",
+        "meta": "6 surovin • snadné"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=700&h=525&fit=crop&auto=format&q=75",
+        "title": "Rychlé tacos s mletým masem",
+        "time": "30 min",
+        "meta": "7 surovin • snadné"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=700&h=525&fit=crop&auto=format&q=75",
+        "title": "Zeleninový bowl s avokádem",
+        "time": "20 min",
+        "meta": "9 surovin • bez vaření"
+      }
+    ]
+  },
+  "navbar": {
+    "siteName": "Spížka",
+    "logoUrl": "",
+    "city": "Praha",
+    "deliveryNote": "dnes už od 14:00",
+    "searchPlaceholder": "Hledejte produkt, kategorii nebo značku",
+    "productsLabel": "Produkty",
+    "megaAllLabel": "Zobrazit vše",
+    "navLinks": [
+      {
+        "label": "Akční týden",
+        "href": "/obchod?kategorie=akcni-tyden",
+        "icon": "percent"
+      },
+      {
+        "label": "Zachraň jídlo",
+        "href": "/obchod?kategorie=zachran-jidlo",
+        "icon": "rescue"
+      },
+      {
+        "label": "Zvýhodněné",
+        "href": "/obchod?kategorie=zvyhodnene",
+        "icon": "tag"
+      },
+      {
+        "label": "Moje oblíbené",
+        "href": "/obchod",
+        "icon": "heart"
+      },
+      {
+        "label": "Inspirace",
+        "href": "/obchod",
+        "icon": "spark"
+      }
+    ],
+    "utility": {
+      "cartLabel": "Košík",
+      "loginLabel": "Přihlásit se",
+      "registerLabel": "Registrovat se",
+      "checkoutLabel": "K pokladně"
+    },
+    "usps": [
+      {
+        "icon": "clock",
+        "text": "Váš nákup můžeme doručit",
+        "bold": "dnes už od 14:00"
+      },
+      {
+        "icon": "basket",
+        "text": "Minimální výše nákupu je",
+        "bold": "699 Kč"
+      },
+      {
+        "icon": "truck",
+        "text": "Dopravu máte",
+        "bold": "zdarma na 30 dní"
+      },
+      {
+        "icon": "shield",
+        "text": "Záruka spokojenosti, jinak",
+        "bold": "vracíme peníze"
+      }
+    ],
+    "categories": [
+      {
+        "label": "Ovoce a zelenina",
+        "slug": "ovoce-a-zelenina",
+        "image": "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Zelenina",
+            "slug": "zelenina"
+          },
+          {
+            "label": "Ovoce",
+            "slug": "ovoce"
+          },
+          {
+            "label": "Houby",
+            "slug": "houby"
+          },
+          {
+            "label": "Bylinky a koření",
+            "slug": "bylinky-a-koreni"
+          },
+          {
+            "label": "Hotové saláty",
+            "slug": "hotove-salaty"
+          },
+          {
+            "label": "Farmářské",
+            "slug": "farmarske"
+          },
+          {
+            "label": "BIO ovoce a zelenina",
+            "slug": "bio-ovoce-a-zelenina"
+          }
+        ]
+      },
+      {
+        "label": "Pekárna a cukrárna",
+        "slug": "pekarna-a-cukrarna",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Čerstvé pečivo",
+            "slug": "cerstve-pecivo"
+          },
+          {
+            "label": "Chléb",
+            "slug": "chleb"
+          },
+          {
+            "label": "Sladké pečivo",
+            "slug": "sladke-pecivo"
+          },
+          {
+            "label": "Dorty a zákusky",
+            "slug": "dorty-a-zakusky"
+          },
+          {
+            "label": "Balené pečivo",
+            "slug": "balene-pecivo"
+          },
+          {
+            "label": "Bezlepkové",
+            "slug": "bezlepkove"
+          }
+        ]
+      },
+      {
+        "label": "Maso a ryby",
+        "slug": "maso-a-ryby",
+        "image": "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Kuřecí maso",
+            "slug": "kureci-maso"
+          },
+          {
+            "label": "Vepřové maso",
+            "slug": "veprove-maso"
+          },
+          {
+            "label": "Hovězí maso",
+            "slug": "hovezi-maso"
+          },
+          {
+            "label": "Mleté maso",
+            "slug": "mlete-maso"
+          },
+          {
+            "label": "Ryby a mořské plody",
+            "slug": "ryby-a-morske-plody"
+          },
+          {
+            "label": "Uzené maso",
+            "slug": "uzene-maso"
+          }
+        ]
+      },
+      {
+        "label": "Uzeniny a lahůdky",
+        "slug": "uzeniny-a-lahudky",
+        "image": "https://images.unsplash.com/photo-1542901031-ec5eeb518e83?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Šunky",
+            "slug": "sunky"
+          },
+          {
+            "label": "Salámy",
+            "slug": "salamy"
+          },
+          {
+            "label": "Párky a klobásy",
+            "slug": "parky-a-klobasy"
+          },
+          {
+            "label": "Paštiky",
+            "slug": "pastiky"
+          },
+          {
+            "label": "Chlebíčky a saláty",
+            "slug": "chlebicky-a-salaty"
+          }
+        ]
+      },
+      {
+        "label": "Mléčné a chlazené",
+        "slug": "mlecne-a-chlazene",
+        "image": "https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Mléko",
+            "slug": "mleko"
+          },
+          {
+            "label": "Sýry",
+            "slug": "syry"
+          },
+          {
+            "label": "Jogurty",
+            "slug": "jogurty"
+          },
+          {
+            "label": "Máslo a tuky",
+            "slug": "maslo-a-tuky"
+          },
+          {
+            "label": "Vejce",
+            "slug": "vejce"
+          },
+          {
+            "label": "Rostlinné alternativy",
+            "slug": "rostlinne-alternativy"
+          }
+        ]
+      },
+      {
+        "label": "Trvanlivé",
+        "slug": "trvanlive",
+        "image": "https://images.unsplash.com/photo-1518843875459-f738682238a6?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Těstoviny a rýže",
+            "slug": "testoviny-a-ryze"
+          },
+          {
+            "label": "Konzervy",
+            "slug": "konzervy"
+          },
+          {
+            "label": "Omáčky a dochucovadla",
+            "slug": "omacky-a-dochucovadla"
+          },
+          {
+            "label": "Sladkosti",
+            "slug": "sladkosti"
+          },
+          {
+            "label": "Slané snacky",
+            "slug": "slane-snacky"
+          },
+          {
+            "label": "Snídaně a cereálie",
+            "slug": "snidane-a-cerealie"
+          }
+        ]
+      },
+      {
+        "label": "Mražené",
+        "slug": "mrazene",
+        "image": "https://images.unsplash.com/photo-1476887334197-56adbf254e1a?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Zmrzliny",
+            "slug": "zmrzliny"
+          },
+          {
+            "label": "Mražená zelenina",
+            "slug": "mrazena-zelenina"
+          },
+          {
+            "label": "Hotová jídla",
+            "slug": "hotova-jidla"
+          },
+          {
+            "label": "Mražené ryby",
+            "slug": "mrazene-ryby"
+          }
+        ]
+      },
+      {
+        "label": "Nápoje",
+        "slug": "napoje",
+        "image": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Voda",
+            "slug": "voda"
+          },
+          {
+            "label": "Limonády a džusy",
+            "slug": "limonady-a-dzusy"
+          },
+          {
+            "label": "Káva a čaj",
+            "slug": "kava-a-caj"
+          },
+          {
+            "label": "Pivo",
+            "slug": "pivo"
+          },
+          {
+            "label": "Víno",
+            "slug": "vino"
+          }
+        ]
+      },
+      {
+        "label": "Drogerie a kosmetika",
+        "slug": "drogerie-a-kosmetika",
+        "image": "https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Prací prostředky",
+            "slug": "praci-prostredky"
+          },
+          {
+            "label": "Úklid",
+            "slug": "uklid"
+          },
+          {
+            "label": "Péče o tělo",
+            "slug": "pece-o-telo"
+          },
+          {
+            "label": "Papírové zboží",
+            "slug": "papirove-zbozi"
+          }
+        ]
+      },
+      {
+        "label": "Pro děti",
+        "slug": "pro-deti",
+        "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Kojenecká výživa",
+            "slug": "kojenecka-vyziva"
+          },
+          {
+            "label": "Pleny a hygiena",
+            "slug": "pleny-a-hygiena"
+          },
+          {
+            "label": "Svačinky",
+            "slug": "svacinky"
+          }
+        ]
+      },
+      {
+        "label": "Domácnost a zahrada",
+        "slug": "domacnost-a-zahrada",
+        "image": "https://images.unsplash.com/photo-1556911220-bff31c812dba?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "Kuchyňské potřeby",
+            "slug": "kuchynske-potreby"
+          },
+          {
+            "label": "Domácí potřeby",
+            "slug": "domaci-potreby"
+          },
+          {
+            "label": "Chovatelské potřeby",
+            "slug": "chovatelske-potreby"
+          },
+          {
+            "label": "Květiny",
+            "slug": "kvetiny"
+          }
+        ]
+      },
+      {
+        "label": "Zdraví a životní styl",
+        "slug": "zdravi-a-zivotni-styl",
+        "image": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=320&h=240&fit=crop&auto=format&q=75",
+        "children": [
+          {
+            "label": "BIO potraviny",
+            "slug": "bio-potraviny"
+          },
+          {
+            "label": "Bez lepku",
+            "slug": "bez-lepku"
+          },
+          {
+            "label": "Proteinové produkty",
+            "slug": "proteinove-produkty"
+          },
+          {
+            "label": "Doplňky stravy",
+            "slug": "doplnky-stravy"
+          }
+        ]
+      }
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "Mohlo by vás zajímat",
+      "recoCta": "DO KOŠÍKU",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Pokračovat v nákupu",
+      "minOrderThreshold": 69900,
+      "minOrderLabel": "Do minimálního nákupu zbývá",
+      "minOrderDone": "Splněno! Můžete k pokladně."
+    }
+  },
+  "footer": {
+    "siteName": "Spížka",
+    "tagline": "Online supermarket s rozvozem. Ovoce a zelenina jako z trhu, pečivo z ranní pece — vy vaříte, my jezdíme.",
+    "topLabel": "Zpět nahoru",
+    "email": "email@demo.cz",
+    "phone": "704 123 456",
+    "phoneHours": "po–ne 7:00–22:00",
+    "columns": [
+      {
+        "heading": "Nakupujte",
+        "links": [
+          {
+            "label": "Akční týden",
+            "href": "/obchod?kategorie=akcni-tyden"
+          },
+          {
+            "label": "Zachraň jídlo",
+            "href": "/obchod?kategorie=zachran-jidlo"
+          },
+          {
+            "label": "Multikup",
+            "href": "/obchod?kategorie=multikup"
+          },
+          {
+            "label": "Zvýhodněné",
+            "href": "/obchod?kategorie=zvyhodnene"
+          },
+          {
+            "label": "Novinky",
+            "href": "/obchod?kategorie=novinky"
+          }
+        ],
+        "title": "Nakupujte"
+      },
+      {
+        "heading": "O Spížce",
+        "links": [
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/kariera"
+          },
+          {
+            "label": "Naše značky",
+            "href": "/znacky"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          }
+        ],
+        "title": "O Spížce"
+      },
+      {
+        "heading": "Pomoc",
+        "links": [
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Reklamace a vrácení",
+            "href": "/reklamace"
+          },
+          {
+            "label": "Časté dotazy",
+            "href": "/faq"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/podminky"
+          },
+          {
+            "label": "Ochrana osobních údajů",
+            "href": "/gdpr"
+          }
+        ],
+        "title": "Pomoc"
+      }
+    ],
+    "payments": [
+      "Visa",
+      "Mastercard",
+      "Apple Pay",
+      "Google Pay"
+    ],
+    "deliveryNote": "Doručujeme dnes už od 14:00 • minimální nákup 699 Kč",
+    "copyright": "© 2026 Spížka. Všechna práva vyhrazena."
+  }
+}

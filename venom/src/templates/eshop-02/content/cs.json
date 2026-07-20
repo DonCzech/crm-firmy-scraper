@@ -1,0 +1,230 @@
+{
+  "siteName": "Modrý Košík",
+  "seo": {
+    "title": "Modrý Košík — Váš spolehlivý e-shop",
+    "description": "Elektronika, oblečení, sport i domácnost na jednom místě. Doprava zdarma od 1 200 Kč, doručení do druhého dne a 3 000+ výdejních míst."
+  },
+  "navbar": {
+    "siteName": "Modrý Košík",
+    "logoUrl": "",
+    "topPhone": "+420 777 123 456",
+    "topEmail": "info@modrykosik.cz",
+    "topNote": "Doprava zdarma od 1 200 Kč",
+    "topLinks": [
+      { "label": "Doprava a platba", "href": "/doprava-a-platba" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "ctaText": "Nakupovat",
+    "ctaHref": "/obchod",
+    "links": [
+      { "label": "O nás", "href": "/o-nas" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "categories": [
+      { "label": "Elektronika", "slug": "elektronika" },
+      { "label": "Oblečení", "slug": "obleceni" },
+      { "label": "Boty", "slug": "boty" },
+      { "label": "Sport & Outdoor", "slug": "sport" },
+      { "label": "Domácnost", "slug": "domacnost" },
+      { "label": "Kosmetika & Zdraví", "slug": "kosmetika" },
+      { "label": "Knihy & Papír", "slug": "knihy" },
+      { "label": "Zahrada", "slug": "zahrada" }
+    ],
+    "highlightLinks": [
+      { "label": "Akce & Výprodej", "slug": "akce", "tone": "accent" },
+      { "label": "Novinky", "slug": "novinky", "tone": "light" }
+    ]
+  },
+  "hero": {
+    "badge": "Letní výprodej právě běží",
+    "heading": "Všechno pro domov, sport i práci na jednom místě",
+    "subheading": "Přes 5 000 produktů skladem, odeslání ještě dnes a doprava zdarma od 1 200 Kč. Nakupujte pohodlně — vrácení do 30 dnů bez udání důvodu.",
+    "ctaText": "Nakupovat",
+    "ctaHref": "/obchod",
+    "secondaryText": "Akce & Výprodej",
+    "secondaryHref": "/obchod?kategorie=akce",
+    "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=900&fit=crop&auto=format&q=80",
+    "imageAlt": "Prodejna s módou a doplňky",
+    "promoLabel": "Slevy až",
+    "promoValue": "−40 %",
+    "benefits": [
+      { "icon": "truck", "title": "Doprava zdarma", "text": "u objednávek od 1 200 Kč" },
+      { "icon": "clock", "title": "Doručení do druhého dne", "text": "objednejte do 14:00" },
+      { "icon": "pin", "title": "3 000+ výdejních míst", "text": "po celé České republice" },
+      { "icon": "refresh", "title": "30 dní na vrácení", "text": "bez udání důvodu" }
+    ]
+  },
+  "akce": {
+    "eyebrow": "Jen do vyprodání zásob",
+    "heading": "Akční zboží",
+    "ctaLabel": "Všechny akce",
+    "ctaHref": "/obchod?kategorie=akce",
+    "tone": "accent",
+    "source": "newest",
+    "categorySlug": "akce",
+    "limit": 8,
+    "columns": 4
+  },
+  "novinky": {
+    "eyebrow": "Čerstvě naskladněno",
+    "heading": "Novinky v sortimentu",
+    "ctaLabel": "Všechny novinky",
+    "ctaHref": "/obchod?kategorie=novinky",
+    "categorySlug": "novinky",
+    "limit": 8,
+    "columns": 4
+  },
+  "categories": {
+    "eyebrow": "Kompletní sortiment",
+    "heading": "Nakupujte podle kategorií",
+    "ctaLabel": "Celý sortiment",
+    "ctaHref": "/obchod",
+    "topLevel": true,
+    "excludeSlugs": ["novinky", "akce"],
+    "limit": 9
+  },
+  "about": {
+    "eyebrow": "Proč nakupovat u nás",
+    "heading": "Rodinný e-shop, na který se můžete spolehnout",
+    "text": "Modrý Košík vyrostl z malé rodinné prodejny na jeden z nejoblíbenějších českých e-shopů. Stále ale platí to samé co první den — zboží, které sami používáme, poctivé ceny a zákaznická podpora, která opravdu zvedá telefon.",
+    "text2": "Objednávky přijaté do 14:00 expedujeme ještě týž den z vlastního skladu v Praze. A pokud vám cokoli nesedne, do 30 dnů to bez řečí vyměníme nebo vrátíme peníze.",
+    "image": "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1000&h=800&fit=crop&auto=format&q=80",
+    "imageAlt": "Náš tým při vyřizování objednávek",
+    "badgeValue": "15+",
+    "badgeLabel": "let na trhu",
+    "checklist": [
+      { "text": "Vlastní sklad — 5 000+ položek ihned k odeslání" },
+      { "text": "Ověřeno zákazníky — 4,9/5 z 12 000 recenzí" },
+      { "text": "Česká zákaznická podpora 7 dní v týdnu" },
+      { "text": "Bezpečná platba kartou, převodem i na dobírku" }
+    ],
+    "stats": [
+      { "value": "120 000+", "label": "spokojených zákazníků" },
+      { "value": "5 000+", "label": "produktů skladem" },
+      { "value": "98 %", "label": "objednávek odesláno týž den" },
+      { "value": "4,9/5", "label": "průměrné hodnocení" }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Recenze",
+    "heading": "Co říkají naši zákazníci",
+    "aggValue": "4,9",
+    "aggLabel": "z 12 000+ ověřených recenzí",
+    "items": [
+      { "name": "Petra Malá", "rating": 5, "text": "Objednala jsem ve čtvrtek odpoledne a v pátek dopoledne mi kurýr zvonil u dveří. Zboží perfektně zabalené, přesně podle popisu. Takhle má vypadat e-shop." },
+      { "name": "Jan Dvořák", "rating": 5, "text": "Potřeboval jsem poradit s výběrem sluchátek a na chatu mi během pár minut odpověděl člověk, který věcem opravdu rozumí. Výsledek? Trefa na první pokus." },
+      { "name": "Lucie Horáková", "rating": 4, "text": "Vracela jsem jednu velikost oblečení a výměna proběhla bez jediného zbytečného e-mailu. Peníze za dopravu mi vrátili taky. Nakupuju tu pravidelně." },
+      { "name": "Martin Beneš", "rating": 5, "text": "Ceny srovnatelné s největšími hráči, ale přístup jako v rodinném obchodě. Když byla část objednávky vyprodaná, sami zavolali a nabídli lepší alternativu za stejnou cenu." },
+      { "name": "Veronika Šímová", "rating": 5, "text": "Oceňuju přehledný web a to, že co je psáno skladem, opravdu skladem je. Za tři roky ani jedna zpožděná zásilka." },
+      { "name": "Tomáš Kratochvíl", "rating": 5, "text": "Reklamace vyřízená za dva dny včetně odeslání nového kusu. To jsem nezažil ani u výrazně dražších obchodů. Palec nahoru." }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Časté dotazy",
+    "heading": "Vše, co potřebujete vědět",
+    "text": "Doprava, platby, vrácení zboží i reklamace — odpovědi na nejčastější otázky na jednom místě.",
+    "contactTitle": "Nenašli jste odpověď?",
+    "contactPhone": "+420 777 123 456",
+    "contactEmail": "info@modrykosik.cz",
+    "contactNote": "Zákaznická linka Po–Ne 8:00–20:00",
+    "items": [
+      { "question": "Kdy mi dorazí objednávka?", "answer": "Objednávky přijaté do 14:00 expedujeme ještě týž den. Kurýrem doručujeme obvykle následující pracovní den, na výdejní místa do 1–2 pracovních dnů. O každém kroku vás informujeme e-mailem i SMS." },
+      { "question": "Kolik stojí doprava?", "answer": "Doprava na výdejní místa začíná na 59 Kč, kurýr na adresu od 89 Kč. Při nákupu nad 1 200 Kč máte dopravu zdarma — na výdejní místo i kurýrem." },
+      { "question": "Jak mohu zaplatit?", "answer": "Kartou online, rychlým bankovním převodem, Apple Pay / Google Pay, klasickým převodem i na dobírku. Platba kartou a rychlým převodem je zdarma a objednávku odbavíme nejrychleji." },
+      { "question": "Jak funguje vrácení zboží?", "answer": "Zboží můžete vrátit do 30 dnů bez udání důvodu. Stačí vyplnit online formulář, vytisknout štítek a balík odnést na nejbližší výdejní místo. Peníze vracíme do 5 pracovních dnů od přijetí zásilky." },
+      { "question": "Jak probíhá reklamace?", "answer": "Reklamaci vyřizujeme průměrně do 2 pracovních dnů, ne do zákonných 30. Založíte ji online, my zajistíme svoz zdarma a průběžně vás informujeme o stavu." },
+      { "question": "Je zboží skladem opravdu skladem?", "answer": "Ano — dostupnost na webu je napojená přímo na náš sklad v Praze a aktualizuje se každou minutu. Co vidíte skladem, můžeme odeslat ještě dnes." }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Newsletter",
+    "heading": "Slevy a novinky přímo do schránky",
+    "text": "Přihlaste se k odběru a získejte slevu 10 % na první nákup. Posíláme maximálně dvakrát měsíčně — jen akce, které opravdu stojí za to.",
+    "placeholder": "vas@email.cz",
+    "buttonText": "Chci odebírat",
+    "note": "Přihlášením souhlasíte se zpracováním e-mailu pro zasílání novinek. Odhlásit se můžete kdykoli jedním kliknutím.",
+    "successText": "Děkujeme! Potvrzení jsme poslali na váš e-mail."
+  },
+  "footer": {
+    "siteName": "Modrý Košík",
+    "tagline": "Rodinný e-shop s elektronikou, oblečením, sportem i vybavením domácnosti. Už 15 let posíláme radost v modrých krabicích.",
+    "phone": "+420 777 123 456",
+    "email": "info@modrykosik.cz",
+    "address": "Skladová 12, 190 00 Praha 9",
+    "openNote": "Zákaznická linka Po–Ne 8:00–20:00",
+    "shopTitle": "Nakupujte",
+    "shopLinks": [
+      { "label": "Elektronika", "href": "/obchod?kategorie=elektronika" },
+      { "label": "Oblečení", "href": "/obchod?kategorie=obleceni" },
+      { "label": "Sport & Outdoor", "href": "/obchod?kategorie=sport" },
+      { "label": "Domácnost", "href": "/obchod?kategorie=domacnost" },
+      { "label": "Akce & Výprodej", "href": "/obchod?kategorie=akce" },
+      { "label": "Novinky", "href": "/obchod?kategorie=novinky" }
+    ],
+    "infoTitle": "Informace",
+    "infoLinks": [
+      { "label": "O nás", "href": "/o-nas" },
+      { "label": "Doprava a platba", "href": "/doprava-a-platba" },
+      { "label": "Kontakt", "href": "/kontakt" },
+      { "label": "Obchodní podmínky", "href": "/obchodni-podminky" },
+      { "label": "Ochrana osobních údajů", "href": "/ochrana-osobnich-udaju" }
+    ],
+    "serviceTitle": "Zákaznický servis",
+    "serviceLinks": [
+      { "label": "Sledování zásilky", "href": "/obchod" },
+      { "label": "Vrácení zboží do 30 dnů", "href": "/doprava-a-platba" },
+      { "label": "Reklamace", "href": "/doprava-a-platba" },
+      { "label": "Časté dotazy", "href": "/#faq" }
+    ],
+    "payments": ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Bankovní převod", "Dobírka"]
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "heading": "O nás",
+        "subheading": "Rodinný e-shop, který vyrostl z malé prodejny v Praze. Poznejte, kdo stojí za modrými krabicemi."
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "heading": "Kontakt",
+        "subheading": "Zavolejte, napište, nebo se zastavte osobně. Jsme tu pro vás sedm dní v týdnu."
+      },
+      "contact": {
+        "phone": "+420 777 123 456",
+        "email": "info@modrykosik.cz",
+        "address": "Skladová 12, 190 00 Praha 9",
+        "hours": "Po–Ne 8:00–20:00",
+        "formTitle": "Napište nám",
+        "formText": "Odpovídáme do 24 hodin, obvykle mnohem dřív."
+      }
+    },
+    "doprava": {
+      "hero": {
+        "heading": "Doprava a platba",
+        "subheading": "Objednávky do 14:00 expedujeme ještě týž den. Vyberte si ze 3 000+ výdejních míst nebo doručení kurýrem až domů."
+      },
+      "shipping": {
+        "freeNote": "Doprava zdarma u všech objednávek nad 1 200 Kč — platí pro výdejní místa i kurýra.",
+        "shippingTitle": "Možnosti dopravy",
+        "shipping": [
+          { "name": "Zásilkovna — výdejní místo", "time": "Doručení do 1–2 pracovních dnů", "price": "od 59 Kč" },
+          { "name": "Balíkovna České pošty", "time": "Doručení do 1–2 pracovních dnů", "price": "od 65 Kč" },
+          { "name": "PPL kurýr na adresu", "time": "Doručení následující pracovní den", "price": "od 89 Kč" },
+          { "name": "DPD kurýr na adresu", "time": "Doručení následující pracovní den", "price": "od 89 Kč" },
+          { "name": "Kurýr s večerním doručením (Praha a Brno)", "time": "Ještě týž den mezi 18:00–22:00", "price": "od 129 Kč" },
+          { "name": "Osobní odběr — sklad Praha 9", "time": "K vyzvednutí do 2 hodin od objednání", "price": "zdarma" }
+        ],
+        "paymentTitle": "Možnosti platby",
+        "paymentItems": [
+          { "name": "Platba kartou online", "note": "Visa, Mastercard — okamžité odbavení objednávky, zdarma." },
+          { "name": "Apple Pay / Google Pay", "note": "Jedním dotykem v mobilu, zdarma." },
+          { "name": "Rychlý bankovní převod", "note": "Okamžité připsání přes platební bránu, zdarma." },
+          { "name": "Klasický bankovní převod", "note": "Zboží odesíláme po připsání platby, obvykle do 1 dne." },
+          { "name": "Dobírka", "note": "Platba při převzetí kartou i hotově, +39 Kč." },
+          { "name": "Firemní nákup na fakturu", "note": "Pro ověřené firemní zákazníky se splatností 14 dní." }
+        ]
+      }
+    }
+  }
+}

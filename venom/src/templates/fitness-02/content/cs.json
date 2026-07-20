@@ -5,17 +5,31 @@
     "ctaText": "Skupinové lekce",
     "ctaHref": "/lekce",
     "links": [
-      { "label": "Úvod",    "href": "/" },
-      { "label": "O nás",   "href": "/o-nas" },
-      { "label": "Lekce",   "href": "/lekce" },
-      { "label": "Galerie", "href": "/galerie" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Lekce",
+        "href": "/lekce"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
     "title": "Síla začíná tady",
     "tagline": "Trénuj. Rosteš. Vítězíš.",
-    "headline": "Síla začíná\ntady",
     "body": "Moderní vybavení, zkušení trenéři a motivující prostředí — vše, co potřebuješ k dosažení svých cílů. Ať jde o sílu, kondici nebo zdravý životní styl.",
     "ctaText": "Skupinové lekce",
     "ctaHref": "/lekce",
@@ -25,10 +39,26 @@
   },
   "stats": {
     "items": [
-      { "number": "4",    "suffix": "",  "label": "Studia" },
-      { "number": "25",   "suffix": "+", "label": "Trenérů" },
-      { "number": "8",    "suffix": "+", "label": "Let na trhu" },
-      { "number": "1500", "suffix": "+", "label": "Aktivních klientů" }
+      {
+        "number": "4",
+        "suffix": "",
+        "label": "Studia"
+      },
+      {
+        "number": "25",
+        "suffix": "+",
+        "label": "Trenérů"
+      },
+      {
+        "number": "8",
+        "suffix": "+",
+        "label": "Let na trhu"
+      },
+      {
+        "number": "1500",
+        "suffix": "+",
+        "label": "Aktivních klientů"
+      }
     ]
   },
   "about": {
@@ -97,16 +127,46 @@
     "tagline": "Naše studia",
     "title": "Moderní vybavení, přátelská atmosféra",
     "images": [
-      { "url": "/images/fitness-02/gallery-1.webp",  "alt": "Power Fitness — posilovací stroje" },
-      { "url": "/images/fitness-02/gallery-2.webp",  "alt": "Power Fitness — činky a volné váhy" },
-      { "url": "/images/fitness-02/gallery-3.webp",  "alt": "Power Fitness — bench press" },
-      { "url": "/images/fitness-02/gallery-4.webp",  "alt": "Power Fitness — kardio zóna" },
-      { "url": "/images/fitness-02/gallery-5.webp",  "alt": "Power Fitness — běžecké pásy" },
-      { "url": "/images/fitness-02/gallery-6.webp",  "alt": "Power Fitness — interiér centra" },
-      { "url": "/images/fitness-02/gallery-7.webp",  "alt": "Power Fitness — velká hala" },
-      { "url": "/images/fitness-02/gallery-8.webp",  "alt": "Power Fitness — vybavení" },
-      { "url": "/images/fitness-02/gallery-9.webp",  "alt": "Power Fitness — silová zóna" },
-      { "url": "/images/fitness-02/gallery-10.webp", "alt": "Power Fitness — trénink" }
+      {
+        "url": "/images/fitness-02/gallery-1.webp",
+        "alt": "Power Fitness — posilovací stroje"
+      },
+      {
+        "url": "/images/fitness-02/gallery-2.webp",
+        "alt": "Power Fitness — činky a volné váhy"
+      },
+      {
+        "url": "/images/fitness-02/gallery-3.webp",
+        "alt": "Power Fitness — bench press"
+      },
+      {
+        "url": "/images/fitness-02/gallery-4.webp",
+        "alt": "Power Fitness — kardio zóna"
+      },
+      {
+        "url": "/images/fitness-02/gallery-5.webp",
+        "alt": "Power Fitness — běžecké pásy"
+      },
+      {
+        "url": "/images/fitness-02/gallery-6.webp",
+        "alt": "Power Fitness — interiér centra"
+      },
+      {
+        "url": "/images/fitness-02/gallery-7.webp",
+        "alt": "Power Fitness — velká hala"
+      },
+      {
+        "url": "/images/fitness-02/gallery-8.webp",
+        "alt": "Power Fitness — vybavení"
+      },
+      {
+        "url": "/images/fitness-02/gallery-9.webp",
+        "alt": "Power Fitness — silová zóna"
+      },
+      {
+        "url": "/images/fitness-02/gallery-10.webp",
+        "alt": "Power Fitness — trénink"
+      }
     ]
   },
   "contact": {
@@ -165,11 +225,34 @@
     "instagramUrl": "https://instagram.com/demo",
     "copyright": "© 2025 Power Fitness. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Úvod",    "href": "/" },
-      { "label": "O nás",   "href": "/o-nas" },
-      { "label": "Lekce",   "href": "/lekce" },
-      { "label": "Galerie", "href": "/galerie" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Lekce",
+        "href": "/lekce"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si trénink",
+      "subtitle": "Vyberte trénink, trenéra a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

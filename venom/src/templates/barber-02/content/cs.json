@@ -1,22 +1,27 @@
 {
   "siteName": "Holičství Atelier",
   "tagline": "Klasické holičství v centru s důrazem na řemeslné provedení.",
-
   "navbar": {
     "logoUrl": "/templates/barber-02/logo.svg",
     "siteName": "Holičství Atelier",
     "links": [
-      { "label": "O nás",   "href": "/onas" },
-      { "label": "Galerie", "href": "/galerie" },
-      { "label": "Ceník",   "href": "/cenik" }
+      {
+        "label": "O nás",
+        "href": "/onas"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      }
     ],
     "ctaText": "Rezervovat",
     "ctaHref": "#rezervace",
-    "sticky": true,
-    "transparent": true,
-    "hamburgerBreakpoint": 600
+    "transparent": true
   },
-
   "hero": {
     "title": "ATELIER",
     "subtitle": "Klasické pánské holičství v centru",
@@ -24,20 +29,24 @@
     "ctaHref": "#rezervace",
     "backgroundImage": "/templates/barber-02/images/hero.jpg",
     "hoursLines": [
-      { "label": "Po–Pá", "value": "9:00 – 18:00" },
-      { "label": "So",    "value": "9:00 – 14:00" }
+      {
+        "label": "Po–Pá",
+        "value": "9:00 – 18:00"
+      },
+      {
+        "label": "So",
+        "value": "9:00 – 14:00"
+      }
     ],
     "address": "Ukázková 123, Praha 1",
     "scrollIndicator": true
   },
-
   "about": {
     "title": "O nás",
     "lead": "Klasické holičství v centru s důrazem na řemeslné provedení každého střihu a holení.",
     "body": "Atelier vznikl ze společné vášně pro tradici holičského řemesla a moderní pánskou péči. Pracujeme v intimním prostředí s vlastní atmosférou — koženými křesly a klidem, který odlišuje rituál od běžného střihu. Každý zákazník u nás dostává tolik času, kolik si zaslouží.",
     "image": "/templates/barber-02/images/about.jpg"
   },
-
   "pricing": {
     "title": "Ceník",
     "backgroundImage": "/templates/barber-02/images/pricing-bg.jpg",
@@ -45,49 +54,113 @@
       {
         "name": "Vlasy",
         "items": [
-          { "name": "Demo služba A1", "price": "880 Kč" },
-          { "name": "Demo služba A2", "price": "740 Kč" },
-          { "name": "Demo služba A3", "price": "560 Kč" },
-          { "name": "Demo služba A4", "price": "320 Kč" }
+          {
+            "name": "Demo služba A1",
+            "price": "880 Kč"
+          },
+          {
+            "name": "Demo služba A2",
+            "price": "740 Kč"
+          },
+          {
+            "name": "Demo služba A3",
+            "price": "560 Kč"
+          },
+          {
+            "name": "Demo služba A4",
+            "price": "320 Kč"
+          }
         ]
       },
       {
         "name": "Holení a vousy",
         "items": [
-          { "name": "Demo služba B1", "price": "510 Kč" },
-          { "name": "Demo služba B2", "price": "430 Kč" },
-          { "name": "Demo služba B3", "price": "370 Kč" }
+          {
+            "name": "Demo služba B1",
+            "price": "510 Kč"
+          },
+          {
+            "name": "Demo služba B2",
+            "price": "430 Kč"
+          },
+          {
+            "name": "Demo služba B3",
+            "price": "370 Kč"
+          }
         ]
       },
       {
         "name": "Balíčky",
         "items": [
-          { "name": "Demo balíček C1", "price": "1 380 Kč" },
-          { "name": "Demo balíček C2", "price": "1 090 Kč" },
-          { "name": "Demo balíček C3", "price": "920 Kč" }
+          {
+            "name": "Demo balíček C1",
+            "price": "1 380 Kč"
+          },
+          {
+            "name": "Demo balíček C2",
+            "price": "1 090 Kč"
+          },
+          {
+            "name": "Demo balíček C3",
+            "price": "920 Kč"
+          }
         ]
       }
     ]
   },
-
   "gallery": {
     "title": "Galerie",
     "images": [
-      { "url": "/templates/barber-02/images/gallery-01.jpg", "alt": "Demo galerie 1" },
-      { "url": "/templates/barber-02/images/gallery-02.jpg", "alt": "Demo galerie 2" },
-      { "url": "/templates/barber-02/images/gallery-03.jpg", "alt": "Demo galerie 3" },
-      { "url": "/templates/barber-02/images/gallery-04.jpg", "alt": "Demo galerie 4" },
-      { "url": "/templates/barber-02/images/gallery-05.jpg", "alt": "Demo galerie 5" },
-      { "url": "/templates/barber-02/images/gallery-06.jpg", "alt": "Demo galerie 6" },
-      { "url": "/templates/barber-02/images/gallery-07.jpg", "alt": "Demo galerie 7" },
-      { "url": "/templates/barber-02/images/gallery-08.jpg", "alt": "Demo galerie 8" },
-      { "url": "/templates/barber-02/images/gallery-09.jpg", "alt": "Demo galerie 9" },
-      { "url": "/templates/barber-02/images/gallery-10.jpg", "alt": "Demo galerie 10" },
-      { "url": "/templates/barber-02/images/gallery-11.jpg", "alt": "Demo galerie 11" },
-      { "url": "/templates/barber-02/images/gallery-12.jpg", "alt": "Demo galerie 12" }
+      {
+        "url": "/templates/barber-02/images/gallery-01.jpg",
+        "alt": "Demo galerie 1"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-02.jpg",
+        "alt": "Demo galerie 2"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-03.jpg",
+        "alt": "Demo galerie 3"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-04.jpg",
+        "alt": "Demo galerie 4"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-05.jpg",
+        "alt": "Demo galerie 5"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-06.jpg",
+        "alt": "Demo galerie 6"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-07.jpg",
+        "alt": "Demo galerie 7"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-08.jpg",
+        "alt": "Demo galerie 8"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-09.jpg",
+        "alt": "Demo galerie 9"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-10.jpg",
+        "alt": "Demo galerie 10"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-11.jpg",
+        "alt": "Demo galerie 11"
+      },
+      {
+        "url": "/templates/barber-02/images/gallery-12.jpg",
+        "alt": "Demo galerie 12"
+      }
     ]
   },
-
   "footer": {
     "siteName": "Holičství Atelier",
     "logoUrl": "/templates/barber-02/logo.svg",
@@ -95,15 +168,38 @@
     "phone": "+420 704 123 456",
     "email": "info@demo.cz",
     "socials": [
-      { "label": "Instagram", "href": "https://instagram.com/demo" },
-      { "label": "Facebook",  "href": "https://facebook.com/demo" }
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      }
     ],
     "hoursTitle": "Otevírací doba",
     "hours": [
-      { "day": "Pondělí – Pátek", "value": "9:00 – 18:00" },
-      { "day": "Sobota",          "value": "9:00 – 14:00" },
-      { "day": "Neděle",          "value": "Zavřeno" }
+      {
+        "day": "Pondělí – Pátek",
+        "value": "9:00 – 18:00"
+      },
+      {
+        "day": "Sobota",
+        "value": "9:00 – 14:00"
+      },
+      {
+        "day": "Neděle",
+        "value": "Zavřeno"
+      }
     ],
     "legal": "Holičství Atelier s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte se u nás",
+      "subtitle": "Vyberte službu, barbera a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

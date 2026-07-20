@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "reality-03",
-  "name": "Demo Reality Škutovi",
+  "name": "Reality Dvořák",
   "industry": "reality",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,23 +9,71 @@
   "description": "Rodinná realitní kancelář — bílé pozadí #ffffff, navy #132538 brand, ochre #e38a6a akcent, light-blue #dfedf5 sekce; sticky navbar + tel + tmavé CTA, video hero + stats + duo bio, 4 service karty, listings slider, recenze, blog, footer makléři. Inspirováno realityskutovi.cz.",
   "sectionOrderNote": "Navbar → Hero → Services → Listings → Testimonials → Blog → Footer",
   "skippedSections": [
-    { "pos": 3,  "name": "About",      "reason": "About je součástí hero sekce (video bg + Marcel+Helena bio + stats)" },
-    { "pos": 5,  "name": "Gallery",    "reason": "Originál nemá klasickou galerii — fotky jsou v hero a listings" },
-    { "pos": 6,  "name": "Gallery",    "reason": "Skeleton gallery slot 2 — přeskočen, listings hero nahrazuje" },
-    { "pos": 7,  "name": "Pricing",    "reason": "Ceník není na homepage originálu" },
-    { "pos": 8,  "name": "Contact",    "reason": "Kontakt je v footeru jako makléřské kontakty, ne jako samostatná sekce" },
-    { "pos": 9,  "name": "Team",       "reason": "Tým (Marcel+Helena) je součástí hero sekce" },
-    { "pos": 10, "name": "FAQ",        "reason": "FAQ není v homepage flow originálu" },
-    { "pos": 11, "name": "CTA",        "reason": "CTA není jako samostatná sekce — je inline v hero i service kartách" },
-    { "pos": 12, "name": "Map",        "reason": "Mapa není na homepage originálu" }
+    {
+      "pos": 3,
+      "name": "About",
+      "reason": "About je součástí hero sekce (video bg + Marcel+Helena bio + stats)"
+    },
+    {
+      "pos": 5,
+      "name": "Gallery",
+      "reason": "Originál nemá klasickou galerii — fotky jsou v hero a listings"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "Skeleton gallery slot 2 — přeskočen, listings hero nahrazuje"
+    },
+    {
+      "pos": 7,
+      "name": "Pricing",
+      "reason": "Ceník není na homepage originálu"
+    },
+    {
+      "pos": 8,
+      "name": "Contact",
+      "reason": "Kontakt je v footeru jako makléřské kontakty, ne jako samostatná sekce"
+    },
+    {
+      "pos": 9,
+      "name": "Team",
+      "reason": "Tým (Marcel+Helena) je součástí hero sekce"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není v homepage flow originálu"
+    },
+    {
+      "pos": 11,
+      "name": "CTA",
+      "reason": "CTA není jako samostatná sekce — je inline v hero i service kartách"
+    },
+    {
+      "pos": 12,
+      "name": "Map",
+      "reason": "Mapa není na homepage originálu"
+    }
   ],
   "extraSections": [
-    { "name": "Listings slider", "type": "promo", "variant": "reality-03-listings", "reason": "Real-estate specifická sekce: slider nemovitostí 'Novinky v nabídce'" },
-    { "name": "Blog preview", "type": "blog-preview", "variant": "reality-03-blog", "reason": "3 nejnovější články z blogu — součást homepage flow originálu" }
+    {
+      "name": "Listings slider",
+      "type": "promo",
+      "variant": "reality-03-listings",
+      "reason": "Real-estate specifická sekce: slider nemovitostí 'Novinky v nabídce'"
+    },
+    {
+      "name": "Blog preview",
+      "type": "blog-preview",
+      "variant": "reality-03-blog",
+      "reason": "3 nejnovější články z blogu — součást homepage flow originálu"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -33,13 +81,41 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "reality-03-navbar",        "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-reality-03-video",    "contentRef": "hero" },
-        { "type": "services",     "variant": "reality-03-services-4grid","contentRef": "services" },
-        { "type": "promo",        "variant": "reality-03-listings",      "contentRef": "listings" },
-        { "type": "testimonials", "variant": "reality-03-testimonials",  "contentRef": "testimonials" },
-        { "type": "blog-preview", "variant": "reality-03-blog",          "contentRef": "blog" },
-        { "type": "footer",       "variant": "reality-03-footer",        "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "reality-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-reality-03-video",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "reality-03-services-4grid",
+          "contentRef": "services"
+        },
+        {
+          "type": "promo",
+          "variant": "reality-03-listings",
+          "contentRef": "listings"
+        },
+        {
+          "type": "testimonials",
+          "variant": "reality-03-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "reality-03-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "reality-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -48,10 +124,26 @@
       "seoTitleKey": "pages.nabidka-prodej.seoTitle",
       "seoDescriptionKey": "pages.nabidka-prodej.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "reality-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",   "variant": "hero-centered",      "contentRef": "pages.nabidka-prodej.hero" },
-        { "type": "promo",  "variant": "reality-03-listings","contentRef": "listings" },
-        { "type": "footer", "variant": "reality-03-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "reality-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.nabidka-prodej.hero"
+        },
+        {
+          "type": "promo",
+          "variant": "reality-03-listings",
+          "contentRef": "listings"
+        },
+        {
+          "type": "footer",
+          "variant": "reality-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -60,10 +152,26 @@
       "seoTitleKey": "pages.nabidka-pronajem.seoTitle",
       "seoDescriptionKey": "pages.nabidka-pronajem.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "reality-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",   "variant": "hero-centered",      "contentRef": "pages.nabidka-pronajem.hero" },
-        { "type": "promo",  "variant": "reality-03-listings","contentRef": "listings" },
-        { "type": "footer", "variant": "reality-03-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "reality-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.nabidka-pronajem.hero"
+        },
+        {
+          "type": "promo",
+          "variant": "reality-03-listings",
+          "contentRef": "listings"
+        },
+        {
+          "type": "footer",
+          "variant": "reality-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -72,9 +180,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "reality-03-navbar", "contentRef": "navbar" },
-        { "type": "contact", "variant": "default",           "contentRef": "contact" },
-        { "type": "footer",  "variant": "reality-03-footer", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "reality-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "default",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "reality-03-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

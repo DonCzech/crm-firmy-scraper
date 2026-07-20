@@ -9,17 +9,43 @@
   "description": "Nehtové studio Wix Thunderbolt — minimalistický bílý navbar s wine #6b3f38 serif wordmark a outline 'Objednat se' CTA, tmavá hero s číslovanými sekcemi (01–04), 2-col about, ceník/recenze/kontakty s číselným prefixem. Inspirováno celebratesalon.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Promo banner → (02) Ceník → (03) Recenze → Galerie → (04) Kontakty → Footer (dle celebratesalon.cz)",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",     "reason": "Ceník (02) je řešen variantou services/nails-02-pricing — editoriální 2-col seznam s tečkovaným spojem, layout odpovídá pricing skeleton roli" },
-    { "pos": 7,  "name": "Team",        "reason": "Wix originál nezveřejňuje jména/foto týmu — homepage je o studiu, ne lidech" },
-    { "pos": 9,  "name": "Booking/CTA", "reason": "Rezervace řešena přes externí systém (alteg.io na originálu, demo #kontakt na Kontakty sekci)" },
-    { "pos": 11, "name": "FAQ",         "reason": "Originál celebratesalon.cz nemá FAQ sekci na homepage" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník (02) je řešen variantou services/nails-02-pricing — editoriální 2-col seznam s tečkovaným spojem, layout odpovídá pricing skeleton roli"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Wix originál nezveřejňuje jména/foto týmu — homepage je o studiu, ne lidech"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "Rezervace řešena přes externí systém (alteg.io na originálu, demo #kontakt na Kontakty sekci)"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál celebratesalon.cz nemá FAQ sekci na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "name": "Editoriální banner", "reason": "Originál má scrollující marquee 'Pro nové zákazníky 10% sleva' pod navbarem — předěláno na klean editoriální banner (label/message/CTA) pro profesionální výraz" }
+    {
+      "type": "promo",
+      "name": "Editoriální banner",
+      "reason": "Originál má scrollující marquee 'Pro nové zákazníky 10% sleva' pod navbarem — předěláno na klean editoriální banner (label/message/CTA) pro profesionální výraz"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -27,15 +53,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar", "variant": "nails-02-navbar", "contentRef": "navbar" },
-        { "type": "hero",   "variant": "nails-02-hero",   "contentRef": "hero" },
-        { "type": "about",  "variant": "nails-02-about",  "contentRef": "about" },
-        { "type": "promo",    "variant": "nails-02-marquee", "contentRef": "promo" },
-        { "type": "services",     "variant": "nails-02-pricing",      "contentRef": "pricing" },
-        { "type": "testimonials", "variant": "nails-02-testimonials", "contentRef": "testimonials" },
-        { "type": "gallery",      "variant": "nails-02-gallery",      "contentRef": "gallery" },
-        { "type": "contact",      "variant": "nails-02-contact",      "contentRef": "contact" },
-        { "type": "footer",       "variant": "nails-02-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "nails-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "nails-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "nails-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "nails-02-marquee",
+          "contentRef": "promo"
+        },
+        {
+          "type": "services",
+          "variant": "nails-02-pricing",
+          "contentRef": "pricing"
+        },
+        {
+          "type": "testimonials",
+          "variant": "nails-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "gallery",
+          "variant": "nails-02-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "nails-02",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "nails-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "nails-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

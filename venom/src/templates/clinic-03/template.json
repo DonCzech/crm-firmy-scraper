@@ -1,27 +1,61 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "clinic-03",
-  "name": "Demo Yes Visage",
+  "name": "Diamond Look",
   "industry": "clinic",
   "skeleton": "service-personal",
   "version": "0.1.0",
   "baseTemplate": null,
-  "description": "Kosmetická klinika estetické medicíny — bílý 2-řádkový navbar s gold (#97855F) CTA, fullbleed hero carousel s dark overlay, kategorie zákroků carousel, proměny klientů galerie, tým lékařů, newsletter CTA, patička. Inspirováno yesvisage.cz.",
+  "description": "Kosmetická klinika estetické medicíny — bílý 2-řádkový navbar s gold (#97855F) CTA, fullbleed hero carousel s dark overlay, kategorie zákroků carousel, proměny klientů galerie, tým lékařů, newsletter CTA, patička. Inspirováno diamond-look.cz.",
   "sectionOrderNote": "Navbar → Hero → Services → Gallery → About → Promo → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Testimonials", "reason": "Yesvisage nemá klasické textové recenze na homepage — proměny klientů jsou galerie, slavné tváře jsou v About" },
-    { "pos": 5,  "name": "Pricing",      "reason": "Ceník je na samostatné stránce; homepage jen odkazuje přes CTA tlačítko" },
-    { "pos": 7,  "name": "Team",         "reason": "Tým lékařů je integrován do About sekce, nikoliv jako samostatná sekce" },
-    { "pos": 9,  "name": "Booking/CTA",  "reason": "CTA je součástí Promo sekce (newsletter + ocenění); žádná samostatná rezervační sekce" },
-    { "pos": 8,  "name": "Testimonials",  "reason": "Yesvisage nemá klasické textové recenze na homepage — proměny klientů jsou galerie, slavné tváře jsou v About sekci" },
-    { "pos": 11, "name": "FAQ",          "reason": "Originál nemá FAQ sekci na homepage" }
+    {
+      "pos": 4,
+      "name": "Testimonials",
+      "reason": "Yesvisage nemá klasické textové recenze na homepage — proměny klientů jsou galerie, slavné tváře jsou v About"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je na samostatné stránce; homepage jen odkazuje přes CTA tlačítko"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Tým lékařů je integrován do About sekce, nikoliv jako samostatná sekce"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "CTA je součástí Promo sekce (newsletter + ocenění); žádná samostatná rezervační sekce"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Yesvisage nemá klasické textové recenze na homepage — proměny klientů jsou galerie, slavné tváře jsou v About sekci"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál nemá FAQ sekci na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "name": "Newsletter + ocenění", "reason": "Yesvisage má výraznou promo sekci s newsletter formulářem a oceněními Superbrand" }
+    {
+      "type": "promo",
+      "name": "Newsletter + ocenění",
+      "reason": "Yesvisage má výraznou promo sekci s newsletter formulářem a oceněními Superbrand"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,14 +63,51 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",   "variant": "clinic-03-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "clinic-03-hero",     "contentRef": "hero" },
-        { "type": "services", "variant": "clinic-03-services", "contentRef": "services" },
-        { "type": "gallery",  "variant": "clinic-03-gallery",  "contentRef": "gallery" },
-        { "type": "about",    "variant": "clinic-03-about",    "contentRef": "about" },
-        { "type": "promo",    "variant": "clinic-03-promo",    "contentRef": "promo" },
-        { "type": "contact",  "variant": "clinic-03-contact",  "contentRef": "contact" },
-        { "type": "footer",   "variant": "clinic-03-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "clinic-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "clinic-03-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "clinic-03-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "gallery",
+          "variant": "clinic-03-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "about",
+          "variant": "clinic-03-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "clinic-03-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "clinic-03",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "clinic-03-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "clinic-03-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

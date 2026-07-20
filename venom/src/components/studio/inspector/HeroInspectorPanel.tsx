@@ -590,7 +590,7 @@ function SlideChips({
           className={clsx(
             "shrink-0 rounded px-2.5 py-1 text-[11px] font-medium transition-colors",
             i === activeIdx
-              ? "bg-[var(--vs-accent)] text-white"
+              ? "bg-[var(--vs-accent)] text-[var(--vs-text)]"
               : "bg-[var(--vs-bg-soft)] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] border border-[var(--vs-border)]"
           )}
         >
@@ -772,7 +772,7 @@ export function HeroInspectorPanel({ section, state }: { section: Section; state
           <button
             type="button"
             onClick={() => { commit(); studio.setSelection(null); }}
-            className="rounded-lg bg-[var(--vs-accent)] px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-hi)]"
+            className="rounded-lg bg-[var(--vs-accent)] px-4 py-1.5 text-[12px] font-semibold text-[var(--vs-text)] hover:bg-[var(--vs-accent-hi)]"
           >
             Hotovo
           </button>

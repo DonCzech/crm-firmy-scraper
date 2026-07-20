@@ -125,7 +125,7 @@ for (const p of PAGES) {
     await page.waitForTimeout(1000);
   } catch {}
 
-  let html = await page.content();
+  const html = await page.content();
 
   // Collect all wixstatic image URLs
   const imgUrls = [...new Set(html.match(/https:\/\/static\.wixstatic\.com\/media\/[^"' )\n]+/g) || [])];

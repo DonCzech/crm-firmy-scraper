@@ -118,7 +118,7 @@ const record = (label, fn) => fn().then(() => ok(label)).catch((e) => { fail(`${
 
   const baseHost = new URL(BASE_URL).hostname;
   await ctx.addCookies([{
-    name: `venom_access_${slug}`,
+    name: `webero_access_${slug}`,
     value: accessToken,
     domain: baseHost,
     path: "/",

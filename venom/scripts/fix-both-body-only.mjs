@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
-const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const DB_URL = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: DB_URL });
 
 function extractBody(fullHtml) {
@@ -21,7 +21,7 @@ function extractBody(fullHtml) {
 
 // ─── PERFECTCATERING ─────────────────────────────────────────────────────────
 {
-  let fullHtml = fs.readFileSync(path.join(ROOT, 'public/clones/perfectcatering/pages/home.html'), 'utf8');
+  const fullHtml = fs.readFileSync(path.join(ROOT, 'public/clones/perfectcatering/pages/home.html'), 'utf8');
   let body = extractBody(fullHtml);
 
   // Prepend style overrides (mobile menu closed, scroll-reveal visible, swiper fix)
@@ -81,7 +81,7 @@ function extractBody(fullHtml) {
 
 // ─── FREJA ───────────────────────────────────────────────────────────────────
 {
-  let fullHtml = fs.readFileSync(path.join(ROOT, 'public/clones/freja/pages/home.html'), 'utf8');
+  const fullHtml = fs.readFileSync(path.join(ROOT, 'public/clones/freja/pages/home.html'), 'utf8');
   let body = extractBody(fullHtml);
 
   // Venom overrides at top of body

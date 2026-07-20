@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "tattoo-01",
-  "name": "Demo TRIBO Studio",
+  "name": "Inkwell Studio",
   "industry": "tattoo",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,16 +9,42 @@
   "description": "Tetovací a piercing studio — bílý navbar, fullbleed černý hero, 2-col split služby (tattoo + piercing), 4-col galerie, slider referencí, ikony zásad, kontakt. Inspirováno tribo.cz.",
   "sectionOrderNote": "Navbar → Hero → Intro → Services Tattoo → Services Piercing → Gallery → Testimonials → Principles → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Services",     "reason": "tattoo/piercing služby jsou implementovány jako about sekce (2-col split) — samostatný services blok originál nepoužívá" },
-    { "pos": 5,  "name": "Pricing",      "reason": "tribo.cz má ceník na podstránce /cenik, ne na homepage" },
-    { "pos": 6,  "name": "Video",        "reason": "YouTube video sekce (fullscreen) je vynechána — engine používá galerii místo videa" },
-    { "pos": 7,  "name": "Team",         "reason": "tribo.cz nemá team sekci na homepage — tatéři jsou na podstránce /tattoo" },
-    { "pos": 9,  "name": "Booking/CTA",  "reason": "Rezervace je integrovaná přímo v navbar a hero CTA tlačítkách" },
-    { "pos": 11, "name": "FAQ",          "reason": "tribo.cz nemá FAQ sekci na homepage" }
+    {
+      "pos": 4,
+      "name": "Services",
+      "reason": "tattoo/piercing služby jsou implementovány jako about sekce (2-col split) — samostatný services blok originál nepoužívá"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "tribo.cz má ceník na podstránce /cenik, ne na homepage"
+    },
+    {
+      "pos": 6,
+      "name": "Video",
+      "reason": "YouTube video sekce (fullscreen) je vynechána — engine používá galerii místo videa"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "tribo.cz nemá team sekci na homepage — tatéři jsou na podstránce /tattoo"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "Rezervace je integrovaná přímo v navbar a hero CTA tlačítkách"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "tribo.cz nemá FAQ sekci na homepage"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -26,20 +52,71 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "tattoo-01-navbar",              "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-tattoo-01-dark",           "contentRef": "hero" },
-        { "type": "about",        "variant": "tattoo-01-intro",               "contentRef": "intro" },
-        { "type": "about",        "variant": "tattoo-01-services-tattoo",     "contentRef": "servicesTattoo" },
-        { "type": "about",        "variant": "tattoo-01-services-piercing",   "contentRef": "servicesPiercing" },
-        { "type": "gallery",      "variant": "tattoo-01-gallery",             "contentRef": "gallery" },
-        { "type": "testimonials", "variant": "tattoo-01-testimonials",        "contentRef": "testimonials" },
-        { "type": "about",        "variant": "tattoo-01-principles",          "contentRef": "principles" },
-        { "type": "contact",      "variant": "tattoo-01-contact",             "contentRef": "contact" },
-        { "type": "footer",       "variant": "tattoo-01-footer",              "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "tattoo-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-tattoo-01-dark",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "tattoo-01-intro",
+          "contentRef": "intro"
+        },
+        {
+          "type": "about",
+          "variant": "tattoo-01-services-tattoo",
+          "contentRef": "servicesTattoo"
+        },
+        {
+          "type": "about",
+          "variant": "tattoo-01-services-piercing",
+          "contentRef": "servicesPiercing"
+        },
+        {
+          "type": "gallery",
+          "variant": "tattoo-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "tattoo-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "about",
+          "variant": "tattoo-01-principles",
+          "contentRef": "principles"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "tattoo-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "tattoo-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "tattoo-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ]
 }

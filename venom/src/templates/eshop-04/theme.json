@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#6883ba",
+    "secondary":  "#161616",
+    "accent":     "#fdbcb4",
+    "background": "#ffffff",
+    "surface":    "#f9f9f9",
+    "text":       "#161616",
+    "textMuted":  "#6f6f6f",
+    "border":     "#e8e8e8"
+  },
+  "typography": {
+    "fontHeading": "'Raleway', 'Segoe UI', Arial, sans-serif",
+    "fontBody":    "'Raleway', 'Segoe UI', Arial, sans-serif"
+  }
+}

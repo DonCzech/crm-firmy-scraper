@@ -17,7 +17,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { useGenericInlineEditor } from "./GenericInlineEditorContext";
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 
 function SortableRow({
   id,
@@ -99,7 +99,13 @@ export function GenericSortableList<T extends Record<string, unknown>>({
   }
 
   if (!isAdmin) {
-    return <>{items.map((item, i) => children(item, i, null))}</>;
+    return (
+      <>
+        {items.map((item, i) => (
+          <Fragment key={i}>{children(item, i, null)}</Fragment>
+        ))}
+      </>
+    );
   }
 
   return (

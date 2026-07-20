@@ -1,0 +1,92 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-18",
+  "name": "Oktan",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "autodily",
+    "automoto",
+    "nahradni-dily",
+    "autokelly-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Autokelly.cz sortimentní DNA (autodíly a autopříslušenství: oleje a náplně, autobaterie, univerzální díly, autopříslušenství, autokosmetika, pneumatiky a disky, vybavení dílny) povýšená na awwwards identitu Oktan — carbon & signal. Karbonová čerň #131417/#0b0c0e (topbar, navigační pás, wordmark), signální žlutá #ffd400 (skosený pruh logotypu, KATALOG tab, CTA, badge košíku), papírový podklad #f5f5f2, zelená #1f9d55 jen skladovost, červená #e03131 jen slevy (autodíly konvence). Archivo expanded uppercase (wordmark OKTAN se žlutým skoseným pruhem, nadpisy, taby) + Inter. Header: karbonový topbar (USP doprava zdarma + výdej na pobočkách | Pobočky / Servisní síť / Kontakt + zákaznická linka) → bílý hlavní řádek: wordmark + tagline „díly bez kompromisů“ | hranatý pill search se žlutým tlačítkem | Moje garáž (výběr vozidla) | Přihlášení | košík s žlutým badge + mezisoučet → karbonový navigační pás: žlutý tab KATALOG (grid ikona + chevron) s mega menu DEK-stylu (skupiny s line ikonami + podkategorie s počty, tmavý aside Rádce Oktan, žlutý promo strip), taby Akce / Novinky / kategorie / Výprodej, vpravo Pro dílnu + Tipy a rady. Pop-up košík: žlutý pruh PŘIDÁNO DO KOŠÍKU, progress do dopravy zdarma 1 500 Kč, karbonová CTA.",
+  "skippedSections": [
+    { "pos": 3, "name": "Categories", "reason": "Autokelly.cz nemá na homepage dlaždice kategorií — katalog řeší žlutý tab KATALOG s mega menu v navbaru + rychlé odkazy pod hero sliderem." },
+    { "pos": 4, "name": "Featured products", "reason": "Nahrazeno čtyřmi AK-specifickými produktovými pásy (featured-products eshop-18-products v extraSections)." },
+    { "pos": 5, "name": "About", "reason": "Autokelly.cz homepage nemá about sekci — brand komunikují promo dlaždice (leták, kanál) a síť poboček." },
+    { "pos": 6, "name": "Services", "reason": "Autodíly eshop nemá služby na homepage — servisní síť nese promo sekce eshop-18-network." },
+    { "pos": 7, "name": "Testimonials", "reason": "Autokelly.cz nemá recenze na homepage." },
+    { "pos": 8, "name": "CTA/Newsletter", "reason": "Autokelly.cz nemá newsletter pás — ekvivalentem je dlaždice Kanál Oktan v hero sekci." },
+    { "pos": 9, "name": "Locations", "reason": "Pobočky řeší promo sekce eshop-18-network (mapa ČR + zákaznická linka) — plnohodnotná náhrada." },
+    { "pos": 10, "name": "FAQ", "reason": "Autokelly.cz homepage nemá FAQ — poradenství nese Rádce Oktan v mega menu a Tipy a rady ve footeru." }
+  ],
+  "extraSections": [
+    { "type": "featured-products", "variant": "eshop-18-products", "reason": "Probíhající akce — hlavní produktový pás autokelly.cz homepage (flags.featured, kategorie akce)." },
+    { "type": "featured-products", "variant": "eshop-18-products", "reason": "Novinky — druhý pás autokelly.cz homepage (categorySlug=novinky)." },
+    { "type": "featured-products", "variant": "eshop-18-products", "reason": "Mohli byste potřebovat — třetí pás autokelly.cz homepage (categorySlug=prislusenstvi)." },
+    { "type": "featured-products", "variant": "eshop-18-products", "reason": "Výprodej — čtvrtý pás autokelly.cz homepage (categorySlug=vyprodej)." },
+    { "type": "promo", "variant": "eshop-18-network", "reason": "Prodejní a servisní síť + zákaznická linka + registrace — AK sidebar povýšený na sekci (nahrazuje skeleton Locations)." }
+  ],
+  "sectionOrderNote": "Homepage se staví postupně (sekce po sekci dle Auto Kelly DNA: hero promo banner + rychlé odkazy dlaždice, probíhající akce produktový pás, novinky pás, mohli byste potřebovat pás, výprodej pás, síť poboček + zákaznická linka panel, footer). Zatím: Navbar.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-18-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-18-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-18-products",
+          "contentRef": "actionProducts"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-18-products",
+          "contentRef": "newProducts"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-18-products",
+          "contentRef": "handyProducts"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-18-products",
+          "contentRef": "saleProducts"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-18-network",
+          "contentRef": "network"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-18-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ]
+}

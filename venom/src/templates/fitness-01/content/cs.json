@@ -3,16 +3,25 @@
     "siteName": "Adam Vítek",
     "siteTagline": "Fyzio · Osobní trénink",
     "logoUrl": "",
-    "phone": "728 402 165",
     "ctaText": "První konzultace zdarma",
     "ctaHref": "/kontakt",
-    "facebookUrl": "https://facebook.com/adamvitek.studio",
-    "instagramUrl": "https://instagram.com/adamvitek.studio",
     "links": [
-      { "label": "Ceník",    "href": "/cenik" },
-      { "label": "Recenze",  "href": "/recenze" },
-      { "label": "FAQ",      "href": "/faq" },
-      { "label": "Kontakt",  "href": "/kontakt" }
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Recenze",
+        "href": "/recenze"
+      },
+      {
+        "label": "FAQ",
+        "href": "/faq"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
@@ -33,18 +42,27 @@
     "badgeHref": "/onas",
     "rating": "5.0",
     "ratingCount": "84 recenzí",
-    "benefitsHeading": "Připojte se ke klientům, kteří se vrátili k pohybu",
-    "benefitsRating": "5.0",
-    "benefitsRatingCount": "84 spokojených klientů",
     "benefitsAvatars": [
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
       "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=120&q=80",
       "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80"
     ],
     "benefitsItems": [
-      { "icon": "dumbbell", "title": "Silový trénink",     "description": "Osobní i online plány přizpůsobené vašemu tempu" },
-      { "icon": "calendar", "title": "Rezervace 24/7",      "description": "Termíny konzultace i tréninků jedním klikem" },
-      { "icon": "chat",     "title": "Vždy na příjmu",      "description": "Otázky mezi tréninky? Napište a odpovím do 24 h" }
+      {
+        "icon": "dumbbell",
+        "title": "Silový trénink",
+        "description": "Osobní i online plány přizpůsobené vašemu tempu"
+      },
+      {
+        "icon": "calendar",
+        "title": "Rezervace 24/7",
+        "description": "Termíny konzultace i tréninků jedním klikem"
+      },
+      {
+        "icon": "chat",
+        "title": "Vždy na příjmu",
+        "description": "Otázky mezi tréninky? Napište a odpovím do 24 h"
+      }
     ]
   },
   "about": {
@@ -65,9 +83,21 @@
     "ctaText": "Rezervovat konzultaci",
     "ctaHref": "/kontakt",
     "stats": [
-      { "number": "8",   "suffix": "+",    "label": "let praxe ve fyzioterapii" },
-      { "number": "230", "suffix": "+",    "label": "klientů zpět k pohybu" },
-      { "number": "1",   "suffix": " na 1", "label": "individuální přístup, žádné šablony" }
+      {
+        "number": "8",
+        "suffix": "+",
+        "label": "let praxe ve fyzioterapii"
+      },
+      {
+        "number": "230",
+        "suffix": "+",
+        "label": "klientů zpět k pohybu"
+      },
+      {
+        "number": "1",
+        "suffix": " na 1",
+        "label": "individuální přístup, žádné šablony"
+      }
     ]
   },
   "services": {
@@ -297,15 +327,44 @@
     "socialHeading": "Sledujte mě",
     "copyright": "© 2026 Studio Vítek. Všechna práva vyhrazena.",
     "legalLinks": [
-      { "label": "Ochrana osobních údajů", "href": "/gdpr" },
-      { "label": "Obchodní podmínky",      "href": "/obchodni-podminky" }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/gdpr"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "/obchodni-podminky"
+      }
     ],
     "links": [
-      { "label": "Domů",    "href": "/" },
-      { "label": "Ceník",   "href": "/cenik" },
-      { "label": "Recenze", "href": "/recenze" },
-      { "label": "FAQ",     "href": "/faq" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Recenze",
+        "href": "/recenze"
+      },
+      {
+        "label": "FAQ",
+        "href": "/faq"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si trénink",
+      "subtitle": "Vyberte trénink, trenéra a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

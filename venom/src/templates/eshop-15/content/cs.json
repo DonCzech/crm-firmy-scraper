@@ -1,0 +1,1332 @@
+{
+  "siteName": "Apatyka",
+  "seo": {
+    "title": "Apatyka — zdraví s úsměvem",
+    "description": "Vitamíny, léky bez předpisu, dermokosmetika, výživa pro mámu a dítě, sport i drogerie. Doprava zdarma nad 1 499 Kč, expedice do 24 hodin."
+  },
+  "navbar": {
+    "siteName": "Apatyka",
+    "logoUrl": "",
+    "tagline": "zdraví s úsměvem",
+    "ratingLine": "4,9/5 podle více než 40 000 ověřených recenzí.",
+    "searchPlaceholder": "Hledejte na Apatyka.cz",
+    "topLinks": [
+      {
+        "label": "Prodejny",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Poradna",
+        "href": "/poradna"
+      }
+    ],
+    "pro": {
+      "label": "Chci apatyka",
+      "badge": "PRO",
+      "href": "/klub"
+    },
+    "utility": {
+      "cartLabel": "Košík",
+      "accountLabel": "Moje Apatyka",
+      "loginLabel": "Přihlásit"
+    },
+    "megaAllLabel": "Zobrazit vše v kategorii",
+    "promo": {
+      "heading": "Dnešní akční cena",
+      "brand": "Vitala",
+      "title": "Hořčík Bisglycinát + B6, 180 kapslí",
+      "price": "549 Kč",
+      "proPrice": "439 Kč s apatyka PRO",
+      "ratingLabel": "NutraRating",
+      "rating": "A+",
+      "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=560&h=560&fit=crop&auto=format&q=75",
+      "href": "/obchod"
+    },
+    "categories": [
+      {
+        "label": "Dle cíle",
+        "slug": "dle-cile",
+        "tone": "pink",
+        "children": [
+          {
+            "label": "Imunita a obranyschopnost",
+            "slug": "imunita",
+            "items": [
+              {
+                "label": "Vitamín C",
+                "slug": "vitamin-c"
+              },
+              {
+                "label": "Vitamín D3",
+                "slug": "vitamin-d3"
+              },
+              {
+                "label": "Zinek",
+                "slug": "zinek"
+              },
+              {
+                "label": "Echinacea",
+                "slug": "echinacea"
+              },
+              {
+                "label": "Hlíva ústřičná",
+                "slug": "hliva-ustricna"
+              },
+              {
+                "label": "Rakytník",
+                "slug": "rakytnik"
+              }
+            ]
+          },
+          {
+            "label": "Spánek a klid",
+            "slug": "spanek-a-klid",
+            "items": [
+              {
+                "label": "Melatonin",
+                "slug": "melatonin"
+              },
+              {
+                "label": "Hořčík",
+                "slug": "horcik"
+              },
+              {
+                "label": "Meduňka",
+                "slug": "medunka"
+              },
+              {
+                "label": "Levandule",
+                "slug": "levandule"
+              },
+              {
+                "label": "Ashwagandha",
+                "slug": "ashwagandha"
+              }
+            ]
+          },
+          {
+            "label": "Energie a vitalita",
+            "slug": "energie-a-vitalita",
+            "items": [
+              {
+                "label": "B-komplex",
+                "slug": "b-komplex"
+              },
+              {
+                "label": "Ženšen",
+                "slug": "zensen"
+              },
+              {
+                "label": "Guarana",
+                "slug": "guarana"
+              },
+              {
+                "label": "Železo",
+                "slug": "zelezo"
+              },
+              {
+                "label": "Koenzym Q10",
+                "slug": "koenzym-q10"
+              }
+            ]
+          },
+          {
+            "label": "Zdravé trávení",
+            "slug": "zdrave-traveni",
+            "items": [
+              {
+                "label": "Probiotika",
+                "slug": "probiotika"
+              },
+              {
+                "label": "Vláknina",
+                "slug": "vlaknina"
+              },
+              {
+                "label": "Trávicí enzymy",
+                "slug": "travici-enzymy"
+              },
+              {
+                "label": "Ostropestřec",
+                "slug": "ostropestrec"
+              }
+            ]
+          },
+          {
+            "label": "Krása a anti-aging",
+            "slug": "krasa",
+            "items": [
+              {
+                "label": "Kolagen",
+                "slug": "kolagen"
+              },
+              {
+                "label": "Biotin",
+                "slug": "biotin"
+              },
+              {
+                "label": "Kyselina hyaluronová",
+                "slug": "kyselina-hyaluronova"
+              },
+              {
+                "label": "Keratin",
+                "slug": "keratin"
+              }
+            ]
+          },
+          {
+            "label": "Klouby a kosti",
+            "slug": "klouby-a-kosti",
+            "items": [
+              {
+                "label": "Glukosamin",
+                "slug": "glukosamin"
+              },
+              {
+                "label": "Chondroitin",
+                "slug": "chondroitin"
+              },
+              {
+                "label": "MSM",
+                "slug": "msm"
+              },
+              {
+                "label": "Vápník",
+                "slug": "vapnik"
+              },
+              {
+                "label": "Vitamín K2",
+                "slug": "vitamin-k2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Akce a slevy",
+        "slug": "akce-a-slevy",
+        "tone": "green"
+      },
+      {
+        "label": "Doplňky stravy",
+        "slug": "doplnky-stravy",
+        "children": [
+          {
+            "label": "Vitamíny, minerály a elektrolyty",
+            "slug": "vitaminy-mineraly",
+            "items": [
+              {
+                "label": "Vitamíny",
+                "slug": "vitaminy"
+              },
+              {
+                "label": "Minerály",
+                "slug": "mineraly"
+              },
+              {
+                "label": "Elektrolyty",
+                "slug": "elektrolyty"
+              },
+              {
+                "label": "Antioxidanty",
+                "slug": "antioxidanty"
+              },
+              {
+                "label": "Zdravé tuky",
+                "slug": "zdrave-tuky"
+              },
+              {
+                "label": "Šumivé tablety",
+                "slug": "sumive-tablety"
+              },
+              {
+                "label": "Multivitamíny a multiminerály",
+                "slug": "multivitaminy"
+              }
+            ]
+          },
+          {
+            "label": "Zažívání a zdravá střeva",
+            "slug": "zazivani",
+            "items": [
+              {
+                "label": "Probiotika",
+                "slug": "probiotika"
+              },
+              {
+                "label": "Prebiotika",
+                "slug": "prebiotika"
+              },
+              {
+                "label": "Trávicí enzymy",
+                "slug": "travici-enzymy"
+              },
+              {
+                "label": "Vláknina",
+                "slug": "vlaknina"
+              },
+              {
+                "label": "Detox",
+                "slug": "detox"
+              }
+            ]
+          },
+          {
+            "label": "Imunita a obranyschopnost",
+            "slug": "imunita",
+            "items": [
+              {
+                "label": "Vitamín C",
+                "slug": "vitamin-c"
+              },
+              {
+                "label": "Vitamín D3",
+                "slug": "vitamin-d3"
+              },
+              {
+                "label": "Zinek",
+                "slug": "zinek"
+              },
+              {
+                "label": "Betaglukany",
+                "slug": "betaglukany"
+              },
+              {
+                "label": "Echinacea",
+                "slug": "echinacea"
+              }
+            ]
+          },
+          {
+            "label": "Spánek, stres a podpora nálady",
+            "slug": "spanek-stres",
+            "items": [
+              {
+                "label": "Melatonin",
+                "slug": "melatonin"
+              },
+              {
+                "label": "Hořčík",
+                "slug": "horcik"
+              },
+              {
+                "label": "Ashwagandha",
+                "slug": "ashwagandha"
+              },
+              {
+                "label": "B-komplex",
+                "slug": "b-komplex"
+              },
+              {
+                "label": "Šafrán",
+                "slug": "safran"
+              }
+            ]
+          },
+          {
+            "label": "Energie a vitalita",
+            "slug": "energie",
+            "items": [
+              {
+                "label": "Koenzym Q10",
+                "slug": "koenzym-q10"
+              },
+              {
+                "label": "Ženšen",
+                "slug": "zensen"
+              },
+              {
+                "label": "Guarana",
+                "slug": "guarana"
+              },
+              {
+                "label": "Železo",
+                "slug": "zelezo"
+              }
+            ]
+          },
+          {
+            "label": "Kosti a klouby",
+            "slug": "kosti-a-klouby",
+            "items": [
+              {
+                "label": "Kolagen",
+                "slug": "kolagen"
+              },
+              {
+                "label": "Glukosamin",
+                "slug": "glukosamin"
+              },
+              {
+                "label": "Vápník",
+                "slug": "vapnik"
+              },
+              {
+                "label": "Vitamín K2",
+                "slug": "vitamin-k2"
+              },
+              {
+                "label": "MSM",
+                "slug": "msm"
+              }
+            ]
+          },
+          {
+            "label": "Pleť, vlasy a anti-aging",
+            "slug": "plet-vlasy",
+            "items": [
+              {
+                "label": "Kolagen",
+                "slug": "kolagen"
+              },
+              {
+                "label": "Biotin",
+                "slug": "biotin"
+              },
+              {
+                "label": "Kyselina hyaluronová",
+                "slug": "kyselina-hyaluronova"
+              },
+              {
+                "label": "Křemík",
+                "slug": "kremik"
+              }
+            ]
+          },
+          {
+            "label": "Sportovní výkon a regenerace",
+            "slug": "sportovni-vykon",
+            "items": [
+              {
+                "label": "Proteiny",
+                "slug": "proteiny"
+              },
+              {
+                "label": "Kreatin",
+                "slug": "kreatin"
+              },
+              {
+                "label": "BCAA",
+                "slug": "bcaa"
+              },
+              {
+                "label": "Elektrolyty",
+                "slug": "elektrolyty"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Zdraví a léky",
+        "slug": "zdravi-a-leky",
+        "children": [
+          {
+            "label": "Léky bez předpisu",
+            "slug": "leky-bez-predpisu",
+            "items": [
+              {
+                "label": "Bolest a horečka",
+                "slug": "bolest-a-horecka"
+              },
+              {
+                "label": "Chřipka a nachlazení",
+                "slug": "chripka"
+              },
+              {
+                "label": "Kašel a rýma",
+                "slug": "kasel-a-ryma"
+              },
+              {
+                "label": "Trávení",
+                "slug": "traveni"
+              },
+              {
+                "label": "Alergie",
+                "slug": "alergie"
+              }
+            ]
+          },
+          {
+            "label": "Zdravotnické potřeby",
+            "slug": "zdravotnicke-potreby",
+            "items": [
+              {
+                "label": "Náplasti a obvazy",
+                "slug": "naplasti"
+              },
+              {
+                "label": "Teploměry",
+                "slug": "teplomery"
+              },
+              {
+                "label": "Tlakoměry",
+                "slug": "tlakomery"
+              },
+              {
+                "label": "Respirátory",
+                "slug": "respiratory"
+              },
+              {
+                "label": "Domácí testy",
+                "slug": "domaci-testy"
+              }
+            ]
+          },
+          {
+            "label": "Oči a zrak",
+            "slug": "oci-a-zrak",
+            "items": [
+              {
+                "label": "Oční kapky",
+                "slug": "ocni-kapky"
+              },
+              {
+                "label": "Roztoky na čočky",
+                "slug": "roztoky-na-cocky"
+              },
+              {
+                "label": "Vitamíny pro oči",
+                "slug": "vitaminy-pro-oci"
+              }
+            ]
+          },
+          {
+            "label": "Ústní hygiena",
+            "slug": "ustni-hygiena",
+            "items": [
+              {
+                "label": "Zubní pasty",
+                "slug": "zubni-pasty"
+              },
+              {
+                "label": "Kartáčky",
+                "slug": "kartacky"
+              },
+              {
+                "label": "Mezizubní péče",
+                "slug": "mezizubni-pece"
+              },
+              {
+                "label": "Ústní vody",
+                "slug": "ustni-vody"
+              }
+            ]
+          },
+          {
+            "label": "Intimní zdraví",
+            "slug": "intimni-zdravi",
+            "items": [
+              {
+                "label": "Menstruační potřeby",
+                "slug": "menstruacni-potreby"
+              },
+              {
+                "label": "Těhotenské testy",
+                "slug": "tehotenske-testy"
+              },
+              {
+                "label": "Lubrikační gely",
+                "slug": "lubrikacni-gely"
+              },
+              {
+                "label": "Kondomy",
+                "slug": "kondomy"
+              }
+            ]
+          },
+          {
+            "label": "Odvykání kouření",
+            "slug": "odvykani-koureni",
+            "items": [
+              {
+                "label": "Nikotinové žvýkačky",
+                "slug": "nikotinove-zvykacky"
+              },
+              {
+                "label": "Náplasti",
+                "slug": "nikotinove-naplasti"
+              },
+              {
+                "label": "Pastilky",
+                "slug": "pastilky"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Kosmetika",
+        "slug": "kosmetika",
+        "children": [
+          {
+            "label": "Dermokosmetika",
+            "slug": "dermokosmetika",
+            "items": [
+              {
+                "label": "Pleťové krémy",
+                "slug": "pletove-kremy"
+              },
+              {
+                "label": "Séra",
+                "slug": "sera"
+              },
+              {
+                "label": "Čištění pleti",
+                "slug": "cisteni-pleti"
+              },
+              {
+                "label": "Akné",
+                "slug": "akne"
+              },
+              {
+                "label": "Atopická pokožka",
+                "slug": "atopicka-pokozka"
+              }
+            ]
+          },
+          {
+            "label": "Péče o tělo",
+            "slug": "pece-o-telo",
+            "items": [
+              {
+                "label": "Tělová mléka",
+                "slug": "telova-mleka"
+              },
+              {
+                "label": "Sprchové gely",
+                "slug": "sprchove-gely"
+              },
+              {
+                "label": "Deodoranty",
+                "slug": "deodoranty"
+              },
+              {
+                "label": "Ruce a nohy",
+                "slug": "ruce-a-nohy"
+              }
+            ]
+          },
+          {
+            "label": "Vlasová péče",
+            "slug": "vlasova-pece",
+            "items": [
+              {
+                "label": "Šampony",
+                "slug": "sampony"
+              },
+              {
+                "label": "Kondicionéry",
+                "slug": "kondicionery"
+              },
+              {
+                "label": "Vlasové masky",
+                "slug": "vlasove-masky"
+              },
+              {
+                "label": "Proti padání vlasů",
+                "slug": "proti-padani-vlasu"
+              }
+            ]
+          },
+          {
+            "label": "Opalování",
+            "slug": "opalovani",
+            "items": [
+              {
+                "label": "SPF 50+",
+                "slug": "spf-50"
+              },
+              {
+                "label": "Dětská ochrana",
+                "slug": "detska-ochrana"
+              },
+              {
+                "label": "Po opalování",
+                "slug": "po-opalovani"
+              },
+              {
+                "label": "Samoopalovací",
+                "slug": "samoopalovaci"
+              }
+            ]
+          },
+          {
+            "label": "Parfémy",
+            "slug": "parfemy",
+            "items": [
+              {
+                "label": "Dámské parfémy",
+                "slug": "damske-parfemy"
+              },
+              {
+                "label": "Pánské parfémy",
+                "slug": "panske-parfemy"
+              },
+              {
+                "label": "Unisex",
+                "slug": "unisex-parfemy"
+              }
+            ]
+          },
+          {
+            "label": "Pánská kosmetika",
+            "slug": "panska-kosmetika",
+            "items": [
+              {
+                "label": "Holení",
+                "slug": "holeni"
+              },
+              {
+                "label": "Péče o vousy",
+                "slug": "pece-o-vousy"
+              },
+              {
+                "label": "Pánské sprchové gely",
+                "slug": "panske-sprchove-gely"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Sport",
+        "slug": "sport",
+        "children": [
+          {
+            "label": "Sportovní výživa",
+            "slug": "sportovni-vyziva",
+            "items": [
+              {
+                "label": "Proteiny",
+                "slug": "proteiny"
+              },
+              {
+                "label": "Sacharidy",
+                "slug": "sacharidy"
+              },
+              {
+                "label": "Gainery",
+                "slug": "gainery"
+              },
+              {
+                "label": "Proteinové tyčinky",
+                "slug": "proteinove-tycinky"
+              }
+            ]
+          },
+          {
+            "label": "Hydratace",
+            "slug": "hydratace",
+            "items": [
+              {
+                "label": "Elektrolyty",
+                "slug": "elektrolyty"
+              },
+              {
+                "label": "Iontové nápoje",
+                "slug": "iontove-napoje"
+              },
+              {
+                "label": "Hydratační tablety",
+                "slug": "hydratacni-tablety"
+              }
+            ]
+          },
+          {
+            "label": "Výkon",
+            "slug": "vykon",
+            "items": [
+              {
+                "label": "Kreatin",
+                "slug": "kreatin"
+              },
+              {
+                "label": "BCAA",
+                "slug": "bcaa"
+              },
+              {
+                "label": "Předtréninkovky",
+                "slug": "predtreninkovky"
+              },
+              {
+                "label": "Kofein",
+                "slug": "kofein"
+              }
+            ]
+          },
+          {
+            "label": "Regenerace",
+            "slug": "regenerace",
+            "items": [
+              {
+                "label": "Hořčík",
+                "slug": "horcik"
+              },
+              {
+                "label": "Masážní gely",
+                "slug": "masazni-gely"
+              },
+              {
+                "label": "Kineziotejpy",
+                "slug": "kineziotejpy"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Elektronika",
+        "slug": "elektronika",
+        "children": [
+          {
+            "label": "Chytrá zařízení",
+            "slug": "chytra-zarizeni",
+            "items": [
+              {
+                "label": "Chytré hodinky",
+                "slug": "chytre-hodinky"
+              },
+              {
+                "label": "Fitness náramky",
+                "slug": "fitness-naramky"
+              },
+              {
+                "label": "Chytré váhy",
+                "slug": "chytre-vahy"
+              }
+            ]
+          },
+          {
+            "label": "Zdravotní přístroje",
+            "slug": "zdravotni-pristroje",
+            "items": [
+              {
+                "label": "Tlakoměry",
+                "slug": "tlakomery"
+              },
+              {
+                "label": "Teploměry",
+                "slug": "teplomery"
+              },
+              {
+                "label": "Oxymetry",
+                "slug": "oxymetry"
+              },
+              {
+                "label": "Inhalátory",
+                "slug": "inhalatory"
+              }
+            ]
+          },
+          {
+            "label": "Péče o tělo",
+            "slug": "pece-o-telo-elektro",
+            "items": [
+              {
+                "label": "Elektrické kartáčky",
+                "slug": "elektricke-kartacky"
+              },
+              {
+                "label": "Holicí strojky",
+                "slug": "holici-strojky"
+              },
+              {
+                "label": "Epilátory",
+                "slug": "epilatory"
+              },
+              {
+                "label": "Fény",
+                "slug": "feny"
+              }
+            ]
+          },
+          {
+            "label": "Domácnost",
+            "slug": "domacnost",
+            "items": [
+              {
+                "label": "Čističky vzduchu",
+                "slug": "cisticky-vzduchu"
+              },
+              {
+                "label": "Zvlhčovače",
+                "slug": "zvlhcovace"
+              },
+              {
+                "label": "Světelné budíky",
+                "slug": "svetelne-budiky"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Drogerie",
+        "slug": "drogerie",
+        "children": [
+          {
+            "label": "Praní",
+            "slug": "prani",
+            "items": [
+              {
+                "label": "Prací gely",
+                "slug": "praci-gely"
+              },
+              {
+                "label": "Kapsle na praní",
+                "slug": "kapsle-na-prani"
+              },
+              {
+                "label": "Aviváže",
+                "slug": "avivaze"
+              },
+              {
+                "label": "Odstraňovače skvrn",
+                "slug": "odstranovace-skvrn"
+              }
+            ]
+          },
+          {
+            "label": "Úklid",
+            "slug": "uklid",
+            "items": [
+              {
+                "label": "Univerzální čističe",
+                "slug": "univerzalni-cistice"
+              },
+              {
+                "label": "Koupelna",
+                "slug": "koupelna"
+              },
+              {
+                "label": "Kuchyň",
+                "slug": "kuchyn"
+              },
+              {
+                "label": "Podlahy",
+                "slug": "podlahy"
+              }
+            ]
+          },
+          {
+            "label": "Papírové zboží",
+            "slug": "papirove-zbozi",
+            "items": [
+              {
+                "label": "Toaletní papír",
+                "slug": "toaletni-papir"
+              },
+              {
+                "label": "Kapesníky",
+                "slug": "kapesniky"
+              },
+              {
+                "label": "Kuchyňské utěrky",
+                "slug": "kuchynske-uterky"
+              }
+            ]
+          },
+          {
+            "label": "Hygiena",
+            "slug": "hygiena",
+            "items": [
+              {
+                "label": "Mýdla",
+                "slug": "mydla"
+              },
+              {
+                "label": "Dezinfekce",
+                "slug": "dezinfekce"
+              },
+              {
+                "label": "Vlhčené ubrousky",
+                "slug": "vlhcene-ubrousky"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Více kategorií",
+        "slug": "vice-kategorii",
+        "children": [
+          {
+            "label": "Máma a dítě",
+            "slug": "mama-a-dite",
+            "items": [
+              {
+                "label": "Kojenecká mléka",
+                "slug": "kojenecka-mleka"
+              },
+              {
+                "label": "Plenky",
+                "slug": "plenky"
+              },
+              {
+                "label": "Kaše a příkrmy",
+                "slug": "kase-a-prikrmy"
+              },
+              {
+                "label": "Dětská kosmetika",
+                "slug": "detska-kosmetika"
+              }
+            ]
+          },
+          {
+            "label": "Veterina",
+            "slug": "veterina",
+            "items": [
+              {
+                "label": "Pro psy",
+                "slug": "pro-psy"
+              },
+              {
+                "label": "Pro kočky",
+                "slug": "pro-kocky"
+              },
+              {
+                "label": "Antiparazitika",
+                "slug": "antiparazitika"
+              },
+              {
+                "label": "Kloubní výživa",
+                "slug": "kloubni-vyziva"
+              }
+            ]
+          },
+          {
+            "label": "Zdravé potraviny",
+            "slug": "zdrave-potraviny",
+            "items": [
+              {
+                "label": "Superpotraviny",
+                "slug": "superpotraviny"
+              },
+              {
+                "label": "Bez lepku",
+                "slug": "bez-lepku"
+              },
+              {
+                "label": "Čaje",
+                "slug": "caje"
+              },
+              {
+                "label": "Med a sirupy",
+                "slug": "med-a-sirupy"
+              }
+            ]
+          },
+          {
+            "label": "Dárky",
+            "slug": "darky",
+            "items": [
+              {
+                "label": "Dárkové sady",
+                "slug": "darkove-sady"
+              },
+              {
+                "label": "Poukazy",
+                "slug": "poukazy"
+              },
+              {
+                "label": "Pro ženy",
+                "slug": "pro-zeny"
+              },
+              {
+                "label": "Pro muže",
+                "slug": "pro-muze"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Poradna",
+        "slug": "",
+        "href": "/poradna"
+      }
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "Ještě se může hodit",
+      "recoCta": "DO KOŠÍKU",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Pokračovat v nákupu",
+      "freeShippingThreshold": 149900,
+      "freeShippingLabel": "Do dopravy zdarma zbývá",
+      "freeShippingDone": "Máte dopravu zdarma!"
+    }
+  },
+  "hero": {
+    "banners": [
+      {
+        "title": "Ne každý kolagen je stejný.",
+        "text": "NutraRating ukáže rozdíl.",
+        "ctaText": "Objevit kvalitu",
+        "ctaHref": "/obchod?kategorie=kolagen",
+        "image": "https://images.unsplash.com/photo-1522163182402-834f871fd851?w=700&h=900&fit=crop&auto=format&q=75",
+        "tone": "dark"
+      },
+      {
+        "title": "Letní výprodej",
+        "text": "Slevy až 60 %",
+        "ctaText": "Objevit letní slevy",
+        "ctaHref": "/obchod?kategorie=akce-a-slevy",
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&h=900&fit=crop&auto=format&q=75",
+        "tone": "dark"
+      },
+      {
+        "title": "Vše, co patří ke zdravé grilovačce",
+        "text": "",
+        "ctaText": "Nakoupit na grilovačku",
+        "ctaHref": "/obchod?kategorie=zdrave-potraviny",
+        "image": "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=700&h=900&fit=crop&auto=format&q=75",
+        "tone": "mint"
+      },
+      {
+        "title": "Přibalte si klidnější léto",
+        "text": "SPF, repelenty i lékárnička na cesty",
+        "ctaText": "Připravit se na léto",
+        "ctaHref": "/obchod?kategorie=zdravi-a-leky",
+        "image": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=700&h=900&fit=crop&auto=format&q=75",
+        "tone": "dark"
+      },
+      {
+        "title": "Dermokosmetika s SPF",
+        "text": "Odborník na péči o pleť",
+        "ctaText": "Objevit produkty",
+        "ctaHref": "/obchod?kategorie=opalovani",
+        "image": "https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=700&h=900&fit=crop&auto=format&q=75",
+        "tone": "dark"
+      }
+    ]
+  },
+  "proBar": {
+    "title": "Neplaťte za dopravu. Měsíc Apatyka PRO je teď na nás.",
+    "brand": "apatyka",
+    "badge": "PRO",
+    "benefits": [
+      "**Neplaťte** za dopravu",
+      "**20 % sleva** na doplňky stravy Vitala a další výhodné ceny",
+      "Krevní testy 2× ročně **zdarma**, DNA test s **50% slevou**",
+      "**Průměrný člen ušetří až 8 400 Kč ročně.**"
+    ],
+    "note": "Po 30 dnech přechází členství na placené. Zrušit můžete kdykoliv.",
+    "ctaText": "Aktivovat na měsíc zdarma",
+    "ctaHref": "/obchod"
+  },
+  "picks": {
+    "heading": "Vybrali jsme pro vás",
+    "limit": 12,
+    "deliveryText": "Zítra od 07:00 u vás",
+    "proSuffix": "s apatyka PRO",
+    "wowLabel": "Wow!",
+    "cashbackLabel": "Cashback"
+  },
+  "carouselHydration": {
+    "heading": "Elektrolyty a hydratace",
+    "moreLabel": "Zobrazit více",
+    "moreHref": "/obchod?kategorie=sport",
+    "categorySlug": "sport",
+    "source": "newest",
+    "limit": 10,
+    "deliveryText": "Zítra od 07:00 u vás",
+    "proSuffix": "s apatyka PRO",
+    "wowLabel": "Wow!",
+    "cashbackLabel": "Cashback"
+  },
+  "carouselSummer": {
+    "heading": "Léto a opalování",
+    "moreLabel": "Zobrazit více",
+    "moreHref": "/obchod?kategorie=kosmetika",
+    "categorySlug": "kosmetika",
+    "source": "newest",
+    "limit": 10,
+    "deliveryText": "Zítra od 07:00 u vás",
+    "proSuffix": "s apatyka PRO",
+    "wowLabel": "Wow!",
+    "cashbackLabel": "Cashback"
+  },
+  "carouselHealth": {
+    "heading": "Zdraví z lékárny",
+    "moreLabel": "Zobrazit více",
+    "moreHref": "/obchod?kategorie=zdravi-a-leky",
+    "categorySlug": "zdravi-a-leky",
+    "source": "newest",
+    "limit": 10,
+    "deliveryText": "Zítra od 07:00 u vás",
+    "proSuffix": "s apatyka PRO",
+    "wowLabel": "Wow!",
+    "cashbackLabel": "Cashback"
+  },
+  "carouselVitala": {
+    "heading": "Vitala – Čisté složení, vyrobeno v Česku",
+    "moreLabel": "Zobrazit více",
+    "moreHref": "/obchod?kategorie=vitala",
+    "categorySlug": "vitala",
+    "source": "newest",
+    "limit": 8,
+    "brandTile": {
+      "word": "vitala",
+      "tagline": "Čisté složení bez kompromisů. Vyrobeno v Česku.",
+      "href": "/obchod?kategorie=vitala"
+    },
+    "deliveryText": "Zítra od 07:00 u vás",
+    "proSuffix": "s apatyka PRO",
+    "wowLabel": "Wow!",
+    "cashbackLabel": "Cashback"
+  },
+  "brandsBar": {
+    "brands": [
+      {
+        "name": "vitala",
+        "style": "lower-bold",
+        "color": "#064740"
+      },
+      {
+        "name": "DERMIA",
+        "style": "serif",
+        "color": "#2b2b2b"
+      },
+      {
+        "name": "NutraVia",
+        "style": "italic",
+        "color": "#0f7a5e"
+      },
+      {
+        "name": "SPORTFUEL",
+        "style": "heavy-italic",
+        "color": "#1c1c1c"
+      },
+      {
+        "name": "MEDITECH",
+        "style": "mono",
+        "color": "#40566b"
+      },
+      {
+        "name": "BabyVia",
+        "style": "rounded",
+        "color": "#d0679d"
+      },
+      {
+        "name": "Čistota+",
+        "style": "default",
+        "color": "#2563a8"
+      }
+    ]
+  },
+  "appBanner": {
+    "heading": "Jednodušší nakupování s aplikací Apatyka",
+    "bullets": [
+      "Rychlý opakovaný nákup na jeden klik",
+      "Speciální ceny a akce jen v aplikaci",
+      "Přesně víte, v jakém stavu a kde je vaše objednávka"
+    ],
+    "qrNote": "Naskenujte a stáhněte aplikaci Apatyka",
+    "appName": "apatyka",
+    "storePrefix": "Stáhnout na",
+    "googleLabel": "Google Play",
+    "appleLabel": "App Store"
+  },
+  "newsletter": {
+    "heading": "Nejlepší akce a slevy ve vašem e-mailu",
+    "placeholder": "Zadejte váš e-mail",
+    "buttonText": "Odebírat",
+    "successText": "Děkujeme! Potvrzení najdete ve schránce."
+  },
+  "footer": {
+    "siteName": "apatyka",
+    "googleBadgeTop": "Get it on",
+    "googleBadge": "Google Play",
+    "appleBadgeTop": "Download on the",
+    "appleBadge": "App Store",
+    "contactEmail": "email@demo.cz",
+    "contactPhone": "704 123 456",
+    "langLabel": "Čeština",
+    "copyright": "© 2026 Apatyka Lékárny a.s. — demo prezentace. Pro nastavení souborů cookies klikněte sem.",
+    "columns": [
+      {
+        "title": "Zákaznická podpora",
+        "links": [
+          {
+            "label": "Doprava a platba",
+            "href": "/obchod"
+          },
+          {
+            "label": "Reklamace a vrácení zboží",
+            "href": "/obchod"
+          },
+          {
+            "label": "Benefitní programy",
+            "href": "/obchod"
+          },
+          {
+            "label": "Často kladené otázky",
+            "href": "/obchod"
+          }
+        ]
+      },
+      {
+        "title": "O Apatyce",
+        "links": [
+          {
+            "label": "O nás",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kontakty",
+            "href": "/obchod"
+          },
+          {
+            "label": "Apatyka PRO",
+            "href": "/obchod"
+          },
+          {
+            "label": "NutraRating",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/obchod"
+          },
+          {
+            "label": "Pro média",
+            "href": "/obchod"
+          },
+          {
+            "label": "Články",
+            "href": "/obchod"
+          }
+        ]
+      },
+      {
+        "title": "Právní informace",
+        "links": [
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Ochrana osobních údajů",
+            "href": "/obchod"
+          },
+          {
+            "label": "Reklamační řád Apatyka",
+            "href": "/obchod"
+          },
+          {
+            "label": "Prohlášení o přístupnosti",
+            "href": "/obchod"
+          },
+          {
+            "label": "Podmínky služby Apatyka PRO",
+            "href": "/obchod"
+          }
+        ]
+      }
+    ]
+  }
+}

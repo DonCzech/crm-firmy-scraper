@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#111111",
+    "secondary": "#1a1a1a",
+    "accent": "#FFCAD4",
+    "background": "#ffffff",
+    "surface": "#EBECE9",
+    "text": "#1a1a1a",
+    "textMuted": "#6f6f6c",
+    "border": "#e4e4e1"
+  },
+  "typography": {
+    "fontHeading": "'Playfair Display', Georgia, serif",
+    "fontBody": "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif"
+  }
+}

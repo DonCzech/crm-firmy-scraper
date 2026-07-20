@@ -565,20 +565,17 @@ function StatsFitness02({ items, sectionId, isAdmin }: { items: Fitness02StatIte
 // ── reality-05-stats ──────────────────────────────────────────────────────────
 // Ref: ondrejkucera.com — sekce s počítadly
 // Tmavý #1c1c1c bg s bg-image + rgba(0,0,0,0.72) overlay
-// 3-col: velké zlaté (#CFA968) číslo + suffix | bílý popisek
-// border-right 1px rgba(255,255,255,0.12) mezi sloupci
-// ─────────────────────────────────────────────────────────────────────────────
+// ── reality-05-stats ──────────────────────────────────────────────────────────
 type StatItem05 = StatItem & { suffix?: string };
 
 function StatsReality05({ content, items: rawItems, sectionId }: { content: Record<string, unknown>; items: StatItem[]; sectionId: number }) {
   const items = rawItems as StatItem05[];
-  const bgImage = String(content.bgImage ?? "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop&q=80");
+  const bgImage = String(content.bgImage ?? "/templates/reality-05/stats-bg.webp");
 
   const GOLD  = "#CFA968";
   const WHITE = "#ffffff";
   const SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  // Animovaný counter (pouze pro display, nezávislý na editaci)
   const [counts, setCounts] = useState<number[]>(items.map(() => 0));
   const ref = useRef<HTMLElement | null>(null);
   const triggered = useRef(false);
@@ -592,8 +589,8 @@ function StatsReality05({ content, items: rawItems, sectionId }: { content: Reco
           triggered.current = true;
           items.forEach((item, i) => {
             const target = parseInt(String(item.value ?? "0").replace(/\D/g, ""), 10) || 0;
-            const duration = 1600;
-            const steps = 40;
+            const duration = 1800;
+            const steps = 50;
             let step = 0;
             const interval = setInterval(() => {
               step++;
@@ -614,51 +611,73 @@ function StatsReality05({ content, items: rawItems, sectionId }: { content: Reco
   return (
     <section
       ref={ref}
-      style={{ position: "relative", overflow: "hidden", backgroundColor: "#1c1c1c" }}
-      data-r05-stats
+      id="statistiky"
+      data-template="reality-05"
+      style={{ position: "relative", overflow: "hidden", backgroundColor: "#0a0a0a" }}
     >
-      {/* BG foto — editovatelné přes GenericEditableImage */}
-      <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }}>
+      {/* BG image */}
+      <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0 }}>
         <img src={bgImage} alt="" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
       </GenericEditableImage>
-      {/* pointerEvents none: kliky prochází na GenericEditableImage pod ním */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.72)", zIndex: 1, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.65) 100%)", zIndex: 1, pointerEvents: "none" }} />
+
+      {/* Top gold hairline */}
+      <div style={{ position: "relative", zIndex: 2, width: 60, height: 2, backgroundColor: GOLD, margin: "0 auto", opacity: 0.5, marginTop: 0 }} />
 
       {/* Grid */}
       <div
-        style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "72px clamp(20px,5vw,60px)", display: "grid", gridTemplateColumns: `repeat(${items.length || 3}, 1fr)` }}
         className="r05-stats-grid"
+        style={{
+          position: "relative", zIndex: 2,
+          maxWidth: 1100, margin: "0 auto",
+          padding: "64px clamp(20px,5vw,60px) 72px",
+          display: "grid",
+          gridTemplateColumns: `repeat(${items.length || 3}, 1fr)`,
+          gap: 0,
+        }}
       >
-        {items.map((item, i) => (
-          <div
-            key={i}
-            style={{
-              textAlign: "center",
-              padding: "24px 16px",
-              borderRight: i < items.length - 1 ? "1px solid rgba(255,255,255,0.12)" : "none",
-            }}
-          >
-            <div style={{ fontFamily: SANS, fontSize: "clamp(40px,5vw,64px)", fontWeight: 700, color: GOLD, lineHeight: 1, marginBottom: 12 }}>
-              <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(item.value ?? "")} tag="span" />
-              {item.suffix && (
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.suffix`} value={String(item.suffix)} tag="span" style={{ fontSize: "clamp(24px,3vw,38px)", color: GOLD }} />
-              )}
+        {items.map((item, i) => {
+          const target = parseInt(String(item.value ?? "0").replace(/\D/g, ""), 10) || 0;
+          const displayVal = triggered.current || counts[i] > 0 ? counts[i] : target;
+          return (
+            <div
+              key={i}
+              className="r05-stat-cell"
+              style={{
+                textAlign: "center",
+                padding: "28px 20px",
+                borderRight: i < items.length - 1 ? "1px solid rgba(207,169,104,0.15)" : "none",
+                transition: "transform 0.3s",
+              }}
+            >
+              <div style={{
+                fontFamily: SANS, fontSize: "clamp(42px,5.5vw,68px)", fontWeight: 700,
+                color: GOLD, lineHeight: 1, marginBottom: 8, letterSpacing: "-0.02em",
+              }}>
+                <span>{displayVal}</span>
+                {item.suffix && (
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.suffix`} value={String(item.suffix)} tag="span"
+                    style={{ fontSize: "clamp(26px,3vw,40px)", color: GOLD, fontWeight: 600 }}
+                  />
+                )}
+              </div>
+              {/* Gold dot separator */}
+              <div style={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: GOLD, margin: "12px auto 14px", opacity: 0.5 }} />
+              <GenericEditableText
+                sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="p"
+                style={{
+                  fontFamily: SANS, fontSize: 13, fontWeight: 600,
+                  color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.4,
+                  letterSpacing: "0.08em", textTransform: "uppercase" as const,
+                }}
+              />
             </div>
-            <GenericEditableText
-              sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="p"
-              style={{ fontFamily: SANS, fontSize: 15, color: "rgba(255,255,255,0.8)", margin: 0, lineHeight: 1.4 }}
-            />
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <style>{`
-        @media (max-width: 600px) {
-          .r05-stats-grid { grid-template-columns: 1fr !important; }
-          .r05-stats-grid > div { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.12); }
-          .r05-stats-grid > div:last-child { border-bottom: none; }
-        }
-      `}</style>
+      {/* Bottom gold hairline */}
+      <div style={{ position: "relative", zIndex: 2, width: 60, height: 2, backgroundColor: GOLD, margin: "0 auto", opacity: 0.5, marginBottom: 0 }} />
     </section>
   );
 }
@@ -670,7 +689,8 @@ function StatsReality05({ content, items: rawItems, sectionId }: { content: Reco
 function StatsLawyer01({ items, sectionId }: { items: Array<{ value?: string | number; label?: string; icon?: string }>; sectionId: number }) {
   const CRIMSON = "#a70336";
   const WHITE   = "#ffffff";
-  const FONT    = "'Source Sans 3','Source Sans Pro','Raleway','Helvetica Neue',Arial,sans-serif";
+  const WORDFONT = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
+  const BODYFONT = "'Open Sans','Source Sans 3','Helvetica Neue',Arial,sans-serif";
 
   const defaultItems = [
     { value: "200+",   label: "právníků a daňových poradců" },
@@ -680,38 +700,75 @@ function StatsLawyer01({ items, sectionId }: { items: Array<{ value?: string | n
   ];
   const data = items.length > 0 ? items : defaultItems;
 
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); io.disconnect(); } }, { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <section style={{ backgroundColor: CRIMSON, padding: "0" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 40px" }}>
-        <div className="l01-stats-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${data.length}, 1fr)` }}>
+    <section data-template="lawyer-01" style={{ position: "relative", background: `linear-gradient(135deg, ${CRIMSON} 0%, #8b022c 100%)`, padding: "0", overflow: "hidden" }}>
+      <style>{`
+        .l01stats-item{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+        .l01stats-on .l01stats-item{opacity:1;transform:translateY(0);}
+        .l01stats-num{position:relative;display:inline-block;transition:transform .3s ease;}
+        .l01stats-num::after{content:"";position:absolute;left:50%;bottom:-12px;transform:translateX(-50%) scaleX(0);width:38px;height:2px;background:rgba(255,255,255,.75);transition:transform .4s cubic-bezier(.4,0,.2,1);}
+        .l01stats-item:hover .l01stats-num{transform:translateY(-3px);}
+        .l01stats-item:hover .l01stats-num::after{transform:translateX(-50%) scaleX(1);}
+        @media (max-width: 640px) {
+          .l01-stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .l01-stats-grid > div { border-right: none !important; }
+          .l01-stats-grid > div:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.18) !important; }
+          .l01-stats-grid > div:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.18); }
+        }
+      `}</style>
+
+      {/* Decorative scales-of-justice watermark */}
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round"
+        style={{ position: "absolute", right: "-40px", top: "50%", transform: "translateY(-50%)", width: 320, height: 320, pointerEvents: "none" }}>
+        <path d="M12 3v18M7 21h10M12 6l-7 2 3 5a3 3 0 0 1-6 0l3-5M12 6l7 2-3 5a3 3 0 0 0 6 0l-3-5"/>
+      </svg>
+
+      {/* Top & bottom hairlines */}
+      <span aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "rgba(255,255,255,0.22)" }} />
+      <span aria-hidden style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "rgba(0,0,0,0.14)" }} />
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, margin: "0 auto", padding: "0 40px" }}>
+        <div ref={gridRef} className={`l01-stats-grid${vis ? " l01stats-on" : ""}`} style={{ display: "grid", gridTemplateColumns: `repeat(${data.length}, 1fr)` }}>
           {data.map((item, i) => (
             <div
               key={i}
+              className="l01stats-item"
               style={{
-                padding: "52px 32px",
+                padding: "clamp(44px,5vw,60px) 32px",
                 textAlign: "center",
-                borderRight: i < data.length - 1 ? "1px solid rgba(255,255,255,0.2)" : "none",
+                borderRight: i < data.length - 1 ? "1px solid rgba(255,255,255,0.18)" : "none",
+                transitionDelay: `${i * 0.1}s`,
               }}
             >
-              <div style={{
-                fontFamily: FONT,
+              <div className="l01stats-num" style={{
+                fontFamily: WORDFONT,
                 fontWeight: 800,
-                fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+                fontSize: "clamp(2.4rem, 4.2vw, 3.7rem)",
                 color: WHITE,
                 lineHeight: 1,
-                marginBottom: 10,
-                letterSpacing: "-0.01em",
+                marginBottom: 22,
+                letterSpacing: "-0.02em",
               }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(item.value)} tag="span" />
               </div>
               <div style={{
-                fontFamily: FONT,
-                fontWeight: 400,
-                fontSize: "clamp(0.8rem, 1vw, 0.95rem)",
-                color: "rgba(255,255,255,0.82)",
-                letterSpacing: "0.04em",
+                fontFamily: BODYFONT,
+                fontWeight: 500,
+                fontSize: "clamp(0.78rem, 1vw, 0.9rem)",
+                color: "rgba(255,255,255,0.85)",
+                letterSpacing: "0.11em",
                 textTransform: "uppercase",
-                lineHeight: 1.4,
+                lineHeight: 1.45,
               }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(item.label)} tag="span" />
               </div>
@@ -719,13 +776,6 @@ function StatsLawyer01({ items, sectionId }: { items: Array<{ value?: string | n
           ))}
         </div>
       </div>
-      <style>{`
-        @media (max-width: 640px) {
-          .l01-stats-grid { grid-template-columns: repeat(2,1fr) !important; }
-          .l01-stats-grid > div { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.15); }
-          .l01-stats-grid > div:last-child { border-bottom: none; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -2469,16 +2519,10 @@ function StatsUcetni04({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── klima-01-stats ────────────────────────────────────────────────────────────
-// 1:1 pragoclima.cz: navy bg, 3 položky na střed, count-up + slide-in animace
-// ─────────────────────────────────────────────────────────────────────────────
 function StatsKlima01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const items = ((content.items as Array<{ value?: string; label?: string }>) ?? []);
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
-
-  const NAVY = "#182545";
-  const RED  = "#e30016";
-  const FONT = "'Outfit', -apple-system, sans-serif";
 
   useEffect(() => {
     const el = ref.current;
@@ -2488,7 +2532,6 @@ function StatsKlima01({ content, sectionId }: { content: Record<string, unknown>
     return () => io.disconnect();
   }, []);
 
-  /* Parsuje "3 000+" → { num: 3000, prefix: "", suffix: "+" } */
   function parse(raw: string) {
     const clean = raw.replace(/\s/g, "");
     const m = clean.match(/^([^0-9]*)([0-9]+)([^0-9]*)$/);
@@ -2496,13 +2539,12 @@ function StatsKlima01({ content, sectionId }: { content: Record<string, unknown>
     return { num: parseInt(m[2], 10), prefix: m[1], suffix: m[3] };
   }
 
-  /* Hook: count-up čísla od 0 za 1.4s */
   function useCount(target: number, run: boolean, delay = 0) {
     const [val, setVal] = useState(0);
     useEffect(() => {
       if (!run) return;
       const start = performance.now() + delay;
-      const dur = 1400;
+      const dur = 1600;
       let raf: number;
       const tick = (now: number) => {
         const elapsed = Math.max(0, now - start);
@@ -2519,48 +2561,31 @@ function StatsKlima01({ content, sectionId }: { content: Record<string, unknown>
 
   const parsed = items.map(it => parse(String(it.value ?? "")));
   const c0 = useCount(parsed[0]?.num ?? 0, visible, 0);
-  const c1 = useCount(parsed[1]?.num ?? 0, visible, 120);
-  const c2 = useCount(parsed[2]?.num ?? 0, visible, 240);
+  const c1 = useCount(parsed[1]?.num ?? 0, visible, 150);
+  const c2 = useCount(parsed[2]?.num ?? 0, visible, 300);
   const counts = [c0, c1, c2];
 
   return (
-    <>
-    <style>{`
-      @media (max-width: 768px) {
-        .klima-stats-row { flex-direction: column !important; gap: 0 !important; }
-        .klima-stats-item { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.15) !important; padding: 32px 24px !important; }
-        .klima-stats-item:last-child { border-bottom: none !important; }
-      }
-    `}</style>
-    <section
-      ref={ref}
-      style={{ backgroundColor: NAVY, padding: "56px 24px", fontFamily: FONT }}
-      data-template="klima-01"
-    >
-      <div className="klima-stats-row" style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
+    <section ref={ref} className="kl01-stats" data-template="klima-01">
+      <div className="kl01-stats-grid">
         {items.map((item, i) => {
           const { prefix, suffix, num } = parsed[i] ?? { num: 0, prefix: "", suffix: "" };
           const display = num > 0
             ? `${prefix}${visible ? counts[i].toLocaleString("cs-CZ") : "0"}${suffix}`
             : String(item.value ?? "");
           return (
-            <div
-              key={i}
-              className="klima-stats-item"
-              style={{
-                flex: 1, textAlign: "center", padding: "0 32px",
-                borderRight: i < items.length - 1 ? "1px solid rgba(255,255,255,0.15)" : "none",
-                opacity: visible ? 1 : 0,
-                transform: visible ? "translateY(0)" : "translateY(20px)",
-                transition: `opacity 0.6s ease ${i * 120}ms, transform 0.6s ease ${i * 120}ms`,
-              }}
-            >
-              <div style={{ fontSize: "clamp(2.2rem, 4vw, 3rem)", fontWeight: 700, color: RED, lineHeight: 1.1, marginBottom: 12 }}>
+            <div key={i} className="kl01-stats-item" style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(24px)",
+              transition: `opacity 0.7s ease ${i * 150}ms, transform 0.7s cubic-bezier(0.4,0,0.2,1) ${i * 150}ms`,
+            }}>
+              <span className="kl01-stats-rule" aria-hidden="true" />
+              <div className="kl01-stats-val">
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(item.value ?? "")} tag="span">
                   {display}
                 </GenericEditableText>
               </div>
-              <div style={{ fontSize: 12, fontWeight: 400, color: "rgba(255,255,255,0.75)", textTransform: "uppercase", letterSpacing: "0.08em", lineHeight: 1.5, maxWidth: 220, margin: "0 auto" }}>
+              <div className="kl01-stats-label">
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="span" />
               </div>
             </div>
@@ -2568,7 +2593,6 @@ function StatsKlima01({ content, sectionId }: { content: Record<string, unknown>
         })}
       </div>
     </section>
-    </>
   );
 }
 
@@ -2640,7 +2664,7 @@ function StatsClean02({ content, sectionId }: { content: Record<string, unknown>
   const BLUE = "#019dff";
   const title = String(content.title ?? "Mezi naše spokojené zákazníky patří 40+ firem a 40+ SVJ");
 
-  const LOGOS = [
+  const DEFAULT_LOGOS = [
     { src: "/clones/modryzralok/cdn/681cae1c20d29c335e1c5296_neeco.webp",              alt: "Neeco" },
     { src: "/clones/modryzralok/cdn/681cae1c20d29c335e1c5293_rezidence_ostrovni.webp", alt: "Rezidence Ostrovní" },
     { src: "/clones/modryzralok/cdn/681cae1c843b20affee73c79_prazsky_inovacni_institut.webp", alt: "Pražský inovační institut" },
@@ -2656,6 +2680,11 @@ function StatsClean02({ content, sectionId }: { content: Record<string, unknown>
     { src: "/clones/modryzralok/cdn/6980de5f0ac51c789eac79a1_modryzralok-eurocz.png", alt: "Euro CZ" },
     { src: "/clones/modryzralok/cdn/6980de5f9878e93a1738015e_modryzralok-metro-p-500.png", alt: "Metro" },
   ];
+  // content.logos: [{ url|src, alt }] — přebíjí výchozí sadu
+  const contentLogos = (Array.isArray(content.logos) ? content.logos : []) as Array<{ url?: string; src?: string; alt?: string }>;
+  const LOGOS = contentLogos.length
+    ? contentLogos.map((l) => ({ src: String(l.src ?? l.url ?? ""), alt: String(l.alt ?? "") })).filter((l) => l.src)
+    : DEFAULT_LOGOS;
 
   return (
     <>
@@ -2983,6 +3012,20 @@ function StatsAutoservis03({ content, sectionId }: { content: Record<string, unk
   return (
     <section id="statistiky" className="as03stat" data-template="autoservis-03">
       {/* orange radial glow */}
+      <style>{`        .as03stat { padding: 56px 40px; background: #111827; border-top: 1px solid rgba(249,115,22,.15); border-bottom: 1px solid rgba(249,115,22,.15); }
+        .as03stat-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+        .as03stat-item { text-align: center; padding: 0 24px; border-right: 1px solid rgba(249,115,22,.2); }
+        .as03stat-item:last-child { border-right: none; }
+        .as03stat-num { font-family: 'Inter', sans-serif; font-size: clamp(36px, 4vw, 52px); font-weight: 800; color: #f97316; line-height: 1; letter-spacing: -1px; }
+        .as03stat-lbl { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #9ca3af; margin-top: 8px; }
+        @media (max-width: 768px) { .as03stat { padding: 40px 24px; } .as03stat-inner { grid-template-columns: repeat(2,1fr); gap: 32px; } .as03stat-item { border-right: none; padding: 0; } }
+        @media (max-width: 400px) { .as03stat-inner { grid-template-columns: 1fr; } }
+      
+        .as03stat { position: relative; overflow: hidden; }
+        .as03stat-glow { position: absolute; top: -240px; left: 50%; transform: translateX(-50%); width: 720px; height: 520px; background: radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 65%); pointer-events: none; }
+        .as03stat-item { position: relative; }
+        .as03stat-tick { display: block; width: 26px; height: 3px; margin: 0 auto 14px; background: linear-gradient(to right,#f97316,#c2410c); border-radius: 2px; }
+      `}</style>
       <div aria-hidden="true" className="as03stat-glow" />
       <div className="as03stat-inner">
         {items.map((item, i) => (

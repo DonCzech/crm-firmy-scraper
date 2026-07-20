@@ -19,7 +19,8 @@ import { SECTION_VARIANTS, type VariantMeta } from "./variants";
 export type CategoryId =
   | "welcome" | "about" | "services" | "pricing" | "gallery"
   | "testimonials" | "team" | "stats" | "cta" | "promo"
-  | "faq" | "blog" | "contact" | "products" | "advanced";
+  | "faq" | "blog" | "contact" | "products" | "advanced"
+  | "header" | "footer";
 
 export interface LibraryCategory {
   id: CategoryId;
@@ -43,6 +44,8 @@ export const LIBRARY_CATEGORIES: LibraryCategory[] = [
   { id: "blog",         label: "Blog",         description: "Novinky a články",     sectionTypes: ["blog-preview"] },
   { id: "contact",      label: "Kontakt",      description: "Formulář, mapa, info", sectionTypes: ["contact", "opening-hours", "map"] },
   { id: "products",     label: "Produkty",     description: "E-shop a katalog",     sectionTypes: ["products"] },
+  { id: "header",       label: "Hlavička",     description: "Navigace webu",        sectionTypes: ["navbar"] },
+  { id: "footer",       label: "Patička",      description: "Spodní část webu",     sectionTypes: ["footer"] },
   { id: "advanced",     label: "Pokročilé",    description: "Embed a volné plátno", sectionTypes: ["embed", "freeform", "rezora-widget"] },
 ];
 

@@ -5,22 +5,52 @@
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
     "links": [
-      { "label": "Úvod",      "href": "/" },
-      { "label": "O nás",     "href": "/#o-nas" },
-      { "label": "Ceník",     "href": "/#cenik" },
-      { "label": "Galerie",   "href": "/#galerie" },
-      { "label": "Kontakt",   "href": "/#kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "/#o-nas"
+      },
+      {
+        "label": "Ceník",
+        "href": "/#cenik"
+      },
+      {
+        "label": "Galerie",
+        "href": "/#galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/#kontakt"
+      }
     ]
   },
   "hero": {
     "siteName": "Impresiv Studio",
     "logoUrl": "",
     "links": [
-      { "label": "Úvod",        "href": "/" },
-      { "label": "Krátce o nás","href": "/#o-nas" },
-      { "label": "Ceník",       "href": "/#cenik" },
-      { "label": "Galerie",     "href": "/#galerie" },
-      { "label": "Kontakt",     "href": "/#kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Krátce o nás",
+        "href": "/#o-nas"
+      },
+      {
+        "label": "Ceník",
+        "href": "/#cenik"
+      },
+      {
+        "label": "Galerie",
+        "href": "/#galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/#kontakt"
+      }
     ],
     "title": "Je čas se ostříhat? Posaďte se k nám.",
     "ctaPrimaryText": "Ceník a rezervace",
@@ -67,14 +97,31 @@
     "image": ""
   },
   "gallery": {
-    "title": "Galerie",
     "images": [
-      { "url": "", "alt": "Interiér salonu" },
-      { "url": "", "alt": "Střih vlasů" },
-      { "url": "", "alt": "Barvení vlasů" },
-      { "url": "", "alt": "Styling" },
-      { "url": "", "alt": "Interiér 2" },
-      { "url": "", "alt": "Výsledek" }
+      {
+        "url": "",
+        "alt": "Interiér salonu"
+      },
+      {
+        "url": "",
+        "alt": "Střih vlasů"
+      },
+      {
+        "url": "",
+        "alt": "Barvení vlasů"
+      },
+      {
+        "url": "",
+        "alt": "Styling"
+      },
+      {
+        "url": "",
+        "alt": "Interiér 2"
+      },
+      {
+        "url": "",
+        "alt": "Výsledek"
+      }
     ]
   },
   "contact": {
@@ -98,5 +145,13 @@
     "gdprHref": "/gdpr",
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo"
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se online",
+      "subtitle": "Vyberte službu, kadeřníka a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

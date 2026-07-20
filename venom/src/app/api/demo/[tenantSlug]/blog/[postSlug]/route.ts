@@ -1,14 +1,24 @@
 import { NextRequest } from "next/server";
+import { sanitizeRichContent, stripHtml } from "@/lib/sanitize-content";
 import { z } from "zod";
 import { getTenantBySlug, query, auditLog } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
+import { readingTimeMinutes, type BlogBlock } from "@/lib/blog/content";
+
+/** Accepts absolute http(s) URLs and site-relative paths (uploaded media). */
+const imageUrl = z.string().max(2000).refine(
+  (v) => /^https?:\/\//.test(v) || v.startsWith("/"),
+  "Neplatná URL obrázku"
+);
 
 const UpdateSchema = z.object({
+  slug: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/, "Slug může obsahovat jen a-z, 0-9, -").optional(),
   title: z.string().min(1).max(200).optional(),
   excerpt: z.string().max(500).optional(),
   content: z.array(z.unknown()).optional(),
-  featured_image: z.string().url().optional().nullable(),
+  featured_image: imageUrl.optional().nullable(),
+  og_image: imageUrl.optional().nullable(),
   author: z.string().max(100).optional(),
   category: z.string().max(100).optional(),
   tags: z.array(z.string()).optional(),
@@ -87,11 +97,26 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     sets.push(`${col} = $${vals.length}`);
   };
 
-  if (d.title !== undefined) addField("title", d.title);
-  if (d.excerpt !== undefined) addField("excerpt", d.excerpt);
-  if (d.content !== undefined) addField("content", JSON.stringify(d.content));
+  if (d.slug !== undefined && d.slug !== rows[0].slug) {
+    const dup = await query(
+      "SELECT id FROM blog_posts WHERE tenant_id = $1 AND slug = $2 AND id != $3",
+      [tenant.id, d.slug, rows[0].id]
+    );
+    if (dup.length) return Response.json({ error: "Slug již existuje" }, { status: 409 });
+    addField("slug", d.slug);
+  }
+  if (d.title !== undefined) addField("title", stripHtml(d.title));
+  if (d.excerpt !== undefined) addField("excerpt", stripHtml(d.excerpt));
+  if (d.content !== undefined) {
+    const content = sanitizeRichContent(d.content);
+    addField("content", JSON.stringify(content));
+    if (d.reading_time_min === undefined) {
+      addField("reading_time_min", readingTimeMinutes(content as BlogBlock[]));
+    }
+  }
   if (d.featured_image !== undefined) addField("featured_image", d.featured_image);
-  if (d.author !== undefined) addField("author", d.author);
+  if (d.og_image !== undefined) addField("og_image", d.og_image);
+  if (d.author !== undefined) addField("author", stripHtml(d.author));
   if (d.category !== undefined) addField("category", d.category);
   if (d.tags !== undefined) addField("tags", d.tags);
   if (d.status !== undefined) {

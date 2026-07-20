@@ -46,7 +46,7 @@ export function ClonedStudioFrame({ tenantSlug, width, scrollTo }: Props) {
   // dispatch style/text/src patches. Sender is a stable closure over `ref`
   // — only re-registered when `loaded` flips (iframe contentWindow becomes
   // available).
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   useEffect(() => {
     const sender = (cmd: CloneCommand) => {
       const win = ref.current?.contentWindow;

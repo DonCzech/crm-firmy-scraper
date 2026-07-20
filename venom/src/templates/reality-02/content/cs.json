@@ -8,34 +8,61 @@
     "phone": "704 123 456",
     "email": "email@demo.cz",
     "links": [
-      { "label": "DOMŮ",    "href": "/" },
-      { "label": "PRODEJ",  "href": "#prodej" },
-      { "label": "BLOG",    "href": "#blog" },
-      { "label": "O NÁS",   "href": "/o-nas" },
-      { "label": "KONTAKT", "href": "/kontakt" }
+      {
+        "label": "DOMŮ",
+        "href": "/"
+      },
+      {
+        "label": "PRODEJ",
+        "href": "#prodej"
+      },
+      {
+        "label": "BLOG",
+        "href": "#blog"
+      },
+      {
+        "label": "O NÁS",
+        "href": "/o-nas"
+      },
+      {
+        "label": "KONTAKT",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
     "id": "prodej",
     "title": "Prodejte svou nemovitost za nejvyšší cenu na trhu.",
     "titleHighlight": "nejvyšší cenu",
-    "titleBold": ["nemovitost", "nejvyšší cenu"],
+    "titleBold": [
+      "nemovitost",
+      "nejvyšší cenu"
+    ],
     "subtitle": "Pomůžeme vám najít makléře, který zná váš trh lépe než kdokoli jiný. Zjistěte za pár minut, za kolik a s kým prodáte svůj byt, dům nebo pozemek.",
     "heroImage": "/templates/reality-02/hero.jpg",
     "ctaText": "Najít makléře",
     "ctaHref": "#kontakt",
     "propertyTypes": [
-      { "label": "Byt",     "icon": "apartment" },
-      { "label": "Dům",     "icon": "house" },
-      { "label": "Pozemek", "icon": "land" },
-      { "label": "Jiné",    "icon": "other" }
+      {
+        "label": "Byt",
+        "icon": "apartment"
+      },
+      {
+        "label": "Dům",
+        "icon": "house"
+      },
+      {
+        "label": "Pozemek",
+        "icon": "land"
+      },
+      {
+        "label": "Jiné",
+        "icon": "other"
+      }
     ]
   },
-
   "steps": {
     "id": "jak-fungujeme",
-    "tagline": "Jak fungujeme?",
     "title": "Jak fungujeme?",
     "items": [
       {
@@ -57,11 +84,9 @@
     ],
     "footnote": "Víme, že prodej nemovitosti není každodenní záležitost. Proto si dáváme záležet na tom, aby byl celý proces pro vás co nejjednodušší a nejpřehlednější."
   },
-
   "benefits": {
     "id": "proc-s-nami",
     "title": "Proč je fajn prodávat nemovitost s námi?",
-    "body": "Orientujeme se v realitním trhu již řadu let a víme, co dělá makléře skutečně dobrým.",
     "items": [
       {
         "icon": "fast",
@@ -85,20 +110,33 @@
       }
     ]
   },
-
   "agents": {
     "id": "makleri",
     "title": "Kdo jsou makléři, které vám doporučujeme?",
     "services": [],
     "criteria": [
-      { "icon": "experience",   "text": "Mají minimálně 2 roky aktivní praxe a za sebou alespoň 20 úspěšně prodaných nemovitostí." },
-      { "icon": "presentation", "text": "Umějí nemovitost profesionálně odprezentovat — od fotek a popisu až po home staging a virtuální prohlídky." },
-      { "icon": "references",   "text": "Mají dostatek pozitivních recenzí od skutečných klientů, které si sami ověřujeme a průběžně aktualizujeme." },
-      { "icon": "contracts",    "text": "Používají kvalitně sepsané zprostředkovatelské smlouvy, které chrání prodávající i kupující." },
-      { "icon": "safekeeping",  "text": "Standardně zajišťují advokátní nebo bankovní úschovu — peníze jsou v bezpečí po celou dobu transakce." }
+      {
+        "icon": "experience",
+        "text": "Mají minimálně 2 roky aktivní praxe a za sebou alespoň 20 úspěšně prodaných nemovitostí."
+      },
+      {
+        "icon": "presentation",
+        "text": "Umějí nemovitost profesionálně odprezentovat — od fotek a popisu až po home staging a virtuální prohlídky."
+      },
+      {
+        "icon": "references",
+        "text": "Mají dostatek pozitivních recenzí od skutečných klientů, které si sami ověřujeme a průběžně aktualizujeme."
+      },
+      {
+        "icon": "contracts",
+        "text": "Používají kvalitně sepsané zprostředkovatelské smlouvy, které chrání prodávající i kupující."
+      },
+      {
+        "icon": "safekeeping",
+        "text": "Standardně zajišťují advokátní nebo bankovní úschovu — peníze jsou v bezpečí po celou dobu transakce."
+      }
     ]
   },
-
   "cta": {
     "id": "cta",
     "title": "Prodejte svou nemovitost výhodněji než ostatní",
@@ -106,7 +144,6 @@
     "ctaText": "Zjistit",
     "ctaHref": "#prodej"
   },
-
   "blogPreview": {
     "id": "blog",
     "tagline": "Blog",
@@ -140,7 +177,6 @@
       }
     ]
   },
-
   "contact": {
     "id": "kontakt",
     "title": "Kontaktujte nás",
@@ -149,7 +185,6 @@
     "email": "email@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1"
   },
-
   "footer": {
     "siteName": "Poctivý Makléř",
     "logoUrl": "/templates/reality-02/logo.svg",
@@ -161,43 +196,81 @@
         "title": "Prodej domu",
         "heading": "Prodej domu",
         "links": [
-          { "label": "Prodej domu v Praze",   "href": "#" },
-          { "label": "Prodej domu v Brně",    "href": "#" },
-          { "label": "Prodej domu v Ostravě", "href": "#" },
-          { "label": "Prodej domu v Plzni",   "href": "#" }
+          {
+            "label": "Prodej domu v Praze",
+            "href": "#"
+          },
+          {
+            "label": "Prodej domu v Brně",
+            "href": "#"
+          },
+          {
+            "label": "Prodej domu v Ostravě",
+            "href": "#"
+          },
+          {
+            "label": "Prodej domu v Plzni",
+            "href": "#"
+          }
         ]
       },
       {
         "title": "Prodej bytu",
         "heading": "Prodej bytu",
         "links": [
-          { "label": "Prodej bytu v Praze",   "href": "#" },
-          { "label": "Prodej bytu v Brně",    "href": "#" },
-          { "label": "Prodej bytu v Ostravě", "href": "#" },
-          { "label": "Prodej bytu v Plzni",   "href": "#" }
+          {
+            "label": "Prodej bytu v Praze",
+            "href": "#"
+          },
+          {
+            "label": "Prodej bytu v Brně",
+            "href": "#"
+          },
+          {
+            "label": "Prodej bytu v Ostravě",
+            "href": "#"
+          },
+          {
+            "label": "Prodej bytu v Plzni",
+            "href": "#"
+          }
         ]
       }
     ],
     "navLinks": [
-      { "label": "O nás",    "href": "/o-nas" },
-      { "label": "Kontakt",  "href": "/kontakt" },
-      { "label": "Blog",     "href": "#blog" },
-      { "label": "GDPR",     "href": "#" },
-      { "label": "Podmínky", "href": "#" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Blog",
+        "href": "#blog"
+      },
+      {
+        "label": "GDPR",
+        "href": "#"
+      },
+      {
+        "label": "Podmínky",
+        "href": "#"
+      }
     ]
   },
-
   "pages": {
     "o-nas": {
-      "seoTitle":       "O nás | Poctivý Makléř",
+      "seoTitle": "O nás | Poctivý Makléř",
       "seoDescription": "Zjistěte více o Poctivý Makléř — nezávislém srovnávači realitních makléřů.",
       "hero": {
-        "title":    "O nás",
+        "title": "O nás",
         "subtitle": "Nezávislý srovnávač makléřů"
       }
     },
     "kontakt": {
-      "seoTitle":       "Kontakt | Poctivý Makléř",
+      "seoTitle": "Kontakt | Poctivý Makléř",
       "seoDescription": "Kontaktujte Poctivý Makléř — poradíme vám s prodejem nemovitosti."
     }
   }

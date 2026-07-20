@@ -187,6 +187,13 @@ export function GenericEditableText({
     updateStyleLocal(sectionId, field, {});
   }
 
+  function closeToolbar() {
+    revertStyle();
+    editing.current = false;
+    setFocused(false);
+    ref.current?.blur();
+  }
+
   /** Naváže prvek na globální styl — smaže inline typografické overrides,
    *  aby vzhled plně řídily design tokeny. Zachovává zarovnání a pozici. */
   function applyNamedStyle(v: GenericNamedTextStyle | "") {
@@ -270,30 +277,33 @@ export function GenericEditableText({
       window.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [isAdmin, hovered, focused, isDragging, isResizing]);
+
+  /** CSS zoom canvas kontejneru — převod viewport px → canvas px (1 mimo canvas). */
+  function readCanvasZoom(): number {
+    let el: HTMLElement | null = ref.current;
+    while (el) {
+      if (el.hasAttribute("data-studio-canvas-preview")) {
+        const z = parseFloat(window.getComputedStyle(el).zoom || "1");
+        return isNaN(z) || z <= 0 ? 1 : z;
+      }
+      el = el.parentElement;
+    }
+    return 1;
+  }
 
   function startDrag(e: React.PointerEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (!ref.current) return;
     dragInitRectRef.current = ref.current.getBoundingClientRect();
-    const stored = getStyle(sectionId, field);
-    const storedTx = parseFloat(stored.translateX ?? "0") || 0;
-    const storedTy = parseFloat(stored.translateY ?? "0") || 0;
+    // Baseline z draftu — fokusovaný prvek se kreslí z draftu a může nést
+    // ještě neuložené změny (např. čerstvý resize).
+    const storedTx = parseFloat(draftRef.current.translateX ?? "0") || 0;
+    const storedTy = parseFloat(draftRef.current.translateY ?? "0") || 0;
     const startMouse = { x: e.clientX, y: e.clientY };
-    // CSS zoom on the canvas container — convert viewport px → canvas px
-    const canvasZoom = (() => {
-      let el: HTMLElement | null = ref.current;
-      while (el) {
-        if (el.hasAttribute("data-studio-canvas-preview")) {
-          const z = parseFloat(window.getComputedStyle(el).zoom || "1");
-          return isNaN(z) || z <= 0 ? 1 : z;
-        }
-        el = el.parentElement;
-      }
-      return 1;
-    })();
+    const canvasZoom = readCanvasZoom();
     let finalTx = storedTx;
     let finalTy = storedTy;
     setIsDragging(true);
@@ -322,8 +332,10 @@ export function GenericEditableText({
       setIsDragging(false);
       setDragDelta({ dx: 0, dy: 0 });
       dragInitRectRef.current = null;
-      // Save to server — next React render will apply via style prop
-      updateStyle(sectionId, field, { ...stored, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
+      // Uložit přes draft + commit (sync snapshotu) — jinak by blur pozici
+      // vrátil na stav před tahem (revertStyle čte snapshot).
+      setDraft({ ...draftRef.current, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
+      commitStyle();
     }
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
@@ -333,24 +345,34 @@ export function GenericEditableText({
     e.preventDefault();
     e.stopPropagation();
     resizeInitRectRef.current = ref.current?.getBoundingClientRect() ?? null;
-    const stored = getStyle(sectionId, field);
     const computedSize = ref.current ? parseFloat(window.getComputedStyle(ref.current).fontSize) : 16;
-    const baseFontSize = parseFloat(stored.fontSize ?? "") || computedSize;
+    const baseFontSize = parseFloat(draftRef.current.fontSize ?? "") || computedSize;
+    const startX = e.clientX;
     const startY = e.clientY;
-    let finalSize = baseFontSize;
+    const canvasZoom = readCanvasZoom();
     setIsResizing(true);
 
     function onMove(ev: PointerEvent) {
-      const dy = startY - ev.clientY; // drag up → bigger
-      finalSize = Math.max(6, Math.min(320, Math.round(baseFontSize + dy * 0.5)));
-      updateStyleLocal(sectionId, field, { ...stored, fontSize: `${finalSize}px` });
+      // Úchyt je v PRAVÉM DOLNÍM rohu → tažení dolů/doprava (od prvku pryč)
+      // = zvětšení, jako v každém design nástroji. Dřívější `startY - clientY`
+      // (nahoru = větší) působilo obráceně — uživatel roztahoval a text se zmenšil.
+      const d = ((ev.clientX - startX) + (ev.clientY - startY)) / 2 / canvasZoom;
+      const size = Math.max(6, Math.min(320, Math.round(baseFontSize + d * 0.5)));
+      // Přes draft, ne jen updateStyleLocal — fokusovaný prvek se kreslí z
+      // draftu (displayStyle), takže jinak by se změna projevila až po
+      // odkliknutí mimo. Musí být vidět ŽIVĚ během tahu.
+      const next = { ...draftRef.current, fontSize: `${size}px` };
+      setDraft(next);
+      updateStyleLocal(sectionId, field, next);
     }
     function onUp() {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
       setIsResizing(false);
       resizeInitRectRef.current = null;
-      updateStyle(sectionId, field, { ...stored, fontSize: `${finalSize}px` });
+      // Uložit finální draft + sesynchronizovat snapshot, aby blur změnu
+      // nevrátil ani neukládal podruhé.
+      commitStyle();
     }
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
@@ -459,7 +481,7 @@ export function GenericEditableText({
             fontFamily: "Inter, system-ui, sans-serif",
             border: `1px solid ${TB.border}`,
             outline: "none",
-            overflow: "hidden",
+            overflow: "visible",
           }}
         >
           <style>{`
@@ -478,13 +500,25 @@ export function GenericEditableText({
             .vs-tb-action[data-danger="true"]:hover { background:rgba(248,113,113,0.12); color:${TB.danger}; border-color:rgba(248,113,113,0.35); }
             .vs-tb-primary { height:27px; padding:0 12px; border-radius:7px; border:none; background-image:var(--vs-grad-brand, linear-gradient(135deg,var(--vs-accent) 0%,var(--vs-accent) 60%,#7c5cf6 100%)); color:#fff; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(20,184,166,0.35); font-family:inherit; transition:filter .12s ease; }
             .vs-tb-primary:hover { filter:brightness(1.12); }
+            .vs-tb-close { position:absolute; right:-11px; top:-13px; z-index:3; width:25px; height:25px; border-radius:999px; border:1px solid ${TB.border}; background:${TB.bg}; color:${TB.textMuted}; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 5px 16px rgba(15,23,42,.22); transition:background .12s ease,color .12s ease,transform .12s ease; }
+            .vs-tb-close:hover { background:${TB.surfaceHi}; color:${TB.text}; transform:scale(1.05); }
           `}</style>
+
+          <button
+            type="button"
+            className="vs-tb-close"
+            title="Zavřít editor"
+            aria-label="Zavřít editor"
+            onMouseDown={(e) => { e.preventDefault(); e.stopPropagation(); closeToolbar(); }}
+          >
+            <X size={14} strokeWidth={2.2} />
+          </button>
 
           {/* Drag grip — left edge column */}
           <div
             onPointerDown={startToolbarDrag}
             title="Přesunout panel"
-            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 16, cursor: "grab", flexShrink: 0, background: TB.surface, borderRight: `1px solid ${TB.border}` }}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 16, cursor: "grab", flexShrink: 0, background: TB.surface, borderRight: `1px solid ${TB.border}`, borderRadius: "11px 0 0 11px" }}
           >
             <svg width="6" height="22" viewBox="0 0 6 22" fill="none">
               {[2, 8.5, 15, 21].slice(0, 3).map((y) => (
@@ -610,16 +644,11 @@ export function GenericEditableText({
                 disabled={!clipboardHas}>
                 <ClipboardPaste size={13.5} strokeWidth={2} />
               </button>
-              <button type="button" className="vs-tb-btn" title="Resetovat na výchozí styl šablony"
-                onMouseDown={(e) => { e.preventDefault(); resetStyle(); }}>
-                <RotateCcw size={13} strokeWidth={2} />
-              </button>
-
               <div className="vs-tb-sep" />
 
-              <button type="button" className="vs-tb-action" data-danger="true" title="Zahodit změny (Esc)"
-                onMouseDown={(e) => { e.preventDefault(); revertStyle(); }}>
-                <X size={13} strokeWidth={2.2} /> Zrušit
+              <button type="button" className="vs-tb-action" title="Resetovat na výchozí styl šablony"
+                onMouseDown={(e) => { e.preventDefault(); resetStyle(); }}>
+                <RotateCcw size={13} strokeWidth={2.2} /> Výchozí
               </button>
               <button type="button" className="vs-tb-primary" title="Uložit styl (⌘Enter)"
                 onMouseDown={(e) => { e.preventDefault(); commitStyle(); }}>
@@ -683,7 +712,7 @@ export function GenericEditableText({
         userSelect: "none",
         touchAction: "none",
       }}
-      title="Změnit velikost (drag nahoru/dolů)"
+      title="Změnit velikost textu — táhni doprava dolů pro zvětšení"
       onMouseDown={(e) => e.preventDefault()}
       onPointerDown={startResize}
     />,

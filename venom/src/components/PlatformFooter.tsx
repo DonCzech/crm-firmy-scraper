@@ -50,11 +50,10 @@ function columnsFor(locale: PlatformLocale) {
       links: [
         ["podpora@webero.co", "mailto:podpora@webero.co"],
         ["+420 776 123 456", "tel:+420776123456"],
-        [copy.hours, "#"],
-        [copy.status, "#"],
+        [copy.hours, null],
       ],
     },
-  ];
+  ] as { title: string; links: [string, string | null][] }[];
 }
 
 const SOCIALS = [
@@ -107,35 +106,43 @@ export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = 
       <div className="mx-auto max-w-[1280px] px-6 py-16 lg:px-10 lg:py-20">
 
         {/* Newsletter — full-width hero band */}
-        <div className="mb-14 grid items-center gap-8 rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-transparent p-8 backdrop-blur-sm md:grid-cols-[1.1fr_1fr] md:p-10 lg:mb-16">
-          <div>
-            <p
-              className="mb-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase text-[#a5b4fc]"
-              style={{ letterSpacing: "0.18em" }}
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
-              Newsletter
-            </p>
-            <h3
-              className="font-sans font-semibold tracking-[-0.025em] text-white"
-              style={{ fontSize: "clamp(22px, 2.6vw, 30px)", lineHeight: "1.15" }}
-            >
-              {copy.newsletterTitle}
-            </h3>
-            <p className="mt-2 max-w-[420px] text-[14px] leading-[1.55] text-white/65">
-              {copy.newsletterText}
-            </p>
-          </div>
-          <NewsletterForm
-            copy={{
-              placeholder: copy.newsletterPlaceholder,
-              submit: copy.newsletterSubmit,
-              loading: copy.newsletterLoading,
-              successTitle: copy.newsletterSuccessTitle,
-              successText: copy.newsletterSuccessText,
-              error: copy.newsletterError,
-            }}
+        <div className="relative mb-14 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] p-8 md:p-10 lg:mb-16">
+          {/* Ambient indigo glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-28 -top-28 h-[320px] w-[320px] rounded-full opacity-70 blur-[100px]"
+            style={{ background: "radial-gradient(circle, rgba(99,102,241,0.35), transparent 70%)" }}
           />
+          <div className="relative grid items-center gap-8 md:grid-cols-[1.1fr_1fr]">
+            <div>
+              <p
+                className="mb-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase text-[#a5b4fc]"
+                style={{ letterSpacing: "0.16em" }}
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
+                Newsletter
+              </p>
+              <h3
+                className="font-sans font-semibold tracking-[-0.025em] text-white"
+                style={{ fontSize: "clamp(22px, 2.6vw, 30px)", lineHeight: "1.15" }}
+              >
+                {copy.newsletterTitle}
+              </h3>
+              <p className="mt-2.5 max-w-[420px] text-[14px] leading-[1.6] text-white/60">
+                {copy.newsletterText}
+              </p>
+            </div>
+            <NewsletterForm
+              copy={{
+                placeholder: copy.newsletterPlaceholder,
+                submit: copy.newsletterSubmit,
+                loading: copy.newsletterLoading,
+                successTitle: copy.newsletterSuccessTitle,
+                successText: copy.newsletterSuccessText,
+                error: copy.newsletterError,
+              }}
+            />
+          </div>
         </div>
 
         {/* Top — brand + columns */}
@@ -160,7 +167,7 @@ export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = 
                   key={s.name}
                   href="#"
                   aria-label={s.name}
-                  className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/70 transition hover:border-white/40 hover:text-white"
+                  className="grid h-9 w-9 place-items-center rounded-full border border-white/12 text-white/60 transition duration-300 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/[0.06] hover:text-white"
                 >
                   <span className="h-4 w-4">{s.icon}</span>
                 </a>
@@ -172,7 +179,7 @@ export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = 
           {columns.map((col) => (
             <div key={col.title}>
               <h3
-                className="mb-5 text-[11px] font-semibold uppercase text-white"
+                className="mb-5 text-[11px] font-semibold uppercase text-white/45"
                 style={{ letterSpacing: "0.16em" }}
               >
                 {col.title}
@@ -180,12 +187,17 @@ export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = 
               <ul className="space-y-3">
                 {col.links.map(([label, href]) => (
                   <li key={label}>
-                    <a
-                      href={href}
-                      className="text-[14px] text-white/80 transition hover:text-white"
-                    >
-                      {label}
-                    </a>
+                    {href ? (
+                      <a
+                        href={href}
+                        className="group relative inline-block text-[14px] text-white/65 transition-colors duration-200 hover:text-white"
+                      >
+                        {label}
+                        <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-white/60 transition-all duration-300 group-hover:w-full" />
+                      </a>
+                    ) : (
+                      <span className="text-[14px] text-white/40">{label}</span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -194,11 +206,14 @@ export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = 
         </div>
 
         {/* Bottom — single line */}
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-7 text-[12.5px] text-white lg:flex-row lg:items-center">
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
-            <span>{copy.systemsOk}</span>
-            <span className="mx-2 text-white/50">·</span>
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-7 text-[12.5px] text-white/50 lg:flex-row lg:items-center">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22c55e] opacity-60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
+            </span>
+            <span className="text-white/70">{copy.systemsOk}</span>
+            <span className="mx-1 text-white/25">·</span>
             <span>{copy.euHosting}</span>
           </div>
           <div className="inline-flex overflow-hidden rounded-full border border-white/12 bg-white/[0.03] p-1">
@@ -226,9 +241,9 @@ export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = 
             </Link>
           </div>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-white/70">{copy.terms}</a>
-            <a href="#" className="hover:text-white/70">{copy.privacy}</a>
-            <span>© {year} Webero s.r.o.</span>
+            <a href="#" className="transition-colors hover:text-white">{copy.terms}</a>
+            <a href="#" className="transition-colors hover:text-white">{copy.privacy}</a>
+            <span className="text-white/35">© {year} Webero s.r.o.</span>
           </div>
         </div>
       </div>

@@ -60,11 +60,11 @@ export function KeyboardShortcutsOverlay({ open, onClose }: { open: boolean; onC
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--vs-surface-2)]">
-          <h2 className="text-[15px] font-semibold text-white">Klávesové zkratky</h2>
+          <h2 className="text-[15px] font-semibold text-[var(--vs-text)]">Klávesové zkratky</h2>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-muted)] transition-colors"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
             aria-label="Zavřít"
           >
             <X className="h-4 w-4" />
@@ -75,7 +75,7 @@ export function KeyboardShortcutsOverlay({ open, onClose }: { open: boolean; onC
         <div className="grid grid-cols-2 gap-0 divide-x divide-[var(--vs-surface-2)]">
           {GROUPS.map((g) => (
             <div key={g.title} className="px-5 py-4">
-              <h3 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-[#6b7280]">
+              <h3 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-[var(--vs-text-muted)]">
                 {g.title}
               </h3>
               <ul className="space-y-1">

@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#56203d",
+    "secondary": "#3f152c",
+    "accent": "#f2a541",
+    "background": "#fbf7f1",
+    "surface": "#f6efe4",
+    "text": "#241a20",
+    "textMuted": "#7a6c74",
+    "border": "#e9dfe0"
+  },
+  "typography": {
+    "fontHeading": "'Bricolage Grotesque', 'Segoe UI', sans-serif",
+    "fontBody": "'Figtree', 'Segoe UI', Arial, sans-serif"
+  }
+}

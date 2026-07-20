@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "instala-02",
-  "name": "Demo Vestop",
+  "name": "AquaFix",
   "industry": "instala",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -9,20 +9,51 @@
   "description": "Topenářství & instalatérství — komplexní řemeslná firma. Bílý navbar s červeným #ee4036 CTA, Montserrat+Roboto font, fullbleed hero s tmavým overlayem, 5 service karet s foto, O nás 2-col, FAQ accordion, reference galerie, kontakt formulář, footer. Inspirováno vestop.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Services → FAQ → Gallery → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Pricing",      "reason": "Ceny jsou individuální dle rozsahu zakázky" },
-    { "pos": 6,  "name": "Pricing/Estimate", "reason": "Cenová kalkulačka není relevantní — zakázky jsou individuálně nacenné po obhlídce" },
-    { "pos": 8,  "name": "Testimonials", "reason": "Sekce reference nahrazuje recenze — galerie projektů s kategoriemi" },
-    { "pos": 9,  "name": "Contact/CTA",  "reason": "Kontakt je jako samostatná plnohodnotná sekce (instala-02-contact) s formulářem" },
-    { "pos": 10, "name": "Blog",         "reason": "Zajímavosti/aktuality nahrazeny stručnou FAQ sekcí" }
+    {
+      "pos": 4,
+      "name": "Pricing",
+      "reason": "Ceny jsou individuální dle rozsahu zakázky"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Cenová kalkulačka není relevantní — zakázky jsou individuálně nacenné po obhlídce"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Sekce reference nahrazuje recenze — galerie projektů s kategoriemi"
+    },
+    {
+      "pos": 9,
+      "name": "Contact/CTA",
+      "reason": "Kontakt je jako samostatná plnohodnotná sekce (instala-02-contact) s formulářem"
+    },
+    {
+      "pos": 10,
+      "name": "Blog",
+      "reason": "Zajímavosti/aktuality nahrazeny stručnou FAQ sekcí"
+    }
   ],
   "extraSections": [
-    { "type": "faq",     "reason": "Vestop má 'Časté dotazy' sekci na homepage" },
-    { "type": "gallery", "reason": "Reference — galerie realizací s filtrací dle kategorie (kotle, krbové vložky, plynové kotle...)" },
-    { "type": "contact", "reason": "Plnohodnotný kontaktní formulář s mapou a provozní dobou — klíčový prvek pro generování poptávek" }
+    {
+      "type": "faq",
+      "reason": "Vestop má 'Časté dotazy' sekci na homepage"
+    },
+    {
+      "type": "gallery",
+      "reason": "Reference — galerie realizací s filtrací dle kategorie (kotle, krbové vložky, plynové kotle...)"
+    },
+    {
+      "type": "contact",
+      "reason": "Plnohodnotný kontaktní formulář s mapou a provozní dobou — klíčový prvek pro generování poptávek"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -30,14 +61,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "instala-02-navbar",   "contentRef": "navbar"   },
-        { "type": "hero",     "variant": "instala-02-hero",     "contentRef": "hero"     },
-        { "type": "about",    "variant": "instala-02-about",    "contentRef": "about"    },
-        { "type": "services", "variant": "instala-02-services", "contentRef": "services" },
-        { "type": "faq",      "variant": "instala-02-faq",      "contentRef": "faq"      },
-        { "type": "gallery",  "variant": "instala-02-gallery",  "contentRef": "gallery"  },
-        { "type": "contact",  "variant": "instala-02-contact",  "contentRef": "contact"  },
-        { "type": "footer",   "variant": "instala-02-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "instala-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "instala-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "instala-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "instala-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "faq",
+          "variant": "instala-02-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "gallery",
+          "variant": "instala-02-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "contact",
+          "variant": "instala-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -46,11 +109,31 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "instala-02-navbar",   "contentRef": "navbar"   },
-        { "type": "hero",     "variant": "hero-centered",       "contentRef": "pages.sluzby.hero" },
-        { "type": "services", "variant": "instala-02-services", "contentRef": "services" },
-        { "type": "contact",  "variant": "instala-02-contact",  "contentRef": "contact"  },
-        { "type": "footer",   "variant": "instala-02-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "instala-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "instala-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "contact",
+          "variant": "instala-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -59,10 +142,26 @@
       "seoTitleKey": "pages.reference.seoTitle",
       "seoDescriptionKey": "pages.reference.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "instala-02-navbar",  "contentRef": "navbar"  },
-        { "type": "hero",    "variant": "hero-centered",      "contentRef": "pages.reference.hero" },
-        { "type": "gallery", "variant": "instala-02-gallery", "contentRef": "gallery" },
-        { "type": "footer",  "variant": "instala-02-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "instala-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.reference.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "instala-02-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -71,9 +170,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "instala-02-navbar",  "contentRef": "navbar"  },
-        { "type": "contact", "variant": "instala-02-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "instala-02-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "instala-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "instala-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

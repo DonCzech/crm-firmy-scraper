@@ -52,7 +52,7 @@ interface TemplateRow {
 // Used both for auto-assign (which industry to pick next) and list ordering.
 const INDUSTRY_PRIORITY = [
   "barber", "hairdresser", "hair", "beauty", "nails", "clinic",
-  "wellness", "massage", "ananda", "spa", "tawan",
+  "wellness", "massage", "harmonie", "spa", "tawan",
   "fitness", "physio", "fyzio",
   "dentist", "dental", "ortho",
   "tattoo",

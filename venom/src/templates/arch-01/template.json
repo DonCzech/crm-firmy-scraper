@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "arch-01",
-  "name": "Demo Arch",
+  "name": "Forma Studio",
   "industry": "arch",
   "skeleton": "professional",
   "version": "0.1.0",
@@ -9,13 +9,32 @@
   "description": "Architektonický ateliér — fixed černý navbar s full-page overlay menu, fullscreen project slider hero, realizace carousel, about ateliér, interiéry carousel, reels/blog preview, média press sekce, ocenění grid, footer se dvěma adresami. Inspirováno karesarch.cz.",
   "sectionOrderNote": "Navbar → Hero → Realizace → About → Interiéry → Reels → Média → Architekti → Ocenění → Footer",
   "skippedSections": [
-    { "pos": 3,  "name": "Services",      "reason": "Architektonický ateliér prezentuje projekty galerií, ne oddělené servisní sekce" },
-    { "pos": 7,  "name": "CTA/Contact",   "reason": "Kontakt je dedikovaná stránka /kontakt, CTA je součástí hero sekce" },
-    { "pos": 8,  "name": "Testimonials",  "reason": "Ateliér prezentuje ocenění (awards) místo textových referencí klientů" },
-    { "pos": 10, "name": "FAQ",           "reason": "FAQ není součástí originálního homepage flow karesarch.cz" }
+    {
+      "pos": 3,
+      "name": "Services",
+      "reason": "Architektonický ateliér prezentuje projekty galerií, ne oddělené servisní sekce"
+    },
+    {
+      "pos": 7,
+      "name": "CTA/Contact",
+      "reason": "Kontakt je dedikovaná stránka /kontakt, CTA je součástí hero sekce"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Ateliér prezentuje ocenění (awards) místo textových referencí klientů"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není součástí originálního homepage flow karesarch.cz"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "reason": "Média/press sekce (logo wall) je klíčovým prvkem architektonického ateliéru — press coverage" }
+    {
+      "type": "promo",
+      "reason": "Média/press sekce (logo wall) je klíčovým prvkem architektonického ateliéru — press coverage"
+    }
   ],
   "pages": [
     {
@@ -23,16 +42,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "arch-01-navbar",    "contentRef": "navbar" },
-        { "type": "hero",         "variant": "arch-01-hero",      "contentRef": "hero" },
-        { "type": "gallery",      "variant": "arch-01-projects",  "contentRef": "projects" },
-        { "type": "about",        "variant": "arch-01-about",     "contentRef": "about" },
-        { "type": "gallery",      "variant": "arch-01-interiors", "contentRef": "interiors" },
-        { "type": "blog-preview", "variant": "arch-01-reels",     "contentRef": "reels" },
-        { "type": "promo",        "variant": "arch-01-media",     "contentRef": "media" },
-        { "type": "team",         "variant": "arch-01-team",      "contentRef": "team" },
-        { "type": "gallery",      "variant": "arch-01-awards",    "contentRef": "awards" },
-        { "type": "footer",       "variant": "arch-01-footer",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "arch-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "arch-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "arch-01-projects",
+          "contentRef": "projects"
+        },
+        {
+          "type": "about",
+          "variant": "arch-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "gallery",
+          "variant": "arch-01-interiors",
+          "contentRef": "interiors"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "arch-01-reels",
+          "contentRef": "reels"
+        },
+        {
+          "type": "promo",
+          "variant": "arch-01-media",
+          "contentRef": "media"
+        },
+        {
+          "type": "team",
+          "variant": "arch-01-team",
+          "contentRef": "team"
+        },
+        {
+          "type": "gallery",
+          "variant": "arch-01-awards",
+          "contentRef": "awards"
+        },
+        {
+          "type": "footer",
+          "variant": "arch-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -41,10 +100,26 @@
       "seoTitleKey": "pages.realizace.seoTitle",
       "seoDescriptionKey": "pages.realizace.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "arch-01-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",    "contentRef": "pages.realizace.hero" },
-        { "type": "gallery",  "variant": "arch-01-projects", "contentRef": "projects" },
-        { "type": "footer",   "variant": "arch-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "arch-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.realizace.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "arch-01-projects",
+          "contentRef": "projects"
+        },
+        {
+          "type": "footer",
+          "variant": "arch-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -53,10 +128,26 @@
       "seoTitleKey": "pages.interiery.seoTitle",
       "seoDescriptionKey": "pages.interiery.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "arch-01-navbar",    "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",     "contentRef": "pages.interiery.hero" },
-        { "type": "gallery",  "variant": "arch-01-interiors", "contentRef": "interiors" },
-        { "type": "footer",   "variant": "arch-01-footer",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "arch-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.interiery.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "arch-01-interiors",
+          "contentRef": "interiors"
+        },
+        {
+          "type": "footer",
+          "variant": "arch-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -65,11 +156,31 @@
       "seoTitleKey": "pages.atelier.seoTitle",
       "seoDescriptionKey": "pages.atelier.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "arch-01-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",   "contentRef": "pages.atelier.hero" },
-        { "type": "about",   "variant": "arch-01-about",   "contentRef": "about" },
-        { "type": "team",    "variant": "arch-01-team",    "contentRef": "team" },
-        { "type": "footer",  "variant": "arch-01-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "arch-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.atelier.hero"
+        },
+        {
+          "type": "about",
+          "variant": "arch-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "team",
+          "variant": "arch-01-team",
+          "contentRef": "team"
+        },
+        {
+          "type": "footer",
+          "variant": "arch-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -78,10 +189,26 @@
       "seoTitleKey": "pages.architekti.seoTitle",
       "seoDescriptionKey": "pages.architekti.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "arch-01-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",   "contentRef": "pages.architekti.hero" },
-        { "type": "team",    "variant": "arch-01-team",    "contentRef": "team" },
-        { "type": "footer",  "variant": "arch-01-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "arch-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.architekti.hero"
+        },
+        {
+          "type": "team",
+          "variant": "arch-01-team",
+          "contentRef": "team"
+        },
+        {
+          "type": "footer",
+          "variant": "arch-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -90,9 +217,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "arch-01-navbar",   "contentRef": "navbar" },
-        { "type": "contact",  "variant": "arch-01-contact",  "contentRef": "contact" },
-        { "type": "footer",   "variant": "arch-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "arch-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "arch-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "arch-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

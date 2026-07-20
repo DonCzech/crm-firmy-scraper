@@ -177,7 +177,7 @@ export function ReorderSectionsModal({ open, onClose, state }: Props) {
               onClick={save}
               disabled={saving}
               className={clsx(
-                "inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-semibold text-white transition-colors",
+                "inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-[13px] font-semibold text-[var(--vs-text)] transition-colors",
                 saving ? "bg-[#86efac]" : "bg-[#16a34a] hover:bg-[#15803d]",
               )}
             >

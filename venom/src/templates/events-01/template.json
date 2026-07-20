@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "events-01",
-  "name": "Demo Events",
+  "name": "Gala Events",
   "industry": "events",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,20 +9,52 @@
   "description": "Prémiová eventová agentura — tmavý luxusní web. Fixed dark blur navbar se zlatým wordmarkem, fullscreen hero s bg foto a italic Playfair H1, 3-col services grid, 4-step process, 6-col portfolio grid, stats čísla, CTA a tmavý 3-col footer. Inspirováno amdenevents.cz. Inter + Playfair Display.",
   "sectionOrderNote": "Navbar → Hero → Services → Process → Portfolio → Stats → CTA → Footer",
   "skippedSections": [
-    { "pos": 3, "name": "About", "reason": "Originál amdenevents.cz nemá samostatnou O nás sekci na homepage — info je součástí stats sekce" },
-    { "pos": 5, "name": "Pricing", "reason": "Eventová agentura nenabízí ceník na homepage — cena je vždy individuální na míru akce" },
-    { "pos": 7, "name": "Team", "reason": "Tým není prezentován na homepage originálu" },
-    { "pos": 8, "name": "Testimonials", "reason": "Originál amdenevents.cz nemá recenze na homepage" },
-    { "pos": 10, "name": "Contact form", "reason": "Kontakt je v CTA sekci a footeru — originál nemá samostatný kontaktní formulář" },
-    { "pos": 11, "name": "FAQ", "reason": "Originál amdenevents.cz nemá FAQ na homepage" }
+    {
+      "pos": 3,
+      "name": "About",
+      "reason": "Originál amdenevents.cz nemá samostatnou O nás sekci na homepage — info je součástí stats sekce"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Eventová agentura nenabízí ceník na homepage — cena je vždy individuální na míru akce"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Tým není prezentován na homepage originálu"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál amdenevents.cz nemá recenze na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "Contact form",
+      "reason": "Kontakt je v CTA sekci a footeru — originál nemá samostatný kontaktní formulář"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál amdenevents.cz nemá FAQ na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "process", "reason": "4-krokový proces realizace akce — klíčový prvek agenturního webu" },
-    { "type": "stats",   "reason": "Číselné statistiky (28 let, 600+ akcí, 12 členů) — social proof" }
+    {
+      "type": "process",
+      "reason": "4-krokový proces realizace akce — klíčový prvek agenturního webu"
+    },
+    {
+      "type": "stats",
+      "reason": "Číselné statistiky (28 let, 600+ akcí, 12 členů) — social proof"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -30,14 +62,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",    "variant": "events-01-navbar",    "contentRef": "navbar"    },
-        { "type": "hero",      "variant": "events-01-hero",      "contentRef": "hero"      },
-        { "type": "services",  "variant": "events-01-services",  "contentRef": "services"  },
-        { "type": "about",     "variant": "events-01-process",   "contentRef": "process"   },
-        { "type": "gallery",   "variant": "events-01-gallery",   "contentRef": "gallery"   },
-        { "type": "stats",     "variant": "events-01-stats",     "contentRef": "stats"     },
-        { "type": "cta",       "variant": "events-01-cta",       "contentRef": "cta"       },
-        { "type": "footer",    "variant": "events-01-footer",    "contentRef": "footer"    }
+        {
+          "type": "navbar",
+          "variant": "events-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "events-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "events-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "events-01-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "gallery",
+          "variant": "events-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "stats",
+          "variant": "events-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "cta",
+          "variant": "events-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "events-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

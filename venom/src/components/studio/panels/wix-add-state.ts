@@ -6,7 +6,7 @@
 
 import { useSyncExternalStore } from "react";
 
-export type WixAddView = "closed" | "popover" | "elements" | "sections" | "pages";
+export type WixAddView = "closed" | "elements" | "sections" | "pages";
 
 export interface WixAddOptions {
   /** When set, Sekce panel pre-filters by this type and clicking a card
@@ -15,6 +15,20 @@ export interface WixAddOptions {
   /** Restrict Sekce panel to a specific section type (used by "Změnit
       rozložení" so the user only sees variants of the same kind). */
   filterType?: string;
+}
+
+export const SECTION_INSERT_EVENT = "venom-studio:choose-section-position";
+
+export interface SectionInsertRequest {
+  type: string;
+  variant: string;
+  label: string;
+  settings?: Record<string, unknown>;
+}
+
+/** Hand a chosen catalogue variant to the Layers placement dialog. */
+export function requestSectionInsert(detail: SectionInsertRequest) {
+  window.dispatchEvent(new CustomEvent<SectionInsertRequest>(SECTION_INSERT_EVENT, { detail }));
 }
 
 let _view: WixAddView = "closed";
@@ -30,7 +44,9 @@ export function setWixAdd(next: WixAddView, opts: WixAddOptions = {}) {
 }
 
 export function toggleWixAdd() {
-  setWixAdd(_view === "closed" ? "popover" : "closed");
+  // Bez mezikroku s 3-kartovým popoverem — „+ Přidat" otevírá rovnou panel
+  // Sekce (nejčastější akce); Prvky/Stránky jsou záložky v hlavičce panelu.
+  setWixAdd(_view === "closed" ? "sections" : "closed");
 }
 
 export function useWixAdd(): WixAddView {

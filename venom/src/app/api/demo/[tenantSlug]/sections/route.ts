@@ -4,6 +4,7 @@ import { query, withTransaction, auditLog, touchTenantActivity } from "@/lib/db"
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
 import { revalidatePath } from "next/cache";
 import type { PoolClient } from "pg";
+import { sanitizeRichContent } from "@/lib/sanitize-content";
 
 const SectionSchema = z.object({
   id: z.number(),
@@ -13,7 +14,7 @@ const SectionSchema = z.object({
   section_variant: z.string().max(50).default("default"),
   order_index: z.number().int().min(0),
   is_visible: z.boolean(),
-  settings: z.record(z.unknown()).default({}),
+        settings: z.record(z.unknown()).default({}),
 });
 
 const BodySchema = z.object({
@@ -50,7 +51,8 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
   // tenant context and a sibling page_id in the batch before the security
   // check so legitimate empty-page adds don't fail with "tenant mismatch".
   const fallbackPageId = parsed.data.sections.find((s) => s.page_id > 0)?.page_id ?? 0;
-  const sections = parsed.data.sections.map((s) => {
+  const sections = parsed.data.sections.map((rawSection) => {
+    const s = { ...rawSection, settings: sanitizeRichContent(rawSection.settings) };
     if (s.id <= 0 && s.tenant_id === 0) {
       return {
         ...s,

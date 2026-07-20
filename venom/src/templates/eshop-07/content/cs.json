@@ -1,0 +1,411 @@
+{
+  "siteName": "néroli parfumerie",
+  "seo": {
+    "title": "Néroli parfumerie — vůně a péče, které vám padnou",
+    "description": "Pečlivě vybíraná parfumerie: autorské vůně, prémiová pleťová i vlasová péče a dárky, které potěší. Vše skladem, expedice do 24 hodin, doprava zdarma nad 2 490 Kč."
+  },
+  "hero": {
+    "autoplayMs": 6000,
+    "slides": [
+      {
+        "image": "/templates/eshop-07/gold-wide.webp",
+        "headingCaps": "Letní vůně",
+        "heading": "Lehkost, která vydrží celý den.",
+        "text": "Neroli, citrusy a mořský vzduch. Vybrali jsme kompozice, které se neztratí ani v největším horku — a drží od rána do večera.",
+        "ctaText": "Vybrat vůni",
+        "ctaHref": "/obchod?kategorie=vune"
+      },
+      {
+        "image": "/templates/eshop-07/cream-wide.webp",
+        "headingCaps": "Nová rutina",
+        "heading": "Záře, kterou nevyfotíte filtrem.",
+        "text": "Aktivní séra a krémy v promyšlených recepturách. Sestavte si péči na míru své pleti — poradíme s každým krokem.",
+        "ctaText": "Sestavit rutinu",
+        "ctaHref": "/obchod?kategorie=pletova-pece"
+      },
+      {
+        "image": "/templates/eshop-07/gift-wide.webp",
+        "headingCaps": "Dárky, které voní",
+        "heading": "Balení připravíme za vás.",
+        "text": "Od miniatur po niche kolekce. Přidáme vzkaz, hedvábný papír a mašli — stačí vybrat, komu chcete udělat radost.",
+        "ctaText": "Vybrat dárek",
+        "ctaHref": "/obchod?kategorie=darky"
+      }
+    ]
+  },
+  "categoryTiles": {
+    "kicker": "Néroli parfumerie — vůně a péče pod jednou střechou",
+    "tiles": [
+      { "label": "Právě dorazilo", "href": "/obchod?kategorie=prave-dorazilo", "image": "/templates/eshop-07/skincare-set-sm.webp" },
+      { "label": "Vůně", "href": "/obchod?kategorie=vune", "image": "/templates/eshop-07/gold-sm.webp" },
+      { "label": "Make-up", "href": "/obchod?kategorie=make-up", "image": "/templates/eshop-07/makeup-flat-sm.webp" },
+      { "label": "Vlasová péče", "href": "/obchod?kategorie=vlasova-pece", "image": "/templates/eshop-07/hair-sm.webp" },
+      { "label": "Tělo a koupel", "href": "/obchod?kategorie=telo-a-koupel", "image": "/templates/eshop-07/bath-sm.webp" },
+      { "label": "Pleťová péče", "href": "/obchod?kategorie=pletova-pece", "image": "/templates/eshop-07/cream-sm.webp" },
+      { "label": "Dárky", "href": "/obchod?kategorie=darky", "image": "/templates/eshop-07/gift-sm.webp" },
+      { "label": "Niche kolekce", "href": "/obchod?kategorie=niche-kolekce", "image": "/templates/eshop-07/amber-sm.webp" },
+      { "label": "% Výhodně", "href": "/obchod?kategorie=vyprodej", "glyph": "%", "glyphColor": "#e84393" },
+      { "label": "Domy vůní", "href": "/obchod?kategorie=domy-vuni", "glyph": "flower" }
+    ]
+  },
+  "productsNew": {
+    "heading": "Novinky",
+    "source": "newest",
+    "limit": 8
+  },
+  "productsSale": {
+    "heading": "Právě zlevněno",
+    "saleOnly": true,
+    "limit": 24
+  },
+  "productsPicked": {
+    "heading": "Vybrali jsme pro vás",
+    "limit": 8
+  },
+  "brandsRow": {
+    "heading": "Oblíbené domy vůní",
+    "brands": [
+      { "name": "Maison Noé", "style": "serif" },
+      { "name": "SILLAGE", "style": "caps" },
+      { "name": "Velvetier", "style": "serif" },
+      { "name": "ROSA ARABIA", "style": "caps" },
+      { "name": "Nordic Bloom", "style": "serif" },
+      { "name": "ATELIER № 9", "style": "caps" }
+    ],
+    "ctaText": "Všechny naše značky",
+    "ctaHref": "/obchod"
+  },
+  "reviews": {
+    "kicker": "Recenze našich zákazníků",
+    "heading": "Ověřené zkušenosti od lidí, kteří už nakoupili.",
+    "reviews": [
+      {
+        "name": "Kamila",
+        "date": "8. července 2026",
+        "rating": 5,
+        "text": "Sérum používám třetí měsíc a pleť mám viditelně jednotnější — kolegyně se ptaly, co jsem změnila. Oceňuji i poctivé rady v e-mailu, jak sérum kombinovat s SPF. Balíček dorazil druhý den, krásně zabalený v hedvábném papíru.",
+        "productLabel": "Rozjasňující sérum s vitaminem C 30 ml",
+        "productHref": "/obchod/velvetier-serum-c",
+        "image": "/templates/eshop-07/cream-sm.webp"
+      },
+      {
+        "name": "Tereza",
+        "date": "3. července 2026",
+        "rating": 5,
+        "text": "Aurora je přesně ta vůně, kterou jsem roky hledala — svěží, ale ne obyčejná. Vydrží mi na kůži od rána do večera. Podle doporučení jsem si nejdřív objednala vzorek, což je služba, kterou jinde nenajdete.",
+        "productLabel": "Aurora parfémová voda 50 ml",
+        "productHref": "/obchod/nordic-bloom-aurora",
+        "image": "/templates/eshop-07/vials-sm.webp"
+      },
+      {
+        "name": "Martin",
+        "date": "27. června 2026",
+        "rating": 5,
+        "text": "Kupoval jsem dárek pro ženu a vůbec jsem nevěděl, kde začít. Napsal jsem na poradnu, do hodiny přišel tip na tři vůně a trefa hned napoprvé. Dárkové balení s mašlí vypadalo, jako by ho balili v butiku.",
+        "productLabel": "Dárková sada Signature",
+        "productHref": "/obchod/darkova-sada-signature",
+        "image": "/templates/eshop-07/gift-sm.webp"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "néroli parfumerie",
+    "newsletter": {
+      "kicker": "Néroli newsletter",
+      "heading": "Buďte první u novinek i limitovaných edic",
+      "placeholder": "Vaše e-mailová adresa",
+      "button": "Odeslat"
+    },
+    "contact": {
+      "title": "Zákaznická linka",
+      "phone": "+420 777 302 118",
+      "hours": "Po–Pá 8:00–16:30",
+      "email": "poradna@neroli-parfumerie.cz"
+    },
+    "columns": [
+      {
+        "title": "Poradna a inspirace",
+        "links": [
+          { "label": "Jak vybrat vůni", "href": "/o-nas" },
+          { "label": "Slovníček parfumerie", "href": "/o-nas" },
+          { "label": "Péče krok za krokem", "href": "/o-nas" },
+          { "label": "Náš žurnál", "href": "/o-nas" }
+        ]
+      },
+      {
+        "title": "Nákupní rádce",
+        "links": [
+          { "label": "Doprava a platba", "href": "/doprava-a-platba" },
+          { "label": "Vrácení a výměna", "href": "/doprava-a-platba" },
+          { "label": "Reklamace", "href": "/doprava-a-platba" },
+          { "label": "Časté dotazy", "href": "/kontakt" }
+        ]
+      },
+      {
+        "title": "O parfumerii",
+        "links": [
+          { "label": "Náš příběh", "href": "/o-nas" },
+          { "label": "Domy vůní", "href": "/obchod" },
+          { "label": "Kontakt", "href": "/kontakt" },
+          { "label": "Obchodní podmínky", "href": "/o-nas" }
+        ]
+      }
+    ],
+    "socials": {
+      "title": "Sledujte nás",
+      "instagram": "https://instagram.com",
+      "facebook": "https://facebook.com"
+    },
+    "shippingBadges": ["Zásilkovna", "DPD", "Balíkovna"],
+    "paymentBadges": ["Visa", "Mastercard", "Apple Pay"],
+    "legal": "© 2026 Néroli parfumerie — všechna práva vyhrazena",
+    "legalLinks": [
+      { "label": "Zásady zpracování osobních údajů", "href": "/o-nas" },
+      { "label": "Zásady používání cookies", "href": "/o-nas" },
+      { "label": "Nahlásit závadný obsah", "href": "/kontakt" }
+    ]
+  },
+  "onasHero": {
+    "kicker": "Néroli parfumerie",
+    "heading": "Náš příběh",
+    "text": "Malá rodinná parfumerie, která vyrostla z jedné poličky oblíbených vůní. Dnes pro vás vybíráme autorské kompozice i poctivou péči — pořád stejně osobně."
+  },
+  "onasStory": {
+    "image": "/templates/eshop-07/oil-wood.webp",
+    "kicker": "Od roku 2014",
+    "heading": "Vybíráme, co sami nosíme",
+    "paragraphs": [
+      "Začínali jsme jako dva nadšenci s kufrem vzorků a přesvědčením, že vůně se nemá kupovat podle reklamy, ale podle kůže. První zákazníky jsme obsluhovali doslova u kuchyňského stolu — a některé z nich potkáváte v našich recenzích dodnes.",
+      "Dnes skladem držíme tisíce položek od malých parfémových domů i prověřené klasiky. Každou novinku nejdřív testujeme na sobě; co neobstojí, do nabídky nepustíme. A když si nevíte rady, napište poradně — odpovídáme do pár hodin a doporučíme i vzorek, ať nekupujete naslepo."
+    ],
+    "checks": [
+      "Autorizovaný prodejce všech značek v nabídce",
+      "Vzorky k objednávce, ať vůni poznáte doma",
+      "Osobní poradna — odpovídáme do pár hodin"
+    ]
+  },
+  "kontaktHero": {
+    "kicker": "Jsme tu pro vás",
+    "heading": "Kontakt",
+    "text": "Poradíme s výběrem vůně, dárkem i reklamací. Vyberte si kanál, který je vám nejbližší."
+  },
+  "kontaktInfo": {
+    "cards": [
+      {
+        "icon": "phone",
+        "title": "Zákaznická linka",
+        "value": "+420 777 302 118",
+        "valueHref": "tel:+420777302118",
+        "lines": ["Po–Pá 8:00–16:30", "Volání za běžný tarif"]
+      },
+      {
+        "icon": "mail",
+        "title": "Poradna e-mailem",
+        "value": "poradna@neroli-parfumerie.cz",
+        "valueHref": "mailto:poradna@neroli-parfumerie.cz",
+        "lines": ["Odpovídáme do pár hodin", "Doporučíme vůni i vzorek"]
+      },
+      {
+        "icon": "pin",
+        "title": "Prodejna Praha",
+        "value": "Vodičkova 712/8, Praha 1",
+        "lines": ["Po–Pá 9:00–19:00", "So 9:00–14:00", "Osobní odběr objednávek zdarma"]
+      }
+    ],
+    "note": "IČO 08712345 · Néroli parfumerie s.r.o. · zapsáno u Městského soudu v Praze"
+  },
+  "dopravaHero": {
+    "kicker": "Nákupní rádce",
+    "heading": "Doprava a platba",
+    "text": "Objednávky do 14:00 balíme ještě týž den. Nad 2 490 Kč od nás máte dopravu zdarma."
+  },
+  "dopravaInfo": {
+    "shippingTitle": "Doprava",
+    "shipping": [
+      { "icon": "box", "name": "Zásilkovna — výdejní místo", "desc": "Doručení na výdejní místo do 1–2 dnů", "price": "49 Kč" },
+      { "icon": "truck", "name": "DPD — kurýr na adresu", "desc": "Doručení na adresu následující pracovní den", "price": "89 Kč" },
+      { "icon": "box", "name": "Balíkovna", "desc": "Vyzvednutí na poště nebo v Balíkovně", "price": "59 Kč" },
+      { "icon": "store", "name": "Osobní odběr — Praha 1", "desc": "Vodičkova 712/8, připraveno do 2 hodin", "price": "Zdarma" }
+    ],
+    "paymentTitle": "Platba",
+    "payments": [
+      { "icon": "card", "name": "Kartou online", "desc": "Visa, Mastercard, Apple Pay, Google Pay", "price": "Zdarma" },
+      { "icon": "qr", "name": "QR platba / převod", "desc": "Objednávku odešleme po připsání platby", "price": "Zdarma" },
+      { "icon": "cash", "name": "Dobírka", "desc": "Platba při převzetí kartou i hotově", "price": "+39 Kč" }
+    ],
+    "note": "Doprava zdarma platí pro všechny způsoby doručení při nákupu nad 2 490 Kč."
+  },
+  "usp": {
+    "items": [
+      { "icon": "medal", "title": "100% originální zboží", "text": "Nakupujeme přímo u výrobců a prověřených evropských distributorů." },
+      { "icon": "leaf", "title": "Rodinná parfumerie", "text": "Vybíráme, co sami používáme — a rádi poradíme s výběrem." },
+      { "icon": "box", "title": "Tisíce kusů skladem", "text": "Objednávky do 14:00 balíme a expedujeme ještě týž den." },
+      { "icon": "truck", "title": "Doprava od 49 Kč", "text": "Výdejní boxy i kurýr na adresu. Nad 2 490 Kč ji máte zdarma." }
+    ]
+  },
+  "navbar": {
+    "siteName": "néroli parfumerie",
+    "logoUrl": "",
+    "searchPlaceholder": "Zkuste „květinová“, „pudrová“ nebo „santal“…",
+    "cartEmptyLabel": "Prázdný košík",
+    "ribbonText": "Ověřeno zákazníky",
+    "freeShippingCents": 249000,
+    "megaHeadings": {
+      "recommended": "Stojí za pozornost",
+      "sortiment": "Vyberte si",
+      "gender": "Pro koho",
+      "price": "Podle rozpočtu",
+      "brands": "Domy vůní"
+    },
+    "megaRecommended": [
+      { "label": "Právě dorazilo", "href": "/obchod?kategorie=prave-dorazilo" },
+      { "label": "Dárková balení", "href": "/obchod?kategorie=darky" },
+      { "label": "Výhodné ceny", "href": "/obchod?kategorie=vyprodej" },
+      { "label": "Objevné sady", "href": "/obchod?kategorie=objevne-sady" }
+    ],
+    "megaGender": [
+      { "icon": "woman", "label": "Pro ni", "slug": "pro-ni" },
+      { "icon": "man", "label": "Pro něj", "slug": "pro-nej" },
+      { "icon": "child", "label": "Pro nejmenší", "slug": "pro-nejmensi" },
+      { "icon": "unisex", "label": "Pro všechny", "slug": "pro-vsechny" }
+    ],
+    "megaPrice": [
+      { "label": "do 490 Kč", "href": "/obchod?cena=490" },
+      { "label": "do 990 Kč", "href": "/obchod?cena=990" },
+      { "label": "do 1 990 Kč", "href": "/obchod?cena=1990" },
+      { "label": "prémiový výběr", "href": "/obchod" }
+    ],
+    "megaBrands": [
+      { "name": "Maison Noé", "style": "serif" },
+      { "name": "SILLAGE", "style": "caps" },
+      { "name": "Velvetier", "style": "serif" },
+      { "name": "ROSA ARABIA", "style": "caps" },
+      { "name": "Nordic Bloom", "style": "serif" },
+      { "name": "ATELIER № 9", "style": "caps" }
+    ],
+    "categories": [
+      { "label": "Právě dorazilo", "slug": "prave-dorazilo" },
+      {
+        "label": "Vůně",
+        "slug": "vune",
+        "allLabel": "Zobrazit celou nabídku",
+        "children": [
+          { "label": "Vůně pro ni", "slug": "vune-pro-ni" },
+          { "label": "Vůně pro něj", "slug": "vune-pro-nej" },
+          { "label": "Vůně bez hranic", "slug": "vune-bez-hranic" },
+          { "label": "Parfémové vody", "slug": "parfemove-vody" },
+          { "label": "Toaletní vody", "slug": "toaletni-vody" },
+          { "label": "Čisté parfémy", "slug": "ciste-parfemy" },
+          { "label": "Vůně do vlasů", "slug": "vune-do-vlasu" },
+          { "label": "Vzorky a miniatury", "slug": "vzorky-a-miniatury" }
+        ],
+        "promo": {
+          "image": "/templates/eshop-07/gold.webp",
+          "title": "Váš nový podpis",
+          "text": "Vůně, která řekne vše za vás — pomůžeme vám ji najít",
+          "ctaText": "Vybrat vůni",
+          "ctaHref": "/obchod?kategorie=vune"
+        }
+      },
+      {
+        "label": "Make-up",
+        "slug": "make-up",
+        "allLabel": "Zobrazit celou nabídku",
+        "children": [
+          { "label": "Dokonalá pleť", "slug": "dokonala-plet" },
+          { "label": "Rty", "slug": "rty" },
+          { "label": "Oči a obočí", "slug": "oci-a-oboci" },
+          { "label": "Tvářenky a konturování", "slug": "tvarenky" },
+          { "label": "Fixace a báze", "slug": "fixace-a-baze" },
+          { "label": "Nástroje a doplňky", "slug": "nastroje" }
+        ],
+        "promo": {
+          "image": "/templates/eshop-07/brushes.webp",
+          "title": "Tahy štětcem, které sluší",
+          "text": "Dekorativka, se kterou zvládnete denní i večerní look",
+          "ctaText": "Prozkoumat make-up",
+          "ctaHref": "/obchod?kategorie=make-up"
+        }
+      },
+      {
+        "label": "Vlasová péče",
+        "slug": "vlasova-pece",
+        "allLabel": "Zobrazit celou nabídku",
+        "children": [
+          { "label": "Mytí a čištění", "slug": "myti-a-cisteni" },
+          { "label": "Výživa a regenerace", "slug": "vyziva-a-regenerace" },
+          { "label": "Bezoplachová péče", "slug": "bezoplachova-pece" },
+          { "label": "Tvarování účesu", "slug": "tvarovani-ucesu" },
+          { "label": "Oleje a séra na vlasy", "slug": "oleje-na-vlasy" }
+        ],
+        "promo": {
+          "image": "/templates/eshop-07/hair.webp",
+          "title": "Lesk jako ze salonu",
+          "text": "Profesionální řady pro každodenní rituál i SOS záchranu",
+          "ctaText": "Prozkoumat péči",
+          "ctaHref": "/obchod?kategorie=vlasova-pece"
+        }
+      },
+      {
+        "label": "Tělo a koupel",
+        "slug": "telo-a-koupel",
+        "allLabel": "Zobrazit celou nabídku",
+        "children": [
+          { "label": "Sprcha a koupel", "slug": "sprcha-a-koupel" },
+          { "label": "Hydratace těla", "slug": "hydratace-tela" },
+          { "label": "Antiperspiranty", "slug": "antiperspiranty" },
+          { "label": "Ruce a nehty", "slug": "ruce-a-nehty" },
+          { "label": "Ochrana před sluncem", "slug": "ochrana-pred-sluncem" }
+        ],
+        "promo": {
+          "image": "/templates/eshop-07/bath.webp",
+          "title": "Rituál pro každý den",
+          "text": "Jemné složení a vůně, po kterých se budete cítit skvěle",
+          "ctaText": "Prozkoumat kosmetiku",
+          "ctaHref": "/obchod?kategorie=telo-a-koupel"
+        }
+      },
+      {
+        "label": "Pleťová péče",
+        "slug": "pletova-pece",
+        "allLabel": "Zobrazit celou nabídku",
+        "children": [
+          { "label": "Denní a noční krémy", "slug": "denni-a-nocni-kremy" },
+          { "label": "Aktivní séra", "slug": "aktivni-sera" },
+          { "label": "Odličování a čištění", "slug": "odlicovani-a-cisteni" },
+          { "label": "Masky a peelingy", "slug": "masky-a-peelingy" },
+          { "label": "Péče o oční okolí", "slug": "pece-o-ocni-okoli" }
+        ],
+        "promo": {
+          "image": "/templates/eshop-07/cream.webp",
+          "title": "Pleť, která září sama",
+          "text": "Aktivní látky v promyšlených recepturách, žádné sliby navíc",
+          "ctaText": "Sestavit rutinu",
+          "ctaHref": "/obchod?kategorie=pletova-pece"
+        }
+      },
+      { "label": "Dárky", "slug": "darky" },
+      {
+        "label": "Niche kolekce",
+        "slug": "niche-kolekce",
+        "allLabel": "Zobrazit celou nabídku",
+        "children": [
+          { "label": "Autorské vůně", "slug": "autorske-vune" },
+          { "label": "Oud a pryskyřice", "slug": "oud-a-pryskyrice" },
+          { "label": "Květinové kompozice", "slug": "kvetinove-kompozice" },
+          { "label": "Limitované série", "slug": "limitovane-serie" },
+          { "label": "Parfémové oleje", "slug": "parfemove-oleje" }
+        ],
+        "promo": {
+          "image": "/templates/eshop-07/amber.webp",
+          "title": "Kolekce pro fajnšmekry",
+          "text": "Malé parfémové domy a kompozice, které jinde neseženete",
+          "ctaText": "Vstoupit do kolekce",
+          "ctaHref": "/obchod?kategorie=niche-kolekce"
+        }
+      },
+      { "label": "% Výhodně", "slug": "vyprodej" },
+      { "label": "Domy vůní", "slug": "domy-vuni" }
+    ]
+  }
+}

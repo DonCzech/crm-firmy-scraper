@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
 
-const pool = new pg.Pool({ connectionString: 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require' });
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 // Read current home.html (full HTML with head)
 let html = fs.readFileSync(path.join(ROOT, 'public/clones/perfectcatering/pages/home.html'), 'utf8');

@@ -86,7 +86,7 @@ async function processTemplate(key) {
   const contentPath = path.join(TEMPLATES_ROOT, key, "content", "cs.json");
   if (!existsSync(contentPath)) return { key, downloaded: 0, skipped: 0, failed: 0 };
 
-  let raw = await fs.readFile(contentPath, "utf-8");
+  const raw = await fs.readFile(contentPath, "utf-8");
   const urls = new Set();
   for (const m of raw.matchAll(EXTERNAL_URL_RE)) {
     if (!shouldSkip(m[0])) urls.add(m[0]);

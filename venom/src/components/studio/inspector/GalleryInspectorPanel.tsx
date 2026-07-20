@@ -178,17 +178,17 @@ export function GalleryInspectorPanel({
                     type="button"
                     title="Smazat foto"
                     onClick={() => handleDelete(idx)}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/90 text-white shadow-lg hover:bg-red-600 transition-colors"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/90 text-[var(--vs-text)] shadow-lg hover:bg-red-600 transition-colors"
                   >
                     <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
                   </button>
                 </div>
                 {/* Index badge */}
-                <span className="absolute bottom-1 left-1.5 text-[9px] font-semibold text-white/60 pointer-events-none select-none opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="absolute bottom-1 left-1.5 text-[9px] font-semibold text-[var(--vs-text-muted)] pointer-events-none select-none opacity-0 group-hover:opacity-100 transition-opacity">
                   {idx + 1}
                 </span>
                 {/* Drag handle hint */}
-                <GripVertical className="absolute top-1 right-1 h-3.5 w-3.5 text-white/40 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={1.75} />
+                <GripVertical className="absolute top-1 right-1 h-3.5 w-3.5 text-[var(--vs-text-dim)] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={1.75} />
               </div>
             ))}
           </div>
@@ -200,7 +200,7 @@ export function GalleryInspectorPanel({
         <button
           type="button"
           onClick={() => setPickerOpen(true)}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--vs-accent)] py-2.5 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-hi)] transition-colors active:scale-[.98]"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--vs-accent)] py-2.5 text-[13px] font-semibold text-[var(--vs-text)] hover:bg-[var(--vs-accent-hi)] transition-colors active:scale-[.98]"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           Přidat obrázek

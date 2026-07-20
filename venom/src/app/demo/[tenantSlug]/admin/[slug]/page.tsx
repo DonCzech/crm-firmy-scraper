@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
 import { TenantStudioView } from "@/components/studio/TenantStudioView";
+import { StudioThemeScript } from "@/components/studio/StudioThemeScript";
 import { resolveAllSections } from "@/lib/section-resolver";
 import type { Metadata } from "next";
 
@@ -35,5 +36,10 @@ export default async function TenantAdminSubPage({ params }: Props) {
 
   const sections = await resolveAllSections(tenant, rawSections);
 
-  return <TenantStudioView tenant={tenant} page={page} sections={sections} overrides={overrides} />;
+  return (
+    <>
+      <StudioThemeScript />
+      <TenantStudioView tenant={tenant} page={page} sections={sections} overrides={overrides} />
+    </>
+  );
 }

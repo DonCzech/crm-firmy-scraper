@@ -96,15 +96,15 @@ function MoznostiDropdown({
   }, [onClose]);
 
   return (
-    <div ref={ref} className="absolute top-full left-0 mt-2 w-[min(360px,calc(100vw-24px))] rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-2xl p-6 z-50">
-      <h3 className="text-[15px] font-semibold text-white mb-5">Možnosti</h3>
+    <div ref={ref} className="absolute top-full left-0 mt-2 w-[min(360px,calc(100vw-24px))] rounded-2xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-2xl p-6 z-50">
+      <h3 className="text-[15px] font-semibold text-[var(--vs-text)] mb-5">Možnosti</h3>
 
       <div className="flex items-center justify-between mb-4">
         <span className="text-[13px] text-[var(--vs-text-muted)]">Seřadit podle</span>
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortBy)}
-          className="rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-white focus:outline-none focus:border-[var(--vs-accent)] transition-colors"
+          className="rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] px-3 py-1.5 text-[12px] text-[var(--vs-text)] focus:outline-none focus:border-[var(--vs-accent)] transition-colors"
         >
           <option value="date_desc">Datum nahrání ↓</option>
           <option value="date_asc">Datum nahrání ↑</option>
@@ -118,14 +118,14 @@ function MoznostiDropdown({
         <select
           value={layout}
           onChange={(e) => setLayout(e.target.value as Layout)}
-          className="rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-white focus:outline-none focus:border-[var(--vs-accent)] transition-colors"
+          className="rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] px-3 py-1.5 text-[12px] text-[var(--vs-text)] focus:outline-none focus:border-[var(--vs-accent)] transition-colors"
         >
           <option value="grid">Mřížka</option>
           <option value="list">Seznam</option>
         </select>
       </div>
 
-      <div className="border-t border-[#2a2a2e] pt-5">
+      <div className="border-t border-[var(--vs-border-strong)] pt-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <p className="text-[13px] font-medium text-[var(--vs-text-soft)]">Převést obrázky do WebP</p>
@@ -210,7 +210,7 @@ function MediaTile({
       {/* Thumbnail */}
       <div className={clsx(
         "relative rounded-xl overflow-hidden aspect-square transition-all duration-150",
-        isSvg ? "bg-[#1a1a1d]" : "bg-[#1a1a1d]",
+        isSvg ? "bg-[var(--vs-surface-2)]" : "bg-[var(--vs-surface-2)]",
         selected ? "ring-2 ring-[var(--vs-accent)] ring-offset-2 ring-offset-[#0c0c0e]" : "hover:ring-1 hover:ring-white/20"
       )}>
         {isImage ? (
@@ -239,7 +239,7 @@ function MediaTile({
               : "bg-black/40 border-white/50 opacity-0 group-hover:opacity-100"
           )}
         >
-          {selected && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+          {selected && <Check className="h-3 w-3 text-[var(--vs-text)]" strokeWidth={3} />}
         </button>
 
         {/* Info button */}
@@ -254,7 +254,7 @@ function MediaTile({
 
         {/* WebP badge */}
         {item.mime_type === "image/webp" && (
-          <div className="absolute top-2 right-2 rounded bg-emerald-500/80 px-1 py-0.5 text-[8px] font-bold text-white tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-2 right-2 rounded bg-emerald-500/80 px-1 py-0.5 text-[8px] font-bold text-[var(--vs-text)] tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
             WebP
           </div>
         )}
@@ -284,7 +284,7 @@ function MediaRow({
   return (
     <div className={clsx(
       "group flex items-center gap-4 px-4 py-2.5 rounded-xl transition-colors duration-100",
-      selected ? "bg-[var(--vs-accent-bg)]" : "hover:bg-white/[0.04]"
+      selected ? "bg-[var(--vs-accent-bg)]" : "hover:bg-[var(--vs-surface-2)]"
     )}>
       <button
         type="button"
@@ -294,9 +294,9 @@ function MediaRow({
           selected ? "bg-[var(--vs-accent-solid)] border-[var(--vs-accent)]" : "border-[var(--vs-text-dim)] hover:border-white"
         )}
       >
-        {selected && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+        {selected && <Check className="h-3 w-3 text-[var(--vs-text)]" strokeWidth={3} />}
       </button>
-      <div className="w-10 h-10 rounded-lg overflow-hidden bg-[#1a1a1d] shrink-0">
+      <div className="w-10 h-10 rounded-lg overflow-hidden bg-[var(--vs-surface-2)] shrink-0">
         {item.mime_type.startsWith("image/") && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={item.url} alt="" className="w-full h-full object-cover" loading="lazy" />
@@ -310,7 +310,7 @@ function MediaRow({
       <p className="text-[11px] text-[var(--vs-text-dim)] shrink-0 w-28 text-right">
         {new Date(item.created_at).toLocaleDateString("cs-CZ")}
       </p>
-      <button type="button" onClick={onInfo} className="text-[var(--vs-text-dim)] hover:text-white transition-colors shrink-0">
+      <button type="button" onClick={onInfo} className="text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] transition-colors shrink-0">
         <Info className="h-4 w-4" />
       </button>
     </div>
@@ -335,7 +335,7 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
       onClick={onClose}
     >
       <div
-        className="relative flex w-full max-w-5xl mx-4 rounded-2xl overflow-hidden border border-[#2a2a2e] shadow-[0_32px_80px_rgba(0,0,0,0.8)]"
+        className="relative flex w-full max-w-5xl mx-4 rounded-2xl overflow-hidden border border-[var(--vs-border-strong)] shadow-[0_32px_80px_rgba(0,0,0,0.8)]"
         style={{ maxHeight: "90vh" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -349,7 +349,7 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
         </button>
 
         {/* Large image */}
-        <div className="flex-1 bg-[#0a0a0b] flex items-center justify-center min-h-[400px]">
+        <div className="flex-1 bg-[var(--vs-bg)] flex items-center justify-center min-h-[400px]">
           {item.mime_type.startsWith("image/") ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -364,9 +364,9 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
         </div>
 
         {/* Right side info panel */}
-        <div className="w-72 shrink-0 bg-[var(--vs-surface)] border-l border-[#2a2a2e] flex flex-col overflow-y-auto">
-          <div className="p-5 border-b border-[#2a2a2e]">
-            <p className="text-[13px] font-semibold text-white break-all leading-snug">{item.filename}</p>
+        <div className="w-72 shrink-0 bg-[var(--vs-surface)] border-l border-[var(--vs-border-strong)] flex flex-col overflow-y-auto">
+          <div className="p-5 border-b border-[var(--vs-border-strong)]">
+            <p className="text-[13px] font-semibold text-[var(--vs-text)] break-all leading-snug">{item.filename}</p>
             {item.alt_text && (
               <p className="mt-1 text-[11px] text-[var(--vs-text-dim)]">{item.alt_text}</p>
             )}
@@ -379,9 +379,9 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
             <InfoRow label="Nahráno" value={new Date(item.created_at).toLocaleDateString("cs-CZ", { day: "numeric", month: "long", year: "numeric" })} />
           </div>
 
-          <div className="p-5 border-t border-[#2a2a2e]">
+          <div className="p-5 border-t border-[var(--vs-border-strong)]">
             <p className="text-[11px] text-[var(--vs-text-dim)] mb-2">URL souboru</p>
-            <div className="rounded-xl bg-[#1a1a1d] p-3 mb-3">
+            <div className="rounded-xl bg-[var(--vs-surface-2)] p-3 mb-3">
               <p className="text-[11px] text-[var(--vs-text-muted)] font-mono break-all leading-relaxed">{item.url}</p>
             </div>
             <button
@@ -439,12 +439,12 @@ function SelectionBar({
         <button
           type="button"
           onClick={() => setMovePanelOpen((v) => !v)}
-          className="flex items-center gap-1.5 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-[var(--vs-text-muted)] hover:text-white transition-colors"
+          className="flex items-center gap-1.5 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] px-3 py-1.5 text-[12px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
         >
           <ArrowRight className="h-3.5 w-3.5" /> Přesunout do složky
         </button>
         {movePanelOpen && (
-          <div className="absolute top-full right-0 mt-1 w-[200px] rounded-xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-xl p-2 z-50">
+          <div className="absolute top-full right-0 mt-1 w-[200px] rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-xl p-2 z-50">
             {folders.length === 0 ? (
               <p className="px-3 py-2 text-[12px] text-[var(--vs-text-dim)]">Žádné složky</p>
             ) : (
@@ -453,7 +453,7 @@ function SelectionBar({
                   key={f.id}
                   type="button"
                   onClick={() => { onMoveToFolder(f.id); setMovePanelOpen(false); }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[13px] text-[var(--vs-text-muted)] hover:bg-white/[0.05] hover:text-white transition-colors"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[13px] text-[var(--vs-text-muted)] hover:bg-white/[0.05] hover:text-[var(--vs-text)] transition-colors"
                 >
                   <Folder className="h-3.5 w-3.5" /> {f.name}
                 </button>
@@ -476,7 +476,7 @@ function SelectionBar({
       <button
         type="button"
         onClick={onClearSelection}
-        className="flex items-center justify-center w-7 h-7 rounded-lg text-[var(--vs-text-dim)] hover:text-white hover:bg-white/[0.06] transition-colors"
+        className="flex items-center justify-center w-7 h-7 rounded-lg text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] hover:bg-[var(--vs-surface-2)] transition-colors"
       >
         <X className="h-4 w-4" />
       </button>
@@ -679,18 +679,18 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
   // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
-    <div className="fixed inset-0 z-50 flex max-[760px]:flex-col bg-[#0c0c0e] text-white" style={{ fontFamily: "var(--font-sans, system-ui, sans-serif)" }}>
+    <div className="fixed inset-0 z-50 flex max-[760px]:flex-col bg-[var(--vs-bg)] text-[var(--vs-text)]" style={{ fontFamily: "var(--font-sans, system-ui, sans-serif)" }}>
 
       {/* ── Left: Folders ── */}
-      <div className="w-[220px] shrink-0 border-r border-white/[0.07] flex flex-col bg-[#0f0f11] max-[760px]:w-full max-[760px]:max-h-[150px] max-[760px]:border-r-0 max-[760px]:border-b max-[760px]:border-white/[0.07]">
+      <div className="w-[220px] shrink-0 border-r border-[var(--vs-border)] flex flex-col bg-[var(--vs-bg-soft)] max-[760px]:w-full max-[760px]:max-h-[150px] max-[760px]:border-r-0 max-[760px]:border-b max-[760px]:border-[var(--vs-border)]">
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-white/[0.05]">
-          <span className="text-[14px] font-semibold text-white">Složky</span>
+        <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--vs-border)]">
+          <span className="text-[14px] font-semibold text-[var(--vs-text)]">Složky</span>
           <button
             type="button"
             title="Nová složka"
             onClick={() => { setCreatingFolder(true); setNewFolderName(""); }}
-            className="text-[var(--vs-text-dim)] hover:text-white transition-colors rounded-lg p-1 hover:bg-white/[0.06]"
+            className="text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] transition-colors rounded-lg p-1 hover:bg-[var(--vs-surface-2)]"
           >
             <FolderPlus className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -705,8 +705,8 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             className={clsx(
               "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors rounded-none max-[760px]:w-auto max-[760px]:shrink-0 max-[760px]:rounded-xl",
               activeFolder === null
-                ? "text-white font-medium bg-white/[0.06]"
-                : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]"
+                ? "text-[var(--vs-text)] font-medium bg-[var(--vs-surface-2)]"
+                : "text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] hover:bg-white/[0.03]"
             )}
           >
             Vše
@@ -722,8 +722,8 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             className={clsx(
               "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors max-[760px]:w-auto max-[760px]:shrink-0 max-[760px]:rounded-xl",
               activeFolder === "uncategorized"
-                ? "text-white font-medium bg-white/[0.06]"
-                : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]"
+                ? "text-[var(--vs-text)] font-medium bg-[var(--vs-surface-2)]"
+                : "text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] hover:bg-white/[0.03]"
             )}
           >
             Nezařazené
@@ -742,8 +742,8 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               className={clsx(
                 "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors max-[760px]:w-auto max-[760px]:shrink-0 max-[760px]:rounded-xl",
                 activeFolder === f.id
-                  ? "text-white font-medium bg-white/[0.06]"
-                  : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]",
+                  ? "text-[var(--vs-text)] font-medium bg-[var(--vs-surface-2)]"
+                  : "text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] hover:bg-white/[0.03]",
                 folderDragOver === f.id && "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] !border-l-2 border-[var(--vs-accent)]"
               )}
             >
@@ -758,7 +758,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
 
         {/* New folder inline input */}
         {creatingFolder && (
-          <div className="px-3 pb-3 pt-1 border-t border-white/[0.05]">
+          <div className="px-3 pb-3 pt-1 border-t border-[var(--vs-border)]">
             <div className="flex items-center gap-1.5">
               <input
                 ref={newFolderInputRef}
@@ -769,7 +769,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                   if (e.key === "Escape") setCreatingFolder(false);
                 }}
                 placeholder="název složky"
-                className="flex-1 min-w-0 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-2.5 py-1.5 text-[12px] text-white placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none transition-colors"
+                className="flex-1 min-w-0 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] px-2.5 py-1.5 text-[12px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none transition-colors"
               />
               <button
                 type="button"
@@ -787,13 +787,13 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
       <div className="flex min-h-0 flex-1 min-w-0 flex-col">
 
         {/* Top bar */}
-        <div className="flex items-center gap-3 px-5 py-3.5 border-b border-white/[0.07] bg-[#0f0f11] shrink-0 max-[760px]:flex-wrap max-[760px]:gap-2 max-[760px]:px-3">
+        <div className="flex items-center gap-3 px-5 py-3.5 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] shrink-0 max-[760px]:flex-wrap max-[760px]:gap-2 max-[760px]:px-3">
           {/* Možnosti */}
           <div className="relative">
             <button
               type="button"
               onClick={() => setOptionsOpen((v) => !v)}
-              className="flex items-center gap-2 rounded-xl border border-[#3f3f46] bg-[#1a1a1d] px-3.5 py-2 text-[13px] text-[var(--vs-text-muted)] hover:text-white hover:border-[var(--vs-text-dim)] transition-colors"
+              className="flex items-center gap-2 rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] px-3.5 py-2 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] hover:border-[var(--vs-text-dim)] transition-colors"
             >
               Možnosti <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
@@ -815,13 +815,13 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Hledat v galerii"
-              className="w-full rounded-xl border border-[#3f3f46] bg-[#1a1a1d] pl-9 pr-4 py-2 text-[13px] text-white placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-text-dim)] focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] pl-9 pr-4 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-text-dim)] focus:outline-none transition-colors"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--vs-text-dim)] hover:text-white transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] transition-colors"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -831,18 +831,18 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           <div className="flex-1" />
 
           {/* Layout toggle */}
-          <div className="flex items-center rounded-xl border border-[#3f3f46] bg-[#1a1a1d] p-1">
+          <div className="flex items-center rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface-2)] p-1">
             <button
               type="button"
               onClick={() => setLayout("grid")}
-              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "grid" ? "bg-white/[0.1] text-white" : "text-[var(--vs-text-dim)] hover:text-white")}
+              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "grid" ? "bg-white/[0.1] text-[var(--vs-text)]" : "text-[var(--vs-text-dim)] hover:text-[var(--vs-text)]")}
             >
               <LayoutGrid className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
               onClick={() => setLayout("list")}
-              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "list" ? "bg-white/[0.1] text-white" : "text-[var(--vs-text-dim)] hover:text-white")}
+              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "list" ? "bg-white/[0.1] text-[var(--vs-text)]" : "text-[var(--vs-text-dim)] hover:text-[var(--vs-text)]")}
             >
               <List className="h-3.5 w-3.5" />
             </button>
@@ -862,7 +862,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-[var(--vs-text-dim)] hover:text-white hover:bg-white/[0.06] transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] hover:bg-[var(--vs-surface-2)] transition-colors"
           >
             <X className="h-5 w-5" strokeWidth={2} />
           </button>
@@ -936,7 +936,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           ) : (
             <div className="overflow-x-auto p-5 max-[760px]:p-3">
               {/* List header */}
-              <div className="flex items-center gap-4 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--vs-text-dim)] border-b border-white/[0.05] mb-1">
+              <div className="flex items-center gap-4 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--vs-text-dim)] border-b border-[var(--vs-border)] mb-1">
                 <div className="w-5 shrink-0" />
                 <div className="w-10 shrink-0" />
                 <div className="flex-1">Název</div>
@@ -952,7 +952,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                 onClick={() => fileInputRef.current?.click()}
               >
                 <div className="w-5 shrink-0" />
-                <div className="w-10 h-10 rounded-lg bg-[#1a1a1d] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-lg bg-[var(--vs-surface-2)] flex items-center justify-center shrink-0">
                   <Upload className="h-4 w-4 text-[var(--vs-accent)]" />
                 </div>
                 <span className="text-[12px] font-bold tracking-widest text-[var(--vs-text-dim)] uppercase">Nahrát soubor</span>
@@ -978,7 +978,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
         </div>
 
         {/* Status bar */}
-        <div className="shrink-0 flex items-center gap-3 border-t border-white/[0.07] px-5 py-2 bg-[#0f0f11] max-[760px]:px-3">
+        <div className="shrink-0 flex items-center gap-3 border-t border-[var(--vs-border)] px-5 py-2 bg-[var(--vs-bg-soft)] max-[760px]:px-3">
           <p className="text-[11.5px] text-[var(--vs-text-dim)]">
             {items === null ? "…" : `${shownCount} ${shownCount === 1 ? "soubor" : shownCount < 5 ? "soubory" : "souborů"}`}
             {shownCount !== totalCount && ` z ${totalCount}`}

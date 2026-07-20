@@ -4,136 +4,174 @@
     "logoUrl": "/templates/restaurant-01/logo.svg",
     "ctaText": "Rezervace",
     "ctaHref": "#kontakt",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
     "links": [
-      { "label": "Domů",        "href": "/" },
-      { "label": "Menu",        "href": "/menu" },
-      { "label": "O nás",       "href": "/o-nas" },
-      { "label": "Kontakt",     "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Jídelní lístek",
+        "href": "/menu"
+      },
+      {
+        "label": "Náš příběh",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Rezervace",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
-    "title": "Místo, kde jídlo\nse stává zážitkem.",
-    "subtitle": "Měníme jídlo v zážitek a věříme, že tou nejlepší\ningredriencí naší práce je radost.",
+    "eyebrow": "Prémiová restaurace · Praha",
+    "title": "Kde každý pokrm\nvypráví příběh.",
+    "subtitle": "Spojujeme tradici české kuchyně s moderními\nsvětovými trendy — od roku 1995.",
     "ctaText": "Rezervovat stůl",
     "ctaHref": "#kontakt",
     "ctaSecondaryText": "Prohlédnout menu",
     "ctaSecondaryHref": "/menu",
+    "scrollLabel": "Objevte více",
     "slides": [
-      { "url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
-      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
-      { "url": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 60%" },
-      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+      {
+        "url": "/templates/restaurant-01/hero-1.webp",
+        "pos": "center 40%"
+      },
+      {
+        "url": "/templates/restaurant-01/hero-2.webp",
+        "pos": "center center"
+      },
+      {
+        "url": "/templates/restaurant-01/hero-3.webp",
+        "pos": "center 60%"
+      },
+      {
+        "url": "/templates/restaurant-01/hero-4.webp",
+        "pos": "center center"
+      }
     ]
   },
-
   "about": {
     "id": "o-nas",
     "tagline": "Náš příběh",
-    "title": "Gastronomie jako\numění i řemeslo.",
-    "body": "Memento není jen restaurace — je to prostředí, které tvoří lidé se stejným pohledem na gastronomii. Od roku 1995 propojujeme českou kuchyni s moderními světovými trendy.",
-    "body2": "Každý pokrm je promyšlenou kompozicí chutí, textur a příběhů. Pracujeme výhradně s lokálními dodavateli a sezónními surovinami.",
+    "title": "Řemeslo, které\nchutná.",
+    "body": "Za každým talířem stojí tým kuchařů spojených vášní pro sezónní ingredience a precizní přípravu. Od roku 1995 tvoříme prostor, kde se tradice české kuchyně potkává s moderní gastronomií.",
+    "body2": "Spolupracujeme výhradně s lokálními farmáři a vinařstvími. Každý den přinášíme novou inspiraci — od čerstvě upečeného chleba po autorské dezerty.",
     "ctaText": "Více o nás",
     "ctaHref": "/o-nas",
-    "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+    "image": "/templates/restaurant-01/about.webp"
   },
-
   "services": {
     "id": "menu",
     "tagline": "Naše nabídka",
-    "title": "Menu pro každou\npříležitost.",
-    "body": "Od denního menu přes degustační večeře až po soukromé akce — vždy s důrazem na kvalitu a zážitek.",
-    "ctaText": "Zobrazit celé menu",
+    "title": "Kompozice chutí\npro každou chvíli.",
+    "body": "Sezónní suroviny od lokálních dodavatelů, precizní příprava a podání, které potěší všechny smysly.",
+    "ctaText": "Kompletní jídelní lístek",
     "ctaHref": "/menu",
     "services": [],
     "items": [
       {
-        "name": "Snídaně & Brunch",
-        "category": "Ráno",
-        "description": "Čerstvé pečivo, vejce all ways, smoothie misky a káva z výběrových zrn. Denně od 8:00.",
-        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=400&fit=crop&fm=webp&q=85",
-        "ctaText": "Zobrazit menu",
+        "name": "Ranní rituál",
+        "category": "Snídaně · 8:00–11:00",
+        "description": "Čerstvě pečený chléb, farmářská vejce, domácí marmelády a výběrová zrnková káva. Klidné ráno v elegantním prostředí.",
+        "image": "/templates/restaurant-01/menu-1.webp",
+        "ctaText": "Prohlédnout",
         "ctaHref": "/menu"
       },
       {
-        "name": "Obědy",
-        "category": "Poledne",
-        "description": "Tříchoková nabídka s polévkou a dezertem. Výběr z klasiky i moderních konceptů. Po–Pá 11:30–14:30.",
-        "image": "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&fm=webp&q=85",
-        "ctaText": "Zobrazit menu",
+        "name": "Polední menu",
+        "category": "Obědy · 11:30–14:30",
+        "description": "Tříchoková nabídka inspirovaná sezonní úrodou. Každý týden nová kompozice — polévka, hlavní chod a dezert.",
+        "image": "/templates/restaurant-01/menu-2.webp",
+        "ctaText": "Prohlédnout",
         "ctaHref": "/menu"
       },
       {
-        "name": "Večeře à la carte",
-        "category": "Večer",
-        "description": "Plné menu s předkrmy, hlavními chody a dezerty. Sezónní degustační menu na požádání. Od 17:30.",
-        "image": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&h=400&fit=crop&fm=webp&q=85",
-        "ctaText": "Zobrazit menu",
+        "name": "Degustační večeře",
+        "category": "Večer · od 17:30",
+        "description": "Autorské sedmičhodové degustační menu s vinným párem. Každý talíř je pečlivě komponovaný příběh chutí a textur.",
+        "image": "/templates/restaurant-01/menu-3.webp",
+        "ctaText": "Prohlédnout",
         "ctaHref": "/menu"
       }
     ]
   },
-
   "cta": {
     "id": "rezervace",
-    "tagline": "Rezervujte si místo",
-    "title": "Udělejte si večer\njedinečným.",
-    "body": "Rezervujte online nebo nás kontaktujte telefonicky. Rádi připravíme soukromou událost přesně podle vašich představ.",
+    "tagline": "Soukromá událost",
+    "title": "Večer, na který\nse nezapomíná.",
+    "body": "Intimní degustační večeře, firemní bankety i rodinné oslavy — připravíme vám událost přesně podle vašich představ.",
     "ctaText": "Rezervovat stůl",
     "ctaHref": "#kontakt",
-    "ctaSecondaryText": "Prohlédnout menu",
+    "ctaSecondaryText": "Jídelní lístek",
     "ctaSecondaryHref": "/menu",
-    "image": "https://images.unsplash.com/photo-1550966871-3ed3cbe818b0?w=1920&h=1080&fit=crop&fm=webp&q=85"
+    "image": "/templates/restaurant-01/cta-bg.webp"
   },
-
   "contact": {
     "id": "kontakt",
-    "tagline": "Kde nás najdete",
-    "title": "Kontakt\na rezervace",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "phone": "704 123 456",
-    "email": "rezervace@demo.cz",
-    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "tagline": "Přijďte k nám",
+    "title": "Rezervace\na kontakt",
+    "addressLabel": "Adresa",
+    "address": "Vinohradská 42, 120 00 Praha 2",
+    "phoneLabel": "Telefon",
+    "phone": "222 333 444",
+    "emailLabel": "E-mail",
+    "email": "rezervace@memento.cz",
+    "hoursLabel": "Otevírací doba",
+    "hours": "Po–Čt 11:00–23:00, Pá–So 11:00–00:00, Ne 11:00–22:00",
     "ctaText": "Rezervovat stůl",
-    "ctaHref": "mailto:rezervace@demo.cz",
-    "mapLat": "50.0875",
-    "mapLng": "14.4213",
+    "ctaHref": "mailto:rezervace@memento.cz",
+    "mapLat": "50.0755",
+    "mapLng": "14.4378",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo"
   },
-
   "footer": {
     "siteName": "Memento",
     "logoUrl": "/templates/restaurant-01/logo.svg",
-    "tagline": "Gastronomie jako umění i řemeslo.",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
-    "ico": "12345678",
-    "web": "https://demo.cz",
+    "tagline": "Kde každý pokrm vypráví svůj příběh.",
+    "address": "Vinohradská 42, 120 00 Praha 2",
+    "phone": "222 333 444",
+    "email": "info@memento.cz",
+    "hours": "Po–Čt 11:00–23:00, Pá–So 11:00–00:00",
+    "ico": "87654321",
+    "navLabel": "Navigace",
+    "contactLabel": "Kontakt",
+    "legalText": "Všechna práva vyhrazena.",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "links": [
-      { "label": "Domů",            "href": "/" },
-      { "label": "Menu",            "href": "/menu" },
-      { "label": "O nás",           "href": "/o-nas" },
-      { "label": "Kontakt",         "href": "/kontakt" },
-      { "label": "Ochrana osobních údajů", "href": "/gdpr" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Jídelní lístek",
+        "href": "/menu"
+      },
+      {
+        "label": "Náš příběh",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Rezervace",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Ochrana údajů",
+        "href": "/gdpr"
+      }
     ]
   },
-
   "pages": {
     "menu": {
-      "seoTitle":       "Menu — Memento",
+      "seoTitle": "Menu — Memento",
       "seoDescription": "Prohlédněte si naše menu — snídaně, obědy, večeře à la carte a sezónní degustační nabídka.",
       "hero": {
-        "title": "Menu",
-        "subtitle": "Sezónní nabídka sestavená s láskou."
+        "title": "Jídelní lístek",
+        "subtitle": "Sezónní nabídka sestavená s láskou k řemeslu.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
       },
       "services": {
         "id": "menu-kompletni",
@@ -144,11 +182,13 @@
       }
     },
     "o-nas": {
-      "seoTitle":       "O nás — Memento",
+      "seoTitle": "O nás — Memento",
       "seoDescription": "Příběh restaurace Memento — naše filosofie, tým a přístup ke gastronomii.",
       "hero": {
         "title": "Náš příběh",
-        "subtitle": "Gastronomie jako umění i řemeslo od roku 1995."
+        "subtitle": "Gastronomie jako umění i řemeslo od roku 1995.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
       },
       "about": {
         "id": "pribeh",
@@ -158,12 +198,37 @@
         "body2": "Naší misí je přinášet hostům autentické gastronomické zážitky s využitím nejlepších lokálních surovin.",
         "ctaText": "Kontaktovat nás",
         "ctaHref": "/kontakt",
-        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/restaurant-01/about.webp"
       }
     },
     "kontakt": {
-      "seoTitle":       "Kontakt & Rezervace — Memento",
-      "seoDescription": "Rezervujte si stůl nebo nás kontaktujte. Ukázková 123, Praha 1."
+      "seoTitle": "Kontakt & Rezervace — Memento",
+      "seoDescription": "Rezervujte si stůl nebo nás kontaktujte. Vinohradská 42, Praha 2.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Rezervace, dotazy i soukromé akce — rádi vám pomůžeme.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      },
+      "contact": {
+        "id": "kontakt-strana",
+        "tagline": "",
+        "title": "",
+        "addressLabel": "Adresa",
+        "address": "Vinohradská 42, 120 00 Praha 2",
+        "phoneLabel": "Telefon",
+        "phone": "222 333 444",
+        "emailLabel": "E-mail",
+        "email": "rezervace@memento.cz",
+        "hoursLabel": "Otevírací doba",
+        "hours": "Po–Čt 11:00–23:00, Pá–So 11:00–00:00, Ne 11:00–22:00",
+        "ctaText": "Napište nám",
+        "ctaHref": "mailto:rezervace@memento.cz",
+        "mapLat": "50.0755",
+        "mapLng": "14.4378",
+        "facebookUrl": "https://facebook.com/demo",
+        "instagramUrl": "https://instagram.com/demo"
+      }
     }
   }
 }

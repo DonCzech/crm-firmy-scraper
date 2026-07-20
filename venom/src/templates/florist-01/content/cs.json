@@ -4,7 +4,6 @@
     "logoUrl": "",
     "logoText": "Petala",
     "phone": "731 456 789",
-    "email": "kvetiny@petalacv.cz",
     "ctaText": "Objednat kytici",
     "ctaHref": "#katalog",
     "topMessages": [
@@ -13,10 +12,22 @@
       "📞 Poradíme vám — 731 456 789"
     ],
     "links": [
-      { "label": "Katalog",  "href": "#katalog" },
-      { "label": "Doručení", "href": "#doruceni" },
-      { "label": "FAQ",      "href": "#faq" },
-      { "label": "Kontakty", "href": "#kontakt" }
+      {
+        "label": "Katalog",
+        "href": "#katalog"
+      },
+      {
+        "label": "Doručení",
+        "href": "#doruceni"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "Kontakty",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -39,20 +50,56 @@
   },
   "stats": {
     "items": [
-      { "icon": "truck",   "title": "Doručení ještě dnes",    "subtitle": "Objednejte do 15:00" },
-      { "icon": "store",   "title": "3 prodejny v Brně",      "subtitle": "Centrum, Královo Pole, Žabovřesky" },
-      { "icon": "star",    "title": "4.8 na Google",           "subtitle": "220+ hodnocení" },
-      { "icon": "camera",  "title": "Foto před doručením",    "subtitle": "Vždy vidíte, co dostanete" }
+      {
+        "icon": "truck",
+        "title": "Doručení ještě dnes",
+        "subtitle": "Objednejte do 15:00"
+      },
+      {
+        "icon": "store",
+        "title": "3 prodejny v Brně",
+        "subtitle": "Centrum, Královo Pole, Žabovřesky"
+      },
+      {
+        "icon": "star",
+        "title": "4.8 na Google",
+        "subtitle": "220+ hodnocení"
+      },
+      {
+        "icon": "camera",
+        "title": "Foto před doručením",
+        "subtitle": "Vždy vidíte, co dostanete"
+      }
     ]
   },
   "collections": {
     "title": "Naše kolekce",
     "items": [
-      { "name": "Kytice růží",       "href": "#katalog", "image": "/assets/florist-01/fdb979f01e-bestseller.jpg" },
-      { "name": "Dárky",             "href": "#katalog", "image": "/assets/florist-01/4cf3bc6b2e-gifts.jpg" },
-      { "name": "Mono kytice",       "href": "#katalog", "image": "/assets/florist-01/8d6ea9e54f-mono.jpg" },
-      { "name": "Bestsellery",       "href": "#katalog", "image": "/assets/florist-01/e3dbd8bc52-upturned-colorful-flower-heads-on-slender-green-stalks_2000x.jpg" },
-      { "name": "K narozeninám",     "href": "#katalog", "image": "/assets/florist-01/66fe3ef534-amy-shamblen-qdPnQuGeuwU-unsplash.jpg" }
+      {
+        "name": "Kytice růží",
+        "href": "#katalog",
+        "image": "/assets/florist-01/fdb979f01e-bestseller.jpg"
+      },
+      {
+        "name": "Dárky",
+        "href": "#katalog",
+        "image": "/assets/florist-01/4cf3bc6b2e-gifts.jpg"
+      },
+      {
+        "name": "Mono kytice",
+        "href": "#katalog",
+        "image": "/assets/florist-01/8d6ea9e54f-mono.jpg"
+      },
+      {
+        "name": "Bestsellery",
+        "href": "#katalog",
+        "image": "/assets/florist-01/e3dbd8bc52-upturned-colorful-flower-heads-on-slender-green-stalks_2000x.jpg"
+      },
+      {
+        "name": "K narozeninám",
+        "href": "#katalog",
+        "image": "/assets/florist-01/66fe3ef534-amy-shamblen-qdPnQuGeuwU-unsplash.jpg"
+      }
     ]
   },
   "products": {
@@ -61,14 +108,54 @@
     "ctaText": "Zobrazit vše",
     "ctaHref": "#katalog",
     "items": [
-      { "name": "Kytice \"Zlatá hodina\"",      "price": "2 890 Kč",     "badge": "Bestseller", "image": "/assets/florist-01/e0b67381c5-photo1707134778.jpg" },
-      { "name": "Kytice \"Letní vítr\"",        "price": "Od 1 750 Kč",  "badge": "Bestseller", "image": "/assets/florist-01/29c0b945b3-photo1707134778_1_c0c08764-da07-4df8-84e7-b9a26ed81125.jpg" },
-      { "name": "Červené tulipány",             "price": "Od 1 850 Kč",  "badge": "Bestseller", "image": "/assets/florist-01/d8a129feac-IMG_1627.jpg" },
-      { "name": "Kytice \"Ranní rosa\"",        "price": "Od 2 100 Kč",  "badge": "Bestseller", "image": "/assets/florist-01/6bdead1a47-IMG_1190.jpg" },
-      { "name": "Kytice \"Hedvábný oblak\"",    "price": "Od 2 490 Kč",  "badge": "Bestseller", "image": "/assets/florist-01/803cae37df-IMG_11343.jpg" },
-      { "name": "Pivoňky s stuhou",             "price": "Od 2 350 Kč",  "badge": "Bestseller", "image": "/assets/florist-01/8690dc6819-IMG_762.jpg" },
-      { "name": "Kytice \"Fialový soumrak\"",   "price": "Od 1 490 Kč",  "badge": "Bestseller", "image": "/assets/florist-01/7f1f62f232-IMG_5871.jpg" },
-      { "name": "Kytice \"Jarní ráno\"",        "price": "1 550 Kč",     "badge": "Bestseller", "image": "/assets/florist-01/251799de33-IMG_1633.jpg" }
+      {
+        "name": "Kytice \"Zlatá hodina\"",
+        "price": "2 890 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/e0b67381c5-photo1707134778.jpg"
+      },
+      {
+        "name": "Kytice \"Letní vítr\"",
+        "price": "Od 1 750 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/29c0b945b3-photo1707134778_1_c0c08764-da07-4df8-84e7-b9a26ed81125.jpg"
+      },
+      {
+        "name": "Červené tulipány",
+        "price": "Od 1 850 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/d8a129feac-IMG_1627.jpg"
+      },
+      {
+        "name": "Kytice \"Ranní rosa\"",
+        "price": "Od 2 100 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/6bdead1a47-IMG_1190.jpg"
+      },
+      {
+        "name": "Kytice \"Hedvábný oblak\"",
+        "price": "Od 2 490 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/803cae37df-IMG_11343.jpg"
+      },
+      {
+        "name": "Pivoňky s stuhou",
+        "price": "Od 2 350 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/8690dc6819-IMG_762.jpg"
+      },
+      {
+        "name": "Kytice \"Fialový soumrak\"",
+        "price": "Od 1 490 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/7f1f62f232-IMG_5871.jpg"
+      },
+      {
+        "name": "Kytice \"Jarní ráno\"",
+        "price": "1 550 Kč",
+        "badge": "Bestseller",
+        "image": "/assets/florist-01/251799de33-IMG_1633.jpg"
+      }
     ]
   },
   "process": {
@@ -95,12 +182,42 @@
     "title": "Co říkají naši zákazníci",
     "ratingText": "4.8 z 5 na základě 220+ hodnocení",
     "items": [
-      { "text": "Nádherné kytice, vždy čerstvé a doručené přesně v čas. Jsem nadšená!", "author": "Veronika H.", "location": "Brno-střed", "date": "leden 2026" },
-      { "text": "Objednala jsem kytici pro sestru k výročí. Přijela krásná a voněla celý den.", "author": "Markéta S.", "location": "Brno-Královo Pole", "date": "únor 2026" },
-      { "text": "Nejlepší květinářství v Brně. Kytice vypadají přesně jako na fotografiích — nebo lépe!", "author": "Radka P.", "location": "Brno-Žabovřesky", "date": "březen 2026" },
-      { "text": "Rychlé doručení, krásné zpracování a velmi ochotná obsluha. Určitě se vrátím.", "author": "Tomáš K.", "location": "Brno-Líšeň", "date": "únor 2026" },
-      { "text": "Pravidelně objednávám pro manželku. Pokaždé originální a vždy čerstvé. Doporučuji všem!", "author": "Pavel M.", "location": "Brno-Bohunice", "date": "leden 2026" },
-      { "text": "Překvapila jsem kolegu k narozeninám. Kytice dorazila přesně v domluvený čas. Skvělá práce!", "author": "Simona L.", "location": "Brno-Řečkovice", "date": "březen 2026" }
+      {
+        "text": "Nádherné kytice, vždy čerstvé a doručené přesně v čas. Jsem nadšená!",
+        "author": "Veronika H.",
+        "location": "Brno-střed",
+        "date": "leden 2026"
+      },
+      {
+        "text": "Objednala jsem kytici pro sestru k výročí. Přijela krásná a voněla celý den.",
+        "author": "Markéta S.",
+        "location": "Brno-Královo Pole",
+        "date": "únor 2026"
+      },
+      {
+        "text": "Nejlepší květinářství v Brně. Kytice vypadají přesně jako na fotografiích — nebo lépe!",
+        "author": "Radka P.",
+        "location": "Brno-Žabovřesky",
+        "date": "březen 2026"
+      },
+      {
+        "text": "Rychlé doručení, krásné zpracování a velmi ochotná obsluha. Určitě se vrátím.",
+        "author": "Tomáš K.",
+        "location": "Brno-Líšeň",
+        "date": "únor 2026"
+      },
+      {
+        "text": "Pravidelně objednávám pro manželku. Pokaždé originální a vždy čerstvé. Doporučuji všem!",
+        "author": "Pavel M.",
+        "location": "Brno-Bohunice",
+        "date": "leden 2026"
+      },
+      {
+        "text": "Překvapila jsem kolegu k narozeninám. Kytice dorazila přesně v domluvený čas. Skvělá práce!",
+        "author": "Simona L.",
+        "location": "Brno-Řečkovice",
+        "date": "březen 2026"
+      }
     ]
   },
   "contact": {
@@ -128,7 +245,6 @@
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41861.90!2d16.5748!3d49.1951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4712943ac03f5111%3A0x400af0f6614b1b0!2sBrno!5e0!3m2!1scs!2scz!4v1718000000001"
   },
   "footer": {
-    "siteName": "Petala Brno",
     "logoText": "Petala",
     "tagline": "Čerstvé květiny s doručením po Brně",
     "instagram": "@petala.brno",
@@ -141,18 +257,48 @@
     "ico": "87654321",
     "copyright": "© 2026 Petala Brno. Všechna práva vyhrazena.",
     "catalogLinks": [
-      { "label": "Kytice růží",        "href": "#katalog" },
-      { "label": "Mono kytice",        "href": "#katalog" },
-      { "label": "Mix kytice",         "href": "#katalog" },
-      { "label": "Květinové krabičky", "href": "#katalog" },
-      { "label": "Dárky a doplňky",    "href": "#katalog" }
+      {
+        "label": "Kytice růží",
+        "href": "#katalog"
+      },
+      {
+        "label": "Mono kytice",
+        "href": "#katalog"
+      },
+      {
+        "label": "Mix kytice",
+        "href": "#katalog"
+      },
+      {
+        "label": "Květinové krabičky",
+        "href": "#katalog"
+      },
+      {
+        "label": "Dárky a doplňky",
+        "href": "#katalog"
+      }
     ],
     "infoLinks": [
-      { "label": "Doručení a platba",  "href": "#doruceni" },
-      { "label": "Péče o květiny",     "href": "#faq" },
-      { "label": "Časté dotazy",       "href": "#faq" },
-      { "label": "O nás",              "href": "#o-nas" },
-      { "label": "Obchodní podmínky",  "href": "#podminky" }
+      {
+        "label": "Doručení a platba",
+        "href": "#doruceni"
+      },
+      {
+        "label": "Péče o květiny",
+        "href": "#faq"
+      },
+      {
+        "label": "Časté dotazy",
+        "href": "#faq"
+      },
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "#podminky"
+      }
     ]
   },
   "pages": {

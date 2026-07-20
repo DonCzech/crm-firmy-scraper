@@ -1,0 +1,292 @@
+{
+  "navbar": {
+    "siteName": "JÁDRO",
+    "siteNameSuffix": "rekonstrukce",
+    "logoUrl": "",
+    "phone": "705 123 456",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
+    "links": [
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "eyebrow": "Rekonstrukce na klíč · Praha a okolí",
+    "title": "Rekonstrukce bytů, bytových jader a domů na klíč",
+    "subtitle": "Rychlá, kvalitní a spolehlivá realizace od prvního návrhu po předání hotového díla.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "Zobrazit realizace",
+    "ctaSecondaryHref": "/reference",
+    "image": "/templates/rekonstrukce-01/hero.webp",
+    "badgeNumber": "25",
+    "badgeLabel": "let zkušeností",
+    "reviewLabel": "Přečtěte si reference zákazníků"
+  },
+  "usp": {
+    "items": [
+      {
+        "icon": "award",
+        "title": "Dlouholeté zkušenosti",
+        "text": "Více než 25 let praxe v oblasti rekonstrukcí bytů a bytových jader."
+      },
+      {
+        "icon": "shield",
+        "title": "Profesionální servis",
+        "text": "Garantujeme vysoký standard práce a dodržení dohodnutých termínů."
+      },
+      {
+        "icon": "layers",
+        "title": "Ověřené materiály",
+        "text": "Používáme pouze prověřené materiály od spolehlivých dodavatelů."
+      }
+    ]
+  },
+  "services": {
+    "id": "cinnosti",
+    "eyebrow": "Naše činnosti",
+    "title": "Zajišťujeme kompletní rekonstrukce interiérů",
+    "subtitle": "Od prvního návrhu po finální předání — postaráme se o vše.",
+    "items": [
+      {
+        "icon": "home",
+        "title": "Rekonstrukce bytů na klíč",
+        "text": "Kompletní proměna bytu od podlahy po strop včetně koordinace profesí a finálního dokončení."
+      },
+      {
+        "icon": "bath",
+        "title": "Rekonstrukce bytových jader",
+        "text": "Odborná výměna a modernizace bytových jader včetně rozvodů vody, elektřiny a odpadů."
+      },
+      {
+        "icon": "droplet",
+        "title": "Rekonstrukce koupelen a WC",
+        "text": "Moderní koupelny s důrazem na kvalitní provedení, hydroizolaci a funkční řešení prostoru."
+      },
+      {
+        "icon": "layers",
+        "title": "Sádrokartonářské práce",
+        "text": "Montáž příček, podhledů a obkladů — ideální řešení pro úpravu dispozice a modernizaci interiéru."
+      },
+      {
+        "icon": "house",
+        "title": "Rekonstrukce rodinných domů",
+        "text": "Kompletní i dílčí rekonstrukce domů se zaměřením na funkčnost, kvalitu a dlouhou životnost."
+      },
+      {
+        "icon": "hammer",
+        "title": "Stavební úpravy a přestavby",
+        "text": "Bourací práce, nové dispozice i navazující stavební úpravy podle potřeb vašeho projektu."
+      },
+      {
+        "icon": "shovel",
+        "title": "Zemní práce",
+        "text": "Výkopy, terénní úpravy a přípravné práce pro rekonstrukce, přístavby i nové stavby."
+      },
+      {
+        "icon": "hardhat",
+        "title": "Kompletní stavební realizace",
+        "text": "Od přípravy stavby po finální předání koordinujeme celý průběh napříč stavebními profesemi."
+      }
+    ]
+  },
+  "gallery": {
+    "skin": "bento",
+    "palette": "cream-light",
+    "accent": "#C2622B",
+    "eyebrow": "Fotogalerie",
+    "title": "Ukázky našich realizací",
+    "subtitle": "Podívejte se na výběr z našich dokončených projektů.",
+    "images": [
+      {
+        "url": "/templates/rekonstrukce-01/g1.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g1-full.webp",
+        "alt": "Rekonstrukce obývacího pokoje"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g2.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g2-full.webp",
+        "alt": "Moderní koupelna po rekonstrukci"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g3.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g3-full.webp",
+        "alt": "Nová kuchyně na míru"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g4.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g4-full.webp",
+        "alt": "Rekonstrukce ložnice"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g5.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g5-full.webp",
+        "alt": "Koupelna s obklady"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g6.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g6-full.webp",
+        "alt": "Interiér po kompletní rekonstrukci"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g7.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g7-full.webp",
+        "alt": "Minimalistický interiér"
+      },
+      {
+        "url": "/templates/rekonstrukce-01/g8.webp",
+        "fullUrl": "/templates/rekonstrukce-01/g8-full.webp",
+        "alt": "Rekonstrukce bytového jádra"
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "Proč si vybrat právě nás",
+    "title": "Řemeslo, na které se můžete spolehnout",
+    "lead": "Jsme tým zkušených profesionálů se specializací na rekonstrukce bytů a bytových jader. Každý projekt bereme osobně a dbáme na kvalitu provedení do posledního detailu.",
+    "image": "/templates/rekonstrukce-01/about.webp",
+    "values": [
+      {
+        "title": "Rychlá a precizní realizace"
+      },
+      {
+        "title": "Transparentní ceny bez skrytých poplatků"
+      },
+      {
+        "title": "Osobní přístup ke každému klientovi"
+      },
+      {
+        "title": "Zkušený tým řemeslníků s praxí"
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Reference",
+    "title": "Naši spokojení klienti",
+    "subtitle": "Přečtěte si, co o nás říkají zákazníci, se kterými jsme spolupracovali.",
+    "items": [
+      {
+        "text": "Poptávali jsme kompletní rekonstrukci panelového bytu na doporučení známých. Skvělá komunikace, majitel nám poradil s dispozicí koupelny a ušetřil nám prostor. Na čem jsme se dohodli, to platilo. Termíny dodrženy, kvalita perfektní.",
+        "author": "Radek J.",
+        "location": "Praha"
+      },
+      {
+        "text": "Spolupráce probíhala od začátku do konce profesionálně. Všechny termíny přesně dle dohody, práce plynulé bez prodlev. Ke každému problému přistupovali zodpovědně a nabídli několik řešení. Výsledek předčil naše očekávání.",
+        "author": "Josef V.",
+        "location": "Praha"
+      },
+      {
+        "text": "Kompletní rekonstrukce až po malbu — stavební úpravy, rozvody elektřiny, vody i topení. Vše dle časového plánu, profesionální práce za odpovídající cenu. Bylo vidět, že majitel profesi rozumí. Vřele doporučuji.",
+        "author": "Petr M.",
+        "location": "Kladno"
+      },
+      {
+        "text": "Odborné znalosti, dovednosti a zjevná vášeň pro práci byly skutečně ohromující. Podíleli se na stavbě našeho nového domu a odvedli precizní práci.",
+        "author": "Radoslav T.",
+        "location": "Beroun"
+      },
+      {
+        "text": "Na základě doporučení jsme vybrali tuto firmu pro rekonstrukci starého domu. Byli jsme moc spokojení — probrali s námi všechny představy a poradili nejlepší řešení. Komunikace rychlá, finální provedení skvělé.",
+        "author": "Karolína M.",
+        "location": "Praha-východ"
+      },
+      {
+        "text": "Spolehlivá firma, kterou můžeme jen doporučit. Kvalitní práce, férové jednání a čisté dokončovací práce.",
+        "author": "Věra H.",
+        "location": "Říčany"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Plánujete rekonstrukci? Ozvěte se nám.",
+    "subtitle": "Rádi vám připravíme nezávaznou nabídku a probereme vaše představy.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
+    "phone": "705 123 456"
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Ozvěte se nám",
+    "subtitle": "Připravíme vám nezávaznou nabídku na míru.",
+    "person": "Jan Novotný",
+    "phone": "705 123 456",
+    "email": "info@demo.cz",
+    "address": "Praha a Středočeský kraj, Česká republika",
+    "ico": "01234567",
+    "dic": "CZ01234567",
+    "formTitle": "Nezávazná poptávka"
+  },
+  "footer": {
+    "siteName": "JÁDRO",
+    "tagline": "Profesionální rekonstrukce bytů, bytových jader, domů, koupelen a kuchyní.",
+    "phone": "705 123 456",
+    "email": "info@demo.cz",
+    "person": "Jan Novotný",
+    "address": "Praha a Středočeský kraj, Česká republika",
+    "ico": "01234567",
+    "dic": "CZ01234567",
+    "legalText": "Všechna práva vyhrazena.",
+    "links": [
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "pages": {
+    "sluzby": {
+      "hero": {
+        "title": "Naše služby",
+        "subtitle": "Kompletní rekonstrukce bytů, bytových jader i rodinných domů na klíč.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/",
+        "image": "/templates/rekonstrukce-01/about.webp"
+      }
+    },
+    "reference": {
+      "hero": {
+        "title": "Reference",
+        "subtitle": "Prohlédněte si naše dokončené realizace a přečtěte si hodnocení klientů.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/",
+        "image": "/templates/rekonstrukce-01/about.webp"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Ozvěte se nám — rádi připravíme nezávaznou nabídku.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/",
+        "image": "/templates/rekonstrukce-01/about.webp"
+      }
+    }
+  }
+}

@@ -35,6 +35,7 @@ export function TeamSection({ content, variant, sectionId }: Props) {
   if (variant === "kids-01-team")    return <TeamKids01  content={content} sectionId={sectionId} />;
   if (variant === "vet-01-team")     return <TeamVet01   content={content} sectionId={sectionId} />;
   if (variant === "arch-01-team")    return <TeamArch01  content={content} sectionId={sectionId} />;
+  if (variant === "legal-02-team")   return <TeamLegal02 content={content} sectionId={sectionId} />;
 
   // beauty-01 — Sand-Cream Editorial Wellness team grid
   // Magazine header + 3×2 portrait grid (3:4), hover = image zoom + name → sand color shift,
@@ -673,9 +674,9 @@ function TeamFyzio01({ content, sectionId }: { content: Record<string, unknown>;
         {/* 5-col team grid */}
         <div className="fyzio01-team-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 32 }}>
           {members.map((m, i) => (
-            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+            <div key={i} className="fyzio01-team-card" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
               {/* Kulatá fotka */}
-              <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image ?? ""} alt={m.name ?? ""} className="relative overflow-hidden" style={{ width: 150, height: 150, borderRadius: "50%", flexShrink: 0 }}>
+              <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image ?? ""} alt={m.name ?? ""} className="relative overflow-hidden fyzio01-team-photo" style={{ width: 150, height: 150, borderRadius: "50%", flexShrink: 0 }}>
                 {m.image ? (
                   <img src={m.image} alt={m.name ?? ""} loading="lazy" style={{ width: 150, height: 150, objectFit: "cover", borderRadius: "50%", display: "block" }} />
                 ) : (
@@ -705,95 +706,85 @@ function TeamFyzio01({ content, sectionId }: { content: Record<string, unknown>;
 }
 
 // ── fyzio-02-team-grid ────────────────────────────────────────────────────────
-// Surface #f5f3ee bg, 3-col grid, foto čtvercové s navy overlay při hoveru
-// Zlatá role, DM Serif jméno, bio text
+// Světlé #f1f6f6 bg, 3-col photo-forward karty: portrét s navy gradientem, role
+// + jméno vždy vidět, bio se odkryje zdola na hover + teal accent line. Movia.
 // ─────────────────────────────────────────────────────────────────────────────
 function TeamFyzio02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Member = { name?: string; role?: string; bio?: string; image?: string };
-  const tagline = String(content.tagline ?? "Kdo jsme?");
-  const title   = String(content.title   ?? "Působící terapeuté");
-  const body    = String(content.body    ?? "");
-  const members = (content.members as Member[]) ?? [];
   const id      = String(content.id ?? "tym");
+  const members = (content.members as Member[]) ?? [];
 
-  const NAVY  = "#1a2e4a";
-  const GOLD  = "#c9a84c";
-  const SURF  = "#f5f3ee";
-  const MUTED = "#6b7280";
-  const WHITE = "#ffffff";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  // conditional header (skryje se na /tym subpage)
+  const eyebrowRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const bodyRaw    = (content as Record<string, unknown>).body;
+  const tagline = eyebrowRaw === undefined ? "Náš tým" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Terapeuti, kteří vás vrátí do pohybu" : String(titleRaw);
+  const body    = bodyRaw    === undefined ? "Každý člen týmu se neustále vzdělává, abyste vy měli přístup k nejmodernějším metodám fyzioterapie i funkční neurologie." : String(bodyRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("fz2-vis"); obs.unobserve(e.target); } });
+    }, { threshold: 0.14 });
+    el.querySelectorAll<HTMLElement>("[data-fz2tm]").forEach(i => obs.observe(i));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id={id} data-template="fyzio-02" style={{ backgroundColor: SURF, padding: "80px 24px", fontFamily: SANS }}>
-      <style>{`
-        .f02-team-card-img { transition: transform 0.4s ease; }
-        .f02-team-card:hover .f02-team-card-img { transform: scale(1.05); }
-        .f02-team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-        @media(max-width: 800px) { .f02-team-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media(max-width: 500px) { .f02-team-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-            <span style={{ width: 24, height: 2, backgroundColor: GOLD }} />
-            <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: GOLD, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </span>
-            <span style={{ width: 24, height: 2, backgroundColor: GOLD }} />
+    <section ref={secRef} id={id} data-template="fyzio-02" className="fz2-tm">
+      <div className="fz2-tm-inner">
+        {showHeader && (
+          <div className="fz2-tm-head fz2-reveal" data-fz2tm>
+            {tagline.trim() && (
+              <span className="fz2-pill">
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="fz2-tm-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {body.trim() && (
+              <p className="fz2-tm-lead">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
           </div>
-          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 400, color: NAVY, marginBottom: body ? 16 : 0, lineHeight: 1.2 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontFamily: SANS, fontSize: 16, color: MUTED, maxWidth: 560, margin: "0 auto", lineHeight: 1.75 }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-        </div>
+        )}
 
-        {/* Grid */}
-        <div className="f02-team-grid">
+        <div className="fz2-tm-grid">
           {members.map((m, i) => (
-            <div key={i} className="f02-team-card" style={{ backgroundColor: WHITE, borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 16px rgba(26,46,74,0.07)" }}>
-              {/* Foto */}
-              <div style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", backgroundColor: SURF }}>
-                <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image ?? ""} alt={m.name ?? ""} className="relative overflow-hidden" style={{ width: "100%", height: "100%" }}>
+            <article key={i} className="fz2-tm-card fz2-reveal" data-fz2tm style={{ transitionDelay: `${i * 90}ms` }}>
+              <div className="fz2-tm-photo">
+                <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image ?? ""} alt={m.name ?? ""} className="relative overflow-hidden" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
                   {m.image ? (
-                    <img
-                      src={m.image}
-                      alt={m.name ?? ""}
-                      loading="lazy"
-                      className="f02-team-card-img"
-                      style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }}
-                    />
+                    <img src={m.image} alt={m.name ?? ""} loading="lazy" className="fz2-tm-img" />
                   ) : (
-                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#e8e4dc" }}>
-                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={NAVY} strokeWidth="1.5" opacity="0.3"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <div className="fz2-tm-img-ph">
+                      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.3"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                     </div>
                   )}
                 </GenericEditableImage>
-                {/* Zlatá linka dole */}
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, backgroundColor: GOLD }} />
-              </div>
-
-              {/* Text */}
-              <div style={{ padding: "20px 24px 24px" }}>
-                <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
-                  <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role ?? ""} tag="span" />
-                </p>
-                <h3 style={{ fontFamily: SERIF, fontSize: "1.15rem", fontWeight: 400, color: NAVY, marginBottom: 10, lineHeight: 1.3 }}>
-                  <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name ?? ""} tag="span" />
-                </h3>
-                {m.bio && (
-                  <p style={{ fontFamily: SANS, fontSize: 13, color: MUTED, lineHeight: 1.7, margin: 0 }}>
-                    <GenericEditableText sectionId={sectionId} field={`members.${i}.bio`} value={m.bio} tag="span" />
+                <div className="fz2-tm-veil" aria-hidden="true" />
+                <div className="fz2-tm-info">
+                  <span className="fz2-tm-accent" aria-hidden="true" />
+                  <p className="fz2-tm-role">
+                    <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role ?? ""} tag="span" />
                   </p>
-                )}
+                  <h3 className="fz2-tm-name">
+                    <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name ?? ""} tag="span" />
+                  </h3>
+                  <p className="fz2-tm-bio">
+                    <GenericEditableText sectionId={sectionId} field={`members.${i}.bio`} value={m.bio ?? ""} tag="span" />
+                  </p>
+                </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -1162,11 +1153,15 @@ function TeamKids01({ content, sectionId }: { content: Record<string, unknown>; 
 // Jméno teal Forum, role italic, bio Roboto Condensed
 // ─────────────────────────────────────────────────────────────────────────────
 function TeamVet01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const kicker  = String(content.kicker  ?? "Náš tým");
-  const heading = String(content.heading ?? "Veterináři a tým kliniky");
+  const kickerRaw  = content.kicker;
+  const headingRaw = content.heading;
+  const kicker  = kickerRaw  === undefined ? "Náš tým" : String(kickerRaw);
+  const heading = headingRaw === undefined ? "Kdo se postará o vašeho mazlíčka" : String(headingRaw);
+  const showHeader = !!(kicker.trim() || heading.trim());
   const members = (content.members as Array<{ name?: string; role?: string; bio?: string; imageUrl?: string }>) ?? [];
 
-  const TEAL   = "#286C7E";
+  const TEAL   = "#0d7486";
+  const PRIMARY= "#286C7E";
   const TEAL_L = "#42aaba";
   const DARK   = "#1a2c33";
   const FONT_H = "'Forum', 'Georgia', serif";
@@ -1174,35 +1169,47 @@ function TeamVet01({ content, sectionId }: { content: Record<string, unknown>; s
 
   return (
     <section
-      id={String(sectionId)}
-      data-variant="vet-01-team"
-      style={{ background: "#fff", padding: "clamp(56px,7vw,96px) clamp(20px,5vw,40px)" }}
+      id="tym"
+      data-template="vet-01-team"
+      style={{ background: "linear-gradient(180deg,#fff,#f4fafb)", padding: "clamp(64px,8vw,104px) clamp(20px,5vw,40px)" }}
     >
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
       <style>{`
         .v01tm-inner  { max-width: 1140px; margin: 0 auto; }
-        .v01tm-header { text-align: center; margin-bottom: 48px; }
-        .v01tm-kicker { font-family: ${FONT_B}; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${TEAL_L}; margin: 0 0 10px; }
-        .v01tm-heading{ font-family: ${FONT_H}; font-weight: 400; font-size: clamp(1.8rem,3vw,2.5rem); color: ${DARK}; margin: 0; }
-        .v01tm-grid   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; }
+        .v01tm-header { text-align: center; margin-bottom: 56px; }
+        .v01tm-kicker { display:inline-flex; align-items:center; gap:9px; font-family: ${FONT_B}; font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${TEAL}; margin: 0 0 14px; }
+        .v01tm-kicker svg { color:${TEAL_L}; }
+        .v01tm-heading{ font-family: ${FONT_H}; font-weight: 400; font-size: clamp(2rem,3.4vw,2.9rem); color: ${DARK}; margin: 0 0 16px; line-height:1.12; }
+        .v01tm-rule { width:60px; height:3px; background:linear-gradient(90deg,${TEAL},${TEAL_L}); border-radius:2px; margin:0 auto; }
+        .v01tm-grid   { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px 30px; }
         .v01tm-card   { display: flex; flex-direction: column; }
-        .v01tm-img-wrap { width: 100%; overflow: hidden; border-radius: 4px; margin-bottom: 20px; line-height: 0; }
-        .v01tm-img-wrap img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; }
-        .v01tm-name   { font-family: ${FONT_H}; font-size: 1.25rem; font-weight: 400; color: ${TEAL}; margin: 0 0 4px; }
-        .v01tm-role   { font-family: ${FONT_B}; font-size: 13px; font-style: italic; color: ${TEAL_L}; margin: 0 0 10px; }
-        .v01tm-bio    { font-family: ${FONT_B}; font-size: 14px; color: #4a6670; line-height: 1.6; margin: 0; }
+        .v01tm-img-wrap { position:relative; width: 100%; overflow: hidden; border-radius: 18px; margin-bottom: 22px; line-height: 0; box-shadow:0 12px 34px rgba(13,116,134,0.14); }
+        .v01tm-img-wrap::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 45%,rgba(6,40,47,0.55)); opacity:0; transition:opacity 0.4s ease; }
+        .v01tm-card:hover .v01tm-img-wrap::after { opacity:1; }
+        .v01tm-img-wrap img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: top; transition:transform 0.8s cubic-bezier(.2,.7,.3,1); }
+        .v01tm-card:hover .v01tm-img-wrap img { transform:scale(1.06); }
+        .v01tm-chip { position:absolute; z-index:2; left:14px; bottom:14px; display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,0.92); backdrop-filter:blur(4px); color:${TEAL}; font-family:${FONT_B}; font-size:12px; font-weight:600; letter-spacing:0.02em; padding:7px 13px; border-radius:50px; opacity:0; transform:translateY(10px); transition:opacity 0.4s ease, transform 0.4s cubic-bezier(.34,1.4,.64,1); }
+        .v01tm-card:hover .v01tm-chip { opacity:1; transform:translateY(0); }
+        .v01tm-name   { font-family: ${FONT_H}; font-size: 1.35rem; font-weight: 400; color: ${TEAL}; margin: 0 0 5px; }
+        .v01tm-role   { display:inline-block; font-family: ${FONT_B}; font-size: 12.5px; font-weight:600; letter-spacing:0.03em; color: ${PRIMARY}; background:#e6f3f5; padding:4px 12px; border-radius:50px; margin: 0 0 13px; }
+        .v01tm-bio    { font-family: ${FONT_B}; font-size: 14.5px; color: #4a6670; line-height: 1.62; margin: 0; }
         @media (max-width: 820px) { .v01tm-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 520px) { .v01tm-grid { grid-template-columns: 1fr; } }
       `}</style>
 
       <div className="v01tm-inner">
-        <div className="v01tm-header">
-          <p className="v01tm-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="v01tm-heading">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div className="v01tm-header">
+            <p className="v01tm-kicker">
+              <svg width="15" height="15" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="v01tm-heading">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <div className="v01tm-rule" />
+          </div>
+        )}
 
         <div className="v01tm-grid">
           {members.map((m, i) => (
@@ -1410,5 +1417,92 @@ function TeamArch01({ content, sectionId }: { content: Record<string, unknown>; 
         </div>
       </section>
     </>
+  );
+}
+
+// ── legal-02-team ── advokátní kancelář: grid právníků, navy + orange ────────────
+function TeamLegal02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const NAVY = "#143171";
+  const ORANGE = "#EB5C2E";
+  const FONT_B = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_R = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  type Member = { name?: string; role?: string; specialization?: string; email?: string; image?: string; imageUrl?: string };
+  const members = (content.members as Member[]) ?? [];
+
+  const eyebrowRaw  = content.eyebrow;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Partneři a právníci" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Lidé, kteří stojí za vašimi výsledky" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  return (
+    <section id="tym" data-template="legal-02" style={{ backgroundColor: "#fff", padding: "clamp(72px,9vw,110px) 0" }}>
+      <style>{`
+        @font-face { font-family:'bw_gradualbold'; src:url('/templates/legal-02/bwgradual-bold-webfont.woff2') format('woff2'); font-display:swap; }
+        .l02t-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+        .l02t-photo > div, .l02t-photo > span { position:absolute !important; inset:0; width:100% !important; height:100% !important; }
+        .l02t-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+        @media (max-width:900px){ .l02t-grid { grid-template-columns:repeat(2,1fr); } .l02t-outer { padding-left:24px !important; padding-right:24px !important; } }
+        @media (max-width:560px){ .l02t-grid { grid-template-columns:1fr; } }
+      `}</style>
+
+      <div className="l02t-outer" style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px" }}>
+        {showHeader && (
+          <div style={{ maxWidth: 760, marginBottom: 56 }}>
+            {eyebrow.trim() && (
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                <span style={{ width: 40, height: 2, background: ORANGE, display: "block" }} />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                  style={{ fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: ORANGE, margin: 0 }} />
+              </div>
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                style={{ fontFamily: FONT_B, fontSize: "clamp(30px,3.6vw,46px)", lineHeight: 1.1, color: NAVY, margin: 0, letterSpacing: "-0.01em" }} />
+            )}
+            {subtitle.trim() && (
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+                style={{ fontFamily: FONT_R, fontSize: 18, lineHeight: 1.6, color: "#4b5563", margin: "18px 0 0" }} />
+            )}
+          </div>
+        )}
+
+        <div className="l02t-grid">
+          {members.map((m, i) => {
+            const img = m.image ?? m.imageUrl ?? "";
+            return (
+              <div key={i} className="l02t-card">
+                <div className="l02t-photo" style={{ position: "relative", width: "100%", paddingBottom: "118%", overflow: "hidden", background: "#ECEFF4" }}>
+                  {img && (
+                    <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={img} alt={m.name ?? "Právník"} className="l02t-img" style={{ position: "absolute", inset: 0 }}>
+                      <Image src={img} alt={m.name ?? "Právník"} fill style={{ objectFit: "cover" }} unoptimized={shouldSkipNextImageOptimization(img)} sizes="(max-width:900px) 50vw, 33vw" />
+                    </GenericEditableImage>
+                  )}
+                  <span className="l02t-bar" aria-hidden="true" />
+                </div>
+                <div style={{ paddingTop: 22 }}>
+                  <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role ?? ""} tag="p"
+                    style={{ fontFamily: FONT_B, fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: ORANGE, margin: "0 0 7px" }} />
+                  <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name ?? ""} tag="h3"
+                    style={{ fontFamily: FONT_B, fontSize: 22, lineHeight: 1.2, color: NAVY, margin: "0 0 8px" }} />
+                  {m.specialization !== undefined && (
+                    <GenericEditableText sectionId={sectionId} field={`members.${i}.specialization`} value={m.specialization ?? ""} tag="p"
+                      style={{ fontFamily: FONT_R, fontSize: 15, lineHeight: 1.55, color: "#6b7280", margin: "0 0 10px" }} />
+                  )}
+                  {m.email && (
+                    <a href={`mailto:${m.email}`} className="l02t-mail" style={{ fontFamily: FONT_R, fontSize: 14, color: NAVY, textDecoration: "none" }}>
+                      <GenericEditableText sectionId={sectionId} field={`members.${i}.email`} value={m.email} tag="span" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

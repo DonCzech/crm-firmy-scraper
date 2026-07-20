@@ -40,16 +40,16 @@ export function NotificationsPanel() {
       {/* Panel — anchored left of the rail (55px) */}
       <div
         ref={panelRef}
-        className="pointer-events-auto absolute left-[55px] right-0 top-0 bottom-0 flex flex-col bg-[var(--vs-surface)] border-r border-[var(--vs-surface-2)] shadow-[4px_0_32px_rgba(0,0,0,0.5)]"
+        className="vs-overlay-panel pointer-events-auto absolute left-[55px] right-0 top-0 bottom-0 flex flex-col bg-[var(--vs-surface)] border-r border-[var(--vs-surface-2)] shadow-[4px_0_32px_rgba(0,0,0,0.5)]"
         style={{ maxWidth: 320 }}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--vs-surface-2)]">
-          <h2 className="text-[15px] font-semibold text-white">Upozornění</h2>
+          <h2 className="text-[15px] font-semibold text-[var(--vs-text)]">Upozornění</h2>
           <button
             type="button"
             onClick={() => studio.setNotificationsOpen(false)}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-muted)] transition-colors"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
             aria-label="Zavřít"
           >
             <X className="h-4 w-4" />
@@ -76,10 +76,10 @@ export function NotificationsPanel() {
 
         {/* Empty state */}
         <div className="flex flex-1 flex-col items-center justify-center gap-3 text-center px-6">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--vs-surface-2)] text-[#4b5563]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--vs-surface-2)] text-[var(--vs-text-dim)]">
             <Monitor className="h-7 w-7" strokeWidth={1.5} />
           </div>
-          <p className="text-[13px] text-[#6b7280]">Žádná oznámení</p>
+          <p className="text-[13px] text-[var(--vs-text-muted)]">Žádná oznámení</p>
         </div>
       </div>
     </div>

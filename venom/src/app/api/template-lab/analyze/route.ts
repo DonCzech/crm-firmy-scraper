@@ -15,8 +15,11 @@ import {
 } from "@/lib/template-lab/workflow";
 import { captureScreenshots } from "@/lib/template-lab/screenshot";
 import { query, initDb } from "@/lib/db";
+import { requirePlatformAdmin } from "@/lib/platform-admin";
 
 export async function POST(req: NextRequest) {
+  const auth = requirePlatformAdmin(req, { mutation: true });
+  if (!auth.ok) return auth.response;
   const body = await req.json().catch(() => ({}));
   const { url, industry } = body as { url?: string; industry?: string };
 
@@ -309,7 +312,7 @@ function detectIndustryFromUrl(url: string): string {
   if (/restaurac|bistro|jidlo|food/.test(lower)) return "restaurant";
   if (/kavarna|coffee|cafe/.test(lower)) return "cafe";
   if (/realit|reality|nemovitost/.test(lower)) return "realEstate";
-  if (/autoservis|auto|servis|garant/.test(lower)) return "autoService";
+  if (/autoservis|auto|servis/.test(lower)) return "autoService";
   if (/zubar|zubni|smile|dent/.test(lower)) return "dentist";
   if (/advokatni|advokat|legal|lawyer|partners/.test(lower)) return "lawyer";
   if (/malir|remsln|facility/.test(lower)) return "craftsman";

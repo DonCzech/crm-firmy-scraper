@@ -48,17 +48,22 @@ interface Props {
 export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdmin }: Props) {
 
   if (variant === "pricing-photo-01")   return <PricingPhoto01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "ananda-01-services") return <ServicesAnanda01 content={content} sectionId={sectionId} />;
+  if (variant === "artist-01-concerts") return <ConcertsArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-16-benefits")  return <BenefitsEshop16 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-17-benefits")  return <BenefitsEshop17 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-services") return <ServicesHarmonie01 content={content} sectionId={sectionId} />;
   if (variant === "tawan-01-services")  return <ServicesTawan01 content={content} sectionId={sectionId} />;
-  if (variant === "tawan-02-services")  return <ServicesTawan02 content={content} sectionId={sectionId} />;
+  if (variant === "thaimasaze-02-services")  return <ServicesThaimasaze02 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-03-services") return <ServicesTattoo03 content={content} sectionId={sectionId} />;
+  if (variant === "tattoo-03-pricing")  return <PricingTattoo03 content={content} sectionId={sectionId} />;
+  if (variant === "tattoo-01-pricing")  return <PricingTattoo01 content={content} sectionId={sectionId} />;
   if (variant === "nails-01-services")  return <ServicesNails01 content={content} sectionId={sectionId} />;
   if (variant === "nails-02-pricing")   return <PricingNails02 content={content} sectionId={sectionId} />;
   if (variant === "nails-03-services")  return <ServicesNails03 content={content} sectionId={sectionId} />;
   if (variant === "clinic-02-services") return <ServicesClinic02 content={content} sectionId={sectionId} />;
   if (variant === "clinic-03-services") return <ServicesClinic03 content={content} sectionId={sectionId} />;
   if (variant === "clinic-03-pricing")  return <PricingClinic03 content={content} sectionId={sectionId} />;
-  if (variant === "restaurant-01-menu") return <ServicesRestaurant01 content={content} sectionId={sectionId} />;
+  if (variant === "restaurant-01-menu") return <ServicesRestaurant01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "restaurant-02-menu") return <ServicesRestaurant02 content={content} sectionId={sectionId} />;
   if (variant === "restaurant-03-menu") return <ServicesRestaurant03 content={content} sectionId={sectionId} />;
   if (variant === "cafe-02-menu")       return <ServicesCafe02 content={content} sectionId={sectionId} />;
@@ -67,10 +72,14 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "bakery-01-promo-2col") return <ServicesBakery01 content={content} sectionId={sectionId} />;
   if (variant === "bakery-02-delivery")   return <DeliveryBakery02 content={content} sectionId={sectionId} />;
   if (variant === "bakery-02-locations")  return <LocationsBakery02 content={content} sectionId={sectionId} />;
-  if (variant === "reality-01-listings")    return <ServicesReality01Listings content={content} sectionId={sectionId} />;
+  if (variant === "reality-01-listings")    return <ServicesReality01Listings content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "reality-01-listing-detail") return <ListingDetailReality01 content={content} sectionId={sectionId} />;
   if (variant === "reality-02-agents")      return <ServicesReality02Agents content={content} sectionId={sectionId} />;
-  if (variant === "reality-03-services-4grid") return <ServicesReality03Grid content={content} sectionId={sectionId} />;
+  if (variant === "reality-03-services-4grid") return <ServicesReality03Grid content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "reality-04-why-us")         return <WhyUsReality04 content={content} sectionId={sectionId} />;
+  if (variant === "reality-05-listings")         return <ListingsReality05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "reality-05-property-detail") return <PropertyDetailReality05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "reality-03-property-detail") return <PropertyDetailReality03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "reality-06-services")       return <ServicesReality06 content={content} sectionId={sectionId} />;
   if (variant === "autoservis-01-services")    return <ServicesAutoservis01 content={content} sectionId={sectionId} />;
   if (variant === "autoservis-02-services")    return <ServicesAutoservis02 content={content} sectionId={sectionId} />;
@@ -79,10 +88,12 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "autoservis-03-pricing")     return <PricingAutoservis03 content={content} sectionId={sectionId} />;
   if (variant === "fyzio-01-services-grid") return <ServicesFyzio01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "fyzio-01-pricing")       return <PricingFyzio01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "fyzio-02-services-list") return <ServicesFyzio02 content={content} sectionId={sectionId} />;
+  if (variant === "fyzio-02-services-list") return <ServicesFyzio02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "fyzio-02-pricing") return <PricingFyzio02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "dental-01-services")     return <ServicesDental01 content={content} sectionId={sectionId} />;
-  if (variant === "lawyer-01-services")    return <ServicesLawyer01 content={content} sectionId={sectionId} />;
-  if (variant === "legal-02-services")     return <ServicesLegal02 content={content} sectionId={sectionId} />;
+  if (variant === "lawyer-01-services")    return <ServicesLawyer01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "legal-02-services")     return <ServicesLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "legal-02-career")       return <CareerLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ucetni-01-services")    return <ServicesUcetni01 content={content} sectionId={sectionId} />;
   if (variant === "ucetni-02-services")    return <ServicesUcetni02 content={content} sectionId={sectionId} />;
   if (variant === "ucetni-03-services")    return <ServicesUcetni03 content={content} sectionId={sectionId} />;
@@ -98,6 +109,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "malir-01-services")    return <ServicesMalir01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "malir-02-services")    return <ServicesMalir02   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "malir-02-pricing")     return <PricingMalir02    content={content} sectionId={sectionId} />;
+  if (variant === "malir-01-pricing")     return <PricingMalir01    content={content} sectionId={sectionId} />;
   if (variant === "arbo-01-services")     return <ServicesArbo01    content={content} sectionId={sectionId} />;
   if (variant === "ddd-01-services")      return <ServicesDdd01     content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
@@ -242,7 +254,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "fitness-01-services-carousel") return <ServicesFitness01Carousel content={content} sectionId={sectionId} />;
   if (variant === "fitness-01-pricing-3col") return <PricingFitness01 content={content} sectionId={sectionId} />;
   if (variant === "rekonstrukce-01-services") return <ServicesRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "stavba-01-services") return <ServicesStavba01 content={content} sectionId={sectionId} />;
+  if (variant === "stavba-01-services") return <ServicesStavba01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-03-services") return <ServicesStavba03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-02-services") return <ServicesStavba02 content={content} sectionId={sectionId} />;
   if (variant === "elektro-01-services") return <ServicesElektro01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -256,7 +268,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "kids-01-services")      return <ServicesKids01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "pethotel-01-services")  return <ServicesPethotel01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "sweet-01-products")     return <ProductsSweet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "vet-01-services")       return <ServicesVet01 content={content} sectionId={sectionId} />;
+  if (variant === "vet-01-services")       return <ServicesVet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "grooming-01-pricing")   return <PricingGrooming01 content={content} sectionId={sectionId} />;
   if (variant === "clean-01-services")     return <ServicesClean01 content={content} sectionId={sectionId} />;
   if (variant === "clean-02-services")     return <ServicesClean02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -1365,317 +1377,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
     );
   }
 
-  if (variant === "pricing-table-video") {
-    const videoPoster = String(content.videoPoster ?? "");
-    const leftTitle = String(content.leftTitle ?? "");
-    const rightTitle = String(content.rightTitle ?? title);
-    const eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
-    const subtitle = String((content as Record<string, unknown>).subtitle ?? "");
-    const columns = (content.columns as string[]) ?? [];
-    const rows = (content.rows as Array<{ service: string; prices: string[] }>) ?? [];
-    const notes = (content.notes as string[]) ?? [];
-    const ctas = (content.ctas as Array<{ label: string; href: string; primary?: boolean }>) ?? [];
-    const headerRef = useRef<HTMLDivElement>(null);
-    const leftRef   = useRef<HTMLDivElement>(null);
-    const rightRef  = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-      const els = [headerRef.current, leftRef.current, rightRef.current].filter(Boolean) as HTMLElement[];
-      const obs = els.map((el, i) => {
-        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03s-vis"); o.disconnect(); } }, { threshold: 0.08 });
-        o.observe(el); return o;
-      });
-      return () => obs.forEach(o => o.disconnect());
-    }, []);
-    return (
-      <section
-        id="cenik"
-        className="relative overflow-hidden"
-        style={{
-          backgroundColor: "#0f0a07",
-          padding: "clamp(96px, 13vw, 150px) 0",
-        }}
-        data-template="barber-03"
-      >
-        <style>{`
-          @keyframes b03SFadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
-          .b03s-reveal { opacity: 0; }
-          .b03s-reveal.b03s-vis { animation: b03SFadeUp 0.85s cubic-bezier(.22,.68,0,1.1) forwards; }
-        `}</style>
-
-        {/* Top + bottom gold hairlines */}
-        <div aria-hidden style={{
-          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-          width: 180, height: 1,
-          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
-        }} />
-        <div aria-hidden style={{
-          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
-          width: 180, height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
-        }} />
-
-        {/* Warm radial ambient glow */}
-        <div aria-hidden style={{
-          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-          background: "radial-gradient(ellipse at 30% 20%, rgba(200,169,110,0.07) 0%, transparent 55%)",
-        }} />
-
-        {/* Editorial centered header */}
-        {(eyebrow || subtitle || title) && (
-          <div
-            ref={headerRef}
-            className="b03s-reveal text-center max-w-[760px] mx-auto px-6"
-            style={{ marginBottom: "clamp(56px, 8vw, 88px)", position: "relative", zIndex: 1 }}
-          >
-            {eyebrow && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
-                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-                <span style={{
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "12px",
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
-                  color: "#c8a96e",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-                </span>
-                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-              </div>
-            )}
-            {title && (
-              <h2 style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontSize: "clamp(2rem, 4.2vw, 3rem)",
-                fontWeight: 700,
-                lineHeight: 1.12,
-                letterSpacing: "0.04em",
-                color: "#f5efe6",
-                textTransform: "uppercase",
-                margin: "0 auto 22px",
-                maxWidth: 720,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-              </h2>
-            )}
-            {subtitle && (
-              <p style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontStyle: "italic",
-                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
-                color: "rgba(245,239,230,0.72)",
-                lineHeight: 1.7,
-                margin: "0 auto",
-                maxWidth: 600,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-              </p>
-            )}
-            {/* Decorative rule with diamond */}
-            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
-              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
-            </div>
-          </div>
-        )}
-
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 grid b03s-grid"
-          style={{
-            gap: "clamp(40px, 5vw, 72px)",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          {/* LEFT — video showcase */}
-          {videoPoster && (
-            <div ref={leftRef} className="b03s-reveal b03s-video-col">
-              {leftTitle && (
-                <div style={{ marginBottom: 28 }}>
-                  <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                    <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#c8a96e" }} />
-                    <span style={{
-                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      letterSpacing: "0.32em",
-                      textTransform: "uppercase",
-                      color: "#c8a96e",
-                    }}>
-                      Showcase
-                    </span>
-                  </div>
-                  <h3 style={{
-                    fontFamily: "'Libre Baskerville', Georgia, serif",
-                    color: "#f5efe6",
-                    fontWeight: 700,
-                    fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)",
-                    letterSpacing: "0.04em",
-                    lineHeight: 1.15,
-                    margin: 0,
-                    textTransform: "uppercase",
-                  }}>
-                    <GenericEditableText sectionId={sectionId} field="leftTitle" value={leftTitle} tag="span" />
-                  </h3>
-                </div>
-              )}
-              <div className="b03s-video relative overflow-hidden" style={{
-                aspectRatio: "16/9",
-                borderRadius: 2,
-                backgroundColor: "#1c1410",
-                boxShadow: "0 24px 56px rgba(0,0,0,0.55)",
-              }}>
-                {/* Gold corner brackets */}
-                <span aria-hidden className="b03s-video-corner b03s-video-corner-tl" style={{
-                  position: "absolute", top: 14, left: 14, width: 28, height: 28, zIndex: 3,
-                  borderTop: "1.5px solid #c8a96e", borderLeft: "1.5px solid #c8a96e",
-                  transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
-                }} />
-                <span aria-hidden className="b03s-video-corner b03s-video-corner-br" style={{
-                  position: "absolute", bottom: 14, right: 14, width: 28, height: 28, zIndex: 3,
-                  borderBottom: "1.5px solid #c8a96e", borderRight: "1.5px solid #c8a96e",
-                  transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
-                }} />
-                <GenericEditableImage sectionId={sectionId} field="videoPoster" src={videoPoster} alt={leftTitle} className="absolute inset-0 w-full h-full">
-                  <Image src={videoPoster} alt={leftTitle} fill className="object-cover b03s-video-img" sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(videoPoster)} />
-                </GenericEditableImage>
-                <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(28,20,16,0.15) 0%, rgba(28,20,16,0.4) 100%)" }} />
-                <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="b03s-play" style={{
-                    width: 84, height: 84, borderRadius: 50,
-                    border: "1.5px solid #c8a96e",
-                    backgroundColor: "rgba(28,20,16,0.55)",
-                    backdropFilter: "blur(4px)",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: "#c8a96e",
-                    transition: "transform 0.45s cubic-bezier(.22,.68,0,1.1), background 0.3s ease",
-                  }}>
-                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* RIGHT — pricing table */}
-          <div ref={rightRef} className="b03s-reveal">
-            {rightTitle && (
-              <div style={{ marginBottom: 28 }}>
-                <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                  <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#c8a96e" }} />
-                  <span style={{
-                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: "0.32em",
-                    textTransform: "uppercase",
-                    color: "#c8a96e",
-                  }}>
-                    Ceník
-                  </span>
-                </div>
-                <h3 style={{
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  color: "#f5efe6",
-                  fontWeight: 700,
-                  fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)",
-                  letterSpacing: "0.04em",
-                  lineHeight: 1.15,
-                  margin: 0,
-                  textTransform: "uppercase",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field="rightTitle" value={rightTitle} tag="span" />
-                </h3>
-              </div>
-            )}
-            <div className="overflow-x-auto">
-              <table className="w-full b03s-table" style={{ borderCollapse: "collapse", color: "rgba(245,239,230,0.92)", fontFamily: "'Source Sans Pro', system-ui, sans-serif", fontSize: "0.94rem" }}>
-                <thead>
-                  <tr style={{ borderBottom: "1px solid rgba(200,169,110,0.45)" }}>
-                    <th style={{ textAlign: "left", padding: "14px 8px", color: "#c8a96e", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "0.74rem", fontWeight: 700 }}><GenericEditableText sectionId={sectionId} field="serviceColumnLabel" value={String((content as Record<string, unknown>).serviceColumnLabel ?? "Služba")} tag="span" /></th>
-                    {columns.map((col, ci) => (
-                      <th key={ci} style={{ textAlign: "right", padding: "14px 8px", color: "#c8a96e", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "0.74rem", fontWeight: 700 }}>
-                        <GenericEditableText sectionId={sectionId} field={`columns.${ci}`} value={col} tag="span" />
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row, ri) => (
-                    <tr key={ri} className="b03s-tr" style={{ borderBottom: "1px dashed rgba(200,169,110,0.16)", position: "relative" }}>
-                      <td style={{
-                        padding: "16px 8px",
-                        fontFamily: "'Libre Baskerville', Georgia, serif",
-                        fontStyle: "italic",
-                        transition: "color 0.3s ease, padding-left 0.3s ease",
-                      }}>
-                        <GenericEditableText sectionId={sectionId} field={`rows.${ri}.service`} value={row.service} tag="span" />
-                      </td>
-                      {row.prices.map((p, pi) => (
-                        <td key={pi} style={{
-                          padding: "16px 8px",
-                          textAlign: "right",
-                          color: "#c8a96e",
-                          fontWeight: 700,
-                          letterSpacing: "0.02em",
-                          fontFamily: "'Libre Baskerville', Georgia, serif",
-                        }}>
-                          <GenericEditableText sectionId={sectionId} field={`rows.${ri}.prices.${pi}`} value={p} tag="span" />
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {notes.length > 0 && (
-              <div className="mt-7" style={{ color: "rgba(245,239,230,0.55)", fontSize: "0.85rem", lineHeight: 1.7, fontStyle: "italic", fontFamily: "'Libre Baskerville', Georgia, serif" }}>
-                {notes.map((n, ni) => (
-                  <p key={ni} style={{ margin: "4px 0" }}>
-                    <GenericEditableText sectionId={sectionId} field={`notes.${ni}`} value={n} tag="span" />
-                  </p>
-                ))}
-              </div>
-            )}
-            {ctas.length > 0 && (
-              <div className="mt-8 flex flex-wrap gap-4">
-                {ctas.map((cta, ci) => {
-                  const isPrimary = cta.primary !== false;
-                  return (
-                    <a
-                      key={ci}
-                      href={cta.href}
-                      data-btn={isPrimary ? "primary" : "inverse"}
-                      className={`inline-flex items-center justify-center uppercase no-underline ${isPrimary ? "b03s-cta-primary" : "b03s-cta-secondary"}`}
-                      style={{
-                        gap: 10,
-                        border: isPrimary ? "1px solid #c8a96e" : "1px solid rgba(245,239,230,0.4)",
-                        backgroundColor: isPrimary ? "#c8a96e" : "transparent",
-                        color: isPrimary ? "#1c1410" : "#f5efe6",
-                        fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                        fontSize: 11.5,
-                        fontWeight: 700,
-                        letterSpacing: "0.24em",
-                        padding: "15px 30px",
-                        transition: "background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease",
-                        boxShadow: isPrimary ? "0 6px 20px rgba(200,169,110,0.32)" : "none",
-                      }}
-                    >
-                      <GenericEditableText sectionId={sectionId} field={`ctas.${ci}.label`} value={cta.label} tag="span" />
-                      <span aria-hidden className="b03s-cta-arrow" style={{ display: "inline-flex", transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)" }}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                      </span>
-                    </a>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-    );
-  }
+  if (variant === "pricing-table-video") return <PricingTableVideo content={content} title={title} sectionId={sectionId} />;
 
   // Default: cards-grid
   return (
@@ -1921,77 +1623,62 @@ function Beauty01Services3col({ content, sectionId }: { content: Record<string, 
 }
 
 // ── massage-01-services-3col ──────────────────────────────────────────────────
-// 3-col grid, dark surface karty, 200px foto nahoře, Cormorant h3, gold cena
-// Přesná replika .services-grid z praha-masaze.cz originálu
+// Luxe dark 3-col cards — tall image, gold numbered eyebrow, serif title,
+// hover: card lift + gold border glow + image zoom + gold price reveal
 // ─────────────────────────────────────────────────────────────────────────────
 function Massage01Services3col({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const sectionTag = String(content.sectionTag ?? "Naše služby");
-  const heading    = String(content.heading    ?? "Masážní terapie");
-  const subtitle   = String(content.subtitle   ?? "Každé sezení je přizpůsobeno jedinečným potřebám vašeho těla");
-  const ctaText    = String(content.ctaText    ?? "Zobrazit kompletní nabídku");
-  const ctaHref    = String(content.ctaHref    ?? "#rezervace");
+  const eyebrowRaw  = content.sectionTag;
+  const titleRaw    = content.heading;
+  const subtitleRaw = content.subtitle;
+  const sectionTag = eyebrowRaw  === undefined ? "Nabídka terapií" : String(eyebrowRaw);
+  const heading    = titleRaw    === undefined ? "Naše masážní techniky" : String(titleRaw);
+  const subtitle   = subtitleRaw === undefined ? "Individuální přístup ke každému sezení — protože vaše tělo si zaslouží péči na míru" : String(subtitleRaw);
+  const ctaText    = String(content.ctaText ?? "Celá nabídka & ceník");
+  const ctaHref    = String(content.ctaHref ?? "/sluzby");
   const items      = (content.items as Array<{
     image: string; title: string; description: string; price: string;
   }>) ?? [];
-
-  const BG       = "#0A0A0A";
-  const SURFACE  = "#141414";
-  const BORDER   = "#2A2520";
-  const GOLD     = "#C9A962";
-  const GOLDDIM  = "rgba(201,169,98,0.25)";
-  const TEXT     = "#F5F0E8";
-  const SECONDARY= "#A09888";
-  const FONT     = "'Inter', sans-serif";
-  const SERIF    = "'Cormorant Garamond', serif";
+  const showHeader = !!(sectionTag.trim() || heading.trim() || subtitle.trim());
 
   return (
     <section
       id="sluzby"
-      style={{ backgroundColor: BG, padding: "100px 0" }}
+      className="m01-services"
       data-template="massage-01"
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 80px" }}>
-        {/* Section header */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, textAlign: "center", marginBottom: 56 }}>
-          <p style={{ display: "inline-flex", alignItems: "center", gap: 8, color: GOLD, fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>
-            <span style={{ display: "inline-block", width: 6, height: 6, background: GOLD, borderRadius: "50%" }} />
-            <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 400, color: TEXT, lineHeight: 1.1, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, maxWidth: 540, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        </div>
+      <div className="m01-services-inner">
+        {showHeader && (
+          <div className="m01-services-header">
+            <p className="m01-services-tag">
+              <span className="m01-services-tag-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
+            </p>
+            <h2 className="m01-services-h2">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <p className="m01-services-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
 
-        {/* 3-col grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24, marginBottom: 56 }}>
+        <div className="m01-services-grid">
           {items.map((item, i) => (
-            <div
-              key={i}
-              style={{ background: SURFACE, border: `1px solid ${BORDER}`, overflow: "hidden", display: "flex", flexDirection: "column", transition: "border-color 0.25s, transform 0.25s" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = GOLDDIM; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = BORDER; (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; }}
-            >
-              {/* Foto */}
-              <div style={{ height: 200, overflow: "hidden", flexShrink: 0 }}>
+            <div key={i} className="m01-srv-card">
+              <div className="m01-srv-img">
                 <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.title} style={{ width: "100%", height: "100%" }}>
-                  <img loading="lazy" src={item.image} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.5s" }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.04)"; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; }}
-                  />
+                  <img loading="lazy" src={item.image} alt={item.title} />
                 </GenericEditableImage>
+                <span className="m01-srv-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
               </div>
-              {/* Body */}
-              <div style={{ padding: 28, display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
-                <h3 style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 500, color: TEXT, margin: 0 }}>
+              <div className="m01-srv-body">
+                <h3 className="m01-srv-title">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
                 </h3>
-                <p style={{ fontFamily: FONT, fontSize: 13, fontWeight: 300, color: SECONDARY, lineHeight: 1.6, margin: 0, flex: 1 }}>
+                <p className="m01-srv-desc">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
                 </p>
-                <p style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: GOLD, margin: 0 }}>
+                <p className="m01-srv-price">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
                 </p>
               </div>
@@ -1999,15 +1686,8 @@ function Massage01Services3col({ content, sectionId }: { content: Record<string,
           ))}
         </div>
 
-        {/* CTA — outline */}
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <a
-            href={ctaHref}
-            data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", padding: "18px 40px", fontFamily: FONT, fontSize: 14, fontWeight: 500, color: GOLD, border: `1px solid ${GOLDDIM}`, textDecoration: "none", transition: "border-color 0.25s" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = GOLDDIM; }}
-          >
+        <div className="m01-services-cta-row">
+          <a href={ctaHref} className="m01-hero-cta" data-btn="primary">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
         </div>
@@ -2131,23 +1811,23 @@ function ServicesTawan01({ content, sectionId }: { content: Record<string, unkno
   );
 }
 
-// ── ananda-01-services ────────────────────────────────────────────────────────
+// ── harmonie-01-services ────────────────────────────────────────────────────────
 // Cream bg, centered gold H2 + subtitle, 4-col karty
 // Karta: foto s tmavým overlay + arch clip na vrcholu + bílý titulek + popis + "VÍCE ZDE →"
 // Hover: foto zoom + overlay zesvětlí + CTA podtržení
-// Ref: anandaspa.cz "Nabídka procedur a programů"
+// Ref: original reference "Nabídka procedur a programů"
 // ─────────────────────────────────────────────────────────────────────────────
-function ServicesAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ServicesHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const title    = String(content.title    ?? "NABÍDKA PROCEDUR A PROGRAMŮ");
   const ctaText  = String(content.ctaText  ?? "VÍCE ZDE");
 
   type Card = { image: string; title: string; description: string; href: string };
   const rawCards = (content.cards as Card[] | undefined) ?? [];
   const cards: Card[] = rawCards.length > 0 ? rawCards : [
-    { image: "/templates/ananda-01/service-1.jpg", title: "ÁJURVÉDSKÉ PROCEDURY",  description: "Jednotlivé ájurvédské terapie a procedury",    href: "#sluzby" },
-    { image: "/templates/ananda-01/service-2.jpg", title: "DIAGNOSTIKA",            description: "Konzultace s ájurvédským lékařem a specialisty", href: "#sluzby" },
-    { image: "/templates/ananda-01/service-3.jpg", title: "LÉČEBNÉ PROGRAMY",       description: "Komplexní balíčky ájurvédských procedur",        href: "#sluzby" },
-    { image: "/templates/ananda-01/service-4.jpg", title: "SPA & BODY RELAX",       description: "Neájurvédské relaxační rituály a wellness",       href: "#sluzby" },
+    { image: "/templates/harmonie-01/service-1.webp", title: "ÁJURVÉDSKÉ PROCEDURY",  description: "Jednotlivé ájurvédské terapie a procedury",    href: "#sluzby" },
+    { image: "/templates/harmonie-01/service-2.webp", title: "DIAGNOSTIKA",            description: "Konzultace s ájurvédským lékařem a specialisty", href: "#sluzby" },
+    { image: "/templates/harmonie-01/service-3.webp", title: "LÉČEBNÉ PROGRAMY",       description: "Komplexní balíčky ájurvédských procedur",        href: "#sluzby" },
+    { image: "/templates/harmonie-01/service-4.webp", title: "SPA & BODY RELAX",       description: "Neájurvédské relaxační rituály a wellness",       href: "#sluzby" },
   ];
 
   const GOLD  = "#AA813A";
@@ -2155,115 +1835,7 @@ function ServicesAnanda01({ content, sectionId }: { content: Record<string, unkn
   const FONT  = "'Jost', sans-serif";
 
   return (
-    <section id="sluzby" style={{ backgroundColor: CREAM, padding: "80px 0" }}>
-      <style>{`
-        .ana-srv-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
-          max-width: 1280px;
-          margin: 56px auto 0;
-          padding: 0 32px;
-        }
-        @media(max-width: 900px) { .ana-srv-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media(max-width: 540px) { .ana-srv-grid { grid-template-columns: 1fr; } }
-
-        .ana-srv-card {
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-          border-radius: 2px;
-          aspect-ratio: 3/4;
-          background: #1a1208;
-        }
-        /* Arch clip — pointed arch at top (clip-path polygon) */
-        .ana-srv-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          z-index: 3;
-          background: ${CREAM};
-          clip-path: polygon(
-            0% 0%,
-            100% 0%,
-            100% 12%,
-            50% 0%,
-            0% 12%
-          );
-        }
-
-        .ana-srv-img {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          z-index: 0;
-        }
-        .ana-srv-card:hover .ana-srv-img { transform: scale(1.13); }
-
-        /* Dark gradient overlay */
-        .ana-srv-overlay {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
-          transition: background 0.4s ease;
-        }
-        .ana-srv-card:hover .ana-srv-overlay {
-          background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.38) 55%, transparent 100%);
-        }
-
-        .ana-srv-body {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          z-index: 2;
-          padding: 28px 24px 32px;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-        }
-        .ana-srv-title {
-          font-family: ${FONT};
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          color: #ffffff;
-          margin: 0;
-          line-height: 1.5;
-        }
-        .ana-srv-desc {
-          font-family: ${FONT};
-          font-size: 13px;
-          font-weight: 300;
-          color: rgba(255,255,255,0.75);
-          margin: 0;
-          line-height: 1.6;
-        }
-        .ana-srv-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          font-family: ${FONT};
-          font-size: 10px;
-          font-weight: 600;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          color: ${GOLD};
-          text-decoration: none;
-          margin-top: 6px;
-          border-bottom: 1px solid transparent;
-          transition: border-color 0.25s, gap 0.25s;
-          width: fit-content;
-        }
-        .ana-srv-card:hover .ana-srv-cta {
-          border-bottom-color: ${GOLD};
-          gap: 14px;
-        }
-      `}</style>
-
+    <section id="sluzby" data-template="harmonie-01" style={{ backgroundColor: CREAM, padding: "88px 0 96px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", padding: "0 32px" }}>
         <h2 style={{ fontFamily: FONT, fontSize: "clamp(16px, 2vw, 20px)", fontWeight: 500, color: GOLD, letterSpacing: 5, textTransform: "uppercase", margin: 0 }}>
@@ -2272,9 +1844,9 @@ function ServicesAnanda01({ content, sectionId }: { content: Record<string, unkn
       </div>
 
       {/* Grid karet */}
-      <div className="ana-srv-grid">
+      <div className="harmonie-srv-grid">
         {cards.map((card, i) => (
-          <a key={i} href={card.href} className="ana-srv-card" style={{ textDecoration: "none" }}>
+          <a key={i} href={card.href} className="harmonie-srv-card">
             {/* Fotka */}
             <GenericEditableImage
               sectionId={sectionId}
@@ -2287,24 +1859,24 @@ function ServicesAnanda01({ content, sectionId }: { content: Record<string, unkn
                 src={card.image}
                 alt={card.title}
                 fill
-                className="ana-srv-img"
+                className="harmonie-srv-img"
                 sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 25vw"
                 unoptimized={shouldSkipNextImageOptimization(card.image)}
               />
             </GenericEditableImage>
 
             {/* Overlay */}
-            <div className="ana-srv-overlay" aria-hidden />
+            <div className="harmonie-srv-overlay" aria-hidden />
 
             {/* Text */}
-            <div className="ana-srv-body">
-              <p className="ana-srv-title">
+            <div className="harmonie-srv-body">
+              <p className="harmonie-srv-title">
                 <GenericEditableText sectionId={sectionId} field={`cards.${i}.title`} value={card.title} tag="span" />
               </p>
-              <p className="ana-srv-desc">
+              <p className="harmonie-srv-desc">
                 <GenericEditableText sectionId={sectionId} field={`cards.${i}.description`} value={card.description} tag="span" />
               </p>
-              <span className="ana-srv-cta">
+              <span className="harmonie-srv-cta">
                 {ctaText}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 6" width="20" height="6" fill="none">
                   <path stroke="currentColor" strokeWidth="1" d="M20,6l-.4-.4,2.4-2.4H0v-.6h22l-2.4-2.4L20,0l4,3Z"/>
@@ -2318,11 +1890,24 @@ function ServicesAnanda01({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-// ─── tawan-02-services ───────────────────────────────────────────────────────
-function ServicesTawan02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// ─── thaimasaze-02-services ───────────────────────────────────────────────────────
+function ServicesThaimasaze02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type CardItem = { title?: string; desc?: string; image?: string; duration?: string; price?: string; badges?: string[] };
-  const title = String(content.title ?? "Oblíbené masáže");
-  const items = (content.items as CardItem[]) ?? [];
+  const eyebrowRaw = content.eyebrow; const titleRaw = content.title; const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Naše nejoblíbenější rituály" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Vyberte si svůj okamžik klidu" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+  const detailLabel = String(content.detailLabel ?? "Zobrazit detail");
+  const DEFAULT_ITEMS: CardItem[] = [
+    { title: "Tradiční thajská masáž", desc: "Autentická technika akupresurních bodů a protahování pro hlubokou úlevu.", image: "/templates/thaimasaze-02/svc-thajska.webp", duration: "60 min", price: "990 Kč", badges: ["Nejoblíbenější"] },
+    { title: "Masáž lávovými kameny", desc: "Hřejivé sopečné kameny uvolní napětí a rozproudí energii v těle.", image: "/templates/thaimasaze-02/svc-lavove.webp", duration: "75 min", price: "1 290 Kč", badges: [] },
+    { title: "Aromaterapeutická masáž", desc: "Jemné tahy s esenciálními oleji pro dokonalou relaxaci smyslů.", image: "/templates/thaimasaze-02/svc-aroma.webp", duration: "60 min", price: "1 090 Kč", badges: [] },
+    { title: "Masáž hlavy a šíje", desc: "Cílené uvolnění nejvíce zatěžovaných partií po náročném dni.", image: "/templates/thaimasaze-02/svc-hlava.webp", duration: "45 min", price: "790 Kč", badges: [] },
+    { title: "Relaxační rituál", desc: "Celotělová péče v hřejivé atmosféře svící a vůní pro úplný oddech.", image: "/templates/thaimasaze-02/svc-relax.webp", duration: "90 min", price: "1 490 Kč", badges: ["Doporučujeme"] },
+  ];
+  const rawItems = (content.items as CardItem[]) ?? [];
+  const items = rawItems.length ? rawItems : DEFAULT_ITEMS;
 
   const CLONES = 4;
   // Clone last N cards to the front, first N to the back → infinite loop
@@ -2370,76 +1955,41 @@ function ServicesTawan02({ content, sectionId }: { content: Record<string, unkno
     trackRef.current?.scrollBy({ left: dir * w, behavior: "smooth" });
   };
 
-  const FONT = "Candara, 'Trebuchet MS', Arial, sans-serif";
+  const FONT  = "Candara, 'Candara Regular', 'Segoe UI', sans-serif";
+  const SERIF = "'Cormorant Garamond', Georgia, serif";
+  const ACCENT = "#AD8F78";
+  const BROWN  = "#3C2F25";
 
   return (
-    <section style={{ backgroundColor: "#fff", padding: "80px 0 100px", fontFamily: FONT }}>
-      <style>{`
-        .t02-svc-track {
-          display: flex;
-          gap: ${GAP}px;
-          overflow-x: auto;
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          padding-bottom: 4px;
-        }
-        .t02-svc-track::-webkit-scrollbar { display: none; }
-        .t02-svc-card {
-          flex: 0 0 calc((100% - ${GAP * 2}px) / 3.15);
-          min-width: 280px;
-          scroll-snap-align: start;
-          background: linear-gradient(180deg, #AD8F78 0%, #EAE3DE 76%, #EAE3DE 100%);
-          border-radius: 20px;
-          box-shadow: 2px 2px 18px rgba(146,114,89,0.22);
-          display: flex; flex-direction: column;
-          color: rgba(60,47,37,0.65);
-          text-decoration: none;
-          position: relative;
-          overflow: hidden;
-          transition: box-shadow 0.35s, transform 0.35s;
-        }
-        .t02-svc-card:hover { box-shadow: 4px 6px 28px rgba(146,114,89,0.38); transform: translateY(-4px); }
-        .t02-svc-media { display: block; width: 100%; padding-top: 66%; position: relative; overflow: hidden; border-radius: 20px 20px 0 0; }
-        .t02-svc-media img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 20px 20px 0 0; transition: transform 1.3s cubic-bezier(.22,1,.36,1); }
-        .t02-svc-card:hover .t02-svc-media img { transform: scale(1.08); }
-        .t02-svc-badge { position: absolute; background: #927259; color: #fff; font-size: 12px; font-weight: 700; z-index: 1; top: 16px; left: 16px; padding: 4px 11px; border-radius: 4px; letter-spacing: 0.5px; }
-        .t02-svc-body { padding: 22px 22px 0; }
-        .t02-svc-body h3 { font-size: 22px; font-weight: 700; color: rgba(60,47,37,0.92); margin: 0 0 8px; font-family: Candara,'Trebuchet MS',Arial,sans-serif; }
-        .t02-svc-body p { margin: 0; line-height: 26px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; }
-        .t02-svc-info { padding: 16px 22px 22px; margin-top: auto; }
-        .t02-svc-price-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
-        .t02-dur  { font-size: 17px; color: #3C2F25; }
-        .t02-price { font-size: 21px; font-weight: 700; color: #3C2F25; }
-        .t02-svc-btn { background: #CFBDB0; width: 100%; color: #3C2F25; padding: 10px 0; border: none; border-radius: 8px; font-family: Candara,'Trebuchet MS',Arial,sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: background 0.25s, color 0.25s; }
-        .t02-svc-btn:hover, .t02-svc-card:hover .t02-svc-btn { background: #927259; color: #fff; }
-        .t02-svc-arrow { width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid #AD8F78; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #AD8F78; transition: background 0.2s, color 0.2s, box-shadow 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(146,114,89,0.15); }
-        .t02-svc-arrow:hover { background: #AD8F78; color: #fff; box-shadow: 0 4px 12px rgba(146,114,89,0.3); }
-        @media(max-width: 900px) {
-          .t02-svc-card { flex: 0 0 calc((100% - ${GAP}px) / 2.15); }
-        }
-        @media(max-width: 580px) {
-          .t02-svc-card { flex: 0 0 85%; }
-        }
-      `}</style>
-
-      {/* Nadpis */}
-      <div style={{ textAlign: "center", marginBottom: 48 }}>
-        <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px,3.5vw,38px)", fontWeight: 700, color: "#3C2F25", margin: 0 }}><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
-      </div>
+    <section id="sluzby" data-template="thaimasaze-02" style={{ backgroundColor: "#fff", padding: "110px 0 118px", fontFamily: FONT }}>
+      {/* Header */}
+      {showHeader && (
+        <div style={{ textAlign: "center", marginBottom: 60, padding: "0 24px" }}>
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+            fontFamily: FONT, fontSize: 12, fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: ACCENT, display: "block", marginBottom: 14,
+          }} />
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+            fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 500, color: BROWN, margin: 0, lineHeight: 1.15, letterSpacing: 0.5,
+          }} />
+          {subtitle && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{ fontFamily: FONT, fontSize: 17, color: "rgba(60,47,37,.6)", marginTop: 14, maxWidth: 620, marginLeft: "auto", marginRight: "auto" }} />}
+          <div aria-hidden style={{ display: "flex", justifyContent: "center", marginTop: 22 }}>
+            <span style={{ width: 44, height: 1, background: `linear-gradient(90deg, transparent, ${ACCENT}66)` }} />
+            <span style={{ margin: "0 10px", fontSize: 12, color: ACCENT, opacity: .6 }}>❁</span>
+            <span style={{ width: 44, height: 1, background: `linear-gradient(90deg, ${ACCENT}66, transparent)` }} />
+          </div>
+        </div>
+      )}
 
       {/* Slider + arrows */}
       <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 32px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
 
-          {/* Prev */}
           <button className="t02-svc-arrow" onClick={() => scrollByCard(-1)} aria-label="Předchozí">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
               <path d="M7 1.5L3 5.5L7 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
 
-          {/* Track — all = leading clones + real + trailing clones */}
           <div ref={trackRef} className="t02-svc-track" style={{ flex: 1 }} onScroll={handleScroll}>
             {all.map((item, i) => {
               const realIdx = i - CLONES;
@@ -2449,7 +1999,8 @@ function ServicesTawan02({ content, sectionId }: { content: Record<string, unkno
                 <div className="t02-svc-media">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={item.image ?? ""} alt={item.title ?? ""} loading="lazy" />
-                  {item.badges && item.badges.length > 0 && (
+                  <span className="t02-svc-media-veil" aria-hidden />
+                  {item.badges && item.badges.length > 0 && item.badges[0] && (
                     <span className="t02-svc-badge">{item.badges[0]}</span>
                   )}
                 </div>
@@ -2462,14 +2013,18 @@ function ServicesTawan02({ content, sectionId }: { content: Record<string, unkno
                     <span className="t02-dur">{isReal ? <GenericEditableText sectionId={sectionId} field={`items.${realIdx}.duration`} value={item.duration ?? ""} tag="span" /> : item.duration}</span>
                     <span className="t02-price">{isReal ? <GenericEditableText sectionId={sectionId} field={`items.${realIdx}.price`} value={item.price ?? ""} tag="span" /> : item.price}</span>
                   </div>
-                  <button className="t02-svc-btn">Detail</button>
+                  <span className="t02-svc-btn">
+                    {isReal
+                      ? <GenericEditableText sectionId={sectionId} field="detailLabel" value={detailLabel} tag="span" />
+                      : detailLabel}
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  </span>
                 </div>
               </div>
               );
             })}
           </div>
 
-          {/* Next */}
           <button className="t02-svc-arrow" onClick={() => scrollByCard(1)} aria-label="Další">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
               <path d="M4 1.5L8 5.5L4 9.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -2488,55 +2043,66 @@ function ServicesTawan02({ content, sectionId }: { content: Record<string, unkno
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c          = content as Record<string, unknown>;
-  const heading    = String(c.heading    ?? "Na co se specializujeme");
-  const subheading = String(c.subheading ?? "Co děláme");
+  const headingRaw    = c.heading;
+  const subheadingRaw = c.subheading;
+  const heading    = headingRaw    === undefined ? "Na co se specializujeme" : String(headingRaw);
+  const subheading = subheadingRaw === undefined ? "Co děláme" : String(subheadingRaw);
+  const showHeader = !!(heading.trim() || subheading.trim());
+  const linkLabel  = String(c.linkLabel ?? "Zjistit více");
   const rawItems   = (c.items as Array<{ title: string; text: string; image: string; href: string }>) ?? [];
 
   const BG     = "#0e0e0e";
   const ACCENT = "#D41515";
 
   return (
-    <section id="sluzby" style={{ backgroundColor: BG, padding: "clamp(48px,7vw,96px) clamp(20px,4vw,40px)" }}>
+    <section id="sluzby" data-template="tattoo-03" style={{ backgroundColor: BG, padding: "clamp(56px,7vw,104px) clamp(20px,4vw,40px)", position: "relative" }}>
       <div style={{ maxWidth: 1360, margin: "0 auto" }}>
         {/* Nadpis */}
-        <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: "0.75rem",
-            fontWeight: 700,
-            color: ACCENT,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            margin: "0 0 8px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-          <h2 style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(22px, 2.8vw, 38px)",
-            color: "#ffffff",
-            margin: 0,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+              <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" style={{
+                fontFamily: "'Barlow Condensed','Oswald',sans-serif", fontSize: "0.9rem", fontWeight: 600,
+                letterSpacing: "0.26em", textTransform: "uppercase", color: ACCENT,
+              }} />
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+            </div>
+            <h2 style={{
+              fontFamily: "'Bebas Neue','Oswald',sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 56px)",
+              color: "#ffffff",
+              margin: 0,
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
+              lineHeight: 1,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+          </div>
+        )}
 
         {/* 4-col karty */}
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-          gap: 24,
+          gap: 22,
         }}>
           {rawItems.map((item, i) => (
-            <div
+            <a
               key={i}
+              href={item.href || "#kontakt"}
+              className="t03-svc-card"
               style={{
-                backgroundColor: "#141414",
-                border: "1px solid rgba(255,255,255,0.06)",
+                backgroundColor: "#131318",
+                border: "1px solid rgba(255,255,255,0.07)",
                 overflow: "hidden",
                 display: "flex",
                 flexDirection: "column",
+                textDecoration: "none",
+                position: "relative",
+                transition: "transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
               }}
             >
               {/* Foto */}
@@ -2545,15 +2111,18 @@ function ServicesTattoo03({ content, sectionId }: { content: Record<string, unkn
                   <img
                     src={item.image}
                     alt={item.title}
+                    loading="lazy"
+                    className="t03-svc-img"
                     style={{
                       width: "100%", height: "100%",
                       objectFit: "cover", objectPosition: "center",
-                      transition: "transform 0.4s ease",
+                      transition: "transform 0.5s ease, filter 0.5s ease",
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
                   />
                 </GenericEditableImage>
+                {/* Gradient + crimson bracket */}
+                <span aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(19,19,24,0.75), transparent 45%)", pointerEvents: "none" }} />
+                <span aria-hidden className="t03-svc-bracket" />
               </div>
 
               {/* Červená linka */}
@@ -2562,18 +2131,20 @@ function ServicesTattoo03({ content, sectionId }: { content: Record<string, unkn
               {/* Obsah */}
               <div style={{ padding: "24px 24px 28px", flex: 1, display: "flex", flexDirection: "column" }}>
                 <h3 style={{
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  fontWeight: 700,
-                  fontSize: "clamp(16px, 1.5vw, 19px)",
+                  fontFamily: "'Bebas Neue','Oswald',sans-serif",
+                  fontWeight: 400,
+                  fontSize: "clamp(19px, 1.7vw, 24px)",
                   color: "#ffffff",
                   margin: "0 0 10px",
-                  lineHeight: 1.3,
+                  lineHeight: 1.05,
+                  letterSpacing: "0.02em",
+                  textTransform: "uppercase",
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
                 </h3>
                 <p style={{
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  fontSize: "0.84rem",
+                  fontFamily: "'Barlow','Helvetica Neue',Arial,sans-serif",
+                  fontSize: "0.86rem",
                   color: "rgba(255,255,255,0.62)",
                   lineHeight: 1.7,
                   margin: "0 0 20px",
@@ -2581,23 +2152,246 @@ function ServicesTattoo03({ content, sectionId }: { content: Record<string, unkn
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
                 </p>
-                <a
-                  href={item.href || "#kontakt"}
-                  style={{
-                    display: "inline-flex", alignItems: "center",
-                    fontSize: "0.78rem",
-                    fontWeight: 700,
-                    color: ACCENT,
-                    textDecoration: "none",
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Zjistit více →
-                </a>
+                <span style={{
+                  display: "inline-flex", alignItems: "center", gap: 7,
+                  fontFamily: "'Barlow Condensed','Oswald',sans-serif",
+                  fontSize: "0.86rem",
+                  fontWeight: 700,
+                  color: ACCENT,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="linkLabel" value={linkLabel} tag="span" />
+                  <span className="t03-svc-arrow" aria-hidden style={{ display: "inline-block", transition: "transform 0.2s ease" }}>→</span>
+                </span>
               </div>
-            </div>
+            </a>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── tattoo-03-pricing ─────────────────────────────────────────────────────────
+// Dark ceník — Bebas Neue header, 3–4 balíčkové karty s cenou "od", featured accent,
+// feature list s crimson zaškrtnutím, dole poznámka o konzultaci
+// ─────────────────────────────────────────────────────────────────────────────
+// ── tattoo-01-pricing ─────────────────────────────────────────────────────────
+// Dark ceníkové karty ve stylu tattoo-01 (Arial Black, coral, 0px radius)
+// ─────────────────────────────────────────────────────────────────────────────
+function PricingTattoo01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const c       = content as Record<string, unknown>;
+  const eyebrow = String(c.eyebrow ?? "Férové ceny");
+  const heading = String(c.heading ?? "Ceník");
+  const note    = String(c.note ?? "Uvedené ceny jsou orientační. Konečná cena vždy závisí na velikosti, detailu a umístění motivu — přesnou kalkulaci potvrdíme zdarma při osobní konzultaci.");
+  const items   = (c.items as Array<{ name?: string; size?: string; price?: string; priceNote?: string; features?: string[]; featured?: boolean }>) ?? [];
+  const ACCENT  = "#ff5c4b";
+  const SANS    = "Arial, Helvetica, sans-serif";
+
+  const headRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [headVis, setHeadVis] = useState(false);
+  const [gridVis, setGridVis] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setHeadVis(true); o.disconnect(); } }, { threshold: 0.3 });
+    if (headRef.current) o.observe(headRef.current);
+    return () => o.disconnect();
+  }, []);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setGridVis(true); o.disconnect(); } }, { threshold: 0.1 });
+    if (gridRef.current) o.observe(gridRef.current);
+    return () => o.disconnect();
+  }, []);
+
+  return (
+    <section id="cenik" data-template="tattoo-01" style={{ backgroundColor: "#0f0f0f", padding: "clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px)" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div ref={headRef} className={`t01-gal-reveal ${headVis ? "t01-visible" : ""}`} style={{ textAlign: "center", marginBottom: "clamp(40px, 6vw, 64px)" }}>
+          <p style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: ACCENT, margin: "0 0 16px" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+          <div style={{ width: 48, height: 3, backgroundColor: ACCENT, margin: "0 auto 24px" }} aria-hidden />
+          <h2 style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 900, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.06em", margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
+        </div>
+
+        <div ref={gridRef} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "clamp(16px, 2.5vw, 24px)" }}>
+          {items.map((item, i) => {
+            const featured = !!item.featured;
+            return (
+              <div
+                key={i}
+                className={`t01-price-card ${featured ? "t01-price-featured" : ""} t01-gal-reveal ${gridVis ? "t01-visible" : ""}`}
+                style={{ transitionDelay: gridVis ? `${i * 0.1}s` : "0s" }}
+              >
+                {featured && <span className="t01-price-badge">Nejčastější volba</span>}
+                <h3 style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(1.2rem, 1.8vw, 1.5rem)", fontWeight: 900, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.03em", margin: "0 0 4px", lineHeight: 1.05 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
+                </h3>
+                <div style={{ fontFamily: SANS, fontSize: "0.78rem", fontWeight: 400, color: "rgba(255,255,255,0.42)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 20 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.size`} value={item.size ?? ""} tag="span" />
+                </div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                  <span style={{ fontFamily: SANS, fontSize: "0.75rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.1em" }}>od</span>
+                  <span style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(2rem, 3vw, 2.6rem)", fontWeight: 900, color: ACCENT, lineHeight: 1 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price ?? ""} tag="span" />
+                  </span>
+                </div>
+                {item.priceNote && (
+                  <div style={{ fontFamily: SANS, fontSize: "0.76rem", color: "rgba(255,255,255,0.4)", marginTop: 6 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.priceNote`} value={item.priceNote} tag="span" />
+                  </div>
+                )}
+                <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.08)", margin: "22px 0" }} aria-hidden />
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+                  {(item.features ?? []).map((f, j) => (
+                    <li key={j} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0, marginTop: 3 }}><polyline points="20 6 9 17 4 12" /></svg>
+                      <span style={{ fontFamily: SANS, fontSize: "0.88rem", color: "rgba(255,255,255,0.72)", lineHeight: 1.5 }}>
+                        <GenericEditableText sectionId={sectionId} field={`items.${i}.features.${j}`} value={f} tag="span" />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{ marginTop: 40, display: "flex", alignItems: "flex-start", gap: 14, maxWidth: 780, marginLeft: "auto", marginRight: "auto", padding: "20px 26px", border: "1px solid rgba(255,255,255,0.08)", background: "#141414" }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0, marginTop: 2 }}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
+          <p style={{ fontFamily: SANS, fontSize: "0.86rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" />
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PricingTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const c          = content as Record<string, unknown>;
+  const showHeader = c.showHeader !== false;
+  const eyebrow    = String(c.eyebrow ?? "Férové ceny");
+  const heading    = String(c.heading ?? "Ceník tetování");
+  const note       = String(c.note    ?? "Konečná cena závisí na velikosti, detailu a umístění motivu. Přesnou kalkulaci vždy potvrdíme zdarma při osobní konzultaci.");
+  const items      = (c.items as Array<{ name: string; size: string; price: string; priceNote?: string; features: string[]; featured?: boolean }>) ?? [];
+
+  const ACCENT = "#D41515";
+
+  return (
+    <section id="cenik" data-template="tattoo-03" style={{ backgroundColor: "#0a0a0a", padding: "clamp(56px,7vw,104px) clamp(20px,4vw,40px)", position: "relative" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400&display=swap" rel="stylesheet" />
+
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                fontFamily: "'Barlow Condensed','Oswald',sans-serif", fontSize: "0.9rem", fontWeight: 600,
+                letterSpacing: "0.26em", textTransform: "uppercase", color: ACCENT,
+              }} />
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+            </div>
+            <h2 style={{
+              fontFamily: "'Bebas Neue','Oswald',sans-serif", fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 56px)", color: "#ffffff", margin: 0,
+              letterSpacing: "0.01em", textTransform: "uppercase", lineHeight: 1,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+          </div>
+        )}
+
+        {/* Pricing karty */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          gap: 22,
+        }}>
+          {items.map((item, i) => {
+            const featured = !!item.featured;
+            return (
+              <div
+                key={i}
+                className="t03-price-card"
+                style={{
+                  background: featured ? "linear-gradient(165deg, #17110f 0%, #0e0e0e 100%)" : "#111111",
+                  border: featured ? `1px solid rgba(212,21,21,0.5)` : "1px solid rgba(255,255,255,0.07)",
+                  padding: "36px 30px 32px",
+                  position: "relative",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                {featured && (
+                  <div style={{
+                    position: "absolute", top: 0, left: "50%", transform: "translate(-50%,-50%)",
+                    background: ACCENT, color: "#fff",
+                    fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.66rem", fontWeight: 700,
+                    letterSpacing: "0.16em", textTransform: "uppercase",
+                    padding: "5px 16px",
+                  }}>Nejoblíbenější</div>
+                )}
+                <div style={{ position: "absolute", top: 0, left: 0, width: featured ? "100%" : 40, height: 2, background: ACCENT }} aria-hidden />
+
+                <h3 style={{
+                  fontFamily: "'Bebas Neue','Oswald',sans-serif", fontWeight: 400,
+                  fontSize: "clamp(24px,2.2vw,30px)", color: "#ffffff",
+                  margin: "6px 0 4px", letterSpacing: "0.03em", textTransform: "uppercase", lineHeight: 1,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+                </h3>
+                <div style={{
+                  fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.8rem", fontWeight: 400,
+                  color: "rgba(255,255,255,0.4)", letterSpacing: "0.08em", textTransform: "uppercase",
+                  marginBottom: 22,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.size`} value={item.size} tag="span" />
+                </div>
+
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 6 }}>
+                  <span style={{ fontFamily: "'Barlow Condensed',sans-serif", fontSize: "0.78rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.1em" }}>od</span>
+                  <span style={{ fontFamily: "'Bebas Neue','Oswald',sans-serif", fontSize: "clamp(38px,4vw,52px)", color: ACCENT, lineHeight: 0.9 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
+                  </span>
+                </div>
+                {item.priceNote && (
+                  <div style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.76rem", color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.priceNote`} value={item.priceNote} tag="span" />
+                  </div>
+                )}
+
+                <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.07)", margin: "8px 0 22px" }} aria-hidden />
+
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
+                  {(item.features ?? []).map((f, j) => (
+                    <li key={j} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0, marginTop: 3 }}><polyline points="20 6 9 17 4 12"/></svg>
+                      <span style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.86rem", color: "rgba(255,255,255,0.72)", lineHeight: 1.5 }}>
+                        <GenericEditableText sectionId={sectionId} field={`items.${i}.features.${j}`} value={f} tag="span" />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Poznámka */}
+        <div style={{
+          marginTop: 40, display: "flex", alignItems: "flex-start", gap: 14,
+          maxWidth: 760, marginLeft: "auto", marginRight: "auto",
+          padding: "20px 26px", border: "1px solid rgba(255,255,255,0.07)", background: "#0e0e0e",
+        }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0, marginTop: 2 }}><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <p style={{ fontFamily: "'Barlow',sans-serif", fontSize: "0.86rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.7, margin: 0, textAlign: "left" }}>
+            <GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" />
+          </p>
         </div>
       </div>
     </section>
@@ -2633,6 +2427,83 @@ function ServicesNails01({ content, sectionId }: { content: Record<string, unkno
       className="n01-services"
       style={{ backgroundColor: CREAM, padding: "clamp(80px, 12vh, 140px) clamp(24px, 6vw, 80px)", position: "relative", overflow: "hidden" }}
     >
+      <style>{`
+        .n01-services-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(22px, 2.6vw, 40px);
+          align-items: start;
+        }
+        .n01-service-card { position: relative; }
+        .n01-service-photo {
+          position: relative;
+          overflow: hidden;
+          background: #efe9df;
+        }
+        .n01-service-photo::after {
+          content: '';
+          position: absolute; inset: 0;
+          box-shadow: inset 0 0 0 1px rgba(121,20,43,0.10);
+          pointer-events: none; z-index: 2;
+        }
+        .n01-service-photo img {
+          transition: transform 1.05s cubic-bezier(.2,.7,.2,1), filter .6s ease;
+          filter: saturate(0.9) brightness(0.99);
+        }
+        .n01-service-card:hover .n01-service-photo img {
+          transform: scale(1.055);
+          filter: saturate(1.02) brightness(1.01);
+        }
+        /* Corner brackets — reveal + settle on hover */
+        .n01-service-frame {
+          position: absolute; width: 26px; height: 26px; z-index: 3;
+          pointer-events: none; opacity: 0;
+          transition: opacity .5s ease, transform .55s cubic-bezier(.2,.7,.2,1);
+        }
+        .n01-service-frame-tl {
+          top: 12px; left: 12px;
+          border-top: 1.5px solid #f4f1e9; border-left: 1.5px solid #f4f1e9;
+          transform: translate(7px, 7px);
+        }
+        .n01-service-frame-br {
+          bottom: 12px; right: 12px;
+          border-bottom: 1.5px solid #f4f1e9; border-right: 1.5px solid #f4f1e9;
+          transform: translate(-7px, -7px);
+        }
+        .n01-service-card:hover .n01-service-frame { opacity: 0.9; transform: translate(0, 0); }
+        /* Roman-numeral hanko badge */
+        .n01-service-numeral {
+          position: absolute; top: 14px; right: 14px;
+          width: 52px; height: 52px; z-index: 4; display: block;
+          filter: drop-shadow(0 4px 10px rgba(121,20,43,0.28));
+          transition: transform .55s cubic-bezier(.34,1.56,.64,1);
+        }
+        .n01-service-card:hover .n01-service-numeral { transform: rotate(-9deg) scale(1.06); }
+        /* Ceník link — underline reveal + arrow nudge */
+        .n01-services-link {
+          display: inline-flex; align-items: center; gap: 12px;
+          font-family: 'Montserrat','Helvetica Neue',Arial,sans-serif;
+          font-size: 0.78rem; font-weight: 400;
+          letter-spacing: 0.26em; text-transform: uppercase;
+          color: #79142b; text-decoration: none;
+          position: relative; padding-bottom: 9px;
+        }
+        .n01-services-link::after {
+          content: ''; position: absolute; left: 0; bottom: 0;
+          width: 100%; height: 1px; background: #79142b;
+          transform: scaleX(0); transform-origin: left;
+          transition: transform .5s cubic-bezier(.2,.7,.2,1);
+        }
+        .n01-services-link:hover::after { transform: scaleX(1); }
+        .n01-services-link-arrow { display: inline-block; transition: transform .4s ease; }
+        .n01-services-link:hover .n01-services-link-arrow { transform: translateX(6px); }
+        @media (max-width: 1024px) {
+          .n01-services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 28px; }
+        }
+        @media (max-width: 560px) {
+          .n01-services-grid { grid-template-columns: 1fr; gap: 44px; max-width: 420px; margin: 0 auto; }
+        }
+      `}</style>
       {/* Washi texture */}
       <div aria-hidden="true" style={{
         position: "absolute", inset: 0, pointerEvents: "none",
@@ -3356,7 +3227,7 @@ function ServicesNails03({ content, sectionId }: { content: Record<string, unkno
 
 // ── clinic-03-services ─────────────────────────────────────────────────────
 // Infinite horizontal carousel: tripled array + snap-back, 4 visible desktop
-// Reference: yesvisage.cz
+// Reference: diamond-look.cz
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesClinic03({ content, sectionId }: { content: Record<string,unknown>; sectionId: number }) {
   const GOLD   = "#97855F";
@@ -4532,107 +4403,212 @@ function PricingFyzio01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ── fyzio-02-services-list ────────────────────────────────────────────────────
-// Bílé bg, centrovaný header, 2×2 grid karet s fotkou nahoře + text dole
-// Navy #1a2e4a nadpisy, zlatá #c9a84c tagline + hover border
-// Inspirováno resetclinic.cz sekce služeb
+// Bílé bg, centrovaný header + icon-list terapií (2-col řádky: teal ikona +
+// title + popis, hairline dividery, hover fill/slide). Teal CTA pill dole.
+// Movia — fyzioterapie & funkční neurologie. Inspirováno resetclinic.cz.
 // ─────────────────────────────────────────────────────────────────────────────
-function ServicesFyzio02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  type Item = { title?: string; name?: string; description?: string; image?: string };
-  const tagline = String(content.tagline ?? "Naše služby");
-  const title   = String(content.title   ?? "Co vám můžeme nabídnout");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Rezervovat terapii");
-  const ctaHref = String(content.ctaHref ?? "#rezervace");
+function ServicesFyzio02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Item = { title?: string; name?: string; description?: string; icon?: string };
+  const id      = String(content.id      ?? "sluzby");
+  const ctaText = String(content.ctaText ?? "Objednat konzultaci");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
   const items   = (content.items as Item[]) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const NAVY  = "#1a2e4a";
-  const GOLD  = "#c9a84c";
-  const SURF  = "#f5f3ee";
-  const MUTED = "#6b7280";
-  const WHITE = "#ffffff";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  // conditional header (skryje se na /sluzby subpage)
+  const eyebrowRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const bodyRaw    = (content as Record<string, unknown>).body;
+  const tagline = eyebrowRaw === undefined ? "Naše terapie" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Terapie, které vracejí do pohybu" : String(titleRaw);
+  const body    = bodyRaw    === undefined ? "Specializujeme se na bolesti pohybového aparátu, rehabilitaci po úrazech a stavy, u kterých běžná fyzioterapie nestačí." : String(bodyRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("fz2-vis"); obs.unobserve(e.target); } });
+    }, { threshold: 0.14 });
+    el.querySelectorAll<HTMLElement>("[data-fz2sv]").forEach(item => obs.observe(item));
+    return () => obs.disconnect();
+  }, []);
+
+  const iconFor = (name?: string) => {
+    if (name === "brain") return <><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z"/><path d="M9 21h6"/></>;
+    if (name === "activity") return <><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></>;
+    if (name === "zap") return <><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></>;
+    if (name === "monitor") return <><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></>;
+    // hand (default — manuální terapie)
+    return <><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></>;
+  };
 
   return (
-    <section id="sluzby" data-template="fyzio-02" style={{ backgroundColor: WHITE, padding: "80px 24px", fontFamily: SANS }}>
-      <style>{`
-        .f02-svc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
-        .f02-svc-card { border-radius: 12px; overflow: hidden; background: ${WHITE}; border: 1.5px solid #e8e4dc; transition: border-color 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
-        .f02-svc-card:hover { border-color: ${GOLD}; box-shadow: 0 8px 32px rgba(26,46,74,0.1); }
-        @media(max-width: 700px) { .f02-svc-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
-
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-            <span style={{ width: 24, height: 2, backgroundColor: GOLD }} />
-            <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: GOLD, letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </span>
-            <span style={{ width: 24, height: 2, backgroundColor: GOLD }} />
+    <section ref={secRef} id={id} data-template="fyzio-02" className="fz2-sv">
+      <div className="fz2-sv-inner">
+        {showHeader && (
+          <div className="fz2-sv-head fz2-reveal" data-fz2sv>
+            {tagline.trim() && (
+              <span className="fz2-pill">
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="fz2-sv-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {body.trim() && (
+              <p className="fz2-sv-lead">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
           </div>
-          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 400, color: NAVY, marginBottom: body ? 16 : 0, lineHeight: 1.2 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontSize: 16, color: MUTED, maxWidth: 580, margin: "0 auto", lineHeight: 1.75 }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-        </div>
+        )}
 
-        {/* 2×2 grid */}
-        <div className="f02-svc-grid">
+        <div className="fz2-sv-list">
           {items.map((item, i) => {
             const name = item.title ?? item.name ?? "";
             const desc = item.description ?? "";
-            const img  = item.image ?? "";
             return (
-              <div key={i} className="f02-svc-card">
-                {/* Foto */}
-                <div style={{ position: "relative", aspectRatio: "16/9", overflow: "hidden", backgroundColor: SURF }}>
-                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={name} className="relative overflow-hidden" style={{ width: "100%", height: "100%" }}>
-                    {img ? (
-                      <img src={img} alt={name} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.4s ease" }}
-                        onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
-                        onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-                      />
-                    ) : (
-                      <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke={NAVY} strokeWidth="1.5" opacity="0.25"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                      </div>
-                    )}
-                  </GenericEditableImage>
+              <article key={i} className="fz2-sv-row fz2-reveal" data-fz2sv style={{ transitionDelay: `${i * 80}ms` }}>
+                <div className="fz2-sv-ico">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    {iconFor(item.icon)}
+                  </svg>
                 </div>
-                {/* Text */}
-                <div style={{ padding: "24px 28px 28px", flex: 1 }}>
-                  <h3 style={{ fontFamily: SERIF, fontSize: "1.2rem", fontWeight: 400, color: NAVY, marginBottom: 10, lineHeight: 1.3 }}>
+                <div className="fz2-sv-txt">
+                  <h3 className="fz2-sv-row-title">
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={name} tag="span" />
                   </h3>
-                  <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.75, margin: 0 }}>
+                  <p className="fz2-sv-row-body">
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
                   </p>
                 </div>
-              </div>
+                <span className="fz2-sv-arrow" aria-hidden="true">
+                  <svg width="18" height="13" viewBox="0 0 18 13" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M1 6.5h15M11 1l5 5.5L11 12" /></svg>
+                </span>
+              </article>
             );
           })}
         </div>
 
-        {/* CTA */}
-        {ctaText && (
-          <div style={{ textAlign: "center", marginTop: 52 }}>
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{ display: "inline-block", backgroundColor: GOLD, color: WHITE, fontFamily: SANS, fontSize: "0.95rem", fontWeight: 600, padding: "0.9rem 2.2rem", borderRadius: 8, textDecoration: "none", transition: "background 0.15s" }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b8943d")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-            >
+        {ctaText.trim() && (
+          <div className="fz2-sv-cta-wrap fz2-reveal" data-fz2sv>
+            <a href={resolve(ctaHref)} data-btn="primary" className="fz2-sv-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 5.5h12M9 1l4 4.5L9 10" /></svg>
             </a>
           </div>
         )}
+      </div>
+    </section>
+  );
+}
+
+// ── fyzio-02-pricing ──────────────────────────────────────────────────────────
+// Světlé #f1f6f6, 2×2 kategorie karty s řádky služba + délka + cena, teal accent,
+// note karta + CTA. Movia ceník. Conditional header (na /cenik banner skryje).
+// ─────────────────────────────────────────────────────────────────────────────
+function PricingFyzio02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Row = { name?: string; note?: string; price?: string };
+  type Cat = { title?: string; items?: Row[] };
+  const id      = String(content.id ?? "cenik");
+  const categories = (content.categories as Cat[]) ?? [];
+  const note    = String(content.note    ?? "Terapii částečně hradíme přes smluvní zdravotní pojišťovny. Storno zdarma 24 hodin předem.");
+  const ctaText = String(content.ctaText ?? "Objednat se");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const noteLabel = String(content.noteLabel ?? "Dobré vědět");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  // conditional header
+  const eyebrowRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const bodyRaw    = (content as Record<string, unknown>).body;
+  const tagline = eyebrowRaw === undefined ? "Ceník" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Transparentní ceny terapie" : String(titleRaw);
+  const body    = bodyRaw    === undefined ? "Žádné skryté poplatky. Cenu vždy znáte předem a plán terapie sestavíme podle vašich možností." : String(bodyRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("fz2-vis"); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    el.querySelectorAll<HTMLElement>("[data-fz2pr]").forEach(i => obs.observe(i));
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section ref={secRef} id={id} data-template="fyzio-02" className="fz2-pr">
+      <div className="fz2-pr-inner">
+        {showHeader && (
+          <div className="fz2-pr-head fz2-reveal" data-fz2pr>
+            {tagline.trim() && (
+              <span className="fz2-pill">
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="fz2-pr-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {body.trim() && (
+              <p className="fz2-pr-lead">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="fz2-pr-grid">
+          {categories.map((cat, ci) => (
+            <article key={ci} className="fz2-pr-card fz2-reveal" data-fz2pr style={{ transitionDelay: `${ci * 80}ms` }}>
+              <h3 className="fz2-pr-cat">
+                <span className="fz2-pr-cat-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field={`categories.${ci}.title`} value={cat.title ?? ""} tag="span" />
+              </h3>
+              <ul className="fz2-pr-rows">
+                {(cat.items ?? []).map((row, ri) => (
+                  <li key={ri} className="fz2-pr-row">
+                    <span className="fz2-pr-row-name">
+                      <GenericEditableText sectionId={sectionId} field={`categories.${ci}.items.${ri}.name`} value={row.name ?? ""} tag="span" />
+                      {(row.note ?? "").trim() && (
+                        <GenericEditableText sectionId={sectionId} field={`categories.${ci}.items.${ri}.note`} value={row.note ?? ""} tag="span" style={{ display: "block", fontSize: "0.78rem", color: "#7b8b8d", fontWeight: 400, marginTop: "2px" }} />
+                      )}
+                    </span>
+                    <span className="fz2-pr-dots" aria-hidden="true" />
+                    <span className="fz2-pr-row-price">
+                      <GenericEditableText sectionId={sectionId} field={`categories.${ci}.items.${ri}.price`} value={row.price ?? ""} tag="span" />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+
+        <div className="fz2-pr-foot fz2-reveal" data-fz2pr>
+          <div className="fz2-pr-note">
+            <span className="fz2-pr-note-ico" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            </span>
+            <span className="fz2-pr-note-txt">
+              <GenericEditableText sectionId={sectionId} field="noteLabel" value={noteLabel} tag="strong" />
+              <GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" />
+            </span>
+          </div>
+          <a href={resolve(ctaHref)} data-btn="primary" className="fz2-pr-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 5.5h12M9 1l4 4.5L9 10" /></svg>
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -4783,14 +4759,20 @@ function ServicesCafe02({ content, sectionId }: { content: Record<string, unknow
 // Dark #0f0a07 bg; amber kicker + cream serif H2 centrovaně
 // 3-col menu karty: foto + amber top border + kategorie + popis + link
 // ─────────────────────────────────────────────────────────────────────────────
-function ServicesRestaurant01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ServicesRestaurant01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const id      = String(content.id      ?? "menu");
-  const tagline = String(content.tagline ?? "Naše nabídka");
-  const title   = String(content.title   ?? "Menu pro každou příležitost.");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Naše nabídka" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Kompozice chutí\npro každou chvíli." : String(titleRaw);
   const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Zobrazit celé menu");
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+  const ctaText = String(content.ctaText ?? "Kompletní jídelní lístek");
   const ctaHref = String(content.ctaHref ?? "/menu");
+  const siteMode = String((content as { siteMode?: string }).siteMode ?? "multipage");
   const items   = (content.items as Array<Record<string, unknown>>) ?? [];
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const secRef = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -4810,72 +4792,84 @@ function ServicesRestaurant01({ content, sectionId }: { content: Record<string, 
   const CARD   = "#1a0e0a";
   const FONT   = "Georgia, 'Times New Roman', serif";
   const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-  const PLACEHOLDERS = [
-    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&fm=webp",
-    "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&h=400&fit=crop&fm=webp",
-    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop&fm=webp",
+  const FALLBACK = [
+    "/templates/restaurant-01/menu-1.webp",
+    "/templates/restaurant-01/menu-2.webp",
+    "/templates/restaurant-01/menu-3.webp",
   ];
 
   return (
-    <section ref={secRef} id={id} data-variant="restaurant-01-menu" style={{ backgroundColor: DARK, padding: "96px 0", fontFamily: SANS }}>
+    <section ref={secRef} id={id} data-template="restaurant-01" data-variant="restaurant-01-menu" style={{ backgroundColor: DARK, padding: "clamp(72px, 9vw, 116px) 0", fontFamily: SANS }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
         {/* Header */}
-        <div data-r01="0" style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: AMBER, margin: "0 0 16px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 400, color: CREAM, margin: "0 0 20px", lineHeight: 1.2 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontSize: 15, fontWeight: 300, color: MUTED, maxWidth: 560, margin: "0 auto" }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+        {showHeader && (
+          <div data-r01="0" style={{ textAlign: "center", marginBottom: "clamp(44px, 5vw, 64px)" }}>
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: AMBER, margin: "0 0 16px" }}>
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
-          )}
-        </div>
+            {/* Decorative amber rule + diamond */}
+            <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 22 }}>
+              <span style={{ width: 40, height: 1, background: `${AMBER}66` }} />
+              <span style={{ width: 6, height: 6, transform: "rotate(45deg)", background: AMBER }} />
+              <span style={{ width: 40, height: 1, background: `${AMBER}66` }} />
+            </div>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 400, color: CREAM, margin: "0 0 20px", lineHeight: 1.18, whiteSpace: "pre-line" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            {body && (
+              <p style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.7, color: MUTED, maxWidth: 580, margin: "0 auto" }}>
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Karty */}
-        <div className="r01-menu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, marginBottom: 48 }}>
+        <div className="r01-menu-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 26, marginBottom: 52 }}>
           {items.map((item, i) => {
             const name     = String(item.name        ?? "");
             const category = String(item.category    ?? "");
             const desc     = String(item.description ?? "");
-            const img      = String(item.image       ?? PLACEHOLDERS[i % 3]);
-            const cardCta  = String(item.ctaText     ?? "Zobrazit menu");
+            const img      = String(item.image       ?? FALLBACK[i % 3]);
+            const cardCta  = String(item.ctaText     ?? "Prohlédnout");
             const cardHref = String(item.ctaHref     ?? ctaHref);
             return (
               /* Outer reveal wrapper */
               <div key={i} data-r01={i + 1} style={{ transitionDelay: `${i * 0.12}s` }}>
                 {/* Inner card — handles hover independently */}
-                <div className="r01-menu-card" style={{ backgroundColor: CARD, overflow: "hidden", borderRadius: 2, border: `1px solid rgba(200,148,63,0.15)`, height: "100%" }}>
+                <div className="r01-menu-card" style={{ position: "relative", backgroundColor: CARD, overflow: "hidden", borderRadius: 2, border: `1px solid rgba(200,148,63,0.15)`, height: "100%", transition: "transform 0.32s cubic-bezier(.22,1,.36,1), border-color 0.32s ease, box-shadow 0.32s ease" }}>
                   {/* Amber top border */}
                   <div style={{ height: 2, backgroundColor: AMBER }} />
                   {/* Foto */}
-                  <div style={{ aspectRatio: "16/9", overflow: "hidden" }}>
+                  <div style={{ position: "relative", aspectRatio: "16/10", overflow: "hidden" }}>
                     <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={name} style={{ width: "100%", height: "100%", display: "block" }}>
                       <img
+                        className="r01-menu-img"
                         src={img}
                         alt={name}
-                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.7s cubic-bezier(.22,1,.36,1)" }}
                       />
                     </GenericEditableImage>
+                    {/* Gold corner brackets — appear on hover */}
+                    <span className="r01-menu-corner r01-menu-corner-tl" aria-hidden />
+                    <span className="r01-menu-corner r01-menu-corner-br" aria-hidden />
                   </div>
                   {/* Text */}
                   <div style={{ padding: "24px 24px 28px" }}>
-                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: AMBER, margin: "0 0 8px" }}>
+                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: AMBER, margin: "0 0 10px" }}>
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={category} tag="span" />
                     </p>
-                    <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 400, color: CREAM, margin: "0 0 12px" }}>
+                    <h3 style={{ fontFamily: FONT, fontSize: 23, fontWeight: 400, color: CREAM, margin: "0 0 12px" }}>
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" />
                     </h3>
                     <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.7, color: MUTED, margin: "0 0 20px" }}>
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
                     </p>
-                    <a href={cardHref} style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: AMBER, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "opacity 0.2s" }}
-                      onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-                      onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                    <a href={resolve(cardHref)} className="r01-menu-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: AMBER, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, transition: "gap 0.24s ease, opacity 0.2s" }}
+                      onMouseEnter={e => (e.currentTarget.style.gap = "14px")}
+                      onMouseLeave={e => (e.currentTarget.style.gap = "8px")}
                     >
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={cardCta} tag="span" /> <span style={{ fontSize: 14 }}>→</span>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={cardCta} tag="span" /> <span aria-hidden style={{ fontSize: 14 }}>→</span>
                     </a>
                   </div>
                 </div>
@@ -4886,14 +4880,14 @@ function ServicesRestaurant01({ content, sectionId }: { content: Record<string, 
 
         {/* Hlavní CTA */}
         <div style={{ textAlign: "center" }}>
-          <a href={ctaHref} data-btn="primary" style={{
+          <a href={resolve(ctaHref)} data-btn="primary" style={{
             fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
             textTransform: "uppercase", color: CREAM, textDecoration: "none",
-            padding: "14px 36px", border: `1px solid ${AMBER}`, borderRadius: 3,
-            display: "inline-block", transition: "background-color 0.2s, color 0.2s",
+            padding: "15px 40px", border: `1px solid ${AMBER}`, borderRadius: 3,
+            display: "inline-block", transition: "background-color 0.28s ease, color 0.28s ease, transform 0.28s ease",
           }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = AMBER; e.currentTarget.style.color = DARK; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = CREAM; }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = AMBER; e.currentTarget.style.color = DARK; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = CREAM; e.currentTarget.style.transform = "translateY(0)"; }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
@@ -4902,9 +4896,12 @@ function ServicesRestaurant01({ content, sectionId }: { content: Record<string, 
 
       <style>{`
         @media(max-width:900px){.r01-menu-grid{grid-template-columns:1fr!important}}
-        @media(max-width:640px){.r01-menu-grid{grid-template-columns:1fr!important}}
-        .r01-menu-card{transition:transform 0.22s ease}
-        .r01-menu-card:hover{transform:translateY(-6px)}
+        [data-variant="restaurant-01-menu"] .r01-menu-card:hover{transform:translateY(-8px);border-color:rgba(200,148,63,0.5);box-shadow:0 18px 44px rgba(0,0,0,0.5)}
+        [data-variant="restaurant-01-menu"] .r01-menu-card:hover .r01-menu-img{transform:scale(1.07)}
+        [data-variant="restaurant-01-menu"] .r01-menu-corner{position:absolute;width:22px;height:22px;opacity:0;transition:opacity 0.34s ease,transform 0.34s ease;pointer-events:none}
+        [data-variant="restaurant-01-menu"] .r01-menu-corner-tl{top:14px;left:14px;border-top:2px solid ${AMBER};border-left:2px solid ${AMBER};transform:translate(6px,6px)}
+        [data-variant="restaurant-01-menu"] .r01-menu-corner-br{bottom:14px;right:14px;border-bottom:2px solid ${AMBER};border-right:2px solid ${AMBER};transform:translate(-6px,-6px)}
+        [data-variant="restaurant-01-menu"] .r01-menu-card:hover .r01-menu-corner{opacity:1;transform:translate(0,0)}
         [data-r01]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
         [data-r01].r01-vis{opacity:1;transform:translateY(0)}
       `}</style>
@@ -4918,9 +4915,12 @@ function ServicesRestaurant01({ content, sectionId }: { content: Record<string, 
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesRestaurant02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const id      = String(content.id      ?? "menu");
-  const tagline = String(content.tagline ?? "Naše nabídka");
-  const title   = String(content.title   ?? "Co u nás najdete.");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Naše nabídka" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Co u nás ochutnáte." : String(titleRaw);
   const body    = String(content.body    ?? "");
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
   const ctaText = String(content.ctaText ?? "Celý jídelní lístek");
   const ctaHref = String(content.ctaHref ?? "/menu");
 
@@ -4929,8 +4929,7 @@ function ServicesRestaurant02({ content, sectionId }: { content: Record<string, 
 
   const RED     = "#c0392b";
   const BLACK   = "#1a1a1a";
-  const MUTED   = "#666666";
-  const BORDER  = "#e8e8e8";
+  const MUTED   = "#5f5f5f";
   const POPPINS = "'Poppins', sans-serif";
 
   const secRef = useRef<HTMLElement>(null);
@@ -4944,34 +4943,33 @@ function ServicesRestaurant02({ content, sectionId }: { content: Record<string, 
   }, []);
 
   return (
-    <section ref={secRef} id={id} data-template="restaurant-02" style={{ backgroundColor: "#f7f7f5", padding: "clamp(64px, 8vw, 112px) 0", fontFamily: POPPINS }}>
+    <section ref={secRef} id={id} data-template="restaurant-02" style={{ backgroundColor: "#f7f7f5", padding: "clamp(72px, 9vw, 120px) 0", fontFamily: POPPINS }}>
       {/* Hlavička sekce */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", marginBottom: "clamp(40px, 5vw, 64px)", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(24px)", transition: "opacity 0.6s ease, transform 0.6s ease" }}>
-        <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: RED, margin: "0 0 12px" }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-        </p>
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <div>
-            <h2 style={{ fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 700, lineHeight: 1.2, color: BLACK, margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            {body && (
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: MUTED, maxWidth: 560, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-            )}
+      {showHeader && (
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", marginBottom: "clamp(40px, 5vw, 64px)", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(24px)", transition: "opacity 0.6s ease, transform 0.6s ease" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+            <span aria-hidden style={{ width: 36, height: 2, background: RED }} />
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+              style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: RED }} />
           </div>
-          <a
-            href={ctaHref}
-            data-btn="primary"
-            style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: RED, textDecoration: "none", borderBottom: `1.5px solid ${RED}`, paddingBottom: 2, whiteSpace: "nowrap", transition: "opacity 0.2s", flexShrink: 0 }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+            <div>
+              <h2 style={{ fontSize: "clamp(28px, 3.2vw, 42px)", fontWeight: 700, lineHeight: 1.18, color: BLACK, margin: "0 0 12px" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+              {body && (
+                <p style={{ fontSize: 15, lineHeight: 1.75, color: MUTED, maxWidth: 560, margin: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+                </p>
+              )}
+            </div>
+            <a href={ctaHref} className="r02-menu-headcta" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.13em", textTransform: "uppercase", color: RED, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9, whiteSpace: "nowrap", flexShrink: 0 }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="r02-menu-headarrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Karty */}
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }} className="r02-menu-grid">
@@ -4979,71 +4977,72 @@ function ServicesRestaurant02({ content, sectionId }: { content: Record<string, 
           <div
             key={i}
             className="r02-menu-card"
-            style={{ backgroundColor: "#ffffff", border: `1px solid ${BORDER}`, overflow: "hidden", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(32px)", transition: `opacity 0.6s ease ${0.1 + i * 0.1}s, transform 0.6s ease ${0.1 + i * 0.1}s` }}
+            style={{ backgroundColor: "#ffffff", overflow: "hidden", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(32px)", transition: `opacity 0.6s ease ${0.1 + i * 0.1}s, transform 0.6s ease ${0.1 + i * 0.1}s` }}
           >
             {item.image && (
-              <div style={{ lineHeight: 0, overflow: "hidden" }}>
+              <div className="r02-menu-imgwrap" style={{ lineHeight: 0, overflow: "hidden", position: "relative" }}>
                 <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} style={{ display: "block", width: "100%" }}>
-                  <img loading="lazy" src={item.image} alt={item.name} style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block", transition: "transform 0.4s ease" }}
-                    onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.04)")}
-                    onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-                  />
+                  <img loading="lazy" src={item.image} alt={item.name} className="r02-menu-img" style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block" }} />
                 </GenericEditableImage>
+                <span className="r02-menu-imgveil" aria-hidden />
               </div>
             )}
-            <div style={{ padding: "24px 24px 28px" }}>
+            <div style={{ padding: "24px 26px 28px", position: "relative" }}>
+              {/* červená akcentní linka nad obsahem */}
+              <span aria-hidden className="r02-menu-accent" style={{ position: "absolute", top: 0, left: 26, width: 32, height: 3, background: RED }} />
               {item.category && (
-                <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: RED, margin: "0 0 8px" }}>
+                <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: RED, margin: "10px 0 8px" }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={item.category} tag="span" />
                 </p>
               )}
-              <h3 style={{ fontSize: 18, fontWeight: 700, color: BLACK, margin: "0 0 10px", lineHeight: 1.3 }}>
+              <h3 style={{ fontSize: 19, fontWeight: 700, color: BLACK, margin: "0 0 10px", lineHeight: 1.3 }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
               </h3>
               {item.description && (
-                <p style={{ fontSize: 14, lineHeight: 1.7, color: MUTED, margin: "0 0 20px" }}>
+                <p style={{ fontSize: 14, lineHeight: 1.72, color: MUTED, margin: "0 0 20px" }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
                 </p>
               )}
               {item.ctaText && (
                 <a
                   href={item.ctaHref ?? ctaHref}
-                  data-btn="primary"
-                  style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: RED, textDecoration: "none", borderBottom: `1px solid ${RED}`, paddingBottom: 1, transition: "opacity 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+                  className="r02-menu-cardcta"
+                  style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.11em", textTransform: "uppercase", color: RED, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 7 }}
                 >
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
+                  <svg className="r02-menu-cardarrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </a>
               )}
             </div>
           </div>
         ))}
       </div>
-
-      <style>{`
-        @media(max-width:900px){ .r02-menu-grid { grid-template-columns: 1fr 1fr !important; } }
-        @media(max-width:580px){ .r02-menu-grid { grid-template-columns: 1fr !important; } }
-        .r02-menu-card { transition: box-shadow 0.22s ease, transform 0.22s ease; }
-        .r02-menu-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-4px); }
-      `}</style>
     </section>
   );
 }
 
 // ── restaurant-03-menu ────────────────────────────────────────────────────────
+// La Casa Dorada — luxe deep-green #0c351a + warm gold à-la-carte karty.
+// Ornament header, karty se zlatou hairline + corner brackets reveal + image zoom
+// + gold overlay, serif name, gold "Zjistit více" arrow link. Conditional header.
+// ─────────────────────────────────────────────────────────────────────────────
 function ServicesRestaurant03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const DARK   = "#0d1b2a";
-  const GOLD   = "#e05e3f";
-  const WHITE  = "#ffffff";
-  const MUTED  = "rgba(255,255,255,0.65)";
-  const SERIF  = "Georgia, 'Times New Roman', serif";
-  const SANS   = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+  const BG      = "#0c351a";
+  const CARD    = "#0a2d15";
+  const GOLD    = "#b97d26";
+  const GOLD_LT = "#d4a24c";
+  const WHITE   = "#ffffff";
+  const MUTED   = "rgba(255,255,255,0.68)";
+  const SERIF   = "Georgia, 'Times New Roman', serif";
+  const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
   const id      = String(content.id      ?? "menu");
-  const tagline = String(content.tagline ?? "Naše speciality");
-  const title   = String(content.title   ?? "Menu pro každou chuť.");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Naše speciality" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Menu pro\nkaždou chuť." : String(titleRaw);
   const body    = String(content.body    ?? "");
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
   const ctaText = String(content.ctaText ?? "Celé menu");
   const ctaHref = String(content.ctaHref ?? "/menu");
   const rawItems = Array.isArray(content.items) ? content.items as Record<string, unknown>[] : [];
@@ -5059,24 +5058,31 @@ function ServicesRestaurant03({ content, sectionId }: { content: Record<string, 
   }, []);
 
   return (
-    <section ref={secRef} id={id} data-template="restaurant-03" style={{ backgroundColor: DARK, padding: "clamp(72px, 10vw, 120px) 0", fontFamily: SANS }}>
+    <section ref={secRef} id={id} data-template="restaurant-03" style={{ backgroundColor: BG, padding: "clamp(72px, 10vw, 120px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
       {/* Header */}
-      <div style={{ maxWidth: 1200, margin: "0 auto 60px", padding: "0 clamp(20px, 5vw, 60px)", textAlign: "center" }}>
-        <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-        </p>
-        <h2 style={{ fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.2, color: WHITE, margin: "0 0 20px", whiteSpace: "pre-line" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        {body && (
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: MUTED, maxWidth: 600, margin: "0 auto" }}>
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-        )}
-      </div>
+      {showHeader && (
+        <div style={{ maxWidth: 760, margin: "0 auto 60px", padding: "0 clamp(20px, 5vw, 60px)", textAlign: "center" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+            <span aria-hidden style={{ width: 34, height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD})` }} />
+            <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+              style={{ fontSize: 11.5, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT }} />
+            <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+            <span aria-hidden style={{ width: 34, height: 1, background: `linear-gradient(to left, ${GOLD}00, ${GOLD})` }} />
+          </div>
+          <h2 style={{ fontSize: "clamp(28px, 3.6vw, 48px)", fontWeight: 400, fontFamily: SERIF, lineHeight: 1.16, color: WHITE, margin: "0 0 20px", whiteSpace: "pre-line" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {body && (
+            <p style={{ fontSize: 15.5, lineHeight: 1.8, color: MUTED, maxWidth: 600, margin: "0 auto" }}>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Cards */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }} className="r03-menu-grid">
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 30 }} className="r03-menu-grid">
         {rawItems.map((item, i) => {
           const img  = String(item.image       ?? "");
           const name = String(item.name        ?? "");
@@ -5089,49 +5095,52 @@ function ServicesRestaurant03({ content, sectionId }: { content: Record<string, 
               key={i}
               className="r03-menu-card"
               style={{
-                backgroundColor: "#162032",
-                border: "1px solid #1e3a5f",
-                overflow: "hidden",
+                backgroundColor: CARD,
+                border: "1px solid rgba(185,125,38,0.28)",
+                borderRadius: 2, overflow: "hidden", position: "relative",
                 opacity: vis ? 1 : 0,
                 transform: vis ? "translateY(0)" : "translateY(36px)",
-                transition: `opacity 0.6s ease ${0.1 + i * 0.12}s, transform 0.6s ease ${0.1 + i * 0.12}s`,
+                transition: `opacity 0.6s ease ${0.1 + i * 0.12}s, transform 0.6s ease ${0.1 + i * 0.12}s, box-shadow 0.3s ease, border-color 0.3s ease`,
               }}
             >
               {img && (
-                <div style={{ lineHeight: 0, overflow: "hidden" }}>
+                <div className="r03-menu-imgwrap" style={{ lineHeight: 0, overflow: "hidden", position: "relative" }}>
                   <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={name} style={{ display: "block", width: "100%" }}>
-                    <img loading="lazy" src={img} alt={name} style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block", transition: "transform 0.45s ease" }}
-                      onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.06)")}
-                      onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-                    />
+                    <img loading="lazy" src={img} alt={name} className="r03-menu-img" style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block" }} />
                   </GenericEditableImage>
+                  <span aria-hidden className="r03-menu-imgtint" style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,45,21,0.7), rgba(10,45,21,0) 55%)" }} />
                 </div>
               )}
-              <div style={{ padding: "24px 24px 28px" }}>
+              <div style={{ padding: "26px 26px 30px" }}>
                 {cat && (
-                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD, margin: "0 0 8px" }}>
+                  <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_LT, margin: "0 0 10px" }}>
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={cat} tag="span" />
                   </p>
                 )}
-                <h3 style={{ fontSize: 20, fontWeight: 400, fontFamily: SERIF, color: WHITE, margin: "0 0 12px", lineHeight: 1.3 }}>
+                <h3 style={{ fontSize: 22, fontWeight: 400, fontFamily: SERIF, color: WHITE, margin: "0 0 12px", lineHeight: 1.25 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" />
                 </h3>
                 {desc && (
-                  <p style={{ fontSize: 14, lineHeight: 1.75, color: MUTED, margin: "0 0 20px" }}>
+                  <p style={{ fontSize: 14, lineHeight: 1.8, color: MUTED, margin: "0 0 22px" }}>
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
                   </p>
                 )}
                 {cta && (
                   <a
                     href={href}
-                    style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, textDecoration: "none", border: `1.5px solid ${GOLD}`, padding: "8px 20px", transition: "background 0.2s, color 0.2s" }}
-                    onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = DARK; }}
-                    onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD; }}
+                    className="r03-menu-link"
+                    style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD_LT, textDecoration: "none", paddingBottom: 4, borderBottom: `1px solid ${GOLD}`, transition: "color 0.25s, gap 0.25s" }}
+                    onMouseEnter={e => { e.currentTarget.style.color = WHITE; e.currentTarget.style.gap = "14px"; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = GOLD_LT; e.currentTarget.style.gap = "9px"; }}
                   >
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={cta} tag="span" />
+                    <span aria-hidden>→</span>
                   </a>
                 )}
               </div>
+              {/* Gold corner brackets */}
+              <span aria-hidden className="r03-menu-corner r03-menu-corner--tl" />
+              <span aria-hidden className="r03-menu-corner r03-menu-corner--br" />
             </div>
           );
         })}
@@ -5139,14 +5148,15 @@ function ServicesRestaurant03({ content, sectionId }: { content: Record<string, 
 
       {/* Bottom CTA */}
       {ctaText && (
-        <div style={{ textAlign: "center", marginTop: 56 }}>
+        <div style={{ textAlign: "center", marginTop: 58 }}>
           <a
             href={ctaHref}
             data-btn="primary"
-            style={{ display: "inline-block", fontSize: 12, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: WHITE, textDecoration: "none", border: `2px solid ${GOLD}`, padding: "14px 40px", transition: "background 0.25s, color 0.25s" }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = DARK; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: BG, textDecoration: "none", background: GOLD, borderRadius: 2, padding: "15px 44px", transition: "background 0.3s, transform 0.3s" }}
+            onMouseEnter={e => { e.currentTarget.style.background = GOLD_LT; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = GOLD; e.currentTarget.style.transform = "translateY(0)"; }}
           >
+            <span aria-hidden style={{ width: 6, height: 6, background: "currentColor", transform: "rotate(45deg)" }} />
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
         </div>
@@ -5155,8 +5165,15 @@ function ServicesRestaurant03({ content, sectionId }: { content: Record<string, 
       <style>{`
         @media(max-width:900px){ .r03-menu-grid { grid-template-columns: 1fr 1fr !important; } }
         @media(max-width:580px){ .r03-menu-grid { grid-template-columns: 1fr !important; } }
-        .r03-menu-card { transition: box-shadow 0.25s ease, transform 0.25s ease; }
-        .r03-menu-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.5); transform: translateY(-4px); }
+        [data-template="restaurant-03"] .r03-menu-card:hover { box-shadow: 0 20px 48px rgba(0,0,0,0.5); transform: translateY(-6px) !important; border-color: rgba(185,125,38,0.6) !important; }
+        [data-template="restaurant-03"] .r03-menu-img { transition: transform 0.7s cubic-bezier(.2,.7,.2,1); }
+        [data-template="restaurant-03"] .r03-menu-card:hover .r03-menu-img { transform: scale(1.07); }
+        [data-template="restaurant-03"] .r03-menu-imgtint { transition: opacity 0.5s ease; opacity: 0.65; }
+        [data-template="restaurant-03"] .r03-menu-card:hover .r03-menu-imgtint { opacity: 1; }
+        [data-template="restaurant-03"] .r03-menu-corner { position: absolute; width: 16px; height: 16px; opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; }
+        [data-template="restaurant-03"] .r03-menu-corner--tl { top: 12px; left: 12px; border-top: 1px solid ${GOLD_LT}; border-left: 1px solid ${GOLD_LT}; transform: translate(6px,6px); }
+        [data-template="restaurant-03"] .r03-menu-corner--br { bottom: 12px; right: 12px; border-bottom: 1px solid ${GOLD_LT}; border-right: 1px solid ${GOLD_LT}; transform: translate(-6px,-6px); }
+        [data-template="restaurant-03"] .r03-menu-card:hover .r03-menu-corner { opacity: 1; transform: translate(0,0); }
       `}</style>
     </section>
   );
@@ -5359,71 +5376,82 @@ function ServicesCafe03({ content, sectionId }: { content: Record<string, unknow
 function ServicesBakery01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const DARK   = "#393939";
   const MUTED  = "#666666";
-  const BG     = "#f9f7f4";
+  const BG     = "#f7f2ec";
+  const ACCENT = "#8b6030";
   const SERIF  = "'Josefin Sans', 'Helvetica Neue', sans-serif";
   const SANS   = "'Metropolis', 'Inter', sans-serif";
 
-  type Item = { image?: string; heading?: string; text?: string; cta?: string; ctaHref?: string };
-  const sectionHeading = String(content.heading ?? "U nás se vždy něco děje");
-  const items: Item[]  = Array.isArray(content.items) ? (content.items as Item[]) : [];
+  type Item = { image?: string; heading?: string; text?: string; cta?: string; ctaHref?: string; badge?: string };
+
+  // conditional header
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const headingRaw  = (content as Record<string, unknown>).heading;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Ochutnejte víc" : String(eyebrowRaw);
+  const heading  = headingRaw  === undefined ? "U nás se vždy něco děje" : String(headingRaw);
+  const subtitle = subtitleRaw === undefined ? "Víkendové brunche, sezónní speciály a akce, na které se těší celá čtvrť." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim() || subtitle.trim());
+
+  const fallback: Item[] = [
+    { image: "/templates/bakery-01/promo-brunch.webp", badge: "Každou sobotu & neděli", heading: "Víkendový brunch", text: "Prostřený stůl plný čerstvého pečiva, domácích marmelád, vajec z farmy a šálku výběrové kávy. Rezervaci doporučujeme.", cta: "Rezervovat stůl", ctaHref: "/kontakt" },
+    { image: "/templates/bakery-01/promo-akce.webp", badge: "Sezónní nabídka", heading: "Dorty & oslavy", text: "Upečeme dort na míru vaší oslavě — narozeniny, svatby i firemní akce. Stačí se ozvat pár dní předem.", cta: "Objednat dort", ctaHref: "/kontakt" },
+  ];
+  const items: Item[]  = Array.isArray(content.items) && (content.items as Item[]).length ? (content.items as Item[]) : fallback;
 
   return (
-    <section style={{ backgroundColor: BG, fontFamily: SANS, padding: "clamp(56px, 8vw, 96px) 0" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 60px)" }}>
+    <section data-template="bakery-01" style={{ backgroundColor: BG, fontFamily: SANS, padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 clamp(24px, 5vw, 60px)" }}>
 
         {/* Section heading */}
-        <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.4rem, 3vw, 2.2rem)", letterSpacing: "0.12em", textTransform: "uppercase", color: DARK, textAlign: "center", margin: "0 0 clamp(40px, 6vw, 64px)" }}>
-          <GenericEditableText sectionId={sectionId} field="heading" value={sectionHeading} tag="span" />
-        </h2>
+        {showHeader && (
+          <div style={{ textAlign: "center", margin: "0 auto clamp(44px, 6vw, 68px)", maxWidth: 640 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+              <span style={{ display: "block", width: 30, height: 1, background: "#dcae7a" }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                style={{ fontFamily: SERIF, fontSize: "0.78rem", fontWeight: 400, letterSpacing: "0.24em", textTransform: "uppercase", color: ACCENT }} />
+              <span style={{ display: "block", width: 30, height: 1, background: "#dcae7a" }} />
+            </div>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.6rem, 3.4vw, 2.6rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, margin: "0 0 16px", lineHeight: 1.18 }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <p style={{ fontSize: "clamp(0.95rem, 1.3vw, 1.05rem)", lineHeight: 1.8, color: MUTED, margin: 0 }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
 
         {/* 2-col cards */}
-        <div
-          className="b01-promo-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(24px, 4vw, 48px)" }}
-        >
+        <div className="b01-promo-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(24px, 4vw, 44px)" }}>
           {items.map((item, i) => {
             const img     = item.image   ?? "";
             const title   = item.heading ?? "";
             const text    = item.text    ?? "";
             const cta     = item.cta     ?? "";
             const ctaHref = item.ctaHref ?? "#";
+            const badge   = item.badge   ?? "";
             return (
-              <div key={i} style={{ backgroundColor: "#ffffff", display: "flex", flexDirection: "column" }}>
-                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={title} style={{ display: "block" }}>
-                  <img
-                    src={img}
-                    alt={title}
-                    loading="lazy"
-                    style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }}
-                  />
-                </GenericEditableImage>
-                <div style={{ padding: "clamp(24px, 3vw, 36px)", display: "flex", flexDirection: "column", gap: 12, flex: 1 }}>
-                  <h3 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1rem, 1.8vw, 1.3rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, margin: 0 }}>
+              <div key={i} className="b01-promo-card" style={{ backgroundColor: "#ffffff", display: "flex", flexDirection: "column", border: "1px solid #ece5db", transition: "transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow 0.45s ease" }}>
+                <div className="b01-promo-imgwrap" style={{ position: "relative", overflow: "hidden" }}>
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={title} style={{ display: "block" }}>
+                    <img className="b01-promo-img" src={img} alt={title} loading="lazy" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
+                  </GenericEditableImage>
+                  {badge && (
+                    <span style={{ position: "absolute", top: 18, left: 18, fontFamily: SERIF, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: "#2a1f16", background: "rgba(243,234,217,0.94)", padding: "7px 14px" }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.badge`} value={badge} tag="span" />
+                    </span>
+                  )}
+                </div>
+                <div style={{ padding: "clamp(26px, 3vw, 40px)", display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
+                  <h3 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.15rem, 2vw, 1.5rem)", letterSpacing: "0.09em", textTransform: "uppercase", color: DARK, margin: 0 }}>
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.heading`} value={title} tag="span" />
                   </h3>
-                  <p style={{ fontSize: "clamp(0.88rem, 1.1vw, 0.95rem)", lineHeight: 1.8, color: MUTED, margin: 0, flex: 1 }}>
+                  <p style={{ fontSize: "clamp(0.9rem, 1.1vw, 0.98rem)", lineHeight: 1.8, color: MUTED, margin: 0, flex: 1 }}>
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={text} tag="span" />
                   </p>
                   {cta && (
-                    <a
-                      href={ctaHref}
-                      data-btn="primary"
-                      style={{
-                        display: "inline-block",
-                        fontFamily: SERIF,
-                        fontSize: 10,
-                        fontWeight: 400,
-                        letterSpacing: "0.15em",
-                        textTransform: "uppercase",
-                        color: DARK,
-                        textDecoration: "none",
-                        borderBottom: `1px solid ${DARK}`,
-                        paddingBottom: 2,
-                        alignSelf: "flex-start",
-                        marginTop: 8,
-                      }}
-                    >
+                    <a className="b01-about-cta" href={ctaHref} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: SERIF, fontSize: 12, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: DARK, textDecoration: "none", alignSelf: "flex-start", marginTop: 6 }}>
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.cta`} value={cta} tag="span" />
+                      <svg className="b01-about-arrow" width="20" height="10" viewBox="0 0 20 10" fill="none" stroke={ACCENT} strokeWidth="1.4" aria-hidden="true"><path d="M0 5h18M14 1l4 4-4 4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </a>
                   )}
                 </div>
@@ -5635,9 +5663,15 @@ function ServicesReality02Agents({ content, sectionId }: { content: Record<strin
 // Scroll entrance: karty letí střídavě zleva a zprava
 // Hover: bílá → teplé béžové; navy → světlejší navy + lift + shadow
 // ─────────────────────────────────────────────────────────────────────────────
-function ServicesReality03Grid({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title = String(content.title ?? "Naše služby");
+function ServicesReality03Grid({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const eyebrow = eyebrowRaw === undefined ? "Co pro vás děláme" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Jak vám pomůžeme" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
   const items = (content.items as Array<{ title: string; body: string; ctaText?: string; ctaHref?: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin ?? false);
 
   const DARK  = "#132538";
   const OCHRE = "#e38a6a";
@@ -5669,20 +5703,24 @@ function ServicesReality03Grid({ content, sectionId }: { content: Record<string,
   const slideFrom = (i: number) => i % 2 === 0 ? "translateX(-60px)" : "translateX(60px)";
 
   return (
-    <section ref={sectionRef} id="sluzby" style={{ backgroundColor: "#f7f5f2", fontFamily: SANS, padding: "clamp(64px, 9vw, 110px) clamp(20px, 4vw, 64px)", overflow: "hidden" }}>
+    <section ref={sectionRef} id="sluzby" data-template="reality-03" style={{ backgroundColor: "#f7f5f2", fontFamily: SANS, padding: "clamp(64px, 9vw, 110px) clamp(20px, 4vw, 64px)", overflow: "hidden" }}>
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
 
         {/* Heading */}
+        {showHeader && (
         <div style={{
           textAlign: "center", marginBottom: "clamp(40px, 6vw, 72px)",
           opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(30px)",
           transition: "opacity 0.7s ease, transform 0.7s ease",
         }}>
-          <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 14px" }}>Co pro vás děláme</p>
+          <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 14px" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
           <h2 style={{ fontSize: "clamp(1.8rem, 3.2vw, 2.6rem)", fontWeight: 700, color: DARK, margin: 0, letterSpacing: "-0.03em" }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
         </div>
+        )}
 
         {/* 2×2 checkerboard */}
         <div data-r03-svc-grid style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -5788,7 +5826,7 @@ function ServicesReality03Grid({ content, sectionId }: { content: Record<string,
                 {/* CTA */}
                 {item.ctaText && item.ctaHref && (
                   <a
-                    href={item.ctaHref}
+                    href={resolve(item.ctaHref)}
                     data-btn="primary"
                     style={{
                       display: "inline-flex", alignItems: "center", gap: 8,
@@ -5797,7 +5835,7 @@ function ServicesReality03Grid({ content, sectionId }: { content: Record<string,
                     }}
                     className="r03-svc-cta"
                   >
-                    {item.ctaText}
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
                     <svg className="r03-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
@@ -5876,21 +5914,27 @@ function ServicesReality03Grid({ content, sectionId }: { content: Record<string,
 }
 
 // ── reality-01-listings ───────────────────────────────────────────────────────
-// Featured property cards — ref: lexxusnorton.cz
-// Bílé bg; kicker + H2 center; tabs (Prodej/Pronájem); 3-col property karty
-// ─────────────────────────────────────────────────────────────────────────────
-function ServicesReality01Listings({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tagline  = String(content.tagline  ?? "Vybrané nemovitosti");
-  const title    = String(content.title    ?? "Pulz metropole, apartmá s výhledy\nnebo spoustu zeleně");
-  const subtitle = String(content.subtitle ?? "Prohlédněte si naši aktuální nabídku prémiových nemovitostí.");
-  const ctaText  = String(content.ctaText  ?? "Zobrazit všechny nemovitosti");
+function ServicesReality01Listings({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const eyebrowRaw  = (content as Record<string,unknown>).tagline;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const tagline  = eyebrowRaw  === undefined ? "Aktuální nabídka" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Nemovitosti, které stojí za váš čas" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Každý inzerát prochází naší rukou — pečlivě prověřený, reálně oceněný a připravený k jednání." : String(subtitleRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
+
+  const ctaText  = String(content.ctaText  ?? "Celá nabídka nemovitostí");
   const ctaHref  = String(content.ctaHref  ?? "/vypis-nemovitosti");
+  const tabAllLabel  = String((content as Record<string,unknown>).tabAllLabel  ?? "Vše");
+  const tabSaleLabel = String((content as Record<string,unknown>).tabSaleLabel ?? "Prodej");
+  const tabRentLabel = String((content as Record<string,unknown>).tabRentLabel ?? "Pronájem");
+  const detailLabel  = String((content as Record<string,unknown>).detailLabel  ?? "Zobrazit detail");
 
   type Item = { name: string; description: string; price: string; tag: string; image: string; href: string };
   const items = (content.items as Item[]) ?? [
-    { name: "Luxusní apartmán — Praha 1", description: "3+kk, 98 m², výhled na Vltavu, nadstandardní vybavení.", price: "14 900 000 Kč", tag: "Prodej", image: "/templates/reality-01/listing-1.jpg", href: "/vypis-nemovitosti" },
-    { name: "Rodinný dům — Praha západ",  description: "5+1, 220 m², pozemek 650 m², bazén, klidná lokalita.", price: "18 500 000 Kč", tag: "Prodej", image: "/templates/reality-01/listing-2.jpg", href: "/vypis-nemovitosti" },
-    { name: "Moderní byt — Praha 2",      description: "2+kk, 65 m², po rekonstrukci, parket, sklep, parkování.", price: "45 000 Kč/měs", tag: "Pronájem", image: "/templates/reality-01/listing-3.jpg", href: "/vypis-nemovitosti" },
+    { name: "Rezidence Na Výšinách — Praha 6", description: "3+kk, 98 m², panoramatické výhledy, terasa, garáž v suterénu.", price: "14 900 000 Kč", tag: "Prodej", image: "/templates/reality-01/listing-1.webp", href: "/detail-nemovitosti" },
+    { name: "Vila se zahradou — Praha západ",  description: "5+1, 220 m², pozemek 650 m², bazén, klidná lokalita u lesa.", price: "18 500 000 Kč", tag: "Prodej", image: "/templates/reality-01/listing-2.webp", href: "/detail-nemovitosti" },
+    { name: "Loftový byt — Praha 7, Holešovice", description: "2+kk, 65 m², industriální styl, dřevěné trámy, metro 3 min.", price: "42 000 Kč/měs", tag: "Pronájem", image: "/templates/reality-01/listing-3.webp", href: "/detail-nemovitosti" },
   ];
 
   const DARK       = "#1a3640";
@@ -5898,9 +5942,11 @@ function ServicesReality01Listings({ content, sectionId }: { content: Record<str
   const WHITE      = "#ffffff";
   const SURFACE    = "#f4ebe5";
   const TEXT       = "#141414";
-  const TEXT_MUTED = "#6b7280";
-  const MONTSERRAT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
-  const OPEN_SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+  const MUTED      = "#6b7280";
+  const FONT       = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY       = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin ?? false);
 
   const [activeTab, setActiveTab] = useState<"all" | "sale" | "rent">("all");
 
@@ -5909,28 +5955,34 @@ function ServicesReality01Listings({ content, sectionId }: { content: Record<str
     : items.filter(i => i.tag === "Pronájem");
 
   return (
-    <section style={{ backgroundColor: WHITE, padding: "clamp(56px,8vw,96px) 0" }}>
+    <section data-template="reality-01" id="listings" style={{ backgroundColor: WHITE, padding: "clamp(64px,9vw,110px) 0" }}>
       <div style={{ maxWidth: 1340, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
-            style={{ fontFamily: MONTSERRAT, fontSize: 12, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT_MUTED, margin: "0 0 14px" }} />
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
-            style={{ fontFamily: MONTSERRAT, fontSize: "clamp(26px,3.5vw,42px)", fontWeight: 700, lineHeight: 1.15, color: TEXT, margin: "0 0 16px", whiteSpace: "pre-line" }} />
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
-            style={{ fontFamily: OPEN_SANS, fontSize: 16, color: TEXT_MUTED, margin: "0 auto", maxWidth: 540, lineHeight: 1.6 }} />
-        </div>
+        {/* Header — conditional */}
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
+              <span style={{ width: 24, height: 1, backgroundColor: GOLD, opacity: 0.45 }} aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, margin: 0 }} />
+              <span style={{ width: 24, height: 1, backgroundColor: GOLD, opacity: 0.45 }} aria-hidden="true" />
+            </div>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+              style={{ fontFamily: FONT, fontSize: "clamp(26px,3.5vw,42px)", fontWeight: 700, lineHeight: 1.12, color: TEXT, margin: "0 0 14px", whiteSpace: "pre-line", letterSpacing: "-0.01em" }} />
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+              style={{ fontFamily: BODY, fontSize: 16, color: MUTED, margin: "0 auto", maxWidth: 560, lineHeight: 1.65 }} />
+          </div>
+        )}
 
         {/* Tabs */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 48, borderBottom: "2px solid #e5e7eb" }}>
-          {([["all", "Vše"], ["sale", "Prodej"], ["rent", "Pronájem"]] as const).map(([key, label]) => (
-            <button key={key} onClick={() => setActiveTab(key)} style={{
-              padding: "10px 28px", background: "none", border: "none", cursor: "pointer",
-              fontFamily: MONTSERRAT, fontSize: 14, fontWeight: activeTab === key ? 700 : 500,
-              color: activeTab === key ? DARK : TEXT_MUTED,
+        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 48, borderBottom: "1px solid #e8e8e8" }}>
+          {([["all", tabAllLabel], ["sale", tabSaleLabel], ["rent", tabRentLabel]] as [string, string][]).map(([key, label]) => (
+            <button key={key} onClick={() => setActiveTab(key as "all"|"sale"|"rent")} className="r01-listing-tab" style={{
+              padding: "12px 28px", background: "none", border: "none", cursor: "pointer",
+              fontFamily: FONT, fontSize: 13, fontWeight: activeTab === key ? 700 : 500,
+              color: activeTab === key ? DARK : MUTED,
               borderBottom: activeTab === key ? `2.5px solid ${GOLD}` : "2.5px solid transparent",
-              marginBottom: -2, transition: "color 0.15s, border-color 0.15s",
+              marginBottom: -1, transition: "color 0.2s, border-color 0.2s", letterSpacing: "0.03em",
             }}>
               {label}
             </button>
@@ -5938,35 +5990,43 @@ function ServicesReality01Listings({ content, sectionId }: { content: Record<str
         </div>
 
         {/* Property grid */}
-        <div data-r01-grid style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+        <div className="r01-listings-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
           {filtered.map((item, i) => (
-            <a key={i} href={item.href} style={{ textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column", borderRadius: 8, overflow: "hidden", backgroundColor: WHITE, boxShadow: "0 2px 12px rgba(0,0,0,0.07)", transition: "box-shadow 0.2s, transform 0.2s" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px rgba(0,0,0,0.13)"; (e.currentTarget as HTMLElement).style.transform = "translateY(-3px)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(0,0,0,0.07)"; (e.currentTarget as HTMLElement).style.transform = "none"; }}
-            >
+            <a key={i} href={resolve(item.href)} className="r01-listing-card" style={{
+              textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column",
+              borderRadius: 10, overflow: "hidden", backgroundColor: WHITE,
+              border: "1px solid #f0ece8",
+              transition: "box-shadow 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1)",
+            }}>
               {/* Image */}
               <div style={{ position: "relative", paddingTop: "66%", backgroundColor: SURFACE, overflow: "hidden" }}>
                 <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} style={{ position: "absolute", inset: 0 }}>
-                  <img loading="lazy" src={item.image} alt={item.name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }} />
+                  <img loading="lazy" src={item.image} alt={item.name} className="r01-listing-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1)" }} />
                 </GenericEditableImage>
                 {/* Badge */}
-                <span style={{ position: "absolute", top: 14, left: 14, backgroundColor: item.tag === "Pronájem" ? DARK : GOLD, color: item.tag === "Pronájem" ? WHITE : "#1a1a1a", fontFamily: MONTSERRAT, fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 10px", borderRadius: 3 }}>
-                  {item.tag}
+                <span style={{
+                  position: "absolute", top: 14, left: 14,
+                  backgroundColor: item.tag === "Pronájem" ? DARK : GOLD,
+                  color: item.tag === "Pronájem" ? WHITE : DARK,
+                  fontFamily: FONT, fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                  padding: "5px 12px", borderRadius: 3,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.tag`} value={item.tag} tag="span" />
                 </span>
               </div>
               {/* Content */}
-              <div style={{ padding: "20px 22px 22px", display: "flex", flexDirection: "column", flex: 1 }}>
+              <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="h3"
-                  style={{ fontFamily: MONTSERRAT, fontSize: 17, fontWeight: 700, color: TEXT, margin: "0 0 8px", lineHeight: 1.3 }} />
+                  style={{ fontFamily: FONT, fontSize: 16, fontWeight: 700, color: TEXT, margin: "0 0 8px", lineHeight: 1.35 }} />
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="p"
-                  style={{ fontFamily: OPEN_SANS, fontSize: 14, color: TEXT_MUTED, margin: "0 0 16px", lineHeight: 1.55, flex: 1 }} />
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #f0ece8", paddingTop: 14 }}>
+                  style={{ fontFamily: BODY, fontSize: 14, color: MUTED, margin: "0 0 18px", lineHeight: 1.6, flex: 1 }} />
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid #f0ece8", paddingTop: 16 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span"
-                    style={{ fontFamily: MONTSERRAT, fontSize: 18, fontWeight: 700, color: DARK }} />
-                  <span style={{ fontFamily: MONTSERRAT, fontSize: 13, fontWeight: 600, color: GOLD, display: "flex", alignItems: "center", gap: 4 }}>
-                    Detail
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                    style={{ fontFamily: FONT, fontSize: 18, fontWeight: 700, color: DARK }} />
+                  <span className="r01-listing-detail" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, color: GOLD, display: "flex", alignItems: "center", gap: 5, transition: "gap 0.2s" }}>
+                    <GenericEditableText sectionId={sectionId} field="detailLabel" value={detailLabel} tag="span" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </span>
                 </div>
@@ -5976,27 +6036,201 @@ function ServicesReality01Listings({ content, sectionId }: { content: Record<str
         </div>
 
         {/* CTA */}
-        <div style={{ textAlign: "center", marginTop: 52 }}>
-          <a href={ctaHref} data-btn="primary" style={{
-            display: "inline-flex", alignItems: "center", gap: 8,
+        <div style={{ textAlign: "center", marginTop: 56 }}>
+          <a href={resolve(ctaHref)} className="r01-listings-cta" style={{
+            display: "inline-flex", alignItems: "center", gap: 10,
             border: `1.5px solid ${DARK}`, color: DARK, backgroundColor: WHITE,
-            fontFamily: MONTSERRAT, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em",
-            padding: "13px 36px", borderRadius: 4, textDecoration: "none", transition: "background 0.2s, color 0.2s",
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = DARK; (e.currentTarget as HTMLElement).style.color = WHITE; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = WHITE; (e.currentTarget as HTMLElement).style.color = DARK; }}
-          >
+            fontFamily: FONT, fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase",
+            padding: "14px 38px", borderRadius: 4, textDecoration: "none",
+            transition: "background 0.25s, color 0.25s, transform 0.25s",
+          }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 1023px) { [data-r01-grid] { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media (max-width: 639px)  { [data-r01-grid] { grid-template-columns: 1fr !important; } }
+        @media (max-width: 1023px) { .r01-listings-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 639px)  { .r01-listings-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+    </section>
+  );
+}
+
+// ── reality-01-listing-detail ─────────────────────────────────────────────────
+function ListingDetailReality01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const DARK = "#1a3640";
+  const GOLD = "#d4a96e";
+  const SURFACE = "#f4ebe5";
+  const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  const title       = String(content.title       ?? "Rezidence Na Výšinách — byt 3+kk");
+  const price       = String(content.price       ?? "11 200 000 Kč");
+  const tag         = String(content.tag         ?? "Prodej");
+  const address     = String(content.address     ?? "Na Výšinách 12, Praha 6 — Dejvice");
+  const area        = String(content.area        ?? "88 m²");
+  const rooms       = String(content.rooms       ?? "3+kk");
+  const floor       = String(content.floor       ?? "3. / 5. NP");
+  const ownership   = String(content.ownership   ?? "Osobní");
+  const condition   = String(content.condition   ?? "Po rekonstrukci");
+  const energy      = String(content.energy      ?? "B");
+  const parking     = String(content.parking     ?? "Garážové stání");
+  const description = String(content.description ?? "Nabízíme k prodeji prostorný cihlový byt 3+kk s terasou a výhledem na Prahu. Byt prošel kompletní rekonstrukcí v roce 2023 — nové rozvody, podlahové topení, dubové podlahy, designová koupelna s walk-in sprchou. Kuchyňská linka na míru je součástí prodeje.\n\nDispozice: vstupní chodba, obývací pokoj s kuchyňským koutem (35 m²), ložnice (16 m²), dětský pokoj (12 m²), koupelna, samostatné WC, šatna, terasa (8 m²). K bytu náleží sklep a garážové stání.");
+  const mainImage   = String(content.mainImage   ?? "/templates/reality-01/detail-1.webp");
+  const image2      = String(content.image2      ?? "/templates/reality-01/detail-2.webp");
+  const image3      = String(content.image3      ?? "/templates/reality-01/detail-3.webp");
+  const image4      = String(content.image4      ?? "/templates/reality-01/detail-4.webp");
+  const agentName   = String(content.agentName   ?? "Mgr. Petr Kovář");
+  const agentRole   = String(content.agentRole   ?? "Senior makléř");
+  const agentPhone  = String(content.agentPhone  ?? "777 234 567");
+  const agentEmail  = String(content.agentEmail  ?? "kovar@domus-reality.cz");
+
+  type Spec = { label: string; value: string };
+  const specs: Spec[] = [
+    { label: "Plocha", value: area },
+    { label: "Dispozice", value: rooms },
+    { label: "Patro", value: floor },
+    { label: "Vlastnictví", value: ownership },
+    { label: "Stav", value: condition },
+    { label: "Energetická třída", value: energy },
+    { label: "Parkování", value: parking },
+  ];
+
+  return (
+    <section data-template="reality-01" style={{ backgroundColor: "#fff", padding: "clamp(32px,5vw,64px) 0 clamp(56px,8vw,96px)", fontFamily: FONT }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
+
+        {/* Breadcrumb */}
+        <div style={{ fontSize: 12, color: "#9ca3af", marginBottom: 24, fontFamily: BODY }}>
+          <span>Nabídka</span>
+          <span style={{ margin: "0 8px" }}>›</span>
+          <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" style={{ color: GOLD }} />
+        </div>
+
+        {/* Image gallery — 2×2 bento grid */}
+        <div className="r01-detail-gallery" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gridTemplateRows: "260px 260px", gap: 8, borderRadius: 12, overflow: "hidden", marginBottom: 40 }}>
+          <div style={{ gridRow: "1 / 3", overflow: "hidden" }}>
+            <img src={mainImage} alt={title} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </div>
+          <div style={{ overflow: "hidden" }}>
+            <img src={image2} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            <div style={{ overflow: "hidden" }}>
+              <img src={image3} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+            <div style={{ overflow: "hidden" }}>
+              <img src={image4} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Content: 2/3 info + 1/3 sidebar */}
+        <div className="r01-detail-content" style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: "clamp(32px,4vw,56px)", alignItems: "start" }}>
+
+          {/* Main content */}
+          <div>
+            {/* Tag + Price row */}
+            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12, flexWrap: "wrap" }}>
+              <span style={{ display: "inline-block", padding: "4px 14px", borderRadius: 4, backgroundColor: DARK, color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" as const }}>
+                <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
+              </span>
+              <GenericEditableText sectionId={sectionId} field="price" value={price} tag="span"
+                style={{ fontSize: "clamp(22px,3vw,32px)", fontWeight: 700, color: DARK, letterSpacing: "-0.02em" }} />
+            </div>
+
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1"
+              style={{ fontSize: "clamp(22px,3vw,34px)", fontWeight: 700, lineHeight: 1.2, color: DARK, margin: "0 0 8px", letterSpacing: "-0.02em" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 32, color: "#9ca3af", fontSize: 14, fontFamily: BODY }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </div>
+
+            {/* Quick specs */}
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap", marginBottom: 40, padding: "20px 0", borderTop: "1px solid #e5e7eb", borderBottom: "1px solid #e5e7eb" }}>
+              {[
+                { icon: "⬛", label: area, sub: "Plocha" },
+                { icon: "🏠", label: rooms, sub: "Dispozice" },
+                { icon: "📍", label: floor, sub: "Patro" },
+              ].map((s, i) => (
+                <div key={i} style={{ textAlign: "center", minWidth: 80 }}>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: DARK }}>{s.label}</div>
+                  <div style={{ fontSize: 11, color: "#9ca3af", fontFamily: BODY, marginTop: 2 }}>{s.sub}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Description */}
+            <GenericEditableText sectionId={sectionId} field="description" value={description} tag="div"
+              style={{ fontFamily: BODY, fontSize: 15, lineHeight: 1.8, color: "#4b5563", whiteSpace: "pre-line", marginBottom: 40 }} />
+
+            {/* Parameters table */}
+            <h3 style={{ fontSize: 16, fontWeight: 700, color: DARK, marginBottom: 16, letterSpacing: "0.02em" }}>Parametry nemovitosti</h3>
+            <div style={{ borderRadius: 10, overflow: "hidden", border: "1px solid #e5e7eb" }}>
+              {specs.map((s, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "14px 20px", backgroundColor: i % 2 === 0 ? "#fff" : "#fafafa", borderBottom: i < specs.length - 1 ? "1px solid #f0f0f0" : "none" }}>
+                  <span style={{ fontFamily: BODY, fontSize: 14, color: "#6b7280" }}>{s.label}</span>
+                  <span style={{ fontFamily: FONT, fontSize: 14, fontWeight: 600, color: DARK }}>{s.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sidebar — Agent card */}
+          <div style={{ position: "sticky", top: 88 }}>
+            <div style={{ borderRadius: 12, border: "1px solid #e5e7eb", padding: "32px 28px", backgroundColor: "#fff", boxShadow: "0 4px 24px rgba(0,0,0,0.04)" }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "#9ca3af", marginBottom: 20 }}>Váš makléř</div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 24 }}>
+                <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: SURFACE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, fontWeight: 700, color: DARK }}>
+                  {agentName.split(" ").map(n => n[0]).join("").slice(0, 2)}
+                </div>
+                <div>
+                  <GenericEditableText sectionId={sectionId} field="agentName" value={agentName} tag="div"
+                    style={{ fontWeight: 600, fontSize: 15, color: DARK }} />
+                  <GenericEditableText sectionId={sectionId} field="agentRole" value={agentRole} tag="div"
+                    style={{ fontSize: 12, color: "#9ca3af", fontFamily: BODY }} />
+                </div>
+              </div>
+
+              <a href={`tel:+420${agentPhone.replace(/\s/g,"")}`} className="r01-detail-call" style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%",
+                padding: "14px 0", borderRadius: 6, backgroundColor: DARK, color: "#fff",
+                fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: "0.04em",
+                transition: "background 0.25s, transform 0.25s",
+                marginBottom: 10,
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.34 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6.05 6.05l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="agentPhone" value={`+420 ${agentPhone}`} tag="span" />
+              </a>
+              <a href={`mailto:${agentEmail}`} className="r01-detail-email" style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8, width: "100%",
+                padding: "14px 0", borderRadius: 6, border: `1.5px solid ${DARK}`, color: DARK,
+                fontSize: 14, fontWeight: 600, textDecoration: "none", letterSpacing: "0.04em",
+                transition: "background 0.25s, color 0.25s",
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <GenericEditableText sectionId={sectionId} field="agentEmail" value={agentEmail} tag="span" />
+              </a>
+
+              <div style={{ marginTop: 24, padding: "16px 0 0", borderTop: "1px solid #f0f0f0", fontSize: 12, color: "#9ca3af", fontFamily: BODY, textAlign: "center", lineHeight: 1.6 }}>
+                Prohlídku domluvíme<br/>do 48 hodin od kontaktu
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 900px) {
+          .r01-detail-content { grid-template-columns: 1fr !important; }
+          .r01-detail-gallery { grid-template-columns: 1fr !important; grid-template-rows: 280px auto !important; }
+          .r01-detail-gallery > div:first-child { grid-row: auto !important; }
+        }
       `}</style>
     </section>
   );
@@ -6010,53 +6244,70 @@ function ServicesReality01Listings({ content, sectionId }: { content: Record<str
 // ─────────────────────────────────────────────────────────────────────────────
 function WhyUsReality04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const sectionAnchor = String(content.id    ?? "sluzby");
-  const title         = String(content.title ?? "Proč právě my?");
+  // conditional header (skryje se na /sluzby podstránce, kde je banner)
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Proč Rezido" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Proč právě my?" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Čtyři důvody, proč svěřit svou nemovitost do rukou lidí, kteří to dělají srdcem." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
   const items = (content.items as Array<{ title: string; subtitle: string; body: string; image: string }>) ?? [];
 
   const [active, setActive] = useState(0);
 
   const PRIMARY = "#1032CF";
-  const DARK    = "#241f0c";
-  const MUTED   = "#666";
-  const BORDER  = "#e8e8e8";
+  const GREEN   = "#21b276";
+  const DARK    = "#141414";
+  const MUTED   = "#6b7280";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
   const current = items[active];
 
   return (
-    <section id={sectionAnchor} style={{ backgroundColor: "#fff", padding: "clamp(56px, 7vw, 96px) 0" }}>
+    <section id={sectionAnchor} style={{ backgroundColor: "#fff", padding: "clamp(56px, 7vw, 100px) 0" }} data-template="reality-04">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
 
-        {/* Nadpis */}
-        <h2 style={{ fontFamily: SANS, fontSize: "clamp(24px, 2.8vw, 36px)", fontWeight: 700, color: DARK, marginTop: 0, marginBottom: "clamp(32px, 4vw, 56px)" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
+        {/* Header */}
+        {showHeader && (
+          <div style={{ maxWidth: 640, marginBottom: "clamp(32px, 4vw, 56px)" }}>
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, margin: "0 0 12px" }} />
+            )}
+            {title.trim() && (
+              <h2 style={{ fontFamily: SANS, fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 700, color: DARK, margin: "0 0 14px", lineHeight: 1.15, letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p style={{ fontFamily: SANS, fontSize: 16.5, color: MUTED, margin: 0, lineHeight: 1.6 }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="r04-why-grid">
           {/* Levý sloupec — seznam položek */}
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {items.map((item, i) => (
               <button
                 key={i}
                 onClick={() => setActive(i)}
-                style={{
-                  background: "none", border: "none", cursor: "pointer", textAlign: "left",
-                  padding: "20px 0 20px 20px",
-                  borderTop: i === 0 ? `1px solid ${BORDER}` : "none",
-                  borderBottom: `1px solid ${BORDER}`,
-                  borderLeft: `3px solid ${i === active ? PRIMARY : "transparent"}`,
-                  transition: "border-color 0.2s",
-                }}
+                className={`r04-why-item${i === active ? " is-active" : ""}`}
               >
-                <div style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, color: i === active ? PRIMARY : MUTED, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 4 }}>
+                <span className="r04-why-num" style={{ backgroundColor: i === active ? PRIMARY : "#eef1f8", color: i === active ? "#fff" : MUTED }}>
                   {String(i + 1).padStart(2, "0")}
-                </div>
-                <div style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.4vw, 17px)", fontWeight: i === active ? 700 : 500, color: i === active ? PRIMARY : DARK, marginBottom: 4, transition: "color 0.2s, font-weight 0.2s" }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
-                </div>
-                <div style={{ fontFamily: SANS, fontSize: 13, color: MUTED, lineHeight: 1.4 }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={item.subtitle} tag="span" />
-                </div>
+                </span>
+                <span style={{ display: "block", flex: 1 }}>
+                  <span style={{ display: "block", fontFamily: SANS, fontSize: "clamp(15px, 1.4vw, 17.5px)", fontWeight: i === active ? 700 : 600, color: i === active ? PRIMARY : DARK, marginBottom: 4, transition: "color 0.2s" }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
+                  </span>
+                  <span style={{ display: "block", fontFamily: SANS, fontSize: 13.5, color: MUTED, lineHeight: 1.45 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={item.subtitle} tag="span" />
+                  </span>
+                </span>
               </button>
             ))}
           </div>
@@ -6064,17 +6315,19 @@ function WhyUsReality04({ content, sectionId }: { content: Record<string, unknow
           {/* Pravý sloupec — fotka + text aktivní položky */}
           {current && (
             <div key={active} className="r04-why-detail">
-              <GenericEditableImage sectionId={sectionId} field={`items.${active}.image`} src={current.image} alt={current.title} style={{ display: "block", marginBottom: 28 }}>
-                <img
-                  src={current.image}
-                  alt={current.title}
-                  style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", borderRadius: 6, display: "block" }}
-                />
-              </GenericEditableImage>
-              <h3 style={{ fontFamily: SANS, fontSize: "clamp(17px, 1.6vw, 20px)", fontWeight: 700, color: DARK, margin: "0 0 12px" }}>
+              <div className="r04-why-imgwrap">
+                <GenericEditableImage sectionId={sectionId} field={`items.${active}.image`} src={current.image} alt={current.title} style={{ display: "block", width: "100%", height: "100%" }}>
+                  <img
+                    src={current.image}
+                    alt={current.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                </GenericEditableImage>
+              </div>
+              <h3 style={{ fontFamily: SANS, fontSize: "clamp(18px, 1.7vw, 22px)", fontWeight: 700, color: DARK, margin: "26px 0 12px" }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${active}.title`} value={current.title} tag="span" />
               </h3>
-              <p style={{ fontFamily: SANS, fontSize: 15, color: MUTED, lineHeight: 1.7, margin: 0 }}>
+              <p style={{ fontFamily: SANS, fontSize: 15.5, color: MUTED, lineHeight: 1.75, margin: 0 }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${active}.body`} value={current.body} tag="span" />
               </p>
             </div>
@@ -6083,9 +6336,7 @@ function WhyUsReality04({ content, sectionId }: { content: Record<string, unknow
       </div>
 
       <style>{`
-        .r04-why-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
-        .r04-why-detail { animation: r04WhyFade 0.3s ease; }
-        @keyframes r04WhyFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .r04-why-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
         @media (max-width: 768px) { .r04-why-grid { grid-template-columns: 1fr; } }
       `}</style>
     </section>
@@ -6195,6 +6446,30 @@ function ServicesAutoservis03({ content, sectionId }: { content: Record<string, 
       data-section-id={sectionId}
       data-template="autoservis-03"
     >
+      <style>{`
+        .a03-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #f97316; margin-bottom: 14px; }
+        .a03-eyebrow-bar { width: 26px; height: 2px; background: linear-gradient(to right,#f97316,#c2410c); border-radius: 2px; flex-shrink: 0; }
+
+        .a03-svc { position: relative; background: #0d0d0d; padding: clamp(72px,9vw,110px) 24px; overflow: hidden; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; }
+        .a03-svc-glow { position: absolute; top: -220px; left: -160px; width: 560px; height: 560px; background: radial-gradient(circle, rgba(249,115,22,0.09) 0%, transparent 65%); pointer-events: none; }
+        .a03-svc-wrap { max-width: 1220px; margin: 0 auto; position: relative; }
+        .a03-svc-head { text-align: center; max-width: 660px; margin: 0 auto clamp(40px,5vw,60px); }
+        .a03-svc-h2 { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: clamp(1.8rem,3.4vw,2.7rem); font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.15; margin: 0; }
+        .a03-svc-sub { font-size: 15px; line-height: 1.7; color: #9ca3af; margin: 14px 0 0; }
+        .a03-svc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+        .a03-svc-card { position: relative; background: #141414; border: 1px solid #232323; border-radius: 18px; padding: 30px 26px 28px; overflow: hidden; opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease, border-color .25s, box-shadow .25s; }
+        .a03-svc.a03-in .a03-svc-card { opacity: 1; transform: none; }
+        .a03-svc-card:hover { border-color: rgba(249,115,22,0.45); box-shadow: 0 18px 44px rgba(0,0,0,0.45); }
+        .a03-svc-card-top { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right,#f97316,#c2410c); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+        .a03-svc-card:hover .a03-svc-card-top { transform: scaleX(1); }
+        .a03-svc-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(249,115,22,0.12); color: #f97316; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .a03-svc-name { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 17.5px; font-weight: 700; color: #ffffff; margin: 0 0 9px; letter-spacing: -0.2px; }
+        .a03-svc-desc { font-size: 14px; line-height: 1.65; color: #9ca3af; margin: 0 0 14px; }
+        .a03-svc-link:hover .a03-svc-arrow { transform: translateX(3px); }
+        .a03-svc-arrow { transition: transform .2s; }
+        @media (max-width: 1024px) { .a03-svc-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 560px)  { .a03-svc-grid { grid-template-columns: 1fr; } }
+      `}</style>
       <div aria-hidden="true" className="a03-svc-glow" />
       <div className="a03-svc-wrap">
         {showHeader && (
@@ -6280,6 +6555,36 @@ function PricingAutoservis03({ content, sectionId }: { content: Record<string, u
 
   return (
     <section ref={secRef} id="cenik" className={`a03-price${inView ? " a03-in" : ""}`} data-template="autoservis-03">
+      <style>{`
+        .a03-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #f97316; margin-bottom: 14px; }
+        .a03-eyebrow-bar { width: 26px; height: 2px; background: linear-gradient(to right,#f97316,#c2410c); border-radius: 2px; flex-shrink: 0; }
+
+        .a03-price { position: relative; background: #0a0a0a; padding: clamp(72px,9vw,110px) 24px; overflow: hidden; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; }
+        .a03-price-glow { position: absolute; bottom: -240px; right: -180px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%); pointer-events: none; }
+        .a03-price-wrap { max-width: 1080px; margin: 0 auto; position: relative; }
+        .a03-price-head { text-align: center; max-width: 640px; margin: 0 auto clamp(40px,5vw,60px); }
+        .a03-price-h2 { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: clamp(1.8rem,3.4vw,2.7rem); font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.15; margin: 0; }
+        .a03-price-sub { font-size: 15px; line-height: 1.7; color: #9ca3af; margin: 14px 0 0; }
+        .a03-price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+        .a03-price-card { position: relative; background: #141414; border: 1px solid #232323; border-radius: 20px; padding: 34px 32px 26px; overflow: hidden; opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease, border-color .25s; }
+        .a03-price.a03-in .a03-price-card { opacity: 1; transform: none; }
+        .a03-price-card:hover { border-color: rgba(249,115,22,0.4); }
+        .a03-price-card-top { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right,#f97316,#c2410c); }
+        .a03-price-cardhead { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+        .a03-price-cardicon { width: 44px; height: 44px; border-radius: 12px; background: rgba(249,115,22,0.12); color: #f97316; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .a03-price-heading { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 19px; font-weight: 800; color: #ffffff; letter-spacing: -0.2px; margin: 0; }
+        .a03-price-row { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding: 12.5px 0; border-bottom: 1px dashed #2c2c2c; }
+        .a03-price-row:last-child { border-bottom: 0; }
+        .a03-price-name { font-size: 14.5px; color: #d1d5db; }
+        .a03-price-val { font-size: 14.5px; font-weight: 800; color: #f97316; white-space: nowrap; }
+        .a03-price-foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        .a03-price-vat { font-size: 13px; color: #6b7280; margin: 0; }
+        .a03-price-cta { position: relative; display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(to right,#f97316,#ea6c08); color: #0a0a0a; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14.5px; font-weight: 800; letter-spacing: 0.4px; text-decoration: none; padding: 14px 28px; border-radius: 999px; transition: transform .2s, box-shadow .25s; }
+        .a03-price-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(249,115,22,0.35); }
+        .a03-price-cta:hover .a03-cta-arrow { transform: translateX(3px); }
+        .a03-cta-arrow { transition: transform .2s; }
+        @media (max-width: 860px) { .a03-price-grid { grid-template-columns: 1fr; } .a03-price-foot { justify-content: center; text-align: center; } }
+      `}</style>
       <div aria-hidden="true" className="a03-price-glow" />
       <div className="a03-price-wrap">
         {showHeader && (
@@ -6552,7 +6857,7 @@ function StatsAutoservis03({ content, sectionId }: { content: Record<string, unk
 // ── dental-01-services ───────────────────────────────────────────────────────
 // 3 karty (foto nahoře, teal linka, title, popis). Bílé bg, section padding 96px.
 // Kicker uppercase teal + H2 tmavý Montserrat. Hover: foto zoom + teal title.
-// Inspirováno magicsmile.cz services grid.
+// Inspirováno dentia-klinika.cz services grid.
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesDental01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const TEAL  = "#14a2a8";
@@ -6745,113 +7050,113 @@ function ServicesOrtho01({ content, sectionId }: { content: Record<string, unkno
 }
 
 // ── ortho-02-services ─────────────────────────────────────────────────────────
-// 4 PathBox karty v řadě — foto nahoře (portrait), pod ní subtitle + název
-// Bílé pozadí, bez nadpisu sekce, full-width, karty vedle sebe
-// Reference: perfectsmile.cz → cPathBox--staticUnderPict
-// ─────────────────────────────────────────────────────────────────────────────
 function ServicesOrtho02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const FONT  = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
   const DARK  = "#1a1a1a";
   const MUTED = "#888888";
   const BEIGE = "#B7B3A5";
+  const GOLD  = "#b39f6b";
+
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).heading;
+  const subtitleRaw = (content as Record<string,unknown>).subheading;
+  const eyebrow  = eyebrowRaw  === undefined ? "Naše specializace" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Každý úsměv si zaslouží individuální přístup a špičkovou péči" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
   type Item = { title?: string; subtitle?: string; description?: string; href?: string; image?: string };
-  const items = ((content.items as Item[]) ?? []).slice(0, 4);
-
-  const heading    = String(content.heading    ?? "Rovné zuby tvoří krásný úsměv.");
-  const subheading = String(content.subheading ?? "Do ortodontické léčby přijímáme děti, teenagery i děti v Praze.");
+  const rawItems = (content.items as Item[]) ?? [];
 
   const defaultItems: Item[] = [
-    { title: "Invisalign®",  subtitle: "Rovnátka", href: "#sluzby", image: "/templates/ortho-02/service-invisalign.jpg" },
-    { title: "Estetická",    subtitle: "Rovnátka", href: "#sluzby", image: "/templates/ortho-02/service-esteticka.jpg" },
-    { title: "Kovová",       subtitle: "Rovnátka", href: "#sluzby", image: "/templates/ortho-02/service-kovova.jpg" },
-    { title: "Pro děti",     subtitle: "Rovnátka", href: "#sluzby", image: "/templates/ortho-02/service-deti.jpg" },
+    { title: "Neviditelné alignery", subtitle: "Transparentní systém", description: "Moderní řešení bez kovových drátků — alignery jsou prakticky neviditelné a snadno snímatelné", href: "/sluzby", image: "/templates/ortho-02/svc-alignery.webp" },
+    { title: "Keramická rovnátka",  subtitle: "Estetická volba",      description: "Zámečky v barvě zubu pro ty, kteří chtějí rovnátka bez kompromisů na vzhledu",                  href: "/sluzby", image: "/templates/ortho-02/svc-keramika.webp" },
+    { title: "Klasická rovnátka",   subtitle: "Ověřená metoda",       description: "Nejspolehlivější řešení pro složitější ortodontické případy s precizní kontrolou",                href: "/sluzby", image: "/templates/ortho-02/svc-klasika.webp" },
+    { title: "Dětská ortodoncie",   subtitle: "Péče od mládí",        description: "Šetrná léčba přizpůsobená rostoucímu chrupu — čím dříve začneme, tím lepší výsledek",            href: "/sluzby", image: "/templates/ortho-02/svc-deti.webp" },
   ];
 
-  const cards = items.length > 0 ? items : defaultItems;
+  const cards = rawItems.length > 0 ? rawItems : defaultItems;
 
   return (
     <section
       id="sluzby"
-      data-section-type="services"
-      data-variant="ortho-02-services"
+      data-template="ortho-02"
       style={{ backgroundColor: "#ffffff", fontFamily: FONT }}
     >
-      {/* Textový blok — kicker + velký H2, jako perfectsmile.cz cHeading */}
-      <div style={{ padding: "clamp(56px, 7vw, 96px) clamp(32px, 6vw, 96px) clamp(48px, 6vw, 72px)" }}>
-        <p style={{ margin: "0 0 16px", fontFamily: FONT, fontSize: "clamp(0.72rem, 1vw, 0.82rem)", fontWeight: 500, color: MUTED, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-          <GenericEditableText sectionId={sectionId} field="subheading" value="Proč chtít rovnátka" tag="span" />
-        </p>
-        <h2 style={{ margin: 0, maxWidth: "72ch", fontFamily: FONT, fontSize: "clamp(1.6rem, 3.2vw, 2.8rem)", fontWeight: 300, color: DARK, lineHeight: 1.35, letterSpacing: "-0.01em" }}>
-          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-        </h2>
-      </div>
+      {showHeader && (
+        <div style={{ padding: "clamp(64px, 8vw, 100px) clamp(32px, 6vw, 96px) clamp(40px, 5vw, 64px)", maxWidth: 900 }}>
+          <p style={{ margin: "0 0 16px", fontFamily: FONT, fontSize: "0.78rem", fontWeight: 600, color: GOLD, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+          <h2 style={{ margin: 0, maxWidth: "68ch", fontFamily: FONT, fontSize: "clamp(1.5rem, 3vw, 2.4rem)", fontWeight: 300, color: DARK, lineHeight: 1.4, letterSpacing: "-0.01em" }}>
+            <GenericEditableText sectionId={sectionId} field="heading" value={title} tag="span" />
+          </h2>
+        </div>
+      )}
 
-      {/* 4 PathBox karty */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-      }} className="o02-services-grid">
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }} className="o02-svc-grid">
         {cards.map((card, i) => {
-          const title    = card.title    ?? defaultItems[i]?.title    ?? "";
-          const subtitle = card.subtitle ?? defaultItems[i]?.subtitle ?? "";
-          const imgSrc   = card.image    ?? defaultItems[i]?.image    ?? "";
-          const href     = card.href     ?? "#sluzby";
+          const t    = card.title       ?? defaultItems[i]?.title       ?? "";
+          const sub  = card.subtitle    ?? defaultItems[i]?.subtitle    ?? "";
+          const desc = card.description ?? defaultItems[i]?.description ?? "";
+          const img  = card.image       ?? defaultItems[i]?.image       ?? "";
+          const href = card.href        ?? "/sluzby";
+          const ctaLabel = String((content as Record<string,unknown>)[`items.${i}.ctaLabel`] ?? "Zjistit více");
 
           return (
             <a
               key={i}
               href={href}
-              className="o02-card"
+              className="o02-svc-card"
               style={{
                 display: "block",
                 textDecoration: "none",
                 color: "inherit",
                 position: "relative",
                 overflow: "hidden",
-                borderRight: i < 3 ? "1px solid #f0f0f0" : "none",
               }}
             >
-              {/* Image */}
-              <div style={{ position: "relative", width: "100%", aspectRatio: "3/4", overflow: "hidden", backgroundColor: "#e8e4de" }}>
-                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={imgSrc} alt={title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+              <div style={{ position: "relative", width: "100%", aspectRatio: "3/4", overflow: "hidden", backgroundColor: "#eae6e0" }}>
+                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={t} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
                   <img
-                    src={imgSrc}
-                    alt={title}
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", transition: "transform 0.5s ease" }}
-                    className="o02-card-img"
+                    src={img}
+                    alt={t}
+                    loading={i < 2 ? "eager" : "lazy"}
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", transition: "transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.6s ease" }}
+                    className="o02-svc-img"
                   />
                 </GenericEditableImage>
+                {/* Gold overlay on hover */}
+                <div className="o02-svc-overlay" style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(to top, rgba(179,159,107,0.25) 0%, transparent 60%)",
+                  opacity: 0,
+                  transition: "opacity 0.5s ease",
+                  pointerEvents: "none",
+                }} />
               </div>
 
-              {/* Caption */}
-              <div style={{ padding: "20px 24px 28px", backgroundColor: "#ffffff" }}>
-                <p style={{ margin: "0 0 4px", fontFamily: FONT, fontSize: "0.7rem", fontWeight: 600, color: MUTED, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={subtitle} tag="span" />
+              <div style={{ padding: "22px 28px 28px", backgroundColor: "#ffffff", borderTop: "1px solid #f0ede8" }}>
+                <p style={{ margin: "0 0 5px", fontFamily: FONT, fontSize: "0.7rem", fontWeight: 600, color: GOLD, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={sub} tag="span" />
                 </p>
-                <h3 style={{ margin: "0 0 10px", fontFamily: FONT, fontSize: "1.2rem", fontWeight: 400, color: DARK, letterSpacing: "0.03em" }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={title} tag="span" />
+                <h3 style={{ margin: "0 0 8px", fontFamily: FONT, fontSize: "1.15rem", fontWeight: 500, color: DARK, letterSpacing: "0.02em" }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={t} tag="span" />
                 </h3>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT, fontSize: "0.78rem", fontWeight: 500, color: BEIGE, letterSpacing: "0.05em" }}>
-                  Zjistit více
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <p style={{ margin: "0 0 14px", fontFamily: FONT_B, fontSize: "0.85rem", fontWeight: 400, color: MUTED, lineHeight: 1.6 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
+                </p>
+                <span className="o02-svc-arrow" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: FONT, fontSize: "0.78rem", fontWeight: 600, color: BEIGE, letterSpacing: "0.05em", transition: "color 0.3s, gap 0.3s" }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaLabel`} value={ctaLabel} tag="span" />
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="o02-svc-arrow-icon"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </span>
               </div>
             </a>
           );
         })}
       </div>
-
-      <style>{`
-        .o02-card:hover .o02-card-img { transform: scale(1.04); }
-        @media (max-width: 768px) {
-          .o02-services-grid { grid-template-columns: repeat(2, 1fr) !important; }
-          .o02-card { border-right: none !important; border-bottom: 1px solid #f0f0f0; }
-        }
-        @media (max-width: 480px) {
-          .o02-services-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -6860,14 +7165,23 @@ function ServicesOrtho02({ content, sectionId }: { content: Record<string, unkno
 // Bílé bg, centrovaný navy H2 + perex, 3-col grid karet:
 // SVG ikona (tematická) + H3 navy + popis šedý, hover → navy box-shadow
 // ─────────────────────────────────────────────────────────────────────────────
-function ServicesLawyer01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const NAVY    = "#141760";
-  const CRIMSON = "#a70336";
-  const FONT    = "'Source Sans 3','Source Sans Pro','Raleway','Helvetica Neue',Arial,sans-serif";
+function ServicesLawyer01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const NAVY     = "#141760";
+  const CRIMSON  = "#a70336";
+  const WORDFONT = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
+  const BODYFONT = "'Open Sans','Source Sans 3','Helvetica Neue',Arial,sans-serif";
 
-  const title = String(content.title ?? "Oblasti práva");
-  const lead  = String(content.lead  ?? "Pokrýváme všechny klíčové oblasti komerčního práva.");
-  const items = (content.items as Array<{ name: string; description: string; icon?: string }>) ?? [];
+  const eyebrowRaw = content.eyebrow;
+  const titleRaw   = content.title;
+  const leadRaw    = content.lead;
+  const eyebrow  = eyebrowRaw === undefined ? "Naše specializace" : String(eyebrowRaw);
+  const title    = titleRaw   === undefined ? "Oblasti práva" : String(titleRaw);
+  const lead     = leadRaw    === undefined ? "Pokrýváme všechny klíčové oblasti komerčního práva pro domácí i zahraniční klienty." : String(leadRaw);
+  const linkLabel = String(content.linkLabel ?? "Zjistit více");
+  const showHeader = !!(eyebrow.trim() || title.trim() || lead.trim());
+  const items = (content.items as Array<{ name: string; description: string; icon?: string; href?: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   // SVG ikony pro každou oblast práva
   const iconMap: Record<string, React.ReactNode> = {
@@ -6910,83 +7224,74 @@ function ServicesLawyer01({ content, sectionId }: { content: Record<string, unkn
   );
 
   return (
-    <section style={{ backgroundColor: "#ffffff", padding: "88px 0 96px", fontFamily: FONT }}>
+    <section id="sluzby" data-template="lawyer-01" style={{ backgroundColor: "#ffffff", padding: "clamp(72px,9vw,112px) 0", fontFamily: BODYFONT, opacity: 1 }}>
+      <style>{`
+        @keyframes l01svcUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+        .l01svc-rise{opacity:0;animation:l01svcUp .7s cubic-bezier(.2,.7,.2,1) both;}
+        .l01svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+        .l01svc-card{position:relative;display:flex;flex-direction:column;gap:18px;background:#fff;border:1px solid #e6e8ef;padding:38px 34px;text-decoration:none;overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s ease,border-color .3s ease;}
+        .l01svc-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:${CRIMSON};transform:scaleY(0);transform-origin:top;transition:transform .34s cubic-bezier(.4,0,.2,1);}
+        .l01svc-card:hover{transform:translateY(-5px);box-shadow:0 22px 48px rgba(20,23,96,.14);border-color:rgba(20,23,96,.18);}
+        .l01svc-card:hover::before{transform:scaleY(1);}
+        .l01svc-ic{display:inline-flex;align-items:center;justify-content:center;width:58px;height:58px;background:rgba(20,23,96,.06);color:${NAVY};flex-shrink:0;transition:background .32s ease,color .32s ease,transform .38s cubic-bezier(.34,1.56,.64,1);}
+        .l01svc-card:hover .l01svc-ic{background:${NAVY};color:#fff;transform:scale(1.06);}
+        .l01svc-more{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:7px;color:${CRIMSON};font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;}
+        .l01svc-more svg{transition:transform .3s ease;}
+        .l01svc-card:hover .l01svc-more svg{transform:translateX(5px);}
+        @media (max-width: 900px) { .l01svc-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 560px) { .l01svc-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,40px)" }}>
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <div style={{ width: 36, height: 3, backgroundColor: CRIMSON, margin: "0 auto 20px", borderRadius: 2 }} />
-          <h2 style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1.6rem,2.8vw,2.4rem)", color: NAVY, margin: "0 0 16px", letterSpacing: "0.01em" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "1.05rem", color: "#6b7280", margin: "0 auto", maxWidth: 560, lineHeight: 1.65 }}>
-            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-          </p>
-        </div>
-
-        {/* Grid */}
-        <div className="l01-services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
-          {items.map((item, i) => (
-            <div
-              key={i}
-              className="l01-service-card"
-              style={{
-                backgroundColor: "#fff",
-                border: "1px solid #e8eaed",
-                borderRadius: 4,
-                padding: "36px 32px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 16,
-                transition: "box-shadow 0.22s ease, border-color 0.22s ease, transform 0.22s ease",
-                cursor: "default",
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.boxShadow = `0 8px 32px rgba(20,23,96,0.13)`;
-                el.style.borderColor = `rgba(20,23,96,0.25)`;
-                el.style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.boxShadow = "none";
-                el.style.borderColor = "#e8eaed";
-                el.style.transform = "translateY(0)";
-              }}
-            >
-              {/* Icon */}
-              <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: "rgba(20,23,96,0.07)", display: "flex", alignItems: "center", justifyContent: "center", color: NAVY, flexShrink: 0 }}>
-                {iconMap[item.icon ?? ""] ?? fallbackIcon}
+        {showHeader && (
+          <div className="l01svc-rise" style={{ textAlign: "center", marginBottom: 60, maxWidth: 620, marginLeft: "auto", marginRight: "auto" }}>
+            {eyebrow.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+                <span style={{ display: "block", width: 30, height: 2, background: CRIMSON }} />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                  style={{ fontFamily: BODYFONT, fontWeight: 700, fontSize: "0.78rem", letterSpacing: "0.2em", textTransform: "uppercase", color: CRIMSON }} />
+                <span style={{ display: "block", width: 30, height: 2, background: CRIMSON }} />
               </div>
+            )}
+            {title.trim() && (
+              <h2 style={{ fontFamily: WORDFONT, fontWeight: 700, fontSize: "clamp(1.7rem,3vw,2.5rem)", color: NAVY, margin: "0 0 16px", letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {lead.trim() && (
+              <p style={{ fontFamily: BODYFONT, fontWeight: 400, fontSize: "1.05rem", color: "#6b7280", margin: 0, lineHeight: 1.65 }}>
+                <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
-              {/* Text */}
+        <div className="l01svc-grid">
+          {items.map((item, i) => (
+            <a
+              key={i}
+              href={resolve(item.href ?? "/sluzby")}
+              className="l01svc-card l01svc-rise"
+              style={{ animationDelay: `${0.05 + i * 0.06}s` }}
+            >
+              <span className="l01svc-ic">{iconMap[item.icon ?? ""] ?? fallbackIcon}</span>
               <div>
-                <h3 style={{ fontFamily: FONT, fontWeight: 700, fontSize: "1.05rem", color: NAVY, margin: "0 0 10px", lineHeight: 1.3 }}>
+                <h3 style={{ fontFamily: WORDFONT, fontWeight: 600, fontSize: "1.12rem", color: NAVY, margin: "0 0 10px", lineHeight: 1.3 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
                 </h3>
-                <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "0.9rem", color: "#6b7280", margin: 0, lineHeight: 1.65 }}>
+                <p style={{ fontFamily: BODYFONT, fontWeight: 400, fontSize: "0.92rem", color: "#6b7280", margin: 0, lineHeight: 1.68 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
                 </p>
               </div>
-
-              {/* Arrow link */}
-              <div style={{ marginTop: "auto", paddingTop: 8 }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, color: CRIMSON, fontWeight: 600, fontSize: "0.82rem", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-                  Zjistit více
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </span>
-              </div>
-            </div>
+              <span className="l01svc-more">
+                <GenericEditableText sectionId={sectionId} field="linkLabel" value={linkLabel} tag="span" />
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </a>
           ))}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 900px) { .l01-services-grid { grid-template-columns: repeat(2,1fr) !important; } }
-        @media (max-width: 580px) { .l01-services-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
     </section>
   );
 }
@@ -7087,7 +7392,7 @@ function ServicesRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { c
   );
 }
 
-function ServicesStavba01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ServicesStavba01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const ORANGE = "#FF6F0D";
   const DARK   = "#1a1a1a";
   const GRAY   = "#6b6b6b";
@@ -7096,47 +7401,87 @@ function ServicesStavba01({ content, sectionId }: { content: Record<string, unkn
 
   interface ServiceItem { name: string; description: string; image?: string; ctaText?: string; ctaHref?: string; }
 
-  const tagline = String(content.tagline ?? "Co umíme");
-  const title   = String(content.title   ?? "Naše stavební\nslužby");
+  const taglineRaw  = content.tagline;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const tagline  = taglineRaw  === undefined ? "Co umíme" : String(taglineRaw);
+  const title    = titleRaw    === undefined ? "Naše stavební\nslužby" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
   const items   = (content.items as ServiceItem[]) ?? [];
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>(".s01-svc-card"));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const el = e.target as HTMLElement;
+          const idx = cards.indexOf(el);
+          el.style.animationDelay = `${Math.max(0, idx) * 0.1}s`;
+          el.classList.add("s01-svc-vis");
+          obs.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12 });
+    cards.forEach((c) => obs.observe(c));
+    return () => obs.disconnect();
+  }, [items.length]);
 
   return (
     <section id={String(content.id ?? "sluzby")} style={{ backgroundColor: BG, fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 56 }}>
-          <p style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 12px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{ color: DARK, fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div style={{ marginBottom: 56, maxWidth: 640 }}>
+            {tagline.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ display: "block", width: 30, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                  style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", margin: 0 }} />
+              </div>
+            )}
+            {title.trim() && (
+              <h2 style={{ color: DARK, fontSize: "clamp(28px,4vw,48px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0, whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p style={{ color: GRAY, fontSize: "1.02rem", lineHeight: 1.7, margin: "18px 0 0" }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Cards grid */}
-        <div className="stavba-services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
+        <div ref={gridRef} className="stavba-services-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }}>
           {items.map((item, i) => (
             <div
               key={i}
-              style={{ backgroundColor: "#ffffff", borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column", boxShadow: "0 1px 3px rgba(0,0,0,0.06)", transition: "transform 0.22s ease, box-shadow 0.22s ease" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 12px 36px rgba(0,0,0,0.10)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 1px 3px rgba(0,0,0,0.06)"; }}
+              className="s01-svc-card"
+              style={{ backgroundColor: "#ffffff", borderRadius: 16, overflow: "hidden", display: "flex", flexDirection: "column", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
             >
               {/* Image */}
               {item.image && (
                 <div style={{ position: "relative", aspectRatio: "16/10", overflow: "hidden" }}>
-                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-                    <Image src={item.image} alt={item.name} fill className="object-cover" sizes="(max-width:768px) 100vw, 25vw" unoptimized={shouldSkipNextImageOptimization(item.image)} />
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+                    <Image src={item.image} alt={item.name} fill className="object-cover s01-svc-img" sizes="(max-width:768px) 100vw, 25vw" unoptimized={shouldSkipNextImageOptimization(item.image)} />
                   </GenericEditableImage>
-                  {/* Orange accent bar */}
-                  <div style={{ position: "absolute", bottom: 0, left: 0, width: 48, height: 4, backgroundColor: ORANGE }} />
+                  {/* Orange accent bar (widens on hover) */}
+                  <div className="s01-svc-bar" style={{ position: "absolute", bottom: 0, left: 0, width: 48, height: 4, backgroundColor: ORANGE, zIndex: 1 }} />
                 </div>
               )}
 
               {/* Body */}
-              <div style={{ padding: "24px 24px 20px", display: "flex", flexDirection: "column", flex: 1, gap: 10 }}>
-                <h3 style={{ color: DARK, fontSize: "1.05rem", fontWeight: 700, margin: 0, lineHeight: 1.3 }}>
+              <div style={{ padding: "24px 24px 22px", display: "flex", flexDirection: "column", flex: 1, gap: 10 }}>
+                <h3 className="s01-svc-title" style={{ color: DARK, fontSize: "1.05rem", fontWeight: 700, margin: 0, lineHeight: 1.3 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
                 </h3>
                 <p style={{ color: GRAY, fontSize: "0.875rem", lineHeight: 1.65, margin: 0, flex: 1 }}>
@@ -7144,11 +7489,10 @@ function ServicesStavba01({ content, sectionId }: { content: Record<string, unkn
                 </p>
                 {item.ctaText && item.ctaHref && (
                   <a
-                    href={item.ctaHref}
+                    href={resolve(item.ctaHref)}
                     data-btn="primary"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 5, color: ORANGE, fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", textDecoration: "none", marginTop: 6, transition: "gap 0.15s" }}
-                    onMouseEnter={e => { e.currentTarget.style.gap = "9px"; }}
-                    onMouseLeave={e => { e.currentTarget.style.gap = "5px"; }}
+                    className="s01-svc-link"
+                    style={{ display: "inline-flex", alignItems: "center", gap: 7, color: ORANGE, fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", textDecoration: "none", marginTop: 6 }}
                   >
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -7170,17 +7514,25 @@ function ServicesStavba01({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-function ServicesLegal02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ServicesLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = content as Record<string, unknown>;
 
   const NAVY  = "#143171";
   const FONT_B = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
-  const FONT_R = "'bw_gradualregular', 'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_R = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const title    = (c.title    as string) ?? "Profesionální právní servis ve všech směrech";
-  const subtitle = (c.subtitle as string) ?? "Jdeme do hloubky a díky tomu jsme rádci, průvodci i rovnocenní partneři.";
-  const ctaText  = (c.ctaText  as string) ?? "Zobrazit další";
-  const ctaHref  = (c.ctaHref  as string) ?? "/sluzby";
+  const eyebrowRaw  = c.eyebrow;
+  const titleRaw    = c.title;
+  const subtitleRaw = c.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Naše specializace" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Komplexní právní péče\nve všech oblastech" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Specializujeme se tam, kde se věci komplikují — a přinášíme řešení, která obstojí." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const ctaText  = String(c.ctaText  ?? "Zobrazit všechny služby");
+  const ctaHref  = String(c.ctaHref  ?? "/sluzby");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   type Group = { name: string; items: string[] };
   const groups: Group[] = Array.isArray(c.groups) ? (c.groups as Group[]) : [
@@ -7188,62 +7540,70 @@ function ServicesLegal02({ content, sectionId }: { content: Record<string, unkno
     { name: "Specializace",  items: ["Arbitráže", "Bankovní a finanční právo", "Daně a daňové spory", "Duševní vlastnictví", "Energetika a životní prostředí", "Fúze, akvizice a korporátní právo"] },
   ];
 
+  const Arrow = () => (
+    <svg className="l02s-item-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  );
+
   return (
-    <section data-variant="legal-02-services" style={{ backgroundColor: "#fff", padding: "80px 0" }}>
+    <section id="sluzby" data-template="legal-02" style={{ backgroundColor: "#fff", padding: "clamp(72px,9vw,110px) 0" }}>
       <style>{`
         @font-face { font-family:'bw_gradualbold';    src:url('/templates/legal-02/bwgradual-bold-webfont.woff2')    format('woff2'); font-display:swap; }
         @font-face { font-family:'bw_gradualregular'; src:url('/templates/legal-02/bwgradual-regular-webfont.woff2') format('woff2'); font-display:swap; }
-        .l02s-item a {
-          color: #EB5C2E; padding: 24px 32px;
-          text-decoration: none; display: block;
-          transition: background .15s, color .15s;
-        }
-        .l02s-item a:hover { background: #EB5C2E; color: #fff; }
-        .l02s-cta {
-          display: inline-flex; align-items: center; gap: 10px;
-          border: 2px solid #143171; border-radius: 30px;
-          color: #143171; padding: 14px 40px; margin-top: 24px;
-          font-family: 'bw_gradualbold', 'Montserrat', sans-serif; font-size: 17px;
-          text-decoration: none; transition: background .2s, color .2s;
-        }
-        .l02s-cta:hover { background: #143171; color: #fff; }
         @media (max-width: 768px) {
-          .l02s-groups { flex-direction: column !important; }
+          .l02s-groups { flex-direction: column !important; gap: 44px !important; }
           .l02s-group  { width: 100% !important; }
+          .l02s-outer  { padding-left: 24px !important; padding-right: 24px !important; }
         }
       `}</style>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px" }}>
+      <div className="l02s-outer" style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px" }}>
 
         {/* Header */}
-        <div style={{ maxWidth: 700, marginBottom: 64 }}>
-          <h2 style={{ fontFamily: FONT_B, fontSize: 48, lineHeight: "56px", color: NAVY, margin: "0 0 24px" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p style={{ fontFamily: FONT_R, fontSize: 20, lineHeight: 1.6, color: "#4b5563", margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        </div>
+        {showHeader && (
+          <div style={{ maxWidth: 760, marginBottom: 64 }}>
+            {eyebrow.trim() && (
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+                <span style={{ width: 40, height: 2, background: "#EB5C2E", display: "block" }} />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                  style={{ fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: "#EB5C2E", margin: 0 }} />
+              </div>
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                style={{ fontFamily: FONT_B, fontSize: "clamp(32px,3.8vw,48px)", lineHeight: 1.1, color: NAVY, margin: "0 0 22px", whiteSpace: "pre-line", letterSpacing: "-0.01em" }} />
+            )}
+            {subtitle.trim() && (
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+                style={{ fontFamily: FONT_R, fontSize: 19, lineHeight: 1.6, color: "#4b5563", margin: 0 }} />
+            )}
+          </div>
+        )}
 
         {/* Two-column groups */}
-        <div className="l02s-groups" style={{ display: "flex", gap: 24 }}>
+        <div className="l02s-groups" style={{ display: "flex", gap: 56 }}>
           {groups.map((group, gi) => (
             <div key={gi} className="l02s-group" style={{ width: "50%" }}>
-              <h3 style={{ fontFamily: FONT_B, fontSize: 32, lineHeight: "40px", color: NAVY, margin: "0 0 24px" }}>
-                {group.name}
+              <h3 className="l02s-group-head" style={{ fontFamily: FONT_B, fontSize: "clamp(24px,2.4vw,30px)", lineHeight: 1.2, color: NAVY, margin: "0 0 26px" }}>
+                <GenericEditableText sectionId={sectionId} field={`groups.${gi}.name`} value={group.name} tag="span" />
               </h3>
-              <ul style={{ listStyle: "none", margin: "0 0 16px", padding: 0 }}>
+              <ul style={{ listStyle: "none", margin: "0 0 20px", padding: 0, borderTop: "1px solid #e3e7ef" }}>
                 {group.items.map((item, ii) => (
-                  <li key={ii} className="l02s-item" style={{ background: "#ECEFF4", marginBottom: 8 }}>
-                    <a href={ctaHref} data-btn="primary">{item}</a>
+                  <li key={ii} className="l02s-item">
+                    <a href={resolve(ctaHref)}>
+                      <GenericEditableText sectionId={sectionId} field={`groups.${gi}.items.${ii}`} value={item} tag="span" />
+                      <Arrow />
+                    </a>
                   </li>
                 ))}
               </ul>
               {/* CTA only on last group */}
               {gi === groups.length - 1 && (
-                <a href={ctaHref} data-btn="primary" className="l02s-cta">
-                  {ctaText}
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <a href={resolve(ctaHref)} data-btn="primary" className="l02s-cta"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `2px solid ${NAVY}`, borderRadius: 40, color: NAVY, padding: "15px 42px", marginTop: 10, fontFamily: FONT_B, fontSize: 17, textDecoration: "none" }}>
+                  <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                     <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </a>
@@ -7252,6 +7612,108 @@ function ServicesLegal02({ content, sectionId }: { content: Record<string, unkno
           ))}
         </div>
 
+      </div>
+    </section>
+  );
+}
+
+// ── legal-02-career ── kariérní stránka: lead + benefity + otevřené pozice ───────
+function CareerLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as Record<string, unknown>;
+  const NAVY  = "#143171";
+  const ORANGE = "#EB5C2E";
+  const FONT_B = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_R = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const lead = String(c.lead ?? "V DOLEŽAL & PARTNEŘI stavíme na lidech. Nabízíme prostředí, kde talentovaní právníci rostou po boku zkušených partnerů, pracují na významných kauzách předních klientů a mají reálný vliv na výsledek.");
+  const benefitsTitle = String(c.benefitsTitle ?? "Proč pracovat u nás");
+  const positionsTitle = String(c.positionsTitle ?? "Otevřené pozice");
+  const applyLabel = String(c.applyLabel ?? "Mám zájem");
+  const ctaHref = String(c.ctaHref ?? "/kontakt");
+
+  type Benefit = { icon?: string; title?: string; text?: string };
+  const benefits: Benefit[] = Array.isArray(c.benefits) ? c.benefits as Benefit[] : [
+    { icon: "growth", title: "Kariérní růst", text: "Jasná cesta od koncipienta k partnerovi s pravidelným hodnocením a mentoringem." },
+    { icon: "cases",  title: "Významné kauzy", text: "Přeshraniční transakce, arbitráže a regulatorní řízení pro přední klienty." },
+    { icon: "learn",  title: "Vzdělávání", text: "Interní akademie, konference a plně hrazené odborné certifikace." },
+    { icon: "balance",title: "Rovnováha", text: "Flexibilní režim, 5 týdnů dovolené a péče o duševní i fyzickou pohodu." },
+  ];
+
+  type Position = { title?: string; location?: string; type?: string };
+  const positions: Position[] = Array.isArray(c.positions) ? c.positions as Position[] : [
+    { title: "Advokátní koncipient/ka — Korporátní právo", location: "Praha", type: "Plný úvazek" },
+    { title: "Senior advokát/ka — Soutěžní právo",          location: "Praha", type: "Plný úvazek" },
+    { title: "Paralegal — Insolvence",                       location: "Praha", type: "Plný / částečný" },
+    { title: "Studentská stáž — Právní tým",                 location: "Praha", type: "Stáž" },
+  ];
+
+  const BIcon = ({ icon }: { icon?: string }) => {
+    const p = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
+    if (icon === "growth")  return <svg {...p}><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>;
+    if (icon === "cases")   return <svg {...p}><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>;
+    if (icon === "learn")   return <svg {...p}><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2 3 6 3s6-2 6-3v-5"/></svg>;
+    return <svg {...p}><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>;
+  };
+
+  return (
+    <section id="kariera" data-template="legal-02" style={{ backgroundColor: "#fff", padding: "clamp(64px,8vw,96px) 0" }}>
+      <style>{`
+        @font-face { font-family:'bw_gradualbold'; src:url('/templates/legal-02/bwgradual-bold-webfont.woff2') format('woff2'); font-display:swap; }
+        .l02k-benefits { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+        .l02k-pos { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px 30px; border:1px solid #e3e7ef; background:#fff; }
+        @media (max-width:900px){ .l02k-benefits { grid-template-columns:repeat(2,1fr); } .l02k-outer { padding-left:24px !important; padding-right:24px !important; } }
+        @media (max-width:620px){ .l02k-benefits { grid-template-columns:1fr; } .l02k-pos { flex-direction:column; align-items:flex-start; } }
+      `}</style>
+
+      <div className="l02k-outer" style={{ maxWidth: 1180, margin: "0 auto", padding: "0 80px" }}>
+        {/* Lead */}
+        <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="p"
+          style={{ fontFamily: FONT_R, fontSize: "clamp(19px,2vw,25px)", lineHeight: 1.55, color: NAVY, margin: "0 0 64px", maxWidth: 860, fontWeight: 400 }} />
+
+        {/* Benefits */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+          <span style={{ width: 40, height: 2, background: ORANGE, display: "block" }} />
+          <GenericEditableText sectionId={sectionId} field="benefitsTitle" value={benefitsTitle} tag="p"
+            style={{ fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: ORANGE, margin: 0 }} />
+        </div>
+        <div className="l02k-benefits" style={{ marginBottom: 72 }}>
+          {benefits.map((b, i) => (
+            <div key={i} className="l02k-benefit" style={{ padding: "32px 26px", background: "#F6F8FB", borderTop: `3px solid ${ORANGE}` }}>
+              <span style={{ color: ORANGE, display: "block", marginBottom: 18 }}><BIcon icon={b.icon} /></span>
+              <GenericEditableText sectionId={sectionId} field={`benefits.${i}.title`} value={b.title ?? ""} tag="h3"
+                style={{ fontFamily: FONT_B, fontSize: 19, lineHeight: 1.25, color: NAVY, margin: "0 0 10px" }} />
+              <GenericEditableText sectionId={sectionId} field={`benefits.${i}.text`} value={b.text ?? ""} tag="p"
+                style={{ fontFamily: FONT_R, fontSize: 14.5, lineHeight: 1.6, color: "#6b7280", margin: 0 }} />
+            </div>
+          ))}
+        </div>
+
+        {/* Positions */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+          <span style={{ width: 40, height: 2, background: ORANGE, display: "block" }} />
+          <GenericEditableText sectionId={sectionId} field="positionsTitle" value={positionsTitle} tag="p"
+            style={{ fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: ORANGE, margin: 0 }} />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {positions.map((p, i) => (
+            <div key={i} className="l02k-pos">
+              <div>
+                <GenericEditableText sectionId={sectionId} field={`positions.${i}.title`} value={p.title ?? ""} tag="h3"
+                  style={{ fontFamily: FONT_B, fontSize: 19, lineHeight: 1.3, color: NAVY, margin: "0 0 6px" }} />
+                <p style={{ fontFamily: FONT_R, fontSize: 14, color: "#6b7280", margin: 0, display: "flex", gap: 16, flexWrap: "wrap" }}>
+                  <GenericEditableText sectionId={sectionId} field={`positions.${i}.location`} value={p.location ?? ""} tag="span" />
+                  <GenericEditableText sectionId={sectionId} field={`positions.${i}.type`} value={p.type ?? ""} tag="span" style={{ color: ORANGE }} />
+                </p>
+              </div>
+              <a href={resolve(ctaHref)} className="l02k-apply" style={{ flexShrink: 0, display: "inline-flex", alignItems: "center", gap: 8, border: `2px solid ${NAVY}`, borderRadius: 40, color: NAVY, padding: "12px 28px", fontFamily: FONT_B, fontSize: 15, textDecoration: "none" }}>
+                <GenericEditableText sectionId={sectionId} field="applyLabel" value={applyLabel} tag="span" />
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -8689,86 +9151,114 @@ function ServicesKids01({
 }
 
 // ── vet-01-services ───────────────────────────────────────────────────────────
-// 1:1 veterinafenix.cz:
-// - Bg #DCE9EE + texture, padding 150px top / 113px bottom
-// - Wave shape dividers top + bottom (bílé)
-// - Forum H2 50px #477A88 centrovaně + popis text
-// - 4-col 2×2 ikona karty: PNG ikona 70px + Forum H3 #0D7486 + popis
-//   (2 vpravo-zarovnané, 2 vlevo-zarovnané — vizuálně symetrické)
-// - Fullwidth popis blok + teal CTA dole
+// Luxe povýšení (vychází z veterinafenix.cz — bílý header + vlněná teal sekce):
+// - Inline teal SVG ikony v soft gradient badge kruzích (bez PNG leakage)
+// - Karty: hover lift + rostoucí teal accent bar + icon breathe + arrow nudge
+// - Conditional header (showHeader) pro reuse na /sluzby podstránce
+// - Pill CTA s šipkou, refined wave dividery
 // ─────────────────────────────────────────────────────────────────────────────
-function ServicesVet01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ServicesVet01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const TEAL    = "#0D7486";
-  const HEADING = "#477A88";
+  const PRIMARY = "#286C7E";
+  const ACCENT  = "#42aaba";
+  const HEADING = "#2c6270";
   const BG      = "#DCE9EE";
   const FONT    = "'Forum', 'Georgia', serif";
   const BODY    = "'Roboto Condensed', 'Roboto', sans-serif";
 
-  const kicker   = String(content.kicker   ?? "Co nabízíme");
-  const heading  = String(content.heading  ?? "Naše služby");
-  const body     = String(content.body     ?? "Na naší klinice poskytujeme širokou škálu služeb, včetně diagnostiky, prevence, chirurgické léčby a denní hospitalizace.");
-  const ctaText  = String(content.ctaText  ?? "Více informací");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const rawItems = (content.items as Array<{ title?: string; name?: string; description?: string; iconUrl?: string }>) ?? [];
+  const kickerRaw  = content.kicker;
+  const headingRaw = content.heading;
+  const bodyRaw    = content.body;
+  const kicker  = kickerRaw  === undefined ? "Co nabízíme" : String(kickerRaw);
+  const heading = headingRaw === undefined ? "Co u nás najdete" : String(headingRaw);
+  const body    = bodyRaw    === undefined ? "Poskytujeme kompletní veterinární péči pod jednou střechou — od preventivních prohlídek přes moderní diagnostiku až po chirurgické zákroky a pooperační péči." : String(bodyRaw);
+  const showHeader = !!(kicker.trim() || heading.trim());
+  const showBody   = !!body.trim();
 
+  const ctaText  = String(content.ctaText  ?? "Objednat prohlídku");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => {
+    if (!href) return href;
+    if (href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) return href;
+    if (!tenantSlug || !href.startsWith("/")) return href;
+    if (siteMode === "onepage" && href !== "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}/#${href.replace(/^\//, "")}`;
+    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href === "/" ? "" : href}`;
+  };
+
+  const rawItems = (content.items as Array<{ title?: string; name?: string; description?: string; iconUrl?: string }>) ?? [];
   const DEFAULT_ITEMS = [
-    { title: "Diagnostika",   description: "Komplexní vyšetření s využitím laboratorního vybavení přímo na klinice.", iconUrl: "/clones/veterinafenix/img/icon-vet.png" },
-    { title: "Prevence",      description: "Očkování, preventivní prohlídky, poradenství v oblasti péče o domácí zvířata.", iconUrl: "/clones/veterinafenix/img/icon-vet-2.png" },
-    { title: "Chirurgie",     description: "Plánované i urgentní operace, bezpečné metody sedace.", iconUrl: "/clones/veterinafenix/img/icon-vet-03.png" },
-    { title: "Hospitalizace", description: "Denní stacionář s individuálními boxy, kde se zvířata cítí bezpečně.", iconUrl: "/clones/veterinafenix/img/icon-vet-4.png" },
+    { title: "Diagnostika",   description: "Laboratoř přímo na klinice, ultrazvuk, RTG a digitální zobrazovací metody pro rychlou a přesnou diagnózu." },
+    { title: "Prevence",      description: "Vakcinace, odčervení, čipování a pravidelné preventivní prohlídky pro dlouhý a zdravý život vašeho mazlíčka." },
+    { title: "Chirurgie",     description: "Plánované i urgentní operace v moderně vybaveném sále s bezpečnou anestezií a monitoringem EKG." },
+    { title: "Hospitalizace", description: "Klidné boxy s individuálním přístupem, průběžné monitorování a pravidelné hlášení majiteli." },
   ];
   const items = rawItems.length > 0 ? rawItems : DEFAULT_ITEMS;
 
+  // Inline vet SVG ikony (cyklují dle indexu): diagnostika / prevence / chirurgie / hospitalizace
+  const ICONS = [
+    // Stetoskop (diagnostika)
+    (<><path d="M4.5 4.5v5a5 5 0 0 0 10 0v-5"/><path d="M2.5 4.5h4M12.5 4.5h4"/><path d="M9.5 14.5v2.5a4 4 0 0 0 8 0v-1"/><circle cx="18.5" cy="14" r="2.2"/></>),
+    // Štít s křížkem (prevence)
+    (<><path d="M12 3l7 3v5c0 4.5-3 8-7 9.5C8 19 5 15.5 5 11V6z"/><path d="M12 8.5v5M9.5 11h5"/></>),
+    // Skalpel / activity (chirurgie)
+    (<><path d="M3 12h4l2.5 6 4-13 2.5 7H21"/></>),
+    // Srdce s pulzem (hospitalizace)
+    (<><path d="M20.8 8.6a4.6 4.6 0 0 0-8-3.1 4.6 4.6 0 0 0-8 3.1C4.8 13 12 19 12 19s7.2-6 8.8-10.4z"/><path d="M7.5 11.5h2l1.5-2.5 2 5 1.2-2.5h2.3"/></>),
+  ];
+
   return (
-    <div id={String(sectionId)} data-template="vet-01-services" style={{ fontFamily: BODY }}>
+    <section id="sluzby" data-template="vet-01-services" style={{ fontFamily: BODY }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
       <style>{`
-        /* White header block */
-        .vet01srv-header{background:#fff;padding:72px 32px 56px;text-align:center;}
-        .vet01srv-header-inner{max-width:800px;margin:0 auto;}
-        .vet01srv-kicker{font-family:${BODY};font-size:13px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:${TEAL};margin:0 0 12px;}
-        .vet01srv-heading{font-family:${FONT};font-size:clamp(32px,4vw,50px);font-weight:500;color:${HEADING};margin:0 0 10px;}
-        .vet01srv-divider{width:52px;height:3px;background:${TEAL};border-radius:2px;margin:0 auto;}
-        /* Teal section */
-        .vet01srv-body-section{position:relative;background:${BG};}
-        .vet01srv-wave-top{position:absolute;top:0;left:0;right:0;overflow:hidden;line-height:0;}
-        .vet01srv-wave-top svg{display:block;width:100%;height:70px;}
-        .vet01srv-wave-bot{position:absolute;bottom:0;left:0;right:0;overflow:hidden;line-height:0;}
-        .vet01srv-wave-bot svg{display:block;width:100%;height:60px;}
-        .vet01srv-inner{max-width:1200px;margin:0 auto;padding:96px 32px 96px;}
-        /* Cards grid */
-        .vet01srv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin:0 0 52px;}
-        @media(max-width:900px){.vet01srv-grid{grid-template-columns:repeat(2,1fr);gap:24px;}}
-        @media(max-width:520px){.vet01srv-grid{grid-template-columns:1fr;gap:20px;}}
-        .vet01srv-card{background:#fff;border-radius:8px;padding:28px 20px 24px;text-align:center;box-shadow:0 2px 12px rgba(13,116,134,0.08);transition:box-shadow 0.2s,transform 0.2s;}
-        .vet01srv-card:hover{box-shadow:0 6px 24px rgba(13,116,134,0.16);transform:translateY(-3px);}
-        .vet01srv-card img{width:70px;height:70px;object-fit:contain;margin:0 auto 16px;}
-        .vet01srv-card-title{font-family:${FONT};font-size:22px;font-weight:500;color:${TEAL};margin:0 0 10px;}
-        .vet01srv-card-desc{font-size:15px;color:#555;line-height:1.6;margin:0;}
-        .vet01srv-body{text-align:center;font-size:16px;color:#444;line-height:1.7;max-width:780px;margin:0 auto 32px;}
-        .vet01srv-cta{display:inline-block;padding:12px 32px;background:${TEAL};color:#fff;border-radius:6px;font-family:${FONT};font-size:18px;text-decoration:none;transition:background 0.2s;}
-        .vet01srv-cta:hover{background:#286C7E;}
+        .vet01srv-header{background:#fff;padding:78px 32px 60px;text-align:center;}
+        .vet01srv-header-inner{max-width:820px;margin:0 auto;}
+        .vet01srv-kicker{display:inline-flex;align-items:center;gap:9px;font-family:${BODY};font-size:13px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:${TEAL};margin:0 0 14px;}
+        .vet01srv-kicker svg{color:${ACCENT};}
+        .vet01srv-heading{font-family:${FONT};font-size:clamp(32px,4.2vw,52px);font-weight:400;color:${HEADING};margin:0 0 16px;line-height:1.1;}
+        .vet01srv-divider{width:60px;height:3px;background:linear-gradient(90deg,${TEAL},${ACCENT});border-radius:2px;margin:0 auto;}
+        .vet01srv-body-section{position:relative;background:linear-gradient(180deg,${BG},#e8f1f4);}
+        .vet01srv-wave-top,.vet01srv-wave-bot{position:absolute;left:0;right:0;overflow:hidden;line-height:0;z-index:1;}
+        .vet01srv-wave-top{top:0;}.vet01srv-wave-top svg{display:block;width:100%;height:70px;}
+        .vet01srv-wave-bot{bottom:0;}.vet01srv-wave-bot svg{display:block;width:100%;height:60px;}
+        .vet01srv-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:104px 32px 100px;}
+        .vet01srv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin:0 0 48px;}
+        @media(max-width:900px){.vet01srv-grid{grid-template-columns:repeat(2,1fr);gap:22px;}}
+        @media(max-width:520px){.vet01srv-grid{grid-template-columns:1fr;gap:18px;}}
+        .vet01srv-card{position:relative;background:#fff;border-radius:16px;padding:34px 24px 30px;text-align:center;box-shadow:0 4px 20px rgba(13,116,134,0.09);overflow:hidden;transition:box-shadow 0.35s cubic-bezier(.4,0,.2,1),transform 0.35s cubic-bezier(.4,0,.2,1);}
+        .vet01srv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,${TEAL},${ACCENT});transform:scaleX(0);transform-origin:left;transition:transform 0.4s cubic-bezier(.4,0,.2,1);}
+        .vet01srv-card:hover{box-shadow:0 16px 40px rgba(13,116,134,0.2);transform:translateY(-8px);}
+        .vet01srv-card:hover::before{transform:scaleX(1);}
+        .vet01srv-badge{width:72px;height:72px;border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;background:linear-gradient(140deg,#e6f3f5,#d4e9ee);color:${TEAL};transition:transform 0.4s cubic-bezier(.34,1.4,.64,1),background 0.35s,color 0.35s;}
+        .vet01srv-card:hover .vet01srv-badge{background:linear-gradient(140deg,${TEAL},${PRIMARY});color:#fff;transform:translateY(-4px) rotate(-4deg) scale(1.06);}
+        .vet01srv-card-title{font-family:${FONT};font-size:23px;font-weight:400;color:${TEAL};margin:0 0 12px;}
+        .vet01srv-card-desc{font-size:15px;color:#5d6b6e;line-height:1.65;margin:0;}
+        .vet01srv-body{text-align:center;font-size:17px;color:#3f5157;line-height:1.75;max-width:800px;margin:0 auto 34px;}
         .vet01srv-cta-wrap{text-align:center;}
+        .vet01srv-cta{display:inline-flex;align-items:center;gap:10px;padding:15px 34px;background:linear-gradient(135deg,${TEAL},${PRIMARY});color:#fff;border-radius:50px;font-family:${BODY};font-size:17px;font-weight:600;letter-spacing:0.01em;text-decoration:none;box-shadow:0 10px 26px rgba(13,116,134,0.28);transition:transform 0.28s cubic-bezier(.4,0,.2,1),box-shadow 0.28s;}
+        .vet01srv-cta svg{transition:transform 0.28s ease;}
+        .vet01srv-cta:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(13,116,134,0.4);}
+        .vet01srv-cta:hover svg{transform:translateX(4px);}
       `}</style>
 
-      {/* Bílý blok: kicker + heading + divider */}
-      <div className="vet01srv-header">
-        <div className="vet01srv-header-inner">
-          <p className="vet01srv-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="vet01srv-heading">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          <div className="vet01srv-divider" />
+      {showHeader && (
+        <div className="vet01srv-header">
+          <div className="vet01srv-header-inner">
+            <p className="vet01srv-kicker">
+              <svg width="15" height="15" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="vet01srv-heading">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <div className="vet01srv-divider" />
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Teal sekce s vlnami */}
       <div className="vet01srv-body-section">
         <div className="vet01srv-wave-top">
-          <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 C360,70 1080,70 1440,0 L1440,0 L0,0 Z" fill="#ffffff"/>
-          </svg>
+          <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 C360,70 1080,70 1440,0 L1440,0 L0,0 Z" fill="#ffffff"/></svg>
         </div>
 
         <div className="vet01srv-inner">
@@ -8776,43 +9266,43 @@ function ServicesVet01({ content, sectionId }: { content: Record<string, unknown
             {items.map((item, i) => {
               const label = item.title ?? ("name" in item ? (item as { name?: string }).name : undefined) ?? "";
               return (
-              <div key={i} className="vet01srv-card">
-                {item.iconUrl && (
-                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.iconUrl`} src={item.iconUrl} alt={label} style={{ display: "block", margin: "0 auto 16px" }}>
-                    <img loading="lazy" src={item.iconUrl} alt={label} style={{ width: 70, height: 70, objectFit: "contain", display: "block", margin: "0 auto" }} />
-                  </GenericEditableImage>
-                )}
-                <div className="vet01srv-card-title">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={label} tag="span" />
+                <div key={i} className="vet01srv-card">
+                  <div className="vet01srv-badge">
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      {ICONS[i % ICONS.length]}
+                    </svg>
+                  </div>
+                  <div className="vet01srv-card-title">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={label} tag="span" />
+                  </div>
+                  {item.description && (
+                    <p className="vet01srv-card-desc">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
+                    </p>
+                  )}
                 </div>
-                {item.description && (
-                  <p className="vet01srv-card-desc">
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
-                  </p>
-                )}
-              </div>
-            );
+              );
             })}
           </div>
 
-          <p className="vet01srv-body">
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
+          {showBody && (
+            <p className="vet01srv-body">
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          )}
           <div className="vet01srv-cta-wrap">
-            <a href={ctaHref} data-btn="primary" className="vet01srv-cta">
+            <a href={resolve(ctaHref)} className="vet01srv-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
           </div>
         </div>
 
-      {/* Wave bottom */}
-      <div className="vet01srv-wave-bot">
-        <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,70 C360,0 1080,0 1440,70 L1440,70 L0,70 Z" fill="#ffffff"/>
-        </svg>
+        <div className="vet01srv-wave-bot">
+          <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,70 C360,0 1080,0 1440,70 L1440,70 L0,70 Z" fill="#ffffff"/></svg>
+        </div>
       </div>
-      </div>{/* /vet01srv-body-section */}
-    </div>
+    </section>
   );
 }
 
@@ -8956,50 +9446,37 @@ function PricingGrooming01({ content, sectionId }: { content: Record<string, unk
   type Col       = { heading?: string; items?: PriceItem[] };
   type SvcType   = { label?: string };
 
-  const heading      = String(content.heading ?? "Služby a ceník");
-  const kicker       = String(content.kicker  ?? "Ceník");
-  const serviceTypes = (content.serviceTypes as SvcType[]) ?? [{ label: "Full service" }, { label: "Trimování" }];
+  const eyebrowRaw = (content as Record<string, unknown>).kicker;
+  const titleRaw   = (content as Record<string, unknown>).heading;
+  const kicker       = eyebrowRaw === undefined ? "Ceník" : String(eyebrowRaw);
+  const heading      = titleRaw   === undefined ? "Služby a ceník" : String(titleRaw);
+  const subtitleRaw  = (content as Record<string, unknown>).subtitle;
+  const subtitle     = subtitleRaw === undefined ? "Ceny se řídí velikostí plemene a stavem srsti. Přesnou kalkulaci vám rádi potvrdíme při rezervaci." : String(subtitleRaw);
+  const showHeader   = !!(kicker.trim() || heading.trim() || subtitle.trim());
+  const serviceTypes = (content.serviceTypes as SvcType[]) ?? [{ label: "Kompletní péče" }, { label: "Trimování" }];
   const cols         = (content.cols     as Col[]) ?? [];
   const trimCols     = (content.trimCols as Col[]) ?? [];
   const activeCols   = activeTab === 0 ? cols : trimCols;
+  const activeKey    = activeTab === 0 ? "cols" : "trimCols";
 
   return (
-    <section id="sluzby-a-cenik" data-template="grooming-01-pricing" style={{ background: "#fff", borderBottom: "2px solid #f5f5f5", fontFamily: FONT }}>
-      <style>{`
-        .gr01pr-inner{max-width:1200px;margin:0 auto;padding:80px 40px;}
-        .gr01pr-header{margin-bottom:36px;}
-        .gr01pr-kicker{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${GOLD};margin:0 0 10px;}
-        .gr01pr-h2{font-size:clamp(28px,3.5vw,44px);font-weight:700;color:${DARK};margin:0;}
-        .gr01pr-tabs{display:flex;margin-bottom:40px;border-bottom:2px solid #eee;}
-        .gr01pr-tab{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;padding:14px 0;margin-right:40px;color:#bbb;cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;background:none;transition:color 0.2s,border-color 0.2s;}
-        .gr01pr-tab.active{color:${GOLD};border-bottom-color:${GOLD};}
-        .gr01pr-tab:hover:not(.active){color:${DARK};}
-        .gr01pr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 48px;}
-        .gr01pr-col-head{font-size:14px;font-weight:600;color:${DARK};margin:0 0 4px;padding-bottom:16px;border-bottom:2px solid #eee;}
-        .gr01pr-item{display:flex;align-items:center;border-bottom:2px solid #eee;padding:22px 0;position:relative;overflow:hidden;}
-        .gr01pr-item:last-child{border-bottom:none;}
-        .gr01pr-num{color:${GOLD};font-weight:700;font-size:13px;margin-right:10px;min-width:22px;flex-shrink:0;}
-        .gr01pr-name{flex:1;font-size:16px;font-weight:500;color:${DARK};line-height:1.3;}
-        .gr01pr-price{font-size:15px;font-weight:600;color:${DARK};white-space:nowrap;margin-left:12px;transition:opacity 0.15s;}
-        .gr01pr-breed-wrap{position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:72px;height:72px;transition:opacity 0.25s,right 0.25s;opacity:0;pointer-events:none;}
-        .gr01pr-item:hover .gr01pr-breed-wrap{opacity:1;right:4px;}
-        .gr01pr-item:hover .gr01pr-price{opacity:0;}
-        .gr01pr-breed{width:100%;height:100%;object-fit:contain;display:block;}
-        @media(max-width:800px){
-          .gr01pr-grid{grid-template-columns:1fr;}
-          .gr01pr-inner{padding:56px 24px;}
-        }
-      `}</style>
-
+    <section id="sluzby-a-cenik" data-template="grooming-01-pricing" style={{ fontFamily: FONT }}>
       <div className="gr01pr-inner">
-        <div className="gr01pr-header">
-          <p className="gr01pr-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="gr01pr-h2">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div className="gr01pr-header">
+            <p className="gr01pr-kicker">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="gr01pr-h2">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            {subtitle.trim() && (
+              <p className="gr01pr-sub">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         {serviceTypes.length > 1 && (
           <div className="gr01pr-tabs" role="tablist">
@@ -9011,7 +9488,7 @@ function PricingGrooming01({ content, sectionId }: { content: Record<string, unk
                 role="tab"
                 aria-selected={activeTab === i}
               >
-                {t.label ?? `Tab ${i + 1}`}
+                <GenericEditableText sectionId={sectionId} field={`serviceTypes.${i}.label`} value={t.label ?? `Služba ${i + 1}`} tag="span" />
               </button>
             ))}
           </div>
@@ -9019,28 +9496,32 @@ function PricingGrooming01({ content, sectionId }: { content: Record<string, unk
 
         <div className="gr01pr-grid">
           {activeCols.map((col, ci) => (
-            <div key={ci}>
-              {col.heading && <h3 className="gr01pr-col-head">{col.heading}</h3>}
+            <div key={ci} className="gr01pr-col">
+              {col.heading && (
+                <h3 className="gr01pr-col-head">
+                  <GenericEditableText sectionId={sectionId} field={`${activeKey}.${ci}.heading`} value={col.heading} tag="span" />
+                </h3>
+              )}
               <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
                 {(col.items ?? []).map((item, ii) => (
                   <li key={ii} className="gr01pr-item">
-                    {item.num && <span className="gr01pr-num">{item.num}</span>}
+                    <span className="gr01pr-accent" aria-hidden="true" />
                     <span className="gr01pr-name">
-                      <GenericEditableText sectionId={sectionId} field={`cols.${ci}.items.${ii}.name`} value={item.name ?? ""} tag="span" />
-                    </span>
-                    <span className="gr01pr-price">
-                      <GenericEditableText sectionId={sectionId} field={`cols.${ci}.items.${ii}.price`} value={item.price ?? ""} tag="span" />
+                      <GenericEditableText sectionId={sectionId} field={`${activeKey}.${ci}.items.${ii}.name`} value={item.name ?? ""} tag="span" />
                     </span>
                     {item.imageUrl && (
                       <GenericEditableImage
                         sectionId={sectionId}
-                        field={`${activeTab === 0 ? "cols" : "trimCols"}.${ci}.items.${ii}.imageUrl`}
+                        field={`${activeKey}.${ci}.items.${ii}.imageUrl`}
                         src={item.imageUrl}
                         className="gr01pr-breed-wrap"
                       >
-                        <img loading="lazy" src={item.imageUrl} alt="" className="gr01pr-breed" aria-hidden="true" />
+                        <img loading="lazy" src={item.imageUrl} alt={item.name ?? ""} className="gr01pr-breed" />
                       </GenericEditableImage>
                     )}
+                    <span className="gr01pr-price">
+                      <GenericEditableText sectionId={sectionId} field={`${activeKey}.${ci}.items.${ii}.price`} value={item.price ?? ""} tag="span" />
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -10172,9 +10653,15 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
   const FONT_H = "'Montserrat', sans-serif";
   const FONT_B = "'Roboto', sans-serif";
 
-  const kicker   = String(c.kicker   ?? "Co umíme");
-  const title    = String(c.title    ?? "Veškeré topenářské a instalatérské služby");
-  const subtitle = String(c.subtitle ?? "Havárie, rekonstrukce i nové instalace — od kotle přes tepelná čerpadla až po elektroinstalaci.");
+  const kickerRaw = c.kicker as string | undefined;
+  const titleRaw  = c.title  as string | undefined;
+  const bodyRaw   = c.subtitle as string | undefined;
+  const hasText = (v: unknown) => typeof v === "string" && v.trim() !== "";
+  const showHeader = hasText(kickerRaw) || hasText(titleRaw) || hasText(bodyRaw);
+
+  const kicker   = String(kickerRaw   ?? "Naše služby");
+  const title    = String(titleRaw    ?? "Kompletní topenářské a instalatérské práce");
+  const subtitle = String(bodyRaw     ?? "Topení, voda i elektro na jednom místě — od havárie po kompletní rekonstrukci.");
   const items    = (c.items as Array<{ title: string; description: string; ctaText: string; ctaHref: string; icon: string; image: string }>) ?? [];
 
   const iconPaths: Record<string, React.ReactNode> = {
@@ -10182,7 +10669,7 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
     thermometer: <><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" fill="none" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></>,
     droplets:    <><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z" fill="none" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 3 5.5 2 1.2 3 2.5 3 4.5a6 6 0 0 1-6 6 4.5 4.5 0 0 1-4.5-4.5" fill="none" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></>,
     zap:         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="none" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>,
-    settings:    <><circle cx="12" cy="12" r="3" fill="none" stroke={WHITE} strokeWidth="1.8"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke={WHITE} strokeWidth="1.8"/></>,
+    wrench:      <><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" fill="none" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></>,
   };
 
   return (
@@ -10191,66 +10678,24 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
       data-template="instala-02-services"
       style={{ backgroundColor: "#0e0e0e", fontFamily: FONT_B, padding: "96px 0" }}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
-      <style>{`        .i2s-outer   { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
-        .i2s-header  { text-align: center; margin-bottom: 56px; }
-        .i2s-kicker  { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${RED}; margin: 0 0 14px; display: flex; align-items: center; justify-content: center; gap: 12px; }
-        .i2s-kicker::before, .i2s-kicker::after { content: ''; display: inline-block; width: 32px; height: 2px; background: ${RED}; }
-        .i2s-h2      { font-family: ${FONT_H}; font-size: clamp(26px, 3vw, 42px); font-weight: 800; color: ${WHITE}; line-height: 1.15; margin: 0 0 14px; }
-        .i2s-sub     { font-size: 16px; color: #999; max-width: 640px; margin: 0 auto; line-height: 1.65; }
-
-        /* grid: 3 cols top row, 2 cols bottom row via auto-fit */
-        .i2s-grid    { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-
-        /* card */
-        .i2s-card    { position: relative; border-radius: 14px; overflow: hidden; height: 380px; display: flex; flex-direction: column; justify-content: flex-end; cursor: default; }
-        .i2s-card-bg { position: absolute; inset: 0; z-index: 0; transition: transform .45s cubic-bezier(.25,.46,.45,.94); }
-        .i2s-card:hover .i2s-card-bg { transform: scale(1.06); }
-        .i2s-card-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.40) 50%, rgba(0,0,0,0.10) 100%); transition: background .3s; }
-        .i2s-card:hover .i2s-card-overlay { background: linear-gradient(to top, rgba(180,28,28,0.82) 0%, rgba(0,0,0,0.50) 55%, rgba(0,0,0,0.12) 100%); }
-        .i2s-card-body { position: relative; z-index: 2; padding: 28px 28px 24px; }
-        .i2s-card-icon { width: 40px; height: 40px; background: ${RED}; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; transition: background .3s; }
-        .i2s-card:hover .i2s-card-icon { background: ${WHITE}; }
-        .i2s-card-title { font-family: ${FONT_H}; font-size: 18px; font-weight: 800; color: ${WHITE}; margin: 0 0 8px; line-height: 1.2; }
-        .i2s-card-desc  { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; margin: 0 0 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .i2s-card-cta   { font-family: ${FONT_H}; font-size: 12px; font-weight: 700; color: ${RED}; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color .2s, gap .2s; }
-        .i2s-card:hover .i2s-card-cta { color: ${WHITE}; gap: 10px; }
-
-        /* last row centering — if 5 items, make last 2 span differently */
-        .i2s-grid .i2s-card:nth-child(4) { grid-column: 1 / 2; }
-        .i2s-grid .i2s-card:nth-child(5) { grid-column: 2 / 3; }
-
-        @media (max-width: 960px) {
-          .i2s-outer { padding: 0 20px !important; }
-          .i2s-grid  { grid-template-columns: 1fr 1fr !important; }
-          .i2s-grid .i2s-card:nth-child(4), .i2s-grid .i2s-card:nth-child(5) { grid-column: auto !important; }
-          .i2s-card  { height: 300px !important; }
-        }
-        @media (max-width: 600px) {
-          .i2s-grid  { grid-template-columns: 1fr !important; }
-          .i2s-card  { height: 280px !important; }
-        }
-      `}</style>
-
       <div className="i2s-outer">
-        <div className="i2s-header">
-          <p className="i2s-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="i2s-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p className="i2s-sub">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        </div>
+        {showHeader && (
+          <div className="i2s-header">
+            <p className="i2s-kicker">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="i2s-h2">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p className="i2s-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
 
         <div className="i2s-grid">
           {items.map((item, i) => (
             <div key={i} className="i2s-card">
-              {/* background image */}
               <GenericEditableImage
                 sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.title}
                 className="i2s-card-bg" style={{ position: "absolute", inset: 0 }}
@@ -10267,7 +10712,7 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
               <div className="i2s-card-body">
                 <div className="i2s-card-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    {iconPaths[item.icon] ?? iconPaths.settings}
+                    {iconPaths[item.icon] ?? iconPaths.wrench}
                   </svg>
                 </div>
                 <h3 className="i2s-card-title">
@@ -10292,84 +10737,70 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
 }
 
 // ── klima-01-services ─────────────────────────────────────────────────────────
-// 1:1 pragoclima.cz: bílé bg, eyebrow + title + subtitle nahoře na střed,
-// 3×2 grid karet — každá má emoji ikonu, tučný nadpis, popis. Hover: červený border.
-// ─────────────────────────────────────────────────────────────────────────────
 function ServicesKlima01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Item = { icon?: string; name?: string; description?: string };
-  const eyebrow = String(content.eyebrow  ?? "Co nabízíme");
-  const title   = String(content.title    ?? "Služby v oblasti klimatizací a tepelných čerpadel");
-  const subtitle= String(content.subtitle ?? "Komplexní servis od návrhu po montáž i dlouhodobou péči o vaše zařízení.");
-  const items   = ((content.items as Item[]) ?? []).slice(0, 6);
+  const eyebrow  = String(content.eyebrow  ?? "Naše služby");
+  const title    = String(content.title    ?? "Co pro vás dokážeme zajistit");
+  const subtitle = String(content.subtitle ?? "Od prvního návrhu přes realizaci až po záruční i pozáruční péči — kompletní servis na jednom místě.");
+  const items    = ((content.items as Item[]) ?? []).slice(0, 6);
 
-  const RED  = "#e30016";
-  const NAVY = "#182545";
-  const FONT = "'Outfit', -apple-system, sans-serif";
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); io.disconnect(); } }, { threshold: 0.12 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const svcIcons = [
+    <svg key="0" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>,
+    <svg key="1" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3c1 3 4 4 4 8a4 4 0 1 1-8 0c0-2 1-3 2-4"/><path d="M12 12v9"/></svg>,
+    <svg key="2" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>,
+    <svg key="3" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
+    <svg key="4" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>,
+    <svg key="5" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>,
+  ];
 
   return (
-    <>
-    <style>{`
-      @media (max-width: 768px) {
-        .klima-services-grid { grid-template-columns: 1fr !important; }
-      }
-      @media (min-width: 481px) and (max-width: 768px) {
-        .klima-services-grid { grid-template-columns: repeat(2, 1fr) !important; }
-      }
-    `}</style>
-    <section
-      style={{ backgroundColor: "#fff", padding: "80px 24px", fontFamily: FONT }}
-      data-template="klima-01"
-    >
-      {/* Header */}
-      <div style={{ textAlign: "center", maxWidth: 680, margin: "0 auto 56px" }}>
-        <p style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: RED, margin: "0 0 10px" }}>
-          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-        </p>
-        <h2 style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.1rem)", fontWeight: 700, color: NAVY, lineHeight: 1.25, margin: "0 0 16px" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <p style={{ fontSize: 15, lineHeight: 1.7, color: "#666", margin: 0 }}>
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
-      </div>
+    <section ref={ref} className="kl01-svc" data-template="klima-01">
+      <div className="kl01-svc-wrap">
+        <div className="kl01-svc-header">
+          <p className="kl01-svc-eyebrow">
+            <span className="kl01-svc-eline" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+          <h2 className="kl01-svc-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          <p className="kl01-svc-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        </div>
 
-      {/* 3×2 grid */}
-      <div className="klima-services-grid" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
-        {items.map((item, i) => (
-          <div
-            key={i}
-            style={{
-              padding: "32px 28px",
-              border: "1px solid #e8e8e8",
-              borderRadius: 10,
-              backgroundColor: "#fff",
-              transition: "border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease",
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLDivElement;
-              el.style.borderColor = RED;
-              el.style.boxShadow = "0 8px 28px rgba(0,0,0,0.08)";
-              el.style.transform = "translateY(-4px)";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLDivElement;
-              el.style.borderColor = "#e8e8e8";
-              el.style.boxShadow = "none";
-              el.style.transform = "translateY(0)";
-            }}
-          >
-            <div style={{ fontSize: 36, marginBottom: 16, lineHeight: 1 }}>{String(item.icon ?? "🔧")}</div>
-            <h3 style={{ fontSize: 17, fontWeight: 700, color: NAVY, margin: "0 0 10px", lineHeight: 1.3 }}>
-              <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(item.name ?? "")} tag="span" />
-            </h3>
-            <p style={{ fontSize: 14, lineHeight: 1.65, color: "#666", margin: 0 }}>
-              <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(item.description ?? "")} tag="span" />
-            </p>
-          </div>
-        ))}
+        <div className="kl01-svc-grid">
+          {items.map((item, i) => (
+            <div key={i} className="kl01-svc-card" style={{
+              opacity: visible ? 1 : 0,
+              transform: visible ? "translateY(0)" : "translateY(24px)",
+              transition: `opacity 0.6s ease ${i * 80}ms, transform 0.6s cubic-bezier(0.4,0,0.2,1) ${i * 80}ms`,
+            }}>
+              <div className="kl01-svc-icon" aria-hidden="true">
+                {svcIcons[i] ?? svcIcons[0]}
+              </div>
+              <h3 className="kl01-svc-name">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(item.name ?? "")} tag="span" />
+              </h3>
+              <p className="kl01-svc-desc">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(item.description ?? "")} tag="span" />
+              </p>
+              <span className="kl01-svc-line" aria-hidden="true" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
-    </>
   );
 }
 
@@ -10753,10 +11184,12 @@ function ServicesKlempir01({ content, sectionId, tenantSlug, isAdmin }: Services
 }
 
 // ── malir-01-services ─────────────────────────────────────────────────────────
-// 1:1 petrovomalovani.cz more-description:
-// - 2 full-bleed karty side by side (mobile: sloupec)
-// - Každá karta: bg foto cover, tmavý overlay, centrovaný text
-// - Amber Playfair H2 název (50px), bílý popis, navy CTA button
+// VYLEPŠENO (luxe malíř):
+// - Section header: amber eyebrow + Playfair title + amber rule
+// - 2 full-bleed karty (Malování/Lakování) s bg foto cover
+// - Hover: image zoom 1.06 + overlay lighten + amber left border reveal
+// - Amber Playfair H3 + Raleway popis + navy CTA s shimmer
+// - Conditional header pro podstránky
 // ─────────────────────────────────────────────────────────────────────────────
 interface ServicesMalir01Props {
   content: Record<string, unknown>;
@@ -10768,70 +11201,111 @@ interface ServicesMalir01Props {
 function ServicesMalir01({ content, sectionId, tenantSlug, isAdmin }: ServicesMalir01Props) {
   const AMBER    = "#E79B0E";
   const NAVY     = "#0F297B";
-  const AMBER2   = "#F5AA23";
   const WHITE    = "#ffffff";
-  const PLAYFAIR = "'Playfair Display', 'Times New Roman', serif";
-  const RALEWAY  = "'Raleway', sans-serif";
+  const DARK     = "#1a1a1a";
+  const FONT_H   = "'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Raleway', sans-serif";
+
+  const eyebrow  = String(content.eyebrow ?? content.tagline ?? "Naše specializace");
+  const title    = String(content.title ?? "Co pro vás uděláme");
+  const subtitle = String(content.subtitle ?? "");
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
   type Item = { name: string; description: string; image: string; ctaText: string; ctaHref: string };
   const defaultItems: Item[] = [
-    { name: "Malování", description: "Interiér i exteriér", image: "/templates/malir-01/xroad-malovani.jpg", ctaText: "To mě zajímá", ctaHref: "/malování" },
-    { name: "Lakování", description: "Okna, dveře, nábytek...", image: "/templates/malir-01/xroad-lakovani.jpg", ctaText: "To mě zajímá", ctaHref: "/lakování" },
+    { name: "Malování interiérů", description: "Kompletní malířské práce — od přípravy povrchů přes stěrkování po finální nátěr. Pracujeme s barvami Primalex a Dulux.", image: "/templates/malir-01/svc-malovani.webp", ctaText: "Zjistit více", ctaHref: "/malovani" },
+    { name: "Lakování & nátěry", description: "Profesionální lakování oken, dveří, zábradlí i nábytku. Renovace i nové nátěry dřevěných prvků s dlouhou životností.", image: "/templates/malir-01/svc-lakovani.webp", ctaText: "Zjistit více", ctaHref: "/lakovani" },
   ];
   const items: Item[] = Array.isArray(content.items) && (content.items as unknown[]).length
     ? (content.items as Item[])
     : defaultItems;
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    const base = `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href === "/" || href === "") return base;
-    if (href.startsWith("http") || href.startsWith("#")) return href;
-    return `${base}${href.startsWith("/") ? href : "/" + href}`;
-  };
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@600&display=swap" />
-      <style>{`        .m01s-wrap { display: flex; }
-        .m01s-card { position: relative; flex: 1; height: 320px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
-        .m01s-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-        .m01s-card:hover img { transform: scale(1.04); }
-        .m01s-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.48); }
-        .m01s-body { position: relative; z-index: 2; padding: 0 24px; }
-        .m01s-name { font-family: ${PLAYFAIR}; font-size: 50px; font-weight: 800; color: ${AMBER}; line-height: 1.1; margin: 0 0 10px; }
-        .m01s-desc { font-family: ${RALEWAY}; font-size: 18px; font-weight: 900; color: ${WHITE}; margin: 0 0 24px; line-height: 1.5; }
-        .m01s-btn { display: inline-block; padding: 12px 40px; line-height: 35px; background: linear-gradient(270deg, transparent 0%, rgba(0,0,0,0.3) 100%), linear-gradient(0deg, ${NAVY}, ${NAVY}); text-decoration: none; text-transform: uppercase; color: ${WHITE}; font-size: 14px; font-weight: 600; border-radius: 4px; font-family: ${RALEWAY}; transition: color 0.3s; }
-        .m01s-btn:hover { color: ${AMBER2}; }
-        @media (max-width: 600px) { .m01s-wrap { flex-direction: column; } .m01s-card { height: 260px; } .m01s-name { font-size: 36px; } }
-      `}</style>
-
-      <section id="sluzby" data-template="malir-01">
-        <div className="m01s-wrap">
-          {items.map((item, i) => (
-            <div key={i} className="m01s-card">
-              <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} style={{ position: "absolute", inset: 0 }}>
-                <img loading="lazy" src={item.image} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              </GenericEditableImage>
-              <div className="m01s-overlay" />
-              <div className="m01s-body">
-                <h2 className="m01s-name">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span">{item.name}</GenericEditableText>
-                </h2>
-                <p className="m01s-desc">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span">{item.description}</GenericEditableText>
-                </p>
-                <a href={resolve(item.ctaHref)} data-btn="primary" className="m01s-btn">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span">{item.ctaText}</GenericEditableText>
-                </a>
-              </div>
-            </div>
-          ))}
+    <section id="sluzby" data-template="malir-01" style={{
+      background: WHITE, padding: showHeader ? "clamp(60px, 8vw, 100px) 0 0" : "0",
+      fontFamily: FONT_B,
+    }}>
+      {/* Section header */}
+      {showHeader && (
+        <div style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 56px)", padding: "0 30px" }}>
+          <div className="m01s-reveal" style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", marginBottom: 14 }}>
+            <span style={{ width: 32, height: 1, background: AMBER }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+              fontFamily: FONT_B, fontWeight: 600, fontSize: 12, color: AMBER,
+              letterSpacing: "0.14em", textTransform: "uppercase" as const,
+            }} />
+            <span style={{ width: 32, height: 1, background: AMBER }} />
+          </div>
+          <div className="m01s-reveal" style={{ animationDelay: "0.1s" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+              fontFamily: FONT_H, fontWeight: 800,
+              fontSize: "clamp(28px, 3.5vw, 42px)", lineHeight: 1.18,
+              color: DARK, margin: "0 auto", maxWidth: 600,
+            }} />
+          </div>
+          <div className="m01s-reveal" style={{ animationDelay: "0.15s" }}>
+            <div style={{ width: 48, height: 3, background: AMBER, borderRadius: 2, margin: "18px auto 0" }} />
+          </div>
         </div>
-      </section>
-    </>
+      )}
+
+      {/* Service cards */}
+      <div style={{ display: "flex" }} className="m01s-cards">
+        {items.map((item, i) => (
+          <a key={i} href={resolve(item.ctaHref)} className="m01s-card" style={{
+            position: "relative", flex: 1, minHeight: "clamp(320px, 40vw, 420px)",
+            overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center",
+            flexDirection: "column", textAlign: "center", textDecoration: "none",
+            cursor: "pointer",
+          }}>
+            <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} style={{ position: "absolute", inset: 0 }}>
+              <img loading="lazy" src={item.image} alt={item.name} className="m01s-card-img" style={{
+                width: "100%", height: "100%", objectFit: "cover", display: "block",
+                transition: "transform 0.7s cubic-bezier(.4,0,.2,1)",
+              }} />
+            </GenericEditableImage>
+            {/* Overlay */}
+            <div className="m01s-overlay" style={{
+              position: "absolute", inset: 0,
+              background: "linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.15) 100%)",
+              transition: "background 0.4s",
+            }} />
+            {/* Amber left border accent (reveal on hover) */}
+            <div className="m01s-accent" style={{
+              position: "absolute", left: 0, top: "15%", bottom: "15%", width: 3,
+              background: AMBER, transform: "scaleY(0)", transformOrigin: "center",
+              transition: "transform 0.4s cubic-bezier(.4,0,.2,1)",
+            }} />
+            {/* Content */}
+            <div style={{ position: "relative", zIndex: 2, padding: "0 clamp(20px, 4vw, 48px)" }}>
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="h3" style={{
+                fontFamily: FONT_H, fontSize: "clamp(32px, 4vw, 48px)", fontWeight: 800,
+                color: AMBER, lineHeight: 1.1, margin: "0 0 12px",
+              }} />
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="p" style={{
+                fontFamily: FONT_B, fontSize: 15, fontWeight: 400,
+                color: `${WHITE}dd`, margin: "0 0 24px", lineHeight: 1.65,
+                maxWidth: 380,
+              }} />
+              <span className="m01s-btn" style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "12px 32px",
+                background: NAVY, color: WHITE,
+                fontFamily: FONT_B, fontWeight: 700, fontSize: 13,
+                letterSpacing: "0.06em", textTransform: "uppercase" as const,
+                borderRadius: 4, position: "relative", overflow: "hidden",
+                transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -11152,6 +11626,119 @@ function ServicesDdd01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 
   return (
     <section className="ddd01sv-wrap" id="sluzby" data-template="ddd-01">
+      <style>{`        .ddd01sv-wrap {
+          font-family: 'Figtree', system-ui, sans-serif;
+          background: #f0f8ff;
+          padding: 4rem 1.5rem;
+        }
+        .ddd01sv-inner { max-width: 80rem; margin: 0 auto; }
+        .ddd01sv-grid {
+          display: flex;
+          flex-direction: row-reverse;
+          gap: clamp(2rem, 5vw, 5rem);
+          align-items: flex-start;
+        }
+        /* LEFT — text/list */
+        .ddd01sv-left {
+          flex: 0 0 clamp(220px, 38%, 420px);
+        }
+        .ddd01sv-eyebrow {
+          display: inline-block;
+          color: #0c93eb;
+          font-size: clamp(0.84rem, 0.32vw + 0.77rem, 1.06rem);
+          font-weight: 400;
+          letter-spacing: 0.375rem;
+          text-transform: uppercase;
+          margin-bottom: 0.6rem;
+        }
+        .ddd01sv-h2 {
+          font-family: 'Figtree', system-ui, sans-serif;
+          color: #015ba3;
+          font-size: clamp(1.625rem, 0.89vw + 1.45rem, 2.25rem);
+          font-weight: 700;
+          text-transform: uppercase;
+          margin: 0 0 1.25rem;
+        }
+        .ddd01sv-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          columns: 2;
+          column-gap: 1rem;
+        }
+        .ddd01sv-list li {
+          position: relative;
+          padding: 0 0 0.6rem 1.1em;
+          font-size: 0.9375rem;
+          color: #1a2a3a;
+          break-inside: avoid;
+        }
+        .ddd01sv-list li::before {
+          content: "›";
+          position: absolute;
+          left: 0;
+          color: #0c93eb;
+          font-weight: 700;
+        }
+        .ddd01sv-list a {
+          color: inherit;
+          text-decoration: none;
+          transition: color 0.15s;
+        }
+        .ddd01sv-list a:hover { color: #0c93eb; }
+
+        /* RIGHT — karty */
+        .ddd01sv-cards {
+          flex: 1;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.75rem;
+        }
+        .ddd01sv-card {
+          position: relative;
+          overflow: hidden;
+          border-radius: 4px;
+          aspect-ratio: 1/1;
+          background: #d5e8f5;
+          transition: transform 0.18s, box-shadow 0.18s;
+        }
+        .ddd01sv-card:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
+        .ddd01sv-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .ddd01sv-card > *:not(.ddd01sv-card-caption) {
+          width: 100%;
+          height: 100%;
+        }
+        .ddd01sv-card-caption {
+          z-index: 1;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: linear-gradient(transparent, rgba(0,0,0,0.6));
+          color: #fff;
+          font-size: 0.9rem;
+          font-weight: 600;
+          text-align: center;
+          padding: 2rem 0.5rem 0.6rem;
+        }
+
+        @media (max-width: 768px) {
+          .ddd01sv-grid { flex-direction: column; }
+          .ddd01sv-left { width: 100%; }
+          .ddd01sv-list { columns: 2; }
+          .ddd01sv-cards { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 420px) {
+          .ddd01sv-list { columns: 1; }
+        }
+      
+        .ddd01sv-header { margin-bottom: 2.25rem; }
+      `}</style>
       <div className="ddd01sv-inner">
 
         {showHeader && (
@@ -11926,6 +12513,154 @@ function ServicesMalir02({ content, sectionId, tenantSlug, isAdmin }: { content:
         </div>
       </section>
     </>
+  );
+}
+
+
+// ── malir-01-pricing ─────────────────────────────────────────────────────────
+function PricingMalir01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const AMBER  = "#E79B0E";
+  const NAVY   = "#0F297B";
+  const DARK   = "#1a1a1a";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Playfair Display', Georgia, serif";
+  const FONT_B = "'Raleway', sans-serif";
+
+  type PriceRow = { name: string; price: string; note?: string };
+  type PriceGroup = { title: string; items: PriceRow[] };
+
+  const heading    = String(content.heading ?? "Orientační ceník");
+  const subheading = String(content.subheading ?? "Ceny jsou orientační a závisí na stavu povrchů, výšce stropů a zvoleném materiálu. Přesnou nabídku připravíme po nezávazné prohlídce.");
+  const noteText   = String(content.note ?? "Ceny jsou uvedeny včetně materiálu (barvy Primalex/Dulux, penetrace, stěrka). Přesnou cenu stanovíme po prohlídce.");
+  const ctaLabel   = String(content.ctaLabel ?? "Nezávazná poptávka");
+  const ctaHref    = String(content.ctaHref ?? "/kontakt");
+  const showHeader = content.showHeader !== false;
+
+  const groups: PriceGroup[] = Array.isArray(content.groups) && content.groups.length
+    ? content.groups as PriceGroup[]
+    : [
+        {
+          title: "Malování interiérů",
+          items: [
+            { name: "Byt 1+kk / 1+1 (do 45 m²)", price: "od 6 500 Kč" },
+            { name: "Byt 2+kk / 2+1 (45–65 m²)", price: "od 8 500 Kč" },
+            { name: "Byt 3+kk / 3+1 (65–90 m²)", price: "od 12 000 Kč" },
+            { name: "Byt 4+kk a větší", price: "od 15 000 Kč" },
+            { name: "Kancelářské prostory", price: "od 35 Kč/m²" },
+            { name: "Stěrkování (hladká stěrka)", price: "od 120 Kč/m²" },
+          ]
+        },
+        {
+          title: "Lakování a nátěry",
+          items: [
+            { name: "Okno dvoukřídlé — kompletní renovace", price: "od 1 200 Kč/ks" },
+            { name: "Interiérové dveře — lakování", price: "od 800 Kč/ks" },
+            { name: "Zárubeň — lakování", price: "od 400 Kč/ks" },
+            { name: "Dřevěný plot — lazurování", price: "od 80 Kč/bm" },
+            { name: "Zábradlí — antikorozní nátěr", price: "od 100 Kč/bm" },
+            { name: "Radiátor — lakování", price: "od 450 Kč/ks" },
+          ]
+        },
+        {
+          title: "Doplňkové práce",
+          items: [
+            { name: "Nezávazná prohlídka a cenová nabídka", price: "ZDARMA" },
+            { name: "Odvoz a likvidace odpadu", price: "v ceně" },
+            { name: "Zakrytí a ochrana nábytku", price: "v ceně" },
+            { name: "Úklid po dokončení", price: "v ceně" },
+          ]
+        }
+      ];
+
+  return (
+    <section data-template="malir-01" style={{
+      background: WHITE, padding: "clamp(48px, 8vw, 80px) 0",
+      fontFamily: FONT_B,
+    }}>
+      {/* Section header */}
+      {showHeader && (
+        <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto clamp(36px, 5vw, 56px)", padding: "0 30px" }}>
+          <div className="m01pr-reveal" style={{ fontWeight: 600, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: AMBER, marginBottom: 12 }}>Ceník</div>
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+            fontFamily: FONT_H, fontWeight: 700, fontSize: "clamp(26px, 3.5vw, 40px)", color: DARK, lineHeight: 1.15, margin: "0 0 14px",
+          }} />
+          <div style={{ width: 48, height: 3, background: AMBER, borderRadius: 2, margin: "0 auto 16px" }} />
+          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="p" style={{
+            fontSize: 15, lineHeight: 1.7, color: "#666", margin: 0,
+          }} />
+        </div>
+      )}
+
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 30px" }}>
+        {groups.map((group, gi) => (
+          <div key={gi} className="m01pr-reveal" style={{ animationDelay: `${gi * 0.12}s`, marginBottom: gi < groups.length - 1 ? "clamp(32px, 4vw, 48px)" : 0 }}>
+            {/* Group title */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 14,
+              marginBottom: 20, paddingBottom: 14,
+              borderBottom: `2px solid ${DARK}`,
+            }}>
+              <GenericEditableText sectionId={sectionId} field={`groups.${gi}.title`} value={group.title} tag="h3" style={{
+                fontFamily: FONT_H, fontWeight: 700, fontSize: "clamp(18px, 2.2vw, 24px)",
+                color: DARK, margin: 0, lineHeight: 1.2,
+              }} />
+              <div style={{ flex: 1, height: 1, background: `${AMBER}30` }} />
+              <span style={{ fontFamily: FONT_H, fontWeight: 700, fontSize: 14, color: AMBER }}>
+                {String(gi + 1).padStart(2, "0")}
+              </span>
+            </div>
+
+            {/* Price rows */}
+            {group.items.map((item, ii) => (
+              <div key={ii} className="m01pr-row" style={{
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                padding: "16px 0", borderBottom: `1px solid #eee`,
+                transition: "background 0.2s, padding-left 0.3s",
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`groups.${gi}.items.${ii}.name`} value={item.name} tag="span" style={{
+                  fontSize: 15, fontWeight: 500, color: DARK, flex: 1, lineHeight: 1.4, paddingRight: 20,
+                }} />
+                <GenericEditableText sectionId={sectionId} field={`groups.${gi}.items.${ii}.price`} value={item.price} tag="span" style={{
+                  fontFamily: FONT_H, fontWeight: 700, fontSize: 16,
+                  color: item.price === "ZDARMA" || item.price === "v ceně" ? "#27ae60" : AMBER,
+                  whiteSpace: "nowrap" as const, letterSpacing: "-0.01em",
+                }} />
+              </div>
+            ))}
+          </div>
+        ))}
+
+        {/* Note */}
+        <div className="m01pr-reveal" style={{
+          marginTop: "clamp(28px, 4vw, 40px)", padding: "20px 24px",
+          background: "#f8f7f5", borderRadius: 6,
+          borderLeft: `3px solid ${AMBER}`,
+          display: "flex", alignItems: "flex-start", gap: 12,
+        }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          <GenericEditableText sectionId={sectionId} field="note" value={noteText} tag="p" style={{
+            fontSize: 13.5, lineHeight: 1.7, color: "#777", margin: 0,
+          }} />
+        </div>
+
+        {/* CTA */}
+        <div className="m01pr-reveal" style={{ textAlign: "center", marginTop: "clamp(28px, 4vw, 40px)" }}>
+          <a href={ctaHref} className="m01pr-cta" style={{
+            display: "inline-flex", alignItems: "center", gap: 10,
+            background: NAVY, color: WHITE,
+            fontFamily: FONT_B, fontWeight: 700, fontSize: 13,
+            letterSpacing: "0.1em", textTransform: "uppercase" as const,
+            textDecoration: "none", padding: "16px 36px", borderRadius: 4,
+            transition: "background 0.3s, transform 0.2s",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span" />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -13039,149 +13774,142 @@ function ServicesDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 // 3-col grid karet s foto, červená kategorie, Fraunces italic název, body.
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const tagline = String(content.tagline ?? "Naše speciality");
-  const title   = String(content.title   ?? "Co pro vás\npřipravujeme.");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Zobrazit celé menu");
-  const ctaHref = String(content.ctaHref ?? "/menu");
-  const items   = (content.items as Array<{ name: string; category?: string; description?: string; image?: string; ctaText?: string; ctaHref?: string }>) ?? [];
+  const eyebrowRaw  = (content as Record<string, unknown>).tagline;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const tagline  = eyebrowRaw  === undefined ? "Naše speciality" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Co dnes\nvaříme." : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const body     = String(content.body    ?? "Každý pokrm vzniká z pečlivě vybraných surovin — čerstvé mořské plody, sezónní zelenina z trhů a certifikovaný parmazán z Emilia-Romagna. Bez kompromisů.");
+  const ctaText  = String(content.ctaText ?? "Celý jídelní lístek");
+  const ctaHref  = String(content.ctaHref ?? "/menu");
+  const items    = (content.items as Array<{ name: string; category?: string; description?: string; image?: string; ctaText?: string; ctaHref?: string }>) ?? [];
+
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
 
   const DARK  = "#0d1f0a";
   const SURF  = "#152d11";
-  const SURF2 = "#1a3515";
   const RED   = "#c41c1c";
   const CREAM = "#f5f0e8";
   const MUTED = "#8fa889";
   const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
   const SANS  = "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || !href.startsWith("/")) return href;
-    return isAdmin ? `/demo/${tenantSlug}/admin/page${href}` : `/demo/${tenantSlug}${href}`;
-  };
+  const siteMode = String((content as any).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section style={{ background: SURF, padding: "clamp(64px, 10vw, 120px) clamp(24px, 6vw, 80px)" }}>
-      {/* Header */}
-      <div style={{ maxWidth: 1180, margin: "0 auto 56px" }}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(24px,4vw,60px)", alignItems: "flex-end", justifyContent: "space-between" }}>
-          <div style={{ flex: "1 1 340px" }}>
-            <p style={{
-              fontFamily: SANS, fontSize: 11, fontWeight: 700,
-              letterSpacing: "0.22em", textTransform: "uppercase",
-              color: RED, margin: "0 0 16px",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <h2 style={{
-              fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 50px)", fontWeight: 400,
-              fontStyle: "italic", color: CREAM, margin: 0, lineHeight: 1.12,
-              whiteSpace: "pre-line",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-          </div>
-          <div style={{ flex: "1 1 300px" }}>
-            {body && (
+    <section id="menu" data-template="restaurant-04" style={{ background: SURF, padding: "clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)", position: "relative" }}>
+
+      {/* Header — 2-col: title left, body+CTA right */}
+      {showHeader && (
+        <div style={{ maxWidth: 1200, margin: "0 auto 64px" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(24px,4vw,60px)", alignItems: "flex-end", justifyContent: "space-between" }}
+            className="r04-menu-header">
+            <div style={{ flex: "1 1 340px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, margin: "0 0 20px" }}>
+                <span aria-hidden="true" style={{ width: 32, height: 1, background: RED }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 11, fontWeight: 800,
+                    letterSpacing: "0.24em", textTransform: "uppercase", color: RED }} />
+              </div>
+              <h2 style={{
+                fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 400,
+                fontStyle: "italic", color: CREAM, margin: 0, lineHeight: 1.12,
+                whiteSpace: "pre-line",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            </div>
+            <div style={{ flex: "1 1 300px" }}>
               <p style={{
                 fontFamily: SANS, fontSize: "clamp(14px, 1.4vw, 16px)",
-                color: MUTED, lineHeight: 1.7, margin: "0 0 24px",
+                color: MUTED, lineHeight: 1.75, margin: "0 0 28px",
               }}>
                 <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
               </p>
-            )}
-            <a
-              href={resolve(ctaHref)}
-              data-btn="primary"
-              style={{
-                display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 700,
+              <a href={resolve(ctaHref)} className="r04-menu-cta" style={{
+                display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 800,
                 letterSpacing: "0.14em", textTransform: "uppercase",
                 color: CREAM, textDecoration: "none",
-                padding: "13px 28px", border: `1px solid ${RED}`, borderRadius: 2,
-                transition: "background-color 0.2s, border-color 0.2s",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = RED; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
+                padding: "14px 32px", border: `1px solid ${RED}`, borderRadius: 2,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Karty */}
       <div style={{
-        maxWidth: 1180, margin: "0 auto",
+        maxWidth: 1200, margin: "0 auto",
         display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24,
-      }}
-        className="r04-menu-grid"
-      >
+      }} className="r04-menu-grid">
         {items.map((item, i) => (
-          <div key={i} style={{
+          <div key={i} className="r04-menu-card" style={{
             background: DARK,
-            borderRadius: 2,
+            borderRadius: 4,
             overflow: "hidden",
             display: "flex", flexDirection: "column",
-            borderTop: `2px solid ${RED}`,
+            border: `1px solid ${CREAM}0a`,
+            position: "relative",
           }}>
+            {/* Red top accent */}
+            <div aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: RED, zIndex: 1 }} />
+
             {/* Foto */}
             {item.image && (
-              <div style={{ overflow: "hidden", height: 220 }}>
+              <div className="r04-menu-card-img" style={{ overflow: "hidden", height: 240, position: "relative" }}>
                 <img
                   src={item.image}
                   alt={item.name}
                   style={{
                     width: "100%", height: "100%", objectFit: "cover", display: "block",
-                    transition: "transform 0.5s ease",
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.05)")}
-                  onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
                 />
+                {/* Gradient overlay na foto */}
+                <div aria-hidden="true" style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0, height: "50%",
+                  background: `linear-gradient(to top, ${DARK}, transparent)`, pointerEvents: "none",
+                }} />
               </div>
             )}
+
             {/* Obsah */}
-            <div style={{ padding: "24px 24px 28px", flex: 1, display: "flex", flexDirection: "column" }}>
+            <div style={{ padding: "28px 28px 32px", flex: 1, display: "flex", flexDirection: "column" }}>
               {item.category && (
                 <p style={{
-                  fontFamily: SANS, fontSize: 10, fontWeight: 700,
-                  letterSpacing: "0.2em", textTransform: "uppercase",
-                  color: RED, margin: "0 0 10px",
+                  fontFamily: SANS, fontSize: 10, fontWeight: 800,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  color: RED, margin: "0 0 12px",
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={item.category} tag="span" />
                 </p>
               )}
               <h3 style={{
-                fontFamily: SERIF, fontSize: "clamp(18px, 2vw, 22px)", fontWeight: 400,
-                fontStyle: "italic", color: CREAM, margin: "0 0 12px", lineHeight: 1.2,
+                fontFamily: SERIF, fontSize: "clamp(20px, 2vw, 24px)", fontWeight: 400,
+                fontStyle: "italic", color: CREAM, margin: "0 0 14px", lineHeight: 1.2,
               }}>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
               </h3>
               {item.description && (
                 <p style={{
                   fontFamily: SANS, fontSize: 14, color: MUTED,
-                  lineHeight: 1.65, margin: "0 0 20px", flex: 1,
+                  lineHeight: 1.7, margin: "0 0 24px", flex: 1,
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
                 </p>
               )}
               {item.ctaText && item.ctaHref && (
-                <a
-                  href={resolve(item.ctaHref)}
-                  data-btn="primary"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 6,
-                    fontFamily: SANS, fontSize: 11, fontWeight: 700,
-                    letterSpacing: "0.12em", textTransform: "uppercase",
-                    color: RED, textDecoration: "none",
-                    transition: "gap 0.2s",
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.gap = "10px")}
-                  onMouseLeave={e => (e.currentTarget.style.gap = "6px")}
-                >
+                <a href={resolve(item.ctaHref)} className="r04-menu-link" style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  fontFamily: SANS, fontSize: 11, fontWeight: 800,
+                  letterSpacing: "0.12em", textTransform: "uppercase",
+                  color: RED, textDecoration: "none",
+                }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2 7h10M8 3l4 4-4 4" stroke={RED} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 </a>
               )}
             </div>
@@ -13190,7 +13918,10 @@ function ServicesRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { con
       </div>
 
       <style>{`
-        @media (max-width: 900px) { .r04-menu-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 900px) {
+          .r04-menu-grid { grid-template-columns: 1fr !important; }
+          .r04-menu-header { flex-direction: column !important; }
+        }
         @media (min-width: 601px) and (max-width: 900px) { .r04-menu-grid { grid-template-columns: repeat(2, 1fr) !important; } }
       `}</style>
     </section>
@@ -13890,4 +14621,1293 @@ function PricingPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: 
       </section>
     </>
   );
+}
+
+// ── reality-05-listings ──────────────────────────────────────────────────────
+function ListingsReality05({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrowRaw = content.eyebrow;
+  const titleRaw   = content.title;
+  const eyebrow = eyebrowRaw === undefined ? "Aktuální nabídka" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Vybrané nemovitosti" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
+  const ctaText  = String(content.ctaText  ?? "Celá nabídka");
+  const ctaHref  = String(content.ctaHref  ?? "/nabidka");
+  const tabAllLabel  = String(content.tabAllLabel  ?? "Vše");
+  const tabSaleLabel = String(content.tabSaleLabel ?? "Prodej");
+  const tabRentLabel = String(content.tabRentLabel ?? "Pronájem");
+  const detailLabel  = String(content.detailLabel  ?? "Detail nemovitosti");
+  const siteMode = String(content.siteMode ?? "multipage");
+
+  type Item = { name: string; location: string; params: string; price: string; tag: string; image: string; href: string };
+  const items = (content.items as Item[]) ?? [
+    { name: "Mezonetový byt s terasou", location: "Praha 5 — Smíchov", params: "3+kk · 112 m² · terasa 28 m²", price: "12 490 000 Kč", tag: "Prodej", image: "/templates/reality-05/listing-1.webp", href: "/nabidka" },
+    { name: "Rodinný dům se zahradou", location: "Praha-západ — Černošice", params: "5+1 · 185 m² · pozemek 620 m²", price: "16 900 000 Kč", tag: "Prodej", image: "/templates/reality-05/listing-2.webp", href: "/nabidka" },
+    { name: "Moderní vila u lesa", location: "Praha 4 — Kunratice", params: "6+kk · 240 m² · garáž · bazén", price: "24 500 000 Kč", tag: "Prodej", image: "/templates/reality-05/listing-3.webp", href: "/nabidka" },
+    { name: "Stylový loft v centru", location: "Praha 7 — Holešovice", params: "2+kk · 68 m² · sklep", price: "35 000 Kč/měs", tag: "Pronájem", image: "/templates/reality-05/listing-4.webp", href: "/nabidka" },
+    { name: "Penthouse s panoramatem", location: "Praha 1 — Staré Město", params: "4+kk · 156 m² · terasa 45 m²", price: "29 900 000 Kč", tag: "Prodej", image: "/templates/reality-05/listing-5.webp", href: "/nabidka" },
+    { name: "Kancelářské prostory", location: "Praha 8 — Karlín", params: "open-space · 120 m² · parking", price: "48 000 Kč/měs", tag: "Pronájem", image: "/templates/reality-05/listing-6.webp", href: "/nabidka" },
+  ];
+
+  const GOLD  = "#CFA968";
+  const DARK  = "#1c1c1c";
+  const WHITE = "#ffffff";
+  const CREAM = "#f8f5f0";
+  const MUTED = "#8a8a8a";
+  const FONT  = "'Open Sans', sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const [activeTab, setActiveTab] = useState<"all"|"sale"|"rent">("all");
+
+  const filtered = activeTab === "all" ? items
+    : activeTab === "sale"  ? items.filter(i => i.tag === "Prodej")
+    : items.filter(i => i.tag === "Pronájem");
+
+  return (
+    <section data-template="reality-05" id="listings" style={{ backgroundColor: WHITE, padding: "clamp(64px,9vw,100px) 0", fontFamily: FONT }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px,4vw,48px)" }}>
+
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            {eyebrow && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD, margin: "0 0 12px" }} />
+            )}
+            <div style={{ width: 48, height: 2, background: GOLD, margin: "0 auto 20px", opacity: 0.5 }} />
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+              style={{ fontSize: "clamp(26px,3.5vw,40px)", fontWeight: 700, lineHeight: 1.15, color: DARK, margin: 0, letterSpacing: "-0.01em" }} />
+          </div>
+        )}
+
+        {/* Tabs */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 44, borderBottom: `1px solid ${CREAM}` }}>
+          {([["all", tabAllLabel], ["sale", tabSaleLabel], ["rent", tabRentLabel]] as [string, string][]).map(([key, label]) => (
+            <button key={key} onClick={() => setActiveTab(key as "all"|"sale"|"rent")} className="r05-listing-tab" style={{
+              padding: "12px 32px", background: "none", border: "none", cursor: "pointer",
+              fontFamily: FONT, fontSize: 13, fontWeight: activeTab === key ? 700 : 400,
+              color: activeTab === key ? DARK : MUTED,
+              borderBottom: activeTab === key ? `2px solid ${GOLD}` : "2px solid transparent",
+              marginBottom: -1, transition: "color 0.2s, border-color 0.2s",
+            }}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Property grid */}
+        <div className="r05-listings-grid">
+          {filtered.map((item, i) => (
+            <a key={i} href={resolve(item.href)} className="r05-listing-card" style={{
+              textDecoration: "none", color: "inherit", display: "flex", flexDirection: "column",
+              overflow: "hidden", backgroundColor: WHITE,
+              border: `1px solid ${CREAM}`,
+              transition: "box-shadow 0.35s cubic-bezier(0.4,0,0.2,1), transform 0.35s cubic-bezier(0.4,0,0.2,1)",
+            }}>
+              {/* Image */}
+              <div style={{ position: "relative", paddingTop: "66%", backgroundColor: CREAM, overflow: "hidden" }}>
+                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} style={{ position: "absolute", inset: 0 }}>
+                  <img loading="lazy" src={item.image} alt={item.name} className="r05-listing-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1)" }} />
+                </GenericEditableImage>
+                <span style={{
+                  position: "absolute", top: 14, left: 14,
+                  backgroundColor: item.tag === "Pronájem" ? DARK : GOLD,
+                  color: item.tag === "Pronájem" ? WHITE : DARK,
+                  fontSize: 10, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase",
+                  padding: "5px 14px",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.tag`} value={item.tag} tag="span" />
+                </span>
+              </div>
+              {/* Content */}
+              <div style={{ padding: "20px 22px 22px", flex: 1, display: "flex", flexDirection: "column" }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="h3"
+                  style={{ fontSize: 17, fontWeight: 700, color: DARK, margin: "0 0 6px", lineHeight: 1.3 }} />
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.location`} value={item.location} tag="p"
+                  style={{ fontSize: 13, color: MUTED, margin: "0 0 8px" }} />
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.params`} value={item.params} tag="p"
+                  style={{ fontSize: 12, color: MUTED, margin: "0 0 16px", opacity: 0.8 }} />
+                <div style={{ marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span"
+                    style={{ fontSize: 18, fontWeight: 700, color: GOLD }} />
+                  <span style={{ fontSize: 11, fontWeight: 600, color: MUTED, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                    {detailLabel} →
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div style={{ textAlign: "center", marginTop: 48 }}>
+          <a href={resolve(ctaHref)} className="r05-listings-cta" style={{
+            display: "inline-block", padding: "14px 40px",
+            backgroundColor: GOLD, color: DARK,
+            fontSize: 13, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase",
+            textDecoration: "none", transition: "background-color 0.3s, transform 0.3s",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+
+// ── reality-05-property-detail ───────────────────────────────────────────────
+function PropertyDetailReality05({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const propertyName = String(content.propertyName ?? "Nemovitost");
+  const price        = String(content.price        ?? "Na dotaz");
+  const location     = String(content.location     ?? "");
+  const disposition  = String(content.disposition  ?? "");
+  const area         = String(content.area         ?? "");
+  const floor        = String(content.floor        ?? "");
+  const state        = String(content.state        ?? "");
+  const ownership    = String(content.ownership    ?? "");
+  const energyClass  = String(content.energyClass  ?? "");
+  const parking      = String(content.parking      ?? "");
+  const terrace      = String(content.terrace      ?? "");
+  const description  = String(content.description  ?? "");
+  const features     = (content.features as string[]) ?? [];
+  const images       = (content.images as string[]) ?? [];
+  const agentName    = String(content.agentName    ?? "");
+  const agentPhone   = String(content.agentPhone   ?? "");
+  const agentEmail   = String(content.agentEmail   ?? "");
+  const agentImage   = String(content.agentImage   ?? "");
+  const ctaText      = String(content.ctaText      ?? "Domluvit prohlídku");
+  const ctaHref      = String(content.ctaHref      ?? "/kontakt");
+  const siteMode     = String(content.siteMode     ?? "multipage");
+
+  const GOLD  = "#CFA968";
+  const DARK  = "#1c1c1c";
+  const WHITE = "#ffffff";
+  const CREAM = "#f8f5f0";
+  const MUTED = "#8a8a8a";
+  const FONT  = "'Open Sans', sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const [mainImg, setMainImg] = useState(0);
+
+  const params: [string, string][] = [
+    ["Dispozice", disposition],
+    ["Plocha", area],
+    ["Podlaží", floor],
+    ["Stav", state],
+    ["Vlastnictví", ownership],
+    ["Energetická třída", energyClass],
+    ["Parkování", parking],
+    ["Terasa", terrace],
+  ].filter(([, v]) => !!v.trim()) as [string, string][];
+
+  return (
+    <section data-template="reality-05" style={{ backgroundColor: WHITE, padding: "clamp(40px,6vw,72px) 0", fontFamily: FONT }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px,4vw,48px)" }}>
+
+        <div className="r05-detail-layout">
+
+          {/* Left — gallery + description */}
+          <div>
+            {/* Main image */}
+            {images.length > 0 && (
+              <div style={{ position: "relative", marginBottom: 12, overflow: "hidden", backgroundColor: CREAM }}>
+                <GenericEditableImage sectionId={sectionId} field={`images.${mainImg}`} src={images[mainImg]} alt={propertyName} style={{ width: "100%" }}>
+                  <img src={images[mainImg]} alt={propertyName} style={{ width: "100%", height: "auto", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              </div>
+            )}
+            {/* Thumbnails */}
+            {images.length > 1 && (
+              <div style={{ display: "flex", gap: 8, marginBottom: 32 }}>
+                {images.map((img, i) => (
+                  <button key={i} onClick={() => setMainImg(i)}
+                    style={{
+                      flex: 1, border: i === mainImg ? `2px solid ${GOLD}` : `2px solid transparent`,
+                      padding: 0, cursor: "pointer", overflow: "hidden", backgroundColor: CREAM,
+                      opacity: i === mainImg ? 1 : 0.6, transition: "opacity 0.2s, border-color 0.2s",
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.opacity = "1"; }}
+                    onMouseLeave={e => { if (i !== mainImg) e.currentTarget.style.opacity = "0.6"; }}
+                  >
+                    <img src={img} alt="" style={{ width: "100%", height: 72, objectFit: "cover", display: "block" }} />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Description */}
+            {description && (
+              <div style={{ marginBottom: 32 }}>
+                <h3 style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: GOLD, marginBottom: 16 }}>Popis nemovitosti</h3>
+                <GenericEditableText sectionId={sectionId} field="description" value={description} tag="p"
+                  style={{ fontSize: 15, lineHeight: 1.8, color: "#444", margin: 0 }} />
+              </div>
+            )}
+
+            {/* Features */}
+            {features.length > 0 && (
+              <div>
+                <h3 style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: GOLD, marginBottom: 16 }}>Vybavení</h3>
+                <div className="r05-detail-features" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 24px" }}>
+                  {features.map((f, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ width: 6, height: 6, backgroundColor: GOLD, flexShrink: 0 }} />
+                      <GenericEditableText sectionId={sectionId} field={`features.${i}`} value={f} tag="span"
+                        style={{ fontSize: 14, color: "#555" }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right — price + params + agent */}
+          <div>
+            {/* Price card */}
+            <div style={{ backgroundColor: DARK, padding: "28px 32px", marginBottom: 24 }}>
+              <GenericEditableText sectionId={sectionId} field="price" value={price} tag="div"
+                style={{ fontSize: "clamp(24px,3vw,32px)", fontWeight: 700, color: GOLD, marginBottom: 4 }} />
+              {location && (
+                <GenericEditableText sectionId={sectionId} field="location" value={location} tag="p"
+                  style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", margin: 0 }} />
+              )}
+            </div>
+
+            {/* Params table */}
+            <div style={{ marginBottom: 32 }}>
+              {params.map(([label, val], i) => (
+                <div key={i} style={{
+                  display: "flex", justifyContent: "space-between", padding: "12px 0",
+                  borderBottom: `1px solid ${CREAM}`, fontSize: 14,
+                }}>
+                  <span style={{ color: MUTED }}>{label}</span>
+                  <span style={{ fontWeight: 600, color: DARK }}>{val}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Agent card */}
+            {agentName && (
+              <div style={{ backgroundColor: CREAM, padding: "24px 28px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
+                  {agentImage && (
+                    <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={agentName} style={{ width: 56, height: 56 }}>
+                      <img src={agentImage} alt={agentName} style={{ width: 56, height: 56, objectFit: "cover", borderRadius: "50%" }} />
+                    </GenericEditableImage>
+                  )}
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="agentName" value={agentName} tag="div"
+                      style={{ fontWeight: 700, fontSize: 16, color: DARK }} />
+                    <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>Váš makléř</div>
+                  </div>
+                </div>
+                {agentPhone && (
+                  <a href={`tel:${agentPhone.replace(/\s/g, "")}`} className="r05-detail-contact" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: DARK, textDecoration: "none", marginBottom: 10, transition: "color 0.2s" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <GenericEditableText sectionId={sectionId} field="agentPhone" value={agentPhone} tag="span" />
+                  </a>
+                )}
+                {agentEmail && (
+                  <a href={`mailto:${agentEmail}`} className="r05-detail-contact" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: DARK, textDecoration: "none", marginBottom: 20, transition: "color 0.2s" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    <GenericEditableText sectionId={sectionId} field="agentEmail" value={agentEmail} tag="span" />
+                  </a>
+                )}
+                <a href={resolve(ctaHref)} className="r05-detail-cta" style={{
+                  display: "block", textAlign: "center", padding: "14px 0",
+                  backgroundColor: GOLD, color: DARK, fontWeight: 700, fontSize: 13,
+                  letterSpacing: "0.08em", textTransform: "uppercase",
+                  textDecoration: "none", transition: "background-color 0.3s",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+
+
+// ── reality-03-property-detail ───────────────────────────────────────────────
+// Detail nemovitosti — čte ?id z URL, vybírá z properties[]. Galerie s pop-up
+// lightboxem (klik na foto → fullscreen), parametry, popis, vybavení, agent card.
+// ─────────────────────────────────────────────────────────────────────────────
+type R03Property = {
+  title: string; location: string; price: string; type?: string;
+  disposition?: string; area?: string; floor?: string; state?: string;
+  ownership?: string; energyClass?: string; parking?: string; terrace?: string;
+  description?: string; features?: string[]; images?: string[];
+};
+
+function PropertyDetailReality03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const properties = (content.properties as R03Property[]) ?? [];
+  const backLabel  = String(content.backLabel ?? "Zpět na nabídku");
+  const backHref   = String(content.backHref ?? "/nabidka");
+  const agentName  = String(content.agentName ?? "Tereza & Martin Dvořákovi");
+  const agentPhoneRaw = content.agentPhone;
+  const agentPhone = String(agentPhoneRaw ?? "725 480 210");
+  const agentEmail = String(content.agentEmail ?? "info@realitydvorak.cz");
+  const agentImage = String(content.agentImage ?? "/templates/reality-03/agent.webp");
+  const ctaText    = String(content.ctaText ?? "Domluvit prohlídku");
+  const ctaHref    = String(content.ctaHref ?? "/kontakt");
+  const siteMode   = String(content.siteMode ?? "multipage");
+
+  const DARK  = "#132538";
+  const OCHRE = "#e38a6a";
+  const WHITE = "#ffffff";
+  const LIGHT = "#dfedf5";
+  const MUTED = "#7a828b";
+  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin ?? false);
+
+  // Read ?id from URL (client-side)
+  const [cur, setCur] = useState(0);
+  useEffect(() => {
+    try {
+      const q = new URLSearchParams(window.location.search).get("id");
+      const n = q ? parseInt(q, 10) : 0;
+      if (!Number.isNaN(n) && n >= 0 && n < properties.length) setCur(n);
+    } catch { /* noop */ }
+  }, [properties.length]);
+
+  const prop: R03Property = properties[cur] ?? properties[0] ?? { title: "Nemovitost", location: "", price: "Na dotaz" };
+  const images = prop.images ?? [];
+  const features = prop.features ?? [];
+  const isRent = prop.type === "pronajem";
+  const priceLabel = prop.price ? (isRent ? `${prop.price} Kč/měs.` : `${prop.price} Kč`) : "Na dotaz";
+
+  const [mainImg, setMainImg] = useState(0);
+  useEffect(() => { setMainImg(0); }, [cur]);
+
+  // Lightbox
+  const [lb, setLb] = useState<number | null>(null);
+  const openLb  = (i: number) => setLb(i);
+  const closeLb = () => setLb(null);
+  const prevLb  = () => setLb(v => (v === null ? v : (v - 1 + images.length) % images.length));
+  const nextLb  = () => setLb(v => (v === null ? v : (v + 1) % images.length));
+
+  useEffect(() => {
+    if (lb === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLb();
+      else if (e.key === "ArrowLeft") prevLb();
+      else if (e.key === "ArrowRight") nextLb();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [lb, images.length]);
+
+  const params: [string, string][] = [
+    ["Dispozice", prop.disposition ?? ""],
+    ["Užitná plocha", prop.area ?? ""],
+    ["Podlaží", prop.floor ?? ""],
+    ["Stav", prop.state ?? ""],
+    ["Vlastnictví", prop.ownership ?? ""],
+    ["Energetická třída", prop.energyClass ?? ""],
+    ["Parkování", prop.parking ?? ""],
+    ["Terasa / balkon", prop.terrace ?? ""],
+  ].filter(([, v]) => !!v.trim()) as [string, string][];
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <section data-template="reality-03" style={{ backgroundColor: WHITE, padding: "clamp(28px,4vw,48px) 0 clamp(56px,8vw,96px)", fontFamily: SANS }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px,4vw,48px)" }}>
+
+        {/* Breadcrumb / back */}
+        <a href={resolve(backHref)} className="r03-detail-back" style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12.5, fontWeight: 600, color: MUTED, textDecoration: "none", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 24, transition: "color 0.2s, gap 0.2s" }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <GenericEditableText sectionId={sectionId} field="backLabel" value={backLabel} tag="span" />
+        </a>
+
+        {/* Title row */}
+        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 26 }}>
+          <div>
+            <span style={{ display: "inline-block", backgroundColor: isRent ? OCHRE : DARK, color: WHITE, fontSize: 10.5, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", padding: "5px 11px", borderRadius: 4, marginBottom: 14 }}>
+              {isRent ? "Pronájem" : "Prodej"}
+            </span>
+            <h1 style={{ fontSize: "clamp(1.6rem,3.2vw,2.5rem)", fontWeight: 700, color: DARK, margin: "0 0 10px", letterSpacing: "-0.025em", lineHeight: 1.15 }}>
+              {prop.title}
+            </h1>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, color: MUTED }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={OCHRE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style={{ fontSize: 15 }}>{prop.location}</span>
+            </div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: "clamp(1.5rem,2.8vw,2.1rem)", fontWeight: 700, color: OCHRE, letterSpacing: "-0.02em" }}>{priceLabel}</div>
+          </div>
+        </div>
+
+        <div className="r03-detail-layout" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: "clamp(24px,3vw,44px)", alignItems: "start" }}>
+
+          {/* LEFT — gallery + description + features */}
+          <div>
+            {/* Main image → opens lightbox */}
+            {images.length > 0 && (
+              <button onClick={() => openLb(mainImg)} className="r03-detail-main" aria-label="Otevřít galerii" style={{ position: "relative", display: "block", width: "100%", padding: 0, border: "none", borderRadius: 12, overflow: "hidden", cursor: "pointer", marginBottom: 12, background: LIGHT }}>
+                <img src={images[mainImg]} alt={prop.title} style={{ width: "100%", aspectRatio: "16/10", objectFit: "cover", display: "block" }} />
+                {/* zoom hint */}
+                <span className="r03-detail-zoom" style={{ position: "absolute", right: 14, bottom: 14, display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(19,37,56,0.72)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", color: WHITE, fontSize: 12, fontWeight: 600, letterSpacing: "0.04em", padding: "8px 13px", borderRadius: 99 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                  Zobrazit fotky · {images.length}
+                </span>
+              </button>
+            )}
+            {/* Thumbnails */}
+            {images.length > 1 && (
+              <div className="r03-detail-thumbs" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(images.length, 5)}, 1fr)`, gap: 8, marginBottom: 34 }}>
+                {images.map((img, i) => (
+                  <button key={i} onClick={() => { setMainImg(i); openLb(i); }} aria-label={`Fotka ${i + 1}`} className="r03-detail-thumb"
+                    style={{ position: "relative", border: i === mainImg ? `2px solid ${OCHRE}` : "2px solid transparent", padding: 0, cursor: "pointer", overflow: "hidden", borderRadius: 8, background: LIGHT, opacity: i === mainImg ? 1 : 0.72, transition: "opacity 0.2s, border-color 0.2s" }}>
+                    <img src={img} alt="" style={{ width: "100%", height: 68, objectFit: "cover", display: "block" }} />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Description */}
+            {prop.description && (
+              <div style={{ marginBottom: 34 }}>
+                <h2 style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: OCHRE, margin: "0 0 16px" }}>Popis nemovitosti</h2>
+                <GenericEditableText sectionId={sectionId} field={`properties.${cur}.description`} value={prop.description} tag="p" style={{ fontSize: 15.5, lineHeight: 1.8, color: "#48505a", margin: 0, whiteSpace: "pre-line" }} />
+              </div>
+            )}
+
+            {/* Features */}
+            {features.length > 0 && (
+              <div>
+                <h2 style={{ fontSize: 12.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: OCHRE, margin: "0 0 16px" }}>Vybavení a dispozice</h2>
+                <div className="r03-detail-features" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px 28px" }}>
+                  {features.map((f, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 11 }}>
+                      <span aria-hidden style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 22, height: 22, borderRadius: "50%", background: "rgba(227,138,106,0.14)", flexShrink: 0 }}>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={OCHRE} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                      </span>
+                      <GenericEditableText sectionId={sectionId} field={`properties.${cur}.features.${i}`} value={f} tag="span" style={{ fontSize: 14.5, color: "#48505a" }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT — sticky params + agent */}
+          <div className="r03-detail-side">
+            {/* Params card */}
+            {params.length > 0 && (
+              <div style={{ border: "1px solid #e7eaed", borderRadius: 12, padding: "8px 22px", marginBottom: 20 }}>
+                {params.map(([label, val], i) => (
+                  <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "13px 0", borderBottom: i === params.length - 1 ? "none" : "1px solid #eef1f3", fontSize: 14 }}>
+                    <span style={{ color: MUTED }}>{label}</span>
+                    <span style={{ fontWeight: 700, color: DARK }}>{val}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Agent card */}
+            <div style={{ background: DARK, borderRadius: 12, padding: "26px 26px 28px", color: WHITE }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 15, marginBottom: 22 }}>
+                {agentImage && (
+                  <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={agentName} style={{ width: 58, height: 58, flexShrink: 0 }}>
+                    <img src={agentImage} alt={agentName} style={{ width: 58, height: 58, objectFit: "cover", objectPosition: "top center", borderRadius: "50%", display: "block" }} />
+                  </GenericEditableImage>
+                )}
+                <div>
+                  <GenericEditableText sectionId={sectionId} field="agentName" value={agentName} tag="div" style={{ fontWeight: 700, fontSize: 15.5, color: WHITE, lineHeight: 1.25 }} />
+                  <GenericEditableText sectionId={sectionId} field="agentRole" value={String(content.agentRole ?? "Vaši rodinní makléři")} tag="div" style={{ fontSize: 12, color: OCHRE, marginTop: 3, letterSpacing: "0.04em" }} />
+                </div>
+              </div>
+              <a href={`tel:${agentPhone.replace(/\s/g, "")}`} className="r03-detail-contact" style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 14.5, color: "rgba(255,255,255,0.9)", textDecoration: "none", marginBottom: 12, transition: "color 0.2s" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={OCHRE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.9.35 1.78.66 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.29a2 2 0 0 1 2.11-.45c.85.31 1.73.53 2.63.66A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="agentPhone" value={agentPhone} tag="span" />
+              </a>
+              <a href={`mailto:${agentEmail}`} className="r03-detail-contact" style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 14.5, color: "rgba(255,255,255,0.9)", textDecoration: "none", marginBottom: 22, transition: "color 0.2s" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={OCHRE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <GenericEditableText sectionId={sectionId} field="agentEmail" value={agentEmail} tag="span" />
+              </a>
+              <a href={resolve(ctaHref)} className="r03-detail-cta" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 9, padding: "14px 0", background: OCHRE, color: WHITE, fontWeight: 700, fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: 99, transition: "transform 0.25s, box-shadow 0.25s, background 0.25s" }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* LIGHTBOX popup */}
+      {lb !== null && images[lb] && (
+        <div onClick={closeLb} className="r03-lb-backdrop" style={{ position: "fixed", inset: 0, zIndex: 3000, background: "rgba(10,18,28,0.94)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", display: "flex", flexDirection: "column" }}>
+          {/* Top bar */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "clamp(14px,3vw,26px) clamp(16px,4vw,40px)", color: WHITE, flexShrink: 0 }}>
+            <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", fontFamily: SANS }}>
+              <span style={{ color: OCHRE }}>{pad(lb + 1)}</span>
+              <span style={{ opacity: 0.5 }}> / {pad(images.length)}</span>
+            </span>
+            <button onClick={closeLb} aria-label="Zavřít galerii" className="r03-lb-close" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.25)", background: "transparent", color: WHITE, cursor: "pointer", transition: "background 0.2s, transform 0.2s" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          {/* Stage */}
+          <div onClick={e => e.stopPropagation()} style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: "clamp(8px,2vw,24px)", padding: "0 clamp(12px,3vw,40px)", minHeight: 0 }}>
+            <button onClick={prevLb} aria-label="Předchozí" className="r03-lb-nav" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 48, height: 48, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.06)", color: WHITE, cursor: "pointer", flexShrink: 0, transition: "background 0.2s" }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <img key={lb} src={images[lb]} alt={prop.title} className="r03-lb-img" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: 8, boxShadow: "0 30px 80px rgba(0,0,0,0.6)" }} />
+            <button onClick={nextLb} aria-label="Další" className="r03-lb-nav" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 48, height: 48, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.25)", background: "rgba(255,255,255,0.06)", color: WHITE, cursor: "pointer", flexShrink: 0, transition: "background 0.2s" }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+          {/* Caption + thumb strip */}
+          <div onClick={e => e.stopPropagation()} style={{ padding: "clamp(12px,2vw,20px) clamp(16px,4vw,40px) clamp(18px,3vw,30px)", flexShrink: 0 }}>
+            <p style={{ textAlign: "center", color: "rgba(255,255,255,0.85)", fontSize: 14, margin: "0 0 14px", fontFamily: SANS }}>{prop.title} · {prop.location}</p>
+            <div className="r03-lb-strip" style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap" }}>
+              {images.map((img, i) => (
+                <button key={i} onClick={() => setLb(i)} aria-label={`Fotka ${i + 1}`} style={{ padding: 0, border: i === lb ? `2px solid ${OCHRE}` : "2px solid transparent", borderRadius: 6, overflow: "hidden", cursor: "pointer", background: "none", opacity: i === lb ? 1 : 0.55, transition: "opacity 0.2s, border-color 0.2s" }}>
+                  <img src={img} alt="" style={{ width: 64, height: 44, objectFit: "cover", display: "block" }} />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ── eshop-16-benefits ───────────────────────────────────────────────────────────
+// Spížka (kosik.cz DNA): „Proč nakupovat ve Spížce" — horizontální pás širokých
+// karet na surface krému (radius 16): velká fíková ikona vlevo, vpravo tučný
+// Bricolage titulek + menší fialový text. Scroll-snap + kruhové šipky mizící
+// na krajích (vzor es16c). content: heading / items[{icon,title,text}].
+// Ikony: bag | multibuy | pricematch | family | leaf.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es16Benefit = { icon?: string; title?: string; text?: string };
+
+function Es16BenefitIcon({ name }: { name: string }) {
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  switch (name) {
+    case "multibuy":
+      return (
+        <svg width="64" height="64" viewBox="0 0 24 24" {...common}>
+          <rect x="3" y="8.5" width="9" height="9" rx="1.6"/><rect x="8.5" y="5" width="9" height="9" rx="1.6" fill="var(--es16b-bg, #f6efe4)"/>
+          <path d="M13 9.5v4M11 11.5h4"/>
+        </svg>
+      );
+    case "pricematch":
+      return (
+        <svg width="64" height="64" viewBox="0 0 24 24" {...common}>
+          <circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4.5 4.5"/>
+          <path d="M8 11.8 10 9.2l1.6 2 2.2-2.8"/>
+        </svg>
+      );
+    case "family":
+      return (
+        <svg width="64" height="64" viewBox="0 0 24 24" {...common}>
+          <path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10v8.5h11V10"/>
+          <path d="M12 16.4s-2.4-1.5-2.4-3a1.35 1.35 0 0 1 2.4-.9 1.35 1.35 0 0 1 2.4.9c0 1.5-2.4 3-2.4 3Z"/>
+        </svg>
+      );
+    case "leaf":
+      return (
+        <svg width="64" height="64" viewBox="0 0 24 24" {...common}>
+          <path d="M5 19C5 9 12 4 20 4c0 8-4 15-13 15Z"/><path d="M5 19c3-5 7-8 11-10"/>
+        </svg>
+      );
+    default: // bag
+      return (
+        <svg width="64" height="64" viewBox="0 0 24 24" {...common}>
+          <path d="M5.5 8h13l-1 12h-11l-1-12Z"/><path d="M9 10.5V6.8a3 3 0 0 1 6 0v3.7"/>
+          <circle cx="12" cy="15" r="0.4" fill="currentColor"/>
+        </svg>
+      );
+  }
+}
+
+function BenefitsEshop16({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const HEAD = "'Bricolage Grotesque', 'Segoe UI', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const FIG = "#56203d";
+  const INK = "#241a20";
+  const MUTED = "#7a6c74";
+  const CREAM = "#fbf7f1";
+  const SURFACE = "#f6efe4";
+  const LINE = "#e9dfe0";
+
+  const heading = String(content.heading ?? "Proč nakupovat ve Spížce");
+  const items = ((content.items as Es16Benefit[]) ?? []).slice(0, 8);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canL, setCanL] = useState(false);
+  const [canR, setCanR] = useState(true);
+
+  const updateArrows = () => {
+    const el = railRef.current;
+    if (!el) return;
+    setCanL(el.scrollLeft > 8);
+    setCanR(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+  };
+  const scrollBy = (dir: number) => {
+    const el = railRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.75), behavior: "smooth" });
+  };
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-16-benefits" style={{ fontFamily: SANS, background: CREAM, padding: "26px 0 12px" }}>
+      <style>{`
+        .es16b-rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 4px 2px 14px; }
+        .es16b-rail::-webkit-scrollbar { display: none; }
+        .es16b-card { --es16b-bg: ${SURFACE}; scroll-snap-align: start; flex: 0 0 calc(25% - 10.5px); min-width: 320px; background: ${SURFACE}; border-radius: 16px;
+          padding: 26px 24px; display: flex; align-items: center; gap: 20px; transition: transform 0.18s, box-shadow 0.18s; }
+        .es16b-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(86,32,61,0.10); }
+        .es16b-icon { flex: 0 0 auto; color: ${FIG}; display: inline-flex; }
+        .es16b-title { font-family: ${HEAD}; font-weight: 800; font-size: 19px; letter-spacing: -0.01em; color: ${FIG}; line-height: 1.2; margin: 0; }
+        .es16b-text { margin: 5px 0 0; font-size: 13.5px; font-weight: 500; color: ${MUTED}; line-height: 1.45; }
+        .es16b-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 44px; height: 44px; border-radius: 999px;
+          border: 1px solid ${LINE}; background: #fff; color: ${FIG}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+          box-shadow: 0 10px 24px rgba(36,26,32,0.12); transition: background 0.15s, opacity 0.18s; }
+        .es16b-arrow:hover { background: ${FIG}; color: #fff; }
+        .es16b-arrow:disabled { opacity: 0; pointer-events: none; }
+        @media (max-width: 640px) { .es16b-card { min-width: 280px; padding: 20px 18px; gap: 15px; } .es16b-arrow { display: none; } .es16b-icon svg { width: 52px; height: 52px; } }
+      `}</style>
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+          fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(20px, 2vw, 26px)", letterSpacing: "-0.015em", color: INK, margin: "0 0 14px",
+        }} />
+        <div style={{ position: "relative" }}>
+          <button className="es16b-arrow" style={{ left: -14 }} onClick={() => scrollBy(-1)} disabled={!canL} aria-label="Posunout doleva">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <div className="es16b-rail" ref={railRef} onScroll={updateArrows}>
+            {items.map((b, i) => (
+              <div key={i} className="es16b-card">
+                <span className="es16b-icon"><Es16BenefitIcon name={String(b.icon ?? "bag")} /></span>
+                <span>
+                  <h3 className="es16b-title">{b.title}</h3>
+                  <p className="es16b-text">{b.text}</p>
+                </span>
+              </div>
+            ))}
+          </div>
+          <button className="es16b-arrow" style={{ right: -14 }} onClick={() => scrollBy(1)} disabled={!canR} aria-label="Posunout doprava">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-17-benefits ───────────────────────────────────────────────────────────
+// Rozkvět (florea.cz DNA): „Proč většina lidí na internetu nakupuje květiny
+// u nás" — 5 krémových karet s vlasovým rámem: bordó titulek nahoře (2 řádky),
+// pod ním vizuál. Tři typy vizuálu per karta: `image` (foto s hover zoomem),
+// `map` (mini verze hero SVG mapy ČR s pulzujícími kurýry), `awards` (panel
+// se zlatou hvězdou, Cena kvality + 100 nejlepších chipy). Fraunces nadpis
+// bordó. Desktop 5 sloupců, mobil horizontální scroll-snap.
+// content: heading / items[{title, image?, type?("map"|"awards"), awards?[{title,sub}]}]
+// ──────────────────────────────────────────────────────────────────────────────
+type Es17Benefit = { title?: string; image?: string; type?: string; awards?: Array<{ title?: string; sub?: string }> };
+
+function BenefitsEshop17({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const HEAD = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const BORDO = "#8f1d3d";
+  const BORDO_DK = "#611028";
+  const GOLD = "#c9a24b";
+  const INK = "#241a1d";
+  const MUTED = "#7d6d72";
+  const CREAM = "#f7f1e8";
+  const LINE = "#eadfd6";
+
+  const heading = String(content.heading ?? "Proč většina lidí na internetu nakupuje květiny u nás");
+  const items = ((content.items as Es17Benefit[]) ?? []).slice(0, 6);
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-17-benefits" style={{ fontFamily: SANS, background: "#fff", padding: "30px 0 16px" }}>
+      <style>{`
+        .es17b-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+        @media (max-width: 1100px) {
+          .es17b-row { display: flex; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 8px; }
+          .es17b-row::-webkit-scrollbar { display: none; }
+          .es17b-card { flex: 0 0 240px; scroll-snap-align: start; }
+        }
+        .es17b-card { background: ${CREAM}; border: 1px solid ${LINE}; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column;
+          transition: transform 0.18s, box-shadow 0.2s; }
+        .es17b-card:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(46,10,24,0.1); }
+        .es17b-title { padding: 14px 16px 12px; font-size: 14.5px; font-weight: 700; color: ${BORDO}; line-height: 1.4; min-height: calc(2.8em + 26px); }
+        .es17b-media { position: relative; aspect-ratio: 4/3.1; overflow: hidden; background: #fdfbf8; border-top: 1px solid ${LINE}; margin: 0 12px 12px; border: 1px solid ${LINE}; border-radius: 10px; }
+        .es17b-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es17b-card:hover .es17b-media img { transform: scale(1.06); }
+        @keyframes es17bPulse { 0% { transform: scale(0.55); opacity: 0.85; } 70% { transform: scale(1.9); opacity: 0; } 100% { transform: scale(1.9); opacity: 0; } }
+        .es17b-ring { transform-origin: center; transform-box: fill-box; animation: es17bPulse 2.6s ease-out infinite; }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+          fontFamily: HEAD, fontWeight: 600, fontSize: "clamp(23px, 2.2vw, 30px)", letterSpacing: "-0.01em", color: BORDO, margin: "0 0 18px",
+        }} />
+        <div className="es17b-row">
+          {items.map((it, i) => (
+            <div key={i} className="es17b-card">
+              <span className="es17b-title">{it.title}</span>
+              <span className="es17b-media">
+                {it.type === "map" ? (
+                  <svg viewBox="0 0 180 135" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} role="img" aria-label="Poloha kurýrů na mapě">
+                    <rect width="180" height="135" fill="#fdfbf8" />
+                    <g transform="translate(0, 22)">
+                      <path d="M 18 38 C 14 28 22 18 34 16 C 44 10 58 8 70 12 C 84 8 104 10 116 16 C 130 14 146 20 152 30 C 162 34 166 44 160 52 C 156 62 144 66 132 64 C 124 72 108 76 96 70 C 84 76 66 74 56 66 C 42 68 28 62 24 52 C 18 48 16 44 18 38 Z"
+                        fill="#e4ecdf" stroke="#c4d4bb" strokeWidth="1" />
+                      {[{ x: 55, y: 27 }, { x: 96, y: 34 }, { x: 34, y: 44 }, { x: 128, y: 46 }, { x: 148, y: 28 }, { x: 76, y: 58 }].map((p, pi) => (
+                        <g key={pi}>
+                          <circle className="es17b-ring" cx={p.x} cy={p.y} r="4.5" fill="none" stroke={BORDO} strokeWidth="0.9" style={{ animationDelay: `${pi * 0.45}s` }} />
+                          <circle cx={p.x} cy={p.y} r="3" fill={BORDO} />
+                        </g>
+                      ))}
+                    </g>
+                  </svg>
+                ) : it.type === "awards" ? (
+                  <span style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 9, padding: 12 }}>
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill={GOLD} aria-hidden="true"><path d="M12 2.5l2.5 5.4 5.9.6-4.4 4 1.2 5.8-5.2-3-5.2 3 1.2-5.8-4.4-4 5.9-.6L12 2.5z"/></svg>
+                    {(it.awards ?? []).slice(0, 2).map((a, ai) => (
+                      <span key={ai} style={{ background: ai === 0 ? BORDO : "#fff", border: ai === 0 ? "none" : `1px solid ${LINE}`, borderRadius: 9, padding: "6px 13px", textAlign: "center", lineHeight: 1.3 }}>
+                        <span style={{ display: "block", fontSize: 11.5, fontWeight: 700, color: ai === 0 ? "#fff" : INK }}>{a.title}</span>
+                        {a.sub && <span style={{ display: "block", fontSize: 10, color: ai === 0 ? "rgba(255,255,255,0.75)" : MUTED }}>{a.sub}</span>}
+                      </span>
+                    ))}
+                  </span>
+                ) : (
+                  it.image && <img src={it.image} alt={it.title ?? ""} loading="lazy" />
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── artist-01-concerts (Koncerty) ────────────────────────────────────────────────
+// 1:1 luciebila.com #koncerty: grid 4 karet, každá inner (bg světle šedá, padding)
+// s date (31px) → bordered-box (city red uppercase + timePlace) → tourName →
+// ticket odkaz s ikonou. Elevace na award level: karta lift + granátový sloupec
+// zleva, datum split (den velký / měsíc), hairliny grow, ticket ikona + arrow
+// nudge, jemný stagger reveal. + "Všechny termíny" CTA pod gridem.
+// ─────────────────────────────────────────────────────────────────────────────
+type Ar01Concert = { day?: string; month?: string; city?: string; time?: string; venue?: string; tour?: string; ticketHref?: string; soldOut?: boolean };
+
+function ConcertsArtist01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Turné 2026" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Koncerty" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Přijďte na živý zážitek — velké haly i komorní sály po celé republice." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const ctaText  = String(content.ctaText ?? "Všechny termíny");
+  const ctaHref  = String(content.ctaHref ?? "/koncerty");
+  const ticketLabel = String(content.ticketLabel ?? "Koupit vstupenku");
+  const soldLabel   = String(content.soldLabel ?? "Vyprodáno");
+
+  const items = (content.concerts as Ar01Concert[]) ?? [
+    { day: "6", month: "Říjen", city: "Chomutov", time: "19:00", venue: "Kulturní dům Rocknet", tour: "Střepy a světlo", ticketHref: "/koncerty" },
+    { day: "12", month: "Říjen", city: "Plzeň", time: "19:00", venue: "Měšťanská beseda", tour: "Střepy a světlo", ticketHref: "/koncerty" },
+    { day: "18", month: "Říjen", city: "Jihlava", time: "19:30", venue: "Horácká aréna", tour: "Střepy a světlo", ticketHref: "/koncerty", soldOut: true },
+    { day: "25", month: "Říjen", city: "Praha", time: "20:00", venue: "Rudolfinum — Dvořákova síň", tour: "Střepy a světlo", ticketHref: "/koncerty" },
+  ];
+
+  const RED = "#9b1c31";
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Roboto:wght@300;400;500;700&display=swap" />
+      <style>{`
+        .ar01-conc { background: #faf7f2; padding: 96px 40px; }
+        .ar01-conc-wrap { max-width: 1180px; margin: 0 auto; }
+        .ar01-conc-head { text-align: center; margin-bottom: 60px; }
+        .ar01-conc-eyebrow {
+          display: block; font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: .34em; text-transform: uppercase; color: ${RED}; margin-bottom: 14px;
+        }
+        .ar01-conc-title {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+          font-size: clamp(38px, 5vw, 60px); font-weight: 600; color: #14100e; margin: 0 0 16px; line-height: 1.02;
+        }
+        .ar01-conc-sub {
+          font-family: 'Roboto', sans-serif; font-size: 17px; line-height: 28px; color: #6b6258;
+          max-width: 560px; margin: 0 auto;
+        }
+        .ar01-conc-grid {
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px;
+        }
+        .ar01-conc-card {
+          position: relative; overflow: hidden;
+          background: #fff;
+          border: 1px solid #ece3d6;
+          padding: 44px 24px 34px;
+          text-align: center;
+          transition: transform .5s cubic-bezier(.32,.72,0,1), box-shadow .5s cubic-bezier(.32,.72,0,1), border-color .5s;
+          opacity: 0; transform: translateY(22px);
+          animation: ar01ConcIn .6s cubic-bezier(.32,.72,0,1) forwards;
+        }
+        @keyframes ar01ConcIn { to { opacity: 1; transform: translateY(0); } }
+        .ar01-conc-card::before {
+          content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+          background: ${RED}; transform: scaleY(0); transform-origin: top center;
+          transition: transform .5s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-conc-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 30px 60px -30px rgba(20,16,14,.4);
+          border-color: transparent;
+        }
+        .ar01-conc-card:hover::before { transform: scaleY(1); }
+        .ar01-conc-date {
+          display: flex; flex-direction: column; align-items: center; line-height: 1; margin-bottom: 20px;
+        }
+        .ar01-conc-day {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 52px; font-weight: 600; color: #14100e;
+        }
+        .ar01-conc-month {
+          font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .28em;
+          text-transform: uppercase; color: #9a8f84; margin-top: 4px;
+        }
+        .ar01-conc-hr { width: 0; height: 1px; background: #14100e; margin: 0 auto 14px; transition: width .5s cubic-bezier(.32,.72,0,1); }
+        .ar01-conc-card:hover .ar01-conc-hr { width: 90px; }
+        .ar01-conc-card:not(:hover) .ar01-conc-hr { width: 60px; opacity: .5; }
+        .ar01-conc-city {
+          font-family: 'Roboto', sans-serif; font-size: 19px; font-weight: 500; letter-spacing: .06em;
+          text-transform: uppercase; color: ${RED}; margin-bottom: 6px;
+        }
+        .ar01-conc-place {
+          font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 400; color: #4b423d; line-height: 22px; margin-bottom: 4px;
+        }
+        .ar01-conc-place b { font-weight: 600; color: #14100e; }
+        .ar01-conc-tour {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 19px; font-weight: 500;
+          color: #14100e; margin: 18px 0 22px;
+        }
+        .ar01-conc-ticket {
+          display: inline-flex; align-items: center; gap: 9px;
+          font-family: 'Roboto', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+          color: #14100e; text-decoration: none; padding-bottom: 3px;
+          border-bottom: 1.5px solid transparent;
+          transition: color .35s cubic-bezier(.32,.72,0,1), border-color .35s;
+        }
+        .ar01-conc-ticket svg { transition: transform .35s cubic-bezier(.32,.72,0,1); }
+        .ar01-conc-ticket:hover { color: ${RED}; border-color: ${RED}; }
+        .ar01-conc-ticket:hover svg { transform: translateX(4px); }
+        .ar01-conc-sold {
+          display: inline-block; font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 700;
+          letter-spacing: .16em; text-transform: uppercase; color: #b3a99e; padding-bottom: 3px;
+        }
+        .ar01-conc-cta {
+          text-align: center; margin-top: 56px;
+        }
+        .ar01-conc-cta a {
+          position: relative; overflow: hidden;
+          display: inline-block; font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700;
+          letter-spacing: .14em; text-transform: uppercase; color: #14100e; text-decoration: none;
+          padding: 15px 44px; border: 1.5px solid #14100e; border-radius: 50px;
+          transition: color .45s cubic-bezier(.32,.72,0,1), border-color .45s;
+        }
+        .ar01-conc-cta a::before {
+          content: ""; position: absolute; inset: 0; background: ${RED}; transform: translateY(101%);
+          transition: transform .45s cubic-bezier(.32,.72,0,1); z-index: -1;
+        }
+        .ar01-conc-cta a:hover { color: #fff; border-color: ${RED}; }
+        .ar01-conc-cta a:hover::before { transform: translateY(0); }
+        @media (max-width: 1000px) {
+          .ar01-conc-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        }
+        @media (max-width: 560px) {
+          .ar01-conc { padding: 64px 22px; }
+          .ar01-conc-grid { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ar01-conc-card { animation: none; opacity: 1; transform: none; }
+        }
+      `}</style>
+
+      <section className="ar01-conc" data-template="artist-01" id="koncerty">
+        <div className="ar01-conc-wrap">
+          {showHeader && (
+            <div className="ar01-conc-head">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="ar01-conc-eyebrow" />
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ar01-conc-title" />
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="ar01-conc-sub" />
+            </div>
+          )}
+
+          <div className="ar01-conc-grid">
+            {items.map((c, i) => (
+              <div className="ar01-conc-card" key={i} style={{ animationDelay: `${0.08 + i * 0.09}s` }}>
+                <div className="ar01-conc-date">
+                  <GenericEditableText sectionId={sectionId} field={`concerts.${i}.day`} value={String(c.day ?? "")} tag="span" className="ar01-conc-day" />
+                  <GenericEditableText sectionId={sectionId} field={`concerts.${i}.month`} value={String(c.month ?? "")} tag="span" className="ar01-conc-month" />
+                </div>
+                <div className="ar01-conc-hr" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field={`concerts.${i}.city`} value={String(c.city ?? "")} tag="div" className="ar01-conc-city" />
+                <div className="ar01-conc-place">
+                  <GenericEditableText sectionId={sectionId} field={`concerts.${i}.time`} value={String(c.time ?? "")} tag="b" />{" "}
+                  <GenericEditableText sectionId={sectionId} field={`concerts.${i}.venue`} value={String(c.venue ?? "")} tag="span" />
+                </div>
+                <GenericEditableText sectionId={sectionId} field={`concerts.${i}.tour`} value={String(c.tour ?? "")} tag="div" className="ar01-conc-tour" />
+                {c.soldOut ? (
+                  <span className="ar01-conc-sold">{soldLabel}</span>
+                ) : (
+                  <a href={resolve(String(c.ticketHref ?? ctaHref))} className="ar01-conc-ticket">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2 2 2 0 0 0 0 4 2 2 0 0 1-2 2H5a2 2 0 0 1-2-2 2 2 0 0 0 0-4z"/><path d="M13 7v10"/></svg>
+                    <span>{ticketLabel}</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {ctaText.trim() && (
+            <div className="ar01-conc-cta">
+              <a href={resolve(ctaHref)}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span">{ctaText}</GenericEditableText>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+// barber-03 pricing table. Vlastní komponenta, aby se hooks nevolaly až za
+// early returny dispatcheru — jinak změna varianty za běhu mění počet hooks.
+function PricingTableVideo({ content, title, sectionId }: { content: Record<string, unknown>; title: string; sectionId: number }) {
+    const videoPoster = String(content.videoPoster ?? "");
+    const leftTitle = String(content.leftTitle ?? "");
+    const rightTitle = String(content.rightTitle ?? title);
+    const eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
+    const subtitle = String((content as Record<string, unknown>).subtitle ?? "");
+    const columns = (content.columns as string[]) ?? [];
+    const rows = (content.rows as Array<{ service: string; prices: string[] }>) ?? [];
+    const notes = (content.notes as string[]) ?? [];
+    const ctas = (content.ctas as Array<{ label: string; href: string; primary?: boolean }>) ?? [];
+    const headerRef = useRef<HTMLDivElement>(null);
+    const leftRef   = useRef<HTMLDivElement>(null);
+    const rightRef  = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const els = [headerRef.current, leftRef.current, rightRef.current].filter(Boolean) as HTMLElement[];
+      const obs = els.map((el, i) => {
+        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03s-vis"); o.disconnect(); } }, { threshold: 0.08 });
+        o.observe(el); return o;
+      });
+      return () => obs.forEach(o => o.disconnect());
+    }, []);
+    return (
+      <section
+        id="cenik"
+        className="relative overflow-hidden"
+        style={{
+          backgroundColor: "#0f0a07",
+          padding: "clamp(96px, 13vw, 150px) 0",
+        }}
+        data-template="barber-03"
+      >
+        <style>{`
+          @keyframes b03SFadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+          .b03s-reveal { opacity: 0; }
+          .b03s-reveal.b03s-vis { animation: b03SFadeUp 0.85s cubic-bezier(.22,.68,0,1.1) forwards; }
+        `}</style>
+
+        {/* Top + bottom gold hairlines */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1,
+          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1,
+          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
+        }} />
+
+        {/* Warm radial ambient glow */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+          background: "radial-gradient(ellipse at 30% 20%, rgba(200,169,110,0.07) 0%, transparent 55%)",
+        }} />
+
+        {/* Editorial centered header */}
+        {(eyebrow || subtitle || title) && (
+          <div
+            ref={headerRef}
+            className="b03s-reveal text-center max-w-[760px] mx-auto px-6"
+            style={{ marginBottom: "clamp(56px, 8vw, 88px)", position: "relative", zIndex: 1 }}
+          >
+            {eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                  color: "#c8a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+              </div>
+            )}
+            {title && (
+              <h2 style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(2rem, 4.2vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.12,
+                letterSpacing: "0.04em",
+                color: "#f5efe6",
+                textTransform: "uppercase",
+                margin: "0 auto 22px",
+                maxWidth: 720,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                color: "rgba(245,239,230,0.72)",
+                lineHeight: 1.7,
+                margin: "0 auto",
+                maxWidth: 600,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+            {/* Decorative rule with diamond */}
+            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+            </div>
+          </div>
+        )}
+
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 grid b03s-grid"
+          style={{
+            gap: "clamp(40px, 5vw, 72px)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          {/* LEFT — video showcase */}
+          {videoPoster && (
+            <div ref={leftRef} className="b03s-reveal b03s-video-col">
+              {leftTitle && (
+                <div style={{ marginBottom: 28 }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                    <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#c8a96e" }} />
+                    <span style={{
+                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: "0.32em",
+                      textTransform: "uppercase",
+                      color: "#c8a96e",
+                    }}>
+                      Showcase
+                    </span>
+                  </div>
+                  <h3 style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    color: "#f5efe6",
+                    fontWeight: 700,
+                    fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)",
+                    letterSpacing: "0.04em",
+                    lineHeight: 1.15,
+                    margin: 0,
+                    textTransform: "uppercase",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="leftTitle" value={leftTitle} tag="span" />
+                  </h3>
+                </div>
+              )}
+              <div className="b03s-video relative overflow-hidden" style={{
+                aspectRatio: "16/9",
+                borderRadius: 2,
+                backgroundColor: "#1c1410",
+                boxShadow: "0 24px 56px rgba(0,0,0,0.55)",
+              }}>
+                {/* Gold corner brackets */}
+                <span aria-hidden className="b03s-video-corner b03s-video-corner-tl" style={{
+                  position: "absolute", top: 14, left: 14, width: 28, height: 28, zIndex: 3,
+                  borderTop: "1.5px solid #c8a96e", borderLeft: "1.5px solid #c8a96e",
+                  transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+                }} />
+                <span aria-hidden className="b03s-video-corner b03s-video-corner-br" style={{
+                  position: "absolute", bottom: 14, right: 14, width: 28, height: 28, zIndex: 3,
+                  borderBottom: "1.5px solid #c8a96e", borderRight: "1.5px solid #c8a96e",
+                  transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+                }} />
+                <GenericEditableImage sectionId={sectionId} field="videoPoster" src={videoPoster} alt={leftTitle} className="absolute inset-0 w-full h-full">
+                  <Image src={videoPoster} alt={leftTitle} fill className="object-cover b03s-video-img" sizes="(max-width: 1024px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(videoPoster)} />
+                </GenericEditableImage>
+                <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(28,20,16,0.15) 0%, rgba(28,20,16,0.4) 100%)" }} />
+                <div aria-hidden className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="b03s-play" style={{
+                    width: 84, height: 84, borderRadius: 50,
+                    border: "1.5px solid #c8a96e",
+                    backgroundColor: "rgba(28,20,16,0.55)",
+                    backdropFilter: "blur(4px)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: "#c8a96e",
+                    transition: "transform 0.45s cubic-bezier(.22,.68,0,1.1), background 0.3s ease",
+                  }}>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* RIGHT — pricing table */}
+          <div ref={rightRef} className="b03s-reveal">
+            {rightTitle && (
+              <div style={{ marginBottom: 28 }}>
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#c8a96e" }} />
+                  <span style={{
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: "0.32em",
+                    textTransform: "uppercase",
+                    color: "#c8a96e",
+                  }}>
+                    Ceník
+                  </span>
+                </div>
+                <h3 style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  color: "#f5efe6",
+                  fontWeight: 700,
+                  fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)",
+                  letterSpacing: "0.04em",
+                  lineHeight: 1.15,
+                  margin: 0,
+                  textTransform: "uppercase",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="rightTitle" value={rightTitle} tag="span" />
+                </h3>
+              </div>
+            )}
+            <div className="overflow-x-auto">
+              <table className="w-full b03s-table" style={{ borderCollapse: "collapse", color: "rgba(245,239,230,0.92)", fontFamily: "'Source Sans Pro', system-ui, sans-serif", fontSize: "0.94rem" }}>
+                <thead>
+                  <tr style={{ borderBottom: "1px solid rgba(200,169,110,0.45)" }}>
+                    <th style={{ textAlign: "left", padding: "14px 8px", color: "#c8a96e", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "0.74rem", fontWeight: 700 }}><GenericEditableText sectionId={sectionId} field="serviceColumnLabel" value={String((content as Record<string, unknown>).serviceColumnLabel ?? "Služba")} tag="span" /></th>
+                    {columns.map((col, ci) => (
+                      <th key={ci} style={{ textAlign: "right", padding: "14px 8px", color: "#c8a96e", textTransform: "uppercase", letterSpacing: "0.16em", fontSize: "0.74rem", fontWeight: 700 }}>
+                        <GenericEditableText sectionId={sectionId} field={`columns.${ci}`} value={col} tag="span" />
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, ri) => (
+                    <tr key={ri} className="b03s-tr" style={{ borderBottom: "1px dashed rgba(200,169,110,0.16)", position: "relative" }}>
+                      <td style={{
+                        padding: "16px 8px",
+                        fontFamily: "'Libre Baskerville', Georgia, serif",
+                        fontStyle: "italic",
+                        transition: "color 0.3s ease, padding-left 0.3s ease",
+                      }}>
+                        <GenericEditableText sectionId={sectionId} field={`rows.${ri}.service`} value={row.service} tag="span" />
+                      </td>
+                      {row.prices.map((p, pi) => (
+                        <td key={pi} style={{
+                          padding: "16px 8px",
+                          textAlign: "right",
+                          color: "#c8a96e",
+                          fontWeight: 700,
+                          letterSpacing: "0.02em",
+                          fontFamily: "'Libre Baskerville', Georgia, serif",
+                        }}>
+                          <GenericEditableText sectionId={sectionId} field={`rows.${ri}.prices.${pi}`} value={p} tag="span" />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {notes.length > 0 && (
+              <div className="mt-7" style={{ color: "rgba(245,239,230,0.55)", fontSize: "0.85rem", lineHeight: 1.7, fontStyle: "italic", fontFamily: "'Libre Baskerville', Georgia, serif" }}>
+                {notes.map((n, ni) => (
+                  <p key={ni} style={{ margin: "4px 0" }}>
+                    <GenericEditableText sectionId={sectionId} field={`notes.${ni}`} value={n} tag="span" />
+                  </p>
+                ))}
+              </div>
+            )}
+            {ctas.length > 0 && (
+              <div className="mt-8 flex flex-wrap gap-4">
+                {ctas.map((cta, ci) => {
+                  const isPrimary = cta.primary !== false;
+                  return (
+                    <a
+                      key={ci}
+                      href={cta.href}
+                      data-btn={isPrimary ? "primary" : "inverse"}
+                      className={`inline-flex items-center justify-center uppercase no-underline ${isPrimary ? "b03s-cta-primary" : "b03s-cta-secondary"}`}
+                      style={{
+                        gap: 10,
+                        border: isPrimary ? "1px solid #c8a96e" : "1px solid rgba(245,239,230,0.4)",
+                        backgroundColor: isPrimary ? "#c8a96e" : "transparent",
+                        color: isPrimary ? "#1c1410" : "#f5efe6",
+                        fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                        fontSize: 11.5,
+                        fontWeight: 700,
+                        letterSpacing: "0.24em",
+                        padding: "15px 30px",
+                        transition: "background 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease",
+                        boxShadow: isPrimary ? "0 6px 20px rgba(200,169,110,0.32)" : "none",
+                      }}
+                    >
+                      <GenericEditableText sectionId={sectionId} field={`ctas.${ci}.label`} value={cta.label} tag="span" />
+                      <span aria-hidden className="b03s-cta-arrow" style={{ display: "inline-flex", transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)" }}>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                      </span>
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
 }

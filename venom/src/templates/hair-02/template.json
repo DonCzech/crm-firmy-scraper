@@ -9,18 +9,48 @@
   "description": "Kadeřnický salon s teal paletou (#8ab2ab), Montserrat, beige (#ebe8e2) pozadí — image slider hero, story sekce s brandy, promo e-shop, location split. Inspirováno hairsalon-no1.cz.",
   "sectionOrderNote": "Originál má hero (slider) → about (story+brands) → promo (e-shop) → location-split → gallery → services → testimonials → footer; pořadí odpovídá service-personal kostře.",
   "skippedSections": [
-    { "pos": 5, "name": "Pricing", "reason": "originál nemá ceník na homepage — přes booking/kontakt" },
-    { "pos": 7, "name": "Team", "reason": "originál nemá team sekci na homepage" },
-    { "pos": 9, "name": "Booking/CTA", "reason": "CTA je součástí hero a location sekcí" },
-    { "pos": 10, "name": "Locations", "reason": "adresa je v contact-location sekci" },
-    { "pos": 11, "name": "FAQ", "reason": "originál nemá FAQ" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "originál nemá ceník na homepage — přes booking/kontakt"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "originál nemá team sekci na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "CTA je součástí hero a location sekcí"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "adresa je v contact-location sekci"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "originál nemá FAQ"
+    }
   ],
   "extraSections": [
-    { "type": "cta", "variant": "cta-hair-02-promo", "reason": "e-shop promo blok s beige bg, 2-col text+circle foto — unikátní pro hairsalon-no1" }
+    {
+      "type": "cta",
+      "variant": "cta-hair-02-promo",
+      "reason": "e-shop promo blok s beige bg, 2-col text+circle foto — unikátní pro hairsalon-no1"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,44 +58,129 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "hair-02-navbar",           "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-hair-02-slider",       "contentRef": "hero" },
-        { "type": "about",        "variant": "about-hair-02-story",       "contentRef": "about" },
-        { "type": "cta",          "variant": "cta-hair-02-promo",         "contentRef": "promo" },
-        { "type": "contact",      "variant": "contact-hair-02-location",  "contentRef": "contact-location" },
-        { "type": "gallery",      "variant": "default",                   "contentRef": "gallery" },
-        { "type": "services",     "variant": "cards-grid",                "contentRef": "services" },
-        { "type": "testimonials", "variant": "hair-01-cards",             "contentRef": "testimonials" },
-        { "type": "footer",       "variant": "hair-01-footer",            "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-02-slider",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-02-story",
+          "contentRef": "about"
+        },
+        {
+          "type": "cta",
+          "variant": "cta-hair-02-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "hair-02",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "contact-hair-02-location",
+          "contentRef": "contact-location"
+        },
+        {
+          "type": "gallery",
+          "variant": "default",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "services",
+          "variant": "cards-grid",
+          "contentRef": "services"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-01-cards",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "o-nas",
       "title": "O nás",
       "sections": [
-        { "type": "navbar",  "variant": "hair-02-navbar",    "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",     "contentRef": "pages.o-nas.hero" },
-        { "type": "about",   "variant": "about-hair-02-story", "contentRef": "about" },
-        { "type": "footer",  "variant": "hair-01-footer",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-02-story",
+          "contentRef": "about"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "galerie",
       "title": "Galerie",
       "sections": [
-        { "type": "navbar",   "variant": "hair-02-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",    "contentRef": "pages.galerie.hero" },
-        { "type": "gallery",  "variant": "default",          "contentRef": "gallery" },
-        { "type": "footer",   "variant": "hair-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.galerie.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "default",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "kontakt",
       "title": "Kontakt",
       "sections": [
-        { "type": "navbar",   "variant": "hair-02-navbar",          "contentRef": "navbar" },
-        { "type": "contact",  "variant": "contact-hair-02-location", "contentRef": "contact-location" },
-        { "type": "footer",   "variant": "hair-01-footer",           "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "contact-hair-02-location",
+          "contentRef": "contact-location"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

@@ -1,5 +1,5 @@
 import pg from 'pg';
-const pool = new pg.Pool({ connectionString: 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require', max: 1 });
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL, max: 1 });
 
 // Improved kill script that also overrides src property setter
 const KILL_V3 = `<script id="venom-kill3">(function(){

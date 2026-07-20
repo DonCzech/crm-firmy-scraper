@@ -80,11 +80,11 @@ export function HelpPanel({ tenantSlug }: { tenantSlug?: string }) {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--vs-surface-2)]">
-          <span className="text-[17px] font-black tracking-tight text-white">Nápověda</span>
+          <span className="text-[17px] font-black tracking-tight text-[var(--vs-text)]">Nápověda</span>
           <button
             type="button"
             onClick={() => studio.setHelpPanelOpen(false)}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-muted)] transition-colors"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
             aria-label="Zavřít"
           >
             <X className="h-4 w-4" />
@@ -97,7 +97,7 @@ export function HelpPanel({ tenantSlug }: { tenantSlug?: string }) {
             Vítej ve Webero Studiu! Tady ti v rychlosti ukážeme nejdůležitější funkce, které ti pomohou rozjet web co nejrychleji.
           </p>
 
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#6b7280] mb-3">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--vs-text-muted)] mb-3">
             Představení základních funkcí
           </p>
 
@@ -108,8 +108,8 @@ export function HelpPanel({ tenantSlug }: { tenantSlug?: string }) {
                   <Icon className="h-4 w-4" strokeWidth={1.75} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[13px] font-semibold text-white mb-0.5">{title}</p>
-                  <p className="text-[12px] leading-snug text-[#6b7280]">{desc}</p>
+                  <p className="text-[13px] font-semibold text-[var(--vs-text)] mb-0.5">{title}</p>
+                  <p className="text-[12px] leading-snug text-[var(--vs-text-muted)]">{desc}</p>
                 </div>
               </li>
             ))}
@@ -121,7 +121,7 @@ export function HelpPanel({ tenantSlug }: { tenantSlug?: string }) {
           <button
             type="button"
             onClick={() => { studio.setHelpPanelOpen(false); studio.setShortcutsOpen(true); }}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
           >
             <Keyboard className="h-3.5 w-3.5" strokeWidth={1.75} />
             Klávesové zkratky
@@ -129,7 +129,7 @@ export function HelpPanel({ tenantSlug }: { tenantSlug?: string }) {
           <button
             type="button"
             onClick={restartTour}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
           >
             <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.75} />
             Spustit průvodce znovu

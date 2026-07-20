@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#0f7d4e",
+    "secondary": "#131313",
+    "accent": "#d92b2b",
+    "background": "#ffffff",
+    "surface": "#f5f5f4",
+    "text": "#161616",
+    "textMuted": "#6b6b66",
+    "border": "#e4e3df"
+  },
+  "typography": {
+    "fontHeading": "'Fira Sans', 'Segoe UI', Arial, sans-serif",
+    "fontBody": "'Fira Sans', 'Segoe UI', Arial, sans-serif"
+  }
+}

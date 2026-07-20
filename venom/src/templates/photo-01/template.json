@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "photo-01",
-  "name": "Demo Fotografka",
+  "name": "Markéta Sýkorová",
   "industry": "photo",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,21 +9,57 @@
   "description": "Svatební a rodinná fotografka — minimalistický WordPress-style web. Čistý bílý sticky navbar s wordmark logem, 3-sloupec hero kategorie (Svatby / Rodiny / Těhotenské), bio sekce s portrétem, voucher CTA, masonry fotogalerie, footer. Inspirováno zbiralova.cz. Georgia serif + system-ui.",
   "sectionOrderNote": "Navbar → Hero → About → Gallery → CTA → Footer",
   "skippedSections": [
-    { "pos": 4, "name": "Services", "reason": "Kategorie focení jsou součástí hero sekce" },
-    { "pos": 5, "name": "Pricing", "reason": "Ceník je na dedikované podstránce — originál zbiralova.cz nemá ceník na homepage" },
-    { "pos": 7, "name": "Testimonials", "reason": "Originál zbiralova.cz nemá recenze na homepage — absence recenzí na fotografickém webu je záměrná" },
-    { "pos": 8, "name": "Testimonials", "reason": "Viz pos 7" },
-    { "pos": 9, "name": "FAQ", "reason": "Originál nemá FAQ na homepage" },
-    { "pos": 10, "name": "Locations", "reason": "Fotografka nemá provozovnu — kontakt je v zápatí" },
-    { "pos": 11, "name": "FAQ", "reason": "Originál zbiralova.cz nemá FAQ na homepage" }
+    {
+      "pos": 4,
+      "name": "Services",
+      "reason": "Kategorie focení jsou součástí hero sekce"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je na dedikované podstránce — originál zbiralova.cz nemá ceník na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Originál zbiralova.cz nemá recenze na homepage — absence recenzí na fotografickém webu je záměrná"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Viz pos 7"
+    },
+    {
+      "pos": 9,
+      "name": "FAQ",
+      "reason": "Originál nemá FAQ na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "Fotografka nemá provozovnu — kontakt je v zápatí"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál zbiralova.cz nemá FAQ na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "gallery", "reason": "Masonry foto-grid — klíčový prvek fotografického webu" },
-    { "type": "cta",     "reason": "Voucher na focení — CTA sekce s bullet-point výhodami" }
+    {
+      "type": "gallery",
+      "reason": "Masonry foto-grid — klíčový prvek fotografického webu"
+    },
+    {
+      "type": "cta",
+      "reason": "Voucher na focení — CTA sekce s bullet-point výhodami"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -31,12 +67,36 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",  "variant": "photo-01-navbar",  "contentRef": "navbar"  },
-        { "type": "hero",    "variant": "photo-01-hero",    "contentRef": "hero"    },
-        { "type": "about",   "variant": "photo-01-about",   "contentRef": "about"   },
-        { "type": "gallery", "variant": "photo-01-gallery", "contentRef": "gallery" },
-        { "type": "cta",     "variant": "photo-01-cta",     "contentRef": "cta"     },
-        { "type": "footer",  "variant": "photo-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "photo-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "photo-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "photo-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "gallery",
+          "variant": "photo-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "cta",
+          "variant": "photo-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "photo-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

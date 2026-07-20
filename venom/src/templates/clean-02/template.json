@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "clean-02",
-  "name": "Demo Modrý Žralok",
+  "name": "Modrá Vlna",
   "industry": "clean",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -50,7 +50,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -58,17 +60,61 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",       "variant": "clean-02-navbar",       "contentRef": "navbar"       },
-        { "type": "hero",         "variant": "clean-02-hero",         "contentRef": "hero"         },
-        { "type": "stats",        "variant": "clean-02-stats",        "contentRef": "stats"        },
-        { "type": "promo",        "variant": "clean-02-promo",        "contentRef": "promo"        },
-        { "type": "services",     "variant": "clean-02-services",     "contentRef": "services"     },
-        { "type": "about",        "variant": "clean-02-about",        "contentRef": "about"        },
-        { "type": "blog-preview", "variant": "clean-02-blog",         "contentRef": "blog"         },
-        { "type": "cta",          "variant": "clean-02-cta",          "contentRef": "cta"          },
-        { "type": "testimonials", "variant": "clean-02-testimonials", "contentRef": "testimonials" },
-        { "type": "contact",      "variant": "clean-02-contact",      "contentRef": "contact"      },
-        { "type": "footer",       "variant": "clean-02-footer",       "contentRef": "footer"       }
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "clean-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "clean-02-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "promo",
+          "variant": "clean-02-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "services",
+          "variant": "clean-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "clean-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "clean-02-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "cta",
+          "variant": "clean-02-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "testimonials",
+          "variant": "clean-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "contact",
+          "variant": "clean-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -77,10 +123,26 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "clean-02-navbar",   "contentRef": "navbar"   },
-        { "type": "services", "variant": "clean-02-services", "contentRef": "services" },
-        { "type": "contact",  "variant": "clean-02-contact",  "contentRef": "contact"  },
-        { "type": "footer",   "variant": "clean-02-footer",   "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "services",
+          "variant": "clean-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "contact",
+          "variant": "clean-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -89,9 +151,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "clean-02-navbar",  "contentRef": "navbar"  },
-        { "type": "contact", "variant": "clean-02-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "clean-02-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "clean-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

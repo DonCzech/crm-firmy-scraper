@@ -17,7 +17,7 @@ const TITLES: Record<string, string> = {
 
 function EmptyIllustration() {
   return (
-    <div className="w-[280px] rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl p-4">
+    <div className="vs-chrome-card w-[280px] rounded-xl border p-4">
       {/* 3 placeholder rows */}
       {[0.75, 0.55, 0.65].map((w, i) => (
         <div key={i} className="flex items-center gap-3 mb-3">
@@ -46,7 +46,7 @@ export function StudioModulesCanvas({ state: _state }: { state: StudioState }) {
   return (
     <div className="h-full flex flex-col overflow-hidden vs-canvas-deep">
       {/* Sticky top bar */}
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-8 py-4 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.16)]">
+      <div className="vs-chrome-header sticky top-0 z-10 flex items-center justify-between border-b px-8 py-4">
         <h1 className="text-[22px] font-bold text-[var(--vs-text)]">{title}</h1>
         <button
           type="button"

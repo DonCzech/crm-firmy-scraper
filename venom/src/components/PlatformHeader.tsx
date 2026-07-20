@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Check, ChevronRight, ArrowRight } from "lucide-react";
+import { Menu, X, Check, ChevronRight, ChevronDown, ArrowRight } from "lucide-react";
 import { OnboardingModal } from "@/components/onboarding/OnboardingModal";
 import { type PlatformLocale, localizedPath, platformCopy, platformPath } from "@/lib/platform-i18n";
 
@@ -19,8 +19,24 @@ const navItemsFor = (locale: PlatformLocale) => {
 
 function WeberoMark({ size = 30, light = false }: { size?: number; light?: boolean }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 30 30"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="transition-transform duration-200 ease-out group-hover/logo:-rotate-6 group-hover/logo:scale-110"
+    >
       <rect width="30" height="30" rx="8" fill={light ? "rgba(255,255,255,0.15)" : "url(#wm-grad)"} />
+      {light && (
+        <rect
+          width="30"
+          height="30"
+          rx="8"
+          fill="url(#wm-grad)"
+          className="opacity-0 transition-opacity duration-200 group-hover/logo:opacity-100"
+        />
+      )}
       <path
         d="M7 9.5L10.8 20.5L15 12.5L19.2 20.5L23 9.5"
         stroke="white"
@@ -96,8 +112,8 @@ export function PlatformHeader({
         {/* Logo */}
         <Link
           href={localizedPath("/", locale)}
-          className={`flex items-center gap-3 font-bold text-[22px] tracking-[-0.025em] transition-colors duration-150 ${
-            solid ? "text-[#111827]" : "text-white"
+          className={`group/logo flex items-center gap-3 font-bold text-[22px] tracking-[-0.025em] transition-colors duration-200 ${
+            solid ? "text-[#111827] hover:text-[#4f46e5]" : "text-white hover:text-[#c7d2fe]"
           }`}
         >
           <WeberoMark size={42} light={!solid} />
@@ -121,11 +137,23 @@ export function PlatformHeader({
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`group/nav relative py-1 font-medium transition-colors duration-150 hover:text-[#6366f1] ${
+                className={`group/nav relative py-1 font-medium ${
                   active ? "text-[#4f46e5]" : solid ? "text-[#374151]" : "text-white/95"
                 }`}
               >
-                {item.label}
+                <span className="relative block overflow-hidden">
+                  <span className="block transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/nav:-translate-y-full">
+                    {item.label}
+                  </span>
+                  <span
+                    aria-hidden
+                    className={`absolute inset-0 block translate-y-full transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/nav:translate-y-0 ${
+                      solid || active ? "text-[#6366f1]" : "text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </span>
                 <span
                   className={`absolute -bottom-0.5 left-0 h-[2px] w-full origin-left rounded-full transition-transform duration-300 ease-out ${
                     solid || active ? "bg-[#6366f1]" : "bg-white"
@@ -140,11 +168,23 @@ export function PlatformHeader({
         <div className="hidden items-center gap-3 lg:flex">
           <Link
             href={platformPath("/admin/login", locale)}
-            className={`group/login relative py-1 text-[15px] font-medium transition-colors duration-150 hover:text-[#6366f1] ${
+            className={`group/login relative py-1 text-[15px] font-medium ${
               solid ? "text-[#374151]" : "text-white/90"
             }`}
           >
-            {copy.login}
+            <span className="relative block overflow-hidden">
+              <span className="block transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/login:-translate-y-full">
+                {copy.login}
+              </span>
+              <span
+                aria-hidden
+                className={`absolute inset-0 block translate-y-full transition-transform duration-300 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover/login:translate-y-0 ${
+                  solid ? "text-[#6366f1]" : "text-white"
+                }`}
+              >
+                {copy.login}
+              </span>
+            </span>
             <span
               className={`absolute -bottom-0.5 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full transition-transform duration-300 ease-out group-hover/login:scale-x-100 ${
                 solid ? "bg-[#6366f1]" : "bg-white"
@@ -154,12 +194,18 @@ export function PlatformHeader({
           <button
             type="button"
             onClick={openTryFree}
-            className={`group/cta inline-flex items-center gap-1.5 rounded-lg px-5 py-2.5 text-[14.5px] font-semibold transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.98] ${
+            className={`group/cta relative inline-flex items-center gap-1.5 overflow-hidden rounded-lg px-5 py-2.5 text-[14.5px] font-semibold transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.98] ${
               solid
                 ? "bg-[#4f46e5] text-white shadow-[0_1px_3px_rgba(0,0,0,.12),0_4px_12px_rgba(79,70,229,.25)] hover:bg-[#4338ca] hover:shadow-[0_2px_4px_rgba(0,0,0,.12),0_8px_20px_rgba(79,70,229,.35)]"
                 : "bg-white text-[#111827] hover:bg-white/90"
             }`}
           >
+            <span
+              aria-hidden
+              className={`pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent to-transparent transition-transform duration-500 ease-out group-hover/cta:translate-x-full ${
+                solid ? "via-white/25" : "via-[#6366f1]/10"
+              }`}
+            />
             {copy.tryFree}
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
           </button>
@@ -173,8 +219,14 @@ export function PlatformHeader({
                   : "border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
               }`}
             >
-              <span aria-hidden>{locale === "en" ? "🇬🇧" : "🇨🇿"}</span>
+              <span aria-hidden className="transition-transform duration-200 group-hover:scale-110">
+                {locale === "en" ? "🇬🇧" : "🇨🇿"}
+              </span>
               <span>{locale.toUpperCase()}</span>
+              <ChevronDown
+                className="h-3.5 w-3.5 opacity-60 transition-transform duration-200 group-hover:rotate-180"
+                strokeWidth={2.5}
+              />
             </button>
             <div className="invisible absolute right-0 top-full translate-y-1 pt-2 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
               <div className="w-40 overflow-hidden rounded-xl border border-[#e5e7eb] bg-white p-1.5 shadow-[0_18px_45px_rgba(15,23,42,0.16)]">

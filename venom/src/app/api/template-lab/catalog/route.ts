@@ -3,6 +3,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { existsSync } from "fs";
 import { query } from "@/lib/db";
+import { requirePlatformAdmin } from "@/lib/platform-admin";
 
 /**
  * F2 Sprint 2 — Template catalog for "Change Template" wizard.
@@ -20,7 +21,9 @@ interface CatalogItem {
 
 export const dynamic = "force-dynamic";
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
+  const auth = requirePlatformAdmin(req);
+  if (!auth.ok) return auth.response;
   const root = path.join(process.cwd(), "src", "templates");
   if (!existsSync(root)) return Response.json({ templates: [] });
 

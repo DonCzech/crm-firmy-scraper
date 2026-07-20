@@ -6,7 +6,7 @@ import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
 import { useStudio } from "../StudioContext";
 import { FieldReset } from "./FieldReset";
-import { Monitor, Tablet, Smartphone } from "@/components/studio/icons";
+import { Tablet, Smartphone } from "@/components/studio/icons";
 
 type Spacing = "tight" | "normal" | "airy";
 
@@ -56,13 +56,23 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
   const isResponsiveBp = bp !== "desktop";
   const bpOverrides: ResponsivePad = (isResponsiveBp ? layout.responsive?.[bp] : undefined) ?? {};
 
-  /** Efektivní hodnota pro zobrazení: override → fallback na desktop/base. */
-  const effPad = (key: keyof ResponsivePad): number =>
-    (isResponsiveBp ? bpOverrides[key] : undefined) ?? layout[key] ?? 0;
+  /** Skutečně vykreslený padding šablony — baseline pro osy bez override.
+   *  Jakmile se totiž hodnota zapíše, wrapper přebírá celou osu a padding
+   *  šablony se nuluje (SectionRenderer). Slider startující z 0 by tak první
+   *  změnou sekci skokově ZMENŠIL o šablonový padding. */
+  const measurePad = (key: keyof ResponsivePad): number => {
+    if (typeof document === "undefined") return 0;
+    const frame = document.querySelector<HTMLElement>(`[data-section-id="${section.id}"]`);
+    const el = frame?.querySelector("section") ?? frame;
+    if (!el) return 0;
+    const cs = getComputedStyle(el);
+    const prop = key === "paddingTop" ? cs.paddingTop : key === "paddingBottom" ? cs.paddingBottom : cs.paddingLeft;
+    return Math.round(parseFloat(prop) || 0);
+  };
 
-  const [pt, setPt] = useState<number>(effPad("paddingTop"));
-  const [pb, setPb] = useState<number>(effPad("paddingBottom"));
-  const [px, setPx] = useState<number>(effPad("paddingX"));
+  const [pt, setPt] = useState<number>(0);
+  const [pb, setPb] = useState<number>(0);
+  const [px, setPx] = useState<number>(0);
   const [bg, setBg] = useState(layout.backgroundColor ?? "");
   const [hideMobile, setHideMobile] = useState(hiddenOn.includes("mobile"));
   const [hideTablet, setHideTablet] = useState(hiddenOn.includes("tablet"));
@@ -80,9 +90,9 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
     const lay = (section.settings?.layout ?? {}) as LayoutSettings;
     const ov = (section.settings as Record<string, unknown> | undefined)?.overlay as { enabled?: boolean; layer?: OverlayLayer } | undefined;
     const bpo: ResponsivePad = (bp !== "desktop" ? lay.responsive?.[bp] : undefined) ?? {};
-    setPt(bpo.paddingTop ?? lay.paddingTop ?? 0);
-    setPb(bpo.paddingBottom ?? lay.paddingBottom ?? 0);
-    setPx(bpo.paddingX ?? lay.paddingX ?? 0);
+    setPt(bpo.paddingTop ?? lay.paddingTop ?? measurePad("paddingTop"));
+    setPb(bpo.paddingBottom ?? lay.paddingBottom ?? measurePad("paddingBottom"));
+    setPx(bpo.paddingX ?? lay.paddingX ?? measurePad("paddingX"));
     setBg(lay.backgroundColor ?? "");
     setHideMobile(ho.includes("mobile"));
     setHideTablet(ho.includes("tablet"));
@@ -117,6 +127,16 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
     // aby se media-query override hned projevil v náhledu.
     void commitLayout({ responsive: nextResponsive }).then(() => {
       window.dispatchEvent(new Event("studio:request-iframe-refresh"));
+    });
+  }
+
+  /** Desktop reset: smaže override (šablona si vezme padding zpět) a po
+   *  překreslení znovu změří skutečnou hodnotu pro zobrazení ve slideru. */
+  function resetAxisToTemplate(key: keyof ResponsivePad, setter: (v: number) => void) {
+    if (commitTimer.current) { clearTimeout(commitTimer.current); commitTimer.current = null; }
+    pendingPatch.current = {};
+    void commitLayout({ [key]: undefined }).then(() => {
+      requestAnimationFrame(() => setter(measurePad(key)));
     });
   }
 
@@ -170,8 +190,10 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           min={0}
           max={PAD_MAX_Y}
           step={PAD_STEP}
+          modified={layout.paddingTop !== undefined}
+          onResetDefault={() => resetAxisToTemplate("paddingTop", setPt)}
           overridden={isResponsiveBp ? bpOverrides.paddingTop !== undefined : undefined}
-          onClearOverride={isResponsiveBp ? () => { setPt(layout.paddingTop ?? 0); commitPadding({ paddingTop: undefined }); } : undefined}
+          onClearOverride={isResponsiveBp ? () => { setPt(layout.paddingTop ?? measurePad("paddingTop")); commitPadding({ paddingTop: undefined }); } : undefined}
         />
         <PaddingSlider
           label="Dole"
@@ -180,8 +202,10 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           min={0}
           max={PAD_MAX_Y}
           step={PAD_STEP}
+          modified={layout.paddingBottom !== undefined}
+          onResetDefault={() => resetAxisToTemplate("paddingBottom", setPb)}
           overridden={isResponsiveBp ? bpOverrides.paddingBottom !== undefined : undefined}
-          onClearOverride={isResponsiveBp ? () => { setPb(layout.paddingBottom ?? 0); commitPadding({ paddingBottom: undefined }); } : undefined}
+          onClearOverride={isResponsiveBp ? () => { setPb(layout.paddingBottom ?? measurePad("paddingBottom")); commitPadding({ paddingBottom: undefined }); } : undefined}
         />
         <PaddingSlider
           label="Po stranách"
@@ -190,13 +214,15 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           min={0}
           max={PAD_MAX_X}
           step={PAD_STEP}
+          modified={layout.paddingX !== undefined}
+          onResetDefault={() => resetAxisToTemplate("paddingX", setPx)}
           overridden={isResponsiveBp ? bpOverrides.paddingX !== undefined : undefined}
-          onClearOverride={isResponsiveBp ? () => { setPx(layout.paddingX ?? 0); commitPadding({ paddingX: undefined }); } : undefined}
+          onClearOverride={isResponsiveBp ? () => { setPx(layout.paddingX ?? measurePad("paddingX")); commitPadding({ paddingX: undefined }); } : undefined}
         />
         <p className="text-[10.5px] leading-snug text-[var(--vs-text-muted)]">
           {isResponsiveBp
             ? `Hodnoty platí jen pro ${bp === "tablet" ? "tablet (768–1023 px)" : "mobil (do 767 px)"}. Bez úpravy sekce dědí hodnoty z desktopu.`
-            : "Přidává extra prostor okolo sekce (nad rámec interních mezer šablony)."}
+            : "Hodnota přepisuje vnitřní mezery šablony — startuje na skutečné změřené hodnotě."}
         </p>
       </div>
 
@@ -361,7 +387,7 @@ function Label({ children }: { children: React.ReactNode }) {
 }
 
 function PaddingSlider({
-  label, value, onChange, min, max, step, overridden, onClearOverride,
+  label, value, onChange, min, max, step, modified, onResetDefault, overridden, onClearOverride,
 }: {
   label: string;
   value: number;
@@ -369,6 +395,10 @@ function PaddingSlider({
   min: number;
   max: number;
   step: number;
+  /** Desktop: osa má uložený override (šablonový default byl přepsán). */
+  modified?: boolean;
+  /** Desktop reset: smaže override → padding si zpět převezme šablona. */
+  onResetDefault?: () => void;
   /** 3b — responsive režim: true = breakpoint má vlastní hodnotu, false = dědí desktop */
   overridden?: boolean;
   /** 3b — smaže breakpoint override (vrátí dědění z desktopu) */
@@ -408,9 +438,9 @@ function PaddingSlider({
             />
           ) : (
             <FieldReset
-              onReset={() => onChange(0)}
-              modified={value !== 0}
-              title={`Vrátit ${label.toLowerCase()} na výchozí (0)`}
+              onReset={() => onResetDefault?.()}
+              modified={!!modified}
+              title={`Vrátit ${label.toLowerCase()} na výchozí hodnotu šablony`}
             />
           )}
         </div>

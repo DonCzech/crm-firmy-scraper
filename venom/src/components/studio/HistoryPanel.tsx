@@ -208,7 +208,7 @@ export function HistoryPanel({ state }: { state: StudioState }) {
                           type="button"
                           onClick={() => void restore(rev.id)}
                           disabled={restoringId !== null}
-                          className="rounded-md bg-[var(--vs-danger)] px-2 py-1 text-[11px] font-semibold text-white hover:brightness-110 disabled:opacity-60"
+                          className="rounded-md bg-[var(--vs-danger)] px-2 py-1 text-[11px] font-semibold text-[var(--vs-text)] hover:brightness-110 disabled:opacity-60"
                         >
                           {restoringId === rev.id ? "Obnovuji…" : "Opravdu obnovit"}
                         </button>

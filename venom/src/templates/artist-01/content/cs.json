@@ -1,0 +1,192 @@
+{
+  "navbar": {
+    "siteName": "Viktorie Lánská",
+    "signature": "Viktorie",
+    "logoUrl": "",
+    "links": [
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Viktorie",
+        "href": "/o-mne"
+      },
+      {
+        "label": "Novinky",
+        "href": "/novinky"
+      },
+      {
+        "label": "Diskografie",
+        "href": "/diskografie"
+      },
+      {
+        "label": "Foto a video",
+        "href": "/galerie"
+      },
+      {
+        "label": "Koncerty",
+        "href": "/koncerty"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "backgroundImage": "/templates/artist-01/hero.webp",
+    "heroAlt": "Viktorie Lánská na koncertě",
+    "photoCredit": "Foto: Martin Řehánek"
+  },
+  "album": {
+    "eyebrow": "Nové album",
+    "title": "Poslední album",
+    "albumName": "Střepy a světlo",
+    "year": "2026",
+    "perex": "Deset písní o pádech a návratech. Viktorie Lánská se na svém pátém studiovém albu vrací k tomu nejosobnějšímu — křehké klavírní balady se střídají s velkými symfonickými vrcholy. Nahráno s Českým národním orchestrem v pražském Rudolfinu, s texty, které píše sama.",
+    "coverImage": "/templates/artist-01/album-cover.webp",
+    "coverAlt": "Obal alba Střepy a světlo",
+    "ctaText": "Celé album",
+    "ctaHref": "/diskografie",
+    "playText": "Přehrát ukázku",
+    "playHref": "/diskografie"
+  },
+  "concerts": {
+    "eyebrow": "Turné 2026",
+    "title": "Koncerty",
+    "subtitle": "Přijďte na živý zážitek — velké haly i komorní sály po celé republice.",
+    "ctaText": "Všechny termíny",
+    "ctaHref": "/koncerty",
+    "ticketLabel": "Koupit vstupenku",
+    "soldLabel": "Vyprodáno",
+    "concerts": [
+      {
+        "day": "6",
+        "month": "Říjen",
+        "city": "Chomutov",
+        "time": "19:00",
+        "venue": "Kulturní dům Rocknet",
+        "tour": "Střepy a světlo",
+        "ticketHref": "/koncerty"
+      },
+      {
+        "day": "12",
+        "month": "Říjen",
+        "city": "Plzeň",
+        "time": "19:00",
+        "venue": "Měšťanská beseda",
+        "tour": "Střepy a světlo",
+        "ticketHref": "/koncerty"
+      },
+      {
+        "day": "18",
+        "month": "Říjen",
+        "city": "Jihlava",
+        "time": "19:30",
+        "venue": "Horácká aréna",
+        "tour": "Střepy a světlo",
+        "ticketHref": "/koncerty",
+        "soldOut": true
+      },
+      {
+        "day": "25",
+        "month": "Říjen",
+        "city": "Praha",
+        "time": "20:00",
+        "venue": "Rudolfinum — Dvořákova síň",
+        "tour": "Střepy a světlo",
+        "ticketHref": "/koncerty"
+      }
+    ]
+  },
+  "news": {
+    "eyebrow": "Aktuálně",
+    "title": "Novinky",
+    "subtitle": "Ze zákulisí, z pódia i z nahrávacího studia.",
+    "ctaText": "Další novinky",
+    "ctaHref": "/novinky",
+    "readLabel": "Číst více",
+    "posts": [
+      {
+        "image": "/templates/artist-01/news-1.webp",
+        "date": "24. 9. 2026",
+        "category": "Turné",
+        "title": "Turné Střepy a světlo startuje v říjnu",
+        "excerpt": "Osmnáct měst, jeden orchestr a písně, které jsem ještě nikdy nezpívala živě.",
+        "href": "/novinky"
+      },
+      {
+        "image": "/templates/artist-01/news-2.webp",
+        "date": "9. 9. 2026",
+        "category": "Studio",
+        "title": "Nová píseň Amen vychází jako singl",
+        "excerpt": "Komorní balada nahraná jedním dechem — bez střihu, bez korekcí.",
+        "href": "/novinky"
+      },
+      {
+        "image": "/templates/artist-01/news-3.webp",
+        "date": "28. 8. 2026",
+        "category": "Ocenění",
+        "title": "Cena Anděl za album roku poputovala k nám",
+        "excerpt": "Děkuji všem, kteří tuhle desku dělali se mnou. Patří vám.",
+        "href": "/novinky"
+      }
+    ]
+  },
+  "instagram": {
+    "eyebrow": "Instagram",
+    "title": "Sledujte mě",
+    "handle": "@viktorielanska",
+    "profileHref": "https://instagram.com/demo",
+    "tiles": [
+      {
+        "image": "/templates/artist-01/insta-1.webp",
+        "alt": "Portrét"
+      },
+      {
+        "image": "/templates/artist-01/insta-2.webp",
+        "alt": "V zákulisí"
+      },
+      {
+        "image": "/templates/artist-01/insta-3.webp",
+        "alt": "U klavíru"
+      },
+      {
+        "image": "/templates/artist-01/insta-4.webp",
+        "alt": "Vinyl"
+      }
+    ]
+  },
+  "footer": {
+    "signature": "Viktorie",
+    "siteName": "Viktorie Lánská",
+    "copyright": "© 2026 Viktorie Lánská. Všechna práva vyhrazena.",
+    "links": [
+      {
+        "label": "O mně",
+        "href": "/o-mne"
+      },
+      {
+        "label": "Diskografie",
+        "href": "/diskografie"
+      },
+      {
+        "label": "Koncerty",
+        "href": "/koncerty"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Ochrana údajů",
+        "href": "/ochrana-udaju"
+      }
+    ],
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "youtube": "https://youtube.com/@demo",
+    "spotify": "https://open.spotify.com/artist/demo"
+  }
+}

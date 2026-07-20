@@ -5,10 +5,22 @@
     "ctaText": "Objednat se",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "O nás",   "href": "#o-nas" },
-      { "label": "Služby",  "href": "#sluzby" },
-      { "label": "Ceník",   "href": "#cenik" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -63,10 +75,22 @@
     "title": "Jen to nejlepší pro vás",
     "subtitle": "Pečlivě jsme pro vás vybrali pouze produkty té nejvyšší kvality",
     "brands": [
-      { "name": "Blazingstar", "logoUrl": "" },
-      { "name": "OPI",         "logoUrl": "" },
-      { "name": "CNDC",        "logoUrl": "" },
-      { "name": "Footlogix",   "logoUrl": "" }
+      {
+        "name": "Blazingstar",
+        "logoUrl": ""
+      },
+      {
+        "name": "OPI",
+        "logoUrl": ""
+      },
+      {
+        "name": "CNDC",
+        "logoUrl": ""
+      },
+      {
+        "name": "Footlogix",
+        "logoUrl": ""
+      }
     ]
   },
   "cta": {
@@ -77,27 +101,62 @@
   "gallery": {
     "title": "Naše studio",
     "images": [
-      { "url": "/assets/nails-01/97eba31b75-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Interior-Hair-Styling-1x.webp", "alt": "Interiér studia" },
-      { "url": "/assets/nails-01/a7f8fa0765-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-1x.webp", "alt": "Manikúra" },
-      { "url": "/assets/nails-01/61c1801b94-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-Feet-Spa-1x.webp", "alt": "Pedikúra & Spa" },
-      { "url": "https://images.unsplash.com/photo-1516914943479-89db7d9ae7f2?w=600&h=600&fit=crop&q=80", "alt": "Řasy" },
-      { "url": "/assets/nails-01/2a5cefea6e-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-Eye-Lashes-Nail-Art-1x.webp", "alt": "Nail art" },
-      { "url": "/assets/nails-01/0cee37b217-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-1x.webp", "alt": "Beauty salon" }
+      {
+        "url": "/assets/nails-01/97eba31b75-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Interior-Hair-Styling-1x.webp",
+        "alt": "Interiér studia"
+      },
+      {
+        "url": "/assets/nails-01/a7f8fa0765-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-1x.webp",
+        "alt": "Manikúra"
+      },
+      {
+        "url": "/assets/nails-01/61c1801b94-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-Feet-Spa-1x.webp",
+        "alt": "Pedikúra & Spa"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1516914943479-89db7d9ae7f2?w=600&h=600&fit=crop&q=80",
+        "alt": "Řasy"
+      },
+      {
+        "url": "/assets/nails-01/2a5cefea6e-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-Eye-Lashes-Nail-Art-1x.webp",
+        "alt": "Nail art"
+      },
+      {
+        "url": "/assets/nails-01/0cee37b217-SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-1x.webp",
+        "alt": "Beauty salon"
+      }
     ]
   },
   "footer": {
-    "siteName": "Demo Soho Nails & Spa",
     "logoUrl": "",
     "tagline": "Prémiové nehtové studio a beauty salon v srdci Prahy.",
     "nav": [
-      { "label": "O nás",   "href": "#o-nas" },
-      { "label": "Služby",  "href": "#sluzby" },
-      { "label": "Ceník",   "href": "#cenik" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "hours": [
-      { "days": "Po – Pá", "time": "09:00 – 19:00" },
-      { "days": "So – Ne", "time": "10:00 – 18:00" }
+      {
+        "days": "Po – Pá",
+        "time": "09:00 – 19:00"
+      },
+      {
+        "days": "So – Ne",
+        "time": "10:00 – 18:00"
+      }
     ],
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
@@ -105,5 +164,13 @@
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
     "copyright": "© 2026 Demo Soho Nails & Spa. Všechna práva vyhrazena."
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se k nám",
+      "subtitle": "Vyberte službu, manikérku a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

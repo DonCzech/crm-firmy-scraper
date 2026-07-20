@@ -1,160 +1,212 @@
 {
   "navbar": {
-    "siteName": "Reality Premium",
+    "siteName": "Reality Dvořák",
     "logoUrl": "/templates/reality-03/logo.svg",
     "ctaText": "Kontakt",
-    "ctaHref": "#kontakt",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
-    "linkedinUrl": "https://linkedin.com/company/demo",
+    "ctaHref": "/kontakt",
+    "phone": "725 480 210",
     "links": [
-      { "label": "Nabídka",  "href": "#nabidka" },
-      { "label": "Prodej",   "href": "#prodej" },
-      { "label": "Pronájem", "href": "#pronajem" },
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Blog",     "href": "#blog" }
-    ]
+      {
+        "label": "Nabídka",
+        "href": "/nabidka"
+      },
+      {
+        "label": "Prodej",
+        "href": "/prodej"
+      },
+      {
+        "label": "Pronájem",
+        "href": "/pronajem"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Blog",
+        "href": "/clanky"
+      }
+    ],
+    "subtitle": "MARTIN & TEREZA",
+    "phoneLabel": "Zavolejte nám"
   },
   "hero": {
+    "eyebrow": "Rodinná realitní kancelář · Praha",
     "title": "Váš domov najdeme.\nVáš prodej dotáhneme.",
     "titleAccent": "Váš domov najdeme.",
-    "body": "Jsme Helena a Marcel — manžele s 19 lety praxe, kteří ke každé nemovitosti přistupují s péčí, jako by byla jejich vlastní. Přes 450 prodaných nemovitostí mluví za vše.",
-    "ctaText": "Naše služby",
-    "ctaHref": "#sluzby",
+    "body": "Jsme Tereza a Martin Dvořákovi — manželský pár, který ke každé nemovitosti přistupuje s péčí, jako by byla naše vlastní. Za 18 let jsme pomohli více než 600 rodinám najít nový domov i bezpečně prodat ten stávající.",
+    "ctaText": "Naše nabídka",
+    "ctaHref": "/nabidka",
     "ctaSecondaryText": "O nás",
-    "ctaSecondaryHref": "#o-nas",
-    "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&h=900&fit=crop&q=85",
+    "ctaSecondaryHref": "/o-nas",
+    "scrollLabel": "Objevte nabídku",
+    "image": "/templates/reality-03/hero-bg.webp",
+    "agentImage": "/templates/reality-03/agent.webp",
+    "agentName": "Tereza & Martin Dvořákovi",
+    "agentRole": "Vaši rodinní makléři",
     "stats": [
-      { "number": "19+", "label": "let praxe\nv realitách" },
-      { "number": "450", "label": "Prodaných\nnemovitostí" },
-      { "number": "2 000", "label": "Spokojených\nklientů" }
-    ],
-    "agentName": "Helena & Marcel",
-    "agentImage": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=700&fit=crop&q=80"
+      {
+        "number": "18+",
+        "label": "let praxe\nv realitách"
+      },
+      {
+        "number": "600+",
+        "label": "prodaných\nnemovitostí"
+      },
+      {
+        "number": "2 400",
+        "label": "spokojených\nklientů"
+      }
+    ]
   },
   "services": {
     "id": "sluzby",
+    "eyebrow": "Co pro vás děláme",
     "title": "Jak vám pomůžeme",
     "services": [],
     "items": [
       {
         "name": "Chci koupit",
         "title": "Chci koupit",
-        "body": "Správná nemovitost za správnou cenu — bez kompromisů. Provedeme vás celým procesem od prvního prohlídky až po podpis kupní smlouvy. Máme přístup k nabídkám mimo inzerci a vyjednáme pro vás nejlepší podmínky.",
+        "body": "Najdeme byt nebo dům, který sedí vaší představě i rozpočtu — a provedeme vás celou cestou od první prohlídky po předání klíčů. Díky síti kontaktů vám ukážeme i nemovitosti dřív, než se objeví v inzerci.",
         "ctaText": "Aktuální nabídka",
-        "ctaHref": "#nabidka"
+        "ctaHref": "/nabidka"
       },
       {
         "name": "Chci prodat",
         "title": "Chci prodat",
-        "body": "Průměrně prodáváme o 8 % nad tržní cenou. Bezplatný odhad hodnoty nemovitosti do 48 hodin, profesionální fotografie, homestaging a marketing, který přitáhne vážné zájemce — ne turisty.",
+        "body": "Bezplatný odhad tržní ceny do 48 hodin, profesionální fotografie, homestaging a cílený marketing. Postaráme se, aby vaši nemovitost viděli vážní zájemci — a prodáme ji za maximum bez zbytečných kompromisů.",
         "ctaText": "Zjistit cenu",
-        "ctaHref": "#kontakt"
+        "ctaHref": "/kontakt"
       },
       {
         "name": "Hledám pronájem",
         "title": "Hledám pronájem",
-        "body": "Víme, že hledat bydlení je stresující. Proto za vás aktivně prohledáváme i neveřejnou nabídku, komunikujeme s majiteli a připravíme nájemní smlouvu, která vás skutečně chrání.",
-        "ctaText": "Aktuální nabídka",
-        "ctaHref": "#pronajem",
+        "body": "Hledání bydlení umí být stresující — proto ho vezmeme na sebe. Aktivně procházíme i neveřejné nabídky, jednáme s majiteli a připravíme nájemní smlouvu, která opravdu chrání vás.",
+        "ctaText": "Volné pronájmy",
+        "ctaHref": "/pronajem",
         "accent": true
       },
       {
         "name": "Nabízím pronájem",
         "title": "Nabízím pronájem",
-        "body": "Správný nájemník, férová smlouva, žádné starosti. Postaráme se o prověření zájemců, právní dokumentaci i předávací protokol. Vaše investice vydělává — bez toho, abyste museli řešit byrokracii.",
+        "body": "Spolehlivý nájemník, férová smlouva a nula starostí. Prověříme zájemce, sepíšeme právní dokumentaci i předávací protokol. Vaše investice vydělává — a papírování necháte na nás.",
         "ctaText": "Více informací",
-        "ctaHref": "#kontakt",
+        "ctaHref": "/kontakt",
         "accent": true
       }
     ]
   },
   "listings": {
     "id": "nabidka",
+    "eyebrow": "Aktuální nabídka",
     "title": "Novinky v nabídce",
+    "allLabel": "Všechny nemovitosti",
+    "allHref": "/nabidka",
+    "detailLabel": "Zobrazit detail",
     "items": [
       {
         "title": "Rodinný dům 5+kk s terasou",
         "location": "Praha 6 — Řepy",
         "price": "9 490 000",
         "type": "prodej",
-        "image": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&q=80"
+        "disposition": "5+kk",
+        "area": "142 m²",
+        "image": "/templates/reality-03/listing-3.webp"
       },
       {
         "title": "Byt 3+kk, novostavba",
         "location": "Praha 5 — Smíchov",
         "price": "6 250 000",
         "type": "prodej",
-        "image": "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=600&h=400&fit=crop&q=80"
+        "disposition": "3+kk",
+        "area": "74 m²",
+        "image": "/templates/reality-03/listing-5.webp"
       },
       {
         "title": "Byt 2+kk, moderní interiér",
         "location": "Praha 2 — Vinohrady",
         "price": "22 500",
         "type": "pronajem",
-        "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop&q=80"
+        "disposition": "2+kk",
+        "area": "58 m²",
+        "image": "/templates/reality-03/listing-8.webp"
       },
       {
-        "title": "Vila 6+2, bazén, zahrada",
-        "location": "Praha — západ, Průhonice",
+        "title": "Vila 6+2, bazén a zahrada",
+        "location": "Praha-západ — Průhonice",
         "price": "18 900 000",
         "type": "prodej",
-        "image": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop&q=80"
+        "disposition": "6+2",
+        "area": "260 m²",
+        "image": "/templates/reality-03/listing-1.webp"
       }
     ]
   },
   "testimonials": {
     "id": "recenze",
-    "title": "Co říkají naši klienti",
+    "eyebrow": "Spokojení klienti",
+    "title": "Co o nás říkají",
     "testimonials": [],
     "items": [
       {
-        "text": "Helena a Marcel jsou naprostí profesionálové. Prodali jsme rodinný dům za vyšší cenu, než jsme čekali, a celý proces trval jen šest týdnů. Komunikace byla bezchybná od prvního kontaktu až po předání klíčů.",
-        "author": "Jana a Tomáš K.",
+        "text": "Tereza a Martin jsou naprostí profesionálové. Prodali jsme rodinný dům za vyšší cenu, než jsme čekali, a celý proces trval jen šest týdnů. Komunikace byla bezchybná od prvního kontaktu až po předání klíčů.",
+        "author": "Jana a Tomáš Konečných",
+        "location": "Praha 6",
         "rating": 5
       },
       {
-        "text": "Konečně makléři, kteří skutečně poslouchají. Hledali jsme byt přes půl roku bez úspěchu — Helena nám do dvou týdnů našla přesně to, co jsme potřebovali, včetně neveřejné nabídky.",
-        "author": "Petra V.",
+        "text": "Konečně makléři, kteří skutečně poslouchají. Hledali jsme byt přes půl roku bez úspěchu — Tereza nám do dvou týdnů našla přesně to, co jsme potřebovali, včetně neveřejné nabídky.",
+        "author": "Petra Vávrová",
+        "location": "Praha 5",
         "rating": 5
       },
       {
         "text": "Oceňuji především upřímnost — neříkali nám jen to, co jsme chtěli slyšet. Díky jejich radám jsme upravili cenu a byt se prodal za víkend. Příště určitě znovu.",
-        "author": "Martin a Lucie H.",
+        "author": "Martin a Lucie Horákovi",
+        "location": "Praha 2",
         "rating": 5
       },
       {
-        "text": "Jako investor oceňuji přesné tržní analýzy a rychlost. Tři transakce za poslední dva roky — vždy bez komplikací, vždy za dobrou cenu. Reality Premium je můj první telefonát.",
-        "author": "Ondřej B.",
+        "text": "Jako investor oceňuji přesné tržní analýzy a rychlost. Tři transakce za poslední dva roky — vždy bez komplikací, vždy za dobrou cenu. Reality Dvořák je můj první telefonát.",
+        "author": "Ondřej Beneš",
+        "location": "Praha-západ",
         "rating": 5
       },
       {
-        "text": "Marcel nám pomohl pronajmout byt do 10 dnů. Prověřil nájemníky, připravil smlouvu a od té doby řeší vše za nás. Konečně si pronájem užíváme bez starostí.",
-        "author": "Ing. Pavel Novák",
+        "text": "Martin nám pomohl pronajmout byt do deseti dnů. Prověřil nájemníky, připravil smlouvu a od té doby řeší vše za nás. Konečně si pronájem užíváme bez starostí.",
+        "author": "Pavel Novotný",
+        "location": "Praha 7",
         "rating": 5
       }
     ]
   },
   "blog": {
     "id": "blog",
-    "title": "Realitní rádce",
+    "eyebrow": "Realitní rádce",
+    "heading": "Tipy, trendy\na realitní novinky",
+    "subtitle": "Vše, co potřebujete vědět o koupi, prodeji a pronájmu nemovitostí — v jednom místě.",
+    "allLabel": "Všechny články",
+    "allHref": "/clanky",
+    "ctaLabel": "Číst více",
     "items": [
       {
-        "title": "Prodáváte byt? Těchto 7 chyb vás může stát statisíce korun",
-        "href": "#blog",
-        "image": "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=800&h=600&fit=crop&q=80"
+        "title": "Prodáváte byt? Těchto 7 chyb vás může stát statisíce",
+        "excerpt": "Nejčastější omyly prodávajících a jak se jim vyhnout, aby vaše nemovitost dosáhla nejlepší ceny.",
+        "href": "/clanky",
+        "image": "/templates/reality-03/blog-1.webp"
       },
       {
-        "title": "Jak správně odhadnout cenu nemovitosti v roce 2025",
-        "href": "#blog",
-        "image": "https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?w=800&h=600&fit=crop&q=80"
+        "title": "Jak správně odhadnout cenu nemovitosti",
+        "excerpt": "Na čem skutečně závisí tržní hodnota a proč se laický odhad často míjí s realitou.",
+        "href": "/clanky",
+        "image": "/templates/reality-03/blog-2.webp"
       },
       {
-        "title": "Nájemní smlouva: Co musí obsahovat, aby vás skutečně chránila",
-        "href": "#blog",
-        "image": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&q=80"
+        "title": "Nájemní smlouva: co musí obsahovat, aby vás chránila",
+        "excerpt": "Klíčové body, na které nezapomenout, a ustanovení, která ušetří budoucí spory.",
+        "href": "/clanky",
+        "image": "/templates/reality-03/blog-3.webp"
       }
     ]
   },
@@ -162,45 +214,66 @@
     "id": "kontakt",
     "title": "Pojďme si promluvit",
     "subtitle": "Nezávazná konzultace zdarma. Ozveme se do 24 hodin.",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "725 480 210",
+    "email": "info@realitydvorak.cz",
+    "address": "Korunní 810/104, 101 00 Praha 10 — Vinohrady",
     "hours": "Po–Pá 9:00–18:00, So 10:00–14:00"
   },
   "footer": {
-    "siteName": "Reality Premium",
+    "siteName": "Reality Dvořák",
+    "siteSubtitle": "Realitní kancelář",
     "logoUrl": "/templates/reality-03/logo.svg",
-    "tagline": "Realitní kancelář s osobním přístupem",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "ico": "12345678",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
-    "linkedinUrl": "https://linkedin.com/company/demo",
+    "tagline": "Rodinná realitní kancelář s osobním přístupem ke každému klientovi.",
+    "teamTitle": "Váš realitní tým",
+    "navTitle": "Navigace",
+    "contactTitle": "Kontakt",
+    "legalText": "Všechna práva vyhrazena",
+    "icoLabel": "IČO:",
+    "phone": "725 480 210",
+    "email": "info@realitydvorak.cz",
+    "address": "Korunní 810/104, 101 00 Praha 10 — Vinohrady",
+    "ico": "09284471",
     "agents": [
       {
-        "name": "Helena Nováková",
+        "name": "Tereza Dvořáková",
         "role": "Realitní makléřka",
-        "phone": "704 123 456",
-        "email": "helena@demo.cz",
-        "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&q=80"
+        "phone": "725 480 210",
+        "email": "tereza@realitydvorak.cz",
+        "image": "/templates/reality-03/agent.webp"
       },
       {
-        "name": "Marcel Novák",
+        "name": "Martin Dvořák",
         "role": "Realitní makléř",
-        "phone": "704 654 321",
-        "email": "marcel@demo.cz",
-        "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&q=80"
+        "phone": "725 480 211",
+        "email": "martin@realitydvorak.cz",
+        "image": "/templates/reality-03/agent-2.webp"
       }
     ],
     "links": [
-      { "label": "Nemovitosti k prodeji",   "href": "#nabidka" },
-      { "label": "Nemovitosti k pronájmu",  "href": "#pronajem" },
-      { "label": "Chci prodat",             "href": "#prodej" },
-      { "label": "Chci koupit",             "href": "#nabidka" },
-      { "label": "O nás",                   "href": "#o-nas" },
-      { "label": "Kontakt",                 "href": "#kontakt" }
+      {
+        "label": "Nabídka nemovitostí",
+        "href": "/nabidka"
+      },
+      {
+        "label": "Nemovitosti k prodeji",
+        "href": "/prodej"
+      },
+      {
+        "label": "Nemovitosti k pronájmu",
+        "href": "/pronajem"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Blog",
+        "href": "/clanky"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "pages": {

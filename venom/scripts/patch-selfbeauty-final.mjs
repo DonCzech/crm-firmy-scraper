@@ -4,7 +4,7 @@
 import pg from 'pg';
 import fs from 'fs';
 
-const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const DB_URL = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: DB_URL });
 
 // Build map of local CSS files (parastorage URL → local path)
@@ -19,7 +19,7 @@ for (const f of cssFiles) {
 function cssLocalPath(url) {
   // Extract filename from URL
   const parts = url.split('/');
-  let fname = parts[parts.length - 1].split('?')[0];
+  const fname = parts[parts.length - 1].split('?')[0];
   // Handle brackets
   const normalized = fname.replace(/[\[\]]/g, '_');
   if (cssMap.has(normalized)) return cssMap.get(normalized);

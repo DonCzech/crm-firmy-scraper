@@ -7,18 +7,29 @@
     "cta2Text": "Objednat",
     "cta2Href": "#objednat",
     "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
     "links": [
-      { "label": "O nás",        "href": "/o-nas" },
-      { "label": "Jídelní lístek", "href": "/menu" },
-      { "label": "Polední menu", "href": "/menu#poledni" },
-      { "label": "Galerie",      "href": "/galerie" },
-      { "label": "Kontakt",      "href": "/kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Jídelní lístek",
+        "href": "/menu"
+      },
+      {
+        "label": "Polední menu",
+        "href": "/menu#poledni"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
     "title": "Chuť Itálie\npřímo v srdci\nPrahy.",
     "subtitle": "PASTA · RISOTTO · FRUTTI DI MARE · ŽIVÁ HUDBA",
@@ -27,14 +38,28 @@
     "cta2Text": "Jídelní lístek",
     "cta2Href": "#menu",
     "slides": [
-      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
-      { "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
-      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 50%" },
-      { "url": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 55%" },
-      { "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+      {
+        "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center center"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center 40%"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center 50%"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center 55%"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center center"
+      }
     ]
   },
-
   "about": {
     "id": "o-nas",
     "tagline": "Rodinná tradice od roku 2011",
@@ -45,7 +70,6 @@
     "ctaHref": "/o-nas",
     "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
   },
-
   "services": {
     "id": "menu",
     "tagline": "Naše speciality",
@@ -81,7 +105,6 @@
       }
     ]
   },
-
   "cta": {
     "id": "poledni-menu",
     "tagline": "Každý pracovní den 11:30 – 14:30",
@@ -93,7 +116,6 @@
     "ctaSecondaryHref": "/menu",
     "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85"
   },
-
   "gallery": {
     "id": "galerie",
     "tagline": "Atmosféra a prostředí",
@@ -101,17 +123,40 @@
     "ctaText": "Celá galerie",
     "ctaHref": "/galerie",
     "images": [
-      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Hlavní sál restaurace" },
-      { "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Čerstvé těstoviny" },
-      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Večerní atmosféra" },
-      { "url": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Risotto ai funghi" },
-      { "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Burgery & dezerty" },
-      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Sezónní speciality" },
-      { "url": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Focaccia z pece" },
-      { "url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Terasa v létě" }
+      {
+        "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Hlavní sál restaurace"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Čerstvé těstoviny"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Večerní atmosféra"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Risotto ai funghi"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Burgery & dezerty"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Sezónní speciality"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Focaccia z pece"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=600&fit=crop&fm=webp&q=80",
+        "alt": "Terasa v létě"
+      }
     ]
   },
-
   "contact": {
     "id": "kontakt",
     "tagline": "Navštivte nás",
@@ -137,12 +182,9 @@
         "hours": "Út–Pá 11:30–22:30, So–Ne 12:00–22:30, Po zavřeno"
       }
     ],
-    "ctaText": "Rezervovat stůl",
-    "ctaHref": "mailto:rezervace@demo.cz",
     "formTitle": "Napište nám",
     "formSubtitle": "Rezervace, dotazy i soukromé akce — odpovíme do 2 hodin."
   },
-
   "footer": {
     "siteName": "Trattoria Portofino",
     "logoUrl": "/templates/restaurant-04/logo.svg",
@@ -150,21 +192,37 @@
     "address": "Ukázková 12, 110 00 Praha 1",
     "phone": "704 123 456",
     "email": "info@demo.cz",
-    "web": "https://demo.cz",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "hours": "Po–Pá 11:00–23:00, So–Ne 12:00–23:00",
     "copyright": "© 2025 Trattoria Portofino s.r.o. Všechna práva vyhrazena.",
     "links": [
-      { "label": "O nás",            "href": "/o-nas" },
-      { "label": "Jídelní lístek",   "href": "/menu" },
-      { "label": "Galerie",          "href": "/galerie" },
-      { "label": "Kontakt",          "href": "/kontakt" },
-      { "label": "Obchodní podmínky", "href": "/podminky" },
-      { "label": "Ochrana osobních údajů", "href": "/gdpr" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Jídelní lístek",
+        "href": "/menu"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "/podminky"
+      },
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/gdpr"
+      }
     ]
   },
-
   "pages": {
     "menu": {
       "seoTitle": "Jídelní lístek – Trattoria Portofino Praha",

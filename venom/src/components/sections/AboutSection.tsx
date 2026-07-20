@@ -37,22 +37,23 @@ interface Props {
 
 export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug }: Props) {
 
+  if (variant === "artist-01-about")          return <AboutArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "rekonstrukce-01-about")    return <AboutRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "ananda-01-highlights")     return <HighlightsAnanda01 content={content} sectionId={sectionId} />;
-  if (variant === "ananda-01-about-ayurveda") return <AboutAnanda01Ayurveda content={content} sectionId={sectionId} />;
-  if (variant === "ananda-01-benefits")       return <BenefitsAnanda01 content={content} sectionId={sectionId} />;
-  if (variant === "ananda-01-hotels")         return <HotelsAnanda01 content={content} sectionId={sectionId} />;
-  if (variant === "ananda-01-faq")            return <FaqAnanda01 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-highlights")     return <HighlightsHarmonie01 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-about-ayurveda") return <AboutHarmonie01Ayurveda content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-benefits")       return <BenefitsHarmonie01 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-hotels")         return <HotelsHarmonie01 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-faq")            return <FaqHarmonie01 content={content} sectionId={sectionId} />;
   if (variant === "tawan-01-benefits")  return <BenefitsTawan01 content={content} sectionId={sectionId} />;
   if (variant === "tawan-01-why")       return <WhyTawan01 content={content} sectionId={sectionId} />;
   if (variant === "tawan-01-news")      return <NewsTawan01 content={content} sectionId={sectionId} />;
   if (variant === "tawan-01-branches")  return <BranchesTawan01 content={content} sectionId={sectionId} />;
-  if (variant === "tawan-02-boxes")     return <BoxesTawan02 content={content} sectionId={sectionId} />;
-  if (variant === "tawan-02-why")       return <WhyTawan02 content={content} sectionId={sectionId} />;
-  if (variant === "tawan-02-gift")      return <GiftTawan02 content={content} sectionId={sectionId} />;
+  if (variant === "thaimasaze-02-boxes")     return <BoxesThaimasaze02 content={content} sectionId={sectionId} />;
+  if (variant === "thaimasaze-02-why")       return <WhyThaimasaze02 content={content} sectionId={sectionId} />;
+  if (variant === "thaimasaze-02-gift")      return <GiftThaimasaze02 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-01-intro")            return <IntroTattoo01 content={content} sectionId={sectionId} />;
-  if (variant === "tattoo-01-services-tattoo")  return <ServicesTattoo01 content={content} sectionId={sectionId} side="left" />;
-  if (variant === "tattoo-01-services-piercing") return <ServicesTattoo01 content={content} sectionId={sectionId} side="right" />;
+  if (variant === "tattoo-01-services-tattoo")  return <ServicesTattoo01 content={content} sectionId={sectionId} side="left" tenantSlug={tenantSlug} isAdmin={isAdmin} anchor="tattoo" />;
+  if (variant === "tattoo-01-services-piercing") return <ServicesTattoo01 content={content} sectionId={sectionId} side="right" tenantSlug={tenantSlug} isAdmin={isAdmin} anchor="piercing" />;
   if (variant === "tattoo-01-principles")       return <PrinciplesTattoo01 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-02-about")            return <AboutTattoo02 content={content} sectionId={sectionId} />;
   if (variant === "tattoo-03-about")            return <AboutTattoo03 content={content} sectionId={sectionId} />;
@@ -63,7 +64,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "dental-01-about")            return <AboutDental01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clinic-02-about")            return <AboutClinic02 content={content} sectionId={sectionId} />;
   if (variant === "clinic-03-about")            return <AboutClinic03 content={content} sectionId={sectionId} />;
-  if (variant === "restaurant-01-about")        return <AboutRestaurant01 content={content} sectionId={sectionId} />;
+  if (variant === "restaurant-01-about")        return <AboutRestaurant01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "restaurant-02-about")        return <AboutRestaurant02 content={content} sectionId={sectionId} />;
   if (variant === "restaurant-03-about")        return <AboutRestaurant03 content={content} sectionId={sectionId} />;
   if (variant === "cafe-02-about")              return <AboutCafe02 content={content} sectionId={sectionId} />;
@@ -82,9 +83,16 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "about-fitness-02-studio")    return <AboutFitness02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "about-fyzio-01-2col")        return <AboutFyzio01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "about-fyzio-02-features")    return <AboutFyzio02Features content={content} sectionId={sectionId} />;
-  if (variant === "lawyer-01-about")            return <AboutLawyer01 content={content} sectionId={sectionId} />;
+  if (variant === "lawyer-01-about")            return <AboutLawyer01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "legal-02-about")             return <AboutLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "sweet-01-about")             return <AboutSweet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-02-about")             return <AboutEshop02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-02-shipping")          return <ShippingEshop02 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-03-benefits")          return <BenefitsEshop03 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-03-shipping")          return <ShippingEshop03 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-04-benefits")          return <BenefitsEshop04 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-04-blog")              return <BlogEshop04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-04-shipping")          return <ShippingEshop04 content={content} sectionId={sectionId} />;
 
   // hair-04: 2-col split — text vlevo (tmavé bg), foto vpravo edge-to-edge — 1:1 kim-impressive.cz
   if (variant === "about-hair-04-split") {
@@ -594,9 +602,9 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
                   <div className="cafe01-loyalty__img-fallback">Klikni pro upload</div>
                 </GenericEditableImage>
               )}
-              <div className="cafe01-loyalty__badge" aria-hidden="true">
-                <span className="cafe01-loyalty__badge-dot" />
-                <span>NOVÉ</span>
+              <div className="cafe01-loyalty__badge">
+                <span className="cafe01-loyalty__badge-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="badgeText" value={String(cc.badgeText ?? "NOVÉ")} tag="span" />
               </div>
             </div>
 
@@ -850,77 +858,70 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   // beauty-01: brands strip — cream bg, centered label + brand names in a row
   // Reference: selfbeauty.cz — Inter 200 uppercase label, brands horizontally
   // ── about-massage-01-therapist ───────────────────────────────────────────────
-  // 2-col: portrait foto vlevo (40%) + content vpravo (60%), dark surface #141414
-  // section-label → therapist-name → role (gold) → divider → bio → stats
-  // Přesná replika .therapist-section z praha-masaze.cz originálu
+  // Luxe 2-col: framed portrait left (offset gold hairline frame) + content right
+  // eyebrow → name → role → gold rule → quote mark → bio → count-up stats
   if (variant === "about-massage-01-therapist") {
-    const tag     = String(content.tag    ?? "O mně");
-    const name    = String(content.name   ?? "Demo Masér");
-    const role    = String(content.role   ?? "Certifikovaný masér & terapeut");
-    const bio1    = String(content.bio1   ?? "");
-    const bio2    = String(content.bio2   ?? "");
-    const image   = String(content.image  ?? "");
-    const stats   = (content.stats as Array<{ number: string; label: string }>) ?? [];
-
-    const SURFACE  = "#141414";
-    const BORDER   = "#2A2520";
-    const GOLD     = "#C9A962";
-    const TEXT     = "#F5F0E8";
-    const SECONDARY= "#A09888";
-    const MUTED    = "#6A6058";
-    const FONT     = "'Inter', sans-serif";
-    const SERIF    = "'Cormorant Garamond', serif";
+    const cc = content as Record<string, unknown>;
+    const tagRaw  = cc.tag;
+    const nameRaw = cc.name;
+    const tag     = tagRaw  === undefined ? "Váš terapeut" : String(tagRaw);
+    const name    = nameRaw === undefined ? "Kristýna Malá" : String(nameRaw);
+    const role    = String(cc.role  ?? "Certifikovaná fyzioterapeutka & masérka");
+    const bio1    = String(cc.bio1  ?? "");
+    const bio2    = String(cc.bio2  ?? "");
+    const image   = String(cc.image ?? "/templates/massage-01/therapist.webp");
+    const stats   = (cc.stats as Array<{ number: string; label: string }>) ?? [];
+    const showHeader = !!(tag.trim() || name.trim());
 
     return (
       <section
         id="terapeut"
-        style={{ backgroundColor: SURFACE, padding: "100px 0" }}
+        className="m01-about"
         data-template="massage-01"
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 80px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "480px 1fr", gap: 64, alignItems: "center" }}>
-            {/* Foto vlevo — 560px výška, border overlay */}
-            <div style={{ position: "relative", height: 560, overflow: "hidden", flexShrink: 0 }}>
+        <div className="m01-about-inner">
+          {/* Portrait vlevo — offset gold frame */}
+          <div className="m01-about-media">
+            <span className="m01-about-frame" aria-hidden="true" />
+            <div className="m01-about-photo">
               <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={name} style={{ position: "absolute", inset: 0 }}>
-                <Image src={image} alt={name} fill className="object-cover object-top" sizes="480px" unoptimized={shouldSkipNextImageOptimization(image)} />
+                <Image src={image} alt={name} fill className="object-cover object-center" sizes="480px" unoptimized={shouldSkipNextImageOptimization(image)} />
               </GenericEditableImage>
-              {/* Border overlay */}
-              <div aria-hidden style={{ position: "absolute", inset: 0, border: `1px solid ${BORDER}`, pointerEvents: "none" }} />
             </div>
+          </div>
 
-            {/* Content vpravo */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-              {/* Section label */}
-              <p style={{ display: "inline-flex", alignItems: "center", gap: 8, color: GOLD, fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>
-                <span style={{ display: "inline-block", width: 6, height: 6, background: GOLD, borderRadius: "50%" }} />
-                <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
-              </p>
-              {/* Jméno */}
-              <h2 style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 400, color: TEXT, lineHeight: 1.1, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field="name" value={name} tag="span" />
-              </h2>
-              {/* Role — gold */}
-              <p style={{ fontFamily: FONT, fontSize: 15, color: GOLD, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field="role" value={role} tag="span" />
-              </p>
-              {/* Divider — 60px gold-dim */}
-              <div style={{ width: 60, height: 1, background: BORDER }} />
-              {/* Bio */}
-              {bio1 && (
-                <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, lineHeight: 1.75, margin: 0 }}>
-                  <GenericEditableText sectionId={sectionId} field="bio1" value={bio1} tag="span" />
+          {/* Content vpravo */}
+          <div className="m01-about-content">
+            {showHeader && (
+              <>
+                <p className="m01-about-tag">
+                  <span className="m01-services-tag-dot" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
                 </p>
-              )}
-              {bio2 && (
-                <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, lineHeight: 1.75, margin: 0 }}>
-                  <GenericEditableText sectionId={sectionId} field="bio2" value={bio2} tag="span" />
+                <h2 className="m01-about-name">
+                  <GenericEditableText sectionId={sectionId} field="name" value={name} tag="span" />
+                </h2>
+                <p className="m01-about-role">
+                  <GenericEditableText sectionId={sectionId} field="role" value={role} tag="span" />
                 </p>
-              )}
-              {/* Stats — count-up při scrollu do view */}
-              {stats.length > 0 && (
-                <Massage01Stats stats={stats} sectionId={sectionId} />
-              )}
-            </div>
+              </>
+            )}
+            <span className="m01-about-rule" aria-hidden="true" />
+            {/* Decorative quote mark */}
+            <span className="m01-about-quote" aria-hidden="true">”</span>
+            {bio1 && (
+              <p className="m01-about-bio">
+                <GenericEditableText sectionId={sectionId} field="bio1" value={bio1} tag="span" />
+              </p>
+            )}
+            {bio2 && (
+              <p className="m01-about-bio">
+                <GenericEditableText sectionId={sectionId} field="bio2" value={bio2} tag="span" />
+              </p>
+            )}
+            {stats.length > 0 && (
+              <Massage01Stats stats={stats} sectionId={sectionId} />
+            )}
           </div>
         </div>
       </section>
@@ -1187,192 +1188,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   }
 
   // About — luxury barber (barber-02): lead italic + body left, photo right, cream bg
-  if (variant === "about-barber-luxury") {
-    const lead = String(content.lead ?? "");
-    const eyebrow = String((content as Record<string, unknown>).eyebrow ?? "");
-    const established = String((content as Record<string, unknown>).established ?? "");
-    const textRef = useRef<HTMLDivElement>(null);
-    const imgRef  = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-      const els = [textRef.current, imgRef.current].filter(Boolean) as HTMLElement[];
-      const obs = els.map((el, i) => {
-        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b02a-vis"); o.disconnect(); } }, { threshold: 0.1 });
-        o.observe(el); return o;
-      });
-      return () => obs.forEach(o => o.disconnect());
-    }, []);
-    return (
-      <section
-        style={{
-          padding: "clamp(80px,12vw,140px) clamp(20px,5vw,40px)",
-          backgroundColor: "#f9f7f5",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        data-template="barber-02"
-      >
-        {/* Subtle background ornament — single circle gold ring top-right (editorial detail) */}
-        <div aria-hidden style={{
-          position: "absolute", top: "8%", right: "-120px",
-          width: 360, height: 360, borderRadius: "50%",
-          border: "1px solid rgba(212,169,110,0.12)",
-          zIndex: 0,
-        }} />
-        <div aria-hidden style={{
-          position: "absolute", bottom: "10%", left: "-80px",
-          width: 200, height: 200, borderRadius: "50%",
-          border: "1px solid rgba(212,169,110,0.10)",
-          zIndex: 0,
-        }} />
-
-        <div
-          className="grid grid-cols-1 md:grid-cols-[1.05fr_1fr] items-center b02-about-grid"
-          style={{ maxWidth: 1180, margin: "0 auto", gap: "clamp(40px,7vw,96px)", position: "relative", zIndex: 1 }}
-        >
-          {/* Text column */}
-          <div ref={textRef} className="b02-about-text b02a-reveal">
-            {eyebrow && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
-                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
-                <span style={{
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "12px",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "#d4a96e",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-                </span>
-              </div>
-            )}
-
-            {title && (
-              <h2 style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 700,
-                lineHeight: 1.15,
-                letterSpacing: "0.01em",
-                color: "#1a1a1a",
-                margin: "0 0 28px",
-              }}>
-                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-              </h2>
-            )}
-
-            {lead && (
-              <p style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontStyle: "italic",
-                fontSize: "clamp(1.1rem, 1.6vw, 1.32rem)",
-                color: "#9a7a50",
-                lineHeight: 1.7,
-                marginBottom: 24,
-                paddingLeft: 18,
-                borderLeft: "2px solid #d4a96e",
-              }}>
-                <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-              </p>
-            )}
-
-            {body && (
-              <p style={{
-                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                fontSize: "1.02rem",
-                fontWeight: 300,
-                color: "#444",
-                lineHeight: 1.85,
-                marginBottom: 28,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-            )}
-
-            {/* Signature-style divider — slim gold rule + dot */}
-            <div aria-hidden style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 32 }}>
-              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.5)" }} />
-              <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
-            </div>
-          </div>
-
-          {/* Image column with refined frame */}
-          {image && (
-            <div ref={imgRef} className="b02-about-img-wrap b02a-reveal relative w-full">
-              {/* Editorial corner accent — single TL corner, warm gold */}
-              <span aria-hidden style={{
-                position: "absolute", top: -14, left: -14, width: 56, height: 56,
-                borderTop: "1px solid #d4a96e", borderLeft: "1px solid #d4a96e",
-                zIndex: 3, pointerEvents: "none",
-              }} />
-              <span aria-hidden style={{
-                position: "absolute", bottom: -14, right: -14, width: 56, height: 56,
-                borderBottom: "1px solid #d4a96e", borderRight: "1px solid #d4a96e",
-                zIndex: 3, pointerEvents: "none",
-              }} />
-
-              <div className="b02-about-img" style={{
-                position: "relative",
-                overflow: "hidden",
-                borderRadius: 2,
-                aspectRatio: "4 / 5",
-                boxShadow: "0 30px 60px rgba(26,20,16,0.18), 0 8px 24px rgba(26,20,16,0.08)",
-              }}>
-                <GenericEditableImage
-                  sectionId={sectionId}
-                  field="image"
-                  src={image}
-                  alt={title || "Atelier"}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <Image
-                    src={image}
-                    alt={title || "Atelier"}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    unoptimized={shouldSkipNextImageOptimization(image)}
-                  />
-                </GenericEditableImage>
-              </div>
-
-              {/* Established badge — bottom-left overlay */}
-              {established && (
-                <div style={{
-                  position: "absolute", bottom: -28, left: -28, zIndex: 4,
-                  backgroundColor: "#ffffff",
-                  padding: "18px 26px",
-                  border: "1px solid rgba(212,169,110,0.35)",
-                  boxShadow: "0 16px 40px rgba(26,20,16,0.15)",
-                  textAlign: "center",
-                }}>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: "0.28em",
-                    textTransform: "uppercase",
-                    color: "#d4a96e",
-                    marginBottom: 4,
-                  }}><GenericEditableText sectionId={sectionId} field="establishedLabel" value={String((content as Record<string, unknown>).establishedLabel ?? "Atelier od")} tag="span" /></p>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: "'Libre Baskerville', Georgia, serif",
-                    fontSize: "1.4rem",
-                    fontWeight: 700,
-                    color: "#1a1a1a",
-                  }}>
-                    <GenericEditableText sectionId={sectionId} field="established" value={established} tag="span" />
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
-    );
-  }
+  if (variant === "about-barber-luxury") return <AboutBarberLuxury content={content} title={title} body={body} image={image} sectionId={sectionId} />;
 
   // Two-column layout (wellness)
   if (variant === "ortho-02-about") return <AboutOrtho02 content={content} sectionId={sectionId} />;
@@ -1418,253 +1234,86 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "video-01-about")    return <AboutVideo01    content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "restaurant-04-about") return <AboutRestaurant04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
-  if (variant === "about-barber-03-luxury") {
-    // Barber-03 "Barbery" — warm cinematic urban (image left + dark moody story right)
-    const lead      = String(content.lead     ?? "");
-    const eyebrow   = String((content as Record<string, unknown>).eyebrow   ?? "");
-    const yearLabel = String((content as Record<string, unknown>).yearLabel ?? "");
-    const yearValue = String((content as Record<string, unknown>).yearValue ?? "");
-    const imgRef  = useRef<HTMLDivElement>(null);
-    const textRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-      const els = [imgRef.current, textRef.current].filter(Boolean) as HTMLElement[];
-      const obs = els.map((el, i) => {
-        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b03a-vis"); o.disconnect(); } }, { threshold: 0.1 });
-        o.observe(el); return o;
-      });
-      return () => obs.forEach(o => o.disconnect());
-    }, []);
-    return (
-      <section
-        style={{
-          padding: "clamp(96px, 13vw, 150px) clamp(20px, 5vw, 40px)",
-          backgroundColor: "#1c1410",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        data-template="barber-03"
-      >
-        {/* Top + bottom decorative gold hairlines */}
-        <div aria-hidden style={{
-          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
-          width: 180, height: 1,
-          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
-        }} />
-        <div aria-hidden style={{
-          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
-          width: 180, height: 1,
-          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
-        }} />
+  if (variant === "eshop-05-mini-banners") return <AboutEshop05MiniBanners content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-finder") return <AboutEshop05Finder content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-hot-offer") return <AboutEshop05HotOffer content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-bento") return <AboutEshop05Bento content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-two-banners") return <AboutEshop05TwoBanners content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-blog") return <AboutEshop05Blog content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-blog") return <AboutEshop06Blog content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-split") return <AboutEshop06Split content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-social") return <AboutEshop06Social content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-usp") return <AboutEshop06Usp content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-shipping") return <AboutEshop06Shipping content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-faq") return <AboutEshop06Faq content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-richtext") return <AboutEshop06Richtext content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-brands") return <AboutEshop05Brands content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-categories") return <AboutEshop07Categories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-usp") return <AboutEshop07Usp content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-brands") return <AboutEshop07Brands content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-story") return <AboutEshop07Story content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-contact") return <AboutEshop07Contact content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-shipping") return <AboutEshop07Shipping content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-fav-categories") return <AboutEshop08FavCategories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-text") return <AboutEshop10Text content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-contact") return <AboutEshop10Contact content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-trust") return <AboutEshop10Trust content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-articles") return <AboutEshop10Articles content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-releases") return <AboutEshop10Releases content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-club") return <AboutEshop10Club content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-outfits") return <AboutEshop10Outfits content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-collections") return <AboutEshop10Collections content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-categories") return <AboutEshop10Categories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-trio") return <AboutEshop10Trio content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-fav") return <AboutEshop12Fav content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-usp") return <AboutEshop13Usp content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-collection-banners") return <AboutEshop13CollectionBanners content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-gift-selector") return <AboutEshop13GiftSelector content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-editorial") return <AboutEshop13Editorial content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-instagram") return <AboutEshop13Instagram content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-text") return <AboutEshop13Text content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-contact") return <AboutEshop13Contact content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-stores") return <AboutEshop12Stores content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-brands") return <AboutEshop12Brands content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-blog") return <AboutEshop12Blog content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-text") return <AboutEshop12Text content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-contact") return <AboutEshop12Contact content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-14-text") return <AboutEshop14Text content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-14-benefits") return <AboutEshop14Benefits content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-14-fav-categories") return <AboutEshop14FavCategories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-14-articles") return <AboutEshop14Articles content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-14-videos") return <AboutEshop14Videos content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-16-categories") return <AboutEshop16Categories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-20-categories") return <AboutEshop20Categories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-19-categories") return <AboutEshop19Categories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-19-experience") return <AboutEshop19Experience content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-fav-categories") return <AboutEshop11FavCategories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-activities") return <AboutEshop11Activities content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-stores") return <AboutEshop11Stores content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-brands") return <AboutEshop11Brands content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-loyalty") return <AboutEshop11Loyalty content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-articles") return <AboutEshop11Articles content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-benefits") return <AboutEshop11Benefits content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-text") return <AboutEshop11Text content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-contact") return <AboutEshop11Contact content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-09-articles") return <AboutEshop09Articles content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-09-text") return <AboutEshop09Text content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-09-contact") return <AboutEshop09Contact content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-09-duo-banner") return <AboutEshop09DuoBanner content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-outlet") return <AboutEshop08Outlet content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-editorial") return <AboutEshop08Editorial content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-rooms") return <AboutEshop08Rooms content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-articles") return <AboutEshop08Articles content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-services") return <AboutEshop08Services content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-text") return <AboutEshop08Text content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-contact") return <AboutEshop08Contact content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-benefits") return <AboutEshop08Benefits content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-categories") return <AboutEshop08Categories content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-info-cards") return <AboutEshop08InfoCards content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-blog") return <AboutEshop08Blog content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-instagram") return <AboutEshop08Instagram content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
-        {/* Warm radial glow accent */}
-        <div aria-hidden style={{
-          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
-          background: "radial-gradient(ellipse at 80% 30%, rgba(200,169,110,0.06) 0%, transparent 60%)",
-        }} />
-
-        <div
-          className="grid grid-cols-1 md:grid-cols-[1fr_1.05fr] items-center b03a-grid"
-          style={{ maxWidth: 1200, margin: "0 auto", gap: "clamp(40px, 7vw, 96px)", position: "relative", zIndex: 1 }}
-        >
-          {/* IMAGE LEFT — cinematic moody portrait */}
-          {image && (
-            <div ref={imgRef} className="b03a-reveal b03a-img-wrap relative w-full">
-              {/* 4 expanding gold corner brackets (diagonal accents) */}
-              <span aria-hidden className="b03a-corner b03a-corner-tl" style={{
-                position: "absolute", top: -12, left: -12, width: 48, height: 48, zIndex: 3,
-                borderTop: "1px solid #c8a96e", borderLeft: "1px solid #c8a96e",
-                transition: "all 0.45s cubic-bezier(.22,.68,0,1.1)",
-              }} />
-              <span aria-hidden className="b03a-corner b03a-corner-br" style={{
-                position: "absolute", bottom: -12, right: -12, width: 48, height: 48, zIndex: 3,
-                borderBottom: "1px solid #c8a96e", borderRight: "1px solid #c8a96e",
-                transition: "all 0.45s cubic-bezier(.22,.68,0,1.1)",
-              }} />
-
-              <div className="b03a-img" style={{
-                position: "relative",
-                overflow: "hidden",
-                borderRadius: 2,
-                aspectRatio: "4 / 5",
-                boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.35)",
-              }}>
-                <GenericEditableImage
-                  sectionId={sectionId}
-                  field="image"
-                  src={image}
-                  alt={title || "Studio"}
-                  className="absolute inset-0 w-full h-full"
-                >
-                  <Image
-                    src={image}
-                    alt={title || "Studio"}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    unoptimized={shouldSkipNextImageOptimization(image)}
-                  />
-                </GenericEditableImage>
-                {/* Subtle warm overlay for cinematic mood */}
-                <div aria-hidden style={{
-                  position: "absolute", inset: 0,
-                  background: "linear-gradient(180deg, rgba(28,20,16,0.1) 0%, rgba(28,20,16,0.35) 100%)",
-                  pointerEvents: "none",
-                }} />
-              </div>
-
-              {/* Year badge — warm dark overlapping bottom-left */}
-              {yearValue && (
-                <div style={{
-                  position: "absolute", bottom: -28, left: -28, zIndex: 4,
-                  backgroundColor: "#1c1410",
-                  padding: "20px 28px",
-                  border: "1px solid rgba(200,169,110,0.4)",
-                  boxShadow: "0 16px 40px rgba(0,0,0,0.55)",
-                  textAlign: "center",
-                }}>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: "0.32em",
-                    textTransform: "uppercase",
-                    color: "#c8a96e",
-                    marginBottom: 4,
-                  }}>
-                    {yearLabel ? (
-                      <GenericEditableText sectionId={sectionId} field="yearLabel" value={yearLabel} tag="span" />
-                    ) : "Otevřeno"}
-                  </p>
-                  <p style={{
-                    margin: 0,
-                    fontFamily: "'Libre Baskerville', Georgia, serif",
-                    fontSize: "1.6rem",
-                    fontWeight: 700,
-                    color: "#f5efe6",
-                    letterSpacing: "0.04em",
-                  }}>
-                    <GenericEditableText sectionId={sectionId} field="yearValue" value={yearValue} tag="span" />
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* TEXT RIGHT — narrative + values */}
-          <div ref={textRef} className="b03a-reveal">
-            {eyebrow && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
-                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
-                <span style={{
-                  fontFamily: "'Libre Baskerville', Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "12px",
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
-                  color: "#c8a96e",
-                }}>
-                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-                </span>
-              </div>
-            )}
-
-            {title && (
-              <h2 style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                fontWeight: 700,
-                lineHeight: 1.12,
-                letterSpacing: "0.04em",
-                color: "#f5efe6",
-                textTransform: "uppercase",
-                margin: "0 0 30px",
-              }}>
-                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-              </h2>
-            )}
-
-            {lead && (
-              <p style={{
-                fontFamily: "'Libre Baskerville', Georgia, serif",
-                fontStyle: "italic",
-                fontSize: "clamp(1.1rem, 1.6vw, 1.32rem)",
-                color: "#c8a96e",
-                lineHeight: 1.7,
-                marginBottom: 28,
-                paddingLeft: 20,
-                borderLeft: "2px solid #c8a96e",
-              }}>
-                <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-              </p>
-            )}
-
-            {body && (
-              <p style={{
-                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                fontSize: "1.02rem",
-                fontWeight: 300,
-                color: "rgba(245,239,230,0.78)",
-                lineHeight: 1.85,
-                marginBottom: 28,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-            )}
-
-            {/* Signature divider */}
-            <div aria-hidden style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 32 }}>
-              <span style={{ width: 56, height: 1, backgroundColor: "rgba(200,169,110,0.6)" }} />
-              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
-              <span style={{ width: 56, height: 1, backgroundColor: "rgba(200,169,110,0.6)" }} />
-            </div>
-
-            {/* Values — inline grid pod signature */}
-            {values.length > 0 && (
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-                gap: 20,
-                marginTop: 40,
-                paddingTop: 32,
-                borderTop: "1px solid rgba(200,169,110,0.18)",
-              }}>
-                {values.map((v, i) => (
-                  <div key={i} className="b03a-value">
-                    {v.icon && <span style={{ fontSize: "1.5rem", color: "#c8a96e", display: "block", marginBottom: 10, transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)" }}>{v.icon}</span>}
-                    <p style={{
-                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.2em",
-                      textTransform: "uppercase",
-                      color: "#f5efe6",
-                      margin: "0 0 6px",
-                    }}>
-                      <GenericEditableText sectionId={sectionId} field={`values.${i}.title`} value={v.title} tag="span" />
-                    </p>
-                    <p style={{
-                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
-                      fontSize: "0.86rem",
-                      color: "rgba(245,239,230,0.62)",
-                      margin: 0,
-                      lineHeight: 1.55,
-                    }}>
-                      <GenericEditableText sectionId={sectionId} field={`values.${i}.text`} value={v.text} tag="span" />
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <style>{`
-          @media (max-width: 768px) { [data-template="barber-03"] .b03a-grid { grid-template-columns: 1fr !important; } }
-        `}</style>
-      </section>
-    );
-  }
+  if (variant === "about-barber-03-luxury") return <AboutBarber03Luxury content={content} title={title} body={body} image={image} values={values} sectionId={sectionId} />;
 
   if (variant === "barber-dark") {
     const eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "Náš příběh");
@@ -2167,19 +1816,14 @@ function Massage01Stats({ stats, sectionId }: {
     return () => obs.disconnect();
   }, [started, parsed]);
 
-  const GOLD  = "#C9A962";
-  const MUTED = "#6A6058";
-  const SERIF = "'Cormorant Garamond', serif";
-  const FONT  = "'Inter', sans-serif";
-
   return (
-    <div ref={ref} style={{ display: "flex", gap: 48 }}>
+    <div ref={ref} className="m01-about-stats" data-template="massage-01">
       {stats.map((s, i) => (
-        <div key={i} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-          <span style={{ fontFamily: SERIF, fontSize: 36, color: GOLD, lineHeight: 1 }}>
+        <div key={i} className="m01-stat">
+          <span className="m01-stat-num">
             {counts[i]}{parsed[i].suffix}
           </span>
-          <span style={{ fontFamily: FONT, fontSize: 12, color: MUTED, letterSpacing: 1, textTransform: "uppercase" }}>
+          <span className="m01-stat-label">
             <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
           </span>
         </div>
@@ -2189,12 +1833,12 @@ function Massage01Stats({ stats, sectionId }: {
 }
 
 // ── tawan-01-benefits ─────────────────────────────────────────────────────────
-// 4-sloupcová mřížka "Proč TAWAN?" — bílé BG, ikona SVG + nadpis purple + text
+// 4-sloupcová mřížka "Proč nás?" — bílé BG, ikona SVG + nadpis purple + text
 // 1:1 tawan.cz benefits / why-us sekce
 // ─────────────────────────────────────────────────────────────────────────────
 function BenefitsTawan01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Item = { icon: string; title: string; text: string };
-  const sectionTag = String(content.sectionTag ?? "Proč TAWAN?");
+  const sectionTag = String(content.sectionTag ?? "Proč nás?");
   const heading    = String(content.heading    ?? "Nejvyšší úroveň služeb");
   const items      = (content.items as Item[] | undefined) ?? [];
 
@@ -2378,7 +2022,7 @@ function BenefitsTawan01({ content, sectionId }: { content: Record<string, unkno
 // ─────────────────────────────────────────────────────────────────────────────
 function WhyTawan01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Tab = { number: string; label: string; heading: string; text: string; image: string };
-  const heading = String(content.heading ?? "Proč TAWAN?");
+  const heading = String(content.heading ?? "Proč nás?");
   const tabs = (content.tabs as Tab[] | undefined) ?? [];
   const [active, setActive] = useState(0);
   const hasInteracted = useRef(false);
@@ -2619,77 +2263,63 @@ function BranchesTawan01({ content, sectionId }: { content: Record<string, unkno
   );
 }
 
-// ── ananda-01-about-ayurveda ──────────────────────────────────────────────────
+// ── harmonie-01-about-ayurveda ──────────────────────────────────────────────────
 // Cream bg #F2EDE4, max-width 1280px, 2-col grid XL: foto vlevo + text vpravo
 // H2: gold #AA813A, Jost, ~60px, font-weight 300 (font-joly = light display)
 // Body: text-lg leading-relaxed, dark slate
 // CTA: gold outline pill button s šipkou → hover fill
-// Ref: anandaspa.cz sekce "Co je ájurvéda"
+// Ref: original reference sekce "Co je ájurvéda"
 // ─────────────────────────────────────────────────────────────────────────────
-function AboutAnanda01Ayurveda({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function AboutHarmonie01Ayurveda({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const title   = String(content.title   ?? "Co je ájurvéda");
   const body    = String(content.body    ?? "Ájurvéda je tradiční indická medicína přinášející životní rovnováhu při zdraví těla i duše. Úspěch zaznamenává při řešení různých zdravotních potíží, duševních zátěží či chronických problémů. Spolu s ájurvédskou procedurou využívá principy stravování, přírodní oleje, byliny a doplňky stravy na bázi tisíciletých zkušeností.");
   const ctaText = String(content.ctaText ?? "Co je ájurvéda");
   const ctaHref = String(content.ctaHref ?? "#o-ayurvede");
-  const image   = String(content.image   ?? "");
+  const image   = String(content.image   ?? "/templates/harmonie-01/about.webp");
+  const body2   = String(content.body2   ?? "Naši certifikovaní terapeuti z Indie přinášejí autentické postupy a přizpůsobují je individuálním potřebám každého klienta.");
 
   const GOLD  = "#AA813A";
   const CREAM = "#F2EDE4";
   const TEXT  = "#334155";
   const FONT  = "'Jost', sans-serif";
 
-  const placeholderSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500"><rect width="600" height="500" fill="#ddd4c4"/><text x="300" y="260" text-anchor="middle" font-family="Arial" font-size="18" fill="#aa813a" opacity="0.6">Foto procedury</text></svg>`;
-  const imgSrc = image || `data:image/svg+xml;charset=utf-8,${encodeURIComponent(placeholderSvg)}`;
-
   return (
-    <section id="o-ajurvede" style={{ backgroundColor: CREAM, padding: "80px 0", position: "relative" }}>
-      <style>{`
-        .ananda-about-grid { display: grid; grid-template-columns: 1fr; gap: 48px; max-width: 1280px; margin: 0 auto; padding: 0 32px; }
-        @media(min-width: 1024px) { .ananda-about-grid { grid-template-columns: 1fr 1fr; align-items: center; } }
-        .ananda-about-cta {
-          display: inline-flex; align-items: center; gap: 12px;
-          font-family: ${FONT}; font-size: 11px; font-weight: 600; letter-spacing: 3px;
-          text-transform: uppercase; color: ${GOLD}; text-decoration: none;
-          padding: 14px 32px; border: 1.5px solid ${GOLD}; border-radius: 999px;
-          transition: background 0.25s, color 0.25s;
-        }
-        .ananda-about-cta:hover { background: ${GOLD}; color: #fff; }
-        .ananda-about-cta svg { transition: transform 0.3s; }
-        .ananda-about-cta:hover svg { transform: translateX(6px); }
-      `}</style>
-
-      <div className="ananda-about-grid">
+    <section id="o-ajurvede" data-template="harmonie-01" style={{ backgroundColor: CREAM, padding: "88px 0 96px", position: "relative" }}>
+      <div className="harmonie-about-grid">
         {/* Foto */}
-        <div style={{ position: "relative", overflow: "hidden", aspectRatio: "6/5", minHeight: 360 }}>
+        <div className="harmonie-about-img">
           <GenericEditableImage
             sectionId={sectionId}
             field="image"
-            src={imgSrc}
+            src={image}
             alt={title}
             className="absolute inset-0 w-full h-full"
             style={{ position: "absolute" }}
           >
             <Image
-              src={imgSrc}
+              src={image}
               alt={title}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
-              unoptimized={shouldSkipNextImageOptimization(imgSrc)}
+              unoptimized={shouldSkipNextImageOptimization(image)}
             />
           </GenericEditableImage>
         </div>
 
         {/* Text */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 32, paddingTop: 0 }}>
-          <h2 style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(40px, 5vw, 60px)", color: GOLD, margin: 0, lineHeight: 1.1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 28, paddingTop: 0 }}>
+          <h2 style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(36px, 4.5vw, 56px)", color: GOLD, margin: 0, lineHeight: 1.1 }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <p style={{ fontFamily: FONT, fontSize: 17, lineHeight: 1.8, color: TEXT, margin: 0 }}>
+          <p style={{ fontFamily: FONT, fontSize: 17, lineHeight: 1.85, color: TEXT, margin: 0 }}>
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
-          <div>
-            <a href={ctaHref} data-btn="primary" className="ananda-about-cta">
+          <p style={{ fontFamily: FONT, fontSize: 15, lineHeight: 1.75, color: TEXT, margin: 0, opacity: 0.75 }}>
+            <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+          </p>
+          <div style={{ paddingTop: 8 }}>
+            <a href={ctaHref} data-btn="primary" className="harmonie-about-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 9" width="28" height="9" fill="none">
                 <path stroke="currentColor" strokeWidth="1" d="M27.5,9l-.6-.6,3.4-3.4H0v-.9h30.3l-3.4-3.4L27.5,0,32,4.5Z"/>
@@ -2702,15 +2332,15 @@ function AboutAnanda01Ayurveda({ content, sectionId }: { content: Record<string,
   );
 }
 
-// ── ananda-01-benefits ────────────────────────────────────────────────────────
+// ── harmonie-01-benefits ────────────────────────────────────────────────────────
 // White bg, center H2 uppercase tracking-widest
 // 3 feature bloky: kruhová ikona (cream #ECE4D7) + gold uppercase label
 // Pořadí: Diagnostika → Procedury → Stravovací režim
 // Propojeny SVG šipkou (→) na desktop
 // Gold outline pill CTA dole
-// Ref: anandaspa.cz "Unikátní cesta naší léčebnou procedurou"
+// Ref: original reference "Unikátní cesta naší léčebnou procedurou"
 // ─────────────────────────────────────────────────────────────────────────────
-function BenefitsAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function BenefitsHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const title   = String(content.title   ?? "UNIKÁTNÍ CESTA\nNAŠÍ LÉČEBNOU PROCEDUROU");
   const ctaText = String(content.ctaText ?? "CHCI VYZKOUŠET PROCEDURU");
   const ctaHref = String(content.ctaHref ?? "#kontakt");
@@ -2728,89 +2358,36 @@ function BenefitsAnanda01({ content, sectionId }: { content: Record<string, unkn
   const TEXT   = "#334155";
   const FONT   = "'Jost', sans-serif";
 
-  // Line-art SVG ikony — gold stroke, no fill, styl anandaspa.cz
+  // Tabler Icons (MIT) — outline, jednotná stopa, gold stroke
   const iconSvg: Record<string, React.ReactNode> = {
-    // Otevřená dlaň s bylinkami — diagnostika
+    // stethoscope — diagnostika ájurvédského specialisty
     diagnostika: (
-      <svg viewBox="0 0 80 100" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ width: "48%", height: "48%" }}>
-        {/* Bylinka: stonek */}
-        <line x1="40" y1="42" x2="40" y2="16" />
-        {/* Levý list */}
-        <path d="M40 32 C34 28 30 20 33 14 C37 20 40 26 40 32Z" />
-        {/* Pravý list */}
-        <path d="M40 26 C46 22 50 14 47 8 C43 14 40 20 40 26Z" />
-        {/* Malý vrchní list */}
-        <path d="M40 20 C38 14 40 8 40 8 C42 14 40 20 40 20Z" />
-        {/* Palec */}
-        <path d="M22 66 C20 60 22 54 26 52 C30 50 33 52 33 56" />
-        {/* Ukazováček */}
-        <path d="M33 56 L33 44 C33 40 35 38 37 38 C39 38 41 40 41 44 L41 42" />
-        {/* Prostředníček */}
-        <path d="M41 42 C41 38 43 36 45 36 C47 36 49 38 49 42 L49 44" />
-        {/* Prsteníček */}
-        <path d="M49 44 C49 40 51 38 53 38 C55 38 57 40 57 44 L57 50" />
-        {/* Malíček */}
-        <path d="M57 50 C57 46 59 44 61 45 C63 46 63 50 62 54" />
-        {/* Dlaň */}
-        <path d="M22 66 C20 74 22 82 28 86 L52 86 C60 84 64 76 62 66 L57 50 L33 56 Z" />
+      <svg viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{ width: "46%", height: "46%" }}>
+        <path d="M6 4h-1a2 2 0 0 0 -2 2v3.5a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1" />
+        <path d="M8 15a6 6 0 1 0 12 0v-3" />
+        <path d="M11 3v2" />
+        <path d="M6 3v2" />
+        <path d="M18 10a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
       </svg>
     ),
-    // Hlava zepředu s rukama na spáncích — procedury
+    // massage — ájurvédské léčebné procedury
     procedury: (
-      <svg viewBox="0 0 110 90" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ width: "58%", height: "58%" }}>
-        {/* Obrys hlavy */}
-        <path d="M38 16 C38 8 72 8 72 16 L74 46 C74 60 64 72 55 72 C46 72 36 60 36 46 Z" />
-        {/* Levé ucho */}
-        <path d="M38 36 C32 36 30 40 30 44 C30 48 32 52 38 52" />
-        {/* Pravé ucho */}
-        <path d="M72 36 C78 36 80 40 80 44 C80 48 78 52 72 52" />
-        {/* Krk */}
-        <line x1="48" y1="72" x2="46" y2="80" />
-        <line x1="62" y1="72" x2="64" y2="80" />
-        {/* Levá ruka — 3 prsty svisle */}
-        <path d="M8 28 L8 54 C8 58 12 60 16 58" />
-        <path d="M14 26 L14 54 C14 58 18 60 22 58" />
-        <path d="M20 28 L20 54 C20 58 24 60 28 58" />
-        <path d="M8 58 C8 62 12 66 16 64 L22 64 C26 64 30 62 28 58" />
-        {/* Pravá ruka — 3 prsty svisle */}
-        <path d="M102 28 L102 54 C102 58 98 60 94 58" />
-        <path d="M96 26 L96 54 C96 58 92 60 88 58" />
-        <path d="M90 28 L90 54 C90 58 86 60 82 58" />
-        <path d="M102 58 C102 62 98 66 94 64 L88 64 C84 64 80 62 82 58" />
-        {/* Obočí */}
-        <path d="M44 30 Q50 27 56 30" />
-        <path d="M54 30 Q60 27 66 30" />
-        {/* Oči */}
-        <ellipse cx="50" cy="36" rx="4" ry="3" />
-        <ellipse cx="60" cy="36" rx="4" ry="3" />
-        {/* Nos */}
-        <path d="M55 40 L53 50 Q55 53 57 50" />
-        {/* Ústa */}
-        <path d="M47 60 Q55 65 63 60" />
+      <svg viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{ width: "50%", height: "50%" }}>
+        <path d="M3 17a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+        <path d="M8 5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+        <path d="M4 22l4 -2v-3h12" />
+        <path d="M11 20h9" />
+        <path d="M8 14l3 -2l1 -4c3 1 3 4 3 6" />
       </svg>
     ),
-    // Miska s kopcem jídla a bylinkami — stravovani
+    // salad — stravovací režim a doplňky
     stravovani: (
-      <svg viewBox="0 0 90 90" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ width: "54%", height: "54%" }}>
-        {/* Tělo misky — spodní půloblouk */}
-        <path d="M12 50 Q12 78 45 78 Q78 78 78 50Z" />
-        {/* Horní linie */}
-        <line x1="8" y1="50" x2="82" y2="50" />
-        {/* Nožka */}
-        <line x1="45" y1="78" x2="45" y2="84" />
-        <path d="M33 84 Q45 88 57 84" />
-        {/* Kopec obsahu */}
-        <path d="M16 50 Q20 36 45 34 Q70 36 74 50" />
-        {/* Stonek bylinky */}
-        <line x1="45" y1="34" x2="45" y2="16" />
-        {/* Levý list */}
-        <path d="M45 28 C39 24 35 16 38 10 C41 16 45 22 45 28Z" />
-        {/* Pravý list */}
-        <path d="M45 24 C51 20 55 12 52 6 C49 12 45 18 45 24Z" />
-        {/* Vlnky v misce — vrstva 1 */}
-        <path d="M24 58 Q34 54 45 56 Q56 54 66 58" />
-        {/* Vlnky v misce — vrstva 2 */}
-        <path d="M18 66 Q32 62 45 64 Q58 62 72 66" />
+      <svg viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" style={{ width: "48%", height: "48%" }}>
+        <path d="M4 11h16a1 1 0 0 1 1 1v.5c0 1.5 -2.517 5.573 -4 6.5v1a1 1 0 0 1 -1 1h-8a1 1 0 0 1 -1 -1v-1c-1.687 -1.054 -4 -5 -4 -6.5v-.5a1 1 0 0 1 1 -1" />
+        <path d="M18.5 11c.351 -1.017 .426 -2.236 .5 -3.714v-1.286h-2.256c-2.83 0 -4.616 .804 -5.64 2.076" />
+        <path d="M5.255 11.008a12.204 12.204 0 0 1 -.255 -2.008v-1h1.755c.98 0 1.801 .124 2.479 .35" />
+        <path d="M8 8l1 -4l4 2.5" />
+        <path d="M13 11v-.5a2.5 2.5 0 1 0 -5 0v.5" />
       </svg>
     ),
   };
@@ -2821,57 +2398,30 @@ function BenefitsAnanda01({ content, sectionId }: { content: Record<string, unkn
   };
 
   return (
-    <section id="jak-to-funguje" style={{ backgroundColor: "#ffffff", padding: "80px 0" }}>
-      <style>{`
-        .ananda-benefits-wrap { max-width: 1100px; margin: 0 auto; padding: 0 32px; text-align: center; }
-        .ananda-benefits-steps { display: flex; flex-direction: column; align-items: center; gap: 48px; margin: 64px 0 64px; }
-        @media(min-width: 760px) {
-          .ananda-benefits-steps { flex-direction: row; justify-content: center; align-items: flex-start; gap: 32px; }
-        }
-        .ananda-benefit-item { display: flex; flex-direction: column; align-items: center; gap: 28px; flex: 1; max-width: 300px; }
-        .ananda-benefit-circle {
-          width: 200px; height: 200px; border-radius: 50%;
-          background-color: #ECE4D7;
-          display: flex; align-items: center; justify-content: center;
-          flex-shrink: 0;
-          transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
-        }
-        .ananda-benefit-item:hover .ananda-benefit-circle {
-          transform: translateY(-5px) scale(1.04);
-          box-shadow: 0 14px 32px rgba(170,129,58,0.18);
-        }
-        .ananda-benefit-label {
-          font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600;
-          letter-spacing: 3px; text-transform: uppercase; text-align: center;
-          color: #AA813A; margin: 0; line-height: 1.8; white-space: pre-line;
-        }
-        .ananda-benefits-cta {
-          display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px;
-          text-transform: uppercase; color: #AA813A; text-decoration: none;
-          padding: 16px 40px; border: 1.5px solid #AA813A; border-radius: 999px;
-          transition: background 0.25s, color 0.25s;
-        }
-        .ananda-benefits-cta:hover { background: #AA813A; color: #fff; }
-      `}</style>
-
-      <div className="ananda-benefits-wrap">
+    <section id="jak-to-funguje" data-template="harmonie-01" style={{ backgroundColor: "#ffffff", padding: "88px 0 96px" }}>
+      <div className="harmonie-benefits-wrap">
         <h2 style={{ fontFamily: FONT, fontWeight: 500, fontSize: "clamp(18px, 2.2vw, 24px)", color: TEXT, margin: 0, letterSpacing: 5, textTransform: "uppercase", whiteSpace: "pre-line", lineHeight: 1.5 }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h2>
 
-        <div className="ananda-benefits-steps">
+        <div className="harmonie-benefits-steps">
           {steps.map((step, i) => (
-            <div key={i} className="ananda-benefit-item">
-              <div className="ananda-benefit-circle">
+            <div key={i} className="harmonie-benefit-item">
+              <div className="harmonie-benefit-circle">
+                <span className="harmonie-benefit-num">{i + 1}</span>
                 {getIcon(step.icon, i)}
               </div>
-              <p className="ananda-benefit-label"><GenericEditableText sectionId={sectionId} field={`steps.${i}.label`} value={step.label} tag="span" /></p>
+              <p className="harmonie-benefit-label"><GenericEditableText sectionId={sectionId} field={`steps.${i}.label`} value={step.label} tag="span" /></p>
+              {i < steps.length - 1 && (
+                <svg className="harmonie-benefit-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 9" width="32" height="9" fill="none">
+                  <path stroke="currentColor" strokeWidth="1.2" d="M27.5,9l-.6-.6,3.4-3.4H0v-.9h30.3l-3.4-3.4L27.5,0,32,4.5Z"/>
+                </svg>
+              )}
             </div>
           ))}
         </div>
 
-        <a href={ctaHref} data-btn="primary" className="ananda-benefits-cta">
+        <a href={ctaHref} data-btn="primary" className="harmonie-benefits-cta">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 9" width="28" height="9" fill="none">
             <path stroke="currentColor" strokeWidth="1" d="M27.5,9l-.6-.6,3.4-3.4H0v-.9h30.3l-3.4-3.4L27.5,0,32,4.5Z"/>
@@ -2882,13 +2432,13 @@ function BenefitsAnanda01({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-// ── ananda-01-highlights ──────────────────────────────────────────────────────
+// ── harmonie-01-highlights ──────────────────────────────────────────────────────
 // Zlaté bg #AA813A, py-8, max-w-7xl centrovaný
 // 3-col grid: cream kruh #ECE4D7 (w-28 h-28) + gold SVG ikona + cream text dole
 // Dole: vlnový cream divider (downward chevron → vizuálně přechod do cream sekce)
-// Ref: anandaspa.cz sekce těsně pod hero videom
+// Ref: original reference sekce těsně pod hero videom
 // ─────────────────────────────────────────────────────────────────────────────
-function HighlightsAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function HighlightsHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD  = "#AA813A";
   const CREAM = "#F2EDE4";
   const CREAM2 = "#ECE4D7";
@@ -2897,81 +2447,25 @@ function HighlightsAnanda01({ content, sectionId }: { content: Record<string, un
   type Item = { icon: string; label: string };
   const rawItems = (content.items as Item[] | undefined) ?? [];
   const items: Item[] = rawItems.length > 0 ? rawItems : [
-    { icon: "/templates/ananda-01/icon-a.svg",      label: "JEDINÉ ÁJURVÉDSKÉ CENTRUM\nV PRAZE" },
-    { icon: "/templates/ananda-01/icon-diamant.svg", label: "EXKLUZIVNÍ PROSTŘEDÍ\nINDIVIDUÁLNÍ PŘÍSTUP" },
-    { icon: "/templates/ananda-01/icon-budha.svg",  label: "KVALIFIKOVANÍ\nINDIČTÍ TERAPEUTÉ" },
+    { icon: "/templates/harmonie-01/icon-hl-location.svg",  label: "JEDINÉ ÁJURVÉDSKÉ CENTRUM\nV PRAZE" },
+    { icon: "/templates/harmonie-01/icon-hl-care.svg",      label: "EXKLUZIVNÍ PROSTŘEDÍ\nINDIVIDUÁLNÍ PŘÍSTUP" },
+    { icon: "/templates/harmonie-01/icon-hl-certified.svg", label: "KVALIFIKOVANÍ\nINDIČTÍ TERAPEUTÉ" },
   ];
 
   return (
-    <section id="highlights" style={{ backgroundColor: GOLD, paddingTop: 48, paddingBottom: 0, position: "relative" }}>
-      <style>{`
-        .ananda-hl-grid { display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 1280px; margin: 0 auto; padding: 0 32px 48px; }
-        @media(min-width: 900px) { .ananda-hl-grid { grid-template-columns: repeat(3, 1fr); } }
-
-        .ananda-hl-item { display: flex; flex-direction: column; align-items: center; gap: 20px; cursor: default; }
-
-        .ananda-hl-circle {
-          width: 112px; height: 112px; border-radius: 50%;
-          background-color: #ECE4D7;
-          display: flex; align-items: center; justify-content: center;
-          padding: 20px;
-          box-shadow: 0 0 0 0 rgba(242,237,228,0);
-          transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1),
-                      box-shadow 0.4s ease,
-                      background-color 0.3s ease;
-          position: relative;
-        }
-        .ananda-hl-circle::after {
-          content: '';
-          position: absolute; inset: -4px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(242,237,228,0);
-          transition: border-color 0.35s ease, inset 0.4s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        .ananda-hl-item:hover .ananda-hl-circle {
-          transform: translateY(-6px) scale(1.07);
-          background-color: #fff8f0;
-          box-shadow: 0 16px 36px rgba(0,0,0,0.18);
-        }
-        .ananda-hl-item:hover .ananda-hl-circle::after {
-          border-color: rgba(242,237,228,0.7);
-          inset: -7px;
-        }
-
-        .ananda-hl-icon {
-          width: 100%; height: 100%; object-fit: contain;
-          transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
-          transform-origin: center;
-        }
-        .ananda-hl-item:hover .ananda-hl-icon {
-          transform: scale(1.12) rotate(-4deg);
-        }
-
-        .ananda-hl-label {
-          font-size: 11px; font-weight: 500;
-          letter-spacing: 3px; text-transform: uppercase; text-align: center;
-          color: #F2EDE4; margin: 0; line-height: 1.8;
-          white-space: pre-line;
-          transition: letter-spacing 0.35s ease, opacity 0.3s ease;
-        }
-        .ananda-hl-item:hover .ananda-hl-label {
-          letter-spacing: 4px;
-          opacity: 0.85;
-        }
-      `}</style>
-
-      <div className="ananda-hl-grid">
+    <section id="highlights" data-template="harmonie-01" style={{ backgroundColor: GOLD, paddingTop: 48, paddingBottom: 0, position: "relative" }}>
+      <div className="harmonie-hl-grid">
         {items.map((item, i) => (
-          <div key={i} className="ananda-hl-item">
-            <div className="ananda-hl-circle">
-              <img loading="lazy" src={item.icon} alt="" aria-hidden className="ananda-hl-icon" />
+          <div key={i} className="harmonie-hl-item">
+            <div className="harmonie-hl-circle">
+              <img loading="lazy" src={item.icon} alt="" aria-hidden className="harmonie-hl-icon" />
             </div>
-            <p className="ananda-hl-label" style={{ fontFamily: FONT }}><GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span" /></p>
+            <p className="harmonie-hl-label" style={{ fontFamily: FONT }}><GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span" /></p>
           </div>
         ))}
       </div>
 
-      {/* Arch divider — cream výplň přes celou šířku, 1:1 anandaspa.cz */}
+      {/* Arch divider — cream výplň přes celou šířku, 1:1 original reference */}
       <div style={{ lineHeight: 0, overflow: "hidden" }} aria-hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: 40 }} fill={CREAM}>
           <path d="M720,40C480,40,240,20,0,0L0,40L1440,40L1440,0C1200,20,960,40,720,40Z" />
@@ -2981,117 +2475,27 @@ function HighlightsAnanda01({ content, sectionId }: { content: Record<string, un
   );
 }
 
-// ── ananda-01-hotels ──────────────────────────────────────────────────────────
-function HotelsAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// ── harmonie-01-hotels ──────────────────────────────────────────────────────────
+function HotelsHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD  = "#AA813A";
   const CREAM = "#F2EDE4";
   const DARK  = "#1a1208";
 
   const title    = String(content.title    ?? "NABÍDKA PARTNERSKÝCH HOTELŮ");
-  const subtitle = String(content.subtitle ?? "Jako klient Anandy SPA získáte exkluzivní slevu na ubytování v našich partnerských hotelech v centru Prahy.");
+  const subtitle = String(content.subtitle ?? "Jako klient Harmonie SPA získáte exkluzivní slevu na ubytování v našich partnerských hotelech v centru Prahy.");
 
   type HotelItem = { image?: string; name?: string; stars?: number; desc?: string; href?: string };
   const hotels: HotelItem[] = Array.isArray(content.hotels)
     ? (content.hotels as HotelItem[])
     : [
-        { image: "/templates/ananda-01/hotel-1.jpg", name: "Hotel Praha Grand",    stars: 5, desc: "Luxusní 5* hotel v srdci Prahy, 5 minut od Anandy SPA.",    href: "#" },
-        { image: "/templates/ananda-01/hotel-2.jpg", name: "Boutique Hotel Rezia", stars: 4, desc: "Klidná poloha, snídaně v ceně, exkluzivní sleva 15 %.",       href: "#" },
-        { image: "/templates/ananda-01/hotel-3.jpg", name: "Hotel Yasmin Praha",   stars: 4, desc: "Design hotel s privátním wellness, 10 minut pěšky.",          href: "#" },
-        { image: "/templates/ananda-01/hotel-4.jpg", name: "Art Nouveau Palace",   stars: 5, desc: "Secesní palác, historické centrum, nadstandardní apartmány.", href: "#" },
+        { image: "/templates/harmonie-01/hotel-1.webp", name: "Hotel Praha Grand",    stars: 5, desc: "Luxusní 5* hotel v srdci Prahy, 5 minut od Harmonie SPA.",    href: "#" },
+        { image: "/templates/harmonie-01/hotel-2.webp", name: "Boutique Hotel Rezia", stars: 4, desc: "Klidná poloha, snídaně v ceně, exkluzivní sleva 15 %.",       href: "#" },
+        { image: "/templates/harmonie-01/hotel-3.webp", name: "Hotel Yasmin Praha",   stars: 4, desc: "Design hotel s privátním wellness, 10 minut pěšky.",          href: "#" },
+        { image: "/templates/harmonie-01/hotel-4.webp", name: "Art Nouveau Palace",   stars: 5, desc: "Secesní palác, historické centrum, nadstandardní apartmány.", href: "#" },
       ];
 
   return (
-    <section id="hotely" style={{ backgroundColor: CREAM, padding: "80px 0 88px" }}>
-      <style>{`
-        .ana-htl-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
-          max-width: 1200px;
-          margin: 48px auto 0;
-          padding: 0 32px;
-        }
-        @media (max-width: 900px) {
-          .ana-htl-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 540px) {
-          .ana-htl-grid { grid-template-columns: 1fr; }
-        }
-        .ana-htl-card {
-          background: #fff;
-          border-radius: 4px;
-          overflow: hidden;
-          box-shadow: 0 4px 18px rgba(26,18,8,0.10);
-          display: flex;
-          flex-direction: column;
-          transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.35s ease;
-        }
-        .ana-htl-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 36px rgba(26,18,8,0.18);
-        }
-        .ana-htl-img-wrap {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 4/3;
-          overflow: hidden;
-          background: #c9bfb4;
-        }
-        .ana-htl-img-wrap img {
-          width: 100%; height: 100%; object-fit: cover;
-          transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .ana-htl-card:hover .ana-htl-img-wrap img {
-          transform: scale(1.08);
-        }
-        .ana-htl-body {
-          padding: 20px 20px 24px;
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-        }
-        .ana-htl-stars {
-          display: flex;
-          gap: 2px;
-          margin-bottom: 8px;
-        }
-        .ana-htl-name {
-          font-family: 'Jost', sans-serif;
-          font-size: 17px;
-          font-weight: 500;
-          color: ${DARK};
-          margin: 0 0 8px;
-          letter-spacing: 0.5px;
-        }
-        .ana-htl-desc {
-          font-family: 'Jost', sans-serif;
-          font-size: 13.5px;
-          color: #5a4e40;
-          line-height: 1.6;
-          margin: 0 0 18px;
-          flex: 1;
-        }
-        .ana-htl-cta {
-          display: inline-block;
-          align-self: flex-start;
-          font-family: 'Jost', sans-serif;
-          font-size: 11px;
-          font-weight: 600;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          color: ${GOLD};
-          border: 1px solid ${GOLD};
-          border-radius: 2px;
-          padding: 8px 18px;
-          text-decoration: none;
-          transition: background 0.25s ease, color 0.25s ease;
-        }
-        .ana-htl-cta:hover {
-          background: ${GOLD};
-          color: #fff;
-        }
-      `}</style>
-
+    <section id="hotely" data-template="harmonie-01" style={{ backgroundColor: CREAM, padding: "88px 0 96px" }}>
       {/* Heading */}
       <div style={{ textAlign: "center", padding: "0 32px" }}>
         <h2 style={{
@@ -3118,10 +2522,10 @@ function HotelsAnanda01({ content, sectionId }: { content: Record<string, unknow
       </div>
 
       {/* Hotel cards */}
-      <div className="ana-htl-grid">
+      <div className="harmonie-htl-grid">
         {hotels.map((h, i) => (
-          <div key={i} className="ana-htl-card">
-            <div className="ana-htl-img-wrap">
+          <div key={i} className="harmonie-htl-card">
+            <div className="harmonie-htl-img-wrap">
               {h.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img loading="lazy" src={h.image} alt={h.name ?? "Hotel"} />
@@ -3129,17 +2533,17 @@ function HotelsAnanda01({ content, sectionId }: { content: Record<string, unknow
                 <div style={{ width: "100%", height: "100%", background: `hsl(${30 + i * 15},20%,75%)` }} />
               )}
             </div>
-            <div className="ana-htl-body">
-              <div className="ana-htl-stars">
+            <div className="harmonie-htl-body">
+              <div className="harmonie-htl-stars">
                 {Array.from({ length: h.stars ?? 4 }).map((_, si) => (
                   <svg key={si} width="14" height="14" viewBox="0 0 24 24" fill={GOLD}>
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                   </svg>
                 ))}
               </div>
-              <p className="ana-htl-name"><GenericEditableText sectionId={sectionId} field={`hotels.${i}.name`} value={h.name ?? "Hotel Praha"} tag="span" /></p>
-              <p className="ana-htl-desc"><GenericEditableText sectionId={sectionId} field={`hotels.${i}.desc`} value={h.desc ?? "Luxusní ubytování v centru Prahy."} tag="span" /></p>
-              <a href={h.href ?? "#"} className="ana-htl-cta">Více informací</a>
+              <p className="harmonie-htl-name"><GenericEditableText sectionId={sectionId} field={`hotels.${i}.name`} value={h.name ?? "Hotel Praha"} tag="span" /></p>
+              <p className="harmonie-htl-desc"><GenericEditableText sectionId={sectionId} field={`hotels.${i}.desc`} value={h.desc ?? "Luxusní ubytování v centru Prahy."} tag="span" /></p>
+              <a href={h.href ?? "#"} className="harmonie-htl-cta">Více informací</a>
             </div>
           </div>
         ))}
@@ -3148,8 +2552,8 @@ function HotelsAnanda01({ content, sectionId }: { content: Record<string, unknow
   );
 }
 
-// ── ananda-01-faq ─────────────────────────────────────────────────────────────
-function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// ── harmonie-01-faq ─────────────────────────────────────────────────────────────
+function FaqHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD  = "#AA813A";
   const CREAM = "#F2EDE4";
 
@@ -3174,68 +2578,8 @@ function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>;
       ];
 
   return (
-    <section id="faq" style={{ backgroundColor: "#fff", padding: "80px 0" }}>
-      <style>{`
-        .ana-faq-wrap {
-          max-width: 820px;
-          margin: 0 auto;
-          padding: 0 32px;
-        }
-        .ana-faq-item {
-          border-bottom: 1px solid rgba(170,129,58,0.25);
-        }
-        .ana-faq-item:first-of-type {
-          border-top: 1px solid rgba(170,129,58,0.25);
-        }
-        .ana-faq-trigger {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          background: none;
-          border: none;
-          cursor: pointer;
-          padding: 22px 0;
-          text-align: left;
-          gap: 16px;
-        }
-        .ana-faq-q {
-          font-family: 'Jost', sans-serif;
-          font-size: 16px;
-          font-weight: 400;
-          color: #1a1208;
-          letter-spacing: 0.5px;
-          line-height: 1.4;
-        }
-        .ana-faq-chevron {
-          flex-shrink: 0;
-          width: 22px;
-          height: 22px;
-          transition: transform 0.3s ease;
-        }
-        .ana-faq-chevron.open {
-          transform: rotate(180deg);
-        }
-        .ana-faq-body {
-          overflow: hidden;
-          max-height: 0;
-          transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), padding 0.3s ease;
-          padding: 0 0 0;
-        }
-        .ana-faq-body.open {
-          max-height: 400px;
-          padding: 0 0 22px;
-        }
-        .ana-faq-a {
-          font-family: 'Jost', sans-serif;
-          font-size: 14.5px;
-          color: #5a4e40;
-          line-height: 1.75;
-          margin: 0;
-        }
-      `}</style>
-
-      <div className="ana-faq-wrap">
+    <section id="faq" data-template="harmonie-01" style={{ backgroundColor: "#fff", padding: "88px 0 96px" }}>
+      <div className="harmonie-faq-wrap">
         <h2 style={{
           fontFamily: "'Jost', sans-serif",
           fontSize: "clamp(20px,2.5vw,30px)",
@@ -3257,277 +2601,226 @@ function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>;
   );
 }
 
-// ─── tawan-02-boxes ─────────────────────────────────────────────────────────
-const T02_ICON_BASE = "/clones/escape/wp-content/themes/twentyseventeen/assets/icons";
-const T02_ICONS = [
-  { key: "Masáže",          default: `${T02_ICON_BASE}/masaze-default.svg`,   hover: `${T02_ICON_BASE}/masaze-hover.svg`   },
-  { key: "Dárkové poukazy", default: `${T02_ICON_BASE}/darkove-default.svg`,  hover: `${T02_ICON_BASE}/darkove-hover.svg`  },
-  { key: "Rezervace",       default: `${T02_ICON_BASE}/rezervace-default.svg`,hover: `${T02_ICON_BASE}/rezervace-hover.svg` },
-];
-
-function BoxesTawan02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  type BoxItem = { title: string; desc?: string; description?: string; href?: string };
+// ─── thaimasaze-02-boxes ─────────────────────────────────────────────────────────
+function BoxesThaimasaze02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type BoxItem = { title: string; desc?: string; description?: string; href?: string; linkLabel?: string };
   const rawItems = Array.isArray(content.items) ? content.items : Array.isArray(content.boxes) ? content.boxes : null;
+  const eyebrowRaw = content.eyebrow; const titleRaw = content.title; const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Co pro vás máme" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Cesta k vnitřní harmonii" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(String(eyebrow).trim() || String(title).trim() || String(subtitle).trim());
   const boxes: BoxItem[] = rawItems
     ? (rawItems as BoxItem[])
     : [
-        { title: "Masáže",          desc: "Prozkoumejte nabídku relaxačních masáží.", href: "#" },
-        { title: "Dárkové poukazy", desc: "Darujte únik od stresu a napětí svým blízkým.", href: "#" },
-        { title: "Rezervace",       desc: "Naplánujte si chvíle odpočinku ještě dnes.", href: "#" },
+        { title: "Tradiční masáže",  desc: "Autentické thajské techniky předávané po generace, přizpůsobené vašemu tělu.", linkLabel: "Prohlédnout" },
+        { title: "Dárkové poukazy",  desc: "Darujte svým blízkým chvíle hluboké relaxace a regenerace.", linkLabel: "Vybrat poukaz" },
+        { title: "Online rezervace", desc: "Vyberte si termín, který vám vyhovuje, a my se postaráme o zbytek.", linkLabel: "Rezervovat" },
       ];
 
+  const FONT   = "Candara, 'Candara Regular', 'Segoe UI', sans-serif";
+  const SERIF  = "'Cormorant Garamond', Georgia, serif";
+  const BROWN  = "#3C2F25";
+  const ACCENT = "#AD8F78";
+  const SURFACE = "#f7f3ef";
+
+  const boxIcons = [
+    <svg key="lotus" width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden><g transform="translate(28,28)"><circle r="3" fill={ACCENT} opacity=".7"/><ellipse cx="0" cy="-14" rx="3.5" ry="10" fill="none" stroke={ACCENT} strokeWidth="1.2" opacity=".6" transform="rotate(0)"/><ellipse cx="0" cy="-14" rx="3.5" ry="10" fill="none" stroke={ACCENT} strokeWidth="1.2" opacity=".6" transform="rotate(72)"/><ellipse cx="0" cy="-14" rx="3.5" ry="10" fill="none" stroke={ACCENT} strokeWidth="1.2" opacity=".6" transform="rotate(144)"/><ellipse cx="0" cy="-14" rx="3.5" ry="10" fill="none" stroke={ACCENT} strokeWidth="1.2" opacity=".6" transform="rotate(216)"/><ellipse cx="0" cy="-14" rx="3.5" ry="10" fill="none" stroke={ACCENT} strokeWidth="1.2" opacity=".6" transform="rotate(288)"/></g></svg>,
+    <svg key="gift" width="56" height="56" viewBox="0 0 56 56" fill="none" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="10" y="24" width="36" height="22" rx="2"/><rect x="8" y="18" width="40" height="8" rx="2"/><line x1="28" y1="18" x2="28" y2="46"/><path d="M28 18c-4-8-14-8-14-2s10 2 14 2"/><path d="M28 18c4-8 14-8 14-2s-10 2-14 2"/></svg>,
+    <svg key="calendar" width="56" height="56" viewBox="0 0 56 56" fill="none" stroke={ACCENT} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="10" y="14" width="36" height="32" rx="3"/><line x1="10" y1="24" x2="46" y2="24"/><line x1="20" y1="8" x2="20" y2="18"/><line x1="36" y1="8" x2="36" y2="18"/><circle cx="22" cy="32" r="2" fill={ACCENT} stroke="none"/><circle cx="34" cy="32" r="2" fill={ACCENT} stroke="none"/><circle cx="28" cy="38" r="2" fill={ACCENT} stroke="none"/></svg>,
+  ];
+
   return (
-    <section style={{
-      padding: "120px 0",
-      fontSize: 16,
-      lineHeight: "20px",
-      backgroundImage: "url(/clones/escape/wp-content/themes/twentyseventeen/assets/images/flower.png)",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "top left",
-      backgroundColor: "#fff",
-      fontFamily: "Candara, 'Trebuchet MS', Arial, sans-serif",
-    }}>
-      <style>{`
-        .t02-box { text-decoration: none; color: rgba(60,47,37,0.65); position: relative; text-align: center; cursor: default; }
-        .t02-box-img { height: 106px; width: 100%; position: relative; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
-        .t02-box-img .t02-icon-default { height: 106px; width: auto; transition: opacity 0.4s; display: block; }
-        .t02-box-img .t02-icon-hover   { height: 106px; width: auto; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0; transition: opacity 0.4s; display: block; }
-        .t02-box:hover .t02-icon-default { opacity: 0; }
-        .t02-box:hover .t02-icon-hover   { opacity: 1; }
-        .t02-box h3 { margin-bottom: 10px; font-size: 22px; font-weight: 700; color: rgba(60,47,37,0.9); transition: color 0.3s; font-family: Candara, 'Trebuchet MS', Arial, sans-serif; }
-        .t02-box:hover h3 { color: #927259; }
-        .t02-hover-hide { transition: opacity 0.4s; }
-        .t02-box:hover .t02-hover-hide { opacity: 0; visibility: hidden; }
-        .t02-learn-more-wrap { position: relative; min-height: 24px; }
-        .t02-learn-more { position: absolute; top: 0; left: 50%; transform: translateX(-50%); color: #3C2F25; text-decoration: none; transition: opacity 0.4s; opacity: 0; visibility: hidden; white-space: nowrap; font-size: 14px; letter-spacing: 1px; }
-        .t02-learn-more::after { content: ''; display: block; width: 40px; height: 1px; background: #3C2F25; margin: 4px auto 0; }
-        .t02-box:hover .t02-learn-more { opacity: 1; visibility: visible; }
-      `}</style>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40, textAlign: "center" }}>
-          {boxes.map((box, i) => {
-            const icon = T02_ICONS[i] ?? T02_ICONS[0];
-            return (
-              <div key={i} className="t02-box" style={{ padding: "0 20px" }}>
-                <div className="t02-box-img">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src={icon.default} alt="" className="t02-icon-default" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src={icon.hover}   alt="" className="t02-icon-hover"   />
-                </div>
-                <h3><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={box.title} tag="span" /></h3>
-                <div className="t02-learn-more-wrap">
-                  <div className="t02-hover-hide">
-                    <p style={{ margin: 0, fontSize: 16, color: "rgba(60,47,37,0.65)" }}><GenericEditableText sectionId={sectionId} field={`items.${i}.desc`} value={box.desc ?? box.description ?? ""} tag="span" /></p>
-                  </div>
-                  <span className="t02-learn-more">Zjistit více</span>
-                </div>
+    <section data-template="thaimasaze-02" style={{ padding: "110px 0 120px", backgroundColor: SURFACE, fontFamily: FONT }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 28px" }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+              fontFamily: FONT, fontSize: 12, fontWeight: 600, letterSpacing: 3.5, textTransform: "uppercase", color: ACCENT, display: "block", marginBottom: 14,
+            }} />
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+              fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 500, color: BROWN, margin: 0, lineHeight: 1.15, letterSpacing: 0.5,
+            }} />
+            {subtitle && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{ fontFamily: FONT, fontSize: 17, color: "rgba(60,47,37,.6)", marginTop: 14 }} />}
+            <div aria-hidden style={{ display: "flex", justifyContent: "center", marginTop: 22 }}>
+              <span style={{ width: 44, height: 1, background: `linear-gradient(90deg, transparent, ${ACCENT}66)` }} />
+              <span style={{ margin: "0 10px", fontSize: 12, color: ACCENT, opacity: .6 }}>✦</span>
+              <span style={{ width: 44, height: 1, background: `linear-gradient(90deg, ${ACCENT}66, transparent)` }} />
+            </div>
+          </div>
+        )}
+
+        <div className="t02-boxes-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 36 }}>
+          {boxes.map((box, i) => (
+            <div key={i} className="t02-box" style={{
+              textAlign: "center", padding: "48px 32px 44px",
+              background: "#fff", borderRadius: 20,
+              border: "1px solid rgba(173,143,120,.15)",
+            }}>
+              <div style={{ marginBottom: 24, display: "flex", justifyContent: "center" }}>
+                {boxIcons[i] ?? boxIcons[0]}
               </div>
-            );
-          })}
+              <h3 style={{ margin: "0 0 12px" }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={box.title} tag="span" style={{
+                  fontFamily: SERIF, fontSize: 24, fontWeight: 500, color: BROWN, letterSpacing: .3,
+                }} />
+              </h3>
+              <p style={{ margin: "0 0 22px", fontSize: 15, lineHeight: 1.65, color: "rgba(60,47,37,.6)" }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.desc`} value={box.desc ?? box.description ?? ""} tag="span" />
+              </p>
+              <span className="t02-box-link" style={{
+                fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase",
+                color: ACCENT, cursor: "default",
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.linkLabel`} value={box.linkLabel ?? "Zjistit více"} tag="span" />
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-// ─── tawan-02-why ────────────────────────────────────────────────────────────
-function WhyTawan02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title   = String(content.title   ?? "Proč k nám?");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Více o nás");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
-  const images  = Array.isArray(content.images)
-    ? (content.images as string[])
+// ─── thaimasaze-02-why ────────────────────────────────────────────────────────────
+function WhyThaimasaze02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const showHeader = content.showHeader !== false;
+  const eyebrow  = String(content.eyebrow  ?? "Proč právě k nám");
+  const title    = String(content.title    ?? "Tradice, péče\na profesionalita");
+  const body     = String(content.body     ?? "Každý detail našeho salonu je navržen tak, abyste se od prvního okamžiku cítili jako v jiném světě. Naše certifikované masérky přináší autentické techniky přímo z Thajska.");
+  const ctaText  = String(content.ctaText  ?? "Více o nás");
+  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
+  const image    = String(content.image    ?? "/templates/thaimasaze-02/spa-stones.webp");
+
+  const features = Array.isArray(content.features)
+    ? (content.features as { icon: string; label: string; desc: string }[])
     : [
-        "/clones/escape/wp-content/uploads/2024/04/1.png",
-        "/clones/escape/wp-content/uploads/2024/04/2.png",
+        { icon: "cert", label: "Certifikované masérky", desc: "Všechny naše terapeutky prošly školením v Bangkoku" },
+        { icon: "leaf", label: "Prémiové oleje", desc: "Používáme výhradně přírodní esenciální oleje" },
+        { icon: "clock", label: "10+ let zkušeností", desc: "Tisíce spokojených klientů a stálá kvalita" },
       ];
 
-  const [slide, setSlide] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setSlide(s => (s + 1) % images.length), 4000);
-    return () => clearInterval(t);
-  }, [images.length]);
-
-  const FONT   = "Candara, 'Trebuchet MS', Arial, sans-serif";
-  const ACCENT = "#AD8F78";
-  const BROWN  = "#3C2F25";
+  const ICONS: Record<string, React.ReactNode> = {
+    cert: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15l-3 6 1-4-3 1 5-7"/><path d="M12 15l3 6-1-4 3 1-5-7"/><circle cx="12" cy="9" r="6"/><path d="M12 6v3l2 1"/></svg>,
+    leaf: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c-4-4-8-7.5-8-12C4 5 8 2 12 2s8 3 8 8c0 4.5-4 8-8 12z"/><path d="M12 2v10"/><path d="M8 6c2 2 4 4 4 6"/><path d="M16 6c-2 2-4 4-4 6"/></svg>,
+    clock: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>,
+  };
 
   return (
-    <section style={{
-      padding: "110px 0",
-      fontFamily: FONT,
-      fontSize: 20,
-      lineHeight: "35px",
-    }}>
-      <style>{`
-        .t02-why-wrap {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          background: linear-gradient(90deg, rgba(173,143,120,0.5) 0%, transparent 100%);
-          border-radius: 0;
-        }
-        .t02-why-img-block {
-          width: 50%;
-          position: relative;
-          flex-shrink: 0;
-        }
-        .t02-why-img-block::before {
-          content: '';
-          position: absolute;
-          top: -30px; bottom: -30px;
-          left: 40px; right: 40px;
-          background-color: ${ACCENT};
-          z-index: 0;
-        }
-        .t02-why-img-block img {
-          position: relative;
-          width: 100%;
-          display: block;
-          z-index: 1;
-          transition: opacity 0.7s ease;
-        }
-        .t02-why-content {
-          width: 50%;
-          padding: 30px 70px;
-        }
-        .t02-why-content h2 {
-          font-size: clamp(28px, 3vw, 42px);
-          font-weight: 700;
-          color: ${BROWN};
-          margin: 0 0 20px;
-          font-family: ${FONT};
-        }
-        .t02-why-content p {
-          color: rgba(60,47,37,0.7);
-          max-width: 575px;
-          margin: 0;
-        }
-        .t02-why-btn {
-          display: inline-block;
-          margin-top: 30px;
-          padding: 0 32px;
-          height: 48px;
-          line-height: 46px;
-          border: 1.5px solid ${ACCENT};
-          border-radius: 8px;
-          background: transparent;
-          color: ${BROWN};
-          font-family: ${FONT};
-          font-size: 13px;
-          font-weight: 700;
-          letter-spacing: 1.5px;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background 0.25s, color 0.25s;
-        }
-        .t02-why-btn:hover { background: ${ACCENT}; color: #fff; }
-        @media(max-width: 768px) {
-          .t02-why-wrap { flex-direction: column-reverse; background: none; }
-          .t02-why-img-block { width: 100%; }
-          .t02-why-img-block::before { display: none; }
-          .t02-why-content { width: 100%; padding: 40px 24px; }
-        }
-      `}</style>
+    <section data-template="thaimasaze-02" className="t02-why">
+      {showHeader && (
+        <div className="t02-why-header">
+          <span className="t02-why-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
+          <h2 className="t02-why-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+        </div>
+      )}
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px" }}>
-        <div className="t02-why-wrap">
+      <div className="t02-why-grid">
+        <div className="t02-why-image-col">
+          <div className="t02-why-image-frame">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Wellness interiér" className="t02-why-img">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={image} alt="Wellness interiér" className="t02-why-img" loading="lazy" />
+            </GenericEditableImage>
+          </div>
+        </div>
 
-          {/* Obrázkový slider */}
-          <div className="t02-why-img-block">
-            {images.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={src}
-                src={src}
-                alt=""
-                style={{
-                  opacity: i === slide ? 1 : 0,
-                  position: i === 0 ? "relative" : "absolute",
-                  top: i === 0 ? undefined : 0,
-                  left: i === 0 ? undefined : 0,
-                  width: "100%",
-                }}
-              />
+        <div className="t02-why-text-col">
+          <p className="t02-why-body">
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+
+          <div className="t02-why-features">
+            {features.map((f, i) => (
+              <div key={i} className="t02-why-feature">
+                <div className="t02-why-feature-icon">
+                  {ICONS[f.icon] ?? ICONS.leaf}
+                </div>
+                <div className="t02-why-feature-text">
+                  <strong>{f.label}</strong>
+                  <span>{f.desc}</span>
+                </div>
+              </div>
             ))}
           </div>
 
-          {/* Text blok */}
-          <div className="t02-why-content">
-            <h2><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
-            <p><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>
-            <a href={ctaHref} data-btn="primary" className="t02-why-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
-          </div>
-
+          <a href={ctaHref} className="t02-why-btn">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </section>
   );
 }
 
-// ─── tawan-02-gift ───────────────────────────────────────────────────────────
-function GiftTawan02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title   = String(content.title   ?? "Darujte odpočinek");
-  const body    = String(content.body    ?? "Chcete dopřát únik od stresu a napětí svým blízkým? Potěšte je dárkovým poukazem do našeho salonu.");
-  const ctaText = String(content.ctaText ?? "Zjistit více");
-  const ctaHref = String(content.ctaHref ?? "#voucher");
-  const image   = String(content.image   ?? "/clones/escape/wp-content/uploads/2024/04/special-offer1.png");
+// ─── thaimasaze-02-gift ───────────────────────────────────────────────────────────
+function GiftThaimasaze02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const showHeader = content.showHeader !== false;
+  const eyebrow  = String(content.eyebrow  ?? "Dárkové poukazy");
+  const title    = String(content.title    ?? "Darujte okamžik\nnaprostého klidu");
+  const body     = String(content.body     ?? "Překvapte své blízké luxusním dárkovým poukazem na thajskou masáž. Každý poukaz zahrnuje osobní konzultaci a výběr z celé nabídky našich rituálů.");
+  const ctaText  = String(content.ctaText  ?? "Objednat poukaz");
+  const ctaHref  = String(content.ctaHref  ?? "#voucher");
+  const image    = String(content.image    ?? "/templates/thaimasaze-02/spa-detail.webp");
 
-  const FONT   = "Candara, 'Trebuchet MS', Arial, sans-serif";
-  const ACCENT = "#AD8F78";
-  const BROWN  = "#3C2F25";
+  const perks = Array.isArray(content.perks)
+    ? (content.perks as { label: string }[])
+    : [
+        { label: "Elegantní dárkové balení" },
+        { label: "Platnost 12 měsíců" },
+        { label: "Libovolná masáž z nabídky" },
+        { label: "Online i osobní vyzvednutí" },
+      ];
 
   return (
-    <section style={{ padding: "100px 0 0", fontFamily: FONT }}>
-      <style>{`
-        .t02-gift-row {
-          background: rgba(173,143,120,0.15);
-          display: flex;
-          flex-wrap: wrap;
-          align-items: flex-end;
-          backgroundImage: url(/clones/escape/wp-content/themes/twentyseventeen/assets/images/special-offer-flower.png);
-          background-repeat: no-repeat;
-          background-position: top center;
-        }
-        .t02-gift-text { width: 60%; padding: 60px; font-size: 20px; line-height: 35px; }
-        .t02-gift-text h2 { font-size: clamp(26px,3vw,40px); font-weight: 700; color: ${BROWN}; margin: 0 0 16px; font-family: ${FONT}; }
-        .t02-gift-text p { max-width: 575px; color: rgba(60,47,37,0.7); margin: 0; }
-        .t02-gift-btn {
-          display: inline-block; margin-top: 28px;
-          padding: 0 32px; height: 48px; line-height: 46px;
-          border: 1.5px solid ${ACCENT}; border-radius: 8px;
-          background: transparent; color: ${BROWN};
-          font-family: ${FONT}; font-size: 13px; font-weight: 700;
-          letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none;
-          transition: background 0.25s, color 0.25s;
-        }
-        .t02-gift-btn:hover { background: ${ACCENT}; color: #fff; }
-        .t02-gift-img { width: 50%; margin-left: -10%; }
-        .t02-gift-img img { width: 100%; display: block; }
-        @media(max-width: 768px) {
-          .t02-gift-row { flex-direction: column; }
-          .t02-gift-text { width: 100%; padding: 30px 22px 15px; font-size: 16px; line-height: 30px; }
-          .t02-gift-img { width: 100%; margin-left: 0; }
-        }
-      `}</style>
+    <section data-template="thaimasaze-02" className="t02-gift">
+      {showHeader && (
+        <div className="t02-gift-header">
+          <span className="t02-gift-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
+          <h2 className="t02-gift-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+        </div>
+      )}
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px" }}>
-        <div className="t02-gift-row" style={{
-          backgroundImage: "url(/clones/escape/wp-content/themes/twentyseventeen/assets/images/special-offer-flower.png)",
-        }}>
-          <div className="t02-gift-text">
-            <h2><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
-            <p><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>
-            <a href={ctaHref} data-btn="primary" className="t02-gift-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
-          </div>
-          <div className="t02-gift-img">
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title}>
+      <div className="t02-gift-wrap">
+        <div className="t02-gift-image-col">
+          <div className="t02-gift-image-frame">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Dárkový poukaz" className="t02-gift-img">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="lazy" src={image} alt={title} style={{ width: "100%", display: "block" }} />
+              <img src={image} alt="Dárkový poukaz" className="t02-gift-img" loading="lazy" />
             </GenericEditableImage>
+            <div className="t02-gift-badge">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            </div>
           </div>
+        </div>
+
+        <div className="t02-gift-text-col">
+          <p className="t02-gift-body">
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+
+          <ul className="t02-gift-perks">
+            {perks.map((p, i) => (
+              <li key={i} className="t02-gift-perk">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                <span>{p.label}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a href={ctaHref} className="t02-gift-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </section>
@@ -3537,15 +2830,15 @@ function GiftTawan02({ content, sectionId }: { content: Record<string, unknown>;
 function FaqItemRow({ q, a, gold, sectionId, idx }: { q: string; a: string; gold: string; sectionId: number; idx: number }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="ana-faq-item">
-      <button className="ana-faq-trigger" onClick={() => setOpen(o => !o)} aria-expanded={open}>
-        <span className="ana-faq-q"><GenericEditableText sectionId={sectionId} field={`items.${idx}.q`} value={q} tag="span" /></span>
-        <svg className={`ana-faq-chevron${open ? " open" : ""}`} viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <div className="harmonie-faq-item">
+      <button className="harmonie-faq-trigger" onClick={() => setOpen(o => !o)} aria-expanded={open}>
+        <span className="harmonie-faq-q"><GenericEditableText sectionId={sectionId} field={`items.${idx}.q`} value={q} tag="span" /></span>
+        <svg className={`harmonie-faq-chevron${open ? " open" : ""}`} viewBox="0 0 24 24" fill="none" stroke={gold} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="6 9 12 15 18 9"/>
         </svg>
       </button>
-      <div className={`ana-faq-body${open ? " open" : ""}`}>
-        <p className="ana-faq-a"><GenericEditableText sectionId={sectionId} field={`items.${idx}.a`} value={a} tag="span" /></p>
+      <div className={`harmonie-faq-body${open ? " open" : ""}`}>
+        <p className="harmonie-faq-a"><GenericEditableText sectionId={sectionId} field={`items.${idx}.a`} value={a} tag="span" /></p>
       </div>
     </div>
   );
@@ -3556,29 +2849,75 @@ function FaqItemRow({ q, a, gold, sectionId, idx }: { q: string; a: string; gold
 // Reference: tribo-demo sekce 1 — block-quote centered, height--normal
 // ─────────────────────────────────────────────────────────────────────────────
 function IntroTattoo01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title = String(content.title ?? "Profesionální tetování a piercing");
+  const eyebrowRaw = content.eyebrow;
+  const eyebrow = eyebrowRaw === undefined ? "O studiu" : String(eyebrowRaw);
+  const title = String(content.title ?? "Umění, které nosíte celý život");
   const body  = String(content.body  ?? content.text ?? "");
   const ACCENT = "#ff5c4b";
   const SANS   = "Arial, Helvetica, sans-serif";
 
+  const secRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } }, { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const rise = (d: number): React.CSSProperties => ({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(22px)",
+    transition: `opacity 0.75s cubic-bezier(.2,.7,.2,1) ${d}s, transform 0.75s cubic-bezier(.2,.7,.2,1) ${d}s`,
+  });
+
   return (
     <section
+      ref={secRef}
       id="o-nas"
       data-template="tattoo-01"
-      style={{ backgroundColor: "#ffffff", padding: "clamp(56px, 8vw, 96px) clamp(24px, 6vw, 80px)" }}
+      style={{ position: "relative", backgroundColor: "#ffffff", padding: "clamp(64px, 9vw, 120px) clamp(24px, 6vw, 80px)", overflow: "hidden" }}
     >
-      <div style={{ maxWidth: 860, margin: "0 auto", textAlign: "center" }}>
-        {/* Dekorativní červená linka nahoře */}
-        <div style={{ width: 48, height: 3, backgroundColor: ACCENT, margin: "0 auto 32px" }} aria-hidden />
+      {/* Decentní decorative watermark */}
+      <span
+        aria-hidden
+        style={{
+          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+          fontFamily: "'Arial Black', Arial, sans-serif", fontWeight: 900,
+          fontSize: "clamp(9rem, 22vw, 20rem)", letterSpacing: "0.02em",
+          color: "#0a0a0a", opacity: 0.028, textTransform: "uppercase",
+          whiteSpace: "nowrap", pointerEvents: "none", lineHeight: 1, userSelect: "none",
+        }}
+      >
+        Ink
+      </span>
+
+      <div style={{ position: "relative", maxWidth: 880, margin: "0 auto", textAlign: "center" }}>
+        {/* Eyebrow */}
+        {eyebrow.trim() && (
+          <div style={{ ...rise(0), display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginBottom: 22 }}>
+            <span style={{ width: 28, height: 2, backgroundColor: ACCENT }} aria-hidden />
+            <GenericEditableText
+              sectionId={sectionId}
+              field="eyebrow"
+              value={eyebrow}
+              tag="span"
+              style={{ fontFamily: SANS, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.24em", textTransform: "uppercase", color: ACCENT }}
+            />
+            <span style={{ width: 28, height: 2, backgroundColor: ACCENT }} aria-hidden />
+          </div>
+        )}
 
         <h2
           style={{
+            ...rise(0.1),
             fontFamily: "'Arial Black', Arial, sans-serif",
-            fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+            fontSize: "clamp(1.7rem, 3.4vw, 2.7rem)",
             fontWeight: 900,
             color: "#0a0a0a",
             textTransform: "uppercase",
-            letterSpacing: "0.06em",
+            letterSpacing: "0.03em",
+            lineHeight: 1.12,
             margin: "0 0 28px",
           }}
         >
@@ -3588,12 +2927,14 @@ function IntroTattoo01({ content, sectionId }: { content: Record<string, unknown
         {body && (
           <p
             style={{
+              ...rise(0.2),
               fontFamily: SANS,
-              fontSize: "clamp(1rem, 1.6vw, 1.125rem)",
+              fontSize: "clamp(1.02rem, 1.6vw, 1.2rem)",
               fontWeight: 400,
-              color: "#3a3a3a",
-              lineHeight: 1.8,
-              margin: 0,
+              color: "#4a4a4a",
+              lineHeight: 1.85,
+              margin: "0 auto",
+              maxWidth: 720,
             }}
           >
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
@@ -3612,20 +2953,43 @@ function ServicesTattoo01({
   content,
   sectionId,
   side,
+  tenantSlug,
+  isAdmin,
+  anchor,
 }: {
   content: Record<string, unknown>;
   sectionId: number;
   side: "left" | "right";
+  tenantSlug?: string;
+  isAdmin?: boolean;
+  anchor?: string;
 }) {
+  const eyebrowRaw = content.eyebrow;
+  const eyebrow  = eyebrowRaw === undefined ? (side === "left" ? "Tetování" : "Piercing") : String(eyebrowRaw);
   const heading  = String(content.heading ?? content.title ?? "");
   const text     = String(content.text    ?? content.body  ?? "");
   const cta1Text = String(content.cta1Text ?? "Objednat se");
-  const cta1Href = String(content.cta1Href ?? "#kontakt");
+  const cta1Href = String(content.cta1Href ?? "/kontakt");
   const cta2Text = String(content.cta2Text ?? "");
   const cta2Href = String(content.cta2Href ?? "#");
   const image    = String(content.image ?? "");
   const ACCENT   = "#ff5c4b";
   const SANS     = "Arial, Helvetica, sans-serif";
+
+  const secRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } }, { threshold: 0.2 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const rise = (d: number): React.CSSProperties => ({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(22px)",
+    transition: `opacity 0.7s cubic-bezier(.2,.7,.2,1) ${d}s, transform 0.7s cubic-bezier(.2,.7,.2,1) ${d}s`,
+  });
 
   const textCol = (
     <div
@@ -3634,19 +2998,27 @@ function ServicesTattoo01({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "clamp(40px, 6vw, 72px) clamp(32px, 5vw, 64px)",
+        padding: "clamp(48px, 6.5vw, 84px) clamp(32px, 5vw, 72px)",
       }}
     >
-      {/* Červená linka nad nadpisem */}
-      <div style={{ width: 36, height: 3, backgroundColor: ACCENT, marginBottom: 20 }} aria-hidden />
+      {/* Eyebrow */}
+      {eyebrow.trim() && (
+        <div style={{ ...rise(0), display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+          <span style={{ width: 32, height: 2, backgroundColor: ACCENT }} aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+            style={{ fontFamily: SANS, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.24em", textTransform: "uppercase", color: ACCENT }} />
+        </div>
+      )}
       <h2
         style={{
+          ...rise(0.08),
           fontFamily: "'Arial Black', Arial, sans-serif",
-          fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
+          fontSize: "clamp(1.8rem, 3.2vw, 2.7rem)",
           fontWeight: 900,
           color: "#0a0a0a",
           textTransform: "uppercase",
-          letterSpacing: "0.04em",
+          letterSpacing: "0.03em",
+          lineHeight: 1.08,
           margin: "0 0 20px",
         }}
       >
@@ -3654,45 +3026,43 @@ function ServicesTattoo01({
       </h2>
       <p
         style={{
+          ...rise(0.16),
           fontFamily: SANS,
-          fontSize: "clamp(0.95rem, 1.4vw, 1.05rem)",
+          fontSize: "clamp(0.98rem, 1.4vw, 1.08rem)",
           fontWeight: 400,
-          color: "#3a3a3a",
-          lineHeight: 1.75,
-          margin: "0 0 32px",
+          color: "#4a4a4a",
+          lineHeight: 1.8,
+          margin: "0 0 34px",
+          maxWidth: 520,
         }}
       >
         <GenericEditableText sectionId={sectionId} field="text" value={text} tag="span" />
       </p>
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+      <div style={{ ...rise(0.24), display: "flex", gap: 14, flexWrap: "wrap" }}>
         <a
-          href={cta1Href}
+          href={resolveDemoHref(cta1Href, tenantSlug, isAdmin)}
+          className="t01-cta"
           style={{
             display: "inline-flex", alignItems: "center",
             backgroundColor: ACCENT, color: "#ffffff",
             fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700,
             letterSpacing: "0.12em", textTransform: "uppercase",
-            textDecoration: "none", padding: "12px 28px",
-            transition: "background 0.2s",
+            textDecoration: "none", padding: "13px 30px",
           }}
-          onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#d94a38")}
-          onMouseLeave={e => (e.currentTarget.style.backgroundColor = ACCENT)}
         >
           <GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" />
         </a>
         {cta2Text && (
           <a
-            href={cta2Href}
+            href={resolveDemoHref(cta2Href, tenantSlug, isAdmin)}
+            className="t01-dark-ghost"
             style={{
               display: "inline-flex", alignItems: "center",
               border: "1.5px solid #0a0a0a", color: "#0a0a0a",
               fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700,
               letterSpacing: "0.12em", textTransform: "uppercase",
-              textDecoration: "none", padding: "12px 28px",
-              transition: "background 0.2s, color 0.2s",
+              textDecoration: "none", padding: "13px 30px",
             }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#0a0a0a"; e.currentTarget.style.color = "#ffffff"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#0a0a0a"; }}
           >
             <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
           </a>
@@ -3703,10 +3073,11 @@ function ServicesTattoo01({
 
   const photoCol = (
     <div
+      className="t01-svc-photo"
       style={{
         flex: "0 0 50%",
         position: "relative",
-        minHeight: "clamp(300px, 40vw, 560px)",
+        minHeight: "clamp(320px, 42vw, 600px)",
         overflow: "hidden",
         backgroundColor: "#111",
       }}
@@ -3717,7 +3088,7 @@ function ServicesTattoo01({
           field="image"
           src={image}
           alt={heading}
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 w-full h-full t01-svc-img"
           style={{ position: "absolute" }}
         >
           <Image
@@ -3730,6 +3101,8 @@ function ServicesTattoo01({
           />
         </GenericEditableImage>
       )}
+      {/* Korálový rámeček accent */}
+      <span aria-hidden className="t01-svc-frame" style={{ position: "absolute", inset: 18, border: "1px solid rgba(255,255,255,0.35)", pointerEvents: "none", zIndex: 2 }} />
     </div>
   );
 
@@ -3738,16 +3111,18 @@ function ServicesTattoo01({
       <style>{`
         @media (max-width: 767px) {
           [data-sec="t01-service"] { flex-direction: column !important; }
-          [data-sec="t01-service"] > div { flex: 1 1 100% !important; min-height: 260px; }
+          [data-sec="t01-service"] > div { flex: 1 1 100% !important; min-height: 300px; }
         }
       `}</style>
       <section
+        ref={secRef}
+        id={anchor}
         data-template="tattoo-01"
         data-sec="t01-service"
         style={{
           display: "flex",
           flexDirection: "row",
-          backgroundColor: "#f7f7f7",
+          backgroundColor: side === "left" ? "#ffffff" : "#f4f4f4",
           overflow: "hidden",
         }}
       >
@@ -3763,9 +3138,25 @@ function ServicesTattoo01({
 // ─────────────────────────────────────────────────────────────────────────────
 function PrinciplesTattoo01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const heading = String(content.heading ?? content.title ?? "Naše zásady");
+  const eyebrow = String(content.eyebrow ?? "Proč právě my");
   const items   = (content.items as Array<{ icon?: string; title?: string; text?: string }>) ?? [];
   const ACCENT  = "#ff5c4b";
   const SANS    = "Arial, Helvetica, sans-serif";
+
+  const headRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [headVis, setHeadVis] = useState(false);
+  const [gridVis, setGridVis] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setHeadVis(true); o.disconnect(); } }, { threshold: 0.3 });
+    if (headRef.current) o.observe(headRef.current);
+    return () => o.disconnect();
+  }, []);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setGridVis(true); o.disconnect(); } }, { threshold: 0.12 });
+    if (gridRef.current) o.observe(gridRef.current);
+    return () => o.disconnect();
+  }, []);
 
   const iconSvg = (name?: string) => {
     const base = { width: 36, height: 36, viewBox: "0 0 24 24", fill: "none", stroke: ACCENT, strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -3791,7 +3182,10 @@ function PrinciplesTattoo01({ content, sectionId }: { content: Record<string, un
     >
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         {/* Heading */}
-        <div style={{ textAlign: "center", marginBottom: "clamp(40px, 6vw, 64px)" }}>
+        <div ref={headRef} className={`t01-gal-reveal ${headVis ? "t01-visible" : ""}`} style={{ textAlign: "center", marginBottom: "clamp(40px, 6vw, 64px)" }}>
+          <p style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: ACCENT, margin: "0 0 16px" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
           <div style={{ width: 48, height: 3, backgroundColor: ACCENT, margin: "0 auto 24px" }} aria-hidden />
           <h2
             style={{
@@ -3810,6 +3204,7 @@ function PrinciplesTattoo01({ content, sectionId }: { content: Record<string, un
 
         {/* 4 karty */}
         <div
+          ref={gridRef}
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -3819,17 +3214,10 @@ function PrinciplesTattoo01({ content, sectionId }: { content: Record<string, un
           {items.map((item, i) => (
             <div
               key={i}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: 16,
-                padding: "clamp(24px, 3vw, 36px)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                backgroundColor: "rgba(255,255,255,0.03)",
-              }}
+              className={`t01-prin-card t01-gal-reveal ${gridVis ? "t01-visible" : ""}`}
+              style={{ transitionDelay: gridVis ? `${i * 0.09}s` : "0s" }}
             >
-              <div style={{ flexShrink: 0 }}>{iconSvg(item.icon)}</div>
+              <div className="t01-prin-icon">{iconSvg(item.icon)}</div>
               <h3
                 style={{
                   fontFamily: SANS,
@@ -3863,153 +3251,111 @@ function PrinciplesTattoo01({ content, sectionId }: { content: Record<string, un
 }
 
 // ── tattoo-02-about ───────────────────────────────────────────────────────────
-// 2-col layout: vlevo text + stats + CTA, vpravo velká fotka studia.
-// Bílé pozadí, černý nadpis, zlaté akcenty.
+// "Shadow Ink" — 2-col: vlevo text + stats + CTA, vpravo fotka s gold edge.
+// Bílé bg, gold akcenty, Oswald headings. CSS v globals (t02-about-*).
+// Conditional header pro podstránky. resolveNavHref na CTA.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutTattoo02({ content, sectionId }: {
   content: Record<string, unknown>;
   sectionId: number;
 }) {
-  const c       = content as Record<string, unknown>;
-  const heading = String(c.heading ?? "Nejlepší tetovací salon v Praze");
-  const text    = String(c.text    ?? "");
-  const text2   = String(c.text2   ?? "");
-  const ctaText = String(c.ctaText ?? "Objednat se na konzultaci");
-  const ctaHref = String(c.ctaHref ?? "#kontakt");
-  const image   = String(c.image   ?? "/templates/tattoo-02/about.jpg");
-  const stats   = (c.stats as Array<{ number: string; label: string }>) ?? [];
+  const c = content as Record<string, unknown>;
+
+  const eyebrowRaw = c.eyebrow;
+  const headingRaw = c.heading;
+  const eyebrow = eyebrowRaw === undefined ? "Náš příběh" : String(eyebrowRaw);
+  const heading = headingRaw === undefined ? "Řemeslo, které zanechává stopu" : String(headingRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim());
+
+  const text    = String(c.text    ?? "Založili jsme studio s jediným cílem — vytvořit prostor, kde se potkává umělecká vize s absolutní precizností. Každý motiv navrhujeme na míru, od prvního náčrtu po finální stínování.");
+  const text2   = String(c.text2   ?? "Pracujeme výhradně s veganskými barvami certifikovanými EU a jednorázovými sterilními jehlami. Bezpečnost a čistota jsou u nás standardem, ne nadstavbou.");
+  const ctaText = String(c.ctaText ?? "Sjednat konzultaci");
+  const ctaHref = String(c.ctaHref ?? "/kontakt");
+  const image   = String(c.image   ?? "/templates/tattoo-02/about.webp");
+  const stats   = (c.stats as Array<{ number: string; label: string }>) ?? [
+    { number: "500+", label: "Spokojených klientů" },
+    { number: "12+",  label: "Tatérů v týmu" },
+    { number: "8+",   label: "Let praxe" },
+    { number: "1 800", label: "Kč cena od" },
+  ];
 
   const GOLD = "#BF8A1D";
+  const FONT_DISPLAY = "var(--font-oswald), 'Oswald', sans-serif";
 
   return (
-    <>
-      <style>{`
-        .ta02-about-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          min-height: 560px;
-        }
-        @media (max-width: 860px) {
-          .ta02-about-grid { grid-template-columns: 1fr; }
-          .ta02-about-img  { min-height: 320px; order: -1; }
-        }
-        .ta02-stat-row { display: flex; gap: 0; flex-wrap: wrap; margin: 36px 0 40px; }
-        .ta02-stat { flex: 1; min-width: 120px; padding: 20px 0; border-right: 1px solid #e8e8e8; }
-        .ta02-stat:last-child { border-right: none; }
-        .ta02-cta-btn {
-          display: inline-flex; align-items: center; gap: 10px;
-          background: ${GOLD}; color: #fff;
-          font-family: Arial, sans-serif; font-size: 0.8rem; font-weight: 700;
-          letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase;
-          padding: 0 32px; height: 50px;
-          transition: background 0.2s;
-        }
-        .ta02-cta-btn:hover { background: #a87318; }
-      `}</style>
+    <section id="o-nas" data-template="tattoo-02" style={{ background: "#fff", padding: "clamp(64px,9vw,120px) 0" }}>
+      <div className="t02-about-grid" style={{ maxWidth: 1360, margin: "0 auto" }}>
 
-      <section id="o-nas" data-section="about-tattoo-02" style={{ background: "#fff", paddingTop: "clamp(64px,9vw,120px)", paddingBottom: "clamp(64px,9vw,120px)" }}>
-        <div className="ta02-about-grid">
+        {/* Left — text */}
+        <div style={{ padding: "clamp(32px,4vw,56px) clamp(28px,5vw,80px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
 
-          {/* Levý panel — text */}
-          <div style={{
-            padding: "clamp(32px,4vw,56px) clamp(28px,5vw,80px)",
-            display: "flex", flexDirection: "column", justifyContent: "center",
-          }}>
-            {/* Eyebrow */}
-            <p style={{
-              fontFamily: "Arial, sans-serif", fontSize: "0.7rem", fontWeight: 700,
-              color: GOLD, letterSpacing: "0.3em", textTransform: "uppercase",
-              margin: "0 0 16px",
-            }}>
-              O nás
-            </p>
-
-            {/* Zlatá linka */}
-            <div aria-hidden style={{ width: 48, height: 2, backgroundColor: GOLD, marginBottom: 24 }} />
-
-            {/* Nadpis */}
-            <h2 style={{
-              fontFamily: "'Arial Black', Arial, sans-serif",
-              fontWeight: 900, fontSize: "clamp(26px, 3.2vw, 40px)",
-              color: "#1a1a1a", lineHeight: 1.15, margin: "0 0 24px",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </h2>
-
-            {/* Text */}
-            <p style={{
-              fontFamily: "Arial, sans-serif", fontSize: "0.95rem",
-              color: "#444", lineHeight: 1.75, margin: "0 0 16px",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="text" value={text} tag="span" />
-            </p>
-            {text2 && (
-              <p style={{
-                fontFamily: "Arial, sans-serif", fontSize: "0.95rem",
-                color: "#444", lineHeight: 1.75, margin: 0,
-              }}>
-                <GenericEditableText sectionId={sectionId} field="text2" value={text2} tag="span" />
-              </p>
-            )}
-
-            {/* Stats */}
-            {stats.length > 0 && (
-              <div className="ta02-stat-row">
-                {stats.map((s, i) => (
-                  <div key={i} className="ta02-stat">
-                    <div style={{
-                      fontFamily: "'Arial Black', Arial, sans-serif",
-                      fontWeight: 900, fontSize: "clamp(24px, 2.8vw, 34px)",
-                      color: GOLD, lineHeight: 1,
-                    }}>
-                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" />
-                    </div>
-                    <div style={{
-                      fontFamily: "Arial, sans-serif", fontSize: "0.72rem",
-                      color: "#888", letterSpacing: "0.04em",
-                      textTransform: "uppercase", marginTop: 6,
-                    }}>
-                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
-                    </div>
-                  </div>
-                ))}
+          {showHeader && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+                <div aria-hidden style={{ width: 40, height: 2, backgroundColor: GOLD }} />
+                <GenericEditableText
+                  sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                  style={{ fontFamily: FONT_DISPLAY, fontSize: "0.72rem", fontWeight: 600, color: GOLD, letterSpacing: "0.22em", textTransform: "uppercase" }}
+                />
               </div>
-            )}
 
-            {/* CTA */}
-            <div>
-              <a href={ctaHref} data-btn="primary" className="ta02-cta-btn">
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-                <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
-                  <path d="M1 5h14M10 1l5 4-5 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </a>
+              <h2 style={{
+                fontFamily: FONT_DISPLAY, fontWeight: 700,
+                fontSize: "clamp(28px, 3.4vw, 44px)", color: "#1a1a1a",
+                lineHeight: 1.1, margin: "0 0 28px", textTransform: "uppercase", letterSpacing: "0.01em",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+            </>
+          )}
+
+          <p style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.95rem", color: "#4a4a4a", lineHeight: 1.8, margin: "0 0 16px" }}>
+            <GenericEditableText sectionId={sectionId} field="text" value={text} tag="span" />
+          </p>
+          {text2 && (
+            <p style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.95rem", color: "#4a4a4a", lineHeight: 1.8, margin: 0 }}>
+              <GenericEditableText sectionId={sectionId} field="text2" value={text2} tag="span" />
+            </p>
+          )}
+
+          {/* Stats */}
+          {stats.length > 0 && (
+            <div style={{ display: "flex", gap: 0, flexWrap: "wrap", margin: "36px 0 40px" }}>
+              {stats.map((s, i) => (
+                <div key={i} className="t02-about-stat" style={{ flex: 1, minWidth: 110, padding: "18px 0", borderRight: i < stats.length - 1 ? "1px solid #e4e4e4" : "none" }}>
+                  <div style={{ fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: "clamp(26px,3vw,36px)", color: GOLD, lineHeight: 1 }}>
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" />
+                  </div>
+                  <div style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.68rem", color: "#999", letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 7 }}>
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
 
-          {/* Pravý panel — fotka */}
-          <div className="ta02-about-img" style={{ position: "relative", overflow: "hidden", minHeight: 500 }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={heading} className="relative" style={{ height: "100%" }}>
-              <img
-                src={image}
-                alt={heading}
-                style={{
-                  width: "100%", height: "100%",
-                  objectFit: "cover", objectPosition: "center",
-                  display: "block",
-                }}
-              />
-            </GenericEditableImage>
-            {/* Zlatá dekorativní linka vlevo na fotce */}
-            <div aria-hidden style={{
-              position: "absolute", left: 0, top: "10%", bottom: "10%",
-              width: 4, backgroundColor: GOLD, opacity: 0.85,
-            }} />
+          {/* CTA */}
+          <div>
+            <a href={ctaHref} data-btn="primary" className="t02-cta" style={{ textDecoration: "none" }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="t02-cta-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+                <path d="M1 5h14M10 1l5 4-5 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </a>
           </div>
-
         </div>
-      </section>
-    </>
+
+        {/* Right — photo */}
+        <div className="t02-about-img" style={{ position: "relative", overflow: "hidden", minHeight: 500 }}>
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={heading} className="relative" style={{ height: "100%" }}>
+            <img src={image} alt={heading} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
+          </GenericEditableImage>
+          {/* Gold vertical accent */}
+          <div aria-hidden style={{ position: "absolute", left: 0, top: "8%", bottom: "8%", width: 4, backgroundColor: GOLD, opacity: 0.8 }} />
+        </div>
+
+      </div>
+    </section>
   );
 }
 
@@ -4019,65 +3365,87 @@ function AboutTattoo02({ content, sectionId }: {
 // Vpravo: team foto edge-to-edge
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const c       = content as Record<string, unknown>;
-  const title   = String(c.title   ?? "Profesionální tetovací salon");
-  const body    = String(c.body    ?? "");
-  const text2   = String(c.text2   ?? "");
-  const ctaText = String(c.ctaText ?? "Objednat se");
-  const ctaHref = String(c.ctaHref ?? "#kontakt");
-  const image   = String(c.image   ?? "/clones/magic/wp-content/uploads/2026/03/MagicTattoo-team-fotka-scaled.webp");
+  const c        = content as Record<string, unknown>;
+  const eyebrowRaw  = c.eyebrow;
+  const titleRaw    = c.title;
+  const eyebrow  = eyebrowRaw === undefined ? "O studiu · Řemeslo" : String(eyebrowRaw);
+  const title    = titleRaw   === undefined ? "Každá linka je vedená pevnou rukou" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+  const body     = String(c.body     ?? "Pracujeme výhradně s veganskými barvami certifikovanými podle přísných norem EU a jednorázovými sterilními jehlami. Hygiena a bezpečí jsou u nás na prvním místě — stejně jako čistota každé linie.");
+  const text2    = String(c.text2    ?? "Přijďte se inspirovat do našeho studia, kde se z vašeho nápadu stane trvalá součást příběhu. Náš tým tvoří pečlivě vybraní tatéři s lidským přístupem a roky praxe.");
+  const ctaText  = String(c.ctaText  ?? "Objednat se");
+  const ctaHref  = String(c.ctaHref  ?? "#kontakt");
+  const badgeText = String(c.badgeText ?? "EST.\n2014");
+  const image    = String(c.image    ?? "/templates/tattoo-03/about-craft.webp");
   const rawStats = (c.stats as Array<{ number: string; label: string }>) ?? [];
 
   const BG     = "#0A0A0E";
   const ACCENT = "#D41515";
 
   return (
-    <section id="o-nas" style={{ backgroundColor: BG }}>
+    <section id="o-nas" data-template="tattoo-03" style={{ backgroundColor: BG, position: "relative", overflow: "hidden" }}>
+      {/* Ghost display slovo */}
+      <span aria-hidden className="t03-about-ghost" style={{
+        position: "absolute", left: "-1vw", top: "50%", transform: "translateY(-50%)", zIndex: 0,
+        fontFamily: "'Bebas Neue','Oswald',sans-serif", fontSize: "clamp(120px,20vw,300px)",
+        color: "rgba(255,255,255,0.03)", lineHeight: 0.8, userSelect: "none", pointerEvents: "none", whiteSpace: "nowrap",
+      }}>STUDIO</span>
+
       <div style={{
-        maxWidth: 1360, margin: "0 auto",
+        maxWidth: 1360, margin: "0 auto", position: "relative", zIndex: 1,
         display: "grid", gridTemplateColumns: "1fr 1fr",
         gap: 0,
       }} className="t03-about-grid">
-        <style>{`
-          @media (max-width: 768px) {
-            .t03-about-grid { grid-template-columns: 1fr !important; }
-            .t03-about-img  { height: 320px !important; order: -1; }
-          }
-        `}</style>
 
         {/* Levý blok — text */}
-        <div style={{ padding: "clamp(48px,6vw,96px) clamp(24px,4vw,72px)" }}>
-          {/* Červená linka */}
-          <div style={{ width: 40, height: 3, backgroundColor: ACCENT, marginBottom: 24 }} aria-hidden />
+        <div style={{ padding: "clamp(56px,6vw,104px) clamp(24px,4vw,72px)" }}>
+          {showHeader && (
+            <>
+              {/* Eyebrow — needle + hairline */}
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 13, marginBottom: 22 }}>
+                <svg width="17" height="17" viewBox="0 0 20 20" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+                  <path d="M2 18L13 7" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="square" />
+                  <path d="M13 7L17.5 2.5L18 5L15.5 4.5L13 7Z" fill={ACCENT} />
+                </svg>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                  fontFamily: "'Barlow Condensed','Oswald',sans-serif", fontSize: "0.9rem", fontWeight: 600,
+                  letterSpacing: "0.26em", textTransform: "uppercase", color: "rgba(255,255,255,0.66)",
+                }} />
+              </div>
 
-          <h2 style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(22px, 2.8vw, 36px)",
-            color: "#ffffff",
-            margin: "0 0 20px",
-            lineHeight: 1.2,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+              <h2 style={{
+                fontFamily: "'Bebas Neue','Oswald',sans-serif",
+                fontWeight: 400,
+                fontSize: "clamp(34px, 4.2vw, 60px)",
+                color: "#ffffff",
+                margin: "0 0 26px",
+                lineHeight: 0.98,
+                letterSpacing: "0.01em",
+                textTransform: "uppercase",
+                maxWidth: 480,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            </>
+          )}
 
           <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
+            fontFamily: "'Barlow','Helvetica Neue',Arial,sans-serif",
             fontSize: "clamp(14px, 1.5vw, 16px)",
-            color: "rgba(255,255,255,0.72)",
+            color: "rgba(255,255,255,0.74)",
             margin: "0 0 16px",
-            lineHeight: 1.75,
+            lineHeight: 1.8,
           }}>
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
 
           {text2 && (
             <p style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
+              fontFamily: "'Barlow','Helvetica Neue',Arial,sans-serif",
               fontSize: "clamp(14px, 1.5vw, 16px)",
-              color: "rgba(255,255,255,0.65)",
-              margin: "0 0 32px",
-              lineHeight: 1.75,
+              color: "rgba(255,255,255,0.6)",
+              margin: "0 0 34px",
+              lineHeight: 1.8,
             }}>
               <GenericEditableText sectionId={sectionId} field="text2" value={text2} tag="span" />
             </p>
@@ -4086,21 +3454,21 @@ function AboutTattoo03({ content, sectionId }: { content: Record<string, unknown
           <a
             href={ctaHref}
             data-btn="primary"
+            className="t03-about-cta"
             style={{
-              display: "inline-flex", alignItems: "center",
+              display: "inline-flex", alignItems: "center", gap: 9,
               backgroundColor: ACCENT, color: "#ffffff",
-              fontFamily: "Arial, Helvetica, sans-serif",
-              fontSize: "0.82rem", fontWeight: 700,
-              letterSpacing: "0.06em",
-              padding: "12px 28px",
+              fontFamily: "'Barlow Condensed','Oswald',sans-serif",
+              fontSize: "1rem", fontWeight: 700,
+              letterSpacing: "0.1em", textTransform: "uppercase",
+              padding: "13px 32px",
               textDecoration: "none",
-              marginBottom: 48,
-              transition: "background 0.2s",
+              marginBottom: 50,
+              transition: "background 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease",
             }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b30000")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = ACCENT)}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span className="t03-cta-arrow" aria-hidden style={{ display: "inline-block", transition: "transform 0.2s ease" }}>→</span>
           </a>
 
           {/* Statistiky */}
@@ -4108,28 +3476,30 @@ function AboutTattoo03({ content, sectionId }: { content: Record<string, unknown
             <div style={{
               display: "grid",
               gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "24px 32px",
-              borderTop: "1px solid rgba(255,255,255,0.1)",
-              paddingTop: 32,
+              gap: "28px 32px",
+              borderTop: "1px solid rgba(255,255,255,0.12)",
+              paddingTop: 34,
             }}>
               {rawStats.map((s, i) => (
-                <div key={i}>
+                <div key={i} className="t03-about-stat" style={{ position: "relative", paddingLeft: 14 }}>
+                  <span aria-hidden style={{ position: "absolute", left: 0, top: 4, width: 3, height: "calc(100% - 8px)", background: ACCENT, opacity: 0.85 }} />
                   <div style={{
-                    fontFamily: "Arial, Helvetica, sans-serif",
-                    fontWeight: 900,
-                    fontSize: "clamp(24px, 2.5vw, 36px)",
-                    color: ACCENT,
+                    fontFamily: "'Bebas Neue','Oswald',sans-serif",
+                    fontWeight: 400,
+                    fontSize: "clamp(30px, 3.2vw, 46px)",
+                    color: "#ffffff",
                     lineHeight: 1,
                     marginBottom: 4,
+                    letterSpacing: "0.01em",
                   }}>
                     <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" />
                   </div>
                   <div style={{
-                    fontFamily: "Arial, Helvetica, sans-serif",
-                    fontSize: "0.78rem",
+                    fontFamily: "'Barlow Condensed','Oswald',sans-serif",
+                    fontSize: "0.8rem",
                     color: "rgba(255,255,255,0.55)",
                     textTransform: "uppercase",
-                    letterSpacing: "0.08em",
+                    letterSpacing: "0.12em",
                   }}>
                     <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
                   </div>
@@ -4139,14 +3509,27 @@ function AboutTattoo03({ content, sectionId }: { content: Record<string, unknown
           )}
         </div>
 
-        {/* Pravý blok — foto */}
+        {/* Pravý blok — foto s brackets + badge */}
         <div
-          className="t03-about-img"
-          style={{ position: "relative", minHeight: 480 }}
+          className="t03-about-img t03-about-photo"
+          style={{ position: "relative", minHeight: 520 }}
         >
-          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Tým tetovacího studia" className="absolute inset-0 w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-            <img loading="lazy" src={image} alt="Tým tetovacího studia" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Řemeslo tetování — detail práce" className="absolute inset-0 w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+            <img loading="lazy" src={image} alt="Řemeslo tetování — detail práce" className="t03-about-photo-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transition: "filter 0.5s ease, transform 0.6s ease" }} />
           </GenericEditableImage>
+          {/* Crimson corner brackets */}
+          <span aria-hidden className="t03-about-bracket t03-about-bracket-tr" />
+          <span aria-hidden className="t03-about-bracket t03-about-bracket-bl" />
+          {/* EST badge */}
+          <div className="t03-about-badge" style={{
+            position: "absolute", left: 24, bottom: 24, zIndex: 2,
+            background: ACCENT, color: "#fff", padding: "12px 16px",
+            fontFamily: "'Bebas Neue','Oswald',sans-serif", fontSize: "1.15rem",
+            lineHeight: 0.95, letterSpacing: "0.06em", whiteSpace: "pre-line",
+            boxShadow: "0 12px 30px -12px rgba(212,21,21,0.7)",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
+          </div>
         </div>
       </div>
     </section>
@@ -4159,78 +3542,105 @@ function AboutTattoo03({ content, sectionId }: { content: Record<string, unknown
 // ─────────────────────────────────────────────────────────────────────────────
 function ProcessTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c          = content as Record<string, unknown>;
-  const heading    = String(c.heading    ?? "Jak to probíhá?");
-  const subheading = String(c.subheading ?? "3 jednoduché kroky k dokonalému tetování");
+  const eyebrowRaw    = c.eyebrow;
+  const headingRaw    = c.heading;
+  const eyebrow    = eyebrowRaw === undefined ? "Postup" : String(eyebrowRaw);
+  const heading    = headingRaw === undefined ? "Jak to probíhá" : String(headingRaw);
+  const subheading = String(c.subheading ?? "3 jednoduché kroky k dokonalému tetování — přijďte připraveni a my se postaráme o zbytek.");
+  const showHeader = !!(eyebrow.trim() || heading.trim());
   const rawSteps   = (c.steps as Array<{ number: string; title: string; text: string }>) ?? [];
 
-  const BG     = "#0e0e0e";
+  const BG     = "#0A0A0E";
   const ACCENT = "#D41515";
 
   return (
-    <section id="postup" style={{ backgroundColor: BG, padding: "clamp(48px,7vw,96px) clamp(20px,4vw,40px)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <section id="postup" data-template="tattoo-03" style={{ backgroundColor: BG, padding: "clamp(56px,7vw,104px) clamp(20px,4vw,40px)", position: "relative", overflow: "hidden" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Nadpis */}
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <h2 style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(22px, 2.8vw, 38px)",
-            color: "#ffffff",
-            margin: "0 0 12px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: "clamp(13px, 1.4vw, 16px)",
-            color: "rgba(255,255,255,0.55)",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-        </div>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 60 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                fontFamily: "'Barlow Condensed','Oswald',sans-serif", fontSize: "0.9rem", fontWeight: 600,
+                letterSpacing: "0.26em", textTransform: "uppercase", color: ACCENT,
+              }} />
+              <span aria-hidden style={{ width: 30, height: 1, background: "rgba(212,21,21,0.6)" }} />
+            </div>
+            <h2 style={{
+              fontFamily: "'Bebas Neue','Oswald',sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 56px)",
+              color: "#ffffff",
+              margin: "0 0 14px",
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
+              lineHeight: 1,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <p style={{
+              fontFamily: "'Barlow','Helvetica Neue',Arial,sans-serif",
+              fontSize: "clamp(14px, 1.4vw, 16px)",
+              color: "rgba(255,255,255,0.58)",
+              maxWidth: 540, margin: "0 auto", lineHeight: 1.7,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+            </p>
+          </div>
+        )}
 
         {/* Kroky */}
-        <div style={{
+        <div className="t03-process-grid" style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
           gap: 24,
+          position: "relative",
         }}>
+          {/* Stitch spojnice (desktop) */}
+          <span aria-hidden className="t03-process-stitch" />
           {rawSteps.map((step, i) => (
             <div
               key={i}
+              className="t03-process-card"
               style={{
-                backgroundColor: "#141414",
-                border: "1px solid rgba(255,255,255,0.07)",
-                padding: "36px 28px",
+                backgroundColor: "#131318",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderTop: `3px solid ${ACCENT}`,
+                padding: "40px 30px 34px",
                 position: "relative",
+                transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
               }}
             >
               {/* Číslo */}
               <div style={{
-                fontFamily: "Arial, Helvetica, sans-serif",
-                fontWeight: 900,
-                fontSize: "clamp(48px, 5vw, 72px)",
+                fontFamily: "'Bebas Neue','Oswald',sans-serif",
+                fontWeight: 400,
+                fontSize: "clamp(56px, 6vw, 88px)",
                 color: ACCENT,
-                lineHeight: 1,
-                marginBottom: 16,
-                opacity: 0.9,
+                lineHeight: 0.85,
+                marginBottom: 18,
+                letterSpacing: "0.01em",
               }}>
                 <GenericEditableText sectionId={sectionId} field={`steps.${i}.number`} value={step.number} tag="span" />
               </div>
               <h3 style={{
-                fontFamily: "Arial, Helvetica, sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(16px, 1.6vw, 20px)",
+                fontFamily: "'Bebas Neue','Oswald',sans-serif",
+                fontWeight: 400,
+                fontSize: "clamp(19px, 1.8vw, 25px)",
                 color: "#ffffff",
                 margin: "0 0 12px",
+                letterSpacing: "0.02em",
+                textTransform: "uppercase",
+                lineHeight: 1.05,
               }}>
                 <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title} tag="span" />
               </h3>
               <p style={{
-                fontFamily: "Arial, Helvetica, sans-serif",
-                fontSize: "0.88rem",
+                fontFamily: "'Barlow','Helvetica Neue',Arial,sans-serif",
+                fontSize: "0.9rem",
                 color: "rgba(255,255,255,0.62)",
-                lineHeight: 1.7,
+                lineHeight: 1.75,
                 margin: 0,
               }}>
                 <GenericEditableText sectionId={sectionId} field={`steps.${i}.text`} value={step.text} tag="span" />
@@ -5337,7 +4747,7 @@ function AboutClinic02({ content, sectionId }: { content: Record<string, unknown
 
 // ── clinic-03-about ───────────────────────────────────────────────────────────
 // 2-col: vlevo gold kicker + Playfair H2 + body + 3 stats + outline CTA, vpravo foto
-// Reference: yesvisage.cz — "Krása v rukou profesionálů"
+// Reference: diamond-look.cz — "Krása v rukou profesionálů"
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutClinic03({ content, sectionId }: { content: Record<string,unknown>; sectionId: number }) {
   const GOLD   = "#97855F";
@@ -6022,64 +5432,82 @@ function AboutFyzio01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 }
 
 // ── about-fyzio-02-features ───────────────────────────────────────────────────
-// Bílé bg, teal tag + DM Serif H2 centrovaně
-// 3-col benefit karty: teal ikona + H3 + popis — fyzio-02 Demo Reset Fyzio
+// Světlé bg #f1f6f6, teal pill eyebrow + DM Serif H2 centrovaně + 3 benefit karty
+// (teal ikona tile, top-accent bar grows, lift na hover). Reveal on scroll.
+// Movia — Centrum fyzioterapie a funkční neurologie.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutFyzio02Features({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Benefit = { icon?: string; title?: string; body?: string };
-  const tagline  = String(content.tagline ?? "Hledáme příčiny");
-  const title    = String(content.title   ?? "Jsme tu pro ty, kterým běžná fyzioterapie nepomohla.");
-  const body     = String(content.body    ?? "");
   const id       = String(content.id      ?? "o-nas");
   const benefits = (content.benefits as Benefit[]) ?? [];
 
-  const WHITE = "#ffffff";
-  const DARK  = "#1a2e4a";
-  const TEAL  = "#c9a84c";
-  const SURF  = "#f5f3ee";
-  const MUTED = "#6b7280";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  // conditional header (skryje se na /o-nas subpage kde je banner)
+  const eyebrowRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const bodyRaw    = (content as Record<string, unknown>).body;
+  const tagline = eyebrowRaw === undefined ? "Náš přístup" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Fyzioterapie, která hledá příčinu — ne jen symptom." : String(titleRaw);
+  const body    = bodyRaw    === undefined ? "V Movii propojujeme manuální medicínu s funkční neurologií. Každá terapie začíná důkladnou diagnostikou a končí měřitelným pokrokem." : String(bodyRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const items = el.querySelectorAll<HTMLElement>("[data-fz2ab]");
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("fz2-vis"); obs.unobserve(e.target); } });
+    }, { threshold: 0.16 });
+    items.forEach(item => obs.observe(item));
+    return () => obs.disconnect();
+  }, []);
+
+  const iconFor = (name?: string) => {
+    if (name === "brain") return <><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z"/><path d="M9 21h6"/></>;
+    if (name === "user")  return <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>;
+    if (name === "activity") return <><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></>;
+    return <><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></>;
+  };
 
   return (
-    <section id={id} data-template="fyzio-02" style={{ backgroundColor: WHITE, padding: "80px 24px" }}>
-      <style>{`
-        [data-template="fyzio-02"] .f02-benefit-card { transition: box-shadow 0.25s, transform 0.25s; }
-        [data-template="fyzio-02"] .f02-benefit-card:hover { box-shadow: 0 8px 32px rgba(26,46,74,0.1); transform: translateY(-4px); }
-        [data-template="fyzio-02"] .f02-benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        @media(max-width: 860px) { [data-template="fyzio-02"] .f02-benefits-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 56 }}>
-          <div style={{ display: "inline-block", backgroundColor: SURF, color: TEAL, fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "6px 14px", borderRadius: 32, marginBottom: 16 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+    <section ref={secRef} id={id} data-template="fyzio-02" className="fz2-ab">
+      <div className="fz2-ab-inner">
+        {showHeader && (
+          <div className="fz2-ab-head fz2-reveal" data-fz2ab>
+            {tagline.trim() && (
+              <span className="fz2-pill">
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="fz2-ab-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {body.trim() && (
+              <p className="fz2-ab-lead">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
           </div>
-          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", fontWeight: 400, color: DARK, lineHeight: 1.3, maxWidth: 720, margin: "0 auto 16px" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontFamily: SANS, fontSize: 16, color: MUTED, lineHeight: 1.7, maxWidth: 600, margin: "0 auto" }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-        </div>
-        <div className="f02-benefits-grid">
+        )}
+
+        <div className="fz2-ab-grid">
           {benefits.map((b, i) => (
-            <div key={i} className="f02-benefit-card" style={{ backgroundColor: SURF, borderRadius: 16, padding: "36px 28px" }}>
-              <div style={{ width: 52, height: 52, backgroundColor: WHITE, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: TEAL, marginBottom: 20, boxShadow: "0 2px 8px rgba(201,168,76,0.2)" }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  {b.icon === "brain" ? <><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z"/></> :
-                   b.icon === "user" ? <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></> :
-                   <><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="3"/></>}
+            <article key={i} className="fz2-ab-card fz2-reveal" data-fz2ab style={{ transitionDelay: `${i * 90}ms` }}>
+              <span className="fz2-ab-card-bar" aria-hidden="true" />
+              <div className="fz2-ab-ico">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                  {iconFor(b.icon)}
                 </svg>
               </div>
-              <h3 style={{ fontFamily: SERIF, fontSize: "1.15rem", fontWeight: 400, color: DARK, marginBottom: 10, lineHeight: 1.3 }}>
+              <h3 className="fz2-ab-card-title">
                 <GenericEditableText sectionId={sectionId} field={`benefits.${i}.title`} value={b.title ?? ""} tag="span" />
               </h3>
-              <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.7, margin: 0 }}>
+              <p className="fz2-ab-card-body">
                 <GenericEditableText sectionId={sectionId} field={`benefits.${i}.body`} value={b.body ?? ""} tag="span" />
               </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -6221,18 +5649,37 @@ function AboutCafe02({ content, sectionId }: { content: Record<string, unknown>;
 }
 
 // ── restaurant-01-about ───────────────────────────────────────────────────────
-// Dark #0f0a07 bg; 2-col: vlevo foto (aspect 4/3) / vpravo amber kicker + cream
-// serif H2 + 2 body odstavce + amber outline CTA
+// Ambiente dark-luxe #0f0a07. 2-col editorial: vlevo foto v gold offset rámu +
+// plovoucí "od 1995" badge / vpravo amber eyebrow + Georgia H2 + drop-cap body +
+// 3 mini-staty + amber outline CTA. Scroll reveal. Conditional header (showHeader)
+// pro použití na /o-nas podstránce. resolveNavHref → one-page/multi-page.
 // ─────────────────────────────────────────────────────────────────────────────
-function AboutRestaurant01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function AboutRestaurant01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const id      = String(content.id      ?? "o-nas");
-  const tagline = String(content.tagline ?? "Náš příběh");
-  const title   = String(content.title   ?? "Gastronomie jako\numění i řemeslo.");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Náš příběh" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Řemeslo, které\nchutná." : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const body    = String(content.body    ?? "");
   const body2   = String(content.body2   ?? "");
   const ctaText = String(content.ctaText ?? "Více o nás");
   const ctaHref = String(content.ctaHref ?? "/o-nas");
-  const image   = String(content.image   ?? "");
+  const image   = String(content.image   ?? "/templates/restaurant-01/about.webp");
+  const siteMode = String((content as { siteMode?: string }).siteMode ?? "multipage");
+  const badgeNum   = String(content.badgeNum   ?? "1995");
+  const badgeLabel = String(content.badgeLabel ?? "Otevřeno od roku");
+  const stat1Num = String(content.stat1Num ?? "30");
+  const stat1Label = String(content.stat1Label ?? "let zkušeností");
+  const stat2Num = String(content.stat2Num ?? "12");
+  const stat2Label = String(content.stat2Label ?? "sezónních menu ročně");
+  const stat3Num = String(content.stat3Num ?? "100%");
+  const stat3Label = String(content.stat3Label ?? "lokální suroviny");
+  const stats = [
+    { num: stat1Num, label: stat1Label, fn: "stat1" },
+    { num: stat2Num, label: stat2Label, fn: "stat2" },
+    { num: stat3Num, label: stat3Label, fn: "stat3" },
+  ];
 
   const DARK   = "#0f0a07";
   const CREAM  = "#f5ede0";
@@ -6240,7 +5687,8 @@ function AboutRestaurant01({ content, sectionId }: { content: Record<string, unk
   const MUTED  = "#a08060";
   const FONT   = "Georgia, 'Times New Roman', serif";
   const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-  const PLACEHOLDER = "https://images.unsplash.com/photo-1552566626-52f8b828add9?w=800&h=600&fit=crop&fm=webp";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const secRef = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -6255,47 +5703,80 @@ function AboutRestaurant01({ content, sectionId }: { content: Record<string, unk
   }, []);
 
   return (
-    <section ref={secRef} id={id} data-variant="restaurant-01-about" style={{ backgroundColor: DARK, padding: "96px 0", fontFamily: SANS }}>
+    <section ref={secRef} id={id} data-template="restaurant-01" data-variant="restaurant-01-about" style={{ backgroundColor: DARK, padding: "clamp(72px, 9vw, 116px) 0", fontFamily: SANS }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
-        <div className="r01-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "center" }}>
-          <div data-r01="0" style={{ aspectRatio: "4/3", overflow: "hidden", borderRadius: 2 }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image || PLACEHOLDER} alt={title} style={{ width: "100%", height: "100%", display: "block" }}>
-              <img
-                src={image || PLACEHOLDER}
-                alt={title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.6s ease" }}
-                onMouseEnter={e => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)")}
-                onMouseLeave={e => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")}
-              />
-            </GenericEditableImage>
+        <div className="r01-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 88px)", alignItems: "center" }}>
+          {/* Foto v gold offset rámu + plovoucí badge */}
+          <div data-r01="0" style={{ position: "relative" }}>
+            <span aria-hidden style={{ position: "absolute", top: 18, left: 18, right: -18, bottom: -18, border: `1px solid ${AMBER}55`, borderRadius: 2, pointerEvents: "none" }} />
+            <div className="r01-about-imgwrap" style={{ position: "relative", aspectRatio: "4/5", overflow: "hidden", borderRadius: 2 }}>
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ width: "100%", height: "100%", display: "block" }}>
+                <img
+                  className="r01-about-img"
+                  src={image}
+                  alt={title}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.7s cubic-bezier(.22,1,.36,1)" }}
+                />
+              </GenericEditableImage>
+            </div>
+            {/* Plovoucí badge */}
+            <div style={{ position: "absolute", bottom: -18, left: -18, backgroundColor: AMBER, color: DARK, padding: "16px 22px", borderRadius: 2, boxShadow: "0 12px 40px rgba(0,0,0,0.5)", display: "flex", flexDirection: "column", gap: 2 }}>
+              <span style={{ fontFamily: FONT, fontSize: 30, fontWeight: 400, lineHeight: 1 }}>
+                <GenericEditableText sectionId={sectionId} field="badgeNum" value={badgeNum} tag="span" />
+              </span>
+              <span style={{ fontFamily: SANS, fontSize: 9, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", opacity: 0.85 }}>
+                <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" />
+              </span>
+            </div>
           </div>
+
+          {/* Text */}
           <div data-r01="1" style={{ transitionDelay: "0.14s" }}>
-            <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: AMBER, margin: "0 0 16px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <div style={{ width: 40, height: 1.5, backgroundColor: AMBER, marginBottom: 24 }} />
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 400, lineHeight: 1.2, color: CREAM, margin: "0 0 28px", whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <p style={{ fontFamily: SANS, fontSize: 15, fontWeight: 300, lineHeight: 1.8, color: MUTED, margin: "0 0 16px" }}>
+            {showHeader && (
+              <>
+                <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: AMBER, margin: "0 0 16px", display: "flex", alignItems: "center", gap: 12 }}>
+                  <span aria-hidden style={{ width: 28, height: 1, background: AMBER }} />
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </p>
+                <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.2vw, 46px)", fontWeight: 400, lineHeight: 1.15, color: CREAM, margin: "0 0 28px", whiteSpace: "pre-line" }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              </>
+            )}
+            <p className="r01-about-body" style={{ fontFamily: SANS, fontSize: 15.5, fontWeight: 300, lineHeight: 1.85, color: MUTED, margin: "0 0 18px" }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
             {body2 && (
-              <p style={{ fontFamily: SANS, fontSize: 15, fontWeight: 300, lineHeight: 1.8, color: MUTED, margin: "0 0 36px" }}>
+              <p style={{ fontFamily: SANS, fontSize: 15.5, fontWeight: 300, lineHeight: 1.85, color: MUTED, margin: "0 0 36px" }}>
                 <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
               </p>
             )}
+
+            {/* Mini-staty */}
+            <div className="r01-about-stats" style={{ display: "flex", gap: "clamp(20px, 3vw, 44px)", margin: "0 0 40px", paddingTop: 28, borderTop: `1px solid rgba(200,148,63,0.22)` }}>
+              {stats.map((s, i) => (
+                <div key={i}>
+                  <div style={{ fontFamily: FONT, fontSize: "clamp(24px, 2.6vw, 34px)", fontWeight: 400, color: AMBER, lineHeight: 1, marginBottom: 6 }}>
+                    <GenericEditableText sectionId={sectionId} field={`${s.fn}Num`} value={s.num} tag="span" />
+                  </div>
+                  <div style={{ fontFamily: SANS, fontSize: 11.5, fontWeight: 400, color: MUTED, lineHeight: 1.4 }}>
+                    <GenericEditableText sectionId={sectionId} field={`${s.fn}Label`} value={s.label} tag="span" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <a
-              href={ctaHref}
+              href={resolve(ctaHref)}
               data-btn="primary"
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em",
                 textTransform: "uppercase", color: AMBER, textDecoration: "none",
-                padding: "12px 28px", border: `1px solid ${AMBER}`, borderRadius: 3,
-                display: "inline-block", transition: "background-color 0.2s, color 0.2s",
+                padding: "13px 30px", border: `1px solid ${AMBER}`, borderRadius: 3,
+                display: "inline-block", transition: "background-color 0.28s ease, color 0.28s ease, transform 0.28s ease",
               }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = AMBER; e.currentTarget.style.color = DARK; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = AMBER; }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = AMBER; e.currentTarget.style.color = DARK; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = AMBER; e.currentTarget.style.transform = "translateY(0)"; }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -6303,7 +5784,8 @@ function AboutRestaurant01({ content, sectionId }: { content: Record<string, unk
         </div>
       </div>
       <style>{`
-        @media(max-width:768px){.r01-about-grid{grid-template-columns:1fr!important}}
+        [data-variant="restaurant-01-about"] .r01-about-imgwrap:hover .r01-about-img{transform:scale(1.05)}
+        @media(max-width:768px){.r01-about-grid{grid-template-columns:1fr!important}.r01-about-stats{flex-wrap:wrap}}
         [data-r01]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
         [data-r01].r01-vis{opacity:1;transform:translateY(0)}
       `}</style>
@@ -6313,21 +5795,26 @@ function AboutRestaurant01({ content, sectionId }: { content: Record<string, unk
 
 // ── restaurant-02-about ───────────────────────────────────────────────────────
 // 2-col split: text vlevo, foto vpravo — bílé bg, Poppins, červený tagline
-// Ref: restauracehybernska.cz — sekce O nás
+// Conditional header pro podstránky. Badge „od roku" + vertikální červená lišta.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutRestaurant02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const id      = String(content.id      ?? "o-nas");
-  const tagline = String(content.tagline ?? "Náš příběh");
-  const title   = String(content.title   ?? "Poctivá česká\nkuchyně od roku 1998.");
-  const body    = String(content.body    ?? "");
-  const body2   = String(content.body2   ?? "");
-  const ctaText = String(content.ctaText ?? "Více o nás");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Náš příběh" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Poctivá chuť české kuchyně\nna každém talíři." : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
+  const body    = String(content.body    ?? "Vaříme s vášní a respektem k tradici. Každý den připravujeme pokrmy z pečlivě vybraných lokálních surovin — od farmářského masa přes čerstvé zeleniny až po domácí těstoviny.");
+  const body2   = String(content.body2   ?? "K jídlu nabízíme výběrová moravská vína, točené pivo z malých pivovarů a autorské koktejly. Vítáme firemní večeře, rodinné oslavy i každodenní hosty.");
+  const ctaText = String(content.ctaText ?? "Poznejte náš příběh");
   const ctaHref = String(content.ctaHref ?? "/o-nas");
-  const image   = String(content.image   ?? "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85");
+  const image   = String(content.image   ?? "/templates/restaurant-02/about.webp");
+  const badgeYear  = String(content.badgeYear  ?? "2005");
+  const badgeLabel = String(content.badgeLabel ?? "Otevřeno od roku");
 
   const RED     = "#c0392b";
   const BLACK   = "#1a1a1a";
-  const MUTED   = "#666666";
+  const MUTED   = "#555555";
   const POPPINS = "'Poppins', sans-serif";
 
   const visRef = useRef<HTMLDivElement>(null);
@@ -6340,173 +5827,245 @@ function AboutRestaurant02({ content, sectionId }: { content: Record<string, unk
     return () => obs.disconnect();
   }, []);
 
+  const rise = (d: number): React.CSSProperties => ({
+    opacity: vis ? 1 : 0,
+    transform: vis ? "translateY(0)" : "translateY(28px)",
+    transition: `opacity 0.7s cubic-bezier(.2,.7,.2,1) ${d}s, transform 0.7s cubic-bezier(.2,.7,.2,1) ${d}s`,
+  });
+
   return (
-    <section id={id} data-template="restaurant-02" style={{ backgroundColor: "#ffffff", padding: "clamp(64px, 8vw, 112px) 0" }}>
+    <section id={id} data-template="restaurant-02" style={{ backgroundColor: "#ffffff", padding: "clamp(72px, 9vw, 120px) 0" }}>
       <div
-        style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 96px)", alignItems: "center" }}
+        style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 88px)", alignItems: "center" }}
         className="r02-about-grid"
       >
         {/* Text vlevo */}
-        <div
-          ref={visRef}
-          style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(32px)", transition: "opacity 0.7s ease, transform 0.7s ease" }}
-        >
-          <p style={{ fontFamily: POPPINS, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: RED, margin: "0 0 14px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: POPPINS, fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 700, lineHeight: 1.2, color: BLACK, margin: "0 0 24px", whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+        <div ref={visRef}>
+          {showHeader && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, ...rise(0) }}>
+                <span aria-hidden style={{ width: 36, height: 2, background: RED }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                  style={{ fontFamily: POPPINS, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: RED }} />
+              </div>
+              <h2 style={{ ...rise(0.06), fontFamily: POPPINS, fontSize: "clamp(28px, 3.4vw, 44px)", fontWeight: 700, lineHeight: 1.18, color: BLACK, margin: "0 0 28px", whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            </>
+          )}
           {body && (
-            <p style={{ fontFamily: POPPINS, fontSize: 15, lineHeight: 1.8, color: MUTED, margin: "0 0 16px" }}>
+            <p style={{ ...rise(0.12), fontFamily: POPPINS, fontSize: 15, lineHeight: 1.85, color: MUTED, margin: "0 0 16px" }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
           {body2 && (
-            <p style={{ fontFamily: POPPINS, fontSize: 15, lineHeight: 1.8, color: MUTED, margin: "0 0 36px" }}>
+            <p style={{ ...rise(0.18), fontFamily: POPPINS, fontSize: 15, lineHeight: 1.85, color: MUTED, margin: "0 0 38px" }}>
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
             </p>
           )}
           <a
             href={ctaHref}
+            className="r02-about-cta"
             data-btn="primary"
-            style={{ fontFamily: POPPINS, fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: RED, textDecoration: "none", borderBottom: `1.5px solid ${RED}`, paddingBottom: 2, transition: "opacity 0.2s", display: "inline-block" }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+            style={{ ...rise(0.24), fontFamily: POPPINS, fontSize: 12, fontWeight: 700, letterSpacing: "0.13em", textTransform: "uppercase", color: RED, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="r02-about-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
 
-        {/* Foto vpravo */}
-        <div style={{ opacity: vis ? 1 : 0, transform: vis ? "translateX(0)" : "translateX(32px)", transition: "opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s", lineHeight: 0 }}>
+        {/* Foto vpravo — s badge „od roku" a shadow */}
+        <div style={{ ...rise(0.1), position: "relative", lineHeight: 0 }}>
           <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ display: "block", width: "100%", lineHeight: 0 }}>
             <img
               src={image}
               alt={title}
-              style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }}
+              className="r02-about-img"
+              style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", boxShadow: "0 20px 60px rgba(0,0,0,0.12)" }}
             />
           </GenericEditableImage>
+          {/* Badge „od roku" */}
+          <div className="r02-about-badge" style={{
+            position: "absolute", left: -16, bottom: 28, background: RED,
+            color: "#ffffff", padding: "14px 20px", textAlign: "center",
+            boxShadow: "0 12px 32px rgba(192,57,43,0.35)",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="badgeYear" value={badgeYear} tag="div"
+              style={{ fontFamily: POPPINS, fontSize: 28, fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }} />
+            <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="div"
+              style={{ fontFamily: POPPINS, fontSize: 9, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 5, opacity: 0.85 }} />
+          </div>
         </div>
       </div>
-
-      <style>{`
-        @media(max-width:768px){
-          .r02-about-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   );
 }
 
 // ── restaurant-03-about ───────────────────────────────────────────────────────
-// Dark #0c351a bg, 2-col: vlevo foto restaurace / vpravo zlatý kicker + bílý H2
-// serif + 2 odstavce + zlatý divider 4px + outline CTA "Více o nás"
-// Ref: lacasalatina.cz — sekce "VÍTEJTE" s bílým textem na tmavé zelené
+// La Casa Dorada — luxe deep-green #0c351a + warm gold. 2-col editorial:
+// vlevo foto v gold offset rámu s plovoucí stat kartou / vpravo ornament eyebrow +
+// Georgia H2 + drop-cap body + 3 mini-stats + gold outline CTA. Scroll reveal.
+// Conditional header (showHeader) pro použití na /o-nas podstránce.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutRestaurant03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const id      = String(content.id      ?? "o-nas");
-  const tagline = String(content.tagline ?? "Náš příběh");
-  const title   = String(content.title   ?? "Autentická kuchyně\nčtyř kontinentů.");
-  const body    = String(content.body    ?? "");
-  const body2   = String(content.body2   ?? "");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Náš příběh" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Autentická kuchyně\nčtyř kontinentů." : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
+  const body    = String(content.body    ?? "Vychutnejte si autentické chutě Latinské Ameriky přímo v centru Prahy. La Casa Dorada spojuje čtyři výrazné kuchyně — mexickou, brazilskou, argentinskou a peruánskou — pod jednou zlatou střechou.");
+  const body2   = String(content.body2   ?? "Šťavnatá masa z parrilla grilu, svěží ceviche i brazilské Churrasco Rodízio. Celý zážitek dotváří živá hudba a vůně dřevěného uhlí.");
   const ctaText = String(content.ctaText ?? "Více o nás");
   const ctaHref = String(content.ctaHref ?? "/o-nas");
-  const image   = String(content.image   ?? "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85");
+  const image   = String(content.image   ?? "/templates/restaurant-03/about.webp");
+  const badgeNum   = String(content.badgeNum   ?? "2015");
+  const badgeLabel = String(content.badgeLabel ?? "Otevřeno od roku");
+  const stat1Num = String(content.stat1Num ?? "4");
+  const stat1Lbl = String(content.stat1Lbl ?? "Latinské kuchyně");
+  const stat2Num = String(content.stat2Num ?? "40+");
+  const stat2Lbl = String(content.stat2Lbl ?? "Druhů na parrille");
+  const stat3Num = String(content.stat3Num ?? "★ 4.9");
+  const stat3Lbl = String(content.stat3Lbl ?? "Hodnocení hostů");
 
-  const BG   = "#0d1b2a";
-  const GOLD = "#e05e3f";
+  const BG    = "#0c351a";
+  const GOLD  = "#b97d26";
+  const GOLD_LT = "#d4a24c";
   const WHITE = "#ffffff";
   const FONT = "Georgia, 'Times New Roman', serif";
   const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
   const secRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); io.disconnect(); } }, { threshold: 0.18 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const rise = (d: number): React.CSSProperties => ({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(24px)",
+    transition: `opacity 0.8s cubic-bezier(.2,.7,.2,1) ${d}s, transform 0.8s cubic-bezier(.2,.7,.2,1) ${d}s`,
+  });
+
+  const stats: Array<[string, string, string]> = [
+    ["stat1", stat1Num, stat1Lbl], ["stat2", stat2Num, stat2Lbl], ["stat3", stat3Num, stat3Lbl],
+  ];
 
   return (
-    <section ref={secRef} id={id} data-variant="restaurant-03-about" style={{ backgroundColor: BG, padding: "96px 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        <div className="r03-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "center" }}>
+    <section ref={secRef} id={id} data-template="restaurant-03" data-variant="restaurant-03-about" style={{ backgroundColor: BG, padding: "clamp(72px,10vw,116px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Decorative faint gold monogram texture */}
+      <span aria-hidden style={{ position: "absolute", top: -40, right: -30, fontFamily: FONT, fontSize: "clamp(180px,26vw,340px)", lineHeight: 1, color: "rgba(185,125,38,0.05)", pointerEvents: "none", userSelect: "none" }}>◆</span>
 
-          {/* Foto vlevo */}
-          <div style={{ position: "relative", overflow: "hidden", borderRadius: 2 }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title}>
-              <img
-                src={image}
-                alt={title}
-                style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }}
-              />
-            </GenericEditableImage>
-            {/* Zlatý accent border vlevo dole */}
-            <div style={{ position: "absolute", left: 0, bottom: 0, width: 4, height: "40%", backgroundColor: GOLD }} />
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", position: "relative" }}>
+        <div className="r03-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.05fr", gap: "clamp(40px, 6vw, 88px)", alignItems: "center" }}>
+
+          {/* Foto vlevo — gold offset frame + stat karta */}
+          <div className="r03-about-figure" style={{ position: "relative", ...rise(0) }}>
+            {/* offset gold frame */}
+            <span aria-hidden style={{ position: "absolute", inset: 0, transform: "translate(18px,18px)", border: `1px solid ${GOLD}`, borderRadius: 2, pointerEvents: "none" }} />
+            <div className="r03-about-imgwrap" style={{ position: "relative", overflow: "hidden", borderRadius: 2 }}>
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title}>
+                <img src={image} alt="" className="r03-about-img" style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+            </div>
+            {/* Plovoucí stat karta */}
+            <div className="r03-about-badge" style={{
+              position: "absolute", left: -18, bottom: 34, background: GOLD,
+              color: BG, padding: "16px 22px", borderRadius: 2, textAlign: "center",
+              boxShadow: "0 16px 40px rgba(0,0,0,0.4)",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="badgeNum" value={badgeNum} tag="div"
+                style={{ fontFamily: FONT, fontSize: 30, fontWeight: 400, lineHeight: 1 }} />
+              <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="div"
+                style={{ fontFamily: SANS, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 6 }} />
+            </div>
           </div>
 
           {/* Text vpravo */}
           <div>
-            {/* Kicker */}
-            <p style={{
-              fontFamily: SANS, fontSize: 11, fontWeight: 600,
-              letterSpacing: "0.2em", textTransform: "uppercase",
-              color: GOLD, margin: "0 0 16px",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
+            {showHeader && (
+              <>
+                {/* Ornament eyebrow */}
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, ...rise(0.08) }}>
+                  <span aria-hidden style={{ width: 34, height: 1, background: GOLD }} />
+                  <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                    style={{ fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT }} />
+                </div>
 
-            {/* Zlatý divider */}
-            <div style={{ width: "20%", height: 4, backgroundColor: GOLD, marginBottom: 24, opacity: 0.75 }} />
+                {/* H2 */}
+                <h2 style={{
+                  fontFamily: FONT, fontSize: "clamp(28px, 3.6vw, 48px)", fontWeight: 400,
+                  color: WHITE, margin: "0 0 28px", lineHeight: 1.16,
+                  whiteSpace: "pre-line", ...rise(0.14),
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              </>
+            )}
 
-            {/* H2 */}
-            <h2 style={{
-              fontFamily: FONT, fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400,
-              color: WHITE, margin: "0 0 24px", lineHeight: 1.2,
-              whiteSpace: "pre-line",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-
-            {/* Body 1 */}
+            {/* Body 1 — drop cap */}
             {body && (
-              <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.75, color: `${WHITE}bb`, margin: "0 0 16px" }}>
+              <p className="r03-about-body" style={{ fontFamily: SANS, fontSize: 16.5, lineHeight: 1.85, color: `${WHITE}cc`, margin: "0 0 18px", ...rise(0.2) }}>
                 <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
               </p>
             )}
 
             {/* Body 2 */}
             {body2 && (
-              <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.75, color: `${WHITE}bb`, margin: "0 0 32px" }}>
+              <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.85, color: `${WHITE}aa`, margin: "0 0 34px", ...rise(0.26) }}>
                 <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
               </p>
             )}
+
+            {/* Mini-stats */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(24px,4vw,44px)", margin: "0 0 36px", ...rise(0.32) }}>
+              {stats.map(([key, num, lbl], i) => (
+                <div key={key} style={{ position: "relative", paddingLeft: i === 0 ? 0 : "clamp(24px,4vw,44px)", borderLeft: i === 0 ? "none" : "1px solid rgba(185,125,38,0.3)" }}>
+                  <GenericEditableText sectionId={sectionId} field={`${key}Num`} value={num} tag="div"
+                    style={{ fontFamily: FONT, fontSize: "clamp(26px,3vw,34px)", fontWeight: 400, color: GOLD_LT, lineHeight: 1 }} />
+                  <GenericEditableText sectionId={sectionId} field={`${key}Lbl`} value={lbl} tag="div"
+                    style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: `${WHITE}88`, marginTop: 8 }} />
+                </div>
+              ))}
+            </div>
 
             {/* CTA outline zlaté */}
             <a
               href={ctaHref}
               data-btn="primary"
               style={{
-                fontFamily: SANS, fontSize: 11, fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                color: GOLD, textDecoration: "none",
-                padding: "11px 28px",
-                border: `1px solid ${GOLD}`,
-                display: "inline-block",
-                transition: "background-color 0.2s, color 0.2s",
+                fontFamily: SANS, fontSize: 11.5, fontWeight: 600,
+                letterSpacing: "0.16em", textTransform: "uppercase",
+                color: GOLD_LT, textDecoration: "none",
+                padding: "13px 32px",
+                border: `1px solid ${GOLD}`, borderRadius: 2,
+                display: "inline-flex", alignItems: "center", gap: 10,
+                transition: "background-color 0.3s, color 0.3s, transform 0.3s",
+                ...rise(0.38),
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = GOLD;
-                e.currentTarget.style.color = WHITE;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = GOLD;
-              }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = BG; e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD_LT; e.currentTarget.style.transform = "translateY(0)"; }}
             >
+              <span aria-hidden style={{ width: 6, height: 6, background: "currentColor", transform: "rotate(45deg)" }} />
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
         </div>
       </div>
       <style>{`
+        [data-template="restaurant-03"] .r03-about-img { transition: transform 0.9s cubic-bezier(.2,.7,.2,1); }
+        [data-template="restaurant-03"] .r03-about-figure:hover .r03-about-img { transform: scale(1.05); }
+        [data-template="restaurant-03"] .r03-about-body::first-letter {
+          font-family: ${FONT}; font-size: 3.4em; line-height: 0.82; float: left;
+          margin: 6px 12px 0 0; color: ${GOLD_LT};
+        }
         @media(max-width:768px){
           .r03-about-grid{grid-template-columns:1fr!important}
+          .r03-about-badge{ left: 12px !important; }
         }
       `}</style>
     </section>
@@ -6753,104 +6312,114 @@ function AboutBakery01({ content, sectionId }: { content: Record<string, unknown
   const SANS  = "'Metropolis', 'Inter', sans-serif";
   const ACCENT = "#8b6030";
 
-  const bannerImage = String(content.bannerImage ?? "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=80");
-  const heading     = String(content.heading     ?? "Demo Zrno Zrnko");
-  const subheading  = String(content.subheading  ?? "Autentická řemeslná pekárna");
-  const body        = String(content.body        ?? "");
-  const col1Image   = String(content.col1Image   ?? "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80");
-  const col1Text    = String(content.col1Text    ?? "");
-  const col1Cta     = String(content.col1Cta     ?? "VÍCE O PEČIVU");
+  // conditional header (blank na podstránce, kde banner nese H1)
+  const eyebrowRaw    = (content as Record<string, unknown>).eyebrow;
+  const headingRaw    = (content as Record<string, unknown>).heading;
+  const subheadingRaw = (content as Record<string, unknown>).subheading;
+  const eyebrow    = eyebrowRaw    === undefined ? "Naše řemeslo" : String(eyebrowRaw);
+  const heading    = headingRaw    === undefined ? "Kvásek & Káva" : String(headingRaw);
+  const subheading = subheadingRaw === undefined ? "Autentická řemeslná pekárna" : String(subheadingRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim() || subheading.trim());
+
+  const body        = String(content.body        ?? "Vstáváme, když ostatní spí, aby na pultě voněl čerstvý chléb. Věříme v poctivé suroviny, dlouhé kynutí a řemeslo předávané z ruky do ruky.");
+  const bannerImage = String(content.bannerImage ?? "/templates/bakery-01/about-banner.webp");
+  const bannerBadge = String(content.bannerBadge ?? "Est. 2016");
+  const bannerQuote = String(content.bannerQuote ?? "„Dobrý chléb potřebuje jen tři věci — mouku, čas a poctivé ruce.“");
+  const col1Image   = String(content.col1Image   ?? "/templates/bakery-01/about-pecivo.webp");
+  const col1Title   = String(content.col1Title   ?? "Pekárna");
+  const col1Text    = String(content.col1Text    ?? "Kváskové chleby, křupavé bagety a máslové croissanty. Pečeme v malých dávkách po celý den, aby bylo vždy čerstvo.");
+  const col1Cta     = String(content.col1Cta     ?? "Více o pečivu");
   const col1CtaHref = String(content.col1CtaHref ?? "/pekarna");
-  const col2Image   = String(content.col2Image   ?? "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80");
-  const col2Text    = String(content.col2Text    ?? "");
-  const col2Cta     = String(content.col2Cta     ?? "VÍCE O KÁVĚ");
+  const col2Image   = String(content.col2Image   ?? "/templates/bakery-01/about-kava.webp");
+  const col2Title   = String(content.col2Title   ?? "Kavárna");
+  const col2Text    = String(content.col2Text    ?? "Zrna pražíme sami, espresso ladíme každé ráno. K snídani, k práci i k dlouhému nedělnímu posezení nad flat white.");
+  const col2Cta     = String(content.col2Cta     ?? "Více o kávě");
   const col2CtaHref = String(content.col2CtaHref ?? "/kava");
 
+  const ArrowCta = ({ field, value, href }: { field: string; value: string; href: string }) => (
+    <a className="b01-about-cta" href={href} style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: SERIF, fontSize: 12, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: DARK, textDecoration: "none" }}>
+      <GenericEditableText sectionId={sectionId} field={field} value={value} tag="span" />
+      <svg className="b01-about-arrow" width="20" height="10" viewBox="0 0 20 10" fill="none" stroke={ACCENT} strokeWidth="1.4" aria-hidden="true"><path d="M0 5h18M14 1l4 4-4 4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    </a>
+  );
+
   return (
-    <section style={{ backgroundColor: "#ffffff", fontFamily: SANS }}>
+    <section data-template="bakery-01" style={{ backgroundColor: "#ffffff", fontFamily: SANS }}>
 
       {/* Centered intro */}
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "clamp(48px, 7vw, 96px) clamp(24px, 5vw, 40px)", textAlign: "center" }}>
-        <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.8rem, 4vw, 3rem)", letterSpacing: "0.12em", textTransform: "uppercase", color: DARK, margin: "0 0 12px" }}>
-          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-        </h2>
-        <p style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(0.85rem, 1.4vw, 1rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: ACCENT, margin: "0 0 28px" }}>
-          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-        </p>
-        <p style={{ fontSize: "clamp(0.9rem, 1.3vw, 1rem)", lineHeight: 1.8, color: MUTED, margin: 0 }}>
-          <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-        </p>
-      </div>
+      {showHeader && (
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "clamp(56px, 7vw, 104px) clamp(24px, 5vw, 40px) clamp(40px, 5vw, 72px)", textAlign: "center" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+            <span style={{ display: "block", width: 30, height: 1, background: "#dcae7a" }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+              style={{ fontFamily: SERIF, fontSize: "0.78rem", fontWeight: 400, letterSpacing: "0.24em", textTransform: "uppercase", color: ACCENT }} />
+            <span style={{ display: "block", width: 30, height: 1, background: "#dcae7a" }} />
+          </div>
+          <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.9rem, 4vw, 3.1rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, margin: "0 0 18px", lineHeight: 1.16 }}>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
+          <p style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)", letterSpacing: "0.08em", textTransform: "uppercase", color: "#a08256", margin: "0 0 26px" }}>
+            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+          </p>
+          <p style={{ fontSize: "clamp(0.95rem, 1.3vw, 1.05rem)", lineHeight: 1.85, color: MUTED, margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+        </div>
+      )}
+
+      {/* Panorama banner — hidden when bannerImage is blanked (e.g. subpages with slim hero) */}
+      {bannerImage.trim() !== "" && <div className="b01-about-banner" style={{ position: "relative", width: "100%", height: "clamp(300px, 42vw, 520px)", overflow: "hidden" }}>
+        <GenericEditableImage sectionId={sectionId} field="bannerImage" src={bannerImage} alt={heading} style={{ position: "absolute", inset: 0, display: "block" }}>
+          <div className="b01-about-banner-bg" style={{ position: "absolute", inset: 0, backgroundImage: `url(${bannerImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(26,21,18,0.15), rgba(26,21,18,0.5))" }} />
+        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 clamp(24px,6vw,60px)" }}>
+          <GenericEditableText sectionId={sectionId} field="bannerBadge" value={bannerBadge} tag="span"
+            style={{ fontFamily: SERIF, fontSize: 12, fontWeight: 500, letterSpacing: "0.24em", textTransform: "uppercase", color: "#f3ead9", border: "1px solid rgba(243,234,217,0.5)", padding: "8px 20px", marginBottom: 24 }} />
+          <GenericEditableText sectionId={sectionId} field="bannerQuote" value={bannerQuote} tag="p"
+            style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.2rem, 2.6vw, 2rem)", fontStyle: "italic", letterSpacing: "0.02em", color: "#ffffff", margin: 0, maxWidth: 720, lineHeight: 1.4 }} />
+        </div>
+      </div>}
 
       {/* 2-col cards */}
-      <div
-        className="b01-about-cols"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 0,
-          borderTop: "1px solid #e8e8e8",
-        }}
-      >
-        {/* Col 1 — Pečivo */}
-        <div style={{ borderRight: "1px solid #e8e8e8", padding: "clamp(32px, 5vw, 64px) clamp(24px, 5vw, 60px)" }}>
-          <GenericEditableImage sectionId={sectionId} field="col1Image" src={col1Image} alt={col1Cta} style={{ display: "block" }}>
-            <img src={col1Image} alt={col1Cta} loading="lazy" style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block", marginBottom: 28 }} />
-          </GenericEditableImage>
-          <p style={{ fontSize: "clamp(0.88rem, 1.2vw, 0.95rem)", lineHeight: 1.8, color: MUTED, margin: "0 0 24px" }}>
+      <div className="b01-about-cols" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+        {/* Col 1 — Pekárna */}
+        <div className="b01-about-card" style={{ borderRight: "1px solid #ece5db", padding: "clamp(36px, 5vw, 72px) clamp(24px, 5vw, 64px)", transition: "background 0.4s ease" }}>
+          <div className="b01-about-imgwrap" style={{ overflow: "hidden", marginBottom: 30 }}>
+            <GenericEditableImage sectionId={sectionId} field="col1Image" src={col1Image} alt={col1Title} style={{ display: "block" }}>
+              <img className="b01-about-img" src={col1Image} alt={col1Title} loading="lazy" style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          </div>
+          <h3 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.3rem,2.2vw,1.7rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, margin: "0 0 14px" }}>
+            <GenericEditableText sectionId={sectionId} field="col1Title" value={col1Title} tag="span" />
+          </h3>
+          <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 0.98rem)", lineHeight: 1.85, color: MUTED, margin: "0 0 26px" }}>
             <GenericEditableText sectionId={sectionId} field="col1Text" value={col1Text} tag="span" />
           </p>
-          <a
-            href={col1CtaHref}
-            style={{
-              display: "inline-block",
-              fontFamily: SERIF,
-              fontSize: 11,
-              fontWeight: 400,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              color: DARK,
-              textDecoration: "none",
-              borderBottom: `1px solid ${DARK}`,
-              paddingBottom: 2,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="col1Cta" value={col1Cta} tag="span" />
-          </a>
+          <ArrowCta field="col1Cta" value={col1Cta} href={col1CtaHref} />
         </div>
 
-        {/* Col 2 — Káva */}
-        <div style={{ padding: "clamp(32px, 5vw, 64px) clamp(24px, 5vw, 60px)" }}>
-          <GenericEditableImage sectionId={sectionId} field="col2Image" src={col2Image} alt={col2Cta} style={{ display: "block" }}>
-            <img src={col2Image} alt={col2Cta} loading="lazy" style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block", marginBottom: 28 }} />
-          </GenericEditableImage>
-          <p style={{ fontSize: "clamp(0.88rem, 1.2vw, 0.95rem)", lineHeight: 1.8, color: MUTED, margin: "0 0 24px" }}>
+        {/* Col 2 — Kavárna */}
+        <div className="b01-about-card" style={{ padding: "clamp(36px, 5vw, 72px) clamp(24px, 5vw, 64px)", transition: "background 0.4s ease" }}>
+          <div className="b01-about-imgwrap" style={{ overflow: "hidden", marginBottom: 30 }}>
+            <GenericEditableImage sectionId={sectionId} field="col2Image" src={col2Image} alt={col2Title} style={{ display: "block" }}>
+              <img className="b01-about-img" src={col2Image} alt={col2Title} loading="lazy" style={{ width: "100%", aspectRatio: "3/2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          </div>
+          <h3 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.3rem,2.2vw,1.7rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, margin: "0 0 14px" }}>
+            <GenericEditableText sectionId={sectionId} field="col2Title" value={col2Title} tag="span" />
+          </h3>
+          <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 0.98rem)", lineHeight: 1.85, color: MUTED, margin: "0 0 26px" }}>
             <GenericEditableText sectionId={sectionId} field="col2Text" value={col2Text} tag="span" />
           </p>
-          <a
-            href={col2CtaHref}
-            style={{
-              display: "inline-block",
-              fontFamily: SERIF,
-              fontSize: 11,
-              fontWeight: 400,
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              color: DARK,
-              textDecoration: "none",
-              borderBottom: `1px solid ${DARK}`,
-              paddingBottom: 2,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="col2Cta" value={col2Cta} tag="span" />
-          </a>
+          <ArrowCta field="col2Cta" value={col2Cta} href={col2CtaHref} />
         </div>
       </div>
 
       <style>{`
         @media (max-width: 640px) {
           .b01-about-cols { grid-template-columns: 1fr !important; }
-          .b01-about-cols > div:first-child { border-right: none !important; border-bottom: 1px solid #e8e8e8; }
+          .b01-about-cols > div:first-child { border-right: none !important; border-bottom: 1px solid #ece5db; }
         }
       `}</style>
     </section>
@@ -6971,121 +6540,132 @@ function AboutReality02Benefits({ content, sectionId }: { content: Record<string
 }
 
 // ── reality-01-about ─────────────────────────────────────────────────────────
-// Dark teal 2-col — ref: lexxusnorton.cz
-// Vlevo: gold kicker + bílý H2 + text + CTA; vpravo: 2×2 stat bloky + foto
-// ─────────────────────────────────────────────────────────────────────────────
 function AboutReality01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tagline  = String(content.tagline  ?? "O nás");
-  const title    = String(content.title    ?? "Exkluzivně — pro každého klienta zvlášť");
-  const subtitle = String(content.subtitle ?? "Jsme tým zkušených realitních makléřů s hlubokými znalostmi pražského trhu.");
-  const body     = String(content.body     ?? "S více než 33 lety zkušeností na pražském realitním trhu jsme jednou z nejdéle působících realitních kanceláří v České republice.");
-  const ctaText  = String(content.ctaText  ?? "Více o nás");
+  const eyebrowRaw  = (content as Record<string,unknown>).tagline;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const tagline  = eyebrowRaw  === undefined ? "O kanceláři" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Pracujeme pro lidi,\nne pro statistiky" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Jsme tým zkušených realitních makléřů s hlubokými znalostmi pražského trhu. Každého klienta provázíme osobně." : String(subtitleRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
+
+  const body     = String(content.body     ?? "Za téměř třicet let praxe jsme pomohli tisícům klientů najít domov nebo úspěšně prodat nemovitost. Pražský trh známe do hloubky — každou čtvrť, každý typ zástavby, každý trendový pohyb cen.");
+  const ctaText  = String(content.ctaText  ?? "Zjistit více o nás");
   const ctaHref  = String(content.ctaHref  ?? "/o-nas");
-  const image    = String(content.image    ?? "/templates/reality-01/about-bg.jpg");
+  const image    = String(content.image    ?? "/templates/reality-01/about-bg.webp");
 
   type Stat = { value: string; label: string };
   const stats = (content.stats as Stat[]) ?? [
-    { value: "33+",   label: "let zkušeností" },
-    { value: "2400+", label: "úspěšných transakcí" },
-    { value: "98%",   label: "spokojených klientů" },
-    { value: "12",    label: "odborných makléřů" },
+    { value: "28+",   label: "let na trhu" },
+    { value: "1 900+", label: "úspěšných transakcí" },
+    { value: "97 %",  label: "spokojených klientů" },
+    { value: "9",     label: "zkušených makléřů" },
   ];
 
-  const DARK       = "#1a3640";
-  const GOLD       = "#d4a96e";
-  const WHITE      = "#ffffff";
-  const MONTSERRAT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
-  const OPEN_SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+  const DARK = "#1a3640";
+  const GOLD = "#d4a96e";
+  const WHITE = "#ffffff";
+  const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
   return (
-    <section style={{ backgroundColor: DARK, padding: "clamp(56px,8vw,96px) 0", position: "relative", overflow: "hidden" }}>
-      {/* Decorative diagonal line */}
-      <svg style={{ position: "absolute", top: 0, right: "clamp(32px,6vw,120px)", pointerEvents: "none", opacity: 0.4 }} width="161" height="190" viewBox="0 0 161 190" fill="none" aria-hidden="true">
-        <path d="M2.47 2.33L158.02 187.71" stroke="#C28F75" strokeOpacity="0.5" strokeWidth="4" />
-      </svg>
+    <section data-template="reality-01" id="about" style={{ backgroundColor: DARK, padding: "clamp(72px,10vw,120px) 0", position: "relative", overflow: "hidden" }}>
+      {/* Subtle gold gradient top edge */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent 5%, ${GOLD} 50%, transparent 95%)`, opacity: 0.25 }} aria-hidden="true" />
 
       <div style={{ maxWidth: 1340, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
-        <div data-r01-about style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,5vw,80px)", alignItems: "center" }}>
+        <div className="r01-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,6vw,88px)", alignItems: "start" }}>
 
           {/* LEFT — text content */}
           <div>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
-              style={{ fontFamily: MONTSERRAT, fontSize: 12, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, margin: "0 0 16px" }} />
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
-              style={{ fontFamily: MONTSERRAT, fontSize: "clamp(24px,3vw,38px)", fontWeight: 700, lineHeight: 1.2, color: WHITE, margin: "0 0 20px" }} />
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
-              style={{ fontFamily: OPEN_SANS, fontSize: 16, color: "rgba(255,255,255,0.75)", margin: "0 0 16px", lineHeight: 1.7 }} />
+            {showHeader && (
+              <>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+                  <span style={{ width: 24, height: 1, backgroundColor: GOLD, opacity: 0.5 }} aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                    style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, margin: 0 }} />
+                </div>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                  style={{ fontFamily: FONT, fontSize: "clamp(26px,3.2vw,40px)", fontWeight: 700, lineHeight: 1.15, color: WHITE, margin: "0 0 20px", whiteSpace: "pre-line", letterSpacing: "-0.01em" }} />
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+                  style={{ fontFamily: BODY, fontSize: 16, color: "rgba(255,255,255,0.72)", margin: "0 0 16px", lineHeight: 1.7 }} />
+              </>
+            )}
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p"
-              style={{ fontFamily: OPEN_SANS, fontSize: 15, color: "rgba(255,255,255,0.6)", margin: "0 0 40px", lineHeight: 1.75 }} />
-            <a href={ctaHref} data-btn="primary" style={{
+              style={{ fontFamily: BODY, fontSize: 15, color: "rgba(255,255,255,0.52)", margin: "0 0 40px", lineHeight: 1.75 }} />
+            <a href={ctaHref} className="r01-about-cta" style={{
               display: "inline-flex", alignItems: "center", gap: 8,
-              backgroundColor: GOLD, color: "#1a1a1a",
-              fontFamily: MONTSERRAT, fontSize: 14, fontWeight: 600, letterSpacing: "0.06em",
-              padding: "13px 32px", borderRadius: 4, textDecoration: "none", transition: "background 0.2s",
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = "#c49a5e"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = GOLD; }}
-            >
+              backgroundColor: GOLD, color: DARK,
+              fontFamily: FONT, fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
+              padding: "14px 34px", borderRadius: 4, textDecoration: "none",
+              transition: "background 0.25s, transform 0.25s, box-shadow 0.25s",
+              boxShadow: "0 4px 16px rgba(212,169,110,0.2)",
+            }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
             </a>
           </div>
 
-          {/* RIGHT — stats 2×2 + photo */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {/* 2×2 stat grid */}
+          {/* RIGHT — stats 2x2 + photo */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
               {stats.map((stat, i) => (
-                <div key={i} style={{
-                  backgroundColor: "rgba(255,255,255,0.06)",
-                  padding: "28px 24px",
-                  borderRadius: i === 0 ? "8px 0 0 0" : i === 1 ? "0 8px 0 0" : i === 2 ? "0 0 0 8px" : "0 0 8px 0",
+                <div key={i} className="r01-stat-cell" style={{
+                  backgroundColor: "rgba(255,255,255,0.04)",
+                  padding: "30px 26px",
+                  borderRadius: i === 0 ? "10px 0 0 0" : i === 1 ? "0 10px 0 0" : i === 2 ? "0 0 0 10px" : "0 0 10px 0",
+                  transition: "background 0.3s",
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={stat.value} tag="div"
-                    style={{ fontFamily: MONTSERRAT, fontSize: "clamp(32px,3.5vw,48px)", fontWeight: 700, color: GOLD, lineHeight: 1, marginBottom: 6 }} />
+                    style={{ fontFamily: FONT, fontSize: "clamp(30px,3.2vw,46px)", fontWeight: 700, color: GOLD, lineHeight: 1, marginBottom: 8 }} />
                   <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={stat.label} tag="div"
-                    style={{ fontFamily: OPEN_SANS, fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.4 }} />
+                    style={{ fontFamily: BODY, fontSize: 13, color: "rgba(255,255,255,0.5)", lineHeight: 1.4, letterSpacing: "0.01em" }} />
                 </div>
               ))}
             </div>
 
-            {/* Photo */}
-            <div style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "16/9", position: "relative" }}>
+            <div style={{ borderRadius: 10, overflow: "hidden", aspectRatio: "16/9", position: "relative" }}>
               <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="O nás" style={{ position: "absolute", inset: 0 }}>
-                <img loading="lazy" src={image} alt="O nás" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img loading="lazy" src={image} alt="O nás" className="r01-about-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.6s cubic-bezier(0.4,0,0.2,1)" }} />
               </GenericEditableImage>
+              <div style={{ position: "absolute", bottom: 0, right: 0, width: 48, height: 48, borderRight: `3px solid ${GOLD}`, borderBottom: `3px solid ${GOLD}`, borderRadius: "0 0 10px 0", opacity: 0.4, pointerEvents: "none" }} aria-hidden="true" />
             </div>
           </div>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 767px) { [data-r01-about] { grid-template-columns: 1fr !important; } }
+        @media (max-width: 767px) { .r01-about-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </section>
   );
 }
 
 // ── reality-05-about ──────────────────────────────────────────────────────────
-// Ref: ondrejkucera.com — sekce "O mně" + "Co Vám nabízím"
-// Horní část: bílé bg, centrovaný H2 + bio text
-// Spodní část: zlatý (#CFA968) bg — 2-col: vlevo H2 + 3 feature řádky (ikona + uppercase H3 + text)
-//                                          vpravo: portrait foto + stats
-// ─────────────────────────────────────────────────────────────────────────────
 function AboutReality05({ content, sectionId }: Pick<Props, "content" | "sectionId">) {
-  const title      = String(content.title      ?? "O mně");
-  const body       = String(content.body       ?? "");
-  const tagline    = String(content.tagline    ?? "");
-  const whyTitle   = String(content.whyTitle   ?? "Co Vám nabízím");
-  const image      = String(content.image      ?? "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop&q=80");
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Osobní přístup" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "O mně" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const body       = String(content.body       ?? "Každá nemovitost má svůj příběh a každý klient si zaslouží individuální péči. Věřím, že úspěšný prodej stojí na důvěře, transparentnosti a profesionálním přístupu.\n\nS trhem nemovitostí pracuji přes deset let. Za tu dobu jsem pomohl stovkám rodin najít nový domov nebo prodat nemovitost za nejlepší možnou cenu. Mou prioritou je vždy klient — jeho potřeby a pocit bezpečí.");
+  const tagline    = String(content.tagline    ?? "Profesionalita s lidským přístupem.");
+  const whyTitle   = String(content.whyTitle   ?? "Proč spolupracovat se mnou");
+  const image      = String(content.image      ?? "/templates/reality-05/agent-portrait.webp");
   type Feature = { icon: string; title: string; body: string };
-  const features   = (content.features as Feature[]) ?? [];
+  const features   = (content.features as Feature[]) ?? [
+    { icon: "plus", title: "Osobní konzultace zdarma", body: "Před každým rozhodnutím se sejdeme a projdeme všechny možnosti bez závazků." },
+    { icon: "diamond", title: "Moderní marketing", body: "Profesionální fotografie, virtuální prohlídky a cílená prezentace na klíčových portálech." },
+    { icon: "check", title: "Kompletní právní servis", body: "Od odhadu ceny přes prohlídky až po předání klíčů — vše zajistím za vás." },
+  ];
 
   const GOLD   = "#CFA968";
   const DARK   = "#1c1c1c";
   const WHITE  = "#ffffff";
+  const CREAM  = "#f8f5f0";
   const SANS   = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
   const iconSvg = (icon: string) => {
@@ -7101,52 +6681,70 @@ function AboutReality05({ content, sectionId }: Pick<Props, "content" | "section
   };
 
   return (
-    <section style={{ fontFamily: SANS }} data-r05-about>
-      {/* Horní část — bílé bg, centrovaný bio text */}
-      <div style={{ backgroundColor: WHITE, padding: "72px clamp(20px, 6vw, 100px)" }}>
+    <section id="o-mne" style={{ fontFamily: SANS }} data-template="reality-05">
+      {/* Top part — cream bg, centered bio text */}
+      <div style={{ backgroundColor: CREAM, padding: "80px clamp(20px, 6vw, 100px) 72px" }}>
         <div style={{ maxWidth: 780, margin: "0 auto", textAlign: "center" }}>
-          <GenericEditableText
-            sectionId={sectionId} field="title" value={title} tag="h2"
-            style={{ fontFamily: SANS, fontSize: "clamp(26px,3vw,38px)", fontWeight: 700, color: DARK, margin: "0 0 28px", lineHeight: 1.2 }}
-          />
+          {showHeader && (
+            <>
+              {eyebrow.trim() && (
+                <GenericEditableText
+                  sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: GOLD, display: "block", marginBottom: 14 }}
+                />
+              )}
+              {title.trim() && (
+                <GenericEditableText
+                  sectionId={sectionId} field="title" value={title} tag="h2"
+                  style={{ fontFamily: SANS, fontSize: "clamp(28px,3.2vw,40px)", fontWeight: 700, color: DARK, margin: "0 0 16px", lineHeight: 1.15 }}
+                />
+              )}
+              <div style={{ width: 40, height: 2, backgroundColor: GOLD, margin: "0 auto 32px", opacity: 0.6 }} />
+            </>
+          )}
           {body.split("\n\n").map((para, i) => (
             <GenericEditableText
               key={i} sectionId={sectionId} field={`body_p${i}`} value={para} tag="p"
-              style={{ fontSize: 16, lineHeight: 1.75, color: "#444", margin: "0 0 18px", textAlign: "justify" }}
+              style={{ fontSize: 16, lineHeight: 1.8, color: "#555", margin: "0 0 18px" }}
             />
           ))}
           {tagline && (
-            <p style={{ fontFamily: SANS, fontSize: 17, fontWeight: 700, color: DARK, margin: "24px 0 0" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+              style={{ fontFamily: SANS, fontSize: 18, fontWeight: 700, color: DARK, margin: "28px 0 0", fontStyle: "italic" }}
+            />
           )}
         </div>
       </div>
 
-      {/* Spodní část — zlatý bg, 2-col */}
-      <div style={{ backgroundColor: GOLD, padding: "0" }}>
-        <div style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr", minHeight: 480 }} data-r05-about-grid>
-          {/* Levý sloupec — features */}
-          <div style={{ padding: "56px clamp(24px, 5vw, 72px) 56px clamp(24px, 5vw, 72px)" }}>
+      {/* Bottom part — gold bg, 2-col: features left + portrait right */}
+      <div style={{ backgroundColor: GOLD }}>
+        <div className="r05-about-grid" style={{ maxWidth: 1320, margin: "0 auto", display: "grid", gridTemplateColumns: "1.6fr 1fr", minHeight: 500 }}>
+          {/* Left column — features */}
+          <div style={{ padding: "64px clamp(28px, 5vw, 80px)" }}>
             <GenericEditableText
               sectionId={sectionId} field="whyTitle" value={whyTitle} tag="h2"
-              style={{ fontFamily: SANS, fontSize: "clamp(22px,2.8vw,32px)", fontWeight: 700, color: WHITE, margin: "0 0 36px" }}
+              style={{ fontFamily: SANS, fontSize: "clamp(24px,2.8vw,34px)", fontWeight: 700, color: WHITE, margin: "0 0 12px", lineHeight: 1.2 }}
             />
-            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+            <div style={{ width: 36, height: 2, backgroundColor: "rgba(255,255,255,0.4)", marginBottom: 40 }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
               {features.map((f, i) => (
-                <div key={i} style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-                  {/* Ikona v kroužku */}
-                  <div style={{ flexShrink: 0, width: 44, height: 44, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.25)", display: "flex", alignItems: "center", justifyContent: "center", color: WHITE }}>
+                <div key={i} className="r05-feature-row" style={{ display: "flex", gap: 20, alignItems: "flex-start", transition: "transform 0.3s" }}>
+                  <div style={{
+                    flexShrink: 0, width: 48, height: 48,
+                    border: "1.5px solid rgba(255,255,255,0.35)", borderRadius: 4,
+                    display: "flex", alignItems: "center", justifyContent: "center", color: WHITE,
+                    transition: "background-color 0.3s, border-color 0.3s",
+                  }}>
                     {iconSvg(f.icon)}
                   </div>
                   <div>
                     <GenericEditableText
                       sectionId={sectionId} field={`features.${i}.title`} value={f.title} tag="h3"
-                      style={{ fontFamily: SANS, fontSize: 14, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: WHITE, margin: "0 0 6px" }}
+                      style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: WHITE, margin: "0 0 8px" }}
                     />
                     <GenericEditableText
                       sectionId={sectionId} field={`features.${i}.body`} value={f.body} tag="p"
-                      style={{ fontSize: 15, lineHeight: 1.6, color: "rgba(255,255,255,0.88)", margin: 0 }}
+                      style={{ fontSize: 15, lineHeight: 1.65, color: "rgba(255,255,255,0.85)", margin: 0 }}
                     />
                   </div>
                 </div>
@@ -7154,21 +6752,16 @@ function AboutReality05({ content, sectionId }: Pick<Props, "content" | "section
             </div>
           </div>
 
-          {/* Pravý sloupec — portrait foto */}
-          <div style={{ position: "relative", overflow: "hidden", minHeight: 400 }} data-r05-about-photo>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Makléř" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}>
-              <img loading="lazy" src={image} alt="Makléř" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+          {/* Right column — portrait photo */}
+          <div className="r05-about-photo" style={{ position: "relative", overflow: "hidden", minHeight: 420 }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Realitní makléř" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}>
+              <img loading="lazy" src={image} alt="Realitní makléř" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", transition: "transform 0.6s ease" }} />
             </GenericEditableImage>
+            {/* Gold corner accent */}
+            <div style={{ position: "absolute", top: 0, left: 0, width: 48, height: 48, borderTop: `3px solid ${WHITE}`, borderLeft: `3px solid ${WHITE}`, opacity: 0.3, pointerEvents: "none" }} />
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 767px) {
-          [data-r05-about-grid] { grid-template-columns: 1fr !important; }
-          [data-r05-about-photo] { min-height: 300px !important; position: relative !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -7180,8 +6773,13 @@ function AboutReality05({ content, sectionId }: Pick<Props, "content" | "section
 // tenkostěnný border a hover zvednutí
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutReality04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const sectionAnchor      = String(content.id                ?? "o-nas");
-  const title              = String(content.title             ?? "O nás");
+  const sectionAnchor      = String(content.id ?? "o-nas");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const eyebrow  = eyebrowRaw  === undefined ? "O nás" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Realitní kancelář s osobním přístupem" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
   const body               = String(content.body              ?? "");
   const referralTitle      = String(content.referralTitle     ?? "Odměníme vás za doporučení");
   const referralBody       = String(content.referralBody      ?? "");
@@ -7191,28 +6789,38 @@ function AboutReality04({ content, sectionId }: { content: Record<string, unknow
   const freeEstimateBody   = String(content.freeEstimateBody  ?? "");
 
   const PRIMARY = "#1032CF";
-  const DARK    = "#241f0c";
-  const MUTED   = "#666";
-  const BORDER  = "#e8e8e8";
+  const GREEN   = "#21b276";
+  const DARK    = "#141414";
+  const MUTED   = "#6b7280";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
   const features = [
-    { titleField: "referralTitle",     bodyField: "referralBody",     title: referralTitle,     body: referralBody },
-    { titleField: "legalTitle",        bodyField: "legalBody",        title: legalTitle,        body: legalBody },
-    { titleField: "freeEstimateTitle", bodyField: "freeEstimateBody", title: freeEstimateTitle, body: freeEstimateBody },
+    { titleField: "referralTitle",     bodyField: "referralBody",     title: referralTitle,     body: referralBody,     accent: PRIMARY },
+    { titleField: "legalTitle",        bodyField: "legalBody",        title: legalTitle,        body: legalBody,        accent: GREEN },
+    { titleField: "freeEstimateTitle", bodyField: "freeEstimateBody", title: freeEstimateTitle, body: freeEstimateBody, accent: PRIMARY },
   ];
 
   return (
-    <section id={sectionAnchor} style={{ backgroundColor: "#f8f8f8", padding: "clamp(56px, 7vw, 96px) 0" }}>
+    <section id={sectionAnchor} style={{ backgroundColor: "#fff", padding: "clamp(56px, 7vw, 100px) 0" }} data-template="reality-04">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
 
         <div className="r04-about-grid">
           {/* Levá část — nadpis + perex */}
           <div>
-            <h2 style={{ fontFamily: SANS, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 700, color: DARK, marginTop: 0, marginBottom: 20 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <p style={{ fontFamily: SANS, fontSize: 15, color: MUTED, lineHeight: 1.75, margin: "0 0 32px" }}>
+            {showHeader && (
+              <>
+                {eyebrow.trim() && (
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                    style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, margin: "0 0 12px" }} />
+                )}
+                {title.trim() && (
+                  <h2 style={{ fontFamily: SANS, fontSize: "clamp(24px, 2.8vw, 34px)", fontWeight: 700, color: DARK, marginTop: 0, marginBottom: 20, lineHeight: 1.18, letterSpacing: "-0.01em" }}>
+                    <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                  </h2>
+                )}
+              </>
+            )}
+            <p style={{ fontFamily: SANS, fontSize: 16, color: MUTED, lineHeight: 1.8, margin: 0 }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           </div>
@@ -7220,21 +6828,17 @@ function AboutReality04({ content, sectionId }: { content: Record<string, unknow
           {/* Pravá část — 3 feature boxy */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {features.map((f, i) => (
-              <div key={i} style={{ backgroundColor: "#fff", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "20px 22px", display: "flex", gap: 14, transition: "box-shadow 0.2s, transform 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
-              >
-                {/* Checkmark ikona */}
-                <div style={{ width: 28, height: 28, borderRadius: "50%", backgroundColor: PRIMARY, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <div key={i} className="r04-about-box">
+                <div className="r04-about-check" style={{ backgroundColor: f.accent }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontFamily: SANS, fontSize: 15, fontWeight: 700, color: PRIMARY, marginBottom: 4 }}>
+                  <div style={{ fontFamily: SANS, fontSize: 16, fontWeight: 700, color: DARK, marginBottom: 6 }}>
                     <GenericEditableText sectionId={sectionId} field={f.titleField} value={f.title} tag="span" />
                   </div>
-                  <div style={{ fontFamily: SANS, fontSize: 13, color: MUTED, lineHeight: 1.6 }}>
+                  <div style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.65 }}>
                     <GenericEditableText sectionId={sectionId} field={f.bodyField} value={f.body} tag="span" />
                   </div>
                 </div>
@@ -7302,7 +6906,7 @@ function AboutReality06({ content, sectionId, tenantSlug, isAdmin }: { content: 
 // ─── autoservis-02 About ────────────────────────────────────────────────────
 // Stats counter strip (dark bg) + 2-col (text + photo with red accent corner).
 // Conditional header (showHeader). Red checkmark bullets. resolveNavHref.
-// Open Sans, #d82a2a, garant DNA luxe upgrade.
+// Open Sans, #d82a2a, autoservis DNA luxe upgrade.
 // ────────────────────────────────────────────────────────────────────────────
 function AboutAutoservis02({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
@@ -7585,6 +7189,29 @@ function AboutAutoservis03({ content, sectionId }: { content: Record<string, unk
       data-template="autoservis-03"
       className={`a03-usp${inView ? " a03-in" : ""}`}
     >
+      <style>{`
+        .a03-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #f97316; margin-bottom: 14px; }
+        .a03-eyebrow-bar { width: 26px; height: 2px; background: linear-gradient(to right,#f97316,#c2410c); border-radius: 2px; flex-shrink: 0; }
+
+        .a03-usp { position: relative; background: #0d0d0d; padding: clamp(72px,9vw,110px) 24px; overflow: hidden; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; }
+        .a03-usp-glow { position: absolute; top: -220px; right: -160px; width: 560px; height: 560px; background: radial-gradient(circle, rgba(249,115,22,0.09) 0%, transparent 65%); pointer-events: none; }
+        .a03-usp-wrap { max-width: 1220px; margin: 0 auto; position: relative; }
+        .a03-usp-head { text-align: center; max-width: 640px; margin: 0 auto clamp(40px,5vw,60px); }
+        .a03-usp-h2 { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: clamp(1.8rem,3.4vw,2.7rem); font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.15; margin: 0; }
+        .a03-usp-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+        .a03-usp-card { position: relative; background: #141414; border: 1px solid #232323; border-radius: 18px; padding: 30px 26px 28px; overflow: hidden; opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .6s ease, border-color .25s, box-shadow .25s; }
+        .a03-usp.a03-in .a03-usp-card { opacity: 1; transform: none; }
+        .a03-usp-card:hover { border-color: rgba(249,115,22,0.45); box-shadow: 0 18px 44px rgba(0,0,0,0.45); }
+        .a03-usp-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right,#f97316,#c2410c); transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+        .a03-usp-card:hover .a03-usp-accent { transform: scaleX(1); }
+        .a03-usp-icon { position: relative; width: 56px; height: 56px; border-radius: 14px; background: rgba(249,115,22,0.12); color: #f97316; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .a03-usp-icon-glow { position: absolute; inset: -8px; border-radius: 18px; background: radial-gradient(circle, rgba(249,115,22,0.22) 0%, transparent 70%); opacity: 0; transition: opacity .3s; }
+        .a03-usp-card:hover .a03-usp-icon-glow { opacity: 1; }
+        .a03-usp-title { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 17px; font-weight: 700; color: #ffffff; margin: 0 0 9px; letter-spacing: -0.2px; }
+        .a03-usp-desc { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.65; color: #9ca3af; margin: 0; }
+        @media (max-width: 1024px) { .a03-usp-grid { grid-template-columns: repeat(2,1fr); } }
+        @media (max-width: 560px)  { .a03-usp-grid { grid-template-columns: 1fr; } }
+      `}</style>
       <div aria-hidden="true" className="a03-usp-glow" />
       <div className="a03-usp-wrap">
         {showHeader && (
@@ -7658,6 +7285,31 @@ function AboutAutoservis03Story({ content, sectionId }: { content: Record<string
       data-template="autoservis-03"
       className={`a03-story${inView ? " a03-in" : ""}`}
     >
+      <style>{`
+        .a03-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #f97316; margin-bottom: 14px; }
+        .a03-eyebrow-bar { width: 26px; height: 2px; background: linear-gradient(to right,#f97316,#c2410c); border-radius: 2px; flex-shrink: 0; }
+
+        .a03-story { position: relative; background: #0a0a0a; padding: clamp(72px,9vw,110px) 24px; overflow: hidden; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; }
+        .a03-story-glow { position: absolute; bottom: -240px; left: -180px; width: 600px; height: 600px; background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%); pointer-events: none; }
+        .a03-story-grid { max-width: 1160px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(40px,6vw,84px); align-items: center; position: relative; }
+        .a03-story-h2 { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: clamp(1.8rem,3.2vw,2.6rem); font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.15; margin: 0 0 20px; }
+        .a03-story-body { font-size: 15.5px; line-height: 1.75; color: #9ca3af; margin: 0 0 26px; }
+        .a03-story-bullets { list-style: none; margin: 0 0 30px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 13px 22px; }
+        .a03-story-bullets li { display: flex; align-items: center; gap: 11px; font-size: 14.5px; font-weight: 600; color: #e5e7eb; }
+        .a03-story-check { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg,#f97316,#c2410c); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .a03-story-cta { position: relative; display: inline-flex; align-items: center; gap: 9px; background: linear-gradient(to right,#f97316,#ea6c08); color: #0a0a0a; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14.5px; font-weight: 800; letter-spacing: 0.4px; text-decoration: none; padding: 15px 30px; border-radius: 999px; overflow: hidden; transition: transform .2s, box-shadow .25s; }
+        .a03-story-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(249,115,22,0.35); }
+        .a03-story-cta:hover .a03-cta-arrow { transform: translateX(3px); }
+        .a03-cta-arrow { transition: transform .2s; }
+        .a03-story-media { position: relative; }
+        .a03-story-frame { position: absolute; inset: 22px -22px -22px 22px; border: 2px solid rgba(249,115,22,0.5); border-radius: 20px; pointer-events: none; }
+        .a03-story-img { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/3.4; box-shadow: 0 26px 60px rgba(0,0,0,0.55); }
+        .a03-story-corner { position: absolute; right: 0; bottom: 0; width: 92px; height: 92px; background: linear-gradient(315deg, rgba(249,115,22,0.85), transparent 70%); pointer-events: none; }
+        .a03-story-text { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+        .a03-story-media { opacity: 0; transform: translateY(24px); transition: opacity .6s ease .12s, transform .6s ease .12s; }
+        .a03-story.a03-in .a03-story-text, .a03-story.a03-in .a03-story-media { opacity: 1; transform: none; }
+        @media (max-width: 900px) { .a03-story-grid { grid-template-columns: 1fr; } .a03-story-frame { display: none; } .a03-story-bullets { grid-template-columns: 1fr; } }
+      `}</style>
       <div aria-hidden="true" className="a03-story-glow" />
       <div className="a03-story-grid">
         {/* Left: text */}
@@ -7733,7 +7385,7 @@ function AboutDental01({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const body     = String(content.body     ?? "");
   const ctaText  = String(content.ctaText  ?? "Objednat se");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const imageUrl = String(content.imageUrl ?? "/clones/magicsmile/wp-content/uploads/2024/03/9f70b2f7-899d-47bd-b6fc-88e0b0e7539d-1200x674.jpg");
+  const imageUrl = String(content.imageUrl ?? "/templates/dental-01/showcase/desktop-hero.webp");
   const features = Array.isArray(content.features) ? (content.features as string[]) : [];
   const branches = Array.isArray(content.branches)
     ? (content.branches as Array<{ name?: string; city?: string }>)
@@ -7842,163 +7494,238 @@ function AboutDental01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 }
 
 // ── ortho-02-about ────────────────────────────────────────────────────────────
-// cGnotation layout: text vlevo (bílý bg, 50%), velká foto vpravo (50%)
-// Desktop výška: min 600px (auto proportional), foto cover
-// Reference: perfectsmile.cz → cGnotation--homepage
-// ─────────────────────────────────────────────────────────────────────────────
 function AboutOrtho02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const FONT  = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
-  const DARK  = "#1a1a1a";
-  const MUTED = "#666666";
+  const FONT   = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
+  const DARK   = "#1a1a1a";
+  const MUTED  = "#666666";
+  const GOLD   = "#b39f6b";
+  const BEIGE  = "#B7B3A5";
 
-  const heading = String(content.heading ?? "Rovné zuby vytvářejí perfektní úsměv.");
-  const body    = String(content.body    ?? "Jsou předpokladem pro dlouhodobě zdravý chrup, snižují riziko paradontózy a tvorby zubního kazu. Do ortodontické léčby přijímáme dospělé, teenagery i děti.");
-  const subline = String(content.subline ?? "Začněte se usmívat naplno!");
-  const bgImage = String(content.bgImage ?? "/templates/ortho-02/about-bg.jpg");
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).heading;
+  const subtitleRaw = (content as Record<string,unknown>).subline;
+  const eyebrow  = eyebrowRaw  === undefined ? "O naší klinice" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Věříme, že krásný úsměv mění životy" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const body    = String(content.body    ?? "Naše klinika spojuje moderní technologie s lidským přístupem. Každého pacienta vnímáme jako jedinečný případ — proto sestavujeme léčebný plán šitý na míru právě vám. Za dvacet let praxe jsme pomohli tisícům pacientů získat úsměv, na který jsou hrdí.");
+  const subline = String(content.subline ?? "Přijďte se přesvědčit — první konzultace je vždy bez závazků.");
+  const bgImage = String(content.bgImage ?? "/templates/ortho-02/about-bg.webp");
+  const ctaText = String(content.ctaText ?? "Poznejte nás blíže");
+  const ctaHref = String(content.ctaHref ?? "/about");
+  const yearEst = String(content.yearEst ?? "2004");
 
   return (
     <section
       id="about"
-      data-section-type="about"
-      data-variant="ortho-02-about"
+      data-template="ortho-02"
       style={{ fontFamily: FONT }}
     >
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: 640 }} className="o02-about-grid">
-        {/* Text panel — bílé pozadí */}
         <div style={{
           backgroundColor: "#ffffff",
           display: "flex",
           alignItems: "center",
-          padding: "clamp(48px, 7vw, 96px) clamp(40px, 6vw, 96px)",
+          padding: "clamp(56px, 8vw, 108px) clamp(40px, 6vw, 96px)",
         }}>
           <div style={{ maxWidth: 520 }}>
-            <h2 style={{ margin: "0 0 24px", fontSize: "clamp(1.5rem, 2.8vw, 2.6rem)", fontWeight: 300, color: DARK, lineHeight: 1.3, letterSpacing: "-0.01em" }}>
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </h2>
-            <p style={{ margin: "0 0 20px", fontSize: "clamp(0.9rem, 1.2vw, 1.05rem)", color: MUTED, lineHeight: 1.8 }}>
+            {showHeader && (
+              <>
+                <p style={{ margin: "0 0 18px", fontSize: "0.78rem", fontWeight: 600, color: GOLD, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </p>
+                <h2 style={{ margin: "0 0 24px", fontSize: "clamp(1.5rem, 2.8vw, 2.5rem)", fontWeight: 300, color: DARK, lineHeight: 1.3, letterSpacing: "-0.01em" }}>
+                  <GenericEditableText sectionId={sectionId} field="heading" value={title} tag="span" />
+                </h2>
+              </>
+            )}
+
+            <div aria-hidden style={{ width: 36, height: 1.5, backgroundColor: GOLD, marginBottom: 24, opacity: 0.5 }} />
+
+            <p style={{ margin: "0 0 18px", fontSize: "clamp(0.9rem, 1.2vw, 1.02rem)", color: MUTED, lineHeight: 1.8, fontFamily: FONT_B }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
-            <p style={{ margin: 0, fontSize: "clamp(0.9rem, 1.2vw, 1.05rem)", color: DARK, fontWeight: 500, lineHeight: 1.6 }}>
+            <p style={{ margin: "0 0 32px", fontSize: "clamp(0.9rem, 1.2vw, 1.02rem)", color: DARK, fontWeight: 500, lineHeight: 1.6, fontFamily: FONT }}>
               <GenericEditableText sectionId={sectionId} field="subline" value={subline} tag="span" />
             </p>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 24, flexWrap: "wrap" }}>
+              <a
+                href={ctaHref}
+                data-btn="primary"
+                className="o02-about-cta"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  fontFamily: FONT,
+                  fontSize: "0.82rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase" as const,
+                  color: "#ffffff",
+                  backgroundColor: GOLD,
+                  padding: "12px 28px",
+                  borderRadius: 999,
+                  textDecoration: "none",
+                  transition: "background-color 0.3s, transform 0.3s",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <span style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: FONT, fontSize: "0.78rem", fontWeight: 500, color: BEIGE, letterSpacing: "0.06em" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BEIGE} strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <GenericEditableText sectionId={sectionId} field="yearEstLabel" value={"Od roku "} tag="span" />
+                <GenericEditableText sectionId={sectionId} field="yearEst" value={yearEst} tag="span" style={{ fontWeight: 600, color: DARK }} />
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Foto vpravo — cover */}
-        <div style={{ position: "relative", overflow: "hidden", minHeight: 400, backgroundColor: "#c8bfb4" }}>
-          <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt={heading} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+        <div style={{ position: "relative", overflow: "hidden", minHeight: 400, backgroundColor: "#c8bfb4" }} className="o02-about-photo">
+          <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt={title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
             <img
               src={bgImage}
-              alt={heading}
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+              alt={title}
+              loading="lazy"
+              className="o02-about-img"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transition: "transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)" }}
             />
           </GenericEditableImage>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .o02-about-grid { grid-template-columns: 1fr !important; }
-          .o02-about-grid > div:last-child { min-height: 320px !important; aspect-ratio: 4/3; }
-        }
-      `}</style>
     </section>
   );
 }
 
 /* ─── AboutLawyer01 ─────────────────────────────────────────── */
-function AboutLawyer01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function AboutLawyer01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const NAVY    = "#141760";
   const CRIMSON = "#a70336";
   const HEADING = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
   const BODY    = "'Open Sans','Helvetica Neue',Arial,sans-serif";
 
-  const title    = String(content.title    ?? "Mezinárodní dosah");
-  const subtitle = String(content.subtitle ?? "Právní a daňové poradenství bez hranic");
+  const eyebrowRaw  = content.eyebrow;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "O kanceláři" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Mezinárodní dosah" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Právní a daňové poradenství bez hranic" : String(subtitleRaw);
   const lead     = String(content.lead     ?? "");
   const body     = String(content.body     ?? "");
   const ctaText  = String(content.ctaText  ?? "Více o kanceláři");
   const ctaHref  = String(content.ctaHref  ?? "/o-nas");
   const imageUrl = String(content.imageUrl ?? "");
+  const badgeValue = String(content.badgeValue ?? "110+");
+  const badgeLabel = String(content.badgeLabel ?? "zemí světa");
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const photo = imageUrl || "https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?w=900&h=680&fit=crop&fm=webp&q=80";
+  const photo = imageUrl || "/templates/lawyer-01/about-world.webp";
 
   return (
     <section
       id="o-nas"
+      data-template="lawyer-01"
       data-variant="lawyer-01-about"
-      style={{ backgroundColor: "#fff", padding: "88px 0 96px" }}
+      style={{ backgroundColor: "#fff", padding: "clamp(72px,9vw,110px) 0", opacity: 1 }}
     >
       <style>{`
+        @keyframes l01abUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes l01abImg{from{opacity:0;transform:scale(1.06);}to{opacity:1;transform:scale(1);}}
+        .l01ab-rise{opacity:0;animation:l01abUp .8s cubic-bezier(.2,.7,.2,1) both;}
+        .l01ab-imgwrap{position:relative;overflow:hidden;box-shadow:0 20px 60px rgba(20,23,96,.22);}
+        .l01ab-imgwrap img{transition:transform .9s cubic-bezier(.2,0,.2,1);}
+        .l01ab-imgwrap:hover img{transform:scale(1.05);}
+        .l01ab-cta{display:inline-flex;align-items:center;gap:9px;background:${NAVY};color:#fff;font-family:${BODY};font-size:.92rem;font-weight:600;padding:15px 30px;text-decoration:none;letter-spacing:.03em;position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .26s ease;box-shadow:0 8px 22px rgba(20,23,96,.24);}
+        .l01ab-cta::before{content:"";position:absolute;inset:0;background:${CRIMSON};transform:translateX(-101%);transition:transform .36s cubic-bezier(.4,0,.2,1);z-index:0;}
+        .l01ab-cta > *{position:relative;z-index:1;}
+        .l01ab-cta:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(167,3,54,.32);}
+        .l01ab-cta:hover::before{transform:translateX(0);}
+        .l01ab-cta svg{transition:transform .3s ease;}
+        .l01ab-cta:hover svg{transform:translateX(4px);}
         @media (max-width: 900px) {
           .l01-about-grid { grid-template-columns: 1fr !important; }
-          .l01-about-img  { aspect-ratio: 16/9 !important; min-height: 240px; }
+          .l01ab-imgwrap  { aspect-ratio: 16/10 !important; }
         }
       `}</style>
 
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px" }}>
         <div
           className="l01-about-grid"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,6vw,96px)", alignItems: "center" }}
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,6vw,88px)", alignItems: "center" }}
         >
           {/* TEXT */}
           <div>
-            {/* crimson accent line */}
-            <div style={{ width: 36, height: 3, backgroundColor: CRIMSON, marginBottom: 24 }} />
+            {showHeader && (
+              <>
+                {eyebrow.trim() && (
+                  <div className="l01ab-rise" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+                    <span style={{ display: "block", width: 30, height: 2, background: CRIMSON }} />
+                    <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                      style={{ fontFamily: BODY, fontWeight: 700, fontSize: "0.78rem", letterSpacing: "0.2em", textTransform: "uppercase", color: CRIMSON }} />
+                  </div>
+                )}
+                {title.trim() && (
+                  <h2 className="l01ab-rise" style={{ fontFamily: HEADING, fontSize: "clamp(1.8rem,3.2vw,2.7rem)", fontWeight: 700, color: NAVY, margin: "0 0 12px", lineHeight: 1.16, letterSpacing: "-0.01em", animationDelay: ".08s" }}>
+                    <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                  </h2>
+                )}
+                {subtitle.trim() && (
+                  <p className="l01ab-rise" style={{ fontFamily: HEADING, fontSize: "clamp(1rem,1.4vw,1.22rem)", fontWeight: 500, color: CRIMSON, margin: "0 0 28px", lineHeight: 1.4, animationDelay: ".14s" }}>
+                    <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+                  </p>
+                )}
+              </>
+            )}
 
-            <h2 style={{ fontFamily: HEADING, fontSize: "clamp(1.75rem,3.2vw,2.6rem)", fontWeight: 700, color: NAVY, margin: "0 0 10px", lineHeight: 1.18, letterSpacing: "-0.01em" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+            {lead.trim() && (
+              <p className="l01ab-rise" style={{ fontFamily: BODY, fontSize: "clamp(0.95rem,1.1vw,1.05rem)", color: "#374151", lineHeight: 1.78, margin: "0 0 18px", animationDelay: ".2s" }}>
+                <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+              </p>
+            )}
 
-            <p style={{ fontFamily: HEADING, fontSize: "clamp(1rem,1.4vw,1.2rem)", fontWeight: 400, color: CRIMSON, margin: "0 0 28px", lineHeight: 1.4 }}>
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-
-            <p style={{ fontFamily: BODY, fontSize: "clamp(0.9rem,1.1vw,1rem)", color: "#374151", lineHeight: 1.75, margin: "0 0 18px" }}>
-              <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-            </p>
-
-            {body && (
-              <p style={{ fontFamily: BODY, fontSize: "clamp(0.9rem,1.1vw,1rem)", color: "#374151", lineHeight: 1.75, margin: "0 0 36px" }}>
+            {body.trim() && (
+              <p className="l01ab-rise" style={{ fontFamily: BODY, fontSize: "clamp(0.95rem,1.1vw,1.05rem)", color: "#374151", lineHeight: 1.78, margin: "0 0 34px", animationDelay: ".26s" }}>
                 <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
               </p>
             )}
 
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                backgroundColor: NAVY, color: "#fff",
-                fontFamily: BODY, fontSize: "0.95rem", fontWeight: 600,
-                padding: "13px 28px", borderRadius: 4, textDecoration: "none",
-                letterSpacing: "0.03em", transition: "background 0.18s, transform 0.15s",
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = CRIMSON; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = NAVY; }}
-            >
+            <a href={resolve(ctaHref)} data-btn="primary" className="l01ab-cta l01ab-rise" style={{ animationDelay: ".32s" }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
           </div>
 
           {/* IMAGE */}
-          <div
-            className="l01-about-img"
-            style={{ position: "relative", aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", boxShadow: "0 12px 48px rgba(20,23,96,0.14)" }}
-          >
-            <Image
-              src={photo}
-              alt={title}
-              fill
-              sizes="(max-width:900px) 100vw, 50vw"
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              unoptimized={shouldSkipNextImageOptimization(photo)}
-            />
-            {/* subtle crimson corner accent */}
-            <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", backgroundColor: CRIMSON, opacity: 0.85 }} />
+          <div className="l01ab-rise" style={{ position: "relative", animationDelay: ".16s" }}>
+            <div className="l01ab-imgwrap" style={{ position: "relative", aspectRatio: "4/3" }}>
+              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={photo} alt={title} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+                <Image
+                  src={photo}
+                  alt={title}
+                  fill
+                  sizes="(max-width:900px) 100vw, 50vw"
+                  style={{ objectFit: "cover", objectPosition: "center", animation: "l01abImg 1s cubic-bezier(.2,0,.2,1) both" }}
+                  unoptimized={shouldSkipNextImageOptimization(photo)}
+                />
+              </GenericEditableImage>
+              {/* crimson left rail */}
+              <div style={{ position: "absolute", top: 0, left: 0, width: 4, height: "100%", backgroundColor: CRIMSON }} />
+            </div>
+            {/* Floating badge */}
+            <div style={{ position: "absolute", right: "clamp(-8px,-1vw,-20px)", bottom: "clamp(-14px,-2vw,-26px)", background: NAVY, color: "#fff", padding: "18px 24px", boxShadow: "0 16px 40px rgba(20,23,96,.32)", display: "flex", flexDirection: "column", alignItems: "flex-start", borderLeft: `3px solid ${CRIMSON}` }}>
+              <span style={{ fontFamily: HEADING, fontWeight: 800, fontSize: "clamp(1.6rem,2.4vw,2.1rem)", lineHeight: 1 }}>
+                <GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" />
+              </span>
+              <span style={{ fontFamily: BODY, fontWeight: 500, fontSize: "0.72rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.82)", marginTop: 5 }}>
+                <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -8014,33 +7741,40 @@ function AboutLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
   const FONT_B = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
   const FONT_R = "'bw_gradualregular', 'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const tagline = (c.tagline as string) ?? "O kanceláři";
-  const title   = (c.title   as string) ?? "Přes 35 let se podílíme\nna rozvoji české společnosti";
-  const body    = (c.body    as string) ?? "";
-  const ctaText = (c.ctaText as string) ?? "Více o nás";
-  const ctaHref = (c.ctaHref as string) ?? "/o-nas";
-  const image   = (c.image   as string) ?? "/templates/legal-02/about-bg.jpg";
-
-  const href = resolveDemoHref(ctaHref, tenantSlug, isAdmin);
+  const tagline = String(c.tagline ?? "O kanceláři");
+  const title   = String(c.title   ?? "Přes 28 let stojíme\nna straně klientů");
+  const body    = String(c.body    ?? "");
+  const ctaText = String(c.ctaText ?? "Poznejte nás blíže");
+  const ctaHref = String(c.ctaHref ?? "/kontakt");
+  const image   = String(c.image   ?? "/templates/legal-02/about-bg.webp");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const href = resolveNavHref(ctaHref, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section data-variant="legal-02-about" style={{ backgroundColor: "#fff", overflow: "hidden" }}>
+    <section id="o-nas" data-template="legal-02" data-variant="legal-02-about" style={{ backgroundColor: "#fff", overflow: "hidden" }}>
       <style>{`
         @font-face { font-family:'bw_gradualbold';   src:url('/templates/legal-02/bwgradual-bold-webfont.woff2')    format('woff2'); font-display:swap; }
         @font-face { font-family:'bw_gradualregular'; src:url('/templates/legal-02/bwgradual-regular-webfont.woff2') format('woff2'); font-display:swap; }
         .l02a-cta {
           display: inline-flex; align-items: center; gap: 10px;
-          border: 2px solid #143171; border-radius: 30px;
-          color: #143171; padding: 14px 40px;
+          border: 2px solid #143171; border-radius: 40px;
+          color: #143171; padding: 15px 42px;
           font-family: 'bw_gradualbold', 'Montserrat', sans-serif; font-size: 17px;
-          text-decoration: none; transition: background .2s, color .2s;
+          text-decoration: none; transition: background .3s, color .3s, transform .3s, box-shadow .3s;
         }
-        .l02a-cta:hover { background: #143171; color: #fff; }
+        .l02a-cta:hover { background: #143171; color: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(20,49,113,0.22); }
+        .l02a-cta svg { transition: transform .3s ease; }
+        .l02a-cta:hover svg { transform: translateX(5px); }
+        .l02a-img > div, .l02a-img > span { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; }
+        .l02a-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .9s cubic-bezier(.2,.7,.2,1), filter .5s ease; }
+        .l02a-img:hover img { transform: scale(1.05); filter: brightness(1.03); }
+        .l02a-tag { display:inline-flex; align-items:center; gap:14px; }
+        .l02a-tag::before { content:''; width:40px; height:2px; background:#EB5C2E; display:inline-block; }
         @media (max-width: 900px) {
           .l02a-row { flex-direction: column !important; }
           .l02a-txt { width: 100% !important; margin-right: 0 !important; }
-          .l02a-img { width: 100% !important; min-height: 300px !important; }
-          .l02a-article { margin-right: 0 !important; padding: 60px 40px !important; }
+          .l02a-img { width: 100% !important; min-height: 320px !important; }
+          .l02a-article { margin-right: 0 !important; padding: 60px 32px !important; }
         }
       `}</style>
 
@@ -8060,38 +7794,28 @@ function AboutLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              position: "relative",
+              zIndex: 1,
             }}
           >
             {/* Tagline */}
-            <p style={{
-              fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.14em",
-              textTransform: "uppercase", color: ORANGE, margin: "0 0 28px",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p" className="l02a-tag"
+              style={{ fontFamily: FONT_B, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: ORANGE, margin: "0 0 26px" }} />
 
             {/* H2 */}
-            <h2 style={{
-              fontFamily: FONT_B, fontSize: 48, lineHeight: "56px",
-              color: NAVY, margin: "0 0 24px", whiteSpace: "pre-line",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+              style={{ fontFamily: FONT_B, fontSize: "clamp(32px,3.6vw,48px)", lineHeight: 1.12, color: NAVY, margin: "0 0 24px", whiteSpace: "pre-line", letterSpacing: "-0.01em" }} />
 
             {/* Body */}
             {body && (
-              <p style={{
-                fontFamily: FONT_R, fontSize: 18, lineHeight: 1.7,
-                color: "#4b5563", margin: "0 0 44px",
-              }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p"
+                style={{ fontFamily: FONT_R, fontSize: 18, lineHeight: 1.7, color: "#4b5563", margin: "0 0 44px" }} />
             )}
 
             {/* CTA */}
             <a href={href} className="l02a-cta">
-              {ctaText}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
@@ -8099,7 +7823,7 @@ function AboutLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         </div>
 
         {/* Right: image col */}
-        <div className="l02a-img" style={{ width: "50%", position: "relative", minHeight: 500 }}>
+        <div className="l02a-img" style={{ width: "50%", position: "relative", minHeight: 520, overflow: "hidden" }}>
           <GenericEditableImage
             sectionId={sectionId}
             field="image"
@@ -8133,39 +7857,57 @@ function AboutStavba01({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
   interface Step { number: string; title: string; desc: string; }
   interface Stat { value: string; label: string; }
 
-  const tagline = String(content.tagline ?? "Náš model spolupráce");
-  const title   = String(content.title   ?? "O vaši zakázku se\nstaráme 3 odborníci");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Náš model spolupráce" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "O vaši zakázku se\nstaráme 3 odborníci" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const body    = String(content.body    ?? "");
   const ctaText = String(content.ctaText ?? "Proč s námi?");
   const ctaHref = String(content.ctaHref ?? "/o-nas");
-  const image   = String(content.image   ?? "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&fm=webp&q=85");
+  const image   = String(content.image   ?? "/templates/stavba-01/about.webp");
   const steps   = (content.steps as Step[]) ?? [];
   const stats   = (content.stats as Stat[]) ?? [];
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cols = Array.from(grid.querySelectorAll<HTMLElement>(".s01-about-col"));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { (e.target as HTMLElement).classList.add("s01-about-vis"); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    cols.forEach((c) => obs.observe(c));
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <section id={String(content.id ?? "o-nas")} style={{ backgroundColor: BG, fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
+      <div ref={gridRef} style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
         <div className="stavba-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
 
           {/* Left — photo + stats */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+          <div className="s01-about-col" style={{ display: "flex", flexDirection: "column", gap: 28 }}>
             {/* Photo */}
-            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", aspectRatio: "4/3" }}>
-              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-                <Image src={image} alt={title} fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
+            <div className="s01-about-photo" style={{ position: "relative", borderRadius: 16, overflow: "hidden", aspectRatio: "4/3" }}>
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+                <Image src={image} alt={title} fill className="object-cover s01-about-img" sizes="(max-width:768px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
               </GenericEditableImage>
               {/* Orange accent corner */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, backgroundColor: ORANGE }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, backgroundColor: ORANGE, zIndex: 1 }} />
             </div>
 
             {/* Stats row */}
             {stats.length > 0 && (
               <div style={{ display: "grid", gridTemplateColumns: `repeat(${stats.length}, 1fr)`, gap: 1, backgroundColor: "#e8e8e8", borderRadius: 12, overflow: "hidden" }}>
                 {stats.map((s, i) => (
-                  <div key={i} style={{ backgroundColor: BG, padding: "20px 16px", textAlign: "center" }}>
-                    <div style={{ color: ORANGE, fontSize: "clamp(22px,3vw,32px)", fontWeight: 800, lineHeight: 1, marginBottom: 4, letterSpacing: "-0.02em" }}>
+                  <div key={i} className="s01-about-stat" style={{ backgroundColor: BG, padding: "22px 16px", textAlign: "center" }}>
+                    <div style={{ color: ORANGE, fontSize: "clamp(22px,3vw,32px)", fontWeight: 800, lineHeight: 1, marginBottom: 5, letterSpacing: "-0.02em" }}>
                       <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
                     </div>
                     <div style={{ color: GRAY, fontSize: "0.78rem", fontWeight: 500, lineHeight: 1.3 }}>
@@ -8178,16 +7920,22 @@ function AboutStavba01({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
           </div>
 
           {/* Right — text + steps + CTA */}
-          <div>
+          <div className="s01-about-col s01-about-col-2">
             {/* Tagline */}
-            <p style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
+            {showHeader && tagline.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ display: "block", width: 30, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                  style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", margin: 0 }} />
+              </div>
+            )}
 
             {/* Title */}
-            <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 20px", whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+            {showHeader && title.trim() && (
+              <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 20px", whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
 
             {/* Body */}
             {body && (
@@ -8200,17 +7948,17 @@ function AboutStavba01({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
             {steps.length > 0 && (
               <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 36 }}>
                 {steps.map((step, i) => (
-                  <div key={i} style={{ display: "flex", gap: 20, paddingBottom: i < steps.length - 1 ? 28 : 0, position: "relative" }}>
+                  <div key={i} className="s01-about-step" style={{ display: "flex", gap: 20, paddingBottom: i < steps.length - 1 ? 28 : 0, position: "relative" }}>
                     {/* Line */}
                     {i < steps.length - 1 && (
                       <div style={{ position: "absolute", left: 19, top: 40, bottom: 0, width: 2, backgroundColor: "#f0f0f0" }} />
                     )}
                     {/* Number circle */}
-                    <div style={{ flexShrink: 0, width: 40, height: 40, borderRadius: "50%", backgroundColor: ORANGE, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.02em", zIndex: 1 }}>
+                    <div className="s01-about-step-num" style={{ flexShrink: 0, width: 40, height: 40, borderRadius: "50%", backgroundColor: ORANGE, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.02em", zIndex: 1 }}>
                       <GenericEditableText sectionId={sectionId} field={`steps.${i}.number`} value={step.number} tag="span" />
                     </div>
                     <div style={{ paddingTop: 8 }}>
-                      <div style={{ color: DARK, fontSize: "0.95rem", fontWeight: 700, marginBottom: 4 }}>
+                      <div className="s01-about-step-title" style={{ color: DARK, fontSize: "0.95rem", fontWeight: 700, marginBottom: 4 }}>
                         <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title} tag="span" />
                       </div>
                       <div style={{ color: GRAY, fontSize: "0.875rem", lineHeight: 1.6 }}>
@@ -9555,8 +9303,9 @@ function AboutEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
 }
 
 // ── vet-01-about ──────────────────────────────────────────────────────────────
-// Surface #DCE9EE bg, 2-col: text+features vlevo / foto vpravo
-// Forum H2, Roboto Condensed body, teal #286C7E checklisty + CTA
+// Luxe povýšení: Surface #DCE9EE bg, 2-col text+features / vrstvená foto s rámem
+// + plovoucí experience badge, teal fill checklisty, pill CTA, dekorativní tlapka
+// Conditional header (showHeader) pro reuse na /o-nas
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutVet01({
   content,
@@ -9569,60 +9318,94 @@ function AboutVet01({
   tenantSlug?: string;
   isAdmin?: boolean;
 }) {
-  const kicker   = String(content.kicker   ?? "O nás");
-  const heading  = String(content.heading  ?? "Naše klinika");
+  const kickerRaw  = content.kicker;
+  const headingRaw = content.heading;
+  const kicker   = kickerRaw  === undefined ? "O nás" : String(kickerRaw);
+  const heading  = headingRaw === undefined ? "O klinice Zdravá tlapka" : String(headingRaw);
+  const showHeader = !!(kicker.trim() || heading.trim());
   const body     = String(content.body     ?? "");
-  const imageUrl = String(content.imageUrl ?? "/clones/veterinafenix/img/dog.jpg");
-  const ctaText  = String(content.ctaText  ?? "Více o nás");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
+  const imageUrl = String(content.imageUrl ?? "/templates/vet-01/about-clinic.webp");
+  const ctaText  = String(content.ctaText  ?? "Objednat se online");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
+  const badgeNumber = String(content.badgeNumber ?? "2011");
+  const badgeLabel  = String(content.badgeLabel  ?? "Pečujeme o vaše mazlíčky od roku");
   const features = (content.features as string[]) ?? [];
 
-  const TEAL   = "#286C7E";
+  const TEAL   = "#0d7486";
+  const PRIMARY= "#286C7E";
   const TEAL_L = "#42aaba";
   const SURF   = "#DCE9EE";
   const DARK   = "#1a2c33";
   const FONT_H = "'Forum', 'Georgia', serif";
   const FONT_B = "'Roboto Condensed', 'Roboto', sans-serif";
 
-  const resolve = (href: string) =>
-    tenantSlug && !isAdmin ? `/demo/${tenantSlug}${href}` : href;
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => {
+    if (!href) return href;
+    if (href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) return href;
+    if (!tenantSlug || !href.startsWith("/")) return href;
+    if (siteMode === "onepage" && href !== "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}/#${href.replace(/^\//, "")}`;
+    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href === "/" ? "" : href}`;
+  };
 
   return (
     <section
-      id={String(sectionId)}
-      data-variant="vet-01-about"
-      style={{ background: SURF, padding: "clamp(56px,7vw,96px) clamp(20px,5vw,40px)" }}
+      id="o-nas"
+      data-template="vet-01-about"
+      style={{ background: `linear-gradient(180deg,#eaf3f5,${SURF})`, padding: "clamp(64px,8vw,110px) clamp(20px,5vw,40px)", position: "relative", overflow: "hidden" }}
     >
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
       <style>{`
-        .v01ab-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px,6vw,80px); max-width: 1140px; margin: 0 auto; align-items: center; }
-        .v01ab-features { list-style: none; margin: 24px 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-        .v01ab-feature  { display: flex; align-items: flex-start; gap: 10px; font-family: ${FONT_B}; font-size: 15px; color: ${DARK}; line-height: 1.4; }
-        .v01ab-check    { width: 20px; height: 20px; border-radius: 50%; background: ${TEAL}; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-        .v01ab-img-wrap { position: relative; width: 100%; border-radius: 4px; overflow: hidden; line-height: 0; }
-        .v01ab-img-wrap img { display: block; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
-        .v01ab-cta {
-          display: inline-block; padding: 12px 32px; background: ${TEAL}; color: #fff;
-          font-family: ${FONT_B}; font-size: 15px; font-weight: 700; letter-spacing: 0.04em;
-          text-decoration: none; border-radius: 3px; margin-top: 8px; transition: background 0.2s;
-        }
-        .v01ab-cta:hover { background: ${TEAL_L}; }
+        .v01ab-inner { position:relative; z-index:2; display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(40px,6vw,84px); max-width: 1160px; margin: 0 auto; align-items: center; }
+        .v01ab-kicker { display:inline-flex; align-items:center; gap:9px; font-family:${FONT_B}; font-weight:700; font-size:13px; letter-spacing:0.2em; text-transform:uppercase; color:${TEAL}; margin:0 0 14px; }
+        .v01ab-kicker svg { color:${TEAL_L}; }
+        .v01ab-h2 { font-family:${FONT_H}; font-weight:400; font-size:clamp(2rem,3.4vw,2.9rem); color:${DARK}; margin:0 0 20px; line-height:1.15; }
+        .v01ab-body { font-family:${FONT_B}; font-size:16.5px; color:#3a5560; line-height:1.8; margin:0 0 8px; }
+        .v01ab-features { list-style:none; margin:26px 0 30px; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:12px 20px; }
+        @media(max-width:520px){ .v01ab-features{ grid-template-columns:1fr; } }
+        .v01ab-feature { display:flex; align-items:flex-start; gap:11px; font-family:${FONT_B}; font-size:15px; color:${DARK}; line-height:1.45; transition:transform 0.25s ease; }
+        .v01ab-feature:hover { transform:translateX(3px); }
+        .v01ab-check { width:23px; height:23px; border-radius:50%; background:#fff; border:2px solid ${TEAL_L}; color:${TEAL}; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; transition:background 0.28s, border-color 0.28s, color 0.28s, transform 0.28s; }
+        .v01ab-feature:hover .v01ab-check { background:${TEAL}; border-color:${TEAL}; color:#fff; transform:scale(1.12) rotate(-6deg); }
+        .v01ab-cta { display:inline-flex; align-items:center; gap:10px; padding:15px 32px; background:linear-gradient(135deg,${TEAL},${PRIMARY}); color:#fff; font-family:${FONT_B}; font-size:16.5px; font-weight:600; letter-spacing:0.01em; text-decoration:none; border-radius:50px; box-shadow:0 10px 26px rgba(13,116,134,0.26); transition:transform 0.28s cubic-bezier(.4,0,.2,1), box-shadow 0.28s; }
+        .v01ab-cta svg { transition:transform 0.28s ease; }
+        .v01ab-cta:hover { transform:translateY(-3px); box-shadow:0 16px 36px rgba(13,116,134,0.4); }
+        .v01ab-cta:hover svg { transform:translateX(4px); }
+        /* Image */
+        .v01ab-media { position:relative; }
+        .v01ab-img-wrap { position:relative; width:100%; border-radius:20px; overflow:hidden; line-height:0; box-shadow:0 24px 60px rgba(13,116,134,0.22); }
+        .v01ab-img-wrap img { display:block; width:100%; aspect-ratio:4/3; object-fit:cover; transition:transform 0.9s cubic-bezier(.2,.7,.3,1); }
+        .v01ab-media:hover .v01ab-img-wrap img { transform:scale(1.06); }
+        .v01ab-frame { position:absolute; inset:-14px -14px auto auto; width:64%; height:64%; border:2px solid ${TEAL_L}; border-radius:20px; z-index:-1; opacity:0.55; }
+        .v01ab-badge { position:absolute; left:-22px; bottom:-22px; background:linear-gradient(140deg,${TEAL},${PRIMARY}); color:#fff; border-radius:18px; padding:18px 24px; box-shadow:0 16px 40px rgba(13,116,134,0.34); max-width:220px; }
+        @media(max-width:520px){ .v01ab-badge{ left:0; } }
+        .v01ab-badge-num { font-family:${FONT_H}; font-size:2.4rem; line-height:1; margin:0 0 4px; }
+        .v01ab-badge-lbl { font-family:${FONT_B}; font-size:12.5px; line-height:1.35; opacity:0.92; margin:0; }
+        .v01ab-paw { position:absolute; bottom:-30px; right:2%; width:220px; height:220px; fill:${TEAL}; opacity:0.05; z-index:1; transform:rotate(-18deg); pointer-events:none; }
         @media (max-width: 820px) {
-          .v01ab-inner { grid-template-columns: 1fr; gap: 40px; }
-          .v01ab-img-wrap { order: -1; }
+          .v01ab-inner { grid-template-columns: 1fr; gap: 52px; }
+          .v01ab-media { order:-1; }
         }
       `}</style>
+
+      <svg className="v01ab-paw" viewBox="0 0 60 60" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
 
       <div className="v01ab-inner">
         {/* Text column */}
         <div>
-          <p style={{ fontFamily: FONT_B, fontWeight: 700, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: TEAL_L, margin: "0 0 10px" }}>
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: FONT_H, fontWeight: 400, fontSize: "clamp(1.9rem,3vw,2.6rem)", color: DARK, margin: "0 0 20px", lineHeight: 1.2 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
+          {showHeader && (
+            <>
+              <p className="v01ab-kicker">
+                <svg width="15" height="15" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
+                <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+              </p>
+              <h2 className="v01ab-h2">
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+            </>
+          )}
           {body && (
-            <p style={{ fontFamily: FONT_B, fontSize: 16, color: "#3a5560", lineHeight: 1.75, margin: "0 0 4px" }}>
+            <p className="v01ab-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
@@ -9632,7 +9415,7 @@ function AboutVet01({
               {features.map((feat, i) => (
                 <li key={i} className="v01ab-feature">
                   <span className="v01ab-check" aria-hidden="true">
-                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </span>
                   <GenericEditableText sectionId={sectionId} field={`features.${i}`} value={feat} tag="span" />
                 </li>
@@ -9640,16 +9423,24 @@ function AboutVet01({
             </ul>
           )}
 
-          <a href={resolve(ctaHref)} data-btn="primary" className="v01ab-cta">
+          <a href={resolve(ctaHref)} className="v01ab-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
 
         {/* Image column */}
-        <div className="v01ab-img-wrap">
-          <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={heading}>
-            <img src={imageUrl} alt={heading} loading="lazy" />
-          </GenericEditableImage>
+        <div className="v01ab-media">
+          <span className="v01ab-frame" aria-hidden="true" />
+          <div className="v01ab-img-wrap">
+            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={heading}>
+              <img src={imageUrl} alt={heading} loading="lazy" />
+            </GenericEditableImage>
+          </div>
+          <div className="v01ab-badge">
+            <p className="v01ab-badge-num"><GenericEditableText sectionId={sectionId} field="badgeNumber" value={badgeNumber} tag="span" /></p>
+            <p className="v01ab-badge-lbl"><GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" /></p>
+          </div>
         </div>
       </div>
     </section>
@@ -9669,49 +9460,29 @@ function AboutGrooming01({ content, sectionId, tenantSlug: _t, isAdmin: _a }: { 
   type ImgItem = { url?: string; alt?: string };
   const images = ((content.images as ImgItem[]) ?? []).filter(i => i.url);
 
-  const heading   = String(content.heading   ?? "O nás");
-  const kicker    = String(content.kicker    ?? "Kdo jsme");
-  const body      = String(content.body      ?? "");
-  const bodyExtra = String(content.bodyExtra ?? "");
-  const badge     = String(content.badge     ?? "");
-  const bgImage   = String(content.bgImage   ?? "/clones/cutedogs/img/about_bg.jpg");
+  const eyebrowRaw = (content as Record<string, unknown>).kicker;
+  const titleRaw   = (content as Record<string, unknown>).heading;
+  const kicker    = eyebrowRaw === undefined ? "Kdo jsme" : String(eyebrowRaw);
+  const heading   = titleRaw   === undefined ? "O nás"    : String(titleRaw);
+  const showHeader = !!(kicker.trim() || heading.trim());
+  const body      = String(content.body      ?? "Jsme rodinné grooming studio, kde je každý mazlíček vítán jako člen rodiny. Věnujeme mu čas, klid a péči, kterou si zaslouží.");
+  const bodyExtra = String(content.bodyExtra ?? "Pracujeme výhradně s přírodní kosmetikou bez sulfátů a každou návštěvu přizpůsobíme povaze i srsti vašeho pejska či kočky.");
+  const badge     = String(content.badge     ?? "Certifikovaní groomeři · 10 let praxe");
+  const addressLabel = String(content.addressLabel ?? "Naše studio");
+  const bgImage   = String(content.bgImage   ?? "/templates/grooming-01/about-main.webp");
   const addrObj   = (content.address as Record<string, string>) ?? {};
   const street    = String(addrObj.street ?? "");
   const city      = String(addrObj.city   ?? "");
 
+  type Img = { url?: string; alt?: string };
+  const defaultThumbs: Img[] = [
+    { url: "/templates/grooming-01/about-1.webp", alt: "Stylový střih malého plemene" },
+    { url: "/templates/grooming-01/about-2.webp", alt: "Šetrná péče i o kočky" },
+  ];
+  const thumbs = images.length > 0 ? images : defaultThumbs;
+
   return (
     <section id="salon" data-template="grooming-01-about" style={{ fontFamily: FONT }}>
-      <style>{`
-        .gr01ab-wrap{display:flex;min-height:640px;}
-        /* Left — dark photo column */
-        .gr01ab-left{flex:0 0 38%;position:relative;overflow:hidden;background:${DARK};}
-        .gr01ab-left-bg{position:absolute;inset:0;background-size:cover;background-position:center top;}
-        .gr01ab-left-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(16,20,23,0.45) 0%,rgba(16,20,23,0.75) 60%,rgba(16,20,23,0.95) 100%);}
-        .gr01ab-left-content{position:relative;z-index:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 48px;}
-        .gr01ab-left h3{color:rgba(255,255,255,0.55);font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin:0 0 10px;}
-        .gr01ab-left p{color:#fff;font-size:18px;font-weight:500;line-height:1.5;margin:0;}
-        /* Right — white content column */
-        .gr01ab-right{flex:1;background:#fff;display:flex;flex-direction:column;justify-content:center;padding:80px 72px 64px;}
-        .gr01ab-kicker{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${GOLD};margin:0 0 14px;}
-        .gr01ab-h2{font-size:clamp(32px,3.5vw,50px);font-weight:700;color:${DARK};margin:0 0 28px;line-height:1.05;}
-        .gr01ab-lead{font-size:18px;font-weight:500;color:${DARK};line-height:1.65;margin:0 0 20px;}
-        .gr01ab-body{font-size:16px;color:#555;line-height:1.75;margin:0 0 0;}
-        .gr01ab-badge{display:flex;align-items:center;gap:12px;border-top:1px solid #eee;padding-top:24px;margin-top:32px;color:${DARK};font-weight:600;font-size:15px;}
-        .gr01ab-badge-icon{color:${GOLD};font-size:20px;flex-shrink:0;}
-        /* Photo thumbnails row */
-        .gr01ab-thumbs{display:flex;gap:12px;margin-top:36px;}
-        .gr01ab-thumb{flex:1;height:160px;background-size:cover;background-position:center;border-radius:4px;overflow:hidden;position:relative;}
-        .gr01ab-thumb-label{position:absolute;bottom:0;left:0;right:0;padding:8px 12px;background:linear-gradient(transparent,rgba(0,0,0,0.55));color:#fff;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;}
-        @media(max-width:900px){
-          .gr01ab-wrap{flex-direction:column;}
-          .gr01ab-left{min-height:320px;flex:none;}
-          .gr01ab-left-content{padding:40px 32px;}
-          .gr01ab-right{padding:56px 32px 48px;}
-          .gr01ab-thumbs{gap:8px;}
-          .gr01ab-thumb{height:120px;}
-        }
-      `}</style>
-
       <div className="gr01ab-wrap">
         {/* Left — foto + adresa */}
         <div className="gr01ab-left">
@@ -9723,8 +9494,9 @@ function AboutGrooming01({ content, sectionId, tenantSlug: _t, isAdmin: _a }: { 
           >
             <div className="gr01ab-left-bg" style={{ backgroundImage: `url(${bgImage})` }} aria-hidden="true" />
           </GenericEditableImage>
+          <span className="gr01ab-left-rule" aria-hidden="true" />
           <div className="gr01ab-left-content">
-            <h3>Pobočka</h3>
+            <h3><GenericEditableText sectionId={sectionId} field="addressLabel" value={addressLabel} tag="span" /></h3>
             <p>
               <GenericEditableText sectionId={sectionId} field="address.street" value={street} tag="span" />
               {street && city && <><br /></>}
@@ -9735,12 +9507,16 @@ function AboutGrooming01({ content, sectionId, tenantSlug: _t, isAdmin: _a }: { 
 
         {/* Right — text */}
         <div className="gr01ab-right">
-          <p className="gr01ab-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="gr01ab-h2">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
+          {showHeader && (
+            <>
+              <p className="gr01ab-kicker">
+                <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+              </p>
+              <h2 className="gr01ab-h2">
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+            </>
+          )}
           <p className="gr01ab-lead">
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
@@ -9751,31 +9527,33 @@ function AboutGrooming01({ content, sectionId, tenantSlug: _t, isAdmin: _a }: { 
           )}
           {badge && (
             <div className="gr01ab-badge">
-              <span className="gr01ab-badge-icon">✂</span>
+              <span className="gr01ab-badge-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor"><ellipse cx="16" cy="21" rx="8.5" ry="6.5"/><ellipse cx="8.5" cy="14" rx="3.2" ry="4.2"/><ellipse cx="23.5" cy="14" rx="3.2" ry="4.2"/><ellipse cx="12.5" cy="11" rx="2.3" ry="3"/><ellipse cx="19.5" cy="11" rx="2.3" ry="3"/></svg>
+              </span>
               <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
             </div>
           )}
-          {images.length > 0 && (
-            <div className="gr01ab-thumbs">
-              {images.map((img, i) => (
-                <GenericEditableImage
-                  key={i}
-                  sectionId={sectionId}
-                  field={`images.${i}.url`}
-                  src={img.url ?? ""}
-                  style={{ flex: 1, height: 160, borderRadius: 4, overflow: "hidden" }}
+          <div className="gr01ab-thumbs">
+            {thumbs.map((img, i) => (
+              <GenericEditableImage
+                key={i}
+                sectionId={sectionId}
+                field={`images.${i}.url`}
+                src={img.url ?? ""}
+                style={{ flex: 1, height: 170, borderRadius: 6, overflow: "hidden" }}
+              >
+                <div
+                  className="gr01ab-thumb"
+                  style={{ backgroundImage: `url(${img.url})` }}
+                  role="img"
+                  aria-label={img.alt ?? ""}
                 >
-                  <div
-                    style={{ width: "100%", height: "100%", backgroundImage: `url(${img.url})`, backgroundSize: "cover", backgroundPosition: "center", position: "relative" }}
-                    role="img"
-                    aria-label={img.alt ?? ""}
-                  >
-                    <div className="gr01ab-thumb-label">0{i + 1} Grooming v akci</div>
-                  </div>
-                </GenericEditableImage>
-              ))}
-            </div>
-          )}
+                  <span className="gr01ab-thumb-brk gr01ab-thumb-brk-tl" aria-hidden="true" />
+                  <span className="gr01ab-thumb-brk gr01ab-thumb-brk-br" aria-hidden="true" />
+                </div>
+              </GenericEditableImage>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -10651,6 +10429,13 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   const ctaText    = String(content.ctaText    ?? "Objevte více");
   const ctaHref    = String(content.ctaHref    ?? "/atelier");
   const imageUrl   = String(content.imageUrl   ?? "");
+  const imageAlt   = String(content.imageAlt   ?? "");
+  // Compact mód pro podstránky — auto výška místo fullscreen 100vh (aby nevznikal
+  // druhý "hero" hned pod slim bannerem). Homepage nechává fullscreen (bez flagu).
+  const compact    = Boolean(content.compact);
+  // Light mód — čistý světlý textový blok bez pozadí (žádné dva image bloky za sebou).
+  const light      = Boolean(content.light);
+  const showImage  = !light && !!imageUrl;
 
   const FONT  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
   const WHITE = "#ffffff";
@@ -10681,6 +10466,12 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       align-items: center;
       justify-content: center;
     }
+    /* Compact — content blok na podstránkách místo fullscreen hero */
+    .a01ab.a01ab-compact {
+      height: auto;
+      min-height: 0;
+      padding: clamp(88px, 12vh, 132px) 0;
+    }
     .a01ab-bg {
       position: absolute;
       inset: 0;
@@ -10689,6 +10480,15 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       background-attachment: fixed;
       background-repeat: no-repeat;
     }
+    .a01ab.a01ab-compact .a01ab-bg { background-attachment: scroll; }
+    /* Light — světlý textový blok bez fotky (tmavý text) */
+    .a01ab.a01ab-light { background: #f4f4f4; }
+    .a01ab.a01ab-light .a01ab-eyebrow { color: #888; }
+    .a01ab.a01ab-light .a01ab-heading { color: #111; }
+    .a01ab.a01ab-light .a01ab-rule    { background: rgba(0,0,0,0.45); }
+    .a01ab.a01ab-light .a01ab-body    { color: #444; }
+    .a01ab.a01ab-light .a01ab-cta     { color: #111; border-color: rgba(0,0,0,0.55); }
+    .a01ab.a01ab-light .a01ab-cta:hover { background: rgba(0,0,0,0.05); border-color: #111; }
     /* gradient-bottom: dark at bottom, transparent at top */
     .a01ab-grad {
       position: absolute;
@@ -10796,22 +10596,24 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   return (
     <>
       <style>{styles}</style>
-      <section ref={secRef} className={`a01ab${revealed ? " a01ab-in" : ""}`} data-template="arch-01-about">
-        <GenericEditableImage
-          sectionId={sectionId}
-          field="imageUrl"
-          src={imageUrl}
-          alt={heading}
-          style={{ position: "absolute", inset: 0 }}
-        >
-          <div
-            className="a01ab-bg"
-            style={{ backgroundImage: imageUrl ? `url(${imageUrl})` : undefined }}
-            aria-hidden="true"
-          />
-        </GenericEditableImage>
+      <section ref={secRef} className={`a01ab${compact ? " a01ab-compact" : ""}${light ? " a01ab-light" : ""}${revealed ? " a01ab-in" : ""}`} data-template="arch-01-about">
+        {showImage && (
+          <GenericEditableImage
+            sectionId={sectionId}
+            field="imageUrl"
+            src={imageUrl}
+            alt={imageAlt || heading}
+            style={{ position: "absolute", inset: 0 }}
+          >
+            <div
+              className="a01ab-bg"
+              style={{ backgroundImage: imageUrl ? `url(${imageUrl})` : undefined }}
+              aria-hidden="true"
+            />
+          </GenericEditableImage>
+        )}
 
-        <div className="a01ab-grad" aria-hidden="true" />
+        {showImage && <div className="a01ab-grad" aria-hidden="true" />}
 
         <div className="a01ab-inner">
           {tagline && (
@@ -11024,10 +10826,14 @@ function AboutInstala02({ content, sectionId, tenantSlug, isAdmin }: { content: 
   const FONT_H = "'Montserrat', sans-serif";
   const FONT_B = "'Roboto', sans-serif";
 
-  const kicker     = String(c.kicker     ?? "O nás");
-  const title      = String(c.title      ?? "Instalatér i topenář v jednom");
-  const body       = String(c.body       ?? "Jsme rodinná firma specializující se na komplexní topenářské a instalatérské práce.");
-  const image      = String(c.image      ?? "/clones/vestop/wp-content/uploads/2026/01/Vestop-vodo-topo-1.jpg");
+  const kickerRaw = c.kicker;
+  const titleRaw  = c.title;
+  const bodyRaw   = c.body;
+  const kicker     = kickerRaw === undefined ? "O nás" : String(kickerRaw);
+  const title      = titleRaw  === undefined ? "Instalatér i topenář v jednom" : String(titleRaw);
+  const body       = bodyRaw   === undefined ? "Jsme rodinná firma specializující se na komplexní topenářské a instalatérské práce." : String(bodyRaw);
+  const showHeader = !!(kicker.trim() || title.trim() || body.trim());
+  const image      = String(c.image      ?? "/assets/instala-02/about.webp");
   const phone      = String(c.phone      ?? "+420 704 123 456");
   const phoneLabel = String(c.phoneLabel ?? "Volejte kdykoliv");
   const ctaText    = String(c.ctaText    ?? "Kontakt a poptávka");
@@ -11117,7 +10923,8 @@ function AboutInstala02({ content, sectionId, tenantSlug, isAdmin }: { content: 
 
           {/* ── Left: image column ── */}
           <div className="i2a-imgcol">
-            <div className="i2a-imgwrap">
+            <span className="i2a-frame" aria-hidden />
+            <div className="i2a-imgwrap i2a-img-zoom">
               <GenericEditableImage
                 sectionId={sectionId} field="image" src={image} alt="O nás"
                 className="relative overflow-hidden w-full h-full" style={{ height: "100%", minHeight: 580 }}
@@ -11152,21 +10959,25 @@ function AboutInstala02({ content, sectionId, tenantSlug, isAdmin }: { content: 
 
           {/* ── Right: content column ── */}
           <div>
-            {/* Kicker */}
-            <p className="i2a-kicker">
-              <span className="i2a-kicker-line" />
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </p>
+            {showHeader && (
+              <>
+                {/* Kicker */}
+                <p className="i2a-kicker">
+                  <span className="i2a-kicker-line" />
+                  <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+                </p>
 
-            {/* H2 */}
-            <h2 className="i2a-h2">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+                {/* H2 */}
+                <h2 className="i2a-h2">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
 
-            {/* Body */}
-            <p className="i2a-body">
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
+                {/* Body */}
+                <p className="i2a-body">
+                  <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+                </p>
+              </>
+            )}
 
             {/* Stats box (skip first — shown in badge) */}
             {stats.length > 1 && (
@@ -11455,73 +11266,59 @@ function AboutClean01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 }
 
 // ── klima-01-about ────────────────────────────────────────────────────────────
-// 1:1 pragoclima.cz „Proč my": šedé bg, 2 sloupce
-// Vlevo: eyebrow (červený) + h2 (navy) + body + 2×3 grid featur + CTA
-// Vpravo: foto produktu/realizace
-// ─────────────────────────────────────────────────────────────────────────────
 function AboutKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   type Feature = { title?: string; desc?: string };
 
-  const eyebrow  = String(content.eyebrow  ?? "Proč my");
-  const title    = String(content.title    ?? "Jsme odborníci na návrh řešení i technologie");
-  const body     = String(content.body     ?? "");
-  const image    = String(content.image    ?? "");
-  const ctaText  = String(content.ctaText  ?? "O naší firmě");
-  const ctaHref  = String(content.ctaHref  ?? "/#onas");
+  const eyebrow  = String(content.eyebrow  ?? "O nás");
+  const title    = String(content.title    ?? "Specialisté na klimatizace a tepelná čerpadla od roku 2006");
+  const body     = String(content.body     ?? "Jsme rodinná firma s dlouholetou tradicí v oboru klimatizační techniky. Za více než 18 let jsme vybudovali tým zkušených techniků a navázali partnerství s předními světovými výrobci. Každý projekt řešíme individuálně a s maximální péčí.");
+  const image    = String(content.image    ?? "/assets/klima-01/about-team.webp");
+  const ctaText  = String(content.ctaText  ?? "Více o firmě");
+  const ctaHref  = String(content.ctaHref  ?? "/onas");
   const features = ((content.features as Feature[]) ?? []).slice(0, 6);
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const RED  = "#e30016";
-  const NAVY = "#182545";
-  const FONT = "'Outfit', -apple-system, sans-serif";
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
-
-  /* Checkmark SVG */
-  const Check = () => (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
-      <circle cx="9" cy="9" r="9" fill={RED} />
-      <path d="M5 9l3 3 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); io.disconnect(); } }, { threshold: 0.12 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <>
-    <style>{`
-      @media (max-width: 768px) {
-        .klima-about-row { flex-direction: column !important; gap: 40px !important; }
-        .klima-about-photo { flex: none !important; max-width: 100% !important; width: 100% !important; }
-        .klima-about-features { grid-template-columns: 1fr !important; }
-      }
-    `}</style>
-    <section
-      id="onas"
-      style={{ backgroundColor: "#f7f7f7", padding: "88px 24px", fontFamily: FONT }}
-      data-template="klima-01"
-    >
-      <div className="klima-about-row" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", gap: 72 }}>
-
-        {/* Vlevo: text */}
-        <div style={{ flex: "1 1 0", minWidth: 0 }}>
-          <p style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.12em", color: RED, margin: "0 0 12px" }}>
+    <section ref={ref} className="kl01-about" id="onas" data-template="klima-01">
+      <div className="kl01-about-wrap">
+        <div className="kl01-about-text" style={{
+          opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(-30px)",
+          transition: "opacity 0.7s ease, transform 0.7s cubic-bezier(0.4,0,0.2,1)",
+        }}>
+          <p className="kl01-about-eyebrow">
+            <span className="kl01-about-eline" aria-hidden="true" />
             <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
           </p>
-          <h2 style={{ fontSize: "clamp(1.6rem, 2.4vw, 2.2rem)", fontWeight: 700, color: NAVY, lineHeight: 1.22, margin: "0 0 20px" }}>
+          <h2 className="kl01-about-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <p style={{ fontSize: 15, lineHeight: 1.75, color: "#555", margin: "0 0 36px" }}>
+          <p className="kl01-about-body">
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
 
-          {/* 2×3 feature grid */}
-          <div className="klima-about-features" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px 32px", marginBottom: 40 }}>
+          <div className="kl01-about-features">
             {features.map((f, i) => (
-              <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                <Check />
+              <div key={i} className="kl01-about-feat">
+                <span className="kl01-about-check" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M5 9l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: NAVY, marginBottom: 2 }}>
+                  <div className="kl01-about-feat-title">
                     <GenericEditableText sectionId={sectionId} field={`features.${i}.title`} value={String(f.title ?? "")} tag="span" />
                   </div>
-                  <div style={{ fontSize: 13, color: "#666", lineHeight: 1.5 }}>
+                  <div className="kl01-about-feat-desc">
                     <GenericEditableText sectionId={sectionId} field={`features.${i}.desc`} value={String(f.desc ?? "")} tag="span" />
                   </div>
                 </div>
@@ -11529,40 +11326,30 @@ function AboutKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
             ))}
           </div>
 
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{
-              display: "inline-block",
-              backgroundColor: RED, color: "#fff",
-              textDecoration: "none", fontWeight: 600, fontSize: 15,
-              padding: "13px 30px", borderRadius: 5,
-              transition: "background-color 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b50012")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-          >
+          <a href={resolve(ctaHref)} className="kl01-about-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
           </a>
         </div>
 
-        {/* Vpravo: foto */}
-        <div className="klima-about-photo" style={{ flex: "0 0 440px", maxWidth: 440 }}>
-          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="relative" style={{ borderRadius: 12, overflow: "hidden", display: "block" }}>
+        <div className="kl01-about-photo" style={{
+          opacity: visible ? 1 : 0, transform: visible ? "translateX(0)" : "translateX(30px)",
+          transition: "opacity 0.7s ease 0.15s, transform 0.7s cubic-bezier(0.4,0,0.2,1) 0.15s",
+        }}>
+          <div className="kl01-about-photo-accent" aria-hidden="true" />
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="relative" style={{ borderRadius: 8, overflow: "hidden", display: "block", position: "relative", zIndex: 1 }}>
             <Image
               src={image}
               alt={title}
-              width={440}
-              height={520}
-              style={{ width: "100%", height: "auto", display: "block", borderRadius: 12, objectFit: "cover" }}
+              width={480}
+              height={560}
+              style={{ width: "100%", height: "auto", display: "block", borderRadius: 8, objectFit: "cover" }}
               unoptimized={shouldSkipNextImageOptimization(image)}
             />
           </GenericEditableImage>
         </div>
-
       </div>
     </section>
-    </>
   );
 }
 
@@ -11813,61 +11600,131 @@ function AboutKlempir01({ content, sectionId, tenantSlug, isAdmin }: AboutK01Pro
 }
 
 // ── malir-01-about ────────────────────────────────────────────────────────────
-// 1:1 petrovomalovani.cz description sekce:
-// - Bílé pozadí, padding 100px 30px
-// - Centrovaný blok max-width 770px
-// - Amber tagline Raleway uppercase small
-// - Playfair Display H2 tmavý, 40px, tučný
-// - Amber dekorativní linka pod H2
-// - 2 odstavce body text Raleway
+// VYLEPŠENO (luxe malíř):
+// - 2-col layout: text vlevo + obrázek vpravo (mobile: stacked)
+// - Amber eyebrow s hairlines + Playfair Display H2 + amber rule
+// - Stats row: roky praxe / spokojení zákazníci / realizací
+// - Raleway body text, conditional header
+// - Reveal animace, hover na image (subtle zoom)
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutMalir01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
   const AMBER    = "#E79B0E";
   const DARK     = "#1a1a1a";
-  const MUTED    = "#444444";
-  const PLAYFAIR = "'Playfair Display', 'Times New Roman', serif";
-  const RALEWAY  = "'Raleway', sans-serif";
+  const MUTED    = "#555555";
+  const BG       = "#ffffff";
+  const SURFACE  = "#f8f7f5";
+  const FONT_H   = "'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Raleway', sans-serif";
 
-  const tagline = String(content.tagline ?? "O nás");
-  const title   = String(content.title   ?? "Preciznost od začátku\ndo posledního detailu");
-  const body    = String(content.body    ?? "");
+  const eyebrow  = String(content.eyebrow ?? content.tagline ?? "O nás");
+  const title    = String(content.title ?? "Preciznost od začátku\ndo posledního detailu");
+  const subtitle = String(content.subtitle ?? "");
+  const body     = String(content.body ?? "Věříme, že každý interiér si zaslouží pečlivé provedení. Pracujeme čistě, přesně a vždy dodržíme domluvený termín i cenu. Za více než 20 let praxe jsme vymalovali stovky bytů, kanceláří i rodinných domů.\n\nSpecializujeme se na malování interiérů a lakování dřevěných prvků. Používáme výhradně ověřené materiály předních značek Primalex a Dulux, které zaručují dlouhou životnost a čistý výsledek.");
+  const aboutImage = String(content.aboutImage ?? "/templates/malir-01/about.webp");
+  const stat1Num = String(content.stat1Num ?? "20+");
+  const stat1Label = String(content.stat1Label ?? "let zkušeností");
+  const stat2Num = String(content.stat2Num ?? "850+");
+  const stat2Label = String(content.stat2Label ?? "spokojených klientů");
+  const stat3Num = String(content.stat3Num ?? "2 500+");
+  const stat3Label = String(content.stat3Label ?? "dokončených realizací");
+
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
   const paragraphs = body.split(/\n\n+/).filter(Boolean);
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Raleway:wght@400;500;600&display=swap" />
-      <style>{`        .m01a-section { background: #ffffff; padding: 100px 30px; font-family: ${RALEWAY}; }
-        .m01a-inner { max-width: 770px; margin: 0 auto; text-align: center; }
-        .m01a-tagline { font-family: ${RALEWAY}; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: ${AMBER}; margin-bottom: 16px; }
-        .m01a-title { font-family: ${PLAYFAIR}; font-size: 40px; font-weight: 800; color: ${DARK}; line-height: 1.25; margin: 0 0 20px; white-space: pre-line; }
-        .m01a-divider { width: 56px; height: 3px; background: ${AMBER}; margin: 0 auto 32px; border-radius: 2px; }
-        .m01a-body { font-size: 16px; line-height: 1.85; color: ${MUTED}; margin: 0 0 20px; }
-        .m01a-body:last-child { margin-bottom: 0; }
-        @media (max-width: 600px) { .m01a-section { padding: 70px 20px; } .m01a-title { font-size: 28px; } }
-      `}</style>
+    <section id="o-nas" data-template="malir-01" style={{
+      background: BG, padding: "clamp(60px, 10vw, 110px) 0", fontFamily: FONT_B,
+    }}>
+      <div style={{
+        maxWidth: 1200, margin: "0 auto", padding: "0 30px",
+        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 5vw, 64px)",
+        alignItems: "center",
+      }} className="m01a-grid">
+        {/* Text column */}
+        <div>
+          {showHeader && (
+            <>
+              <div className="m01a-reveal" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                <span style={{ width: 32, height: 1, background: AMBER }} />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                  fontFamily: FONT_B, fontWeight: 600, fontSize: 12, color: AMBER,
+                  letterSpacing: "0.14em", textTransform: "uppercase" as const,
+                }} />
+              </div>
+              <div className="m01a-reveal" style={{ animationDelay: "0.1s" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+                  fontFamily: FONT_H, fontWeight: 800,
+                  fontSize: "clamp(28px, 3.5vw, 42px)", lineHeight: 1.18,
+                  color: DARK, margin: "0 0 18px", whiteSpace: "pre-line" as const,
+                  letterSpacing: "-0.01em",
+                }} />
+              </div>
+              <div className="m01a-reveal" style={{ animationDelay: "0.15s" }}>
+                <div style={{ width: 48, height: 3, background: AMBER, borderRadius: 2, marginBottom: 24 }} />
+              </div>
+            </>
+          )}
 
-      <section id="o-nas" className="m01a-section" data-template="malir-01">
-        <div className="m01a-inner">
-          <p className="m01a-tagline">
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">{tagline}</GenericEditableText>
-          </p>
-          <h2 className="m01a-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">{title}</GenericEditableText>
-          </h2>
-          <div className="m01a-divider" />
-          {paragraphs.length > 0
-            ? paragraphs.map((p, i) => (
-                <p key={i} className="m01a-body">
-                  <GenericEditableText sectionId={sectionId} field={i === 0 ? "body" : `body_p${i}`} value={p} tag="span">{p}</GenericEditableText>
-                </p>
-              ))
-            : <p className="m01a-body"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span">{body}</GenericEditableText></p>
-          }
+          <div className="m01a-reveal" style={{ animationDelay: "0.2s" }}>
+            {paragraphs.length > 0
+              ? paragraphs.map((p, i) => (
+                  <GenericEditableText key={i} sectionId={sectionId} field={i === 0 ? "body" : `body_p${i}`} value={p} tag="p" style={{
+                    fontFamily: FONT_B, fontSize: 15.5, lineHeight: 1.85, color: MUTED,
+                    margin: `0 0 ${i < paragraphs.length - 1 ? "18px" : "0"}`,
+                  }} />
+                ))
+              : <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p" style={{
+                  fontFamily: FONT_B, fontSize: 15.5, lineHeight: 1.85, color: MUTED, margin: 0,
+                }} />
+            }
+          </div>
+
+          {/* Stats row */}
+          <div className="m01a-reveal" style={{
+            animationDelay: "0.3s",
+            display: "flex", gap: "clamp(24px, 3vw, 44px)", marginTop: 36,
+            paddingTop: 28, borderTop: `1px solid ${AMBER}25`,
+          }}>
+            {[
+              { num: stat1Num, label: stat1Label, nf: "stat1Num", lf: "stat1Label" },
+              { num: stat2Num, label: stat2Label, nf: "stat2Num", lf: "stat2Label" },
+              { num: stat3Num, label: stat3Label, nf: "stat3Num", lf: "stat3Label" },
+            ].map((s, i) => (
+              <div key={i} style={{ flex: 1 }}>
+                <GenericEditableText sectionId={sectionId} field={s.nf} value={s.num} tag="div" style={{
+                  fontFamily: FONT_H, fontWeight: 700, fontSize: "clamp(24px, 3vw, 34px)",
+                  color: AMBER, lineHeight: 1, marginBottom: 4,
+                }} />
+                <GenericEditableText sectionId={sectionId} field={s.lf} value={s.label} tag="div" style={{
+                  fontFamily: FONT_B, fontSize: 12, color: MUTED,
+                  letterSpacing: "0.04em", textTransform: "uppercase" as const, lineHeight: 1.3,
+                }} />
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
-    </>
+
+        {/* Image column */}
+        <div className="m01a-reveal m01a-img-wrap" style={{
+          animationDelay: "0.25s",
+          position: "relative", borderRadius: 6, overflow: "hidden",
+          aspectRatio: "4/5",
+        }}>
+          <GenericEditableImage sectionId={sectionId} field="aboutImage" src={aboutImage} alt="O nás">
+            <img src={aboutImage} alt="O nás" loading="lazy" style={{
+              width: "100%", height: "100%", objectFit: "cover", display: "block",
+              transition: "transform 0.6s cubic-bezier(.4,0,.2,1)",
+            }} className="m01a-img" />
+          </GenericEditableImage>
+          {/* Amber corner accent */}
+          <div style={{
+            position: "absolute", bottom: 0, right: 0,
+            width: 80, height: 80, borderRight: `3px solid ${AMBER}`, borderBottom: `3px solid ${AMBER}`,
+            borderRadius: "0 0 6px 0", pointerEvents: "none",
+          }} />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -12286,93 +12143,200 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 
 /* ─── garden-02: About — 2-col personal story + photo stack ───────────────── */
 function AboutGarden02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  function resolve(href: string) {
-    if (!tenantSlug || !href.startsWith("/")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  }
+  const siteMode = String((content as Record<string,unknown>).siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const title   = (content.title  as string) ?? "";
-  const body    = (content.body   as string) ?? "";
-  const body2   = (content.body2  as string) ?? "";
-  const photos  = ((content.photos as Array<{ url: string; alt: string }>) ?? []).slice(0, 3);
-  const cta1Text = (content.cta1Text as string) ?? "";
-  const cta1Sub  = (content.cta1Sub  as string) ?? "";
-  const cta1Href = (content.cta1Href as string) ?? "/";
-  const cta2Text = (content.cta2Text as string) ?? "";
-  const cta2Sub  = (content.cta2Sub  as string) ?? "";
-  const cta2Href = (content.cta2Href as string) ?? "/";
+  const eyebrowRaw  = content.eyebrow;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Náš příběh" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Jsem Marek Procházka, zahradní architekt" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const body     = String(content.body  ?? "Už přes patnáct let proměňuji obyčejné pozemky v zahrady, kde se rádi zastavíte. Začínal jsem sám s rýčem a skicovacím blokem — dnes s námi spolupracuje tým osmi lidí, kteří sdílejí stejný respekt k přírodě i k řemeslu.");
+  const body2    = String(content.body2 ?? "Naše realizace najdete po celé Praze a Středočeském kraji. Každou zahradu bereme jako unikátní prostor s vlastním charakterem — od prvního setkání přes 3D vizualizaci až po závěrečné předání klíčů.");
+  const photos   = ((content.photos as Array<{ url: string; alt: string }>) ?? []).slice(0, 3);
+  const cta1Text = String(content.cta1Text ?? "Naše realizace");
+  const cta1Sub  = String(content.cta1Sub  ?? "Galerie dokončených zahrad v Praze a okolí");
+  const cta1Href = String(content.cta1Href ?? "/sluzby");
+  const cta2Text = String(content.cta2Text ?? "Co pro vás uděláme");
+  const cta2Sub  = String(content.cta2Sub  ?? "Kompletní přehled zahradnických služeb");
+  const cta2Href = String(content.cta2Href ?? "/sluzby");
+  const badge    = String((content as Record<string,unknown>).badge ?? "15+ let zkušeností");
 
   const PRIMARY = "#95c11f";
+  const PRIM_H  = "#7fa318";
   const DARK    = "#1a2a0a";
   const FONT    = "'Inter', Arial, sans-serif";
 
   return (
     <>
       <style>{`
-        .g02ab-section { background: #fff; padding: 96px 0; font-family: ${FONT}; }
-        .g02ab-inner   { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-        @media (max-width: 900px) { .g02ab-inner { grid-template-columns: 1fr; gap: 40px; } }
-        .g02ab-kicker  { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: ${PRIMARY}; margin-bottom: 16px; }
-        .g02ab-kicker::before, .g02ab-kicker::after { content: ""; display: block; width: 24px; height: 2px; background: ${PRIMARY}; }
-        .g02ab-h2      { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: ${DARK}; margin: 0 0 20px; line-height: 1.25; }
-        .g02ab-p       { font-size: 1rem; color: #555; line-height: 1.75; margin: 0 0 16px; }
-        .g02ab-ctas    { display: flex; flex-direction: column; gap: 14px; margin-top: 36px; }
-        .g02ab-cta     { display: flex; flex-direction: column; text-decoration: none; padding: 16px 20px; border: 2px solid #e0e0d8; border-radius: 10px; transition: border-color 0.2s, box-shadow 0.2s; }
-        .g02ab-cta:hover { border-color: ${PRIMARY}; box-shadow: 0 2px 12px rgba(149,193,31,0.15); }
+        .g02ab-section {
+          background: #fff; padding: 100px 0;
+          font-family: ${FONT}; position: relative; overflow: hidden;
+        }
+        .g02ab-inner {
+          max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+          display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+        }
+        @media (max-width: 900px) {
+          .g02ab-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+        .g02ab-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.7rem; font-weight: 600;
+          letter-spacing: 0.16em; text-transform: uppercase;
+          color: ${PRIMARY}; margin-bottom: 1rem;
+        }
+        .g02ab-eyebrow-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: ${PRIMARY}; box-shadow: 0 0 8px rgba(149,193,31,0.5);
+        }
+        .g02ab-h2 {
+          font-size: clamp(1.6rem, 3.2vw, 2.3rem); font-weight: 800;
+          color: ${DARK}; margin: 0 0 1.2rem; line-height: 1.15;
+          letter-spacing: -0.02em;
+        }
+        .g02ab-p {
+          font-size: 1rem; color: #555; line-height: 1.8; margin: 0 0 1rem;
+        }
+        .g02ab-ctas {
+          display: flex; flex-direction: column; gap: 0.8rem; margin-top: 2rem;
+        }
+        .g02ab-cta {
+          display: flex; flex-direction: column; text-decoration: none;
+          padding: 1rem 1.25rem;
+          border: 1.5px solid #e0e0d8; border-radius: 12px;
+          transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+          position: relative; overflow: hidden;
+        }
+        .g02ab-cta::before {
+          content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+          width: 3px; background: ${PRIMARY};
+          transform: scaleY(0); transform-origin: bottom;
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1.1);
+          border-radius: 0 2px 2px 0;
+        }
+        .g02ab-cta:hover {
+          border-color: ${PRIMARY}; transform: translateX(4px);
+          box-shadow: 0 4px 16px rgba(149,193,31,0.12);
+        }
+        .g02ab-cta:hover::before { transform: scaleY(1); }
         .g02ab-cta-label { font-size: 0.95rem; font-weight: 700; color: ${DARK}; }
-        .g02ab-cta-sub   { font-size: 0.82rem; color: #888; margin-top: 2px; }
-        .g02ab-photos  { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .g02ab-photo-main  { grid-column: 1 / 3; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; }
-        .g02ab-photo-main img  { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .g02ab-photo-small { border-radius: 10px; overflow: hidden; aspect-ratio: 1; }
-        .g02ab-photo-small img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .g02ab-cta-sub   { font-size: 0.8rem; color: #888; margin-top: 0.15rem; }
+        .g02ab-cta-arrow {
+          position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+          color: ${PRIMARY}; opacity: 0;
+          transition: opacity 0.3s, transform 0.3s;
+        }
+        .g02ab-cta:hover .g02ab-cta-arrow { opacity: 1; transform: translateY(-50%) translateX(4px); }
+        .g02ab-photos {
+          position: relative; display: grid;
+          grid-template-columns: 1fr 1fr; gap: 0.75rem;
+        }
+        .g02ab-photo-main {
+          grid-column: 1 / 3; border-radius: 16px; overflow: hidden;
+          aspect-ratio: 4/3; position: relative;
+        }
+        .g02ab-photo-main img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.6s ease;
+        }
+        .g02ab-photo-main:hover img { transform: scale(1.04); }
+        .g02ab-photo-small {
+          border-radius: 12px; overflow: hidden;
+          aspect-ratio: 1; position: relative;
+        }
+        .g02ab-photo-small img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.5s ease, filter 0.5s ease;
+          filter: saturate(0.85);
+        }
+        .g02ab-photo-small:hover img { transform: scale(1.06); filter: saturate(1.1); }
         @media (max-width: 480px) { .g02ab-photo-small { aspect-ratio: 4/3; } }
-        .g02ab-badge   { display: inline-flex; align-items: center; gap: 8px; background: ${PRIMARY}; color: #fff; font-size: 0.8rem; font-weight: 700; border-radius: 8px; padding: 8px 14px; margin-top: 12px; }
+        .g02ab-badge {
+          position: absolute; bottom: -0.6rem; right: 1rem; z-index: 2;
+          display: inline-flex; align-items: center; gap: 0.4rem;
+          background: ${PRIMARY}; color: #fff;
+          font-family: ${FONT}; font-size: 0.75rem; font-weight: 700;
+          border-radius: 10px; padding: 0.55rem 1rem;
+          box-shadow: 0 4px 16px rgba(149,193,31,0.35);
+          letter-spacing: 0.02em;
+        }
+        .g02ab-badge-leaf {
+          width: 16px; height: 16px;
+        }
       `}</style>
-      <section className="g02ab-section">
+      <section className="g02ab-section" data-template="garden-02" id="about">
         <div className="g02ab-inner">
-          {/* Left — text */}
           <div>
-            <div className="g02ab-kicker">O nás</div>
-            <h2 className="g02ab-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            {showHeader && (
+              <>
+                {eyebrow.trim() && (
+                  <div className="g02ab-eyebrow">
+                    <span className="g02ab-eyebrow-dot" aria-hidden="true" />
+                    <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                  </div>
+                )}
+                {title.trim() && (
+                  <h2 className="g02ab-h2">
+                    <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                  </h2>
+                )}
+              </>
+            )}
             <p className="g02ab-p"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>
-            {body2 && <p className="g02ab-p"><GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" /></p>}
+            {body2.trim() && <p className="g02ab-p"><GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" /></p>}
             <div className="g02ab-ctas">
               <a href={resolve(cta1Href)} className="g02ab-cta">
                 <span className="g02ab-cta-label"><GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" /></span>
-                {cta1Sub && <span className="g02ab-cta-sub"><GenericEditableText sectionId={sectionId} field="cta1Sub" value={cta1Sub} tag="span" /></span>}
+                {cta1Sub.trim() && <span className="g02ab-cta-sub"><GenericEditableText sectionId={sectionId} field="cta1Sub" value={cta1Sub} tag="span" /></span>}
+                <span className="g02ab-cta-arrow" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                </span>
               </a>
               <a href={resolve(cta2Href)} className="g02ab-cta">
                 <span className="g02ab-cta-label"><GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" /></span>
-                {cta2Sub && <span className="g02ab-cta-sub"><GenericEditableText sectionId={sectionId} field="cta2Sub" value={cta2Sub} tag="span" /></span>}
+                {cta2Sub.trim() && <span className="g02ab-cta-sub"><GenericEditableText sectionId={sectionId} field="cta2Sub" value={cta2Sub} tag="span" /></span>}
+                <span className="g02ab-cta-arrow" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+                </span>
               </a>
             </div>
           </div>
-          {/* Right — photo collage */}
-          {photos.length > 0 && (
-            <div className="g02ab-photos">
-              <div className="g02ab-photo-main">
-                <GenericEditableImage sectionId={sectionId} field="photos.0.url" src={photos[0]?.url ?? ""} alt={photos[0]?.alt ?? ""} style={{ width: "100%", height: "100%" }}>
-                  <img src={photos[0]?.url ?? ""} alt={photos[0]?.alt ?? ""} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </GenericEditableImage>
+          <div style={{ position: "relative" }}>
+            {photos.length > 0 && (
+              <div className="g02ab-photos">
+                <div className="g02ab-photo-main">
+                  <GenericEditableImage sectionId={sectionId} field="photos.0.url" src={photos[0]?.url ?? ""} alt={photos[0]?.alt ?? ""} style={{ width: "100%", height: "100%" }}>
+                    <img src={photos[0]?.url ?? ""} alt={photos[0]?.alt ?? ""} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  </GenericEditableImage>
+                </div>
+                {photos[1] && (
+                  <div className="g02ab-photo-small">
+                    <GenericEditableImage sectionId={sectionId} field="photos.1.url" src={photos[1].url} alt={photos[1].alt} style={{ width: "100%", height: "100%" }}>
+                      <img src={photos[1].url} alt={photos[1].alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    </GenericEditableImage>
+                  </div>
+                )}
+                {photos[2] && (
+                  <div className="g02ab-photo-small">
+                    <GenericEditableImage sectionId={sectionId} field="photos.2.url" src={photos[2].url} alt={photos[2].alt} style={{ width: "100%", height: "100%" }}>
+                      <img src={photos[2].url} alt={photos[2].alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    </GenericEditableImage>
+                  </div>
+                )}
               </div>
-              {photos[1] && (
-                <div className="g02ab-photo-small">
-                  <GenericEditableImage sectionId={sectionId} field="photos.1.url" src={photos[1].url} alt={photos[1].alt} style={{ width: "100%", height: "100%" }}>
-                    <img src={photos[1].url} alt={photos[1].alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                  </GenericEditableImage>
-                </div>
-              )}
-              {photos[2] && (
-                <div className="g02ab-photo-small">
-                  <GenericEditableImage sectionId={sectionId} field="photos.2.url" src={photos[2].url} alt={photos[2].alt} style={{ width: "100%", height: "100%" }}>
-                    <img src={photos[2].url} alt={photos[2].alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                  </GenericEditableImage>
-                </div>
-              )}
+            )}
+            <div className="g02ab-badge">
+              <svg className="g02ab-badge-leaf" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 20C4 12 10 5 20 4C19 14 12 20 4 20Z" fill="currentColor"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
             </div>
-          )}
+          </div>
         </div>
       </section>
     </>
@@ -12610,6 +12574,110 @@ function AboutDdd01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 
   return (
     <section className="ddd01a-wrap" id="about" data-template="ddd-01">
+      <style>{`        .ddd01a-wrap {
+          font-family: 'Figtree', system-ui, sans-serif;
+          background: #ffffff;
+          padding: 4.5rem 1.5rem;
+        }
+        .ddd01a-inner {
+          max-width: 80rem;
+          margin: 0 auto;
+        }
+        .ddd01a-grid {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: clamp(2rem, 5vw, 5rem);
+        }
+        /* LEFT — koláž */
+        .ddd01a-collage {
+          flex: 0 0 clamp(260px, 38%, 440px);
+          max-width: 27.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+        }
+        .ddd01a-collage-img {
+          display: block;
+          width: 70%;
+          height: auto;
+          box-shadow: 4px 4px 17px rgba(0,0,0,0.21);
+          margin-left: 30%;
+        }
+        .ddd01a-collage-img:first-child {
+          margin-left: 0;
+          margin-bottom: -2rem;
+          position: relative;
+          z-index: 1;
+        }
+        /* RIGHT — text */
+        .ddd01a-text {
+          flex: 1;
+          text-align: left;
+        }
+        .ddd01a-eyebrow {
+          display: inline-block;
+          color: #0c93eb;
+          font-size: clamp(0.84rem, 0.32vw + 0.77rem, 1.06rem);
+          font-weight: 400;
+          letter-spacing: 0.375rem;
+          text-transform: uppercase;
+          margin-bottom: 0.75rem;
+          line-height: 1.4;
+        }
+        .ddd01a-h2 {
+          font-family: 'Figtree', system-ui, sans-serif;
+          color: #015ba3;
+          font-size: clamp(1.625rem, 0.89vw + 1.45rem, 2.25rem);
+          font-weight: 700;
+          line-height: 1.33;
+          margin: 0 0 1.25rem;
+          text-transform: uppercase;
+          word-spacing: 0.125em;
+        }
+        .ddd01a-body {
+          color: #3a3a3a;
+          font-size: 1rem;
+          line-height: 1.7;
+          margin: 0 0 1rem;
+        }
+        .ddd01a-cta {
+          display: inline-block;
+          background: #0c93eb;
+          color: #ffffff;
+          text-decoration: none;
+          font-size: 0.9375rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          padding: 0.85em 1.5em 0.7em;
+          border-radius: 25px;
+          border: 1px solid #0c93eb;
+          margin-top: 1.5rem;
+          transition: background 0.15s, border-color 0.15s;
+        }
+        .ddd01a-cta:hover { background: #015ba3; border-color: #015ba3; }
+
+        @media (max-width: 768px) {
+          .ddd01a-grid { flex-direction: column; }
+          .ddd01a-collage { max-width: 100%; width: 100%; }
+          .ddd01a-collage-img { width: 65%; }
+          .ddd01a-collage-img:first-child { margin-bottom: -1.5rem; }
+        }
+      
+        .ddd01a-header { margin-bottom: 0.25rem; }
+        .ddd01a-collage { position: relative; }
+        .ddd01a-collage-img--main { margin-left: 0; margin-bottom: -2rem; position: relative; z-index: 1; }
+        .ddd01a-collage-img--offset { width: 70%; margin-left: 30%; }
+        .ddd01a-stat-badge { position: absolute; left: 0; bottom: -1.25rem; background: #0c93eb; color: #ffffff; border-radius: 12px; padding: 0.9rem 1.3rem; display: flex; flex-direction: column; box-shadow: 0 10px 24px rgba(1,91,163,0.35); z-index: 2; }
+        .ddd01a-stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+        .ddd01a-stat-label { font-size: 0.8rem; opacity: 0.9; }
+        .ddd01a-stats-row { display: flex; gap: 2rem; margin-top: 1.25rem; }
+        .ddd01a-stat-inline { display: flex; flex-direction: column; }
+        .ddd01a-stat-inline-val { color: #015ba3; font-size: 1.5rem; font-weight: 800; }
+        .ddd01a-stat-inline-lbl { color: #6b7280; font-size: 0.85rem; }
+        @media (max-width: 768px) { .ddd01a-stat-badge { bottom: 0; } }
+      `}</style>
       <div className="ddd01a-inner">
         <div className="ddd01a-grid">
           <div className="ddd01a-collage">
@@ -13339,6 +13407,7 @@ function AboutChalet01({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const ctaHref  = String(c.ctaHref  ?? "/ubytovani");
   const image    = String(c.image    ?? "/images/chalet-01/about-01.webp");
   const image2   = String(c.image2   ?? "/images/chalet-01/about-02.webp");
+  const note     = String(c.note     ?? "");
 
   const BEIGE  = "#c0bbad";
   const DARK   = "#1e2329";
@@ -13405,6 +13474,12 @@ function AboutChalet01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         }
         .ch01ab-cta:hover::before { transform: scaleX(1); }
         .ch01ab-cta:hover { color: #fff; }
+        .ch01ab-note {
+          margin: 0 0 26px; padding: 14px 18px;
+          border-left: 2px solid ${BEIGE};
+          background: rgba(192,187,173,0.10);
+          font-size: 0.95rem; line-height: 1.6; color: ${DARK};
+        }
         .ch01ab-cta span { position: relative; z-index: 1; }
         .ch01ab-cta-arrow {
           position: relative; z-index: 1;
@@ -13458,6 +13533,11 @@ function AboutChalet01({ content, sectionId, tenantSlug, isAdmin }: { content: R
             <p className="ch01ab-body">
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
             </p>
+            {note && (
+              <p className="ch01ab-note">
+                <GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" />
+              </p>
+            )}
             <a href={resolve(ctaHref)} className="ch01ab-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               <span className="ch01ab-cta-arrow" aria-hidden="true" />
@@ -13963,13 +14043,26 @@ function ProcessEvents01({ content, sectionId }: { content: Record<string, unkno
 // Červený kicker, Fraunces italic H2, Nunito Sans body, červené CTA tlačítko.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const tagline  = String(content.tagline  ?? "Rodinná restaurace");
-  const title    = String(content.title    ?? "Autentická italská kuchyně,\npečlivě vybrané suroviny.");
-  const body     = String(content.body     ?? "");
-  const body2    = String((content as any).body2 ?? "");
-  const ctaText  = String(content.ctaText  ?? "Více o nás");
+  const eyebrowRaw  = (content as Record<string, unknown>).tagline;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const tagline  = eyebrowRaw  === undefined ? "Náš příběh" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Místo, kde se\ntradice potkává\ns vášní." : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const body     = String(content.body     ?? "Osteria Verde otevřela své dveře v roce 2011 s jednoduchým posláním — přinést autentickou chuť jihu Itálie do srdce Prahy. Každé ráno se u nás ručně tvarují těstoviny, pečou focaccie a připravují omáčky z rajčat San Marzano.");
+  const body2    = String((content as any).body2 ?? "Naše suroviny cestují přímo od malých italských farmářů: mozzarella di bufala z Kampánie, olivový olej z Apulie a koření z trhů v Bari. Výsledkem je jídlo, které chutná jako dovolená na italském venkově.");
+  const ctaText  = String(content.ctaText  ?? "Poznejte náš příběh");
   const ctaHref  = String(content.ctaHref  ?? "/o-nas");
-  const image    = String(content.image    ?? "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85");
+  const image    = String(content.image    ?? "/templates/restaurant-04/about.webp");
+
+  const stat1Val  = String((content as any).stat1Val  ?? "12");
+  const stat1Lab  = String((content as any).stat1Lab  ?? "let tradice");
+  const stat2Val  = String((content as any).stat2Val  ?? "100%");
+  const stat2Lab  = String((content as any).stat2Lab  ?? "italské suroviny");
+  const stat3Val  = String((content as any).stat3Val  ?? "3 000+");
+  const stat3Lab  = String((content as any).stat3Lab  ?? "spokojených hostů měsíčně");
+
+  const showHeader = !!(tagline.trim() || title.trim() || subtitle.trim());
 
   const DARK  = "#0d1f0a";
   const SURF  = "#152d11";
@@ -13979,107 +14072,131 @@ function AboutRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { conten
   const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
   const SANS  = "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || !href.startsWith("/")) return href;
-    return isAdmin ? `/demo/${tenantSlug}/admin/page${href}` : `/demo/${tenantSlug}${href}`;
-  };
+  const siteMode = String((content as any).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const stats = [
+    { val: stat1Val, lab: stat1Lab, fVal: "stat1Val", fLab: "stat1Lab" },
+    { val: stat2Val, lab: stat2Lab, fVal: "stat2Val", fLab: "stat2Lab" },
+    { val: stat3Val, lab: stat3Lab, fVal: "stat3Val", fLab: "stat3Lab" },
+  ];
 
   return (
-    <section style={{ background: DARK, padding: "clamp(64px, 10vw, 120px) clamp(24px, 6vw, 80px)" }}>
-      <div style={{
-        maxWidth: 1180, margin: "0 auto",
-        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 7vw, 100px)",
-        alignItems: "center",
-      }}
-        className="r04-about-grid"
-      >
-        {/* Text sloupec */}
-        <div>
-          {/* Kicker */}
-          <p style={{
-            fontFamily: SANS, fontSize: 11, fontWeight: 700,
-            letterSpacing: "0.22em", textTransform: "uppercase",
-            color: RED, margin: "0 0 20px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
+    <section id="o-nas" data-template="restaurant-04" style={{ background: DARK, padding: "clamp(80px, 10vw, 140px) clamp(24px, 6vw, 80px)", position: "relative", overflow: "hidden" }}>
 
-          {/* H2 */}
-          <h2 style={{
-            fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 50px)", fontWeight: 400,
-            fontStyle: "italic", color: CREAM, margin: "0 0 28px", lineHeight: 1.12,
-            whiteSpace: "pre-line",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+      {/* Jemný dekorativní kruh v pozadí */}
+      <div aria-hidden="true" style={{
+        position: "absolute", right: "-10%", top: "50%", transform: "translateY(-50%)",
+        width: "clamp(300px, 40vw, 600px)", height: "clamp(300px, 40vw, 600px)",
+        borderRadius: "50%", border: `1px solid ${CREAM}08`, pointerEvents: "none",
+      }} />
 
-          {/* Červená oddělovací linka */}
-          <div style={{ width: 44, height: 2, background: RED, marginBottom: 28 }} />
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{
+          display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 7vw, 100px)",
+          alignItems: "center",
+        }} className="r04-about-grid">
 
-          {/* Body */}
-          {body && (
+          {/* Text sloupec */}
+          <div>
+            {showHeader && (<>
+              {/* Kicker */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, margin: "0 0 24px" }}>
+                <span aria-hidden="true" style={{ width: 32, height: 1, background: RED }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 11, fontWeight: 800,
+                    letterSpacing: "0.24em", textTransform: "uppercase", color: RED }} />
+              </div>
+
+              {/* H2 */}
+              <h2 style={{
+                fontFamily: SERIF, fontSize: "clamp(28px, 3.8vw, 48px)", fontWeight: 400,
+                fontStyle: "italic", color: CREAM, margin: "0 0 32px", lineHeight: 1.12,
+                whiteSpace: "pre-line",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            </>)}
+
+            {/* Body */}
             <p style={{
-              fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 17px)", fontWeight: 400,
-              color: MUTED, lineHeight: 1.75, margin: "0 0 18px",
+              fontFamily: SANS, fontSize: "clamp(15px, 1.4vw, 17px)", fontWeight: 400,
+              color: MUTED, lineHeight: 1.8, margin: "0 0 20px",
             }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
-          )}
-          {body2 && (
             <p style={{
-              fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 17px)", fontWeight: 400,
-              color: MUTED, lineHeight: 1.75, margin: "0 0 36px",
+              fontFamily: SANS, fontSize: "clamp(15px, 1.4vw, 17px)", fontWeight: 400,
+              color: MUTED, lineHeight: 1.8, margin: "0 0 40px",
             }}>
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
             </p>
-          )}
 
-          {/* CTA */}
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{
-              display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 700,
+            {/* CTA */}
+            <a href={resolve(ctaHref)} data-btn="primary" className="r04-cta1" style={{
+              display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 800,
               letterSpacing: "0.14em", textTransform: "uppercase",
               color: CREAM, textDecoration: "none",
-              padding: "14px 32px", backgroundColor: RED, borderRadius: 2,
-              transition: "background-color 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#a01515")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+              padding: "15px 36px", backgroundColor: RED, borderRadius: 2,
+              position: "relative", overflow: "hidden",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+          </div>
+
+          {/* Foto sloupec */}
+          <div style={{ position: "relative" }} className="r04-about-img-wrap">
+            {/* Dekorativní rámeček */}
+            <div aria-hidden="true" style={{
+              position: "absolute", top: -14, right: -14, bottom: 14, left: 14,
+              border: `1px solid ${CREAM}18`, borderRadius: 2, zIndex: 0,
+              transition: "border-color 0.4s ease",
+            }} className="r04-about-frame" />
+            <GenericEditableImage
+              sectionId={sectionId}
+              field="image"
+              src={image}
+              style={{
+                position: "relative", zIndex: 1,
+                width: "100%", aspectRatio: "4/3", overflow: "hidden",
+                borderRadius: 2,
+              }}
+            >
+              <img src={image} alt="Interiér restaurace" style={{
+                width: "100%", height: "100%", objectFit: "cover", display: "block",
+              }} />
+            </GenericEditableImage>
+            {/* Červená linka dole vlevo */}
+            <div aria-hidden="true" style={{
+              position: "absolute", bottom: -8, left: 0, width: 60, height: 3,
+              background: RED, zIndex: 2, borderRadius: 2,
+            }} />
+          </div>
         </div>
 
-        {/* Foto sloupec */}
-        <div style={{ position: "relative" }}>
-          {/* Dekorativní rámeček */}
-          <div style={{
-            position: "absolute", top: -16, right: -16, bottom: 16, left: 16,
-            border: `1px solid ${SURF}`, borderRadius: 2, zIndex: 0,
-          }} />
-          <img
-            src={image}
-            alt=""
-            style={{
-              position: "relative", zIndex: 1,
-              width: "100%", aspectRatio: "4/3", objectFit: "cover",
-              borderRadius: 2, display: "block",
-            }}
-          />
-          {/* Červená linka dole vlevo */}
-          <div style={{
-            position: "absolute", bottom: -8, left: 0, width: 60, height: 3,
-            background: RED, zIndex: 2,
-          }} />
+        {/* Statistiky */}
+        <div style={{
+          display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "clamp(24px, 4vw, 60px)",
+          marginTop: "clamp(56px, 8vw, 100px)", paddingTop: "clamp(40px, 6vw, 72px)",
+          borderTop: `1px solid ${CREAM}14`,
+        }} className="r04-about-stats">
+          {stats.map((s, i) => (
+            <div key={i} style={{ textAlign: "center" }}>
+              <GenericEditableText sectionId={sectionId} field={s.fVal} value={s.val} tag="span"
+                style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(32px, 4vw, 52px)",
+                  fontWeight: 400, color: RED, display: "block", lineHeight: 1, marginBottom: 10 }} />
+              <GenericEditableText sectionId={sectionId} field={s.fLab} value={s.lab} tag="span"
+                style={{ fontFamily: SANS, fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.16em", textTransform: "uppercase", color: `${CREAM}88` }} />
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Mobile responsive */}
       <style>{`
         @media (max-width: 768px) {
           .r04-about-grid { grid-template-columns: 1fr !important; }
+          .r04-about-stats { grid-template-columns: 1fr !important; gap: 32px !important; }
         }
       `}</style>
     </section>
@@ -14592,12 +14709,15 @@ function AboutRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { cont
   const lead    = leadRaw    === undefined ? "Jsme tým zkušených profesionálů se specializací na rekonstrukce bytů a bytových jader. Každý projekt bereme osobně a dbáme na kvalitu provedení do posledního detailu." : String(leadRaw);
   const showHeader = !!(eyebrow.trim() || title.trim() || leadRaw !== undefined);
   const image   = String(c.image ?? "https://images.unsplash.com/photo-1581858726788-75bc76f1a2a2?w=1000&h=1200&fit=crop&q=85");
-  const values  = (c.values as string[]) ?? [
+  // values: standard je [{ title }] (validate-template), ale bereme i legacy string[]
+  const valuesRaw = (Array.isArray(c.values) ? c.values : [
     "Rychlá a precizní realizace",
     "Transparentní ceny bez skrytých poplatků",
     "Osobní přístup ke každému klientovi",
     "Zkušený tým řemeslníků s praxí",
-  ];
+  ]) as Array<string | { title?: string }>;
+  const values = valuesRaw.map((v) => (typeof v === "string" ? v : String(v?.title ?? "")));
+  const valueField = (i: number) => (typeof valuesRaw[i] === "string" ? `values.${i}` : `values.${i}.title`);
   const ctaText = String(c.ctaText ?? "Nezávazná poptávka");
   const ctaHref = String(c.ctaHref ?? "/kontakt");
   const badgeNum = String(c.badgeNumber ?? "500+");
@@ -14676,7 +14796,7 @@ function AboutRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { cont
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
                 </span>
                 <span style={{ color: DARK, fontSize: "1rem", fontWeight: 500, lineHeight: 1.5, paddingTop: 3 }}>
-                  <GenericEditableText sectionId={sectionId} field={`values.${i}`} value={v} tag="span" />
+                  <GenericEditableText sectionId={sectionId} field={valueField(i)} value={v} tag="span" />
                 </span>
               </div>
             ))}
@@ -14690,4 +14810,6647 @@ function AboutRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { cont
       </div>
     </section>
   );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — Shoptet Classic DNA
+ * Trust blok "Proč nakupovat u nás": navy plátno, text + checklist
+ * vlevo, foto s plovoucím badge vpravo, stats řada dole.
+ * ============================================================ */
+
+function AboutEshop02({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const BLUE = "#1266cc";
+  const ACCENT = "#f0803c";
+  const DARK = "#142b45";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const eyebrow = content.eyebrow === undefined ? "Proč nakupovat u nás" : String(content.eyebrow);
+  const heading = content.heading === undefined ? "E-shop, na který se můžete spolehnout" : String(content.heading);
+  const text = content.text === undefined ? "" : String(content.text);
+  const text2 = content.text2 === undefined ? "" : String(content.text2);
+  const image = String(content.image ?? "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1000&h=800&fit=crop&auto=format&q=80");
+  const imageAlt = String(content.imageAlt ?? heading);
+  const badgeValue = content.badgeValue === undefined ? "15+" : String(content.badgeValue);
+  const badgeLabel = content.badgeLabel === undefined ? "let na trhu" : String(content.badgeLabel);
+  const checklist = Array.isArray(content.checklist) ? (content.checklist as Array<Record<string, unknown>>) : [];
+  const stats = Array.isArray(content.stats) ? (content.stats as Array<Record<string, unknown>>) : [];
+
+  return (
+    <section className="wc2a" data-variant="eshop-02-about" id={typeof content.anchorId === "string" ? content.anchorId : "o-nas"}>
+      <style>{`
+        .wc2a { background: ${DARK}; color: #fff; font-family: ${SANS}; }
+        .wc2a-inner { max-width: 1280px; margin: 0 auto; padding: clamp(56px,7vw,96px) 24px; }
+        .wc2a-grid { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: clamp(32px,5vw,72px); align-items: center; }
+        @media (max-width: 900px) { .wc2a-grid { grid-template-columns: 1fr; } }
+        .wc2a-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: ${ACCENT}; margin: 0 0 12px; }
+        .wc2a-title { font-size: clamp(26px,3.2vw,40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.12; margin: 0 0 18px; color: #fff; }
+        .wc2a-text { font-size: 15.5px; line-height: 1.75; color: rgba(255,255,255,0.78); margin: 0 0 14px; max-width: 560px; }
+        .wc2a-check { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+        @media (max-width: 560px) { .wc2a-check { grid-template-columns: 1fr; } }
+        .wc2a-check li { display: flex; align-items: flex-start; gap: 11px; font-size: 14.5px; font-weight: 600; color: rgba(255,255,255,0.92); line-height: 1.45; }
+        .wc2a-tick { flex-shrink: 0; width: 22px; height: 22px; border-radius: 999px; background: ${BLUE}; display: grid; place-items: center; margin-top: 1px; }
+        .wc2a-media { position: relative; }
+        .wc2a-photo { position: relative; aspect-ratio: 5/4; border-radius: 16px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+        .wc2a-badge { position: absolute; left: -18px; bottom: -18px; background: ${ACCENT}; color: #fff; border-radius: 14px; padding: 16px 22px; text-align: center; box-shadow: 0 14px 34px rgba(240,128,60,0.4); transform: rotate(-3deg); }
+        @media (max-width: 900px) { .wc2a-badge { left: 12px; bottom: -14px; } }
+        .wc2a-badge-value { display: block; font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+        .wc2a-badge-label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; opacity: .95; }
+        .wc2a-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: clamp(44px,6vw,64px); padding-top: clamp(28px,4vw,40px); border-top: 1px solid rgba(255,255,255,0.12); }
+        @media (max-width: 760px) { .wc2a-stats { grid-template-columns: repeat(2, 1fr); } }
+        .wc2a-stat { text-align: center; }
+        .wc2a-stat-value { display: block; font-size: clamp(26px,3vw,38px); font-weight: 800; letter-spacing: -0.02em; color: #fff; line-height: 1.1; }
+        .wc2a-stat-value em { font-style: normal; color: ${ACCENT}; }
+        .wc2a-stat-label { display: block; font-size: 13px; color: rgba(255,255,255,0.62); margin-top: 6px; }
+      `}</style>
+      <div className="wc2a-inner">
+        <div className="wc2a-grid">
+          <div>
+            {eyebrow.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p" className="wc2a-eyebrow" />
+            )}
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" className="wc2a-title" />
+            {text.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="text" value={text} tag="p" className="wc2a-text" />
+            )}
+            {text2.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="text2" value={text2} tag="p" className="wc2a-text" />
+            )}
+            {checklist.length > 0 && (
+              <ul className="wc2a-check">
+                {checklist.map((item, i) => (
+                  <li key={i}>
+                    <span className="wc2a-tick" aria-hidden>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+                    </span>
+                    <GenericEditableText sectionId={sectionId} field={`checklist.${i}.text`} value={String(item.text ?? "")} tag="span" />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="wc2a-media">
+            <div className="wc2a-photo">
+              <GenericEditableImage
+                sectionId={sectionId}
+                field="image"
+                src={image}
+                alt={imageAlt}
+                className="absolute inset-0 w-full h-full"
+                style={{ position: "absolute" }}
+              >
+                <Image
+                  src={image}
+                  alt={imageAlt}
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 900px) 100vw, 42vw"
+                  unoptimized={shouldSkipNextImageOptimization(image)}
+                />
+              </GenericEditableImage>
+            </div>
+            <div className="wc2a-badge">
+              <GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" className="wc2a-badge-value" />
+              <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" className="wc2a-badge-label" />
+            </div>
+          </div>
+        </div>
+        {stats.length > 0 && (
+          <div className="wc2a-stats">
+            {stats.map((s, i) => (
+              <div className="wc2a-stat" key={i}>
+                <span className="wc2a-stat-value"><em><GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={String(s.value ?? "")} tag="span" /></em></span>
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={String(s.label ?? "")} tag="span" className="wc2a-stat-label" />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — Doprava a platba.
+ * Karty dopravců (cena, termín) + platební metody + info pruh
+ * "doprava zdarma od 1 200 Kč".
+ * ============================================================ */
+
+function ShippingEshop02({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const BLUE = "#1266cc";
+  const ACCENT = "#f0803c";
+  const DARK = "#142b45";
+  const MUTED = "#64748b";
+  const BORDER = "#e3e9f0";
+  const SURFACE = "#f5f8fb";
+  const GREEN = "#1f9d55";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const shippingTitle = content.shippingTitle === undefined ? "Možnosti dopravy" : String(content.shippingTitle);
+  const paymentTitle = content.paymentTitle === undefined ? "Možnosti platby" : String(content.paymentTitle);
+  const freeNote = content.freeNote === undefined ? "Doprava zdarma u všech objednávek nad 1 200 Kč — platí pro výdejní místa i kurýra." : String(content.freeNote);
+  const shipping = Array.isArray(content.shipping) ? (content.shipping as Array<Record<string, unknown>>) : [];
+  const payments = Array.isArray(content.paymentItems) ? (content.paymentItems as Array<Record<string, unknown>>) : [];
+
+  return (
+    <section className="wc2sh" data-variant="eshop-02-shipping" id="doprava">
+      <style>{`
+        .wc2sh { background: #fff; color: ${DARK}; font-family: ${SANS}; }
+        .wc2sh-inner { max-width: 1280px; margin: 0 auto; padding: clamp(48px,6vw,84px) 24px; }
+        .wc2sh-free { display: flex; align-items: center; gap: 13px; background: #e8f7ef; border: 1px solid #b5e5c9; border-radius: 12px; padding: 16px 20px; margin-bottom: clamp(28px,4vw,44px); font-size: 15px; font-weight: 600; color: #14683a; }
+        .wc2sh-free-ico { flex-shrink: 0; width: 38px; height: 38px; border-radius: 999px; background: ${GREEN}; color: #fff; display: grid; place-items: center; }
+        .wc2sh-h { font-size: clamp(20px,2.4vw,28px); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 18px; color: ${DARK}; }
+        .wc2sh-ship-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: clamp(36px,5vw,56px); }
+        @media (max-width: 760px) { .wc2sh-ship-grid { grid-template-columns: 1fr; } }
+        .wc2sh-ship { display: flex; align-items: center; gap: 14px; background: ${SURFACE}; border: 1px solid ${BORDER}; border-radius: 12px; padding: 16px 18px; transition: border-color .2s; }
+        .wc2sh-ship:hover { border-color: ${BLUE}; }
+        .wc2sh-ship-ico { flex-shrink: 0; width: 44px; height: 44px; border-radius: 11px; background: ${BLUE}; color: #fff; display: grid; place-items: center; }
+        .wc2sh-ship-body { flex: 1; min-width: 0; }
+        .wc2sh-ship-name { display: block; font-size: 15px; font-weight: 700; color: ${DARK}; }
+        .wc2sh-ship-time { display: block; font-size: 13px; color: ${MUTED}; margin-top: 2px; }
+        .wc2sh-ship-price { flex-shrink: 0; font-size: 15px; font-weight: 800; color: ${BLUE}; white-space: nowrap; }
+        .wc2sh-pay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        @media (max-width: 900px) { .wc2sh-pay-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .wc2sh-pay-grid { grid-template-columns: 1fr; } }
+        .wc2sh-pay { display: flex; align-items: flex-start; gap: 12px; background: #fff; border: 1px solid ${BORDER}; border-radius: 12px; padding: 16px 18px; transition: border-color .2s, box-shadow .25s; }
+        .wc2sh-pay:hover { border-color: ${BLUE}; box-shadow: 0 8px 22px rgba(18,102,204,0.08); }
+        .wc2sh-pay-ico { flex-shrink: 0; width: 36px; height: 36px; border-radius: 999px; background: ${SURFACE}; color: ${ACCENT}; display: grid; place-items: center; margin-top: 1px; }
+        .wc2sh-pay-name { display: block; font-size: 14.5px; font-weight: 700; color: ${DARK}; }
+        .wc2sh-pay-note { display: block; font-size: 13px; color: ${MUTED}; margin-top: 3px; line-height: 1.5; }
+      `}</style>
+      <div className="wc2sh-inner">
+        <div className="wc2sh-free">
+          <span className="wc2sh-free-ico" aria-hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"><path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"/><path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>
+          </span>
+          <GenericEditableText sectionId={sectionId} field="freeNote" value={freeNote} tag="span" />
+        </div>
+        <GenericEditableText sectionId={sectionId} field="shippingTitle" value={shippingTitle} tag="h2" className="wc2sh-h" />
+        <div className="wc2sh-ship-grid">
+          {shipping.map((s, i) => (
+            <div className="wc2sh-ship" key={i}>
+              <span className="wc2sh-ship-ico" aria-hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              </span>
+              <span className="wc2sh-ship-body">
+                <GenericEditableText sectionId={sectionId} field={`shipping.${i}.name`} value={String(s.name ?? "")} tag="span" className="wc2sh-ship-name" />
+                <GenericEditableText sectionId={sectionId} field={`shipping.${i}.time`} value={String(s.time ?? "")} tag="span" className="wc2sh-ship-time" />
+              </span>
+              <GenericEditableText sectionId={sectionId} field={`shipping.${i}.price`} value={String(s.price ?? "")} tag="span" className="wc2sh-ship-price" />
+            </div>
+          ))}
+        </div>
+        <GenericEditableText sectionId={sectionId} field="paymentTitle" value={paymentTitle} tag="h2" className="wc2sh-h" />
+        <div className="wc2sh-pay-grid">
+          {payments.map((p, i) => (
+            <div className="wc2sh-pay" key={i}>
+              <span className="wc2sh-pay-ico" aria-hidden>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+              </span>
+              <span>
+                <GenericEditableText sectionId={sectionId} field={`paymentItems.${i}.name`} value={String(p.name ?? "")} tag="span" className="wc2sh-pay-name" />
+                <GenericEditableText sectionId={sectionId} field={`paymentItems.${i}.note`} value={String(p.note ?? "")} tag="span" className="wc2sh-pay-note" />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-03-benefits ───────────────────────────────────────────────────────────
+// Shoptet Disco benefit callouty: řada 4 flat karet (radius 0, border #e6e6e6)
+// se žlutým hranatým ikonovým dlaždicem, Nunito 800 titulkem a šedým popiskem.
+// ──────────────────────────────────────────────────────────────────────────────
+function BenefitsEshop03({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const c = content as { items?: Array<{ icon?: string; title?: string; text?: string }> };
+  const items = c.items ?? [];
+  const SANS = "'Nunito', 'Segoe UI', Arial, sans-serif";
+
+  const icon = (key?: string) => {
+    switch (key) {
+      case "gift":
+        return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="8" width="18" height="4"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5 0-4.5-.5-4.5-3A2.1 2.1 0 0 1 12 4.6 2.1 2.1 0 0 1 16.5 5c0 2.5-3 3-4.5 3Z"/></svg>;
+      case "clock":
+        return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.8"/></svg>;
+      case "pin":
+        return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/></svg>;
+      case "shield":
+        return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2 4 5.5V11c0 5 3.4 9.3 8 10.5 4.6-1.2 8-5.5 8-10.5V5.5L12 2Z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></svg>;
+      case "refresh":
+        return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg>;
+      default: // truck
+        return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="1.5"/><circle cx="17.5" cy="19" r="1.5"/></svg>;
+    }
+  };
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-03-benefits" style={{ background: "#fff", fontFamily: SANS }}>
+      <style>{`
+        .es03-benefits { max-width: 1280px; margin: 0 auto; padding: clamp(22px,3vw,36px) 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        @media (max-width: 900px) { .es03-benefits { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) { .es03-benefits { grid-template-columns: 1fr; } }
+        .es03-benefit { display: flex; align-items: center; gap: 14px; border: 1px solid #e6e6e6; padding: 16px 18px; transition: box-shadow 0.2s; background: #fff; }
+        .es03-benefit:hover { box-shadow: 0 0 10px rgba(0,0,0,0.12); }
+      `}</style>
+      <div className="es03-benefits">
+        {items.map((b, i) => (
+          <div key={i} className="es03-benefit">
+            <span style={{
+              width: 48, height: 48, flexShrink: 0, background: "#fff", border: "1px solid #e6e6e6", color: "#000",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              {icon(b.icon)}
+            </span>
+            <span style={{ minWidth: 0 }}>
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={b.title ?? ""} tag="span" style={{ display: "block", fontSize: 15, fontWeight: 800, color: "#000", lineHeight: 1.3 }} />
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={b.text ?? ""} tag="span" style={{ display: "block", fontSize: 13, color: "#767676", lineHeight: 1.45, marginTop: 2 }} />
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-03-shipping ───────────────────────────────────────────────────────────
+// Shoptet Disco doprava & platba: dvě flat tabulky (radius 0) — dopravci a
+// platební metody, řádky s názvem, poznámkou a cenou (zdarma zeleně). Nunito.
+// ──────────────────────────────────────────────────────────────────────────────
+function ShippingEshop03({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const BLACK = "#000000";
+  const MUTED = "#767676";
+  const BORDER = "#e6e6e6";
+  const SANS = "'Nunito', 'Segoe UI', Arial, sans-serif";
+
+  type Row = { name?: string; note?: string; price?: string };
+  const shippingTitle = String(content.shippingTitle ?? "Doprava");
+  const paymentTitle = String(content.paymentTitle ?? "Platba");
+  const shippingItems = Array.isArray(content.shippingItems) ? (content.shippingItems as Row[]) : [];
+  const paymentItems = Array.isArray(content.paymentItems) ? (content.paymentItems as Row[]) : [];
+  const note = content.note === undefined ? "" : String(content.note);
+
+  const table = (title: string, titleField: string, rows: Row[], fieldBase: string) => (
+    <div>
+      <GenericEditableText sectionId={sectionId} field={titleField} value={title} tag="h2"
+        style={{ fontSize: "clamp(20px,2.2vw,26px)", fontWeight: 900, color: BLACK, margin: "0 0 14px", letterSpacing: "-0.01em" }} />
+      <div style={{ border: `1px solid ${BORDER}` }}>
+        {rows.map((r, i) => {
+          const free = String(r.price ?? "").trim().toLowerCase() === "zdarma";
+          return (
+            <div key={i} style={{
+              display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14,
+              padding: "14px 18px", borderTop: i === 0 ? "none" : `1px solid ${BORDER}`, flexWrap: "wrap",
+            }}>
+              <span style={{ minWidth: 0 }}>
+                <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.name`} value={r.name ?? ""} tag="span"
+                  style={{ display: "block", fontSize: 15.5, fontWeight: 800, color: BLACK }} />
+                {r.note && (
+                  <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.note`} value={r.note} tag="span"
+                    style={{ display: "block", fontSize: 13, color: MUTED, fontWeight: 600, marginTop: 2 }} />
+                )}
+              </span>
+              <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.price`} value={r.price ?? ""} tag="span"
+                style={{ fontSize: 15.5, fontWeight: 800, color: free ? "#3a800e" : BLACK, whiteSpace: "nowrap" }} />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  return (
+    <section data-variant="eshop-03-shipping" style={{ background: "#fff", fontFamily: SANS }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+      <style>{`
+        .wc3sh-grid { max-width: 1280px; margin: 0 auto; padding: clamp(40px,5vw,72px) 20px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,4vw,56px); align-items: start; }
+        @media (max-width: 860px) { .wc3sh-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="wc3sh-grid">
+        {table(shippingTitle, "shippingTitle", shippingItems, "shippingItems")}
+        {table(paymentTitle, "paymentTitle", paymentItems, "paymentItems")}
+      </div>
+      {note && (
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px clamp(40px,5vw,64px)" }}>
+          <GenericEditableText sectionId={sectionId} field="note" value={note} tag="p"
+            style={{ fontSize: 14, color: MUTED, fontWeight: 600, margin: 0, lineHeight: 1.6 }} />
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ── eshop-04-benefits ───────────────────────────────────────────────────────────
+// Shoptet Samba benefitBanner 1:1: 4 centrované sloupce bez karet — ikona 64 px
+// nahoře (periwinkle linka), tučný titulek 20 px, šedý popisek 14 px.
+// ──────────────────────────────────────────────────────────────────────────────
+function BenefitsEshop04({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const c = content as { items?: Array<{ icon?: string; image?: string; title?: string; text?: string }> };
+  const items = c.items ?? [];
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+
+  const icon = (key?: string) => {
+    const common = { width: 54, height: 54, viewBox: "0 0 24 24", fill: "none", stroke: "#6883ba", strokeWidth: 1.4, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    switch (key) {
+      case "gift":
+        return <svg {...common}><rect x="3" y="8" width="18" height="4"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8c-1.5 0-4.5-.5-4.5-3A2.1 2.1 0 0 1 12 4.6 2.1 2.1 0 0 1 16.5 5c0 2.5-3 3-4.5 3Z"/></svg>;
+      case "leaf":
+        return <svg {...common}><path d="M11 20A7 7 0 0 1 4 13c0-4.5 4-8.5 11-10-1 2-1 3.5-.5 5C18 9 20 11 20 14a6 6 0 0 1-6 6h-3Z"/><path d="M5 21c2-4 5-7 10-9"/></svg>;
+      case "box":
+        return <svg {...common}><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg>;
+      case "refresh":
+        return <svg {...common}><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg>;
+      case "pin":
+        return <svg {...common}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/></svg>;
+      default: // truck
+        return <svg {...common}><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="1.5"/><circle cx="17.5" cy="19" r="1.5"/></svg>;
+    }
+  };
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-04-benefits" style={{ background: "#fff", fontFamily: SANS }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" />
+      <style>{`
+        .es04-benefits { max-width: 1280px; margin: 0 auto; padding: clamp(32px,4vw,56px) 20px; display: flex; flex-wrap: wrap; }
+        .es04-benefit { flex: 1 1 25%; min-width: 200px; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 16px; }
+        @media (max-width: 860px) { .es04-benefit { flex: 1 1 50%; margin-bottom: 24px; } }
+        @media (max-width: 480px) { .es04-benefit { flex: 1 1 100%; } }
+      `}</style>
+      <div className="es04-benefits">
+        {items.map((b, i) => (
+          <div key={i} className="es04-benefit">
+            <span style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 0 16px" }} aria-hidden>
+              {b.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={b.image} alt="" style={{ maxHeight: 64, width: "auto" }} loading="lazy" />
+              ) : icon(b.icon)}
+            </span>
+            <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={b.title ?? ""} tag="strong" style={{ display: "inline-block", fontSize: 20, fontWeight: 700, color: "#161616", lineHeight: 1.2, marginBottom: 8 }} />
+            <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={b.text ?? ""} tag="span" style={{ fontSize: 14, color: "rgba(22,22,22,0.6)", lineHeight: 1.35 }} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-04-blog ───────────────────────────────────────────────────────────────
+// Shoptet Samba „Nové články" 1:1: centrovaný group title, články jako
+// horizontální řádky — foto vlevo (370 px / 33 %), vpravo titulek 24 px LIGHT
+// (300), popis, periwinkle „Číst článek →". Mezera 64 px mezi články.
+// ──────────────────────────────────────────────────────────────────────────────
+function BlogEshop04({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; items?: Array<{ image?: string; title?: string; text?: string; href?: string }> };
+  const items = c.items ?? [];
+  const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+  const resolve = (href: string) => (href.startsWith("/") ? `${base}${href}` : href);
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-04-blog" style={{ background: "#fff", fontFamily: SANS }}>
+      <style>{`
+        .es04-blog { max-width: 1280px; margin: 0 auto; padding: 0 20px clamp(36px,4.5vw,64px); }
+        .es04-blog-title { padding-top: 48px; text-align: center; font-size: 32px; font-weight: 700; letter-spacing: 1.6px; line-height: 38px; margin: 0 0 clamp(28px,3.5vw,48px); color: #161616; }
+        .es04-news { display: flex; gap: 32px; margin-bottom: clamp(36px,4.5vw,64px); text-decoration: none; color: inherit; }
+        .es04-news:last-child { margin-bottom: 0; }
+        .es04-news .es04-news-img { flex: 0 0 370px; max-width: 33.333%; overflow: hidden; }
+        .es04-news .es04-news-img img { width: 100%; height: auto; display: block; }
+        .es04-news-title { display: block; font-size: 24px; font-weight: 300; line-height: 1.33; color: #161616; margin-bottom: 8px; }
+        .es04-news:hover .es04-news-title { text-decoration: underline; }
+        .es04-news-desc { font-size: 15px; color: #161616; line-height: 1.7; margin: 0 0 14px; }
+        .es04-news-more { display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; color: #6883ba; transition: color 0.3s; }
+        .es04-news:hover .es04-news-more { color: #7999d9; }
+        @media (max-width: 720px) {
+          .es04-news { flex-direction: column; gap: 14px; }
+          .es04-news .es04-news-img { flex: 1 1 auto; max-width: 100%; }
+          .es04-blog-title { font-size: 24px; line-height: 30px; padding-top: 32px; }
+          .es04-news-title { font-size: 20px; }
+        }
+      `}</style>
+      <div className="es04-blog">
+        <GenericEditableText sectionId={sectionId} field="heading" value={String(c.heading ?? "Nové články")} tag="h2" className="es04-blog-title" />
+        {items.map((b, i) => (
+          <a key={i} href={isAdmin ? "#" : resolve(b.href ?? "/")} className="es04-news">
+            <span className="es04-news-img">
+              {b.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={b.image} alt={b.title ?? ""} loading="lazy" />
+              )}
+            </span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={b.title ?? ""} tag="span" className="es04-news-title" />
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={b.text ?? ""} tag="p" className="es04-news-desc" />
+              <span className="es04-news-more">
+                Číst článek
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" style={{ marginLeft: "0.8em" }}><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-04-shipping ───────────────────────────────────────────────────────────
+// Samba doprava & platba: dvě karty (radius 12) s řádky název/poznámka/cena,
+// „Zdarma" periwinkle. Raleway.
+// ──────────────────────────────────────────────────────────────────────────────
+function ShippingEshop04({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  type Row = { name?: string; note?: string; price?: string };
+  const shippingTitle = String(content.shippingTitle ?? "Doprava");
+  const paymentTitle = String(content.paymentTitle ?? "Platba");
+  const shippingItems = Array.isArray(content.shippingItems) ? (content.shippingItems as Row[]) : [];
+  const paymentItems = Array.isArray(content.paymentItems) ? (content.paymentItems as Row[]) : [];
+  const note = content.note === undefined ? "" : String(content.note);
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+
+  const table = (title: string, titleField: string, rows: Row[], fieldBase: string) => (
+    <div>
+      <GenericEditableText sectionId={sectionId} field={titleField} value={title} tag="h2"
+        style={{ fontSize: "clamp(20px,2.2vw,26px)", fontWeight: 800, color: "#161616", margin: "0 0 14px" }} />
+      <div style={{ border: "1px solid #e8e8e8", borderRadius: 12, overflow: "hidden", background: "#fff" }}>
+        {rows.map((r, i) => {
+          const free = String(r.price ?? "").trim().toLowerCase() === "zdarma";
+          return (
+            <div key={i} style={{
+              display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14,
+              padding: "14px 18px", borderTop: i === 0 ? "none" : "1px solid #e8e8e8", flexWrap: "wrap",
+            }}>
+              <span style={{ minWidth: 0 }}>
+                <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.name`} value={r.name ?? ""} tag="span"
+                  style={{ display: "block", fontSize: 15, fontWeight: 700, color: "#161616" }} />
+                {r.note && (
+                  <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.note`} value={r.note} tag="span"
+                    style={{ display: "block", fontSize: 13, color: "#6f6f6f", marginTop: 2 }} />
+                )}
+              </span>
+              <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.price`} value={r.price ?? ""} tag="span"
+                style={{ fontSize: 15, fontWeight: 700, color: free ? "#6883ba" : "#161616", whiteSpace: "nowrap" }} />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  return (
+    <section data-variant="eshop-04-shipping" style={{ background: "#fff", fontFamily: SANS }}>
+      <style>{`
+        .es04sh-grid { max-width: 1280px; margin: 0 auto; padding: clamp(36px,4.5vw,64px) 20px; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px,4vw,56px); align-items: start; }
+        @media (max-width: 860px) { .es04sh-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="es04sh-grid">
+        {table(shippingTitle, "shippingTitle", shippingItems, "shippingItems")}
+        {table(paymentTitle, "paymentTitle", paymentItems, "paymentItems")}
+      </div>
+      {note && (
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px clamp(36px,4.5vw,56px)" }}>
+          <GenericEditableText sectionId={sectionId} field="note" value={note} tag="p"
+            style={{ fontSize: 14, color: "#6f6f6f", margin: 0, lineHeight: 1.6 }} />
+        </div>
+      )}
+    </section>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+ * eshop-05 "Hračkolandia" — ALL About-type homepage sections
+ * Pompo.cz DNA: white canvas, navy text, red accents, yellow promo
+ * ═══════════════════════════════════════════════════════════ */
+
+const ES05 = {
+  RED: "#ff3b5c", NAVY: "#0e1b2c", YELLOW: "#ffc233", GREEN: "#12b76a",
+  MUTED: "#64748b", BORDER: "#e7eaee", SURFACE: "#f2f4f7",
+  SANS: "'Nunito Sans','Segoe UI',Arial,sans-serif",
+};
+
+/* ─── 1. MINI BANNERS — 4 colorful tiles + bold navy text (pompo strip) ─── */
+function AboutEshop05MiniBanners({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const list = (Array.isArray(content) ? content : []) as Array<{ icon?: string; tile?: string; label?: string; href?: string; underline?: boolean }>;
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const tileIcon = (name: string) => {
+    switch (name) {
+      case "trophy": return <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffc233" strokeWidth="1.8" strokeLinecap="round"><path d="M8 21h8m-4-4v4M7 9a5 5 0 0 0 10 0V4H7v5zM7 4H4v2a3 3 0 0 0 3 3M17 4h3v2a3 3 0 0 1-3 3"/></svg>;
+      case "cards": return <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0e1b2c" strokeWidth="1.8" strokeLinecap="round"><rect x="3" y="4" width="12" height="16" rx="2"/><path d="M17 6l4 1.5-4.5 14L14 20.5M9 10.5a2 2 0 1 0 0.01 0z"/></svg>;
+      case "car": return <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"><path d="M4 16v-3l2-5h12l2 5v3M4 16h16M4 16v2m16-2v2M7.5 13.5h.01M16.5 13.5h.01"/></svg>;
+      case "tag": return <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7.5" cy="7.5" r="1.2" fill="#fff"/><path d="M9 15l6-6" strokeWidth="1.6"/></svg>;
+      default: return <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8"><path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3z"/></svg>;
+    }
+  };
+
+  if (!list.length) return null;
+  return (
+    <section data-variant="eshop-05-mini-banners" style={{ fontFamily: ES05.SANS, background: "#fff", borderBottom: `1px solid ${ES05.BORDER}` }}>
+      <style>{`
+        .es05-mb-item { flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 18px; padding: 30px 28px; text-decoration: none; color: ${ES05.NAVY}; }
+        .es05-mb-item + .es05-mb-item { border-left: 1px solid ${ES05.BORDER}; }
+        .es05-mb-item:hover .es05-mb-label { color: ${ES05.RED}; }
+        .es05-mb-label { font-size: 15px; font-weight: 700; line-height: 1.4; max-width: 200px; transition: color 0.15s; }
+        .es05-mb-tile { width: 72px; height: 60px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        @media (max-width: 1024px) { .es05-mb-wrap { flex-wrap: wrap; } .es05-mb-item { flex: 1 1 45%; border-left: none !important; } }
+        @media (max-width: 560px) { .es05-mb-item { flex: 1 1 100%; padding: 18px 20px; justify-content: flex-start; } }
+      `}</style>
+      <div className="es05-mb-wrap" style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px", display: "flex", alignItems: "stretch" }}>
+        {list.map((item, i) => (
+          <a key={i} href={resolve(item.href ?? "/")} className="es05-mb-item">
+            <span className="es05-mb-tile" style={{ background: item.tile ?? ES05.NAVY }}>{tileIcon(item.icon ?? "star")}</span>
+            <GenericEditableText sectionId={sectionId} field={`${i}.label`} value={item.label ?? ""} tag="span" className="es05-mb-label" style={item.underline ? { textDecoration: "underline", textUnderlineOffset: 3 } : undefined} />
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ─── 2. FINDER — "Vyberte super hračku": real filter → /obchod?kategorie=&vek=&cena= ─── */
+function AboutEshop05Finder({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as {
+    heading?: string;
+    kids?: Array<{ label?: string; image?: string; value?: string }>;
+    selects?: Array<{ param?: string; placeholder?: string; options?: Array<{ label: string; value: string }> }>;
+    ctaText?: string; shopPath?: string; siteMode?: string;
+  };
+  const resolve = (href: string) => resolveNavHref(href, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin);
+  const kids = c.kids ?? [];
+  const selects = c.selects ?? [];
+  const shopPath = c.shopPath ?? "/obchod";
+  const [kidValue, setKidValue] = useState<string>("");
+  const [selValues, setSelValues] = useState<Record<string, string>>({});
+
+  const buildHref = () => {
+    const params = new URLSearchParams();
+    if (kidValue) params.set("kategorie", kidValue);
+    for (const s of selects) {
+      const p = s.param ?? "";
+      if (p && selValues[p]) params.set(p, selValues[p]);
+    }
+    const q = params.toString();
+    return resolve(q ? `${shopPath}?${q}` : shopPath);
+  };
+
+  return (
+    <section data-variant="eshop-05-finder" style={{ fontFamily: ES05.SANS, background: "#fff", borderBottom: `1px solid ${ES05.BORDER}` }}>
+      <style>{`
+        .es05-fi-wrap { display: flex; align-items: center; gap: 30px; padding: 30px 0; }
+        .es05-fi-kid { display: flex; align-items: center; gap: 12px; border: none; background: none; padding: 6px 14px 6px 6px; border-radius: 40px; cursor: pointer; color: ${ES05.NAVY}; font-size: 15.5px; font-weight: 700; font-family: inherit; transition: background 0.15s, box-shadow 0.15s; }
+        .es05-fi-kid:hover { background: ${ES05.SURFACE}; }
+        .es05-fi-kid.is-active { background: rgba(255,59,92,0.08); box-shadow: inset 0 0 0 2px ${ES05.RED}; }
+        .es05-fi-kid img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; }
+        .es05-fi-select { height: 56px; min-width: 170px; padding: 0 44px 0 18px; border: none; border-radius: 6px; background: ${ES05.SURFACE}; color: ${ES05.NAVY}; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%230e1b2c' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+        .es05-fi-cta { display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 30px; margin-left: auto; background: ${ES05.RED}; color: #fff; border-radius: 6px; font-size: 15px; font-weight: 800; text-decoration: none; transition: background 0.2s; }
+        .es05-fi-cta:hover { background: #e62b4c; }
+        @media (max-width: 1024px) { .es05-fi-wrap { flex-wrap: wrap; gap: 16px; } .es05-fi-cta { margin-left: 0; } }
+      `}</style>
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px" }}>
+        <div className="es05-fi-wrap">
+          <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? "Vyberte super hračku"} tag="h2" style={{ fontSize: 22, fontWeight: 900, color: ES05.NAVY, lineHeight: 1.2, maxWidth: 180, letterSpacing: "-0.01em" }} />
+          {kids.map((k, ki) => (
+            <button key={ki} type="button" className={`es05-fi-kid${kidValue === k.value ? " is-active" : ""}`} onClick={() => setKidValue(kidValue === k.value ? "" : (k.value ?? ""))}>
+              {k.image && <img src={k.image} alt="" loading="lazy" />}
+              {k.label}
+            </button>
+          ))}
+          {selects.map((s, si) => (
+            <select key={si} className="es05-fi-select" value={selValues[s.param ?? ""] ?? ""} onChange={(e) => setSelValues(v => ({ ...v, [s.param ?? ""]: e.target.value }))}>
+              <option value="">{s.placeholder}</option>
+              {(s.options ?? []).map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          ))}
+          <a href={buildHref()} className="es05-fi-cta">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            {c.ctaText ?? "Najdi hračku"}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── 3. HOT OFFER — "Právě letí": centered heading, image card + title below ─── */
+function AboutEshop05HotOffer({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as { heading?: string; items?: Array<{ image?: string; title?: string; href?: string }> };
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const items = c.items ?? [];
+
+  return (
+    <section data-variant="eshop-05-hot-offer" style={{ fontFamily: ES05.SANS, background: "#fff", padding: "52px 0 20px" }}>
+      <style>{`
+        .es05-ho-card { display: block; text-decoration: none; }
+        .es05-ho-media { border-radius: 8px; overflow: hidden; aspect-ratio: 6/7; background: ${ES05.SURFACE}; }
+        .es05-ho-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .es05-ho-card:hover .es05-ho-media img { transform: scale(1.05); }
+        .es05-ho-title { margin-top: 14px; color: ${ES05.NAVY}; font-size: 16.5px; font-weight: 800; line-height: 1.3; transition: color 0.15s; }
+        .es05-ho-card:hover .es05-ho-title { color: ${ES05.RED}; }
+        @media (max-width: 900px) { .es05-ho-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 480px) { .es05-ho-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px" }}>
+        <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? "Právě letí"} tag="h2" style={{
+          fontSize: 30, fontWeight: 900, color: ES05.NAVY, marginBottom: 30, letterSpacing: "-0.02em", textAlign: "center",
+        }} />
+        <div className="es05-ho-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+          {items.map((item, i) => (
+            <a key={i} href={resolve(item.href ?? "/obchod")} className="es05-ho-card">
+              <div className="es05-ho-media">
+                {item.image && <img src={item.image} alt={item.title ?? ""} loading="lazy" />}
+              </div>
+              <div className="es05-ho-title">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── 4. BENTO — symmetric yellow promo mosaic (pompo LEGO grid) ───
+ * Grid: large card left (spans 2 rows) + 4 equal cards in 2×2.
+ * Every card: badge+SKU+title top, image fills middle, "Více zde" bottom-left. */
+function AboutEshop05Bento({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as { heading?: string; items?: Array<{ image?: string; badge?: string; sku?: string; title?: string; href?: string; size?: string }> };
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const items = c.items ?? [];
+  const large = items.find(i => i.size === "large") ?? items[0];
+  const rest = items.filter(i => i !== large).slice(0, 4);
+
+  const CardHead = ({ item, idx, big }: { item: NonNullable<typeof large>; idx: number; big?: boolean }) => (
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+      {item.badge && <span className="es05-be-badge">{item.badge}</span>}
+      <div style={{ minWidth: 0 }}>
+        {item.sku && <div style={{ fontSize: 12.5, fontWeight: 800, color: ES05.NAVY, opacity: 0.7, marginBottom: 2 }}>{item.sku}</div>}
+        <div style={{ fontSize: big ? 20 : 15.5, fontWeight: 900, color: ES05.NAVY, lineHeight: 1.25 }}>
+          <GenericEditableText sectionId={sectionId} field={`items.${idx}.title`} value={item.title ?? ""} tag="span" />
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <section data-variant="eshop-05-bento" style={{ fontFamily: ES05.SANS, background: "#fff", padding: "44px 0 24px" }}>
+      <style>{`
+        .es05-be-grid { display: grid; grid-template-columns: 1.15fr 1fr 1fr; grid-template-rows: 264px 264px; gap: 16px; }
+        .es05-be-card { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 12px; background: ${ES05.YELLOW}; overflow: hidden; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .es05-be-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(14,27,44,0.14); }
+        .es05-be-card--large { grid-row: 1 / 3; grid-column: 1; }
+        .es05-be-blob { position: absolute; right: -50px; bottom: -60px; width: 240px; height: 240px; border-radius: 46% 54% 60% 40% / 50% 45% 55% 50%; background: rgba(250,125,20,0.32); pointer-events: none; }
+        .es05-be-badge { display: inline-flex; align-items: center; justify-content: center; padding: 8px 10px; background: ${ES05.RED}; color: #fff; font-size: 11.5px; font-weight: 900; letter-spacing: 0.04em; border-radius: 4px; flex-shrink: 0; }
+        .es05-be-img { position: relative; z-index: 1; flex: 1; min-height: 0; border-radius: 8px; overflow: hidden; }
+        .es05-be-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .es05-be-card:hover .es05-be-img img { transform: scale(1.04); }
+        .es05-be-more { position: relative; z-index: 1; display: inline-flex; align-self: flex-start; padding: 10px 20px; background: #fff; color: ${ES05.NAVY}; font-size: 13.5px; font-weight: 800; border-radius: 4px; box-shadow: 0 2px 8px rgba(14,27,44,0.1); transition: background 0.15s, color 0.15s; }
+        .es05-be-card:hover .es05-be-more { background: ${ES05.NAVY}; color: #fff; }
+        @media (max-width: 1024px) { .es05-be-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; } .es05-be-card--large { grid-row: auto; grid-column: 1 / -1; min-height: 340px; } .es05-be-card { min-height: 264px; } }
+        @media (max-width: 560px) { .es05-be-grid { grid-template-columns: 1fr; } .es05-be-card--large { grid-column: 1; } }
+      `}</style>
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px" }}>
+        <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? "To děti zbožňují"} tag="h2" style={{
+          fontSize: 30, fontWeight: 900, color: ES05.NAVY, marginBottom: 30, letterSpacing: "-0.02em", textAlign: "center",
+        }} />
+        <div className="es05-be-grid">
+          {large && (
+            <a href={resolve(large.href ?? "/obchod")} className="es05-be-card es05-be-card--large">
+              <span className="es05-be-blob" aria-hidden />
+              <CardHead item={large} idx={items.indexOf(large)} big />
+              {large.image && <div className="es05-be-img"><img src={large.image} alt="" loading="lazy" /></div>}
+              <span className="es05-be-more">Více zde</span>
+            </a>
+          )}
+          {rest.map((item) => (
+            <a key={item.sku} href={resolve(item.href ?? "/obchod")} className="es05-be-card">
+              <span className="es05-be-blob" aria-hidden />
+              <CardHead item={item} idx={items.indexOf(item)} />
+              {item.image && <div className="es05-be-img"><img src={item.image} alt="" loading="lazy" /></div>}
+              <span className="es05-be-more">Více zde</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── 5. TWO BANNERS — white cards: round illustration + title + red link ─── */
+function AboutEshop05TwoBanners({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const items = (Array.isArray(content) ? content : []) as Array<{ image?: string; title?: string; subtitle?: string; ctaText?: string; href?: string }>;
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section data-variant="eshop-05-two-banners" style={{ fontFamily: ES05.SANS, background: "#fff", padding: "32px 0" }}>
+      <style>{`
+        .es05-tb-card { display: flex; align-items: center; gap: 22px; padding: 26px 30px; border: 1px solid ${ES05.BORDER}; border-radius: 10px; background: #fff; text-decoration: none; transition: box-shadow 0.2s, transform 0.2s; }
+        .es05-tb-card:hover { box-shadow: 0 12px 30px rgba(14,27,44,0.08); transform: translateY(-2px); }
+        .es05-tb-card img { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+        .es05-tb-link { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; color: ${ES05.RED}; font-size: 15px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
+        .es05-tb-card:hover .es05-tb-link { text-decoration: underline; text-underline-offset: 3px; }
+        @media (max-width: 900px) { .es05-tb-grid { grid-template-columns: 1fr !important; } }
+        @media (max-width: 560px) { .es05-tb-card { flex-direction: column; text-align: center; } .es05-tb-link { margin-left: 0; } }
+      `}</style>
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px" }}>
+        <div className="es05-tb-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          {items.map((item, i) => (
+            <a key={i} href={resolve(item.href ?? "/")} className="es05-tb-card">
+              {item.image && <img src={item.image} alt="" loading="lazy" />}
+              <span>
+                <GenericEditableText sectionId={sectionId} field={`${i}.title`} value={item.title ?? ""} tag="span" style={{ display: "block", fontSize: 20, fontWeight: 900, color: ES05.NAVY, marginBottom: 4 }} />
+                <GenericEditableText sectionId={sectionId} field={`${i}.subtitle`} value={item.subtitle ?? ""} tag="span" style={{ display: "block", fontSize: 14, fontWeight: 600, color: ES05.MUTED, lineHeight: 1.45, maxWidth: 260 }} />
+              </span>
+              <span className="es05-tb-link">
+                {item.ctaText}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── 6. BLOG — "Žhavá témata": editorial feature + side cards ─── */
+function AboutEshop05Blog({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as { heading?: string; linkText?: string; linkHref?: string; posts?: Array<{ image?: string; category?: string; date?: string; readTime?: string; title?: string; excerpt?: string; href?: string; size?: string }> };
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const posts = c.posts ?? [];
+  const feature = posts.find(p => p.size === "large") ?? posts[0];
+  const side = posts.filter(p => p !== feature).slice(0, 2);
+
+  return (
+    <section data-variant="eshop-05-blog" style={{ fontFamily: ES05.SANS, background: ES05.SURFACE, padding: "56px 0 64px" }}>
+      <style>{`
+        .es05-bl-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 20px; align-items: stretch; }
+        .es05-bl-feature { position: relative; display: flex; flex-direction: column; justify-content: flex-end; border-radius: 14px; overflow: hidden; text-decoration: none; min-height: 460px; }
+        .es05-bl-feature img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .es05-bl-feature:hover img { transform: scale(1.04); }
+        .es05-bl-feature::after { content: ''; position: absolute; inset: 0; background: linear-gradient(8deg, rgba(14,27,44,0.86) 0%, rgba(14,27,44,0.35) 45%, rgba(14,27,44,0.02) 70%); }
+        .es05-bl-feature-body { position: relative; z-index: 2; padding: 34px 36px; }
+        .es05-bl-chip { display: inline-flex; padding: 5px 13px; border-radius: 30px; background: ${ES05.RED}; color: #fff; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; }
+        .es05-bl-meta { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,0.75); }
+        .es05-bl-readmore { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: #fff; font-size: 14.5px; font-weight: 800; }
+        .es05-bl-readmore svg { transition: transform 0.2s; }
+        .es05-bl-feature:hover .es05-bl-readmore svg { transform: translateX(4px); }
+        .es05-bl-side { display: flex; flex-direction: column; gap: 20px; }
+        .es05-bl-card { flex: 1; display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; background: #fff; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .es05-bl-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(14,27,44,0.1); }
+        .es05-bl-card-img { position: relative; height: 130px; overflow: hidden; flex-shrink: 0; }
+        .es05-bl-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .es05-bl-card:hover .es05-bl-card-img img { transform: scale(1.05); }
+        .es05-bl-card-body { display: flex; flex-direction: column; gap: 9px; padding: 18px 22px 20px; }
+        .es05-bl-card-title { font-size: 17px; font-weight: 800; color: ${ES05.NAVY}; line-height: 1.3; transition: color 0.15s; }
+        .es05-bl-card:hover .es05-bl-card-title { color: ${ES05.RED}; }
+        @media (max-width: 1024px) { .es05-bl-grid { grid-template-columns: 1fr; } .es05-bl-feature { min-height: 380px; } .es05-bl-side { flex-direction: row; } .es05-bl-card { flex: 1; } }
+        @media (max-width: 640px) { .es05-bl-side { flex-direction: column; } }
+      `}</style>
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 20, marginBottom: 32 }}>
+          <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? "Žhavá témata"} tag="h2" style={{ fontSize: 30, fontWeight: 900, color: ES05.NAVY, letterSpacing: "-0.02em" }} />
+          {c.linkText && (
+            <a href={resolve(c.linkHref ?? "/o-nas")} style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 14.5, fontWeight: 800, color: ES05.NAVY, textDecoration: "none", whiteSpace: "nowrap" }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = ES05.RED; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = ES05.NAVY; }}
+            >
+              {c.linkText}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+            </a>
+          )}
+        </div>
+
+        <div className="es05-bl-grid">
+          {feature && (
+            <a href={resolve(feature.href ?? "/")} className="es05-bl-feature">
+              {feature.image && <img src={feature.image} alt="" loading="lazy" />}
+              <div className="es05-bl-feature-body">
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
+                  {feature.category && <span className="es05-bl-chip">{feature.category}</span>}
+                  <span className="es05-bl-meta">
+                    {feature.date}
+                    {feature.readTime && <><span style={{ opacity: 0.5 }}>·</span>{feature.readTime}</>}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: "clamp(24px, 2.2vw, 34px)", fontWeight: 900, color: "#fff", lineHeight: 1.15, letterSpacing: "-0.02em", margin: "0 0 12px", textShadow: "0 2px 14px rgba(0,0,0,0.25)" }}>{feature.title}</h3>
+                {feature.excerpt && <p style={{ fontSize: 15, fontWeight: 600, color: "rgba(255,255,255,0.85)", lineHeight: 1.55, margin: 0, maxWidth: 640 }}>{feature.excerpt}</p>}
+                <span className="es05-bl-readmore">
+                  Číst dál
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </div>
+            </a>
+          )}
+          <div className="es05-bl-side">
+            {side.map((post, pi) => (
+              <a key={pi} href={resolve(post.href ?? "/")} className="es05-bl-card">
+                <div className="es05-bl-card-img">
+                  {post.image && <img src={post.image} alt="" loading="lazy" />}
+                </div>
+                <div className="es05-bl-card-body">
+                  <span style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12, fontWeight: 800 }}>
+                    {post.category && <span style={{ color: ES05.RED, textTransform: "uppercase", letterSpacing: "0.06em" }}>{post.category}</span>}
+                    <span style={{ color: ES05.MUTED }}>{post.date}</span>
+                    {post.readTime && <span style={{ color: ES05.MUTED, opacity: 0.7 }}>· {post.readTime}</span>}
+                  </span>
+                  <span className="es05-bl-card-title">{post.title}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── 7. BRANDS — "Trefa do černého": real logo tiles, centered ─── */
+function AboutEshop05Brands({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as { heading?: string; linkText?: string; linkHref?: string; brands?: Array<{ name?: string; image?: string } | string> };
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const brands = (c.brands ?? []).map(b => typeof b === "string" ? { name: b, image: undefined } : b).slice(0, 6);
+
+  return (
+    <section data-variant="eshop-05-brands" style={{ fontFamily: ES05.SANS, background: "#fff", padding: "48px 0 64px" }}>
+      <style>{`
+        .es05-br-tile { display: flex; align-items: center; justify-content: center; width: 172px; height: 116px; padding: 22px; border-radius: 10px; background: #fff; border: 1px solid transparent; text-decoration: none; transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s; }
+        .es05-br-tile:hover { border-color: ${ES05.BORDER}; transform: translateY(-3px); box-shadow: 0 14px 30px rgba(14,27,44,0.09); }
+        .es05-br-tile img { max-width: 100%; max-height: 62px; object-fit: contain; }
+        .es05-br-row { display: flex; justify-content: center; align-items: center; gap: 18px; flex-wrap: wrap; }
+        .es05-br-link { display: inline-flex; align-items: center; gap: 7px; color: ${ES05.NAVY}; font-size: 15px; font-weight: 800; text-decoration: none; }
+        .es05-br-link:hover { color: ${ES05.RED}; }
+      `}</style>
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px", textAlign: "center" }}>
+        <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? "Trefa do černého"} tag="h2" style={{
+          fontSize: 30, fontWeight: 900, color: ES05.NAVY, marginBottom: 34, letterSpacing: "-0.02em",
+        }} />
+        <div className="es05-br-row" style={{ marginBottom: 34 }}>
+          {brands.map((brand, i) => (
+            <a key={i} href={resolve("/obchod")} className="es05-br-tile" title={brand.name}>
+              {brand.image ? (
+                <img src={brand.image} alt={brand.name ?? ""} loading="lazy" />
+              ) : (
+                <span style={{ fontSize: 19, fontWeight: 900, fontStyle: "italic", color: ES05.NAVY }}>{brand.name}</span>
+              )}
+            </a>
+          ))}
+        </div>
+        {c.linkText && (
+          <a href={resolve(c.linkHref ?? "/obchod")} className="es05-br-link">
+            {c.linkText}
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-blog ───────────────────────────────────────────────────────────────
+// Blog sekce (svetplodu DNA, Ořeškárna): nadpis „Blog" vlevo + uppercase odkaz
+// „Další články" vpravo. 3 karty: foto (radius 12, hover zoom) s bílým chip
+// štítkem rubriky vlevo dole, Archivo bold titulek, meta řádek datum | přečteno.
+// Mobil: horizontální swipe se scroll-snapem (1,15 karty).
+type Es06BlogPost = { image?: string; chip?: string; title?: string; meta?: string; href?: string };
+
+function AboutEshop06Blog({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; moreText?: string; moreHref?: string; posts?: Es06BlogPost[]; siteMode?: string };
+  const posts = (c.posts ?? []).slice(0, 3);
+  const heading = c.heading ?? "Blog";
+  const moreText = c.moreText ?? "Další články";
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  const CHARCOAL = "#1d1d1b";
+  const MUTED = "#7a776f";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+
+  if (!posts.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-blog" style={{ fontFamily: SANS, background: "#fff", padding: "36px 0 22px" }}>
+      <style>{`
+        .es06b-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .es06b-card { display: flex; flex-direction: column; text-decoration: none; }
+        .es06b-media { position: relative; aspect-ratio: 16/10; border-radius: 12px; overflow: hidden; background: #f5f5f2; }
+        .es06b-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es06b-card:hover .es06b-media img { transform: scale(1.05); }
+        .es06b-card:hover .es06b-title { text-decoration: underline; text-underline-offset: 3px; }
+        .es06b-chip { position: absolute; left: 14px; bottom: 14px; padding: 8px 14px; border-radius: 8px; background: #fff; color: ${CHARCOAL}; font-family: ${HEAD}; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; box-shadow: 0 6px 16px rgba(29,29,27,0.14); }
+        .es06b-more { font-family: ${HEAD}; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: ${CHARCOAL}; text-decoration: none; border-bottom: 2px solid ${CHARCOAL}; padding-bottom: 3px; white-space: nowrap; transition: opacity 0.15s; }
+        .es06b-more:hover { opacity: 0.6; }
+        @media (max-width: 860px) {
+          .es06b-grid { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 -24px; padding: 0 24px; }
+          .es06b-grid::-webkit-scrollbar { display: none; }
+          .es06b-card { flex: 0 0 78%; scroll-snap-align: start; }
+          .es06b-chip { font-size: 10px; padding: 6px 10px; left: 10px; bottom: 10px; }
+        }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 20 }}>
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+            fontFamily: HEAD, fontSize: "clamp(24px, 2.6vw, 34px)", fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.02em", margin: 0,
+          }} />
+          <a href={resolve(c.moreHref ?? "/o-nas")} className="es06b-more">{moreText}</a>
+        </div>
+        <div className="es06b-grid">
+          {posts.map((p, i) => (
+            <a key={i} href={resolve(p.href ?? "/o-nas")} className="es06b-card">
+              <span className="es06b-media">
+                {p.image && <img src={p.image} alt={p.title ?? ""} loading="lazy" />}
+                {p.chip && <span className="es06b-chip">{p.chip}</span>}
+              </span>
+              <span className="es06b-title" style={{ fontFamily: HEAD, fontSize: 17, fontWeight: 800, color: CHARCOAL, lineHeight: 1.35, marginTop: 14 }}>{p.title}</span>
+              {p.meta && <span style={{ fontSize: 13, fontWeight: 500, color: MUTED, marginTop: 7 }}>{p.meta}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-split ──────────────────────────────────────────────────────────────
+// Split sekce (svetplodu DNA, Ořeškárna): foto na jedné straně, na druhé pastelový
+// kruh s ikonou, Archivo nadpis, odstavec s <strong> zvýrazněními (whitelist tagů)
+// a podtržený uppercase odkaz. `reverse` prohodí strany. Mobil: foto nahoře,
+// text pod ním, menší kruh.
+type Es06SplitIcon = "pin" | "chef" | "leaf" | "heart";
+
+function Es06SplitIconSvg({ icon }: { icon: Es06SplitIcon }) {
+  const common = { fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (icon === "chef") return (
+    <svg width="30" height="30" viewBox="0 0 24 24" {...common}><path d="M6.5 11.5a3.5 3.5 0 0 1-.5-6.96 4.5 4.5 0 0 1 8.83-.6A3.75 3.75 0 0 1 17.5 11.3"/><path d="M6.5 11.5V19a1.5 1.5 0 0 0 1.5 1.5h8A1.5 1.5 0 0 0 17.5 19v-7.7"/><path d="M6.5 16.5h11"/></svg>
+  );
+  if (icon === "leaf") return (
+    <svg width="30" height="30" viewBox="0 0 24 24" {...common}><path d="M4 20c8 0 16-4 16-16-10 0-16 5-16 12"/><path d="M4 20c0-6 4-10 10-12"/></svg>
+  );
+  if (icon === "heart") return (
+    <svg width="30" height="30" viewBox="0 0 24 24" {...common}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  );
+  return (
+    <svg width="30" height="30" viewBox="0 0 24 24" {...common}><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+  );
+}
+
+// Bezpečné zvýraznění: **text** → <strong>, žádné HTML z obsahu se neinterpretuje
+function Es06RichText({ text }: { text: string }) {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  return (
+    <>
+      {parts.map((part, i) => (i % 2 === 1 ? <strong key={i} style={{ fontWeight: 700 }}>{part}</strong> : <React.Fragment key={i}>{part}</React.Fragment>))}
+    </>
+  );
+}
+
+function AboutEshop06Split({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    image?: string; heading?: string; text?: string; linkText?: string; linkHref?: string;
+    icon?: Es06SplitIcon; iconBg?: string; iconColor?: string; reverse?: boolean;
+  };
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const reverse = c.reverse === true;
+
+  const CHARCOAL = "#1d1d1b";
+  const MUTED = "#4c4a44";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+
+  if (!c.heading && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-split" style={{ fontFamily: SANS, background: "#fff", padding: "34px 0" }}>
+      <style>{`
+        .es06s-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 76px); align-items: center; }
+        .es06s-media { border-radius: 14px; overflow: hidden; background: #f5f5f2; aspect-ratio: 4/3; }
+        .es06s-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .es06s-grid:hover .es06s-media img { transform: scale(1.03); }
+        .es06s-link { display: inline-block; font-family: ${HEAD}; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: ${CHARCOAL}; text-decoration: none; border-bottom: 2px solid ${CHARCOAL}; padding-bottom: 3px; transition: opacity 0.15s; }
+        .es06s-link:hover { opacity: 0.6; }
+        @media (max-width: 860px) {
+          .es06s-grid { grid-template-columns: 1fr !important; gap: 22px; }
+          .es06s-media { order: -1 !important; }
+          .es06s-circle { width: 56px !important; height: 56px !important; margin-bottom: 16px !important; }
+        }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es06s-grid">
+          <div className="es06s-media" style={{ order: reverse ? 2 : 0 }}>
+            {c.image && (
+              <GenericEditableImage sectionId={sectionId} field="image" src={c.image} alt={c.heading ?? ""} className="w-full h-full object-cover">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={c.image} alt={c.heading ?? ""} loading="lazy" />
+              </GenericEditableImage>
+            )}
+          </div>
+          <div style={{ order: 1, maxWidth: 520 }}>
+            <span className="es06s-circle" style={{
+              width: 66, height: 66, borderRadius: "50%", background: c.iconBg ?? "#e8f1fb",
+              color: c.iconColor ?? CHARCOAL, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 22,
+            }}>
+              <Es06SplitIconSvg icon={c.icon ?? "pin"} />
+            </span>
+            <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? ""} tag="h2" style={{
+              fontFamily: HEAD, fontSize: "clamp(23px, 2.4vw, 31px)", fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.02em", margin: "0 0 16px",
+            }} />
+            <p style={{ fontSize: 15.5, fontWeight: 500, lineHeight: 1.75, color: MUTED, margin: "0 0 22px" }}>
+              <Es06RichText text={c.text ?? ""} />
+            </p>
+            {c.linkText && <a href={resolve(c.linkHref ?? "/o-nas")} className="es06s-link">{c.linkText}</a>}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-social ─────────────────────────────────────────────────────────────
+// „Sledujte nás": Archivo nadpis vlevo, řada tmavých kruhových social ikon vpravo
+// (fb/ig/yt/tiktok/in dle content.links). Mobil: pod sebou, ikony zarovnané vlevo.
+export function Es06SocialIcon({ kind }: { kind: string }) {
+  const s = { fill: "currentColor" as const };
+  if (kind === "facebook") return <svg width="17" height="17" viewBox="0 0 24 24" {...s}><path d="M13.5 21v-7h2.4l.5-3h-2.9V9.1c0-.9.3-1.6 1.7-1.6h1.3V4.8c-.6-.1-1.5-.2-2.4-.2-2.4 0-4 1.4-4 4.1V11H7.5v3h2.6v7h3.4z"/></svg>;
+  if (kind === "instagram") return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>;
+  if (kind === "youtube") return <svg width="18" height="18" viewBox="0 0 24 24" {...s}><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg>;
+  if (kind === "tiktok") return <svg width="16" height="16" viewBox="0 0 24 24" {...s}><path d="M16.6 3c.4 2.1 1.8 3.5 3.9 3.7v3c-1.5 0-2.8-.5-3.9-1.3v6.1a5.9 5.9 0 1 1-5.9-5.9c.3 0 .7 0 1 .1v3.1a2.9 2.9 0 1 0 2 2.7V3h2.9z"/></svg>;
+  if (kind === "linkedin") return <svg width="16" height="16" viewBox="0 0 24 24" {...s}><path d="M4.5 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 9h3v12H3zM9 9h2.9v1.6h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.7 2 3.7 4.7V21h-3v-6.2c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H9z"/></svg>;
+  return null;
+}
+
+function AboutEshop06Social({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; links?: Array<{ kind: string; href?: string }> };
+  const links = c.links ?? [];
+  const CHARCOAL = "#1d1d1b";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+
+  if (!links.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-social" style={{ fontFamily: "'Figtree','Segoe UI',Arial,sans-serif", background: "#fff", padding: "26px 0" }}>
+      <style>{`
+        .es06so-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+        .es06so-btn { width: 46px; height: 46px; border-radius: 50%; background: ${CHARCOAL}; color: #fff; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.16s, background 0.16s; }
+        .es06so-btn:hover { transform: translateY(-3px); background: #000; }
+        @media (max-width: 640px) { .es06so-row { flex-direction: column; align-items: flex-start; gap: 16px; } }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es06so-row">
+          <GenericEditableText sectionId={sectionId} field="heading" value={c.heading ?? "Sledujte nás"} tag="h2" style={{
+            fontFamily: HEAD, fontSize: "clamp(24px, 2.6vw, 34px)", fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.02em", margin: 0,
+          }} />
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            {links.map((l, i) => (
+              <a key={i} href={l.href ?? "#"} target="_blank" rel="noreferrer" aria-label={l.kind} className="es06so-btn">
+                <Es06SocialIcon kind={l.kind} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-usp ────────────────────────────────────────────────────────────────
+// USP řada: 5 pastelových kruhů s line ikonami + tučný label pod nimi. Ikony:
+// wheat/bulb/tasting/factory/store (dle content.items[].icon). Mobil: grid 2-3
+// do řádku, menší kruhy.
+function Es06UspIcon({ icon }: { icon: string }) {
+  const p = { fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, width: 30, height: 30, viewBox: "0 0 24 24" };
+  if (icon === "bulb") return <svg {...p}><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 1 3.6 10.8c-.7.6-1.1 1.3-1.1 2.2h-5c0-.9-.4-1.6-1.1-2.2A6 6 0 0 1 12 3z"/></svg>;
+  if (icon === "tasting") return <svg {...p}><path d="M5 9h14l-1.3 10.3a2 2 0 0 1-2 1.7H8.3a2 2 0 0 1-2-1.7L5 9z"/><path d="M8 9V7a4 4 0 0 1 8 0v2"/></svg>;
+  if (icon === "factory") return <svg {...p}><path d="M12 3v6l4-3v3l4-3v14H4V7l4 3V7l4 3V3z" transform="translate(0 1)"/></svg>;
+  if (icon === "store") return <svg {...p}><path d="M4 9l1.2-4.5A1 1 0 0 1 6.2 4h11.6a1 1 0 0 1 1 .5L20 9"/><path d="M4 9h16v2a2.5 2.5 0 0 1-5 0 2.5 2.5 0 0 1-6 0 2.5 2.5 0 0 1-5 0V9z"/><path d="M5.5 13.5V20h13v-6.5M10 20v-4h4v4"/></svg>;
+  return <svg {...p}><path d="M12 21c0-6 0-9 0-9M12 12c-4 0-6-2.5-6-6 4 0 6 2.5 6 6zM12 12c4 0 6-2.5 6-6-4 0-6 2.5-6 6z"/><path d="M12 21c-3.5 0-5-2-5-4.5 3 0 5 1.5 5 4.5zM12 21c3.5 0 5-2 5-4.5-3 0-5 1.5-5 4.5z"/></svg>;
+}
+
+function AboutEshop06Usp({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { items?: Array<{ icon?: string; label?: string; bg?: string }> };
+  const items = c.items ?? [];
+  const CHARCOAL = "#1d1d1b";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+
+  if (!items.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-usp" style={{ fontFamily: "'Figtree','Segoe UI',Arial,sans-serif", background: "#fff", padding: "26px 0 40px" }}>
+      <style>{`
+        .es06u-row { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+        .es06u-item { display: flex; flex-direction: column; align-items: center; gap: 14px; flex: 1; min-width: 130px; text-align: center; }
+        .es06u-circle { width: 84px; height: 84px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: ${CHARCOAL}; transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+        .es06u-item:hover .es06u-circle { transform: translateY(-4px) scale(1.05); }
+        @media (max-width: 860px) {
+          .es06u-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 10px; }
+          .es06u-circle { width: 66px; height: 66px; }
+          .es06u-item { min-width: 0; }
+          .es06u-item:nth-child(n+4) { grid-column: span 1; }
+        }
+        @media (max-width: 480px) { .es06u-row { grid-template-columns: repeat(2, 1fr); } }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es06u-row">
+          {items.map((it, i) => (
+            <div key={i} className="es06u-item">
+              <span className="es06u-circle" style={{ background: it.bg ?? "#f5f5f2" }}>
+                <Es06UspIcon icon={it.icon ?? "wheat"} />
+              </span>
+              <span style={{ fontFamily: HEAD, fontSize: 13.5, fontWeight: 800, color: CHARCOAL, lineHeight: 1.3 }}>{it.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// eshop-08 "Ovečkárna" — ALL About-type homepage sections
+// ══════════════════════════════════════════════════════════════════════════════
+const ES08 = {
+  SANS: "'Inter', 'Segoe UI', Arial, sans-serif",
+  CHARCOAL: "#1a1a1a",
+  GREEN: "#5a8a2d",
+  GREEN_DARK: "#4a7523",
+  GOLD: "#d4a843",
+  GOLD_BG: "#f5ecd4",
+  MUTED: "#8a8680",
+  BORDER: "#e8e4dc",
+  SURFACE: "#f7f5f0",
+};
+
+// ── eshop-08-benefits — 5 USP ikon v pruhu ──────────────────────────────────
+function AboutEshop08Benefits({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const items = ((content as Record<string, unknown>).items as Array<{ icon?: string; title?: string; subtitle?: string }>) ?? [];
+  const iconMap: Record<string, React.ReactElement> = {
+    truck: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 3H1v13h15V3z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>,
+    phone: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+    return: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12h18"/><path d="M3 12l6-6"/><path d="M3 12l6 6"/><rect x="7" y="4" width="14" height="16" rx="2" stroke="currentColor" fill="none"/></svg>,
+    cert: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12"/></svg>,
+    heart: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+  };
+  return (
+    <section data-variant="eshop-08-benefits" style={{ fontFamily: ES08.SANS, background: "#fff", borderBottom: `1px solid ${ES08.BORDER}`, padding: "18px 0" }}>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, overflowX: "auto" }}>
+        {items.map((it, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0, padding: "6px 0" }}>
+            <span style={{ color: ES08.CHARCOAL, flexShrink: 0, opacity: 0.7 }}>{iconMap[it.icon ?? ""] ?? iconMap.cert}</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: ES08.CHARCOAL, lineHeight: 1.3, whiteSpace: "nowrap" }}>
+              {it.title}{it.subtitle && <><br /><span style={{ fontWeight: 800 }}>{it.subtitle}</span></>}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-categories — 6 kategorií s subkategorie linky ──────────────────
+function AboutEshop08Categories({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const cats = ((content as Record<string, unknown>).categories as Array<{
+    title: string; description?: string;
+    links: Array<{ label: string; href: string }>;
+    allText?: string; allHref?: string;
+  }>) ?? [];
+
+  return (
+    <section data-variant="eshop-08-categories" style={{ fontFamily: ES08.SANS, background: "#fff", padding: "48px 0 56px" }}>
+      <style>{`
+        .es08-cat-grid-link { transition: color 0.13s; }
+        .es08-cat-grid-link:hover { color: ${ES08.GREEN} !important; }
+        .es08-cat-all { transition: color 0.15s; }
+        .es08-cat-all:hover { color: ${ES08.GREEN_DARK} !important; }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "40px 48px" }}>
+          {cats.map((cat, i) => (
+            <div key={i} style={{ borderTop: `2px solid ${ES08.CHARCOAL}`, paddingTop: 20 }}>
+              <h3 style={{ margin: 0, fontSize: 22, fontWeight: 900, color: ES08.CHARCOAL, letterSpacing: "-0.01em" }}>{cat.title}</h3>
+              {cat.description && <p style={{ margin: "6px 0 0", fontSize: 13.5, fontWeight: 500, color: ES08.MUTED, lineHeight: 1.4 }}>{cat.description}</p>}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 14 }}>
+                {cat.links.map((lk, li) => (
+                  <a key={li} href={resolve(lk.href)} className="es08-cat-grid-link" style={{
+                    fontSize: 14.5, fontWeight: 500, color: ES08.CHARCOAL, textDecoration: "none", padding: "3px 0",
+                  }}>{lk.label}</a>
+                ))}
+              </div>
+              {cat.allText && cat.allHref && (
+                <a href={resolve(cat.allHref)} className="es08-cat-all" style={{
+                  display: "inline-block", marginTop: 14, fontSize: 13, fontWeight: 800,
+                  color: ES08.GREEN, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.04em",
+                }}>{cat.allText}</a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-info-cards — 3 karty (Certifikáty, Péče o přírodu, Jak pečovat) ─
+function AboutEshop08InfoCards({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const cards = ((content as Record<string, unknown>).cards as Array<{
+    image?: string; title: string; text?: string; ctaText?: string; ctaHref?: string;
+  }>) ?? [];
+
+  return (
+    <section data-variant="eshop-08-info-cards" style={{ fontFamily: ES08.SANS, background: ES08.SURFACE, padding: "56px 0 64px" }}>
+      <style>{`
+        .es08-info-card { transition: transform 0.22s, box-shadow 0.22s; }
+        .es08-info-card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(26,26,26,0.1); }
+        .es08-info-cta { transition: color 0.15s; }
+        .es08-info-cta:hover { color: ${ES08.GREEN_DARK} !important; }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+          {cards.map((card, i) => (
+            <div key={i} className="es08-info-card" style={{ background: "#fff", borderRadius: 8, overflow: "hidden", border: `1px solid ${ES08.BORDER}` }}>
+              {card.image && <img src={card.image} alt="" style={{ width: "100%", height: 200, objectFit: "cover" }} loading="lazy" />}
+              <div style={{ padding: "24px 28px 28px" }}>
+                <h3 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: ES08.CHARCOAL }}>{card.title}</h3>
+                {card.text && <p style={{ margin: "10px 0 0", fontSize: 14, fontWeight: 400, color: ES08.MUTED, lineHeight: 1.6 }}>{card.text}</p>}
+                {card.ctaText && card.ctaHref && (
+                  <a href={resolve(card.ctaHref)} className="es08-info-cta" style={{
+                    display: "inline-block", marginTop: 16, fontSize: 13, fontWeight: 800,
+                    color: ES08.GREEN, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.04em",
+                  }}>{card.ctaText}</a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-blog — 2 velké karty vlevo + sidebar seznam vpravo ─────────────
+function AboutEshop08Blog({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const c = content as Record<string, unknown>;
+  const heading = String(c.heading ?? "BLOG");
+  const moreText = String(c.moreText ?? "");
+  const moreHref = String(c.moreHref ?? "/blog");
+  const mainPosts = (c.mainPosts as Array<{ image?: string; chip?: string; chipColor?: string; title: string; meta?: string; text?: string; href?: string }>) ?? [];
+  const sidebarHeading = String(c.sidebarHeading ?? "Návody a rady");
+  const sidebarPosts = (c.sidebarPosts as Array<{ title: string; href?: string }>) ?? [];
+  const sidebarAllText = String(c.sidebarAllText ?? "");
+  const sidebarAllHref = String(c.sidebarAllHref ?? "/blog");
+
+  return (
+    <section data-variant="eshop-08-blog" style={{ fontFamily: ES08.SANS, background: "#fff", padding: "56px 0 64px", borderTop: `1px solid ${ES08.BORDER}` }}>
+      <style>{`
+        .es08-blog-main-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .es08-blog-main-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(26,26,26,0.1); }
+        .es08-blog-main-card:hover .es08-blog-main-title { text-decoration: underline; }
+        .es08-blog-sidebar-link { transition: color 0.13s; }
+        .es08-blog-sidebar-link:hover { color: ${ES08.GREEN} !important; }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32 }}>
+          <h2 style={{ margin: 0, fontSize: 28, fontWeight: 900, color: ES08.CHARCOAL, letterSpacing: "0.06em", textTransform: "uppercase" }}>{heading}</h2>
+          {moreText && <a href={resolve(moreHref)} style={{ fontSize: 13, fontWeight: 800, color: ES08.GREEN, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.04em" }}>{moreText}</a>}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 340px", gap: 28 }}>
+          {/* 2 main blog cards */}
+          {mainPosts.slice(0, 2).map((post, i) => (
+            <a key={i} href={resolve(post.href ?? "/blog")} className="es08-blog-main-card" style={{ textDecoration: "none", borderRadius: 8, overflow: "hidden", border: `1px solid ${ES08.BORDER}`, background: "#fff" }}>
+              {post.image && <img src={post.image} alt="" style={{ width: "100%", height: 200, objectFit: "cover" }} loading="lazy" />}
+              <div style={{ padding: "20px 24px 24px" }}>
+                {post.chip && (
+                  <span style={{
+                    display: "inline-block", padding: "4px 10px", borderRadius: 3, marginBottom: 10,
+                    background: post.chipColor ?? ES08.GREEN, color: "#fff", fontSize: 11, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em",
+                  }}>{post.chip}</span>
+                )}
+                <h3 className="es08-blog-main-title" style={{ margin: 0, fontSize: 18, fontWeight: 800, color: ES08.CHARCOAL, lineHeight: 1.35 }}>{post.title}</h3>
+                {post.meta && <p style={{ margin: "8px 0 0", fontSize: 12.5, fontWeight: 500, color: ES08.MUTED }}>{post.meta}</p>}
+                {post.text && <p style={{ margin: "10px 0 0", fontSize: 13.5, fontWeight: 400, color: ES08.MUTED, lineHeight: 1.5 }}>{post.text}</p>}
+                <span style={{ display: "inline-block", marginTop: 14, fontSize: 13, fontWeight: 800, color: ES08.GREEN, textTransform: "uppercase", letterSpacing: "0.04em" }}>PŘEČÍST →</span>
+              </div>
+            </a>
+          ))}
+
+          {/* Sidebar */}
+          <div>
+            <h3 style={{ margin: "0 0 18px", fontSize: 18, fontWeight: 800, color: ES08.CHARCOAL }}>{sidebarHeading}</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+              {sidebarPosts.map((sp, i) => (
+                <a key={i} href={resolve(sp.href ?? "/blog")} className="es08-blog-sidebar-link" style={{
+                  display: "block", padding: "12px 0", fontSize: 14, fontWeight: 500, color: ES08.CHARCOAL,
+                  textDecoration: "none", borderBottom: `1px solid ${ES08.BORDER}`, lineHeight: 1.4,
+                }}>{sp.title}</a>
+              ))}
+            </div>
+            {sidebarAllText && (
+              <a href={resolve(sidebarAllHref)} style={{
+                display: "inline-block", marginTop: 16, fontSize: 13, fontWeight: 800,
+                color: ES08.GREEN, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.04em",
+              }}>{sidebarAllText}</a>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-instagram — grid fotek + social linky ──────────────────────────
+function AboutEshop08Instagram({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const c = content as Record<string, unknown>;
+  const heading = String(c.heading ?? "");
+  const links = (c.links as Array<{ label: string; href: string }>) ?? [];
+  const images = (c.images as string[]) ?? [];
+
+  return (
+    <section data-variant="eshop-08-instagram" style={{ fontFamily: ES08.SANS, background: "#fff", padding: "48px 0 24px", borderTop: `1px solid ${ES08.BORDER}` }}>
+      <style>{`
+        .es08-insta-img { transition: transform 0.3s; }
+        .es08-insta-img:hover { transform: scale(1.05); }
+        .es08-insta-link { transition: color 0.15s; }
+        .es08-insta-link:hover { color: ${ES08.GREEN} !important; }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <h2 style={{ textAlign: "center", margin: "0 0 20px", fontSize: 22, fontWeight: 900, color: ES08.CHARCOAL, letterSpacing: "0.06em", textTransform: "uppercase" }}>{heading}</h2>
+        )}
+        {links.length > 0 && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 28, flexWrap: "wrap" }}>
+            {links.map((lk, i) => (
+              <a key={i} href={resolve(lk.href)} className="es08-insta-link" style={{
+                display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 700, color: ES08.CHARCOAL,
+                textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.04em",
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                {lk.label}
+              </a>
+            ))}
+          </div>
+        )}
+        {images.length > 0 && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 8 }}>
+            {images.slice(0, 6).map((img, i) => (
+              <div key={i} style={{ borderRadius: 6, overflow: "hidden", aspectRatio: "1", cursor: "pointer" }}>
+                <img src={img} alt="" className="es08-insta-img" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-categories ─────────────────────────────────────────────────────────
+// Kosmetika-zdravi.cz DNA (Néroli parfumerie): centrovaný kicker + grid dlaždic
+// kategorií 5×2 — bílé karty s hairline borderem, malé foto/glyph vlevo,
+// tučný název. Hover: ink border + lift. Mobile 2 sloupce.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07Tile = { label: string; href?: string; image?: string; glyph?: string; glyphColor?: string };
+
+function Es07TileFlower({ size = 30, color = "#16161d" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true" style={{ display: "block" }}>
+      <g stroke={color} strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+        {[0, 60, 120, 180, 240, 300].map((a) => (
+          <path key={a} d="M24 7.5 C27.6 13, 27.6 18.5, 24 22.5 C20.4 18.5, 20.4 13, 24 7.5 Z" transform={`rotate(${a} 24 24)`} />
+        ))}
+      </g>
+      <circle cx="24" cy="24" r="3.1" fill={color} />
+    </svg>
+  );
+}
+
+function AboutEshop07Categories({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { kicker?: string; tiles?: Es07Tile[]; siteMode?: string };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const tiles = c.tiles ?? [];
+
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const BORDER = "#e8e9ed";
+  const SURFACE = "#f4f5f7";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+
+  if (!tiles.length) return null;
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "44px 0 10px" }} data-variant="eshop-07-categories">
+      <style>{`
+        .es07c-tile { transition: border-color 0.16s, transform 0.16s, box-shadow 0.16s; }
+        .es07c-tile:hover { border-color: ${INK} !important; transform: translateY(-2px); box-shadow: 0 12px 26px rgba(22,22,29,0.08); }
+        .es07c-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+        @media (max-width: 1080px) { .es07c-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 640px) { .es07c-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {c.kicker && (
+          <GenericEditableText sectionId={sectionId} field="kicker" value={String(c.kicker)} tag="div" style={{
+            textAlign: "center", fontSize: 11.5, fontWeight: 700, textTransform: "uppercase",
+            letterSpacing: "0.22em", color: MUTED, marginBottom: 22,
+          }} />
+        )}
+        <div className="es07c-grid">
+          {tiles.map((t, i) => (
+            <a key={i} href={resolve(t.href ?? "/obchod")} className="es07c-tile" style={{
+              display: "flex", alignItems: "center", gap: 14, padding: "13px 16px",
+              background: "#fff", border: `1px solid ${BORDER}`, borderRadius: 10, textDecoration: "none",
+            }}>
+              <span style={{ width: 46, height: 46, borderRadius: 8, background: SURFACE, overflow: "hidden", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {t.image ? (
+                  <img src={t.image} alt="" width="46" height="46" loading="lazy" style={{ width: 46, height: 46, objectFit: "cover", display: "block" }} />
+                ) : t.glyph === "flower" ? (
+                  <Es07TileFlower color={t.glyphColor ?? INK} />
+                ) : (
+                  <span style={{ fontSize: 26, fontWeight: 800, color: t.glyphColor ?? "#e84393", lineHeight: 1 }}>{t.glyph ?? "•"}</span>
+                )}
+              </span>
+              <span style={{ fontSize: 14.5, fontWeight: 700, color: INK, lineHeight: 1.3, minWidth: 0 }}>{t.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-usp ────────────────────────────────────────────────────────────────
+// USP pás 4 položek: line ikona vlevo (medal/leaf/box/truck), tučný titulek,
+// dva řádky muted textu. Bílý pás, na mobilu 1-2 sloupce.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07Usp = { icon?: string; title: string; text?: string };
+
+function Es07UspIcon({ kind, color }: { kind?: string; color: string }) {
+  const p = { width: 34, height: 34, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (kind === "leaf") return (<svg {...p}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>);
+  if (kind === "box") return (<svg {...p}><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg>);
+  if (kind === "truck") return (<svg {...p}><path d="M1 6h13v11H1zM14 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="1.9"/><circle cx="17.5" cy="18.5" r="1.9"/></svg>);
+  return (<svg {...p}><circle cx="12" cy="9" r="6"/><path d="M8.5 14.2L7 22l5-3 5 3-1.5-7.8"/><path d="M9.7 9l1.6 1.6L14.4 7.5"/></svg>);
+}
+
+function AboutEshop07Usp({ content }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { items?: Es07Usp[] };
+  const items = c.items ?? [];
+
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+
+  if (!items.length) return null;
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "42px 0" }} data-variant="eshop-07-usp">
+      <style>{`
+        .es07u-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px; }
+        @media (max-width: 1080px) { .es07u-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 560px) { .es07u-grid { grid-template-columns: 1fr; } }
+        .es07u-item .es07u-ic { transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); }
+        .es07u-item:hover .es07u-ic { transform: translateY(-3px); }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es07u-grid">
+          {items.map((u, i) => (
+            <div key={i} className="es07u-item" style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+              <span className="es07u-ic" style={{ flexShrink: 0, marginTop: 2 }}><Es07UspIcon kind={u.icon} color={INK} /></span>
+              <span style={{ minWidth: 0 }}>
+                <span style={{ display: "block", fontSize: 15, fontWeight: 800, color: INK, marginBottom: 5 }}>{u.title}</span>
+                {u.text && <span style={{ display: "block", fontSize: 14, fontWeight: 500, color: MUTED, lineHeight: 1.55 }}>{u.text}</span>}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-shipping ───────────────────────────────────────────────────────────
+// Doprava a platba (Ořeškárna): dvě karty s řádky metoda + cena (zdarma zeleně)
+// + spodní žlutý pás s prahem dopravy zdarma. Mobil: karty pod sebou.
+type Es06ShipRow = { label: string; note?: string; price?: string; free?: boolean };
+
+function AboutEshop06Shipping({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    shippingTitle?: string; shipping?: Es06ShipRow[];
+    paymentTitle?: string; payments?: Es06ShipRow[];
+    note?: string;
+  };
+  const shipping = c.shipping ?? [];
+  const payments = c.payments ?? [];
+  const CHARCOAL = "#1d1d1b";
+  const MUTED = "#7a776f";
+  const BORDER = "#eceae6";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+
+  const Row = ({ r }: { r: Es06ShipRow }) => (
+    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, padding: "13px 0", borderBottom: `1px solid ${BORDER}` }}>
+      <span style={{ minWidth: 0 }}>
+        <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: CHARCOAL }}>{r.label}</span>
+        {r.note && <span style={{ display: "block", fontSize: 13, fontWeight: 500, color: MUTED, marginTop: 2 }}>{r.note}</span>}
+      </span>
+      <span style={{ flexShrink: 0, fontFamily: HEAD, fontSize: 15, fontWeight: 800, color: r.free ? "#188a49" : CHARCOAL }}>
+        {r.free ? "Zdarma" : r.price}
+      </span>
+    </div>
+  );
+
+  if (!shipping.length && !payments.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-shipping" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 46px" }}>
+      <style>{`
+        .es06sh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+        @media (max-width: 860px) { .es06sh-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es06sh-grid">
+          {[{ title: c.shippingTitle ?? "Doprava", rows: shipping, icon: "truck" }, { title: c.paymentTitle ?? "Platba", rows: payments, icon: "card" }].map((col) => (
+            <div key={col.title} style={{ border: `1.5px solid ${BORDER}`, borderRadius: 16, padding: "clamp(20px, 3vw, 30px)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                <span style={{ width: 44, height: 44, borderRadius: "50%", background: "#f5f5f2", display: "inline-flex", alignItems: "center", justifyContent: "center", color: CHARCOAL }}>
+                  {col.icon === "truck" ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><path d="M1 4h13v12H1zm13 4h4l3 3v5h-7z"/><circle cx="5" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                  )}
+                </span>
+                <h2 style={{ fontFamily: HEAD, fontSize: 21, fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.01em", margin: 0 }}>{col.title}</h2>
+              </div>
+              {col.rows.map((r, i) => <Row key={i} r={r} />)}
+            </div>
+          ))}
+        </div>
+        {c.note && (
+          <div style={{ marginTop: 22, display: "flex", alignItems: "center", gap: 14, background: "#fdf6dc", borderRadius: 14, padding: "18px 22px" }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={CHARCOAL} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+            <p style={{ fontSize: 14.5, fontWeight: 600, lineHeight: 1.6, color: CHARCOAL, margin: 0 }}>{c.note}</p>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-faq ────────────────────────────────────────────────────────────────
+// FAQ akordeon (Ořeškárna): <details> řádky s Archivo otázkou, chevron rotace,
+// odpověď Figtree. Mobil beze změny (full-width).
+function AboutEshop06Faq({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; items?: Array<{ q: string; a: string }> };
+  const items = c.items ?? [];
+  const CHARCOAL = "#1d1d1b";
+  const BORDER = "#eceae6";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+
+  if (!items.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-faq" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 46px" }}>
+      <style>{`
+        .es06f-det { border: 1.5px solid ${BORDER}; border-radius: 14px; margin-bottom: 12px; overflow: hidden; transition: border-color 0.15s; }
+        .es06f-det[open] { border-color: ${CHARCOAL}; }
+        .es06f-sum { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; cursor: pointer; list-style: none; font-family: ${HEAD}; font-size: 15.5px; font-weight: 800; color: ${CHARCOAL}; }
+        .es06f-sum::-webkit-details-marker { display: none; }
+        .es06f-sum svg { flex-shrink: 0; transition: transform 0.22s; }
+        .es06f-det[open] .es06f-sum svg { transform: rotate(180deg); }
+        .es06f-ans { padding: 0 22px 20px; font-size: 14.5px; font-weight: 500; line-height: 1.7; color: #4c4a44; max-width: 760px; }
+      `}</style>
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 24px" }}>
+        {c.heading && (
+          <GenericEditableText sectionId={sectionId} field="heading" value={c.heading} tag="h2" style={{
+            fontFamily: HEAD, fontSize: "clamp(22px, 2.4vw, 30px)", fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.02em", margin: "0 0 22px",
+          }} />
+        )}
+        {items.map((it, i) => (
+          <details key={i} className="es06f-det" open={i === 0}>
+            <summary className="es06f-sum">
+              {it.q}
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </summary>
+            <div className="es06f-ans">{it.a}</div>
+          </details>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-richtext ───────────────────────────────────────────────────────────
+// Textová stránka (podmínky, vrácení zboží): bloky {heading?, text} — Archivo
+// mezititulky + odstavce, úzký sloupec pro čitelnost.
+function AboutEshop06Richtext({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { blocks?: Array<{ heading?: string; text: string }> };
+  const blocks = c.blocks ?? [];
+  const CHARCOAL = "#1d1d1b";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+
+  if (!blocks.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-06-richtext" style={{ fontFamily: SANS, background: "#fff", padding: "22px 0 46px" }}>
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 24px" }}>
+        {blocks.map((b, i) => (
+          <div key={i} style={{ marginBottom: 26 }}>
+            {b.heading && (
+              <h2 style={{ fontFamily: HEAD, fontSize: 19, fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.01em", margin: "0 0 10px" }}>{b.heading}</h2>
+            )}
+            <p style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.75, color: "#4c4a44", margin: 0, whiteSpace: "pre-line" }}>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-fav-categories ─────────────────────────────────────────────────
+// Domea (bonami.cz DNA): "OBLÍBENÉ KATEGORIE" — horizontální strip malých
+// karet s produktovou fotkou a názvem, šipky pro scroll.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08FavCategories({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const MUTED = "#8a8a86";
+  const BORDER = "#e6e6e3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const label = String((content as Record<string, unknown>).label ?? "");
+  const items = ((content as Record<string, unknown>).items as Array<{ label: string; slug: string; image?: string }>) ?? [];
+  const catHref = (slug: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  const scrollBy = (dir: number) => {
+    if (!trackRef.current) return;
+    trackRef.current.scrollBy({ left: dir * trackRef.current.offsetWidth * 0.7, behavior: "smooth" });
+  };
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-08-fav-categories" style={{ fontFamily: SANS, background: "#fff", padding: "18px 0 8px" }}>
+      <style>{`
+        .es08fc-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 2px; }
+        .es08fc-track::-webkit-scrollbar { display: none; }
+        .es08fc-card { flex: 0 0 122px; scroll-snap-align: start; text-decoration: none; border: 1px solid ${BORDER}; border-radius: 12px; padding: 10px 8px 12px; background: #fff; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
+        .es08fc-card:hover { border-color: ${GREEN}; box-shadow: 0 8px 20px rgba(43,43,43,0.08); transform: translateY(-2px); }
+        .es08fc-card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; display: block; background: #f4f4f2; }
+        .es08fc-label { display: block; margin-top: 8px; text-align: center; font-size: 12px; font-weight: 600; color: ${INK}; line-height: 1.3; }
+        .es08fc-arrow { width: 34px; height: 34px; border: 1px solid ${BORDER}; border-radius: 50%; background: #fff; color: ${INK}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: background 0.14s, border-color 0.14s; flex-shrink: 0; }
+        .es08fc-arrow:hover { background: #f4f4f2; border-color: ${INK}; }
+        @media (max-width: 700px) { .es08fc-arrows { display: none; } }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+          <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED }}>{label}</span>
+          <span className="es08fc-arrows" style={{ display: "inline-flex", gap: 8 }}>
+            <button className="es08fc-arrow" aria-label="Předchozí" onClick={() => scrollBy(-1)}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <button className="es08fc-arrow" aria-label="Další" onClick={() => scrollBy(1)}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </span>
+        </div>
+        <div className="es08fc-track" ref={trackRef}>
+          {items.map((it) => (
+            <a key={it.slug} href={catHref(it.slug)} className="es08fc-card">
+              {it.image && <img src={it.image} alt="" loading="lazy" />}
+              <span className="es08fc-label">{it.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-brands ─────────────────────────────────────────────────────────────
+// Oblíbené domy vůní: centrovaný uppercase nadpis, řada wordmarků (serif italic ×
+// caps letterspaced dle style) a outline CTA „Všechny naše značky".
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07BrandRow = { name: string; style?: string };
+
+function AboutEshop07Brands({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; brands?: Es07BrandRow[]; ctaText?: string; ctaHref?: string; siteMode?: string };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const brands = c.brands ?? [];
+
+  const INK = "#16161d";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+  const SERIF = "'Playfair Display', Georgia, serif";
+
+  if (!brands.length) return null;
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "44px 0 52px" }} data-variant="eshop-07-brands">
+      <style>{`
+        .es07b-mark { transition: opacity 0.16s, transform 0.16s; opacity: 0.82; }
+        .es07b-mark:hover { opacity: 1; transform: translateY(-2px); }
+        .es07b-cta { transition: background 0.16s, color 0.16s, transform 0.16s; }
+        .es07b-cta:hover { background: ${INK} !important; color: #fff !important; transform: translateY(-1px); }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
+        {c.heading && (
+          <GenericEditableText sectionId={sectionId} field="heading" value={String(c.heading)} tag="h2" style={{
+            fontFamily: SANS, fontSize: "clamp(19px, 2vw, 24px)", fontWeight: 800, color: INK,
+            textTransform: "uppercase", letterSpacing: "0.14em", margin: "0 0 34px",
+          }} />
+        )}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: "26px 56px" }}>
+          {brands.map((b, i) => (
+            <a key={i} href={resolve("/obchod")} className="es07b-mark" style={{
+              textDecoration: "none", color: INK, display: "inline-block",
+              ...(b.style === "serif"
+                ? { fontFamily: SERIF, fontSize: 27, fontWeight: 600, fontStyle: "italic", letterSpacing: "0.01em" }
+                : { fontFamily: SANS, fontSize: 18, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.26em" }),
+            }}>{b.name}</a>
+          ))}
+        </div>
+        {c.ctaText && (
+          <a href={resolve(String(c.ctaHref ?? "/obchod"))} className="es07b-cta" style={{
+            display: "inline-flex", alignItems: "center", justifyContent: "center", marginTop: 38,
+            padding: "16px 32px", border: `1px solid ${INK}`, color: INK, background: "#fff",
+            fontSize: 12.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em", textDecoration: "none",
+          }}>{String(c.ctaText)}</a>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-outlet ─────────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): "Akce a slevy" — 3 bannery vedle sebe (Summer Sale
+// s velkým % na barevném podkladu, Outlet, Zahrada ve slevě) + popisky pod nimi.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Outlet({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const MUTED = "#8a8a86";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const heading = String((content as Record<string, unknown>).heading ?? "");
+  const headingHref = String((content as Record<string, unknown>).headingHref ?? "/obchod?kategorie=slevy");
+  const banners = ((content as Record<string, unknown>).banners as Array<{
+    image?: string; bg?: string; eyebrow?: string; title?: string; big?: string; caption?: string; href?: string; light?: boolean;
+  }>) ?? [];
+
+  if (!banners.length) return null;
+
+  return (
+    <section data-variant="eshop-08-outlet" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 18px" }}>
+      <style>{`
+        .es08o-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 900px) { .es08o-grid { grid-template-columns: 1fr; } }
+        .es08o-card { text-decoration: none; display: block; }
+        .es08o-media { position: relative; display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 16/8.5; }
+        .es08o-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es08o-card:hover .es08o-media img { transform: scale(1.04); }
+        .es08o-caption { display: block; margin-top: 10px; font-size: 13.5px; font-weight: 600; color: ${INK}; line-height: 1.45; transition: color 0.14s; }
+        .es08o-card:hover .es08o-caption { color: ${GREEN}; }
+        .es08o-head-link { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: ${INK}; transition: color 0.14s; }
+        .es08o-head-link:hover { color: ${GREEN}; }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <a href={resolve(headingHref)} className="es08o-head-link" style={{ marginBottom: 16 }}>
+            <h2 style={{ fontFamily: SANS, fontSize: "clamp(19px, 2.1vw, 24px)", fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 0", color: "inherit" }}>{heading}</h2>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2 }}><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        )}
+        <div className="es08o-grid" style={{ marginTop: heading ? 16 : 0 }}>
+          {banners.slice(0, 3).map((b, i) => (
+            <a key={i} href={resolve(b.href ?? "/obchod?kategorie=slevy")} className="es08o-card">
+              <span className="es08o-media" style={{ background: b.bg ?? "#f4f4f2" }}>
+                {b.image && <img src={b.image} alt="" loading="lazy" />}
+                {(b.eyebrow || b.title || b.big) && (
+                  <span style={{
+                    position: "absolute", inset: 0, display: "flex", flexDirection: "column",
+                    alignItems: "center", justifyContent: "center", textAlign: "center", padding: 20,
+                    background: b.image ? "rgba(43,43,43,0.28)" : "transparent",
+                  }}>
+                    {b.eyebrow && <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: b.light || b.image ? "rgba(255,255,255,0.92)" : MUTED }}>{b.eyebrow}</span>}
+                    {b.title && <span style={{ marginTop: 2, fontSize: "clamp(22px, 2.4vw, 30px)", fontWeight: 800, letterSpacing: "-0.02em", color: b.light || b.image ? "#fff" : INK }}>{b.title}</span>}
+                    {b.big && <span style={{ marginTop: 2, fontSize: "clamp(34px, 4vw, 52px)", fontWeight: 800, letterSpacing: "-0.03em", color: b.light || b.image ? "#fff" : INK, lineHeight: 1 }}>{b.big}</span>}
+                  </span>
+                )}
+              </span>
+              {b.caption && <span className="es08o-caption">{b.caption}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-editorial ──────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): "Právě na Domea" — 3 editorial karty (foto + popisek)
+// + béžový promo banner s textem a šipkou.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Editorial({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const heading = String((content as Record<string, unknown>).heading ?? "");
+  const headingHref = String((content as Record<string, unknown>).headingHref ?? "/blog");
+  const cards = ((content as Record<string, unknown>).cards as Array<{ image?: string; title: string; href?: string }>) ?? [];
+  const promo = (content as Record<string, unknown>).promo as { bg?: string; light?: boolean; title?: string; text?: string; href?: string } | undefined;
+
+  if (!cards.length && !promo) return null;
+
+  return (
+    <section data-variant="eshop-08-editorial" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 18px" }}>
+      <style>{`
+        .es08e-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        @media (max-width: 1000px) { .es08e-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .es08e-grid { grid-template-columns: 1fr; } }
+        .es08e-card { text-decoration: none; display: block; }
+        .es08e-media { display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 16/11; background: #f4f4f2; }
+        .es08e-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es08e-card:hover .es08e-media img { transform: scale(1.045); }
+        .es08e-title { display: block; margin-top: 10px; font-size: 14px; font-weight: 600; color: ${INK}; line-height: 1.45; transition: color 0.14s; }
+        .es08e-card:hover .es08e-title { color: ${GREEN}; }
+        .es08e-promo { border-radius: 14px; padding: 26px 26px 28px; display: flex; flex-direction: column; justify-content: center; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .es08e-promo:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(43,43,43,0.14); }
+        .es08e-head-link { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: ${INK}; transition: color 0.14s; }
+        .es08e-head-link:hover { color: ${GREEN}; }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <a href={resolve(headingHref)} className="es08e-head-link" style={{ marginBottom: 16 }}>
+            <h2 style={{ fontFamily: SANS, fontSize: "clamp(19px, 2.1vw, 24px)", fontWeight: 800, letterSpacing: "-0.01em", margin: 0, color: "inherit" }}>{heading}</h2>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2 }}><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        )}
+        <div className="es08e-grid" style={{ marginTop: heading ? 16 : 0 }}>
+          {cards.slice(0, 3).map((cd, i) => (
+            <a key={i} href={resolve(cd.href ?? "/blog")} className="es08e-card">
+              <span className="es08e-media">
+                {cd.image && <img src={cd.image} alt="" loading="lazy" />}
+              </span>
+              <span className="es08e-title">{cd.title}</span>
+            </a>
+          ))}
+          {promo && (
+            <a href={resolve(promo.href ?? "/obchod")} className="es08e-promo" style={{ background: promo.bg ?? "#c9b49b" }}>
+              <span style={{ fontSize: "clamp(20px, 1.9vw, 26px)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.2, color: promo.light === false ? INK : "#fff" }}>{promo.title}</span>
+              {promo.text && <span style={{ marginTop: 10, fontSize: 13.5, fontWeight: 500, lineHeight: 1.55, color: promo.light === false ? "#6b6b66" : "rgba(255,255,255,0.9)" }}>{promo.text}</span>}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={promo.light === false ? INK : "#fff"} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 16 }}><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-rooms ──────────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): "Místnosti" — 6 foto karet pokojů.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Rooms({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const BORDER = "#e6e6e3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const heading = String((content as Record<string, unknown>).heading ?? "");
+  const items = ((content as Record<string, unknown>).items as Array<{ label: string; slug: string; image?: string }>) ?? [];
+  const catHref = (slug: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-08-rooms" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 18px" }}>
+      <style>{`
+        .es08r-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+        @media (max-width: 1000px) { .es08r-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 560px) { .es08r-grid { grid-template-columns: repeat(2, 1fr); } }
+        .es08r-card { text-decoration: none; display: block; border: 1px solid ${BORDER}; border-radius: 14px; padding: 12px 12px 14px; background: #fff; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
+        .es08r-card:hover { border-color: ${GREEN}; box-shadow: 0 10px 24px rgba(43,43,43,0.08); transform: translateY(-2px); }
+        .es08r-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 9px; display: block; background: #f4f4f2; }
+        .es08r-label { display: block; margin-top: 10px; text-align: center; font-size: 13px; font-weight: 600; color: ${INK}; }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <h2 style={{ fontFamily: SANS, fontSize: "clamp(19px, 2.1vw, 24px)", fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 16px", color: INK, display: "inline-flex", alignItems: "center", gap: 7 }}>
+            {heading}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </h2>
+        )}
+        <div className="es08r-grid">
+          {items.map((r) => (
+            <a key={r.slug} href={catHref(r.slug)} className="es08r-card">
+              {r.image && <img src={r.image} alt="" loading="lazy" />}
+              <span className="es08r-label">{r.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-articles ───────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): "Oblíbené články" — 3 blog karty s fotkou, titulkem
+// a podtitulkem.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Articles({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const MUTED = "#8a8a86";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const heading = String((content as Record<string, unknown>).heading ?? "");
+  const headingHref = String((content as Record<string, unknown>).headingHref ?? "/blog");
+  const posts = ((content as Record<string, unknown>).posts as Array<{ image?: string; title: string; text?: string; href?: string }>) ?? [];
+
+  if (!posts.length) return null;
+
+  return (
+    <section data-variant="eshop-08-articles" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 18px" }}>
+      <style>{`
+        .es08a-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 900px) { .es08a-grid { grid-template-columns: 1fr; } }
+        .es08a-card { text-decoration: none; display: block; }
+        .es08a-media { display: block; border-radius: 14px; overflow: hidden; aspect-ratio: 16/9; background: #f4f4f2; }
+        .es08a-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es08a-card:hover .es08a-media img { transform: scale(1.045); }
+        .es08a-title { display: block; margin-top: 12px; font-size: 16px; font-weight: 700; color: ${INK}; line-height: 1.35; transition: color 0.14s; }
+        .es08a-card:hover .es08a-title { color: ${GREEN}; }
+        .es08a-text { display: block; margin-top: 5px; font-size: 13.5px; font-weight: 500; color: ${MUTED}; line-height: 1.5; }
+        .es08a-head-link { display: inline-flex; align-items: center; gap: 7px; text-decoration: none; color: ${INK}; transition: color 0.14s; }
+        .es08a-head-link:hover { color: ${GREEN}; }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <a href={resolve(headingHref)} className="es08a-head-link" style={{ marginBottom: 16 }}>
+            <h2 style={{ fontFamily: SANS, fontSize: "clamp(19px, 2.1vw, 24px)", fontWeight: 800, letterSpacing: "-0.01em", margin: 0, color: "inherit" }}>{heading}</h2>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2 }}><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        )}
+        <div className="es08a-grid" style={{ marginTop: heading ? 16 : 0 }}>
+          {posts.slice(0, 3).map((po, i) => (
+            <a key={i} href={resolve(po.href ?? "/blog")} className="es08a-card">
+              <span className="es08a-media">{po.image && <img src={po.image} alt="" loading="lazy" />}</span>
+              <span className="es08a-title">{po.title}</span>
+              {po.text && <span className="es08a-text">{po.text}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-services ───────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): "Služby a podpora" — dlaždice odkazů.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Services({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const BORDER = "#e6e6e3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const heading = String((content as Record<string, unknown>).heading ?? "");
+  const links = ((content as Record<string, unknown>).links as Array<{ label: string; href: string }>) ?? [];
+
+  if (!links.length) return null;
+
+  return (
+    <section data-variant="eshop-08-services" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 18px" }}>
+      <style>{`
+        .es08s-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        @media (max-width: 900px) { .es08s-grid { grid-template-columns: repeat(2, 1fr); } }
+        .es08s-tile { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 15px 18px; border: 1px solid ${BORDER}; border-radius: 12px; text-decoration: none; font-size: 14px; font-weight: 600; color: ${INK}; background: #fff; transition: border-color 0.15s, color 0.15s, transform 0.15s; }
+        .es08s-tile:hover { border-color: ${GREEN}; color: ${GREEN}; transform: translateY(-2px); }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <h2 style={{ fontFamily: SANS, fontSize: "clamp(19px, 2.1vw, 24px)", fontWeight: 800, letterSpacing: "-0.01em", margin: "0 0 16px", color: INK, display: "inline-flex", alignItems: "center", gap: 7 }}>
+            {heading}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          </h2>
+        )}
+        <div className="es08s-grid">
+          {links.map((lk, i) => (
+            <a key={i} href={resolve(lk.href)} className="es08s-tile">
+              {lk.label}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M9 6l6 6-6 6"/></svg>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-text ───────────────────────────────────────────────────────────
+// Domea (bonami DNA): textové bloky podstránek — heading + odstavce, volitelně
+// ✓ odrážky. Úzký čtecí sloupec.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Text({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const blocks = ((content as Record<string, unknown>).blocks as Array<{ heading?: string; text?: string; bullets?: string[] }>) ?? [];
+  if (!blocks.length) return null;
+  return (
+    <section data-variant="eshop-08-text" style={{ fontFamily: SANS, background: "#fff", padding: "44px 0 30px" }}>
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
+        {blocks.map((b, i) => (
+          <div key={i} style={{ marginBottom: 36 }}>
+            {b.heading && <h2 style={{ margin: "0 0 12px", fontSize: 23, fontWeight: 800, letterSpacing: "-0.01em", color: INK }}>{b.heading}</h2>}
+            {b.text && <p style={{ margin: 0, fontSize: 15, fontWeight: 400, lineHeight: 1.75, color: "#55534e" }}>{b.text}</p>}
+            {b.bullets && b.bullets.length > 0 && (
+              <ul style={{ margin: "14px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+                {b.bullets.map((bl) => (
+                  <li key={bl} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14.5, fontWeight: 500, color: INK }}>
+                    <svg style={{ flexShrink: 0, marginTop: 2 }} width="17" height="17" viewBox="0 0 24 24" fill={GREEN}><circle cx="12" cy="12" r="11" /><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {bl}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-contact ────────────────────────────────────────────────────────
+// Domea (bonami DNA): kontaktní karta — info řádky s ikonami + demo formulář.
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop08Contact({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const BORDER = "#e6e6e3";
+  const MUTED = "#8a8a86";
+  const c = content as Record<string, unknown>;
+  const phone = String(c.phone ?? "");
+  const phoneHours = String(c.phoneHours ?? "");
+  const email = String(c.email ?? "");
+  const address = String(c.address ?? "");
+  const formHeading = String(c.formHeading ?? "Napište nám");
+
+  const Row = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) => (
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "16px 0", borderBottom: `1px solid ${BORDER}` }}>
+      <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: "50%", background: "#f4f4f2", display: "inline-flex", alignItems: "center", justifyContent: "center", color: INK }}>{icon}</span>
+      <span>
+        <span style={{ display: "block", fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: MUTED }}>{label}</span>
+        <span style={{ display: "block", marginTop: 3, fontSize: 15.5, fontWeight: 700, color: INK }}>{value}</span>
+      </span>
+    </div>
+  );
+
+  return (
+    <section data-variant="eshop-08-contact" style={{ fontFamily: SANS, background: "#fff", padding: "44px 0 40px" }}>
+      <style>{`
+        .es08c-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+        @media (max-width: 860px) { .es08c-grid { grid-template-columns: 1fr; } }
+        .es08c-input { width: 100%; height: 46px; border: 1.5px solid ${BORDER}; border-radius: 12px; padding: 0 16px; font-family: ${SANS}; font-size: 14px; color: ${INK}; outline: none; transition: border-color 0.15s; }
+        .es08c-input:focus { border-color: ${GREEN}; }
+        .es08c-send { transition: background 0.16s; }
+        .es08c-send:hover { background: #2f7d3f !important; }
+      `}</style>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es08c-grid">
+          <div>
+            <Row icon={<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}
+              label="Telefon" value={<a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: INK, textDecoration: "none" }}>{phone} <span style={{ fontWeight: 500, color: MUTED }}>({phoneHours})</span></a>} />
+            <Row icon={<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 7 9-7"/></svg>}
+              label="E-mail" value={<a href={`mailto:${email}`} style={{ color: INK, textDecoration: "none" }}>{email}</a>} />
+            <Row icon={<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>}
+              label="Sídlo" value={address} />
+          </div>
+          <div style={{ background: "#f4f4f2", borderRadius: 16, padding: "28px 30px 32px" }}>
+            <h2 style={{ margin: "0 0 18px", fontSize: 21, fontWeight: 800, color: INK }}>{formHeading}</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <input className="es08c-input" placeholder="Jméno" style={{ background: "#fff" }} />
+              <input className="es08c-input" type="email" placeholder="E-mail" style={{ background: "#fff" }} />
+            </div>
+            <textarea className="es08c-input" placeholder="Vaše zpráva…" style={{ marginTop: 12, height: 120, padding: "13px 16px", resize: "vertical", background: "#fff" }} />
+            <button className="es08c-send" type="button" style={{
+              marginTop: 16, height: 46, padding: "0 26px", border: "none", borderRadius: 23,
+              background: GREEN, color: "#fff", fontFamily: SANS, fontSize: 13, fontWeight: 800, letterSpacing: "0.04em", cursor: "pointer",
+            }}>ODESLAT ZPRÁVU</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-story ──────────────────────────────────────────────────────────────
+// O nás (Néroli parfumerie): split foto | text s kickerem, nadpisem, odstavci
+// a ✓ checkmarky. Bílý podklad, foto radius 16.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop07Story({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { image?: string; kicker?: string; heading?: string; paragraphs?: string[]; checks?: string[] };
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const TEAL_DARK = "#14a99a";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+  const paragraphs = c.paragraphs ?? [];
+  const checks = c.checks ?? [];
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "clamp(44px, 6vw, 80px) 0" }} data-variant="eshop-07-story">
+      <style>{`
+        .es07st-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+        @media (max-width: 900px) { .es07st-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es07st-grid">
+          {c.image && (
+            <GenericEditableImage sectionId={sectionId} field="image" src={String(c.image)} alt={String(c.heading ?? "")} className="block w-full rounded-2xl object-cover">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={String(c.image)} alt="" loading="lazy" style={{ width: "100%", aspectRatio: "1/1", objectFit: "cover", borderRadius: 16, display: "block" }} />
+            </GenericEditableImage>
+          )}
+          <div>
+            {c.kicker && (
+              <GenericEditableText sectionId={sectionId} field="kicker" value={String(c.kicker)} tag="div" style={{
+                fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.22em", color: MUTED, marginBottom: 14,
+              }} />
+            )}
+            {c.heading && (
+              <GenericEditableText sectionId={sectionId} field="heading" value={String(c.heading)} tag="h2" style={{
+                margin: 0, fontFamily: SANS, fontSize: "clamp(24px, 2.6vw, 34px)", fontWeight: 800, textTransform: "uppercase",
+                letterSpacing: "0.03em", lineHeight: 1.2, color: INK,
+              }} />
+            )}
+            {paragraphs.map((t, i) => (
+              <p key={i} style={{ margin: i === 0 ? "18px 0 0" : "14px 0 0", fontSize: 15.5, fontWeight: 500, lineHeight: 1.7, color: "#3d3f4a" }}>{t}</p>
+            ))}
+            {checks.length > 0 && (
+              <ul style={{ margin: "22px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
+                {checks.map((t, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "center", gap: 11, fontSize: 14.5, fontWeight: 700, color: INK }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill={TEAL_DARK}><circle cx="12" cy="12" r="11" /><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-contact ────────────────────────────────────────────────────────────
+// Kontakt: 3 karty (zákaznická linka / e-mail poradna / prodejna s hodinami)
+// v hairline rámečcích + spodní poznámka.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07ContactCard = { icon?: string; title: string; value?: string; valueHref?: string; lines?: string[] };
+
+function AboutEshop07Contact({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  void sectionId;
+  const c = content as { cards?: Es07ContactCard[]; note?: string };
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const BORDER = "#e8e9ed";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+  const cards = c.cards ?? [];
+
+  const Icon = ({ kind }: { kind?: string }) => {
+    const p = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: INK, strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    if (kind === "mail") return (<svg {...p}><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3 7l9 6 9-6"/></svg>);
+    if (kind === "pin") return (<svg {...p}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>);
+    return (<svg {...p}><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2.2 2A17 17 0 0 1 3 6.2 2 2 0 0 1 5 4z"/></svg>);
+  };
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "clamp(44px, 6vw, 72px) 0" }} data-variant="eshop-07-contact">
+      <style>{`
+        .es07ct-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+        @media (max-width: 900px) { .es07ct-grid { grid-template-columns: 1fr; } }
+        .es07ct-card { transition: border-color 0.16s, transform 0.16s, box-shadow 0.16s; }
+        .es07ct-card:hover { border-color: ${INK} !important; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(22,22,29,0.07); }
+        .es07ct-value { color: ${INK}; text-decoration: underline; text-underline-offset: 4px; transition: color 0.14s; }
+        .es07ct-value:hover { color: #14a99a; }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es07ct-grid">
+          {cards.map((card, i) => (
+            <div key={i} className="es07ct-card" style={{ border: `1px solid ${BORDER}`, borderRadius: 14, padding: "28px 28px 26px", background: "#fff" }}>
+              <Icon kind={card.icon} />
+              <div style={{ marginTop: 16, fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: MUTED }}>{card.title}</div>
+              {card.value && (
+                card.valueHref
+                  ? <a href={card.valueHref} className="es07ct-value" style={{ display: "inline-block", marginTop: 8, fontSize: 19, fontWeight: 800 }}>{card.value}</a>
+                  : <div style={{ marginTop: 8, fontSize: 19, fontWeight: 800, color: INK }}>{card.value}</div>
+              )}
+              {(card.lines ?? []).map((l, j) => (
+                <div key={j} style={{ marginTop: j === 0 ? 8 : 3, fontSize: 14, fontWeight: 500, color: "#3d3f4a", lineHeight: 1.55 }}>{l}</div>
+              ))}
+            </div>
+          ))}
+        </div>
+        {c.note && (
+          <p style={{ margin: "22px 0 0", fontSize: 13.5, fontWeight: 500, color: MUTED, textAlign: "center" }}>{String(c.note)}</p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-shipping ───────────────────────────────────────────────────────────
+// Doprava a platba: dva sloupce řádkových karet (ikona + název + popis + cena
+// tučně vpravo, „Zdarma" tyrkysově). Hairline oddělovače.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07ShipRow = { icon?: string; name: string; desc?: string; price: string };
+
+function AboutEshop07Shipping({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  void sectionId;
+  const c = content as { shippingTitle?: string; shipping?: Es07ShipRow[]; paymentTitle?: string; payments?: Es07ShipRow[]; note?: string };
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const BORDER = "#e8e9ed";
+  const TEAL_DARK = "#14a99a";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+
+  const Icon = ({ kind }: { kind?: string }) => {
+    const p = { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: INK, strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    if (kind === "box") return (<svg {...p}><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/></svg>);
+    if (kind === "store") return (<svg {...p}><path d="M3 9l1.5-5h15L21 9M4 9h16v11H4zM9 20v-6h6v6"/></svg>);
+    if (kind === "card") return (<svg {...p}><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19M6 15h4"/></svg>);
+    if (kind === "qr") return (<svg {...p}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg>);
+    if (kind === "cash") return (<svg {...p}><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>);
+    return (<svg {...p}><path d="M1 6h13v11H1zM14 9h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="1.9"/><circle cx="17.5" cy="18.5" r="1.9"/></svg>);
+  };
+
+  const List = ({ title, rows }: { title?: string; rows: Es07ShipRow[] }) => (
+    <div style={{ border: `1px solid ${BORDER}`, borderRadius: 14, padding: "6px 26px", background: "#fff" }}>
+      {title && (
+        <div style={{ padding: "20px 0 6px", fontSize: 13, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.14em", color: INK }}>{title}</div>
+      )}
+      {rows.map((r, i) => (
+        <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, padding: "17px 0", borderTop: i === 0 && !title ? "none" : `1px solid ${BORDER}` }}>
+          <span style={{ flexShrink: 0 }}><Icon kind={r.icon} /></span>
+          <span style={{ minWidth: 0, flex: 1 }}>
+            <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: INK }}>{r.name}</span>
+            {r.desc && <span style={{ display: "block", marginTop: 2, fontSize: 13, fontWeight: 500, color: MUTED }}>{r.desc}</span>}
+          </span>
+          <span style={{ flexShrink: 0, fontSize: 15, fontWeight: 800, color: /zdarma/i.test(r.price) ? TEAL_DARK : INK, whiteSpace: "nowrap" }}>{r.price}</span>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "clamp(44px, 6vw, 72px) 0" }} data-variant="eshop-07-shipping">
+      <style>{`
+        .es07sh-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: start; }
+        @media (max-width: 900px) { .es07sh-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es07sh-grid">
+          <List title={c.shippingTitle} rows={c.shipping ?? []} />
+          <List title={c.paymentTitle} rows={c.payments ?? []} />
+        </div>
+        {c.note && (
+          <p style={{ margin: "22px 0 0", fontSize: 13.5, fontWeight: 500, color: MUTED, textAlign: "center" }}>{String(c.note)}</p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+
+// ── eshop-09-duo-banner ─────────────────────────────────────────────────────
+// Mobil Expres (mp.cz "Nevlastni. Užívej." DNA, vlastní navy/mint identita):
+// centrovaný nadpis nad kartou → surface karta radius 22 se 3 sloupci —
+// nabídka vlevo (foto, název + tučný spec, „měsíčně" cena mint-dark vč. DPH,
+// mint pill CTA) | velký navy titulek uprostřed + podtržený odkaz | nabídka
+// vpravo. Na mobilu se sloupce skládají pod sebe (titulek první).
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutEshop09DuoBanner({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Archivo', 'Segoe UI', Arial, sans-serif";
+  const INK = "#232a30";
+  const NAVY = "#1d2433";
+  const MINT = "#3ce0a6";
+  const MINT_DARK = "#0f9d70";
+  const ON_MINT = "#06281c";
+  const MUTED = "#8b949c";
+  const SURFACE = "#f5f6f7";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const heading = String(content.heading ?? "");
+  const title = String(content.title ?? "");
+  const moreLabel = String(content.moreLabel ?? "Více informací");
+  const moreHref = String(content.moreHref ?? "/obchod");
+  const offers = (content.offers as Array<{ image?: string; name?: string; spec?: string; monthly?: string; ctaText?: string; href?: string }>) ?? [];
+
+  if (!title && offers.length === 0) return null;
+
+  const Offer = ({ o }: { o: { image?: string; name?: string; spec?: string; monthly?: string; ctaText?: string; href?: string } }) => (
+    <a href={resolve(o.href ?? "/obchod")} className="es09db-offer">
+      <span className="es09db-photo">
+        {o.image && <img src={o.image} alt={o.name ?? ""} loading="lazy" />}
+      </span>
+      <span style={{ display: "flex", flexDirection: "column", gap: 3, minWidth: 0 }}>
+        <span style={{ fontSize: 15.5, fontWeight: 500, color: INK }}>
+          {o.name} <strong style={{ fontWeight: 800 }}>{o.spec}</strong>
+        </span>
+        <span style={{ marginTop: 8, fontSize: 12.5, fontWeight: 600, color: MUTED }}>měsíčně</span>
+        <span style={{ fontSize: 24, fontWeight: 800, color: MINT_DARK, letterSpacing: "-0.01em" }}>
+          {o.monthly} <span style={{ fontSize: 13, fontWeight: 700 }}>vč. DPH</span>
+        </span>
+        <span className="es09db-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 2v6M7 2v6M3.5 8h17M5 4h14a1.5 1.5 0 0 1 1.5 1.5V20a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V5.5A1.5 1.5 0 0 1 5 4z"/></svg>
+          {o.ctaText ?? "Pronajmout"}
+        </span>
+      </span>
+    </a>
+  );
+
+  return (
+    <section data-variant="eshop-09-duo-banner" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 20px" }}>
+      <style>{`
+        .es09db-wrap { max-width: 1420px; margin: 0 auto; padding: 0 24px; }
+        .es09db-card { background: ${SURFACE}; border-radius: 22px; padding: 38px 44px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 40px; }
+        .es09db-offer { display: flex; align-items: center; gap: 22px; text-decoration: none; }
+        .es09db-photo { flex-shrink: 0; width: 150px; height: 170px; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 14px 32px rgba(14,20,25,0.1); }
+        .es09db-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .es09db-offer:hover .es09db-photo img { transform: scale(1.06); }
+        .es09db-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; height: 42px; padding: 0 22px; border-radius: 999px; background: ${MINT}; color: ${ON_MINT}; font-size: 13.5px; font-weight: 800; letter-spacing: 0.02em; align-self: flex-start; transition: background 0.15s, box-shadow 0.15s, transform 0.15s; }
+        .es09db-offer:hover .es09db-cta { background: #63eabb; box-shadow: 0 10px 22px rgba(34,201,147,0.32); transform: translateY(-1px); }
+        .es09db-center { text-align: center; min-width: 0; }
+        .es09db-more { display: inline-block; margin-top: 14px; font-size: 15px; font-weight: 700; color: ${INK}; text-decoration: underline; text-underline-offset: 4px; transition: color 0.14s; }
+        .es09db-more:hover { color: ${MINT_DARK}; }
+        @media (max-width: 1023px) {
+          .es09db-card { grid-template-columns: 1fr; gap: 28px; padding: 30px 24px; }
+          .es09db-center { order: -1; }
+          .es09db-offer { justify-content: center; }
+        }
+        @media (max-width: 480px) { .es09db-offer { flex-direction: column; text-align: center; } .es09db-cta { align-self: center; } }
+      `}</style>
+      <div className="es09db-wrap">
+        {heading.trim() !== "" && (
+          <h2 style={{ margin: "0 0 22px", textAlign: "center", fontFamily: SANS, fontSize: "clamp(21px, 2.3vw, 28px)", fontWeight: 800, letterSpacing: "-0.02em", color: INK }}>
+            {heading}
+          </h2>
+        )}
+        <div className="es09db-card">
+          {offers[0] && <Offer o={offers[0]} />}
+          <div className="es09db-center">
+            <div style={{ fontFamily: SANS, fontSize: "clamp(28px, 3vw, 44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.025em", color: NAVY, maxWidth: 380, margin: "0 auto" }}>
+              {title}
+            </div>
+            <a href={resolve(moreHref)} className="es09db-more">{moreLabel}</a>
+          </div>
+          {offers[1] && <Offer o={offers[1]} />}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-09-articles ───────────────────────────────────────────────────────
+// Mobil Expres magazín — editorial bento: velký featured článek vlevo (foto
+// s navy gradient overlayem, barevný kategorie chip, velký bílý titulek,
+// excerpt, meta datum + čas čtení, mint „Přečíst" šipka) + 3 menší články
+// vpravo (thumb 128px, chip, titulek 2 řádky, meta). Hover: foto zoom,
+// titulek underline, šipka posun. Chip barvy dle article tone.
+// ─────────────────────────────────────────────────────────────────────────────
+type Es09Article = { image?: string; category?: string; tone?: "mint" | "coral" | "cyan" | "violet"; title?: string; excerpt?: string; date?: string; readTime?: string; href?: string };
+
+function AboutEshop09Articles({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Archivo', 'Segoe UI', Arial, sans-serif";
+  const INK = "#232a30";
+  const NAVY = "#1d2433";
+  const MINT = "#3ce0a6";
+  const MINT_DARK = "#0f9d70";
+  const MUTED = "#8b949c";
+  const BORDER = "#e8e9eb";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const kicker = String(content.kicker ?? "");
+  const heading = String(content.heading ?? "");
+  const moreLabel = String(content.moreLabel ?? "Všechny články");
+  const moreHref = String(content.moreHref ?? "/magazin");
+  const articles = ((content.articles as Es09Article[]) ?? []).slice(0, 4);
+  if (articles.length === 0) return null;
+  const [featured, ...rest] = articles;
+
+  const chip = (tone?: string) => {
+    if (tone === "coral") return { bg: "rgba(255,122,89,0.14)", fg: "#d4562f" };
+    if (tone === "cyan") return { bg: "rgba(83,200,255,0.16)", fg: "#1e7fb8" };
+    if (tone === "violet") return { bg: "rgba(139,124,246,0.15)", fg: "#6a58e0" };
+    return { bg: "rgba(60,224,166,0.16)", fg: MINT_DARK };
+  };
+
+  const Meta = ({ a, light }: { a: Es09Article; light?: boolean }) => (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12.5, fontWeight: 600, color: light ? "rgba(255,255,255,0.75)" : MUTED }}>
+      {a.date}
+      {a.readTime && (
+        <>
+          <span style={{ width: 3, height: 3, borderRadius: 2, background: "currentColor", opacity: 0.7 }} />
+          {a.readTime}
+        </>
+      )}
+    </span>
+  );
+
+  return (
+    <section data-variant="eshop-09-articles" style={{ fontFamily: SANS, background: "#fff", padding: "38px 0 22px" }}>
+      <style>{`
+        .es09a-wrap { max-width: 1420px; margin: 0 auto; padding: 0 24px; }
+        .es09a-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+        .es09a-more { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700; color: ${MINT_DARK}; text-decoration: none; white-space: nowrap; transition: color 0.14s, gap 0.14s; }
+        .es09a-more:hover { color: ${NAVY}; gap: 9px; }
+        .es09a-grid { display: grid; grid-template-columns: minmax(0, 58fr) minmax(0, 42fr); gap: 20px; align-items: stretch; }
+
+        .es09a-feat { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 460px; border-radius: 22px; overflow: hidden; text-decoration: none; }
+        .es09a-feat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .es09a-feat:hover img { transform: scale(1.05); }
+        .es09a-feat::after { content: ""; position: absolute; inset: 0; background: linear-gradient(200deg, rgba(29,36,51,0) 32%, rgba(29,36,51,0.62) 68%, rgba(21,27,40,0.94) 100%); }
+        .es09a-feat-body { position: relative; z-index: 2; padding: 30px 32px; }
+        .es09a-feat-title { margin: 12px 0 0; font-size: clamp(22px, 2.2vw, 31px); font-weight: 800; line-height: 1.18; letter-spacing: -0.02em; color: #fff; }
+        .es09a-read { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; font-size: 14px; font-weight: 800; color: ${MINT}; }
+        .es09a-read svg { transition: transform 0.18s; }
+        .es09a-feat:hover .es09a-read svg { transform: translateX(4px); }
+
+        .es09a-side { display: flex; flex-direction: column; gap: 14px; }
+        .es09a-item { flex: 1; display: flex; gap: 16px; align-items: center; padding: 14px; border: 1px solid ${BORDER}; border-radius: 18px; text-decoration: none; transition: border-color 0.16s, transform 0.16s, box-shadow 0.16s; }
+        .es09a-item:hover { border-color: rgba(29,36,51,0.35); transform: translateY(-2px); box-shadow: 0 14px 30px rgba(14,20,25,0.09); }
+        .es09a-thumb { flex-shrink: 0; width: 128px; height: 108px; border-radius: 12px; overflow: hidden; background: #f5f6f7; }
+        .es09a-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .es09a-item:hover .es09a-thumb img { transform: scale(1.07); }
+        .es09a-item-title { margin: 7px 0 6px; font-size: 15.5px; font-weight: 700; line-height: 1.3; color: ${INK}; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .es09a-item:hover .es09a-item-title { text-decoration: underline; text-underline-offset: 3px; }
+
+        .es09a-chip { display: inline-flex; align-items: center; padding: 5px 11px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+
+        @media (max-width: 1023px) {
+          .es09a-grid { grid-template-columns: 1fr; }
+          .es09a-feat { min-height: 380px; }
+        }
+        @media (max-width: 560px) {
+          .es09a-item { flex-direction: column; align-items: stretch; }
+          .es09a-thumb { width: 100%; height: 160px; }
+        }
+      `}</style>
+      <div className="es09a-wrap">
+        <div className="es09a-head">
+          <div>
+            {kicker && <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: MINT_DARK, marginBottom: 7 }}>{kicker}</div>}
+            <h2 style={{ margin: 0, fontFamily: SANS, fontSize: "clamp(20px, 2.2vw, 27px)", fontWeight: 800, letterSpacing: "-0.02em", color: INK }}>{heading}</h2>
+          </div>
+          <a href={resolve(moreHref)} className="es09a-more">
+            {moreLabel}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div className="es09a-grid">
+          {/* Featured */}
+          <a href={resolve(featured.href ?? moreHref)} className="es09a-feat">
+            {featured.image && <img src={featured.image} alt="" loading="lazy" />}
+            <span className="es09a-feat-body">
+              {featured.category && (
+                <span className="es09a-chip" style={{ background: MINT, color: "#06281c" }}>{featured.category}</span>
+              )}
+              <span className="es09a-feat-title" style={{ display: "block" }}>{featured.title}</span>
+              {featured.excerpt && (
+                <span style={{ display: "block", marginTop: 10, fontSize: 15, fontWeight: 500, lineHeight: 1.5, color: "rgba(255,255,255,0.85)", maxWidth: 560 }}>{featured.excerpt}</span>
+              )}
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+                <span className="es09a-read">
+                  Přečíst článek
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+                <span style={{ marginTop: 16 }}><Meta a={featured} light /></span>
+              </span>
+            </span>
+          </a>
+
+          {/* Menší články */}
+          <div className="es09a-side">
+            {rest.map((a, i) => {
+              const t = chip(a.tone);
+              return (
+                <a key={i} href={resolve(a.href ?? moreHref)} className="es09a-item">
+                  <span className="es09a-thumb">
+                    {a.image && <img src={a.image} alt="" loading="lazy" />}
+                  </span>
+                  <span style={{ minWidth: 0, display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                    {a.category && <span className="es09a-chip" style={{ background: t.bg, color: t.fg }}>{a.category}</span>}
+                    <span className="es09a-item-title">{a.title}</span>
+                    <Meta a={a} />
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-09-text ───────────────────────────────────────────────────────────
+// Mobil Expres (mp.cz DNA): textové bloky podstránek — heading s mint linkou,
+// odstavce, volitelně ✓ odrážky v mint. Úzký čtecí sloupec, Archivo.
+function AboutEshop09Text({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Archivo', 'Helvetica Neue', Arial, sans-serif";
+  const INK = "#232a30";
+  const blocks = ((content as Record<string, unknown>).blocks as Array<{ heading?: string; text?: string; bullets?: string[] }>) ?? [];
+  if (!blocks.length) return null;
+  return (
+    <section data-variant="eshop-09-text" style={{ fontFamily: SANS, background: "#fff", padding: "48px 0 34px" }}>
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
+        {blocks.map((b, i) => (
+          <div key={i} style={{ marginBottom: 38 }}>
+            {b.heading && (
+              <h2 style={{ margin: "0 0 14px", fontFamily: SANS, fontSize: 23, fontWeight: 800, letterSpacing: "-0.01em", color: INK, display: "flex", alignItems: "center", gap: 12 }}>
+                <span aria-hidden style={{ width: 4, height: 22, borderRadius: 2, background: "#3ce0a6", flexShrink: 0 }} />
+                {b.heading}
+              </h2>
+            )}
+            {b.text && <p style={{ margin: 0, fontSize: 15, fontWeight: 400, lineHeight: 1.75, color: "#5a636b" }}>{b.text}</p>}
+            {b.bullets && b.bullets.length > 0 && (
+              <ul style={{ margin: "14px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
+                {b.bullets.map((bl) => (
+                  <li key={bl} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14.5, fontWeight: 600, color: INK }}>
+                    <svg style={{ flexShrink: 0, marginTop: 2 }} width="17" height="17" viewBox="0 0 24 24" fill="#3ce0a6"><circle cx="12" cy="12" r="11" /><path d="M7 12.5l3.2 3.2L17 9" stroke="#1d2433" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    {bl}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-09-contact ────────────────────────────────────────────────────────
+// Mobil Expres (mp.cz DNA): kontaktní řádky s mint kruhovými ikonami
+// (infolinka / e-mail / prodejna s otevírací dobou) + navy karta formuláře
+// s mint pill CTA.
+function AboutEshop09Contact({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Archivo', 'Helvetica Neue', Arial, sans-serif";
+  const INK = "#232a30";
+  const MUTED = "#8b949c";
+  const BORDER = "#e8e9eb";
+  const c = content as Record<string, unknown>;
+  const phone = String(c.phone ?? "");
+  const phoneHours = String(c.phoneHours ?? "");
+  const email = String(c.email ?? "");
+  const address = String(c.address ?? "");
+  const storeHours = String(c.storeHours ?? "");
+  const formHeading = String(c.formHeading ?? "Napište nám");
+
+  const Row = ({ icon, label, value }: { icon: React.ReactNode; label: string; value: React.ReactNode }) => (
+    <div style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "17px 0", borderBottom: `1px solid ${BORDER}` }}>
+      <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: "50%", background: "rgba(60,224,166,0.14)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "#0f9d70" }}>{icon}</span>
+      <span>
+        <span style={{ display: "block", fontSize: 12, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: MUTED }}>{label}</span>
+        <span style={{ display: "block", marginTop: 3, fontSize: 15.5, fontWeight: 700, color: INK }}>{value}</span>
+      </span>
+    </div>
+  );
+
+  return (
+    <section data-variant="eshop-09-contact" style={{ fontFamily: SANS, background: "#fff", padding: "48px 0 44px" }}>
+      <style>{`
+        .es09c-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 44px; }
+        @media (max-width: 860px) { .es09c-grid { grid-template-columns: 1fr; } }
+        .es09c-input { width: 100%; height: 47px; border: 1.5px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 0 18px; font-family: ${SANS}; font-size: 14px; color: #fff; background: rgba(255,255,255,0.07); outline: none; transition: border-color 0.15s; }
+        .es09c-input::placeholder { color: rgba(255,255,255,0.45); }
+        .es09c-input:focus { border-color: #3ce0a6; }
+        .es09c-area { border-radius: 18px !important; }
+        .es09c-send { transition: background 0.16s, transform 0.16s; }
+        .es09c-send:hover { background: #22c993 !important; transform: translateY(-1px); }
+      `}</style>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es09c-grid">
+          <div>
+            <Row icon={<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}
+              label="Infolinka" value={<a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: INK, textDecoration: "none" }}>{phone} <span style={{ fontWeight: 500, color: MUTED }}>({phoneHours})</span></a>} />
+            <Row icon={<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 7 9-7"/></svg>}
+              label="E-mail" value={<a href={`mailto:${email}`} style={{ color: INK, textDecoration: "none" }}>{email}</a>} />
+            <Row icon={<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>}
+              label="Prodejna" value={<>{address}{storeHours && <span style={{ display: "block", marginTop: 2, fontWeight: 500, color: MUTED, fontSize: 13.5 }}>{storeHours}</span>}</>} />
+          </div>
+          <div style={{ background: "linear-gradient(135deg, #1d2433 0%, #151b28 100%)", borderRadius: 22, padding: "30px 32px 34px", position: "relative", overflow: "hidden" }}>
+            <span aria-hidden style={{ position: "absolute", right: "-90px", bottom: "-110px", width: 320, height: 320, borderRadius: "50%", background: "radial-gradient(circle, rgba(60,224,166,0.16) 0%, rgba(60,224,166,0) 68%)" }} />
+            <h2 style={{ margin: "0 0 18px", fontFamily: SANS, fontSize: 21, fontWeight: 800, color: "#fff", position: "relative" }}>{formHeading}</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, position: "relative" }}>
+              <input className="es09c-input" placeholder="Jméno" />
+              <input className="es09c-input" type="email" placeholder="E-mail" />
+            </div>
+            <textarea className="es09c-input es09c-area" placeholder="Vaše zpráva…" style={{ marginTop: 12, height: 122, padding: "14px 18px", resize: "vertical" }} />
+            <button className="es09c-send" type="button" style={{
+              marginTop: 16, height: 47, padding: "0 28px", border: "none", borderRadius: 999, position: "relative",
+              background: "#3ce0a6", color: "#1d2433", fontFamily: SANS, fontSize: 13, fontWeight: 800, letterSpacing: "0.05em", cursor: "pointer",
+              boxShadow: "0 6px 18px rgba(60,224,166,0.35)",
+            }}>ODESLAT ZPRÁVU</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-trio ───────────────────────────────────────────────────────────────
+// BOTIQ „Tohle nesmíš minout" (footshop DNA): 3 editorial dlaždice — první tmavá
+// typografická (Sneaker finder: bg foto + overlay, volt sticker kicker, velký
+// italic titulek), dvě fotografické (foto 16:10 hover zoom, kicker, titulek,
+// text). Volt šipkový link se slide animací. Nadpis sekce condensed uppercase
+// s volt čtverečkem.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10TrioItem = {
+  kicker?: string; title?: string; text?: string;
+  linkText?: string; href?: string; image?: string; dark?: boolean;
+};
+
+function AboutEshop10Trio({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const VOLT_DEEP = "#6d9204";
+  const VIOLET = "#7a5cff";
+  const INK = "#121212";
+  const MUTED = "#6f6f6f";
+  const SURFACE = "#f4f4f3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Tohle nesmíš minout");
+  const items = ((content.items as Es10TrioItem[]) ?? []).slice(0, 3);
+  if (items.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-10-trio" style={{ fontFamily: SANS, background: "#fff", padding: "54px 0 26px" }}>
+      <style>{`
+        .es10t-card { display: flex; flex-direction: column; text-decoration: none; border-radius: 2px; overflow: hidden; background: #fff; }
+        .es10t-media { position: relative; aspect-ratio: 16/10; overflow: hidden; background: ${SURFACE}; border-radius: 2px; }
+        .es10t-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es10t-card:hover .es10t-media img { transform: scale(1.06); }
+        .es10t-link { display: inline-flex; align-items: center; gap: 9; }
+        .es10t-link svg { transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); }
+        .es10t-card:hover .es10t-link svg { transform: translateX(5px); }
+        .es10t-card:hover .es10t-link { text-decoration: none; }
+        .es10t-title { transition: color 0.15s; }
+        .es10t-card:hover .es10t-title { color: ${VOLT_DEEP}; }
+        .es10t-dark:hover .es10t-title { color: ${VOLT}; }
+        .es10t-dark .es10t-media img { opacity: 0.5; }
+        .es10t-dark:hover .es10t-media img { opacity: 0.62; }
+      `}</style>
+
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px" }}>
+        {/* Nadpis sekce */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+          <span aria-hidden style={{ width: 10, height: 10, background: VOLT, flexShrink: 0 }} />
+          <h2 style={{
+            margin: 0, fontFamily: COND, fontSize: "clamp(26px, 2.6vw, 34px)", fontWeight: 800,
+            letterSpacing: "0.06em", textTransform: "uppercase", color: INK, lineHeight: 1,
+          }}>{heading}</h2>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 18 }}>
+          {items.map((it, i) => {
+            const href = resolve(it.href ?? "/obchod");
+            if (it.dark) {
+              // tmavá typografická dlaždice
+              return (
+                <a key={i} href={href} className="es10t-card es10t-dark" style={{ background: "#0a0a0b", position: "relative", minHeight: 300 }}>
+                  <span className="es10t-media" style={{ position: "absolute", inset: 0, aspectRatio: "auto", borderRadius: 0 }}>
+                    {it.image && <img src={it.image} alt="" loading="lazy" />}
+                    <span style={{ position: "absolute", inset: 0, background: "linear-gradient(200deg, rgba(10,10,11,0.25), rgba(10,10,11,0.78) 75%)" }} />
+                  </span>
+                  <span style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "flex-end", height: "100%", padding: "26px 26px 24px", flex: 1 }}>
+                    {it.kicker && (
+                      <span style={{ position: "relative", display: "inline-block", marginBottom: 16 }}>
+                        <span aria-hidden style={{ position: "absolute", inset: 0, transform: "skewX(-12deg) translate(4px, 3px)", background: VIOLET, borderRadius: 2 }} />
+                        <span style={{ position: "relative", display: "inline-block", background: VOLT, transform: "skewX(-12deg)", borderRadius: 2, padding: "4px 11px" }}>
+                          <span style={{ display: "inline-block", transform: "skewX(12deg)", fontFamily: COND, fontSize: 13.5, fontWeight: 800, fontStyle: "italic", letterSpacing: "0.12em", textTransform: "uppercase", color: ON_VOLT, lineHeight: 1.1 }}>{it.kicker}</span>
+                        </span>
+                      </span>
+                    )}
+                    <span className="es10t-title" style={{
+                      fontFamily: COND, fontSize: "clamp(30px, 2.8vw, 42px)", fontWeight: 800, fontStyle: "italic",
+                      letterSpacing: "0.02em", textTransform: "uppercase", color: "#fff", lineHeight: 0.98,
+                    }}>{it.title}</span>
+                    {it.text && <span style={{ marginTop: 12, fontSize: 14.5, fontWeight: 500, lineHeight: 1.5, color: "rgba(255,255,255,0.78)", maxWidth: 380 }}>{it.text}</span>}
+                    <span className="es10t-link" style={{ marginTop: 18, fontFamily: COND, fontSize: 15.5, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", color: VOLT }}>
+                      {it.linkText ?? "Prozkoumat"}
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </span>
+                  </span>
+                </a>
+              );
+            }
+            return (
+              <a key={i} href={href} className="es10t-card">
+                <span className="es10t-media">
+                  {it.image && <img src={it.image} alt="" loading="lazy" />}
+                </span>
+                <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", padding: "18px 4px 6px", flex: 1 }}>
+                  {it.kicker && <span style={{ fontFamily: COND, fontSize: 13.5, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: 7 }}>{it.kicker}</span>}
+                  <span className="es10t-title" style={{
+                    fontFamily: COND, fontSize: "clamp(24px, 2.1vw, 30px)", fontWeight: 800,
+                    letterSpacing: "0.03em", textTransform: "uppercase", color: INK, lineHeight: 1,
+                  }}>{it.title}</span>
+                  {it.text && <span style={{ marginTop: 9, fontSize: 14.5, fontWeight: 500, lineHeight: 1.5, color: MUTED }}>{it.text}</span>}
+                  <span className="es10t-link" style={{ marginTop: 14, fontFamily: COND, fontSize: 15, fontWeight: 800, letterSpacing: "0.11em", textTransform: "uppercase", color: VOLT_DEEP }}>
+                    {it.linkText ?? "Prozkoumat"}
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </span>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-categories ─────────────────────────────────────────────────────────
+// BOTIQ „Streetwear móda" (footshop DNA): řada čtvercových foto dlaždic kategorií
+// (label na spodním gradientu, hover zoom + volt) + speciální sale dlaždice
+// s obřím %. Pod tím typografický brand pás — nekonečné marquee condensed
+// wordmarků oddělených volt čtverečky, pauza na hover, každý linkuje na
+// kategorii značky.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10CatTile = { label: string; slug: string; image?: string; tone?: "sale" };
+type Es10Brand = { label: string; slug: string };
+
+function AboutEshop10Categories({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const SALE_INK = "#e8402c";
+  const INK = "#121212";
+  const SURFACE = "#f4f4f3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (slug: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "Streetwear móda");
+  const tiles = ((content.tiles as Es10CatTile[]) ?? []).slice(0, 8);
+  const brands = ((content.brands as Es10Brand[]) ?? []);
+  if (tiles.length === 0 && brands.length === 0) return null;
+  const marquee = brands.length > 0 ? [...brands, ...brands] : [];
+
+  return (
+    <section data-variant="eshop-10-categories" style={{ fontFamily: SANS, background: "#fff", padding: "44px 0 10px" }}>
+      <style>{`
+        .es10c-tile { position: relative; display: block; aspect-ratio: 1/1; border-radius: 2px; overflow: hidden; background: ${SURFACE}; text-decoration: none; }
+        .es10c-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es10c-tile:hover img { transform: scale(1.07); }
+        .es10c-label { position: absolute; left: 0; right: 0; bottom: 0; padding: 34px 10px 12px; text-align: center;
+          background: linear-gradient(180deg, transparent, rgba(10,10,11,0.72)); color: #fff;
+          font-family: ${COND}; font-size: 17px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.1;
+          transition: color 0.15s; }
+        .es10c-tile:hover .es10c-label { color: ${VOLT}; }
+        .es10c-sale { background: ${SALE_INK}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; transition: transform 0.2s; }
+        .es10c-sale:hover { transform: translateY(-3px); }
+
+        @keyframes es10cMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .es10c-track { display: inline-flex; align-items: center; white-space: nowrap; animation: es10cMarquee 32s linear infinite; will-change: transform; }
+        .es10c-strip:hover .es10c-track { animation-play-state: paused; }
+        .es10c-brand { font-family: ${COND}; font-size: clamp(24px, 2.4vw, 34px); font-weight: 800; letter-spacing: 0.06em;
+          text-transform: uppercase; color: #c3c3c0; text-decoration: none; line-height: 1; padding: 14px 0;
+          transition: color 0.15s; }
+        .es10c-brand:hover { color: ${INK}; }
+      `}</style>
+
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+          <span aria-hidden style={{ width: 10, height: 10, background: VOLT, flexShrink: 0 }} />
+          <h2 style={{ margin: 0, fontFamily: COND, fontSize: "clamp(26px, 2.6vw, 34px)", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: INK, lineHeight: 1 }}>{heading}</h2>
+        </div>
+
+        {/* Foto dlaždice kategorií + sale dlaždice */}
+        {tiles.length > 0 && (
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(130px, 1fr))`, gap: 14 }}>
+            {tiles.map((t, i) => t.tone === "sale" ? (
+              <a key={i} href={catHref(t.slug)} className="es10c-tile es10c-sale">
+                <span style={{ fontFamily: COND, fontStyle: "italic", fontSize: "clamp(42px, 4.5vw, 64px)", fontWeight: 800, color: "#fff", lineHeight: 0.9 }}>%</span>
+                <span style={{ fontFamily: COND, fontSize: 17, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff" }}>{t.label}</span>
+              </a>
+            ) : (
+              <a key={i} href={catHref(t.slug)} className="es10c-tile">
+                {t.image && <img src={t.image} alt="" loading="lazy" />}
+                <span className="es10c-label">{t.label}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Brand marquee — typografický pás */}
+      {marquee.length > 0 && (
+        <div className="es10c-strip" style={{ marginTop: 30, borderTop: `1px solid #ececea`, borderBottom: `1px solid #ececea`, overflow: "hidden" }}>
+          <div className="es10c-track">
+            {marquee.map((br, i) => (
+              <React.Fragment key={i}>
+                <a href={catHref(br.slug)} className="es10c-brand">{br.label}</a>
+                <span aria-hidden style={{ width: 9, height: 9, background: VOLT, margin: "0 34px", flexShrink: 0, transform: "rotate(45deg)" }} />
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ── eshop-10-collections ────────────────────────────────────────────────────────
+// BOTIQ kolekční trio (footshop „adidas x World Cup / Playboy x FTSHP / Salomon
+// Woven Pack" DNA): 3 velké čtvercové foto bannery — spodní gradient, volt
+// kicker řádek s čtverečkem, velký italic condensed titulek, „Prozkoumat" link
+// s šipkou. Hover: zoom fotky, prohloubení gradientu, link zezelená a šipka
+// odjede. Bez nadpisu sekce — banery mluví samy (footshop vzor).
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Collection = { kicker?: string; title?: string; linkText?: string; href?: string; image?: string };
+
+function AboutEshop10Collections({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const SURFACE = "#f4f4f3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const items = ((content.items as Es10Collection[]) ?? []).slice(0, 3);
+  if (items.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-10-collections" style={{ fontFamily: SANS, background: "#fff", padding: "30px 0 22px" }}>
+      <style>{`
+        .es10col-tile { position: relative; display: block; aspect-ratio: 1/1; border-radius: 2px; overflow: hidden;
+          background: ${SURFACE}; text-decoration: none; }
+        .es10col-tile img { width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+        .es10col-tile:hover img { transform: scale(1.06); }
+        .es10col-shade { position: absolute; inset: 0; background: linear-gradient(195deg, rgba(10,10,11,0.04) 40%, rgba(10,10,11,0.68) 88%);
+          transition: background 0.3s; }
+        .es10col-tile:hover .es10col-shade { background: linear-gradient(195deg, rgba(10,10,11,0.1) 35%, rgba(10,10,11,0.8) 88%); }
+        .es10col-body { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 22px 20px; display: flex; flex-direction: column; align-items: flex-start; }
+        .es10col-kicker { display: inline-flex; align-items: center; gap: 8px; font-family: ${COND}; font-size: 13.5px;
+          font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: ${VOLT}; margin-bottom: 8px; }
+        .es10col-title { font-family: ${COND}; font-style: italic; font-size: clamp(26px, 2.4vw, 36px); font-weight: 800;
+          letter-spacing: 0.02em; text-transform: uppercase; color: #fff; line-height: 0.98; }
+        .es10col-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 13px; font-family: ${COND};
+          font-size: 15px; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: rgba(255,255,255,0.85);
+          transition: color 0.15s, gap 0.15s; }
+        .es10col-tile:hover .es10col-link { color: ${VOLT}; gap: 13px; }
+      `}</style>
+
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
+          {items.map((it, i) => (
+            <a key={i} href={resolve(it.href ?? "/obchod")} className="es10col-tile">
+              {it.image && <img src={it.image} alt="" loading="lazy" />}
+              <span className="es10col-shade" />
+              <span className="es10col-body">
+                {it.kicker && (
+                  <span className="es10col-kicker">
+                    <span aria-hidden style={{ width: 8, height: 8, background: VOLT, flexShrink: 0 }} />
+                    {it.kicker}
+                  </span>
+                )}
+                <span className="es10col-title">{it.title}</span>
+                <span className="es10col-link">
+                  {it.linkText ?? "Prozkoumat"}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-outfits ────────────────────────────────────────────────────────────
+// BOTIQ „Inspiruj se outfity" (footshop DNA tmavý pás): černá sekce — nadpis
+// s volt čtverečkem + obří italic outline hashtag #botiqfits vpravo, horizontální
+// snap scroll portrétních karet 3:4 s @handle chipem (volt zavináč) a labelem
+// „Outfit by BOTIQ Club". Hover: zoom + volt spodní linka. Šipky hranaté.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Outfit = { handle?: string; image?: string; href?: string };
+
+function AboutEshop10Outfits({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const BLACK = "#0a0a0b";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Inspiruj se outfity");
+  const subtext = String(content.subtext ?? "");
+  const hashtag = String(content.hashtag ?? "#botiqfits");
+  const byLabel = String(content.byLabel ?? "Outfit by BOTIQ Club");
+  const items = ((content.items as Es10Outfit[]) ?? []).slice(0, 12);
+  if (items.length === 0) return null;
+
+  const scrollBy = (dir: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>(".es10o-card");
+    const w = card ? card.offsetWidth + 14 : 280;
+    el.scrollBy({ left: dir * w * 2, behavior: "smooth" });
+  };
+
+  return (
+    <section data-variant="eshop-10-outfits" style={{ fontFamily: SANS, background: BLACK, padding: "52px 0 46px", overflow: "hidden" }}>
+      <style>{`
+        .es10o-track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+          scrollbar-width: none; -ms-overflow-style: none; padding: 2px; }
+        .es10o-track::-webkit-scrollbar { display: none; }
+        .es10o-card { position: relative; flex: 0 0 calc(20% - 11.2px); min-width: 210px; scroll-snap-align: start;
+          aspect-ratio: 3/4; border-radius: 2px; overflow: hidden; background: #17171a; text-decoration: none; display: block; }
+        .es10o-card img { width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es10o-card:hover img { transform: scale(1.06); }
+        .es10o-shade { position: absolute; inset: 0; background: linear-gradient(195deg, transparent 55%, rgba(10,10,11,0.72)); }
+        .es10o-underline { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: ${VOLT};
+          transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); z-index: 3; }
+        .es10o-card:hover .es10o-underline { transform: scaleX(1); }
+        .es10o-meta { position: absolute; left: 14px; right: 14px; bottom: 13px; z-index: 2; display: flex; flex-direction: column; gap: 4px; }
+        .es10o-by { font-family: ${COND}; font-size: 11.5px; font-weight: 700; letter-spacing: 0.14em;
+          text-transform: uppercase; color: rgba(255,255,255,0.62); }
+        .es10o-handle { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 700; color: #fff; }
+        .es10o-handle .es10o-at { color: ${VOLT}; font-weight: 800; }
+        .es10o-arrow { width: 40px; height: 40px; border: 2px solid rgba(255,255,255,0.28); border-radius: 2px; background: none;
+          color: #fff; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+          transition: background 0.14s, border-color 0.14s, color 0.14s; flex-shrink: 0; }
+        .es10o-arrow:hover { background: ${VOLT}; border-color: ${VOLT}; color: ${ON_VOLT}; }
+        .es10o-tag { position: absolute; right: 0; top: -16px; pointer-events: none; user-select: none;
+          font-family: ${COND}; font-style: italic; font-weight: 800; font-size: clamp(52px, 6.5vw, 96px); line-height: 1;
+          color: transparent; -webkit-text-stroke: 1.5px rgba(200,245,60,0.4); white-space: nowrap; }
+        @media (max-width: 1180px) { .es10o-card { flex-basis: calc(25% - 10.5px); } }
+        @media (max-width: 980px) { .es10o-card { flex-basis: calc(33.33% - 9.4px); } }
+        @media (max-width: 700px) { .es10o-card { flex-basis: calc(55% - 7px); min-width: 180px; } .es10o-arrows { display: none; } .es10o-tag { display: none; } }
+      `}</style>
+
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px", position: "relative" }}>
+        <div className="es10o-tag" aria-hidden>{hashtag}</div>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 14, marginBottom: 22 }}>
+          <div>
+            <h2 style={{ margin: 0, display: "flex", alignItems: "center", gap: 12, fontFamily: COND, fontSize: "clamp(26px, 2.6vw, 34px)", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: "#fff", lineHeight: 1 }}>
+              <span aria-hidden style={{ width: 10, height: 10, background: VOLT, flexShrink: 0 }} />
+              {heading}
+            </h2>
+            {subtext && <p style={{ margin: "8px 0 0 22px", fontSize: 14.5, fontWeight: 500, color: "rgba(255,255,255,0.65)" }}>{subtext}</p>}
+          </div>
+          <span className="es10o-arrows" style={{ display: "inline-flex", gap: 8, marginLeft: "auto" }}>
+            <button type="button" className="es10o-arrow" aria-label="Posunout doleva" onClick={() => scrollBy(-1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" className="es10o-arrow" aria-label="Posunout doprava" onClick={() => scrollBy(1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </span>
+        </div>
+
+        <div ref={trackRef} className="es10o-track">
+          {items.map((o, i) => (
+            <a key={i} href={resolve(o.href ?? "/obchod?kategorie=obleceni")} className="es10o-card">
+              {o.image && <img src={o.image} alt={o.handle ?? ""} loading="lazy" />}
+              <span className="es10o-shade" />
+              <span className="es10o-meta">
+                <span className="es10o-by">{byLabel}</span>
+                {o.handle && (
+                  <span className="es10o-handle"><span className="es10o-at">@</span>{o.handle.replace(/^@/, "")}</span>
+                )}
+              </span>
+              <span className="es10o-underline" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-club ───────────────────────────────────────────────────────────────
+// BOTIQ Club (footshop „FOOTSHOP CLUB" + „MŮŽEŠ PLATIT MÉNĚ" DNA): celoplošná
+// volt sekce — vlevo inverzní černý sticker BOTIQ CLUB (volt italic text,
+// violet vrstva), headline, 2×2 benefity s černými čtverečky, černý CTA blok
+// + poznámka. Vpravo 2×2 foto kolář (druhý sloupec posunutý dolů). Na volt
+// pozadí černá typografie — nejvýraznější blok stránky.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Benefit = { title?: string; text?: string };
+
+function AboutEshop10Club({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const VIOLET = "#7a5cff";
+  const BLACK = "#0a0a0b";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const badge = String(content.badge ?? "BOTIQ Club");
+  const heading = String(content.heading ?? "Členství, které se vyplatí");
+  const text = String(content.text ?? "");
+  const ctaText = String(content.ctaText ?? "Získat výhody");
+  const ctaHref = String(content.ctaHref ?? "/obchod");
+  const note = String(content.note ?? "");
+  const benefits = ((content.benefits as Es10Benefit[]) ?? []).slice(0, 4);
+  const images = ((content.images as string[]) ?? []).slice(0, 4);
+
+  return (
+    <section data-variant="eshop-10-club" style={{ fontFamily: SANS, background: VOLT, padding: "58px 0 58px", overflow: "hidden" }}>
+      <style>{`
+        .es10cl-cta { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 28px;
+          background: ${BLACK}; color: ${VOLT}; border-radius: 2px; text-decoration: none;
+          font-family: ${COND}; font-size: 17px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase;
+          transition: letter-spacing 0.2s, transform 0.16s, box-shadow 0.2s; }
+        .es10cl-cta:hover { letter-spacing: 0.17em; box-shadow: 6px 6px 0 rgba(10,10,11,0.22); transform: translate(-2px,-2px); }
+        .es10cl-img { border-radius: 2px; overflow: hidden; background: rgba(10,10,11,0.12); aspect-ratio: 1/1; }
+        .es10cl-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); filter: saturate(1.02); }
+        .es10cl-img:hover img { transform: scale(1.05); }
+        @media (max-width: 900px) { .es10cl-grid { grid-template-columns: 1fr !important; } .es10cl-photos { max-width: 480px; } }
+      `}</style>
+
+      <div className="es10cl-grid" style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: "44px 60px", alignItems: "center" }}>
+        {/* Levý sloupec — sticker, headline, benefity, CTA */}
+        <div>
+          <span style={{ position: "relative", display: "inline-block", marginBottom: 22 }}>
+            <span aria-hidden style={{ position: "absolute", inset: 0, transform: "skewX(-12deg) translate(5px, 4px)", background: VIOLET, borderRadius: 2 }} />
+            <span style={{ position: "relative", display: "inline-block", background: BLACK, transform: "skewX(-12deg)", borderRadius: 2, padding: "7px 16px" }}>
+              <span style={{ display: "inline-block", transform: "skewX(12deg)", fontFamily: COND, fontSize: 19, fontWeight: 800, fontStyle: "italic", letterSpacing: "0.12em", textTransform: "uppercase", color: VOLT, lineHeight: 1.1 }}>{badge}</span>
+            </span>
+          </span>
+
+          <h2 style={{ margin: 0, fontFamily: COND, fontSize: "clamp(38px, 4.4vw, 60px)", fontWeight: 800, letterSpacing: "0.015em", textTransform: "uppercase", color: BLACK, lineHeight: 0.95 }}>{heading}</h2>
+          {text && <p style={{ margin: "14px 0 0", maxWidth: 520, fontSize: 16, fontWeight: 500, lineHeight: 1.55, color: "rgba(10,10,11,0.75)" }}>{text}</p>}
+
+          {benefits.length > 0 && (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: "16px 26px", marginTop: 26 }}>
+              {benefits.map((bf, i) => (
+                <div key={i} style={{ display: "flex", gap: 11, alignItems: "flex-start" }}>
+                  <span aria-hidden style={{ width: 9, height: 9, background: BLACK, flexShrink: 0, marginTop: 6 }} />
+                  <div>
+                    <div style={{ fontFamily: COND, fontSize: 18, fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase", color: BLACK, lineHeight: 1.1 }}>{bf.title}</div>
+                    {bf.text && <div style={{ marginTop: 3, fontSize: 13.5, fontWeight: 500, lineHeight: 1.45, color: "rgba(10,10,11,0.68)" }}>{bf.text}</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 30, flexWrap: "wrap" }}>
+            <a href={resolve(ctaHref)} className="es10cl-cta">
+              {ctaText}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            {note && <span style={{ fontSize: 13.5, fontWeight: 600, color: "rgba(10,10,11,0.65)" }}>{note}</span>}
+          </div>
+        </div>
+
+        {/* Pravý sloupec — 2×2 kolář, druhý sloupec posunutý */}
+        {images.length > 0 && (
+          <div className="es10cl-photos" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            <div style={{ display: "grid", gap: 14 }}>
+              {images.filter((_, i) => i % 2 === 0).map((img, i) => (
+                <span key={i} className="es10cl-img"><img src={img} alt="" loading="lazy" /></span>
+              ))}
+            </div>
+            <div style={{ display: "grid", gap: 14, transform: "translateY(26px)" }}>
+              {images.filter((_, i) => i % 2 === 1).map((img, i) => (
+                <span key={i} className="es10cl-img"><img src={img} alt="" loading="lazy" /></span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-releases ───────────────────────────────────────────────────────────
+// BOTIQ „Releases" kalendář dropů (footshop „LAUNCHED ON…" DNA): horizontální
+// snap řada karet — nahoře velké condensed datum + status chip (Vyšlo volt /
+// Dnes volt pulz / Raffle violet / Už brzy outline), foto 1:1 hover zoom,
+// titulek, cena. Karty propojené tečkovanou timeline linkou s volt tečkami.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Release = { date?: string; title?: string; price?: string; status?: "released" | "today" | "raffle" | "soon"; statusLabel?: string; image?: string; href?: string };
+
+function AboutEshop10Releases({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const VOLT_DEEP = "#6d9204";
+  const VIOLET = "#7a5cff";
+  const INK = "#121212";
+  const MUTED = "#6f6f6f";
+  const BORDER = "#e6e6e4";
+  const SURFACE = "#f4f4f3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Releases");
+  const moreLabel = String(content.moreLabel ?? "Všechny dropy");
+  const moreHref = String(content.moreHref ?? "/obchod?kategorie=novinky");
+  const items = ((content.items as Es10Release[]) ?? []).slice(0, 10);
+  if (items.length === 0) return null;
+
+  const chip = (r: Es10Release) => {
+    const st = r.status ?? "soon";
+    const label = r.statusLabel ?? (st === "released" ? "Vyšlo" : st === "today" ? "Dnes" : st === "raffle" ? "Raffle" : "Už brzy");
+    const base: React.CSSProperties = {
+      display: "inline-block", padding: "4px 9px", borderRadius: 2, fontFamily: COND,
+      fontSize: 12.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.1,
+    };
+    if (st === "released") return <span style={{ ...base, background: VOLT, color: ON_VOLT }}>{label}</span>;
+    if (st === "today") return <span className="es10r-pulse" style={{ ...base, background: VOLT, color: ON_VOLT }}>{label}</span>;
+    if (st === "raffle") return <span style={{ ...base, background: VIOLET, color: "#fff" }}>{label}</span>;
+    return <span style={{ ...base, background: "none", border: `1.5px solid ${INK}`, color: INK }}>{label}</span>;
+  };
+
+  const scrollBy = (dir: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>(".es10r-card");
+    const w = card ? card.offsetWidth + 16 : 280;
+    el.scrollBy({ left: dir * w * 2, behavior: "smooth" });
+  };
+
+  return (
+    <section data-variant="eshop-10-releases" style={{ fontFamily: SANS, background: "#fff", padding: "50px 0 26px" }}>
+      <style>{`
+        @keyframes es10rPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(200,245,60,0.55); } 55% { box-shadow: 0 0 0 7px rgba(200,245,60,0); } }
+        .es10r-pulse { animation: es10rPulse 1.8s ease-out infinite; }
+        .es10r-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+          scrollbar-width: none; -ms-overflow-style: none; padding: 2px 2px 8px; position: relative; }
+        .es10r-track::-webkit-scrollbar { display: none; }
+        .es10r-card { flex: 0 0 calc(20% - 12.8px); min-width: 216px; scroll-snap-align: start;
+          display: flex; flex-direction: column; text-decoration: none; }
+        .es10r-datebox { display: flex; align-items: center; gap: 10px; padding-bottom: 11px; }
+        .es10r-dot { width: 9px; height: 9px; background: ${VOLT}; flex-shrink: 0; }
+        .es10r-date { font-family: ${COND}; font-size: 19px; font-weight: 800; letter-spacing: 0.06em; color: ${INK}; line-height: 1; white-space: nowrap; }
+        .es10r-line { flex: 1; border-top: 2px dotted ${BORDER}; }
+        .es10r-media { position: relative; aspect-ratio: 1/1; border-radius: 2px; overflow: hidden; background: ${SURFACE}; }
+        .es10r-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es10r-card:hover .es10r-media img { transform: scale(1.06); }
+        .es10r-chipbox { position: absolute; top: 10px; left: 10px; z-index: 2; }
+        .es10r-title { margin-top: 11px; font-size: 14.5px; font-weight: 600; color: ${INK}; line-height: 1.35;
+          overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; min-height: 2.7em; }
+        .es10r-card:hover .es10r-title { text-decoration: underline; text-underline-offset: 3px; }
+        .es10r-price { margin-top: 5px; font-size: 15.5px; font-weight: 800; color: ${INK}; }
+        .es10r-more { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; font-family: ${COND};
+          font-size: 15.5px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: ${VOLT_DEEP};
+          text-decoration: none; white-space: nowrap; transition: color 0.14s, gap 0.14s; }
+        .es10r-more:hover { color: ${INK}; gap: 11px; }
+        .es10r-arrow { width: 40px; height: 40px; border: 2px solid ${BORDER}; border-radius: 2px; background: #fff;
+          color: ${INK}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+          transition: background 0.14s, border-color 0.14s, color 0.14s; flex-shrink: 0; }
+        .es10r-arrow:hover { background: ${VOLT}; border-color: ${VOLT}; color: ${ON_VOLT}; }
+        @media (max-width: 1180px) { .es10r-card { flex-basis: calc(25% - 12px); } }
+        @media (max-width: 980px) { .es10r-card { flex-basis: calc(33.33% - 11px); } }
+        @media (max-width: 700px) { .es10r-card { flex-basis: calc(50% - 8px); min-width: 168px; } .es10r-arrows { display: none; } }
+      `}</style>
+
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+          <span aria-hidden style={{ width: 10, height: 10, background: VOLT, flexShrink: 0 }} />
+          <h2 style={{ margin: 0, fontFamily: COND, fontSize: "clamp(26px, 2.6vw, 34px)", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: INK, lineHeight: 1 }}>{heading}</h2>
+          <a href={isAdmin ? "#" : resolve(moreHref)} className="es10r-more">
+            {moreLabel}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <span className="es10r-arrows" style={{ display: "inline-flex", gap: 8 }}>
+            <button type="button" className="es10r-arrow" aria-label="Posunout doleva" onClick={() => scrollBy(-1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" className="es10r-arrow" aria-label="Posunout doprava" onClick={() => scrollBy(1)}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </span>
+        </div>
+
+        <div ref={trackRef} className="es10r-track">
+          {items.map((r, i) => (
+            <a key={i} href={r.href ? resolve(r.href) : "#"} className="es10r-card">
+              <span className="es10r-datebox">
+                <span className="es10r-dot" aria-hidden />
+                <span className="es10r-date">{r.date}</span>
+                <span className="es10r-line" aria-hidden />
+              </span>
+              <span className="es10r-media">
+                {r.image && <img src={r.image} alt={r.title ?? ""} loading="lazy" />}
+                <span className="es10r-chipbox">{chip(r)}</span>
+              </span>
+              <span className="es10r-title">{r.title}</span>
+              {r.price && <span className="es10r-price">{r.price}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-articles ───────────────────────────────────────────────────────────
+// BOTIQ Magazín (footshop FTSHP blog DNA): editorial bento — featured článek
+// vlevo (foto + černý gradient, volt chip kategorie, velký condensed titulek,
+// excerpt, „Přečíst článek" volt link, meta datum · čas čtení) + 3 menší karty
+// vpravo (thumb, tónovaný chip volt/violet/sale, titulek 2 řádky, meta).
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Article = { chip?: string; tone?: "volt" | "violet" | "sale"; title?: string; excerpt?: string; date?: string; readTime?: string; image?: string; href?: string };
+
+function AboutEshop10Articles({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const VOLT_DEEP = "#6d9204";
+  const VIOLET = "#7a5cff";
+  const SALE_INK = "#e8402c";
+  const INK = "#121212";
+  const MUTED = "#6f6f6f";
+  const SURFACE = "#f4f4f3";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "BOTIQ Magazín");
+  const moreLabel = String(content.moreLabel ?? "Přejít na magazín");
+  const moreHref = String(content.moreHref ?? "/magazin");
+  const readLabel = String(content.readLabel ?? "Přečíst článek");
+  const items = ((content.items as Es10Article[]) ?? []).slice(0, 4);
+  if (items.length === 0) return null;
+  const [feat, ...rest] = items;
+
+  const chipStyle = (tone?: string): React.CSSProperties => ({
+    display: "inline-block", padding: "4px 9px", borderRadius: 2, fontFamily: COND,
+    fontSize: 12.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", lineHeight: 1.1,
+    background: tone === "violet" ? VIOLET : tone === "sale" ? SALE_INK : VOLT,
+    color: tone === "violet" || tone === "sale" ? "#fff" : ON_VOLT,
+  });
+
+  return (
+    <section data-variant="eshop-10-articles" style={{ fontFamily: SANS, background: "#fff", padding: "40px 0 30px" }}>
+      <style>{`
+        .es10a-feat { position: relative; display: flex; flex-direction: column; justify-content: flex-end;
+          min-height: 460px; border-radius: 2px; overflow: hidden; background: ${SURFACE}; text-decoration: none; }
+        .es10a-feat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+        .es10a-feat:hover img { transform: scale(1.05); }
+        .es10a-feat-shade { position: absolute; inset: 0; background: linear-gradient(200deg, rgba(10,10,11,0.05) 30%, rgba(10,10,11,0.82) 85%); }
+        .es10a-read { display: inline-flex; align-items: center; gap: 9px; font-family: ${COND}; font-size: 15px;
+          font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase; color: ${VOLT}; transition: gap 0.15s; }
+        .es10a-feat:hover .es10a-read { gap: 13px; }
+        .es10a-row { display: flex; gap: 15px; padding: 14px 0; border-bottom: 1px solid #ececea; text-decoration: none; align-items: flex-start; }
+        .es10a-row:first-child { padding-top: 2px; }
+        .es10a-row:last-child { border-bottom: none; }
+        .es10a-thumb { flex-shrink: 0; width: 148px; aspect-ratio: 4/3; border-radius: 2px; overflow: hidden; background: ${SURFACE}; }
+        .es10a-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .es10a-row:hover .es10a-thumb img { transform: scale(1.07); }
+        .es10a-row-title { margin-top: 7px; font-size: 15.5px; font-weight: 700; color: ${INK}; line-height: 1.35;
+          overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .es10a-row:hover .es10a-row-title { text-decoration: underline; text-underline-offset: 3px; }
+        .es10a-more { display: inline-flex; align-items: center; gap: 7px; margin-left: auto; font-family: ${COND};
+          font-size: 15.5px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: ${VOLT_DEEP};
+          text-decoration: none; white-space: nowrap; transition: color 0.14s, gap 0.14s; }
+        .es10a-more:hover { color: ${INK}; gap: 11px; }
+        @media (max-width: 900px) { .es10a-grid { grid-template-columns: 1fr !important; } .es10a-feat { min-height: 340px; } }
+      `}</style>
+
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+          <span aria-hidden style={{ width: 10, height: 10, background: VOLT, flexShrink: 0 }} />
+          <h2 style={{ margin: 0, fontFamily: COND, fontSize: "clamp(26px, 2.6vw, 34px)", fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: INK, lineHeight: 1 }}>{heading}</h2>
+          <a href={isAdmin ? "#" : resolve(moreHref)} className="es10a-more">
+            {moreLabel}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div className="es10a-grid" style={{ display: "grid", gridTemplateColumns: "1.25fr 1fr", gap: 22, alignItems: "stretch" }}>
+          {/* Featured */}
+          <a href={isAdmin ? "#" : resolve(feat.href ?? moreHref)} className="es10a-feat">
+            {feat.image && <img src={feat.image} alt="" loading="lazy" />}
+            <span className="es10a-feat-shade" />
+            <span style={{ position: "relative", zIndex: 2, padding: "26px 26px 24px", display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              {feat.chip && <span style={chipStyle(feat.tone)}>{feat.chip}</span>}
+              <span style={{ marginTop: 13, fontFamily: COND, fontSize: "clamp(26px, 2.6vw, 38px)", fontWeight: 800, letterSpacing: "0.02em", textTransform: "uppercase", color: "#fff", lineHeight: 1 }}>{feat.title}</span>
+              {feat.excerpt && <span style={{ marginTop: 10, maxWidth: 520, fontSize: 14.5, fontWeight: 500, lineHeight: 1.5, color: "rgba(255,255,255,0.8)" }}>{feat.excerpt}</span>}
+              <span style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 15 }}>
+                <span className="es10a-read">
+                  {readLabel}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+                <span style={{ fontSize: 12.5, fontWeight: 600, color: "rgba(255,255,255,0.6)" }}>{[feat.date, feat.readTime].filter(Boolean).join(" · ")}</span>
+              </span>
+            </span>
+          </a>
+
+          {/* Menší karty */}
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            {rest.map((a, i) => (
+              <a key={i} href={isAdmin ? "#" : resolve(a.href ?? moreHref)} className="es10a-row">
+                <span className="es10a-thumb">{a.image && <img src={a.image} alt="" loading="lazy" />}</span>
+                <span style={{ minWidth: 0 }}>
+                  {a.chip && <span style={chipStyle(a.tone)}>{a.chip}</span>}
+                  <span className="es10a-row-title">{a.title}</span>
+                  <span style={{ display: "block", marginTop: 5, fontSize: 12.5, fontWeight: 600, color: MUTED }}>{[a.date, a.readTime].filter(Boolean).join(" · ")}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-trust ──────────────────────────────────────────────────────────────
+// BOTIQ trust pás (footshop „Milion lidí se nemůže mýlit" DNA): černá sekce —
+// vlevo obří condensed statement s volt čtvercovou tečkou + subtext + sociální
+// sítě (ghost čtverce, hover volt), vpravo 3 stat countery (volt čísla
+// v condensed, animace nájezdu přes IntersectionObserver-less CSS).
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Stat = { value?: string; label?: string };
+type Es10Social = { label?: string; href?: string; icon?: "instagram" | "tiktok" | "facebook" | "youtube" };
+
+function Es10SocialIcon({ icon }: { icon?: string }) {
+  if (icon === "tiktok") return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.3 1.9 3.8 4.4 4v3.1c-1.6.1-3-.4-4.4-1.3v6.7c0 4.1-2.9 6.5-6.3 6.5C7 22 4.5 19.7 4.5 16.4c0-3.5 3-6 6.6-5.6v3.2c-.4-.1-.8-.2-1.2-.1-1.4.2-2.3 1.2-2.3 2.6 0 1.5 1.2 2.6 2.7 2.6 1.7 0 2.8-1.2 2.8-3.1V3h3.5z"/></svg>
+  );
+  if (icon === "facebook") return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.6-.1-1.4-.2-2.3-.2-2.3 0-3.9 1.4-3.9 4V11H7.7v3h2.5v7h3.3z"/></svg>
+  );
+  if (icon === "youtube") return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15.2V8.8l5.2 3.2-5.2 3.2z"/></svg>
+  );
+  return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+  );
+}
+
+function AboutEshop10Trust({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const BLACK = "#0a0a0b";
+
+  const heading = String(content.heading ?? "Milion lidí se nemůže mýlit");
+  const text = String(content.text ?? "");
+  const stats = ((content.stats as Es10Stat[]) ?? []).slice(0, 3);
+  const socials = ((content.socials as Es10Social[]) ?? []).slice(0, 6);
+
+  return (
+    <section data-variant="eshop-10-trust" style={{ fontFamily: SANS, background: BLACK, padding: "62px 0 60px", overflow: "hidden", position: "relative" }}>
+      <style>{`
+        .es10tr-social { width: 46px; height: 46px; border: 2px solid rgba(255,255,255,0.25); border-radius: 2px;
+          color: #fff; display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+          transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s; }
+        .es10tr-social:hover { background: ${VOLT}; border-color: ${VOLT}; color: ${ON_VOLT}; transform: translateY(-3px); }
+        .es10tr-stat { border-left: 2px solid rgba(200,245,60,0.35); padding-left: 20px; }
+        @media (max-width: 900px) { .es10tr-grid { grid-template-columns: 1fr !important; gap: 38px !important; } }
+      `}</style>
+
+      {/* jemný volt grid vzor v pozadí */}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, opacity: 0.05, pointerEvents: "none",
+        backgroundImage: `linear-gradient(${VOLT} 1px, transparent 1px), linear-gradient(90deg, ${VOLT} 1px, transparent 1px)`,
+        backgroundSize: "56px 56px",
+      }} />
+
+      <div className="es10tr-grid" style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1.35fr 1fr", gap: 60, alignItems: "center", position: "relative" }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+            <span aria-hidden style={{ width: 12, height: 12, background: VOLT, flexShrink: 0, marginTop: 14 }} />
+            <h2 style={{ margin: 0, fontFamily: COND, fontSize: "clamp(40px, 5vw, 70px)", fontWeight: 800, letterSpacing: "0.01em", textTransform: "uppercase", color: "#fff", lineHeight: 0.95 }}>{heading}</h2>
+          </div>
+          {text && <p style={{ margin: "16px 0 0 28px", maxWidth: 480, fontSize: 15.5, fontWeight: 500, lineHeight: 1.55, color: "rgba(255,255,255,0.7)" }}>{text}</p>}
+          {socials.length > 0 && (
+            <div style={{ display: "flex", gap: 10, marginTop: 26, marginLeft: 28, flexWrap: "wrap" }}>
+              {socials.map((so, i) => (
+                <a key={i} href={so.href ?? "#"} className="es10tr-social" aria-label={so.label ?? so.icon} title={so.label ?? so.icon} target="_blank" rel="noreferrer">
+                  <Es10SocialIcon icon={so.icon} />
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {stats.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+            {stats.map((st, i) => (
+              <div key={i} className="es10tr-stat">
+                <div style={{ fontFamily: COND, fontSize: "clamp(34px, 3.4vw, 48px)", fontWeight: 800, fontStyle: "italic", color: VOLT, lineHeight: 1, letterSpacing: "0.02em" }}>{st.value}</div>
+                <div style={{ marginTop: 5, fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.72)" }}>{st.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-fav-categories ─────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): „Oblíbené kategorie" — řada 8 kruhových
+// dlaždic s foto výřezem; hover = zelený prstenec, lift, zoom fotky a zelený
+// label. Centrovaný tučný nadpis se zelenou podtrhovací linkou.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es11FavCat = { label: string; slug: string; image?: string };
+
+function AboutEshop11FavCategories({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (slug: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "Oblíbené kategorie");
+  const items = ((content.items as Es11FavCat[]) ?? []).slice(0, 10);
+  if (items.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-11-fav-categories" style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 18px" }}>
+      <style>{`
+        .es11fc-item { text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .es11fc-circle { position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #f5f5f4;
+          border: 2px solid transparent; box-shadow: 0 0 0 0 rgba(15,125,78,0); transition: border-color 0.18s, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s; }
+        .es11fc-circle img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es11fc-item:hover .es11fc-circle { border-color: ${GREEN}; transform: translateY(-5px); box-shadow: 0 14px 26px rgba(19,19,19,0.14); }
+        .es11fc-item:hover .es11fc-circle img { transform: scale(1.08); }
+        .es11fc-label { font-size: 15px; font-weight: 600; color: ${INK}; text-align: center; line-height: 1.25; transition: color 0.15s; }
+        .es11fc-item:hover .es11fc-label { color: ${GREEN}; }
+        .es11fc-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 22px; }
+        @media (max-width: 1100px) { .es11fc-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 560px) { .es11fc-grid { grid-template-columns: repeat(3, 1fr); gap: 14px; } .es11fc-label { font-size: 13px; } }
+      `}</style>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 30 }}>
+          <h2 style={{ margin: 0, fontFamily: SANS, fontSize: 31, fontWeight: 800, color: INK, textAlign: "center" }}>{heading}</h2>
+          <span aria-hidden style={{ width: 46, height: 3.5, background: GREEN, marginTop: 12 }} />
+        </div>
+        <div className="es11fc-grid">
+          {items.map((it, i) => (
+            <a key={it.slug + i} href={catHref(it.slug)} className="es11fc-item">
+              <span className="es11fc-circle">
+                {it.image && <img src={it.image} alt="" loading="lazy" />}
+              </span>
+              <span className="es11fc-label">{it.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-activities ─────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): „Oblíbené aktivity" — 6 foto dlaždic 4:3
+// s labelem POD fotkou (jako rockpoint), navíc hover zoom, zelená šipka
+// vyjíždějící u labelu a spodní zelená linka fotky na hover.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es11ActivityTile = { label: string; slug: string; image?: string };
+
+function AboutEshop11Activities({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (slug: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "Oblíbené aktivity");
+  const items = ((content.items as Es11ActivityTile[]) ?? []).slice(0, 8);
+  if (items.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-11-activities" style={{ fontFamily: SANS, background: "#fff", padding: "40px 0 26px" }}>
+      <style>{`
+        .es11ac-item { text-decoration: none; display: block; }
+        .es11ac-media { position: relative; display: block; aspect-ratio: 4/3; overflow: hidden; background: #f5f5f4; }
+        .es11ac-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+        .es11ac-media::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: ${GREEN};
+          transform: scaleX(0); transform-origin: left; transition: transform 0.28s cubic-bezier(0.16,1,0.3,1); }
+        .es11ac-item:hover .es11ac-media img { transform: scale(1.06); }
+        .es11ac-item:hover .es11ac-media::after { transform: scaleX(1); }
+        .es11ac-label { display: flex; align-items: center; gap: 9px; margin-top: 13px; font-size: 17px; font-weight: 700; color: ${INK}; transition: color 0.15s; }
+        .es11ac-label svg { opacity: 0; transform: translateX(-5px); transition: opacity 0.18s, transform 0.18s; }
+        .es11ac-item:hover .es11ac-label { color: ${GREEN}; }
+        .es11ac-item:hover .es11ac-label svg { opacity: 1; transform: translateX(0); }
+        .es11ac-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+        @media (max-width: 1100px) { .es11ac-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 560px) { .es11ac-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .es11ac-label { font-size: 14.5px; } }
+      `}</style>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 28 }}>
+          <h2 style={{ margin: 0, fontFamily: SANS, fontSize: 31, fontWeight: 800, color: INK, textAlign: "center" }}>{heading}</h2>
+          <span aria-hidden style={{ width: 46, height: 3.5, background: GREEN, marginTop: 12 }} />
+        </div>
+        <div className="es11ac-grid">
+          {items.map((it, i) => (
+            <a key={it.slug + i} href={catHref(it.slug)} className="es11ac-item">
+              <span className="es11ac-media">
+                {it.image && <img src={it.image} alt="" loading="lazy" />}
+              </span>
+              <span className="es11ac-label">
+                {it.label}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-stores ─────────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): „Naše prodejny" — vlevo dvě fotky prodejny
+// (druhá posunutá, hover zoom), vpravo zelený chip, tučný nadpis, text,
+// odrážky se zelenými fajfkami a černé CTA (hover zelené).
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop11Stores({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+  const MUTED = "#4a4a46";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const chip = String(content.chip ?? "8 prodejen po celé ČR");
+  const heading = String(content.heading ?? "Naše prodejny jsou vám nablízku");
+  const text = String(content.text ?? "");
+  const bullets = ((content.bullets as string[]) ?? []).filter(Boolean);
+  const ctaText = String(content.ctaText ?? "Vyhledat prodejnu");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const images = ((content.images as string[]) ?? []).slice(0, 2);
+
+  return (
+    <section data-variant="eshop-11-stores" style={{ fontFamily: SANS, background: "#fff", padding: "44px 0 40px" }}>
+      <style>{`
+        .es11st-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+        .es11st-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .es11st-photo { position: relative; overflow: hidden; aspect-ratio: 4/5; background: #f5f5f4; }
+        .es11st-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .es11st-photo:hover img { transform: scale(1.05); }
+        .es11st-photo--offset { margin-top: 34px; }
+        .es11st-cta { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 28px; background: ${INK}; color: #fff;
+          font-size: 15px; font-weight: 600; text-decoration: none; transition: background 0.16s; }
+        .es11st-cta:hover { background: ${GREEN}; }
+        .es11st-cta svg { transition: transform 0.18s; }
+        .es11st-cta:hover svg { transform: translateX(4px); }
+        @media (max-width: 980px) { .es11st-grid { grid-template-columns: 1fr; gap: 30px; } .es11st-photo--offset { margin-top: 0; } }
+      `}</style>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es11st-grid">
+          <div className="es11st-photos">
+            {images.map((img, i) => (
+              <span key={i} className={`es11st-photo${i === 1 ? " es11st-photo--offset" : ""}`}>
+                <img src={img} alt="" loading="lazy" />
+              </span>
+            ))}
+          </div>
+          <div>
+            <span style={{ display: "inline-block", background: GREEN, color: "#fff", fontSize: 12.5, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "7px 11px", lineHeight: 1, marginBottom: 18 }}>{chip}</span>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+              fontFamily: SANS, fontSize: 34, fontWeight: 800, lineHeight: 1.15, color: INK, margin: "0 0 16px",
+            }} />
+            {text && (
+              <GenericEditableText sectionId={sectionId} field="text" value={text} tag="p" style={{
+                fontFamily: SANS, fontSize: 15.5, lineHeight: 1.65, color: MUTED, margin: "0 0 18px",
+              }} />
+            )}
+            {bullets.length > 0 && (
+              <ul style={{ listStyle: "none", margin: "0 0 26px", padding: 0, display: "flex", flexDirection: "column", gap: 11 }}>
+                {bullets.map((b, bi) => (
+                  <li key={bi} style={{ display: "flex", alignItems: "flex-start", gap: 11, fontSize: 15, fontWeight: 500, color: INK, lineHeight: 1.4 }}>
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1 }}><circle cx="12" cy="12" r="11" fill="rgba(15,125,78,0.12)"/><path d="M7 12.5l3.2 3.2L17 9" stroke={GREEN} strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a href={resolve(ctaHref)} className="es11st-cta">
+              {ctaText}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-brands ─────────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): pás značek — typografické wordmarky (bez cizích
+// log), šedé, hover inkoust + podtržení zelenou; odkazy do brand kategorií.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop11Brands({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+  const HAIR = "#e4e3df";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (slug: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "");
+  const items = ((content.items as { label: string; slug: string }[]) ?? []).slice(0, 10);
+  if (items.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-11-brands" style={{ fontFamily: SANS, background: "#fff", padding: "10px 0 40px" }}>
+      <style>{`
+        .es11br-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 54px;
+          border-top: 1px solid ${HAIR}; border-bottom: 1px solid ${HAIR}; padding: 30px 10px; }
+        .es11br-item { position: relative; font-size: 21px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+          color: #b3b2ac; text-decoration: none; transition: color 0.18s, transform 0.18s; white-space: nowrap; }
+        .es11br-item::after { content: ""; position: absolute; left: 0; right: 0; bottom: -7px; height: 3px; background: ${GREEN};
+          transform: scaleX(0); transform-origin: left; transition: transform 0.22s cubic-bezier(0.16,1,0.3,1); }
+        .es11br-item:hover { color: ${INK}; transform: translateY(-2px); }
+        .es11br-item:hover::after { transform: scaleX(1); }
+        @media (max-width: 700px) { .es11br-row { gap: 14px 30px; } .es11br-item { font-size: 16px; } }
+      `}</style>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px" }}>
+        {heading.trim() !== "" && (
+          <p style={{ margin: "0 0 14px", textAlign: "center", fontSize: 13, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "#8a8a84" }}>{heading}</p>
+        )}
+        <div className="es11br-row">
+          {items.map((b, bi) => (
+            <a key={b.slug + bi} href={catHref(b.slug)} className="es11br-item">{b.label}</a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-loyalty ────────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): věrnostní program — full-width tmavý foto
+// banner, vlevo obří titulek + CSS klubová karta (zelený gradient, mark, číslo)
+// s jemným naklopením a hover vyrovnáním, vpravo checklist výhod + zelené CTA.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop11Loyalty({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const GREEN = "#0f7d4e";
+  const GREEN_HOVER = "#0b613c";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Věrnostní program");
+  const sub = String(content.sub ?? "");
+  const cardLabel = String(content.cardLabel ?? "HORAL KLUB");
+  const bullets = ((content.bullets as string[]) ?? []).filter(Boolean);
+  const ctaText = String(content.ctaText ?? "Registrovat se a využívat výhody");
+  const ctaHref = String(content.ctaHref ?? "/klub");
+  const image = String(content.image ?? "");
+
+  return (
+    <section data-variant="eshop-11-loyalty" style={{ fontFamily: SANS, position: "relative", overflow: "hidden", background: "#0d1a14", padding: "62px 0" }}>
+      <style>{`
+        .es11lo-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 60px; align-items: center; position: relative; }
+        .es11lo-card { width: 300px; height: 182px; border-radius: 14px; background: linear-gradient(118deg, #12995f 0%, #0f7d4e 45%, #0a5636 100%);
+          box-shadow: 0 26px 50px rgba(0,0,0,0.45); padding: 20px 22px; display: flex; flex-direction: column; justify-content: space-between;
+          transform: rotate(-4deg); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); position: relative; overflow: hidden; }
+        .es11lo-card:hover { transform: rotate(0deg) translateY(-4px); }
+        .es11lo-card::after { content: ""; position: absolute; right: -46px; top: -46px; width: 150px; height: 150px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.18); }
+        .es11lo-card::before { content: ""; position: absolute; right: -22px; top: -22px; width: 150px; height: 150px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.12); }
+        .es11lo-cta { display: inline-flex; align-items: center; gap: 10px; height: 54px; padding: 0 30px; background: ${GREEN}; color: #fff;
+          font-size: 15.5px; font-weight: 600; text-decoration: none; transition: background 0.16s; }
+        .es11lo-cta:hover { background: ${GREEN_HOVER}; }
+        .es11lo-cta svg { transition: transform 0.18s; }
+        .es11lo-cta:hover svg { transform: translateX(4px); }
+        @media (max-width: 980px) { .es11lo-grid { grid-template-columns: 1fr; gap: 34px; } }
+      `}</style>
+      {image && <img src={image} alt="" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.5 }} />}
+      <span aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(10,20,15,0.92) 0%, rgba(10,20,15,0.72) 55%, rgba(10,20,15,0.45) 100%)" }} />
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px", position: "relative" }}>
+        <div className="es11lo-grid">
+          <div>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+              fontFamily: SANS, fontSize: 40, fontWeight: 800, lineHeight: 1.1, color: "#fff", margin: "0 0 10px",
+            }} />
+            {sub && <p style={{ margin: "0 0 28px", fontSize: 16, color: "rgba(255,255,255,0.78)", lineHeight: 1.55, maxWidth: 400 }}>{sub}</p>}
+            <div className="es11lo-card">
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <svg width="30" height="30" viewBox="0 0 46 46" fill="none" aria-hidden><rect width="46" height="46" rx="2" fill="#ffffff"/><circle cx="34.5" cy="12.5" r="3.4" fill="#0f7d4e"/><path d="M4 36 L16 15 L21.5 24 L27 12 L42 36 Z" fill="#0f7d4e"/></svg>
+                <span style={{ fontSize: 16, fontWeight: 800, letterSpacing: "0.14em", color: "#fff", textTransform: "uppercase" }}>{cardLabel}</span>
+              </div>
+              <div>
+                <span style={{ display: "block", fontSize: 13, fontWeight: 600, letterSpacing: "0.22em", color: "rgba(255,255,255,0.85)" }}>9020 4415 0071</span>
+                <span style={{ display: "block", marginTop: 5, fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)" }}>Sleva až 15 % na každý nákup</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            {bullets.length > 0 && (
+              <ul style={{ listStyle: "none", margin: "0 0 30px", padding: 0, display: "flex", flexDirection: "column", gap: 15 }}>
+                {bullets.map((b, bi) => (
+                  <li key={bi} style={{ display: "flex", alignItems: "flex-start", gap: 13, fontSize: 16.5, fontWeight: 500, color: "#fff", lineHeight: 1.4 }}>
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 1 }}><circle cx="12" cy="12" r="11" fill="rgba(255,255,255,0.14)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#4fce8d" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a href={resolve(ctaHref)} className="es11lo-cta">
+              {ctaText}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-articles ───────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): „Články" — 3 karty: foto s chipem rubriky,
+// tučný titulek (hover zelená), autor, perex, Číst dál s podtržením a šipkou.
+// Hover: karta lift, foto zoom.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es11Article = { chip?: string; title: string; author?: string; excerpt?: string; href?: string; image?: string };
+
+function AboutEshop11Articles({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+  const GREEN_HOVER = "#0b613c";
+  const MUTED = "#6b6b66";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Články");
+  const readMore = String(content.readMore ?? "Číst dál");
+  const items = ((content.items as Es11Article[]) ?? []).slice(0, 3);
+  if (items.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-11-articles" style={{ fontFamily: SANS, background: "#fff", padding: "48px 0 40px" }}>
+      <style>{`
+        .es11ar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .es11ar-card { display: flex; flex-direction: column; text-decoration: none; transition: transform 0.2s; }
+        .es11ar-card:hover { transform: translateY(-4px); }
+        .es11ar-media { position: relative; aspect-ratio: 3/2; overflow: hidden; background: #f5f5f4; }
+        .es11ar-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+        .es11ar-card:hover .es11ar-media img { transform: scale(1.05); }
+        .es11ar-title { margin: 16px 0 0; font-size: 19px; font-weight: 700; color: ${INK}; line-height: 1.3; transition: color 0.15s; }
+        .es11ar-card:hover .es11ar-title { color: ${GREEN_HOVER}; }
+        .es11ar-read { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; font-weight: 700; color: ${INK};
+          text-decoration: underline; text-underline-offset: 4px; transition: color 0.15s, gap 0.18s; }
+        .es11ar-card:hover .es11ar-read { color: ${GREEN}; gap: 12px; }
+        @media (max-width: 980px) { .es11ar-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 28 }}>
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+            fontFamily: SANS, fontSize: 31, fontWeight: 800, margin: 0, color: INK, textAlign: "center",
+          }} />
+          <span aria-hidden style={{ width: 46, height: 3.5, background: GREEN, marginTop: 12 }} />
+        </div>
+        <div className="es11ar-grid">
+          {items.map((a, ai) => (
+            <a key={ai} href={resolve(a.href ?? "/blog")} className="es11ar-card">
+              <span className="es11ar-media">
+                {a.image && <img src={a.image} alt="" loading="lazy" />}
+                {a.chip && <span style={{ position: "absolute", top: 0, left: 0, background: "#fff", color: INK, fontSize: 12, fontWeight: 700, padding: "7px 11px", lineHeight: 1 }}>{a.chip}</span>}
+              </span>
+              <span className="es11ar-title">{a.title}</span>
+              {a.author && <span style={{ marginTop: 6, fontSize: 13, color: MUTED }}>Autor: {a.author}</span>}
+              {a.excerpt && <span style={{ marginTop: 8, fontSize: 14.5, lineHeight: 1.55, color: "#4a4a46", overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" as const }}>{a.excerpt}</span>}
+              <span className="es11ar-read">
+                {readMore}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-benefits ───────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): benefit řada 5 položek na šedé — line ikona
+// v bílém kruhu (hover zelená výplň), tučná hodnota + popisek.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es11BenefitRow = { icon?: string; title: string; sub?: string };
+
+function AboutEshop11Benefits({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+  const MUTED = "#6b6b66";
+
+  const items = ((content.items as Es11BenefitRow[]) ?? []).slice(0, 6);
+  if (items.length === 0) return null;
+
+  const Icon = ({ name }: { name?: string }) => {
+    const p = { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    switch (name) {
+      case "store": return <svg {...p}><path d="M4 10v10h16V10"/><path d="M2 10l2-6h16l2 6"/><path d="M2 10h20"/><path d="M9.5 20v-5h5v5"/></svg>;
+      case "refresh": return <svg {...p}><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/></svg>;
+      case "thumb": return <svg {...p}><path d="M7 11v9H3v-9z"/><path d="M7 11l4-8a2.4 2.4 0 0 1 2.4 2.4V9h5.2a2 2 0 0 1 2 2.4l-1.2 6A2 2 0 0 1 17.4 19H7"/></svg>;
+      case "review": return <svg {...p}><circle cx="9" cy="8" r="3.6"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M17.5 3.5l1.2 2.4 2.6.4-1.9 1.9.4 2.6-2.3-1.2-2.3 1.2.4-2.6-1.9-1.9 2.6-.4z" fill="currentColor" stroke="none"/></svg>;
+      default: return <svg {...p}><path d="M1.5 6h13v11h-13z"/><path d="M14.5 10h4l3 3.5V17h-7"/><circle cx="6" cy="17.5" r="1.9"/><circle cx="18" cy="17.5" r="1.9"/></svg>;
+    }
+  };
+
+  return (
+    <section data-variant="eshop-11-benefits" style={{ fontFamily: SANS, background: "#f5f5f4", padding: "34px 0" }}>
+      <style>{`
+        .es11bn-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px 48px; }
+        .es11bn-item { display: flex; align-items: center; gap: 14px; }
+        .es11bn-ico { width: 52px; height: 52px; border-radius: 50%; background: #fff; color: ${INK}; display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 4px 12px rgba(19,19,19,0.07); transition: background 0.18s, color 0.18s, transform 0.18s; flex-shrink: 0; }
+        .es11bn-item:hover .es11bn-ico { background: ${GREEN}; color: #fff; transform: translateY(-3px); }
+      `}</style>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es11bn-grid">
+          {items.map((b, bi) => (
+            <div key={bi} className="es11bn-item">
+              <span className="es11bn-ico"><Icon name={b.icon} /></span>
+              <span>
+                <span style={{ display: "block", fontSize: 15.5, fontWeight: 700, color: INK, lineHeight: 1.25 }}>{b.title}</span>
+                {b.sub && <span style={{ display: "block", marginTop: 2, fontSize: 13.5, color: MUTED, lineHeight: 1.3 }}>{b.sub}</span>}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-text ───────────────────────────────────────────────────────────────
+type Es11TextBlock = { heading?: string; paragraphs?: string[]; bullets?: string[] };
+
+function AboutEshop11Text({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+
+  const blocks = ((content.blocks as Es11TextBlock[]) ?? []);
+  if (blocks.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-11-text" style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 30px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
+        {blocks.map((b, i) => (
+          <div key={i} style={{ marginBottom: 34 }}>
+            {b.heading && (
+              <h2 style={{ margin: "0 0 6px", fontFamily: SANS, fontSize: "clamp(22px, 2.2vw, 28px)", fontWeight: 800, color: INK, lineHeight: 1.15 }}>
+                {b.heading}
+              </h2>
+            )}
+            {b.heading && <span aria-hidden style={{ display: "block", width: 38, height: 3, background: GREEN, marginBottom: 16 }} />}
+            {(b.paragraphs ?? []).map((t, ti) => (
+              <p key={ti} style={{ margin: "0 0 12px", fontSize: 15, fontWeight: 400, lineHeight: 1.65, color: "#4a4a46" }}>{t}</p>
+            ))}
+            {(b.bullets ?? []).length > 0 && (
+              <ul style={{ margin: "4px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 9 }}>
+                {(b.bullets ?? []).map((t, ti) => (
+                  <li key={ti} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 14.5, fontWeight: 500, lineHeight: 1.5, color: "#4a4a46" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 3 }}><circle cx="12" cy="12" r="11" fill="rgba(15,125,78,0.12)"/><path d="M7 12.5l3.2 3.2L17 9" stroke={GREEN} strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-contact ────────────────────────────────────────────────────────────
+function AboutEshop11Contact({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+  const GREEN_HOVER = "#0b613c";
+  const HAIR = "#e4e3df";
+  const [done, setDone] = useState(false);
+
+  const c = content as Record<string, unknown>;
+  const infoHeading = String(c.infoHeading ?? "Napiš nám");
+  const phone = String(c.phone ?? "");
+  const email = String(c.email ?? "");
+  const address = String(c.address ?? "");
+  const hours = String(c.hours ?? "");
+  const formHeading = String(c.formHeading ?? "Kontaktní formulář");
+
+  return (
+    <section data-variant="eshop-11-contact" style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 40px" }}>
+      <style>{`
+        .es11ct-input { width: 100%; height: 48px; border: 1px solid ${HAIR}; background: #fff;
+          padding: 0 16px; font-family: ${SANS}; font-size: 14.5px; font-weight: 500; color: ${INK}; outline: none; transition: border-color 0.15s; }
+        .es11ct-input:focus { border-color: ${GREEN}; }
+        textarea.es11ct-input { height: 130px; padding: 14px 16px; resize: vertical; }
+        .es11ct-send { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 28px; border: none;
+          background: ${GREEN}; color: #fff; cursor: pointer;
+          font-family: ${SANS}; font-size: 15px; font-weight: 700; transition: background 0.16s; }
+        .es11ct-send:hover { background: ${GREEN_HOVER}; }
+        @media (max-width: 860px) { .es11ct-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+      <div className="es11ct-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 30, alignItems: "start" }}>
+        <div style={{ background: INK, padding: "32px 28px" }}>
+          <h2 style={{ margin: "0 0 6px", fontFamily: SANS, fontSize: 24, fontWeight: 800, color: "#fff", lineHeight: 1.15 }}>{infoHeading}</h2>
+          <span aria-hidden style={{ display: "block", width: 38, height: 3, background: GREEN, marginBottom: 22 }} />
+          {phone && <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ display: "block", marginBottom: 6, fontSize: 24, fontWeight: 800, color: GREEN, textDecoration: "none", lineHeight: 1 }}>{phone}</a>}
+          {hours && <div style={{ marginBottom: 16, fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.55)" }}>{hours}</div>}
+          {email && <a href={`mailto:${email}`} style={{ display: "block", marginBottom: 16, fontSize: 15.5, fontWeight: 600, color: "#fff", textDecoration: "underline", textUnderlineOffset: 3 }}>{email}</a>}
+          {address && <div style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.6, color: "rgba(255,255,255,0.7)", whiteSpace: "pre-line" }}>{address}</div>}
+        </div>
+        <div>
+          <h2 style={{ margin: "0 0 6px", fontFamily: SANS, fontSize: 24, fontWeight: 800, color: INK, lineHeight: 1.15 }}>{formHeading}</h2>
+          <span aria-hidden style={{ display: "block", width: 38, height: 3, background: GREEN, marginBottom: 20 }} />
+          {done ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "22px 0", color: GREEN, fontSize: 15.5, fontWeight: 700 }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(15,125,78,0.12)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              Děkujeme za zprávu — ozveme se do 24 hodin.
+            </div>
+          ) : (
+            <form style={{ display: "flex", flexDirection: "column", gap: 12 }} onSubmit={(e) => { e.preventDefault(); setDone(true); }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <input className="es11ct-input" placeholder="Jméno" required />
+                <input className="es11ct-input" placeholder="E-mail" type="email" required />
+              </div>
+              <input className="es11ct-input" placeholder="Předmět" />
+              <textarea className="es11ct-input" placeholder="Vaše zpráva" required />
+              <button type="submit" className="es11ct-send">
+                Odeslat zprávu
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-text ───────────────────────────────────────────────────────────────
+// BOTIQ textová podstránková sekce: bloky s condensed nadpisem (volt čtvereček)
+// a odstavci; volitelně ✓ seznam. Pro o-nas / doprava / obchodni-podminky.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10TextBlock = { heading?: string; paragraphs?: string[]; bullets?: string[] };
+
+function AboutEshop10Text({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const VOLT_DEEP = "#6d9204";
+  const INK = "#121212";
+
+  const blocks = ((content.blocks as Es10TextBlock[]) ?? []);
+  if (blocks.length === 0) return null;
+
+  return (
+    <section data-variant="eshop-10-text" style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 30px" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
+        {blocks.map((b, i) => (
+          <div key={i} style={{ marginBottom: 34 }}>
+            {b.heading && (
+              <h2 style={{ margin: "0 0 14px", display: "flex", alignItems: "center", gap: 11, fontFamily: COND, fontSize: "clamp(22px, 2.2vw, 28px)", fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase", color: INK, lineHeight: 1 }}>
+                <span aria-hidden style={{ width: 9, height: 9, background: VOLT, flexShrink: 0 }} />
+                {b.heading}
+              </h2>
+            )}
+            {(b.paragraphs ?? []).map((t, ti) => (
+              <p key={ti} style={{ margin: "0 0 12px", fontSize: 15, fontWeight: 500, lineHeight: 1.65, color: "#3c3c3e" }}>{t}</p>
+            ))}
+            {(b.bullets ?? []).length > 0 && (
+              <ul style={{ margin: "4px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+                {(b.bullets ?? []).map((t, ti) => (
+                  <li key={ti} style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 14.5, fontWeight: 500, lineHeight: 1.5, color: "#3c3c3e" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={VOLT_DEEP} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 3 }}><path d="M5 13l4 4L19 7"/></svg>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-contact ────────────────────────────────────────────────────────────
+// BOTIQ kontakt: vlevo černá info karta (volt telefon, e-mail, adresa, hodiny,
+// socials), vpravo formulář (hranaté inputy, volt ODESLAT s done stavem).
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop10Contact({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const INK = "#121212";
+  const MUTED = "#6f6f6f";
+  const BORDER = "#e6e6e4";
+  const [done, setDone] = useState(false);
+
+  const c = content as Record<string, unknown>;
+  const infoHeading = String(c.infoHeading ?? "Napiš nám");
+  const phone = String(c.phone ?? "");
+  const email = String(c.email ?? "");
+  const address = String(c.address ?? "");
+  const hours = String(c.hours ?? "");
+  const formHeading = String(c.formHeading ?? "Formulář");
+
+  return (
+    <section data-variant="eshop-10-contact" style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 40px" }}>
+      <style>{`
+        .es10ct-input { width: 100%; height: 46px; border: 1.5px solid ${BORDER}; border-radius: 2px; background: #fff;
+          padding: 0 14px; font-family: ${SANS}; font-size: 14px; font-weight: 500; color: ${INK}; outline: none; transition: border-color 0.15s; }
+        .es10ct-input:focus { border-color: ${INK}; }
+        textarea.es10ct-input { height: 130px; padding: 12px 14px; resize: vertical; }
+        .es10ct-send { display: inline-flex; align-items: center; gap: 9px; height: 50px; padding: 0 28px; border: none;
+          border-radius: 2px; background: ${VOLT}; color: ${ON_VOLT}; cursor: pointer;
+          font-family: ${COND}; font-size: 16px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+          transition: background 0.15s, letter-spacing 0.2s; }
+        .es10ct-send:hover { background: #d9ff55; letter-spacing: 0.16em; }
+        @media (max-width: 860px) { .es10ct-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+      <div className="es10ct-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 30, alignItems: "start" }}>
+        {/* Černá info karta */}
+        <div style={{ background: "#0a0a0b", borderRadius: 2, padding: "30px 28px" }}>
+          <h2 style={{ margin: 0, fontFamily: COND, fontSize: 26, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: "#fff", lineHeight: 1 }}>{infoHeading}</h2>
+          {phone && <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ display: "block", marginTop: 22, fontFamily: COND, fontSize: 30, fontWeight: 800, letterSpacing: "0.04em", color: VOLT, textDecoration: "none", lineHeight: 1 }}>{phone}</a>}
+          {hours && <div style={{ marginTop: 6, fontSize: 13, fontWeight: 500, color: "rgba(255,255,255,0.6)" }}>{hours}</div>}
+          {email && <a href={`mailto:${email}`} style={{ display: "block", marginTop: 16, fontSize: 15, fontWeight: 600, color: "#fff", textDecoration: "underline", textUnderlineOffset: 3 }}>{email}</a>}
+          {address && <div style={{ marginTop: 16, fontSize: 14, fontWeight: 500, lineHeight: 1.6, color: "rgba(255,255,255,0.75)", whiteSpace: "pre-line" }}>{address}</div>}
+        </div>
+        {/* Formulář */}
+        <div>
+          <h2 style={{ margin: "0 0 16px", display: "flex", alignItems: "center", gap: 11, fontFamily: COND, fontSize: 26, fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase", color: INK, lineHeight: 1 }}>
+            <span aria-hidden style={{ width: 9, height: 9, background: VOLT, flexShrink: 0 }} />
+            {formHeading}
+          </h2>
+          {done ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 11, padding: "22px 0", color: "#1fa05e", fontSize: 15.5, fontWeight: 700 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#1fa05e"><circle cx="12" cy="12" r="11" opacity="0.2" /><path d="M7 12.5l3.2 3.2L17 9" stroke="#1fa05e" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              Díky za zprávu! Ozveme se do 24 hodin.
+            </div>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); setDone(true); }} style={{ display: "grid", gap: 12 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <input className="es10ct-input" type="text" placeholder="Jméno" required aria-label="Jméno" />
+                <input className="es10ct-input" type="email" placeholder="E-mail" required aria-label="E-mail" />
+              </div>
+              <input className="es10ct-input" type="text" placeholder="Předmět (např. číslo objednávky)" aria-label="Předmět" />
+              <textarea className="es10ct-input" placeholder="S čím ti můžeme pomoct?" required aria-label="Zpráva" />
+              <div>
+                <button type="submit" className="es10ct-send">
+                  Odeslat zprávu
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+              </div>
+              <p style={{ margin: 0, fontSize: 12.5, fontWeight: 500, color: MUTED }}>Odesláním souhlasíš se zpracováním údajů pro vyřízení dotazu.</p>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-14-benefits ───────────────────────────────────────────────────────────
+// Zahradia: řada 4 benefitů „Proč nakoupit u nás“ — šalvějový kruh s terakotovou
+// line ikonou, tučný titulek, muted podtext; serif italic nadpis vlevo +
+// „Všechny naše služby →“ vpravo. Krémový podklad, vlasové linky.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14BenefitItem = { icon?: string; title?: string; text?: string; href?: string };
+
+function Es14Icon({ name, size = 24 }: { name?: string; size?: number }) {
+  const p = { width: size, height: size, viewBox: "0 0 24 24", fill: "none" as const, stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  switch (name) {
+    case "truck": return <svg {...p}><path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"/><circle cx="7.5" cy="17.5" r="2"/><circle cx="17.5" cy="17.5" r="2"/></svg>;
+    case "badge": return <svg {...p}><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/></svg>;
+    case "wrench": return <svg {...p}><path d="M14.7 6.3a4.2 4.2 0 0 0-5.6 5.2L3.5 17.1a2 2 0 1 0 2.8 2.8l5.6-5.6a4.2 4.2 0 0 0 5.2-5.6l-2.6 2.6-2.5-.7-.7-2.5Z"/></svg>;
+    case "clock": return <svg {...p}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.8"/></svg>;
+    case "leaf": return <svg {...p}><path d="M5 20c0-8 4-14 14-15-0.5 10-6 14-12 14"/><path d="M5 20c2-5 6-9 11-11"/></svg>;
+    case "pin": return <svg {...p}><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg>;
+    default: return <svg {...p}><path d="M20 6 9 17l-5-5"/></svg>;
+  }
+}
+
+function AboutEshop14Benefits({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const FOREST = "#14352a";
+  const TERRA = "#d96f32";
+  const TERRA_DK = "#b8571f";
+  const SAGE = "#e9efe6";
+  const INK = "#1e2a24";
+  const MUTED = "#6f7d72";
+  const CREAM = "#faf7f0";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Proč nakoupit u nás");
+  const moreLabel = String(content.moreLabel ?? "");
+  const moreHref = String(content.moreHref ?? "/sluzby");
+  const items = ((content.items as Es14BenefitItem[]) ?? []).slice(0, 4);
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-14-benefits" style={{ fontFamily: SANS, background: CREAM, padding: "34px 0 14px" }}>
+      <style>{`
+        .es14b-more { display: inline-flex; align-items: center; gap: 7px; color: ${TERRA_DK}; text-decoration: none; font-size: 13.5px; font-weight: 700; transition: gap 0.18s, color 0.14s; }
+        .es14b-more:hover { gap: 11px; color: ${TERRA}; }
+        .es14b-item { display: flex; align-items: center; gap: 15px; padding: 18px 6px; text-decoration: none; border-radius: 16px; transition: background 0.15s, transform 0.16s; }
+        .es14b-item:hover { background: rgba(233,239,230,0.6); transform: translateY(-2px); }
+        .es14b-ico { width: 54px; height: 54px; border-radius: 999px; background: ${SAGE}; color: ${TERRA_DK}; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .es14b-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        @media (max-width: 1000px) { .es14b-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 540px) { .es14b-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 28px" }}>
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 4 }}>
+          <h2 style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(21px, 2.2vw, 27px)", color: FOREST, margin: 0 }}>{heading}</h2>
+          {moreLabel && (
+            <a href={resolve(moreHref)} className="es14b-more">
+              {moreLabel}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+          )}
+        </div>
+        <div className="es14b-grid">
+          {items.map((it, i) => (
+            <a key={i} href={it.href ? resolve(it.href) : resolve("/sluzby")} className="es14b-item">
+              <span className="es14b-ico"><Es14Icon name={it.icon} /></span>
+              <span>
+                <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: INK, lineHeight: 1.25 }}>{it.title}</span>
+                {it.text && <span style={{ display: "block", fontSize: 13, color: MUTED, marginTop: 3 }}>{it.text}</span>}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-14-fav-categories ─────────────────────────────────────────────────────
+// Zahradia: „Oblíbené kategorie“ — teplý band #f1ece0 se zaoblením 28,
+// centrovaný serif italic nadpis, grid 6×2 bílých dlaždic (radius 18, foto 1:1
+// radius 12, hover lift + zoom), poslední dlaždice „Všechny kategorie“
+// s terakotovou outline pilulkou.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14FavCat = { label?: string; slug?: string; href?: string; image?: string };
+
+function AboutEshop14FavCategories({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const FOREST = "#14352a";
+  const TERRA = "#d96f32";
+  const TERRA_DK = "#b8571f";
+  const INK = "#1e2a24";
+  const CREAM = "#faf7f0";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (c: Es14FavCat) => c.href ? resolve(c.href) : resolve(c.slug ? `/obchod?kategorie=${c.slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "Oblíbené kategorie");
+  const allLabel = String(content.allLabel ?? "Všechny kategorie");
+  const allHref = String(content.allHref ?? "/obchod");
+  const items = ((content.items as Es14FavCat[]) ?? []).slice(0, 11);
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-14-fav-categories" style={{ fontFamily: SANS, background: CREAM, padding: "26px 0" }}>
+      <style>{`
+        .es14fc-band { background: #f1ece0; border-radius: 28px; padding: clamp(30px, 4vw, 52px) clamp(20px, 3vw, 44px); }
+        .es14fc-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+        @media (max-width: 1100px) { .es14fc-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 760px) { .es14fc-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 520px) { .es14fc-grid { grid-template-columns: repeat(2, 1fr); } }
+        .es14fc-tile { background: #fff; border-radius: 18px; padding: 12px 12px 14px; text-decoration: none; display: flex; flex-direction: column; gap: 10px;
+          transition: transform 0.18s, box-shadow 0.18s; }
+        .es14fc-tile:hover { transform: translateY(-4px); box-shadow: 0 18px 36px rgba(20,53,42,0.12); }
+        .es14fc-media { aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: #e9efe6; }
+        .es14fc-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es14fc-tile:hover .es14fc-media img { transform: scale(1.07); }
+        .es14fc-label { font-size: 13.5px; font-weight: 600; color: ${INK}; text-align: center; line-height: 1.3; transition: color 0.14s; }
+        .es14fc-tile:hover .es14fc-label { color: ${TERRA_DK}; }
+        .es14fc-all { display: flex; align-items: center; justify-content: center; border-radius: 18px; border: 1.5px dashed rgba(20,53,42,0.22); text-decoration: none; transition: border-color 0.16s, background 0.16s; }
+        .es14fc-all:hover { border-color: ${TERRA}; background: rgba(217,111,50,0.05); }
+        .es14fc-all-pill { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid ${TERRA}; color: ${TERRA_DK}; font-size: 13.5px; font-weight: 700; padding: 11px 20px; border-radius: 999px; transition: gap 0.18s; }
+        .es14fc-all:hover .es14fc-all-pill { gap: 12px; }
+      `}</style>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es14fc-band">
+          <h2 style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(24px, 2.6vw, 33px)", color: FOREST, margin: "0 0 28px", textAlign: "center" }}>{heading}</h2>
+          <div className="es14fc-grid">
+            {items.map((c, i) => (
+              <a key={i} href={catHref(c)} className="es14fc-tile">
+                <span className="es14fc-media">{c.image && <img src={c.image} alt={c.label ?? ""} loading="lazy" />}</span>
+                <span className="es14fc-label">{c.label}</span>
+              </a>
+            ))}
+            <a href={resolve(allHref)} className="es14fc-all">
+              <span className="es14fc-all-pill">
+                {allLabel}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-14-articles ───────────────────────────────────────────────────────────
+// Zahradia: „Aktuality“ — vlevo velký featured článek (foto 16/10 radius 22,
+// datum, serif titulek, perex, Číst dál →), vpravo 3 menší řádky (thumb radius
+// 12 + datum + tučný titulek). Centrovaný serif nadpis + odkaz na výpis.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14Article = { image?: string; date?: string; title?: string; excerpt?: string; href?: string };
+
+function AboutEshop14Articles({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const FOREST = "#14352a";
+  const TERRA = "#d96f32";
+  const TERRA_DK = "#b8571f";
+  const INK = "#1e2a24";
+  const MUTED = "#6f7d72";
+  const CREAM = "#faf7f0";
+  const LINE = "#e5ddcb";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Aktuality");
+  const moreLabel = String(content.moreLabel ?? "");
+  const moreHref = String(content.moreHref ?? "/poradna");
+  const featured = (content.featured as Es14Article) ?? {};
+  const items = ((content.items as Es14Article[]) ?? []).slice(0, 3);
+
+  if (!featured.title && !items.length) return null;
+
+  return (
+    <section data-variant="eshop-14-articles" style={{ fontFamily: SANS, background: CREAM, padding: "44px 0 30px" }}>
+      <style>{`
+        .es14a-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(26px, 3.5vw, 54px); align-items: start; }
+        @media (max-width: 900px) { .es14a-grid { grid-template-columns: 1fr; } }
+        .es14a-feat { text-decoration: none; display: block; }
+        .es14a-feat-media { aspect-ratio: 16/10; border-radius: 22px; overflow: hidden; background: #e9efe6; }
+        .es14a-feat-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es14a-feat:hover .es14a-feat-media img { transform: scale(1.05); }
+        .es14a-feat-title { font-family: ${SERIF}; font-weight: 600; font-size: clamp(21px, 2.2vw, 27px); line-height: 1.18; color: ${FOREST}; margin: 12px 0 0; transition: color 0.14s; }
+        .es14a-feat:hover .es14a-feat-title { color: ${TERRA_DK}; }
+        .es14a-read { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; color: ${TERRA_DK}; font-size: 13.5px; font-weight: 700; transition: gap 0.18s; }
+        .es14a-feat:hover .es14a-read { gap: 11px; }
+        .es14a-row { display: flex; gap: 18px; align-items: center; padding: 16px 0; text-decoration: none; border-bottom: 1px solid ${LINE}; }
+        .es14a-row:first-child { padding-top: 4px; }
+        .es14a-row-media { width: 118px; aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: #e9efe6; flex-shrink: 0; }
+        .es14a-row-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es14a-row:hover .es14a-row-media img { transform: scale(1.07); }
+        .es14a-row-title { font-size: 15.5px; font-weight: 700; color: ${INK}; line-height: 1.35; transition: color 0.14s; }
+        .es14a-row:hover .es14a-row-title { color: ${TERRA_DK}; }
+        .es14a-more { display: inline-flex; align-items: center; gap: 7px; color: ${TERRA_DK}; text-decoration: none; font-size: 13.5px; font-weight: 700; transition: gap 0.18s; }
+        .es14a-more:hover { gap: 11px; }
+      `}</style>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 28px" }}>
+        <div style={{ textAlign: "center", marginBottom: 30 }}>
+          <h2 style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(24px, 2.6vw, 33px)", color: FOREST, margin: 0 }}>{heading}</h2>
+          {moreLabel && (
+            <a href={resolve(moreHref)} className="es14a-more" style={{ marginTop: 8 }}>
+              {moreLabel}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+          )}
+        </div>
+        <div className="es14a-grid">
+          <a href={resolve(featured.href ?? moreHref)} className="es14a-feat">
+            <span className="es14a-feat-media">{featured.image && <img src={featured.image} alt={featured.title ?? ""} loading="lazy" />}</span>
+            {featured.date && <span style={{ display: "block", fontSize: 12.5, color: MUTED, marginTop: 16 }}>{featured.date}</span>}
+            <h3 className="es14a-feat-title">{featured.title}</h3>
+            {featured.excerpt && <p style={{ fontSize: 14.5, lineHeight: 1.6, color: MUTED, margin: "10px 0 0" }}>{featured.excerpt}</p>}
+            <span className="es14a-read">
+              Číst dál
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </span>
+          </a>
+          <div>
+            {items.map((a, i) => (
+              <a key={i} href={resolve(a.href ?? moreHref)} className="es14a-row">
+                <span className="es14a-row-media">{a.image && <img src={a.image} alt={a.title ?? ""} loading="lazy" />}</span>
+                <span>
+                  {a.date && <span style={{ display: "block", fontSize: 12, color: MUTED, marginBottom: 4 }}>{a.date}</span>}
+                  <span className="es14a-row-title">{a.title}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-14-videos ─────────────────────────────────────────────────────────────
+// Zahradia: „Zahradia na YouTube“ — 3 karty 16/9 (radius 18) s lesním
+// gradientem a terakotovým play kruhem (hover scale), label pod kartou.
+// Centrovaný serif nadpis + odkaz „Všechna videa“.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14Video = { image?: string; title?: string; href?: string };
+
+function AboutEshop14Videos({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const FOREST = "#14352a";
+  const TERRA = "#d96f32";
+  const TERRA_DK = "#b8571f";
+  const INK = "#1e2a24";
+  const CREAM = "#faf7f0";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const heading = String(content.heading ?? "Zahradia na YouTube");
+  const moreLabel = String(content.moreLabel ?? "");
+  const moreHref = String(content.moreHref ?? "#");
+  const items = ((content.items as Es14Video[]) ?? []).slice(0, 3);
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-14-videos" style={{ fontFamily: SANS, background: CREAM, padding: "30px 0 60px" }}>
+      <style>{`
+        .es14v-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 860px) { .es14v-grid { grid-template-columns: 1fr; } }
+        .es14v-card { text-decoration: none; display: block; }
+        .es14v-media { position: relative; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden; background: ${FOREST}; }
+        .es14v-media img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.92; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s; }
+        .es14v-card:hover .es14v-media img { transform: scale(1.05); opacity: 1; }
+        .es14v-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,36,28,0) 45%, rgba(13,36,28,0.5)); }
+        .es14v-play { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 62px; height: 62px; border-radius: 999px; background: ${TERRA};
+          display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 14px 30px rgba(217,111,50,0.45); transition: transform 0.18s, background 0.16s; }
+        .es14v-card:hover .es14v-play { transform: translate(-50%, -50%) scale(1.12); background: ${TERRA_DK}; }
+        .es14v-title { font-size: 15px; font-weight: 700; color: ${INK}; margin-top: 12px; text-align: center; transition: color 0.14s; }
+        .es14v-card:hover .es14v-title { color: ${TERRA_DK}; }
+        .es14v-more { display: inline-flex; align-items: center; gap: 7px; color: ${TERRA_DK}; text-decoration: none; font-size: 13.5px; font-weight: 700; transition: gap 0.18s; }
+        .es14v-more:hover { gap: 11px; }
+      `}</style>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 28px" }}>
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
+          <h2 style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(24px, 2.6vw, 33px)", color: FOREST, margin: 0 }}>{heading}</h2>
+          {moreLabel && (
+            <a href={moreHref.startsWith("http") ? moreHref : resolve(moreHref)} className="es14v-more" style={{ marginTop: 8 }} target={moreHref.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+              {moreLabel}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+            </a>
+          )}
+        </div>
+        <div className="es14v-grid">
+          {items.map((v, i) => (
+            <a key={i} href={v.href ? (v.href.startsWith("http") ? v.href : resolve(v.href)) : "#"} className="es14v-card" target={v.href?.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+              <span className="es14v-media">
+                {v.image && <img src={v.image} alt={v.title ?? ""} loading="lazy" />}
+                <span className="es14v-play">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>
+                </span>
+              </span>
+              <div className="es14v-title">{v.title}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-fav ────────────────────────────────────────────────────────────────
+// PACKA „Pro vaše mazlíčky máme jen to nejlepší" (petcenter DNA): 3 velké
+// kategorie bannery (Psy / Kočky / Hlodavce) — foto pozadí s gradientem, „Pro
+// {zvíře}" + bílý pill Zobrazit vše, dole 4 bílé dlaždice subkategorií s foto.
+// Stejná anatomie jako banner karta v mega menu (brand systém).
+// ──────────────────────────────────────────────────────────────────────────────
+type Es12FavSub = { label: string; slug: string; image?: string };
+type Es12FavBanner = { forLabel?: string; animal?: string; bg?: string; allHref?: string; subs?: Es12FavSub[] };
+
+function AboutEshop12Fav({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const DISPLAY = "'Baloo 2', 'Segoe UI', system-ui, sans-serif";
+  const SANS = "'Nunito', 'Segoe UI', system-ui, sans-serif";
+  const MANGO = "#ff8a3d", NAVY = "#14224a", CREAM = "#fffbf6";
+
+  const heading = String(content.heading ?? "");
+  const banners = ((content.banners as Es12FavBanner[]) ?? []).filter(b => b && b.animal);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const catHref = (slug?: string) => resolveNavHref(slug ? `/obchod?kategorie=${slug}` : "/obchod", siteMode, tenantSlug, isAdmin);
+
+  if (!banners.length) return null;
+
+  return (
+    <section style={{ fontFamily: SANS, background: CREAM, padding: "38px 0 30px" }}>
+      <style>{`
+        .es12f-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        @media (max-width: 1080px) { .es12f-grid { grid-template-columns: 1fr; } }
+        .es12f-card { position: relative; display: flex; flex-direction: column; justify-content: space-between;
+          min-height: 392px; border-radius: 22px; overflow: hidden; box-shadow: 0 14px 34px rgba(20,34,74,0.12); }
+        .es12f-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .es12f-card:hover .es12f-bg { transform: scale(1.05); }
+        .es12f-grad { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,34,74,0.30) 0%,
+          rgba(20,34,74,0) 30%, rgba(20,34,74,0.30) 62%, rgba(20,34,74,0.78) 100%); }
+        .es12f-top { position: relative; padding: 20px 20px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .es12f-for { font-family: ${DISPLAY}; font-size: 26px; font-weight: 700; color: #fff;
+          text-shadow: 0 2px 12px rgba(0,0,0,0.35); line-height: 1.05; }
+        .es12f-for b { font-weight: 800; }
+        .es12f-btn { display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0; padding: 10px 18px;
+          border-radius: 999px; background: #fff; color: ${NAVY}; font-family: ${DISPLAY}; font-size: 14px;
+          font-weight: 700; text-decoration: none; box-shadow: 0 5px 14px rgba(0,0,0,0.2);
+          transition: background 0.15s, color 0.15s, transform 0.15s, gap 0.15s; }
+        .es12f-btn:hover { background: ${MANGO}; color: #fff; transform: translateY(-2px); gap: 10px; }
+        .es12f-subs { position: relative; padding: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+        .es12f-sub { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 11px 6px;
+          background: rgba(255,255,255,0.95); border-radius: 14px; text-decoration: none;
+          transition: transform 0.16s, background 0.16s, box-shadow 0.16s; }
+        .es12f-sub:hover { background: #fff; transform: translateY(-4px); box-shadow: 0 10px 22px rgba(0,0,0,0.18); }
+        .es12f-sub-img { display: block; width: 54px; height: 54px; border-radius: 12px; overflow: hidden; background: #f2ede4; }
+        .es12f-sub-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .es12f-sub-name { font-family: ${SANS}; font-size: 11.5px; font-weight: 800; color: ${NAVY};
+          text-align: center; line-height: 1.15; }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <div style={{ textAlign: "center", marginBottom: 26 }}>
+            <svg aria-hidden width="30" height="30" viewBox="0 0 24 24" fill={MANGO} style={{ transform: "rotate(10deg)", marginBottom: 4 }}><circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/><path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/></svg>
+            <h2 style={{ margin: 0, fontFamily: DISPLAY, fontSize: "clamp(26px, 2.8vw, 36px)", fontWeight: 800, color: NAVY, lineHeight: 1.1 }}>{heading}</h2>
+          </div>
+        )}
+        <div className="es12f-grid">
+          {banners.map((b, bi) => (
+            <div key={bi} className="es12f-card">
+              {b.bg && <img src={b.bg} alt="" className="es12f-bg" loading="lazy" />}
+              <span aria-hidden className="es12f-grad" />
+              <div className="es12f-top">
+                <span className="es12f-for">{b.forLabel ?? "Pro"} <b>{b.animal}</b></span>
+                <a href={catHref(b.allHref)} className="es12f-btn">
+                  Zobrazit vše
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </div>
+              <div className="es12f-subs">
+                {(b.subs ?? []).slice(0, 4).map((sc, si) => (
+                  <a key={sc.slug + si} href={catHref(sc.slug)} className="es12f-sub">
+                    <span className="es12f-sub-img">{sc.image && <img src={sc.image} alt="" loading="lazy" />}</span>
+                    <span className="es12f-sub-name">{sc.label}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-stores ─────────────────────────────────────────────────────────────
+// PACKA „Zastavte se na našich prodejnách" (petcenter DNA): velký zaoblený pás —
+// vlevo nadpis + ✓ benefity + mango CTA, vpravo SVG mapa ČR (reálný obrys
+// z přepočtených hraničních souřadnic) s mango tečkami prodejen (pulz) a
+// rotovaným badge „Více než 70× v ČR".
+// ──────────────────────────────────────────────────────────────────────────────
+const ES12_CZ_PATH = "M8 102 L38 58 L117 39 L183 1 L241 26 L266 10 L323 52 L352 50 L356 77 L398 77 L464 93 L493 127 L559 194 L505 222 L456 278 L414 278 L402 307 L373 287 L332 291 L241 262 L216 312 L158 288 L117 265 L42 203 L26 165 L38 121 Z";
+const ES12_STORE_DOTS: Array<[number, number, number]> = [
+  [193, 122, 7], [186, 112, 4], [204, 130, 4], [373, 234, 6], [383, 226, 4],
+  [512, 155, 6], [520, 168, 4], [106, 165, 5], [245, 37, 5], [427, 185, 5],
+  [197, 263, 5], [309, 107, 5], [161, 50, 4], [64, 104, 4], [461, 232, 5],
+  [290, 209, 5], [305, 128, 4], [120, 55, 4], [345, 155, 4], [255, 170, 4],
+  [150, 200, 4], [440, 130, 4], [350, 260, 4], [90, 140, 3.5], [270, 80, 3.5], [480, 200, 3.5],
+];
+
+function AboutEshop12Stores({ content, tenantSlug, isAdmin }: Props) {
+  const DISPLAY = "'Baloo 2', 'Segoe UI', system-ui, sans-serif";
+  const SANS = "'Nunito', 'Segoe UI', system-ui, sans-serif";
+  const PURPLE = "#6f45d1", PURPLE_DEEP = "#5836ad";
+  const MANGO = "#ff8a3d", MANGO_DEEP = "#f06e1e";
+  const NAVY = "#14224a", MUTED = "#5b6478", CREAM = "#fffbf6";
+
+  const kicker = String(content.kicker ?? "");
+  const title = String(content.title ?? "");
+  const benefits = ((content.benefits as string[]) ?? []).filter(Boolean);
+  const ctaText = String(content.ctaText ?? "Najít nejbližší prodejnu");
+  const ctaHref = String(content.ctaHref ?? "/prodejny");
+  const badgeTop = String(content.badgeTop ?? "Více než");
+  const badgeNum = String(content.badgeNum ?? "70×");
+  const badgeSub = String(content.badgeSub ?? "v ČR");
+  const note = String(content.note ?? "");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolvedCta = resolveNavHref(ctaHref, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section style={{ fontFamily: SANS, background: CREAM, padding: "30px 0 34px" }}>
+      <style>{`
+        @keyframes es12sPulse { 0%,100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0; transform: scale(2.1); } }
+        .es12s-halo { transform-origin: center; transform-box: fill-box; animation: es12sPulse 2.6s ease-out infinite; }
+        @keyframes es12sPop { 0% { transform: scale(0.5) rotate(14deg); opacity: 0; } 70% { transform: scale(1.08) rotate(7deg); } 100% { transform: scale(1) rotate(7deg); opacity: 1; } }
+        .es12s-badge { animation: es12sPop 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; }
+        .es12s-cta { transition: transform 0.16s, box-shadow 0.16s, background 0.16s; }
+        .es12s-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(240,110,30,0.42); background: ${MANGO_DEEP}; }
+        .es12s-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 34px; align-items: center; }
+        @media (max-width: 980px) { .es12s-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{
+          position: "relative", borderRadius: 30, overflow: "hidden", padding: "46px 54px",
+          background: "linear-gradient(112deg, #fff6ec 0%, #ffedd9 100%)",
+          border: "1px solid #f6e5d0", boxShadow: "0 22px 55px rgba(111,69,209,0.10)",
+        }}>
+          <svg aria-hidden width="58" height="58" viewBox="0 0 24 24" fill={MANGO} opacity="0.13" style={{ position: "absolute", right: 40, top: 26, transform: "rotate(16deg)" }}><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
+
+          <div className="es12s-grid">
+            {/* LEFT */}
+            <div>
+              <h2 style={{ margin: 0, fontFamily: DISPLAY, fontWeight: 800, lineHeight: 1.06, color: NAVY, fontSize: "clamp(28px, 3vw, 40px)" }}>
+                {kicker && <span style={{ display: "block", color: MANGO_DEEP }}>{kicker}</span>}
+                {title}
+              </h2>
+              <ul style={{ listStyle: "none", margin: "24px 0 0", padding: 0, display: "flex", flexDirection: "column", gap: 13 }}>
+                {benefits.map((b, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 15.5, fontWeight: 700, color: NAVY }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 27, height: 27, borderRadius: 999, background: MANGO, color: "#fff", flexShrink: 0, boxShadow: "0 4px 10px rgba(255,138,61,0.35)" }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 16, marginTop: 28 }}>
+                <a href={resolvedCta} className="es12s-cta" style={{
+                  display: "inline-flex", alignItems: "center", gap: 10, height: 54, padding: "0 28px", borderRadius: 999,
+                  background: MANGO, color: "#fff", fontFamily: DISPLAY, fontSize: 16.5, fontWeight: 800,
+                  letterSpacing: "0.03em", textTransform: "uppercase", textDecoration: "none",
+                  boxShadow: "0 12px 26px rgba(240,110,30,0.35)",
+                }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {ctaText}
+                </a>
+                {note && <span style={{ fontSize: 13.5, fontWeight: 700, color: MUTED }}>{note}</span>}
+              </div>
+            </div>
+
+            {/* RIGHT — mapa ČR */}
+            <div style={{ position: "relative" }}>
+              <svg viewBox="-10 -14 585 345" style={{ width: "100%", height: "auto", display: "block", filter: "drop-shadow(0 18px 30px rgba(111,69,209,0.28))" }} role="img" aria-label="Mapa prodejen v České republice">
+                <defs>
+                  <linearGradient id="es12sMap" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#8a63e8" />
+                    <stop offset="55%" stopColor={PURPLE} />
+                    <stop offset="100%" stopColor={PURPLE_DEEP} />
+                  </linearGradient>
+                </defs>
+                <path d={ES12_CZ_PATH} fill="url(#es12sMap)" stroke="#fff" strokeWidth="7" strokeLinejoin="round" />
+                {ES12_STORE_DOTS.map(([x, y, r], i) => (
+                  <g key={i}>
+                    {r >= 5 && <circle className="es12s-halo" cx={x} cy={y} r={r + 3} fill={MANGO} style={{ animationDelay: `${(i % 5) * 0.45}s` }} />}
+                    <circle cx={x} cy={y} r={r} fill={MANGO} stroke="#fff" strokeWidth={r >= 5 ? 2.4 : 1.8} />
+                  </g>
+                ))}
+              </svg>
+              <span className="es12s-badge" style={{
+                position: "absolute", right: "4%", top: "-6%", display: "inline-flex", flexDirection: "column",
+                alignItems: "center", justifyContent: "center", width: 128, height: 128, borderRadius: "50%",
+                background: "#fff", border: `4px solid ${MANGO}`, boxShadow: "0 16px 34px rgba(20,34,74,0.18)",
+                textAlign: "center", lineHeight: 1.05,
+              }}>
+                <span style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: "0.04em" }}>{badgeTop}</span>
+                <span style={{ fontFamily: DISPLAY, fontSize: 40, fontWeight: 800, color: MANGO_DEEP }}>{badgeNum}</span>
+                <span style={{ fontFamily: DISPLAY, fontSize: 16, fontWeight: 700, color: NAVY }}>{badgeSub}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-usp ────────────────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — pás 5 benefitů v containeru 1140/15. Růžové line-art
+// ikony (~54px, stroke lososová #ee9f9c): kruhové šipky / visačka s fajfkou /
+// rozeta / dodávka / markýza obchodu. Titulek Playfair 700 19px na 2 řádky,
+// pod ním úzký šedý text 14px. Levé zarovnání, na mobilu 2 sloupce.
+// content: items[{ icon, title, text }]
+// ──────────────────────────────────────────────────────────────────────────────
+function Es13UspIcon({ name, size = 54 }: { name?: string; size?: number }) {
+  const common = {
+    width: size, height: size, viewBox: "0 0 48 48", fill: "none",
+    stroke: "#ee9f9c", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
+  };
+  switch (name) {
+    case "exchange":
+      return (<svg {...common}><circle cx="24" cy="24" r="15" strokeDasharray="4.5 4.5"/><path d="M17.5 20a7.5 7.5 0 0 1 13.4-1.4"/><path d="M31.5 13.5v5h-5"/><path d="M30.5 28a7.5 7.5 0 0 1-13.4 1.4"/><path d="M16.5 34.5v-5h5"/><circle cx="24" cy="24" r="1.4"/></svg>);
+    case "tag":
+      return (<svg {...common}><path d="M25.8 9.5 38 21.7a3 3 0 0 1 0 4.2L27.9 36a3 3 0 0 1-4.2 0L11.5 23.8a3 3 0 0 1-.9-2.1V13a3 3 0 0 1 3-3h8.1a3 3 0 0 1 2.1.9Z" transform="rotate(3 24 24)"/><circle cx="17.6" cy="16.8" r="2.2"/><path d="m21.5 26.5 2.8 2.8 5.7-5.7"/></svg>);
+    case "badge":
+      return (<svg {...common}><circle cx="24" cy="19" r="9.5"/><circle cx="24" cy="19" r="5.6"/><path d="m21.5 19 1.8 1.8 3.4-3.4"/><path d="m18.5 27-3.5 9 5.6-2.4 2 5.4 3-8.4"/><path d="m29.5 27 3.5 9-5.6-2.4-2 5.4-3-8.4"/></svg>);
+    case "truck":
+      return (<svg {...common}><path d="M12 14h17v16H15"/><path d="M29 19h6.5l4 5.5V30h-3"/><circle cx="19.5" cy="31.5" r="3"/><circle cx="32.5" cy="31.5" r="3"/><path d="M6 18h7"/><path d="M4 22h6"/><path d="M7 26h6"/></svg>);
+    case "store":
+    default:
+      return (<svg {...common}><path d="M11 21v15h26V21"/><path d="M9 13h30l1.8 5a4.4 4.4 0 0 1-4.4 4.5 4.6 4.6 0 0 1-4.5-3.5 4.6 4.6 0 0 1-4.5 3.5A4.6 4.6 0 0 1 24 19.9a4.6 4.6 0 0 1-4.4 3.6 4.6 4.6 0 0 1-4.5-3.5 4.6 4.6 0 0 1-4.5 3.5A4.4 4.4 0 0 1 6.2 18Z"/><path d="M20 36v-8h8v8"/></svg>);
+  }
+}
+
+type Es13UspItem = { icon?: string; title?: string; text?: string };
+
+function AboutEshop13Usp({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+  const items = ((content.items as Es13UspItem[]) ?? []).slice(0, 5);
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-13-usp" style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 30px" }}>
+      <style>{`
+        .es13u-wrap { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13u-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 28px; }
+        .es13u-item { display: flex; flex-direction: column; align-items: flex-start; max-width: 190px; }
+        .es13u-item svg { transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+        .es13u-item:hover svg { transform: translateY(-3px); }
+        @media (max-width: 960px) { .es13u-grid { grid-template-columns: repeat(3, 1fr); row-gap: 34px; } }
+        @media (max-width: 620px) { .es13u-grid { grid-template-columns: repeat(2, 1fr); } }
+      `}</style>
+      <div className="es13u-wrap">
+        <div className="es13u-grid">
+          {items.map((it, i) => (
+            <div key={i} className="es13u-item">
+              <Es13UspIcon name={it.icon} />
+              <h3 style={{ fontFamily: SERIF, fontSize: 19, fontWeight: 700, color: INK, lineHeight: 1.55, margin: "16px 0 0", maxWidth: 130 }}>{it.title}</h3>
+              <p style={{ fontSize: 14, fontWeight: 400, color: "#3c3c39", lineHeight: 1.6, margin: "12px 0 0", maxWidth: 150 }}>{it.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-brands ─────────────────────────────────────────────────────────────
+// PACKA „Naše značky" (petcenter DNA): pás karet s typografickými logy fiktivních
+// značek — každá má vlastní ikonku, barvu a řez (bone/cat/treat/paw/cloud/bird/
+// wave/leaf), pod logem jméno. Hover lift + zbarvení. Centrovaný nadpis s tlapkou.
+// ──────────────────────────────────────────────────────────────────────────────
+function Es12BrandIcon({ name, color }: { name?: string; color: string }) {
+  const c = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: 1.9, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  switch (name) {
+    case "bone": return (<svg {...c}><path d="M17.5 10.5 21 7a2.4 2.4 0 0 0-3.4-3.4L14.2 7l-4.4 4.4-3.4 3.4A2.4 2.4 0 1 0 3 18.2 2.4 2.4 0 1 0 5.8 21l3.4-3.4 4.4-4.4"/><path d="M14.2 7a2.4 2.4 0 1 0 2.8 2.8"/><path d="M9.8 17.6A2.4 2.4 0 1 0 7 14.8"/></svg>);
+    case "cat": return (<svg {...c}><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z"/></svg>);
+    case "treat": return (<svg {...c}><circle cx="12" cy="12" r="8"/><path d="M8.5 10.5h.01M12 9h.01M15.5 10.5h.01M10 14h.01M14 14h.01"/></svg>);
+    case "cloud": return (<svg {...c}><path d="M17.5 19a4.5 4.5 0 0 0 .34-8.99A6 6 0 0 0 6.2 8.6 4.5 4.5 0 0 0 6.5 19Z"/></svg>);
+    case "bird": return (<svg {...c}><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/></svg>);
+    case "wave": return (<svg {...c}><path d="M2 12c1.8-2.2 3.6-2.2 5.4 0s3.6 2.2 5.4 0 3.6-2.2 5.4 0 2.7 1.4 3.8.6"/><path d="M2 17c1.8-2.2 3.6-2.2 5.4 0s3.6 2.2 5.4 0 3.6-2.2 5.4 0 2.7 1.4 3.8.6"/><path d="M12 3v3"/><path d="M9 4.5 12 7.5 15 4.5"/></svg>);
+    case "leaf": return (<svg {...c}><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>);
+    default: return (<svg width="26" height="26" viewBox="0 0 24 24" fill={color}><circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/><path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/></svg>);
+  }
+}
+
+type Es12Brand = { name: string; icon?: string; color?: string; style?: string; tagline?: string };
+
+function AboutEshop12Brands({ content, tenantSlug, isAdmin }: Props) {
+  const DISPLAY = "'Baloo 2', 'Segoe UI', system-ui, sans-serif";
+  const SANS = "'Nunito', 'Segoe UI', system-ui, sans-serif";
+  const MANGO = "#ff8a3d", NAVY = "#14224a", MUTED = "#71809a", PURPLE = "#6f45d1";
+
+  const heading = String(content.heading ?? "");
+  const moreLabel = String(content.moreLabel ?? "");
+  const items = ((content.items as Es12Brand[]) ?? []).filter(b => b && b.name);
+  const shopHref = isAdmin ? "#" : (tenantSlug ? `/demo/${tenantSlug}/obchod` : "/obchod");
+
+  if (!items.length) return null;
+
+  return (
+    <section style={{ fontFamily: SANS, background: "#fff", padding: "46px 0 50px" }}>
+      <style>{`
+        .es12b-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px; }
+        @media (max-width: 1180px) { .es12b-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 640px) { .es12b-grid { grid-template-columns: repeat(2, 1fr); } }
+        .es12b-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+          min-height: 118px; padding: 18px 10px; background: #fffbf6; border: 1px solid #f3e8da; border-radius: 18px;
+          text-decoration: none; text-align: center;
+          transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s, border-color 0.18s, background 0.18s; }
+        .es12b-card:hover { transform: translateY(-4px); background: #fff; border-color: #ecdcc6;
+          box-shadow: 0 16px 32px rgba(20,34,74,0.10); }
+        .es12b-card:hover .es12b-ico { transform: rotate(-8deg) scale(1.12); }
+        .es12b-ico { display: inline-flex; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); }
+        .es12b-more { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 24px;
+          border-radius: 999px; border: 2.5px solid ${PURPLE}; color: ${PURPLE}; font-family: ${DISPLAY};
+          font-size: 14.5px; font-weight: 700; text-decoration: none; transition: background 0.15s, color 0.15s; }
+        .es12b-more:hover { background: ${PURPLE}; color: #fff; }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <div style={{ textAlign: "center", marginBottom: 26 }}>
+            <svg aria-hidden width="30" height="30" viewBox="0 0 24 24" fill={MANGO} style={{ transform: "rotate(-10deg)", marginBottom: 4 }}><circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/><path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/></svg>
+            <h2 style={{ margin: 0, fontFamily: DISPLAY, fontSize: "clamp(26px, 2.8vw, 36px)", fontWeight: 800, color: NAVY, lineHeight: 1.1 }}>{heading}</h2>
+          </div>
+        )}
+        <div className="es12b-grid">
+          {items.map((b, bi) => {
+            const col = b.color ?? MANGO;
+            const st: React.CSSProperties =
+              b.style === "italic" ? { fontStyle: "italic", fontWeight: 800 } :
+              b.style === "wide" ? { letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 800, fontSize: 15 } :
+              b.style === "serif" ? { fontFamily: "Georgia, 'Times New Roman', serif", fontWeight: 700 } :
+              { fontWeight: 800 };
+            return (
+              <a key={bi} href={shopHref} className="es12b-card">
+                <span className="es12b-ico"><Es12BrandIcon name={b.icon} color={col} /></span>
+                <span style={{ fontFamily: DISPLAY, fontSize: 17.5, color: col, lineHeight: 1.05, ...st }}>{b.name}</span>
+                {b.tagline && <span style={{ fontSize: 10.5, fontWeight: 700, color: MUTED, letterSpacing: "0.06em", textTransform: "uppercase" }}>{b.tagline}</span>}
+              </a>
+            );
+          })}
+        </div>
+        {moreLabel && (
+          <div style={{ textAlign: "center", marginTop: 24 }}>
+            <a href={shopHref} className="es12b-more">
+              {moreLabel}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-blog ───────────────────────────────────────────────────────────────
+// PACKA „Novinky z blogu" (petcenter DNA): 3 článkové karty — foto 16:10 s hover
+// zoomem, tone chip kategorie, Baloo titulek, perex, meta autor+datum, mango
+// „Číst článek →". Dole purple outline „Všechny články z blogu".
+// ──────────────────────────────────────────────────────────────────────────────
+type Es12Post = { chip?: string; chipTone?: string; title: string; excerpt?: string; author?: string; date?: string; image?: string };
+
+function AboutEshop12Blog({ content, tenantSlug, isAdmin }: Props) {
+  const DISPLAY = "'Baloo 2', 'Segoe UI', system-ui, sans-serif";
+  const SANS = "'Nunito', 'Segoe UI', system-ui, sans-serif";
+  const MANGO = "#ff8a3d", MANGO_DEEP = "#f06e1e";
+  const NAVY = "#14224a", MUTED = "#5b6478", PURPLE = "#6f45d1", GREEN = "#16a06a";
+
+  const heading = String(content.heading ?? "");
+  const moreLabel = String(content.moreLabel ?? "");
+  const posts = ((content.posts as Es12Post[]) ?? []).filter(p => p && p.title);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const blogHref = resolveNavHref("/poradna", siteMode, tenantSlug, isAdmin);
+  const TONE: Record<string, string> = { mango: MANGO_DEEP, purple: PURPLE, green: GREEN };
+
+  if (!posts.length) return null;
+
+  return (
+    <section style={{ fontFamily: SANS, background: "#fffbf6", padding: "46px 0 52px" }}>
+      <style>{`
+        .es12g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 980px) { .es12g-grid { grid-template-columns: 1fr; } }
+        .es12g-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #f3e8da;
+          border-radius: 20px; overflow: hidden; text-decoration: none;
+          transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s; }
+        .es12g-card:hover { transform: translateY(-5px); box-shadow: 0 20px 42px rgba(20,34,74,0.12); }
+        .es12g-media { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #f6f0e7; }
+        .es12g-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es12g-card:hover .es12g-media img { transform: scale(1.06); }
+        .es12g-title { transition: color 0.15s; }
+        .es12g-card:hover .es12g-title { color: ${PURPLE}; }
+        .es12g-read { display: inline-flex; align-items: center; gap: 7px; transition: gap 0.15s; }
+        .es12g-card:hover .es12g-read { gap: 11px; }
+        .es12g-more { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 26px;
+          border-radius: 999px; border: 2.5px solid ${PURPLE}; color: ${PURPLE}; font-family: ${DISPLAY};
+          font-size: 15px; font-weight: 700; text-decoration: none; transition: background 0.15s, color 0.15s; }
+        .es12g-more:hover { background: ${PURPLE}; color: #fff; }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {heading && (
+          <div style={{ textAlign: "center", marginBottom: 26 }}>
+            <svg aria-hidden width="30" height="30" viewBox="0 0 24 24" fill={MANGO} style={{ transform: "rotate(10deg)", marginBottom: 4 }}><circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/><path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/></svg>
+            <h2 style={{ margin: 0, fontFamily: DISPLAY, fontSize: "clamp(26px, 2.8vw, 36px)", fontWeight: 800, color: NAVY, lineHeight: 1.1 }}>{heading}</h2>
+          </div>
+        )}
+        <div className="es12g-grid">
+          {posts.slice(0, 3).map((po, pi) => {
+            const tone = TONE[po.chipTone ?? "mango"] ?? MANGO_DEEP;
+            return (
+              <a key={pi} href={blogHref} className="es12g-card">
+                <span className="es12g-media">
+                  {po.image && <img src={po.image} alt="" loading="lazy" />}
+                  {po.chip && (
+                    <span style={{ position: "absolute", top: 12, left: 12, padding: "6px 13px", borderRadius: 999, background: tone, color: "#fff", fontFamily: DISPLAY, fontSize: 12.5, fontWeight: 700, boxShadow: "0 4px 12px rgba(0,0,0,0.18)" }}>{po.chip}</span>
+                  )}
+                </span>
+                <span style={{ display: "flex", flexDirection: "column", flex: 1, padding: "18px 20px 20px" }}>
+                  <span className="es12g-title" style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 800, color: NAVY, lineHeight: 1.25 }}>{po.title}</span>
+                  {po.excerpt && <span style={{ marginTop: 8, fontSize: 14, fontWeight: 500, lineHeight: 1.55, color: MUTED, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" as const }}>{po.excerpt}</span>}
+                  <span style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, fontSize: 12.5, fontWeight: 700, color: "#8a94a8" }}>
+                    {po.date && <span>{po.date}</span>}
+                    {po.date && po.author && <span aria-hidden style={{ width: 4, height: 4, borderRadius: 999, background: "#c9cfda" }} />}
+                    {po.author && <span>{po.author}</span>}
+                  </span>
+                  <span className="es12g-read" style={{ marginTop: 14, fontFamily: DISPLAY, fontSize: 14.5, fontWeight: 800, color: MANGO_DEEP, letterSpacing: "0.03em", textTransform: "uppercase" }}>
+                    Číst článek
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </span>
+                </span>
+              </a>
+            );
+          })}
+        </div>
+        {moreLabel && (
+          <div style={{ textAlign: "center", marginTop: 26 }}>
+            <a href={blogHref} className="es12g-more">
+              {moreLabel}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-collection-banners ─────────────────────────────────────────────────
+// LUNELA (milagro DNA) — dva vysoké kolekční bannery vedle sebe (container
+// 1140/15, gap 30, poměr ~55/97). V horní části bílý serif brand wordmark,
+// uprostřed bílý štítek (200×62) s černým Playfair názvem kolekce. Hover:
+// jemný zoom fotky + štítek roztáhne letter-spacing. Mobil: pod sebou 4/5.
+// content: items[{ image, brand, label, href }]
+// ──────────────────────────────────────────────────────────────────────────────
+type Es13Banner = { image?: string; brand?: string; label?: string; href?: string };
+
+function AboutEshop13CollectionBanners({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const items = ((content.items as Es13Banner[]) ?? []).slice(0, 2);
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-13-collection-banners" style={{ fontFamily: SANS, background: "#fff", padding: "34px 0 22px" }}>
+      <style>{`
+        .es13b-wrap { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .es13b-tile { position: relative; display: block; overflow: hidden; background: #EBECE9; aspect-ratio: 55 / 97; }
+        .es13b-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+        .es13b-tile:hover img { transform: scale(1.04); }
+        .es13b-brand { position: absolute; left: 0; right: 0; top: 13%; text-align: center; color: #fff;
+          font-family: ${SERIF}; font-size: 38px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+          text-shadow: 0 2px 20px rgba(0,0,0,0.25); }
+        .es13b-label { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+          background: #fff; color: ${INK}; min-width: 186px; padding: 18px 30px; text-align: center;
+          font-family: ${SERIF}; font-size: 23px; font-weight: 500; line-height: 1; letter-spacing: 0.01em;
+          transition: letter-spacing 0.25s, box-shadow 0.25s; }
+        .es13b-tile:hover .es13b-label { letter-spacing: 0.08em; box-shadow: 0 14px 34px rgba(20,20,20,0.22); }
+        @media (max-width: 760px) {
+          .es13b-grid { grid-template-columns: 1fr; gap: 18px; }
+          .es13b-tile { aspect-ratio: 4 / 5; }
+          .es13b-brand { font-size: 30px; }
+        }
+      `}</style>
+      <div className="es13b-wrap">
+        <div className="es13b-grid">
+          {items.map((b, i) => (
+            <a key={i} href={resolve(b.href ?? "/obchod")} className="es13b-tile">
+              {b.image && <img src={b.image} alt={`${b.brand ?? ""} ${b.label ?? ""}`.trim()} loading="lazy" />}
+              {b.brand && <span className="es13b-brand">{b.brand}</span>}
+              {b.label && <span className="es13b-label">{b.label}</span>}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-gift-selector ──────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — orámovaný box (1px) v containeru 1140/15, dvě půlky:
+// vlevo šedá karta (kicker sans 15 / „jako dárek" serif 700 40 / outlined serif
+// tlačítko) + foto dárku; vpravo mřížka 2×3 buněk s 1px vnitřními linkami —
+// růžová line-art ikona + malé serif „Pro/Na" + velký sans label s růžovým
+// podbarvením. Hover buňky: krémové pozadí + ikona povyskočí. Mobil: karta
+// nahoře, chipy 2 sloupce. content: kicker/title/ctaText/ctaHref/image/items[].
+// ──────────────────────────────────────────────────────────────────────────────
+function Es13GiftIcon({ name, size = 46 }: { name?: string; size?: number }) {
+  const common = {
+    width: size, height: size, viewBox: "0 0 48 48", fill: "none",
+    stroke: "#ee9f9c", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
+  };
+  switch (name) {
+    case "partner":
+      return (<svg {...common}><path d="M15 20.5c0-6 3.6-10.5 9-10.5s9 4.5 9 10.5c0 4.4-1.6 6.9-1.6 6.9"/><path d="M15 20.5s1.7 2.6 1.7 7"/><circle cx="24" cy="21.5" r="5.4"/><path d="M11.5 38c1.6-4.6 6.6-7.5 12.5-7.5S34.9 33.4 36.5 38"/><path d="M16.8 15.2c1.8-1.4 4.4-2.2 7.2-2.2 2.8 0 5.4.8 7.2 2.2"/></svg>);
+    case "mother":
+      return (<svg {...common}><path d="M14.5 21c0-6.4 4-11 9.5-11s9.5 4.6 9.5 11c0 3.4-.9 5.4-.9 5.4"/><circle cx="24" cy="22" r="5.6"/><path d="M14.9 27.5c2.2-.4 3.8-1.9 4.3-4"/><path d="M33.1 27.5c-2.2-.4-3.8-1.9-4.3-4"/><path d="M12 38c1.5-4.8 6.4-7.8 12-7.8s10.5 3 12 7.8"/><path d="m20.5 32.5 3.5 3 3.5-3"/></svg>);
+    case "cake":
+      return (<svg {...common}><path d="M16 22c-1.8 1-3 2.8-3 4.9 0 1.7.8 3.1 2 4.1l1.6 7h14.8l1.6-7c1.2-1 2-2.4 2-4.1 0-2.1-1.2-3.9-3-4.9"/><path d="M17.5 26.5c1.4 1 3 .6 4-.4 1.1 1.2 3 1.3 4.2.2 1.2 1.1 3.1 1 4.2-.2 1 1 2.6 1.4 4 .4"/><path d="M18 21.5c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M24 16.5v-3"/><path d="M24 10.5c-1.2-1.2-1.2-2.6 0-3.5 1.2.9 1.2 2.3 0 3.5Z"/></svg>);
+    case "daughter":
+      return (<svg {...common}><path d="M14 24.5V19c0-5.5 4.5-9.5 10-9.5s10 4 10 9.5v5.5"/><circle cx="24" cy="21" r="5.8"/><path d="M14 24.5c2.8 0 4.8-1.3 5.7-3.6"/><path d="M34 24.5c-2.8 0-4.8-1.3-5.7-3.6"/><path d="M13 38.5c1.5-5 6.1-8 11-8s9.5 3 11 8"/></svg>);
+    case "baby":
+      return (<svg {...common}><circle cx="24" cy="15.5" r="6"/><path d="M21.5 14.8c.7-.7 1.6-1.1 2.5-1.1s1.8.4 2.5 1.1"/><path d="M24 9.5c-.8-.9-.8-2 0-2.8.8.8.8 1.9 0 2.8Z"/><path d="M14.5 30.5c0-5 4.2-8.5 9.5-8.5s9.5 3.5 9.5 8.5c0 4.4-3.3 8-9.5 8s-9.5-3.6-9.5-8Z"/><path d="M18 25.5c-2 3.5-2 7.5 0 10.5"/><path d="M30 25.5c2 3.5 2 7.5 0 10.5"/></svg>);
+    case "gift":
+    default:
+      return (<svg {...common}><path d="M12.5 24.5h23V38h-23z"/><path d="M11 18.5h26v6H11z"/><path d="M24 18.5V38"/><path d="M24 18.5c-4.5 0-7.5-1.6-7.5-4.2 0-1.8 1.3-3 3-3 2.8 0 4.5 3.1 4.5 7.2Z"/><path d="M24 18.5c4.5 0 7.5-1.6 7.5-4.2 0-1.8-1.3-3-3-3-2.8 0-4.5 3.1-4.5 7.2Z"/></svg>);
+  }
+}
+
+type Es13GiftItem = { icon?: string; pre?: string; label?: string; href?: string };
+
+function AboutEshop13GiftSelector({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+  const PINK = "#FFD2D0";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const kicker = String(content.kicker ?? "Vyberte šperk AURELLE");
+  const title = String(content.title ?? "jako dárek");
+  const ctaText = String(content.ctaText ?? "Tipy na dárek");
+  const ctaHref = String(content.ctaHref ?? "/obchod?kategorie=darky");
+  const image = String(content.image ?? "");
+  const items = ((content.items as Es13GiftItem[]) ?? []).slice(0, 6);
+
+  return (
+    <section data-variant="eshop-13-gift-selector" style={{ fontFamily: SANS, background: "#fff", padding: "34px 0 22px" }}>
+      <style>{`
+        .es13gs-wrap { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13gs-box { border: 1px solid #e2e2df; display: grid; grid-template-columns: 48fr 52fr; }
+
+        .es13gs-card { margin: 20px; background: #f2f2f0; display: flex; align-items: center; gap: 20px; padding: 30px 34px; }
+        .es13gs-cta { display: inline-block; margin-top: 26px; border: 1px solid ${INK}; background: transparent; color: ${INK};
+          font-family: ${SERIF}; font-size: 19px; font-weight: 500; padding: 15px 32px; line-height: 1; text-decoration: none;
+          transition: background 0.18s, color 0.18s; }
+        .es13gs-cta:hover { background: ${INK}; color: #fff; }
+        .es13gs-photo { width: 158px; height: 158px; flex-shrink: 0; margin-left: auto; overflow: hidden; }
+        .es13gs-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .es13gs-grid { display: grid; grid-template-columns: 1fr 1fr; }
+        .es13gs-cell { display: flex; align-items: center; gap: 16px; padding: 20px 26px; text-decoration: none;
+          border-left: 1px solid #e2e2df; border-top: 1px solid #e2e2df; transition: background 0.16s; }
+        .es13gs-cell:nth-child(-n+2) { border-top: none; }
+        .es13gs-cell:hover { background: #faf7f5; }
+        .es13gs-cell svg { flex-shrink: 0; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+        .es13gs-cell:hover svg { transform: translateY(-3px); }
+        .es13gs-pre { display: block; font-family: ${SERIF}; font-size: 15px; font-weight: 500; color: ${INK}; line-height: 1.3; }
+        .es13gs-label { display: inline-block; font-size: 22px; font-weight: 400; color: ${INK}; line-height: 1.25;
+          background: linear-gradient(180deg, transparent 18%, ${PINK} 18%, ${PINK} 92%, transparent 92%); padding: 0 8px; margin-left: -8px; }
+
+        @media (max-width: 960px) {
+          .es13gs-box { grid-template-columns: 1fr; }
+          .es13gs-grid { border-top: 1px solid #e2e2df; }
+          .es13gs-cell:nth-child(-n+2) { border-top: none; }
+          .es13gs-cell:nth-child(odd) { border-left: none; }
+        }
+        @media (max-width: 560px) {
+          .es13gs-card { flex-direction: column; align-items: flex-start; padding: 24px; margin: 14px; }
+          .es13gs-photo { margin-left: 0; width: 100%; height: 170px; }
+          .es13gs-cell { padding: 16px 18px; gap: 12px; }
+          .es13gs-label { font-size: 18px; }
+        }
+      `}</style>
+      <div className="es13gs-wrap">
+        <div className="es13gs-box">
+          <div className="es13gs-card">
+            <div>
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p" style={{ fontFamily: SANS, fontSize: 15, fontWeight: 400, color: INK, margin: 0 }} />
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{ fontFamily: SERIF, fontSize: 40, fontWeight: 700, color: INK, lineHeight: 1.1, margin: "6px 0 0" }} />
+              <a href={resolve(ctaHref)} className="es13gs-cta">{ctaText}</a>
+            </div>
+            {image && (
+              <span className="es13gs-photo">
+                <img src={image} alt={`${kicker} ${title}`} loading="lazy" />
+              </span>
+            )}
+          </div>
+
+          <div className="es13gs-grid">
+            {items.map((it, i) => (
+              <a key={i} href={resolve(it.href ?? "/obchod?kategorie=darky")} className="es13gs-cell">
+                <Es13GiftIcon name={it.icon} />
+                <span>
+                  <span className="es13gs-pre">{it.pre}</span>
+                  <span className="es13gs-label">{it.label}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-14-text ───────────────────────────────────────────────────────────────
+// Zahradia podstránka: smaragdový page-header band (breadcrumb + H1 + perex),
+// obsahový sloupec se sekcemi (title + text), volitelné info karty (kontakt,
+// otevírací doba…) a CTA pruh. Poppins, hranaté 4px prvky, bílý podklad.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14TextSection = { title?: string; text?: string };
+type Es14InfoCard = { icon?: string; title?: string; lines?: string[] };
+
+function AboutEshop14Text({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Poppins', 'Segoe UI', system-ui, sans-serif";
+  const EMERALD = "#1f7a4e";
+  const EMERALD_DK = "#175e3c";
+  const INK = "#30363b";
+  const MUTED = "#7a8187";
+  const LINE = "#e2e5e7";
+  const GREY = "#f4f5f6";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  const heading = String(content.heading ?? "");
+  const intro = String(content.intro ?? "");
+  const sections = ((content.sections as Es14TextSection[]) ?? []);
+  const cards = ((content.cards as Es14InfoCard[]) ?? []);
+  const ctaLabel = String(content.ctaLabel ?? "");
+  const ctaHref = String(content.ctaHref ?? "/obchod");
+
+  return (
+    <section data-variant="eshop-14-text" style={{ fontFamily: SANS, background: "#fff", color: INK }}>
+      <style>{`
+        .es14t-band { background: ${EMERALD}; color: #fff; padding: 34px 0 38px; }
+        .es14t-crumbs { font-size: 12.5px; color: rgba(255,255,255,0.75); margin-bottom: 10px; display: flex; gap: 7px; flex-wrap: wrap; }
+        .es14t-crumbs a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        .es14t-crumbs a:hover { color: #fff; text-decoration: underline; }
+        .es14t-h1 { font-size: clamp(26px, 3vw, 36px); font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; margin: 0; }
+        .es14t-intro { max-width: 760px; font-size: 14.5px; line-height: 1.65; color: rgba(255,255,255,0.88); margin: 12px 0 0; }
+        .es14t-body { max-width: 860px; padding: 38px 0 20px; }
+        .es14t-sec h2 { font-size: 19px; font-weight: 700; margin: 26px 0 10px; color: ${INK}; }
+        .es14t-sec p { font-size: 14.5px; line-height: 1.75; color: #4a5157; margin: 0 0 12px; white-space: pre-line; }
+        .es14t-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 30px 0 10px; }
+        @media (max-width: 860px) { .es14t-cards { grid-template-columns: 1fr; } }
+        .es14t-card { border: 1px solid ${LINE}; border-radius: 6px; padding: 20px; background: ${GREY}; }
+        .es14t-card h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 10px; color: ${EMERALD_DK}; }
+        .es14t-card div { font-size: 13.5px; line-height: 1.7; color: ${INK}; }
+        .es14t-cta { display: inline-flex; align-items: center; gap: 9px; background: ${EMERALD}; color: #fff; text-decoration: none;
+          font-size: 14px; font-weight: 700; letter-spacing: 0.04em; padding: 14px 26px; border-radius: 4px; margin: 18px 0 50px; transition: background 0.15s; }
+        .es14t-cta:hover { background: ${EMERALD_DK}; }
+      `}</style>
+      <div className="es14t-band">
+        <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+          <nav className="es14t-crumbs" aria-label="Drobečková navigace">
+            <a href={homeHref}>Domů</a>
+            <span aria-hidden>›</span>
+            <span>{heading}</span>
+          </nav>
+          <h1 className="es14t-h1">{heading}</h1>
+          {intro && <p className="es14t-intro">{intro}</p>}
+        </div>
+      </div>
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es14t-body">
+          {cards.length > 0 && (
+            <div className="es14t-cards">
+              {cards.map((card, i) => (
+                <div key={i} className="es14t-card">
+                  <h3>{card.title}</h3>
+                  <div>{(card.lines ?? []).map((ln, k) => <div key={k}>{ln}</div>)}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          {sections.map((s, i) => (
+            <div key={i} className="es14t-sec">
+              {s.title && <h2>{s.title}</h2>}
+              {s.text && <p>{s.text}</p>}
+            </div>
+          ))}
+          {ctaLabel && <a href={resolve(ctaHref)} className="es14t-cta">
+            {ctaLabel}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </a>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-16-categories ─────────────────────────────────────────────────────────
+// Spížka (kosik.cz DNA): „Vyberte si z naší široké nabídky" — horizontální pás
+// bílých dlaždic (radius 16, čtvercové foto, label pod ním, hover lift + zoom)
+// s kruhovými šipkami po stranách (scroll-snap, skrytý scrollbar). Bricolage
+// nadpis vlevo. Krémový podklad.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es16FavCat = { label?: string; slug?: string; href?: string; image?: string };
+
+function AboutEshop16Categories({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Bricolage Grotesque', 'Segoe UI', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const FIG = "#56203d";
+  const INK = "#241a20";
+  const CREAM = "#fbf7f1";
+  const LINE = "#e9dfe0";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (c: Es16FavCat) => c.href ? resolve(c.href) : resolve(c.slug ? `/obchod?kategorie=${c.slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "Vyberte si z naší široké nabídky");
+  const items = ((content.items as Es16FavCat[]) ?? []).slice(0, 16);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canL, setCanL] = useState(false);
+  const [canR, setCanR] = useState(true);
+
+  const updateArrows = () => {
+    const el = railRef.current;
+    if (!el) return;
+    setCanL(el.scrollLeft > 8);
+    setCanR(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+  };
+  const scrollBy = (dir: number) => {
+    const el = railRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.75), behavior: "smooth" });
+  };
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-16-categories" style={{ fontFamily: SANS, background: CREAM, padding: "30px 0 10px" }}>
+      <style>{`
+        .es16c-rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 6px 2px 14px; }
+        .es16c-rail::-webkit-scrollbar { display: none; }
+        .es16c-tile { scroll-snap-align: start; flex: 0 0 auto; width: 122px; background: #fff; border: 1px solid ${LINE}; border-radius: 16px;
+          padding: 10px 8px 12px; text-decoration: none; display: flex; flex-direction: column; gap: 9px; transition: transform 0.18s, box-shadow 0.18s, border-color 0.16s; }
+        .es16c-tile:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(86,32,61,0.12); border-color: transparent; }
+        .es16c-media { aspect-ratio: 1/1; border-radius: 11px; overflow: hidden; background: ${CREAM}; }
+        .es16c-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es16c-tile:hover .es16c-media img { transform: scale(1.08); }
+        .es16c-label { font-size: 13px; font-weight: 600; color: ${INK}; text-align: center; line-height: 1.3; min-height: 34px; display: flex; align-items: flex-start; justify-content: center; transition: color 0.14s; }
+        .es16c-tile:hover .es16c-label { color: ${FIG}; }
+        .es16c-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 44px; height: 44px; border-radius: 999px;
+          border: 1px solid ${LINE}; background: #fff; color: ${FIG}; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+          box-shadow: 0 10px 24px rgba(36,26,32,0.12); transition: background 0.15s, opacity 0.18s, transform 0.15s; }
+        .es16c-arrow:hover { background: ${FIG}; color: #fff; }
+        .es16c-arrow:disabled { opacity: 0; pointer-events: none; }
+        @media (max-width: 640px) { .es16c-tile { width: 104px; } .es16c-arrow { display: none; } }
+      `}</style>
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <h2 style={{ fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(20px, 2vw, 26px)", letterSpacing: "-0.015em", color: INK, margin: "0 0 14px" }}>{heading}</h2>
+        <div style={{ position: "relative" }}>
+          <button className="es16c-arrow" style={{ left: -14 }} onClick={() => scrollBy(-1)} disabled={!canL} aria-label="Posunout doleva">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <div className="es16c-rail" ref={railRef} onScroll={updateArrows}>
+            {items.map((c, i) => (
+              <a key={i} href={catHref(c)} className="es16c-tile">
+                <span className="es16c-media">{c.image && <img src={c.image} alt={c.label ?? ""} loading="lazy" />}</span>
+                <span className="es16c-label">{c.label}</span>
+              </a>
+            ))}
+          </div>
+          <button className="es16c-arrow" style={{ right: -14 }} onClick={() => scrollBy(1)} disabled={!canR} aria-label="Posunout doprava">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-editorial ──────────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — editorial/blog blok: vlevo foto s růžovým vnitřním
+// rámečkem a svislým brand nápisem, uprostřed serif titulek + meta (kategorie
+// | datum) + text + outlined serif tlačítko Přečíst, vpravo dekorativní foto
+// vystupující k okraji. content: image/verticalBrand/title/metaCategory/
+// metaDate/text/ctaText/ctaHref/sideImage.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop13Editorial({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const image = String(content.image ?? "");
+  const verticalBrand = String(content.verticalBrand ?? "");
+  const title = String(content.title ?? "");
+  const metaCategory = String(content.metaCategory ?? "Novinky");
+  const metaDate = String(content.metaDate ?? "");
+  const text = String(content.text ?? "");
+  const ctaText = String(content.ctaText ?? "Přečíst");
+  const ctaHref = String(content.ctaHref ?? "/blog");
+  const sideImage = String(content.sideImage ?? "");
+
+  return (
+    <section data-variant="eshop-13-editorial" style={{ fontFamily: SANS, background: "#fff", padding: "44px 0 30px" }}>
+      <style>{`
+        .es13e-wrap { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13e-grid { display: grid; grid-template-columns: minmax(0, 46fr) minmax(0, 27fr) minmax(0, 27fr); gap: 40px; align-items: center; }
+
+        .es13e-photo { position: relative; aspect-ratio: 10 / 8; overflow: hidden; background: #EBECE9; display: block; }
+        .es13e-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .es13e-frame { position: absolute; inset: 14px; border: 1px solid #FFD2D0; pointer-events: none; }
+        .es13e-vbrand { position: absolute; left: 22px; bottom: 26px; writing-mode: vertical-rl; transform: rotate(180deg);
+          font-family: ${SANS}; font-size: 34px; font-weight: 800; letter-spacing: 0.04em; color: ${INK}; line-height: 1; text-transform: uppercase; }
+
+        .es13e-cta { display: inline-block; margin-top: 26px; border: 1px solid ${INK}; background: transparent; color: ${INK};
+          font-family: ${SERIF}; font-size: 19px; font-weight: 500; padding: 15px 34px; line-height: 1; text-decoration: none;
+          transition: background 0.18s, color 0.18s; }
+        .es13e-cta:hover { background: ${INK}; color: #fff; }
+
+        .es13e-side { aspect-ratio: 1 / 1; overflow: hidden; display: block; }
+        .es13e-side img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        @media (max-width: 960px) {
+          .es13e-grid { grid-template-columns: 1fr; gap: 26px; }
+          .es13e-side { display: none; }
+        }
+      `}</style>
+      <div className="es13e-wrap">
+        <div className="es13e-grid">
+          <a href={resolve(ctaHref)} className="es13e-photo">
+            {image && <img src={image} alt={title} loading="lazy" />}
+            <span className="es13e-frame" aria-hidden />
+            {verticalBrand && <span className="es13e-vbrand">{verticalBrand}</span>}
+          </a>
+
+          <div>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+              fontFamily: SERIF, fontSize: 30, fontWeight: 700, color: INK, lineHeight: 1.35, margin: 0,
+            }} />
+            <p style={{ margin: "16px 0 0", fontSize: 14, color: INK }}>
+              <strong style={{ fontWeight: 700 }}>{metaCategory}</strong>
+              {metaDate && <span style={{ color: "#83837f" }}>&ensp;|&ensp;{metaDate}</span>}
+            </p>
+            <GenericEditableText sectionId={sectionId} field="text" value={text} tag="p" style={{
+              margin: "18px 0 0", fontSize: 15, lineHeight: 1.75, color: "#2f2f2c",
+            }} />
+            <a href={resolve(ctaHref)} className="es13e-cta">{ctaText}</a>
+          </div>
+
+          <span className="es13e-side">
+            {sideImage && <img src={sideImage} alt="" loading="lazy" />}
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-instagram ──────────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — „Buďte součástí našeho příběhu": vlevo kicker SLEDUJTE
+// NÁS + serif titulek přes 4 řádky + černé sociální ikony (FB/IG/TikTok),
+// pod textem vysoká fotka; uprostřed sloupec tří čtverců; vpravo velká fotka.
+// content: kicker/title/socials{facebook,instagram,tiktok}/images[5].
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop13Instagram({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+
+  const kicker = String(content.kicker ?? "SLEDUJTE NÁS");
+  const title = String(content.title ?? "Buďte součástí našeho příběhu");
+  const socials = (content.socials as Record<string, string>) ?? {};
+  const images = ((content.images as string[]) ?? []).slice(0, 5);
+
+  const iconStyle: React.CSSProperties = { color: INK, display: "inline-flex" };
+
+  return (
+    <section data-variant="eshop-13-instagram" style={{ fontFamily: SANS, background: "#fff", padding: "44px 0 34px" }}>
+      <style>{`
+        .es13i-wrap { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13i-grid { display: grid; grid-template-columns: minmax(0, 24fr) minmax(0, 17fr) minmax(0, 55fr); gap: 16px; }
+        .es13i-colA { display: flex; flex-direction: column; gap: 24px; }
+        .es13i-colB { display: flex; flex-direction: column; gap: 16px; }
+        .es13i-tile { display: block; overflow: hidden; background: #EBECE9; position: relative; }
+        .es13i-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+        .es13i-tile:hover img { transform: scale(1.05); }
+        .es13i-tile--sq { aspect-ratio: 1 / 1; }
+        .es13i-tile--tall { flex: 1; min-height: 220px; }
+        .es13i-tile--big { height: 100%; min-height: 420px; }
+        .es13i-social { display: inline-flex; transition: opacity 0.15s, transform 0.15s; }
+        .es13i-social:hover { opacity: 0.6; transform: translateY(-2px); }
+        @media (max-width: 900px) {
+          .es13i-grid { grid-template-columns: 1fr 1fr; }
+          .es13i-colA { grid-column: 1 / -1; }
+          .es13i-tile--tall { aspect-ratio: 4 / 3; flex: none; }
+          .es13i-tile--big { min-height: 0; aspect-ratio: 1 / 1; height: auto; }
+        }
+      `}</style>
+      <div className="es13i-wrap">
+        <div className="es13i-grid">
+          <div className="es13i-colA">
+            <div>
+              <p style={{ margin: 0, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.14em", color: INK }}>{kicker}</p>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{
+                fontFamily: SERIF, fontSize: 40, fontWeight: 700, color: INK, lineHeight: 1.28, margin: "14px 0 0", maxWidth: 220,
+              }} />
+              <div style={{ display: "flex", alignItems: "center", gap: 22, marginTop: 26 }}>
+                {socials.facebook && (
+                  <a href={socials.facebook} aria-label="Facebook" className="es13i-social" style={iconStyle} target="_blank" rel="noopener noreferrer">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7C18.3 21.1 22 17 22 12c0-5.5-4.5-10-10-10Z"/></svg>
+                  </a>
+                )}
+                {socials.instagram && (
+                  <a href={socials.instagram} aria-label="Instagram" className="es13i-social" style={iconStyle} target="_blank" rel="noopener noreferrer">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+                  </a>
+                )}
+                {socials.tiktok && (
+                  <a href={socials.tiktok} aria-label="TikTok" className="es13i-social" style={iconStyle} target="_blank" rel="noopener noreferrer">
+                    <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.1 1.9 3.7 4.4 3.9v3c-1.7 0-3.2-.5-4.4-1.4v6.5c0 3.9-2.7 6.4-6.2 6.4C7 21.4 4.6 19 4.6 15.9c0-3.4 2.9-5.9 6.4-5.6v3.1c-1.8-.4-3.4.7-3.4 2.5 0 1.6 1.2 2.7 2.8 2.7 1.8 0 3.1-1.3 3.1-3.5V3h3.1Z"/></svg>
+                  </a>
+                )}
+              </div>
+            </div>
+            {images[0] && (
+              <span className="es13i-tile es13i-tile--tall"><img src={images[0]} alt="" loading="lazy" /></span>
+            )}
+          </div>
+
+          <div className="es13i-colB">
+            {[1, 2, 3].map((i) => images[i] ? (
+              <span key={i} className="es13i-tile es13i-tile--sq"><img src={images[i]} alt="" loading="lazy" /></span>
+            ) : null)}
+          </div>
+
+          {images[4] && (
+            <span className="es13i-tile es13i-tile--big"><img src={images[4]} alt="" loading="lazy" /></span>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-text ───────────────────────────────────────────────────────────────
+// PACKA textové bloky podstránek: bílé karty na krému, Baloo nadpisy s tlapkou,
+// odstavce + mango ✓ odrážky. Content { blocks: [{title,text,bullets[]}] }.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es12TextBlock = { title?: string; text?: string; bullets?: string[] };
+
+function AboutEshop12Text({ content }: Props) {
+  const MANGO = "#ff8a3d", NAVY = "#14224a", MUTED = "#5b6478", CREAM = "#fffbf6";
+  const DISPLAY = "'Baloo 2','Segoe UI',system-ui,sans-serif";
+  const SANS = "'Nunito','Segoe UI',system-ui,sans-serif";
+  const blocks = ((content.blocks as Es12TextBlock[]) ?? []).filter(b => b && (b.title || b.text));
+  if (!blocks.length) return null;
+  return (
+    <section style={{ background: CREAM, padding: "26px 0 44px", fontFamily: SANS }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", flexDirection: "column", gap: 18 }}>
+        {blocks.map((b, i) => (
+          <div key={i} style={{ background: "#fff", border: "1px solid #f0e7db", borderRadius: 20, padding: "26px 30px" }}>
+            {b.title && (
+              <h2 style={{ display: "flex", alignItems: "center", gap: 10, margin: 0, fontFamily: DISPLAY, fontSize: 21, fontWeight: 800, color: NAVY }}>
+                <svg aria-hidden width="20" height="20" viewBox="0 0 24 24" fill={MANGO} style={{ transform: "rotate(-10deg)", flexShrink: 0 }}><circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/><path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/></svg>
+                {b.title}
+              </h2>
+            )}
+            {b.text && <p style={{ margin: b.title ? "10px 0 0" : 0, fontSize: 14.5, fontWeight: 500, lineHeight: 1.75, color: MUTED, whiteSpace: "pre-line" }}>{b.text}</p>}
+            {(b.bullets ?? []).length > 0 && (
+              <ul style={{ listStyle: "none", margin: "12px 0 0", padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+                {b.bullets!.map((x, xi) => (
+                  <li key={xi} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, fontWeight: 600, color: NAVY }}>
+                    <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 21, height: 21, borderRadius: 999, background: MANGO, color: "#fff", flexShrink: 0, marginTop: 1 }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    </span>
+                    {x}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-contact ────────────────────────────────────────────────────────────
+// PACKA kontakt: vlevo navy karta (telefon/e-mail/adresa/hodiny s mango ikonami),
+// vpravo formulář (jméno/e-mail/zpráva, mango ODESLAT, done stav).
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop12Contact({ content }: Props) {
+  const [done, setDone] = useState(false);
+  const [name, setName] = useState(""); const [mail, setMail] = useState(""); const [msg, setMsg] = useState("");
+  const MANGO = "#ff8a3d", MANGO_DEEP = "#f06e1e", NAVY = "#14224a", MUTED = "#5b6478", CREAM = "#fffbf6";
+  const DISPLAY = "'Baloo 2','Segoe UI',system-ui,sans-serif";
+  const SANS = "'Nunito','Segoe UI',system-ui,sans-serif";
+  const c = content as Record<string, unknown>;
+  const infoTitle = String(c.infoTitle ?? "Kontaktní údaje");
+  const formTitle = String(c.formTitle ?? "Napište nám");
+  const doneText = String(c.doneText ?? "Děkujeme! Ozveme se co nejdříve.");
+  const rows = [
+    ["phone", String(c.phone ?? "")], ["mail", String(c.email ?? "")],
+    ["pin", String(c.address ?? "")], ["clock", String(c.hours ?? "")],
+  ].filter(r => r[1]);
+  const icon = (k: string) => k === "phone"
+    ? <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/>
+    : k === "mail" ? <><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></>
+    : k === "pin" ? <><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>
+    : <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></>;
+  const inputStyle: React.CSSProperties = { width: "100%", border: "2px solid #f0e7db", borderRadius: 14, padding: "12px 16px", fontFamily: SANS, fontSize: 14, fontWeight: 600, color: NAVY, background: CREAM };
+  return (
+    <section style={{ background: CREAM, padding: "26px 0 50px", fontFamily: SANS }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: 22 }}>
+        <div style={{ background: NAVY, borderRadius: 22, padding: "30px 30px 34px", color: "#fff" }}>
+          <h2 style={{ margin: 0, fontFamily: DISPLAY, fontSize: 22, fontWeight: 800, color: "#fff" }}>{infoTitle}</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 22 }}>
+            {rows.map(([k, v]) => (
+              <span key={k} style={{ display: "flex", alignItems: "center", gap: 13 }}>
+                <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 12, background: "rgba(255,138,61,0.16)", color: MANGO, flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">{icon(k)}</svg>
+                </span>
+                <span style={{ fontSize: 14.5, fontWeight: 700, whiteSpace: "pre-line" }}>{v}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div style={{ background: "#fff", border: "1px solid #f0e7db", borderRadius: 22, padding: "30px 30px 34px" }}>
+          <h2 style={{ margin: 0, fontFamily: DISPLAY, fontSize: 22, fontWeight: 800, color: NAVY }}>{formTitle}</h2>
+          {done ? (
+            <p style={{ margin: "20px 0 0", display: "inline-flex", alignItems: "center", gap: 9, fontFamily: DISPLAY, fontSize: 16.5, fontWeight: 700, color: "#16a06a" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              {doneText}
+            </p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 18 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <input style={inputStyle} placeholder="Vaše jméno" value={name} onChange={e => setName(e.target.value)} aria-label="Jméno" />
+                <input style={inputStyle} type="email" placeholder="Váš e-mail" value={mail} onChange={e => setMail(e.target.value)} aria-label="E-mail" />
+              </div>
+              <textarea style={{ ...inputStyle, minHeight: 130, resize: "vertical" }} placeholder="Vaše zpráva…" value={msg} onChange={e => setMsg(e.target.value)} aria-label="Zpráva" />
+              <button type="button" disabled={!name || !/.+@.+\..+/.test(mail) || !msg} onClick={() => setDone(true)} style={{
+                alignSelf: "flex-start", height: 50, padding: "0 30px", borderRadius: 999, border: "none",
+                background: MANGO, color: "#fff", fontFamily: DISPLAY, fontSize: 15.5, fontWeight: 800,
+                letterSpacing: "0.03em", textTransform: "uppercase", cursor: "pointer",
+                boxShadow: "0 10px 24px rgba(240,110,30,0.32)",
+                opacity: (!name || !/.+@.+\..+/.test(mail) || !msg) ? 0.45 : 1,
+              }}>Odeslat zprávu</button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-text ───────────────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — textová podstránka: centrovaný light H1 (jako listing),
+// bloky se serif H2 + vlasovou linkou, odstavce 15/1.75, odrážky s růžovým
+// checkmarkem. content: pageTitle / blocks[{heading, paragraphs[], bullets[]}].
+// ──────────────────────────────────────────────────────────────────────────────
+type Es13TextBlock = { heading?: string; paragraphs?: string[]; bullets?: string[] };
+
+function AboutEshop13Text({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+
+  const pageTitle = String(content.pageTitle ?? "");
+  const blocks = ((content.blocks as Es13TextBlock[]) ?? []);
+  if (blocks.length === 0 && !pageTitle) return null;
+
+  return (
+    <section data-variant="eshop-13-text" style={{ fontFamily: SANS, background: "#fff", padding: "10px 0 44px" }}>
+      <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 15px" }}>
+        {pageTitle && (
+          <h1 style={{ fontFamily: SANS, fontSize: 44, fontWeight: 300, textAlign: "center", color: INK, margin: "26px 0 40px", letterSpacing: "0.01em" }}>{pageTitle}</h1>
+        )}
+        {blocks.map((b, i) => (
+          <div key={i} style={{ marginBottom: 38 }}>
+            {b.heading && (
+              <>
+                <h2 style={{ margin: "0 0 14px", fontFamily: SERIF, fontSize: 24, fontWeight: 700, color: INK, lineHeight: 1.35 }}>{b.heading}</h2>
+                <span aria-hidden style={{ display: "block", width: 44, height: 1, background: "#FFD2D0", marginBottom: 18 }} />
+              </>
+            )}
+            {(b.paragraphs ?? []).map((t, ti) => (
+              <p key={ti} style={{ margin: "0 0 13px", fontSize: 15, lineHeight: 1.75, color: "#2f2f2c" }}>{t}</p>
+            ))}
+            {(b.bullets ?? []).length > 0 && (
+              <ul style={{ margin: "6px 0 0", padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
+                {(b.bullets ?? []).map((t, ti) => (
+                  <li key={ti} style={{ display: "flex", gap: 12, alignItems: "flex-start", fontSize: 14.5, lineHeight: 1.55, color: "#2f2f2c" }}>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, marginTop: 3 }}><circle cx="12" cy="12" r="11" fill="#FFD2D0"/><path d="M7.5 12.5l3 3L16.5 9.5" stroke="#141414" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-contact ────────────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — kontaktní podstránka: centrovaný light H1, vlevo šedá
+// karta s kontakty + prodejnami (serif nadpis, řádky s ikonami), vpravo
+// formulář (hairline inputy, focus černý, černé serif tlačítko Odeslat).
+// content: pageTitle/infoHeading/phone/hours/email/address/stores[]/formHeading.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop13Contact({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+  const HAIR = "#e4e4e1";
+  const MUTED = "#83837f";
+  const [done, setDone] = useState(false);
+
+  const c = content as Record<string, unknown>;
+  const pageTitle = String(c.pageTitle ?? "Prodejny & Kontakty");
+  const infoHeading = String(c.infoHeading ?? "Potřebujete poradit?");
+  const phone = String(c.phone ?? "");
+  const hours = String(c.hours ?? "");
+  const email = String(c.email ?? "");
+  const address = String(c.address ?? "");
+  const stores = ((c.stores as Array<{ name?: string; address?: string; hours?: string }>) ?? []);
+  const formHeading = String(c.formHeading ?? "Napište nám");
+
+  const row = (icon: React.ReactNode, node: React.ReactNode) => (
+    <p style={{ display: "flex", alignItems: "flex-start", gap: 13, margin: "14px 0 0", fontSize: 14.5, lineHeight: 1.5, color: INK }}>
+      <span style={{ flexShrink: 0, marginTop: 2 }}>{icon}</span>{node}
+    </p>
+  );
+
+  return (
+    <section data-variant="eshop-13-contact" style={{ fontFamily: SANS, background: "#fff", padding: "10px 0 50px" }}>
+      <style>{`
+        .es13ct-input { width: 100%; height: 50px; border: 1px solid ${HAIR}; background: #fafaf9;
+          padding: 0 16px; font-family: ${SANS}; font-size: 14.5px; color: ${INK}; outline: none; transition: border-color 0.15s; }
+        .es13ct-input:focus { border-color: ${INK}; background: #fff; }
+        textarea.es13ct-input { height: 140px; padding: 14px 16px; resize: vertical; }
+        .es13ct-send { display: inline-flex; align-items: center; gap: 10px; height: 54px; padding: 0 34px; border: none;
+          background: ${INK}; color: #fff; cursor: pointer; font-family: ${SERIF}; font-size: 17px; transition: background 0.16s; }
+        .es13ct-send:hover { background: #000; }
+        @media (max-width: 860px) { .es13ct-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 15px" }}>
+        <h1 style={{ fontFamily: SANS, fontSize: 44, fontWeight: 300, textAlign: "center", color: INK, margin: "26px 0 40px", letterSpacing: "0.01em" }}>{pageTitle}</h1>
+        <div className="es13ct-grid" style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: 30, alignItems: "start" }}>
+          {/* Info karta */}
+          <div style={{ background: "#f2f2f0", padding: "34px 32px" }}>
+            <h2 style={{ margin: 0, fontFamily: SERIF, fontSize: 24, fontWeight: 700, color: INK }}>{infoHeading}</h2>
+            {phone && row(
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>,
+              <span><a href={`tel:${phone.replace(/\s+/g, "")}`} style={{ color: INK, textDecoration: "none", fontWeight: 700 }}>{phone}</a>{hours && <span style={{ color: MUTED }}> &thinsp;|&thinsp; {hours}</span>}</span>
+            )}
+            {email && row(
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>,
+              <a href={`mailto:${email}`} style={{ color: INK, textDecoration: "none" }}>{email}</a>
+            )}
+            {address && row(
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={INK} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+              <span>{address}</span>
+            )}
+
+            {stores.length > 0 && (
+              <>
+                <h3 style={{ margin: "32px 0 4px", fontFamily: SERIF, fontSize: 19, fontWeight: 700, color: INK }}>Kamenné prodejny</h3>
+                {stores.map((s, i) => (
+                  <div key={i} style={{ borderTop: `1px solid ${HAIR}`, marginTop: 14, paddingTop: 14 }}>
+                    <p style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: INK }}>{s.name}</p>
+                    {s.address && <p style={{ margin: "4px 0 0", fontSize: 13.5, color: "#2f2f2c" }}>{s.address}</p>}
+                    {s.hours && <p style={{ margin: "3px 0 0", fontSize: 12.5, color: MUTED }}>{s.hours}</p>}
+                  </div>
+                ))}
+              </>
+            )}
+          </div>
+
+          {/* Formulář */}
+          <div>
+            <h2 style={{ margin: "0 0 18px", fontFamily: SERIF, fontSize: 24, fontWeight: 700, color: INK }}>{formHeading}</h2>
+            {done ? (
+              <div style={{ border: `1px solid ${HAIR}`, background: "#fafaf9", padding: "34px 28px", textAlign: "center" }}>
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" style={{ margin: "0 auto 12px", display: "block" }}><circle cx="12" cy="12" r="11" fill="#FFD2D0"/><path d="M7.5 12.5l3 3L16.5 9.5" stroke="#141414" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <p style={{ margin: 0, fontFamily: SERIF, fontSize: 19, color: INK }}>Děkujeme za zprávu</p>
+                <p style={{ margin: "8px 0 0", fontSize: 14, color: MUTED }}>Ozveme se vám do jednoho pracovního dne.</p>
+              </div>
+            ) : (
+              <form onSubmit={(e) => { e.preventDefault(); setDone(true); }} style={{ display: "grid", gap: 14 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <input className="es13ct-input" required placeholder="Jméno a příjmení" aria-label="Jméno a příjmení" />
+                  <input className="es13ct-input" required type="email" placeholder="E-mail" aria-label="E-mail" />
+                </div>
+                <input className="es13ct-input" placeholder="Telefon (nepovinné)" aria-label="Telefon" />
+                <textarea className="es13ct-input" required placeholder="Vaše zpráva — např. dotaz na velikost, gravírování či dostupnost" aria-label="Zpráva" />
+                <div>
+                  <button type="submit" className="es13ct-send">
+                    Odeslat zprávu
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                  </button>
+                </div>
+                <p style={{ margin: 0, fontSize: 12.5, color: MUTED }}>Odesláním souhlasíte se zpracováním osobních údajů.</p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-19-categories ─────────────────────────────────────────────────────────
+// Grunt (dek.cz DNA): „Vybírejte z našeho širokého sortimentu" — grid 3×2
+// dlaždic (DEK vzor: bílá karta s borderem, uppercase label nahoře, produktové
+// foto), vylepšeno: foto s Ken Burns hoverem, červený underline labelu na
+// hover, šipka v rohu. Mobil 2 sloupce.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop19Categories({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Space Grotesk', 'Arial', sans-serif";
+  const SANS = "'Inter', 'Segoe UI', system-ui, sans-serif";
+  const RED = "#d5232c";
+  const INK = "#1d1f23";
+  const LINE = "#e6e5e0";
+  const PAPER = "#f4f3ef";
+
+  const heading = String(content.heading ?? "Vybírejte z našeho širokého sortimentu");
+  const items = (content.items as Array<{ label?: string; slug?: string; image?: string }> ?? []).slice(0, 8);
+  const catHref = (slug?: string) => {
+    const href = slug ? `/obchod?kategorie=${slug}` : "/obchod";
+    return isAdmin ? "#" : (tenantSlug ? `/demo/${tenantSlug}${href}` : href);
+  };
+
+  if (!items.length && !isAdmin) return null;
+
+  return (
+    <section data-variant="eshop-19-categories" style={{ fontFamily: SANS, background: "#fff", padding: "52px 0 26px" }}>
+      <style>{`
+        .es19c-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        @media (max-width: 1020px) { .es19c-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+        .es19c-tile { position: relative; display: flex; flex-direction: column; align-items: center; text-decoration: none;
+          background: #fff; border: 1.5px solid ${LINE}; border-radius: 8px; overflow: hidden; padding: 20px 18px 24px;
+          transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s, border-color 0.18s; }
+        .es19c-tile:hover { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(23,25,28,0.1); border-color: #212428; }
+
+        .es19c-label { position: relative; font-family: ${HEAD}; font-weight: 700; font-size: 15px; letter-spacing: 0.06em;
+          text-transform: uppercase; color: ${INK}; padding-bottom: 6px; }
+        .es19c-label::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: 0; height: 3px; background: ${RED};
+          transition: left 0.22s cubic-bezier(0.16,1,0.3,1), right 0.22s cubic-bezier(0.16,1,0.3,1); }
+        .es19c-tile:hover .es19c-label::after { left: 0; right: 0; }
+
+        .es19c-media { width: 100%; aspect-ratio: 16/9; margin-top: 16px; border-radius: 6px; overflow: hidden; background: ${PAPER}; }
+        .es19c-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es19c-tile:hover .es19c-media img { transform: scale(1.06); }
+
+        .es19c-arrow { position: absolute; right: 14px; top: 16px; width: 30px; height: 30px; border-radius: 6px; background: ${PAPER};
+          color: ${INK}; display: inline-flex; align-items: center; justify-content: center; opacity: 0; transform: translateX(-4px);
+          transition: opacity 0.18s, transform 0.18s, background 0.18s, color 0.18s; }
+        .es19c-tile:hover .es19c-arrow { opacity: 1; transform: translateX(0); background: ${RED}; color: #fff; }
+      `}</style>
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+          fontFamily: HEAD, fontWeight: 700, fontSize: "clamp(22px, 2.2vw, 30px)", letterSpacing: "0.03em",
+          textTransform: "uppercase", color: INK, textAlign: "center", margin: "0 0 28px",
+        }} />
+        <div className="es19c-grid">
+          {items.map((it, i) => (
+            <a key={i} className="es19c-tile" href={catHref(it.slug)}>
+              <span className="es19c-label">{it.label}</span>
+              <span className="es19c-media">
+                {it.image && <img src={it.image} alt={it.label ?? ""} loading="lazy" />}
+              </span>
+              <span className="es19c-arrow" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-19-experience ─────────────────────────────────────────────────────────
+// Grunt (dek.cz DNA): „JIŽ 33 LET ZKUŠENOSTÍ" — centrovaný nadpis s velkým
+// číslem + podtitulek, pod ním 3 panely (DEK vzor): 1) papírový panel s SVG
+// mapou ČR a „Více než 100 prodejen" + červená CTA, 2) bílý panel Služby na
+// prodejnách s červenými chevron odkazy + červená CTA, 3) světlý panel
+// Zaměstnání s odkazy + CTA. Mobil: panely pod sebou.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutEshop19Experience({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Space Grotesk', 'Arial', sans-serif";
+  const SANS = "'Inter', 'Segoe UI', system-ui, sans-serif";
+  const RED = "#d5232c";
+  const RED_DK = "#b31b23";
+  const INK = "#1d1f23";
+  const MUTED = "#6b6f76";
+  const PAPER = "#f4f3ef";
+  const LINE = "#e6e5e0";
+
+  const navResolve = (href: string) => resolveNavHref(href, String(content.siteMode ?? "multipage"), tenantSlug, isAdmin);
+
+  const kicker = String(content.kicker ?? "Již");
+  const years = String(content.years ?? "33");
+  const kickerAfter = String(content.kickerAfter ?? "let zkušeností");
+  const subheading = String(content.subheading ?? "");
+  const stores = (content.stores as { prefix?: string; count?: string; suffix?: string; note?: string; ctaText?: string; ctaHref?: string }) ?? {};
+  const services = (content.services as { title?: string; links?: Array<{ label: string; href: string }>; ctaText?: string; ctaHref?: string }) ?? {};
+  const jobs = (content.jobs as { title?: string; links?: Array<{ label: string; href: string }>; ctaText?: string; ctaHref?: string }) ?? {};
+
+  const linkList = (links?: Array<{ label: string; href: string }>) => (links ?? []).map((l) => (
+    <a key={l.label} href={navResolve(l.href)} className="es19x-link">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      {l.label}
+    </a>
+  ));
+
+  return (
+    <section data-variant="eshop-19-experience" style={{ fontFamily: SANS, background: "#fff", padding: "56px 0 30px" }}>
+      <style>{`
+        .es19x-grid { display: grid; grid-template-columns: 1.35fr 1fr 1fr; gap: 16px; align-items: stretch; }
+        @media (max-width: 1020px) { .es19x-grid { grid-template-columns: 1fr; } }
+
+        .es19x-link { display: flex; align-items: center; gap: 8px; padding: 6.5px 0; font-size: 13.5px; font-weight: 600; color: #1d1f23; text-decoration: none; transition: color 0.13s, padding-left 0.15s; }
+        .es19x-link svg { color: #d5232c; flex-shrink: 0; }
+        .es19x-link:hover { color: #d5232c; padding-left: 3px; }
+
+        .es19x-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; background: #d5232c; color: #fff; text-decoration: none;
+          font-size: 12.5px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 11px 20px; border-radius: 6px;
+          transition: background 0.15s, transform 0.14s, gap 0.16s; }
+        .es19x-cta:hover { background: #b31b23; transform: translateY(-1px); gap: 12px; }
+        .es19x-cta.es19x-ghost { background: transparent; color: #1d1f23; border: 1.5px solid #1d1f23; }
+        .es19x-cta.es19x-ghost:hover { background: #1d1f23; color: #fff; }
+      `}</style>
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div style={{ textAlign: "center", marginBottom: 10 }}>
+          <h2 style={{ fontFamily: HEAD, fontWeight: 700, fontSize: "clamp(22px, 2.4vw, 32px)", letterSpacing: "0.03em", textTransform: "uppercase", color: INK, margin: 0, display: "inline-flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
+            <span>{kicker}</span>
+            <span style={{ fontSize: "clamp(38px, 4vw, 56px)", color: RED, lineHeight: 0.9 }}>{years}</span>
+            <span>{kickerAfter}</span>
+          </h2>
+        </div>
+        {subheading && (
+          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="p" style={{
+            textAlign: "center", fontSize: 14.5, color: MUTED, maxWidth: 640, margin: "0 auto 32px", lineHeight: 1.6,
+          }} />
+        )}
+
+        <div className="es19x-grid">
+          {/* Panel 1 — mapa prodejen */}
+          <div style={{ position: "relative", background: PAPER, border: `1.5px solid ${LINE}`, borderRadius: 10, padding: "28px 30px", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", minHeight: 240 }}>
+            <svg viewBox="0 0 100 62" aria-hidden="true" style={{ position: "absolute", right: -14, top: "50%", transform: "translateY(-50%)", width: "62%", opacity: 0.5 }}>
+              <path d="M13 24 20 17l9-4 8-5 10 2 9-3 8 3 10-1 8 4 7 6-2 8 3 6-6 7-8 2-5 6-9-1-7 4-9-3-10 1-8-6-9-2-4-8 2-7-2-6Z"
+                fill="#e6e4dd" stroke="#d5232c" strokeWidth="1.4" strokeLinejoin="round" />
+              <circle cx="32" cy="26" r="2.6" fill="#d5232c"/>
+              <circle cx="52" cy="20" r="2" fill="#d5232c" opacity="0.75"/>
+              <circle cx="66" cy="30" r="2" fill="#d5232c" opacity="0.75"/>
+              <circle cx="44" cy="38" r="2" fill="#d5232c" opacity="0.75"/>
+              <circle cx="76" cy="22" r="1.7" fill="#d5232c" opacity="0.55"/>
+              <circle cx="25" cy="36" r="1.7" fill="#d5232c" opacity="0.55"/>
+              <circle cx="58" cy="42" r="1.7" fill="#d5232c" opacity="0.55"/>
+            </svg>
+            <div style={{ position: "relative", maxWidth: "55%" }}>
+              <div style={{ fontSize: 15, fontWeight: 600, color: INK }}>{stores.prefix ?? "Více než"}{" "}
+                <span style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 34, color: INK }}>{stores.count ?? "100"}</span>{" "}
+                <span style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 20, textTransform: "uppercase", letterSpacing: "0.03em" }}>{stores.suffix ?? "prodejen"}</span>
+              </div>
+              {stores.note && <div style={{ fontSize: 13.5, color: MUTED, marginTop: 4 }}>{stores.note}</div>}
+              {stores.ctaText && <a href={navResolve(stores.ctaHref ?? "/obchod")} className="es19x-cta">{stores.ctaText}</a>}
+            </div>
+          </div>
+
+          {/* Panel 2 — služby */}
+          <div style={{ background: "#fff", border: `1.5px solid ${LINE}`, borderRadius: 10, padding: "26px 28px" }}>
+            <h3 style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 17, letterSpacing: "0.02em", color: INK, margin: "0 0 10px" }}>{services.title ?? "Služby na prodejnách"}</h3>
+            {linkList(services.links)}
+            {services.ctaText && <a href={navResolve(services.ctaHref ?? "/obchod")} className="es19x-cta">{services.ctaText}</a>}
+          </div>
+
+          {/* Panel 3 — zaměstnání */}
+          <div style={{ background: "#eef3f6", border: "1.5px solid #dfe7ec", borderRadius: 10, padding: "26px 28px" }}>
+            <h3 style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 17, letterSpacing: "0.02em", color: INK, margin: "0 0 10px" }}>{jobs.title ?? "Zaměstnání"}</h3>
+            {linkList(jobs.links)}
+            {jobs.ctaText && <a href={navResolve(jobs.ctaHref ?? "/obchod")} className="es19x-cta es19x-ghost">{jobs.ctaText}</a>}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-20-categories ─────────────────────────────────────────────────────────
+// Vykuk (dedoles.cz DNA): „Top kategorie" — horizontální pás KRUHOVÝCH foto
+// dlaždic s labelem pod nimi (hover: růžový prstenec + zoom + label růžově),
+// kruhové šipky po stranách mizící na krajích, scroll-snap. Centrovaný Baloo
+// uppercase nadpis s růžovým vlnitým podtrhem. Bílý pás (střídání s krémem).
+// ──────────────────────────────────────────────────────────────────────────────
+type Es20FavCat = { label?: string; slug?: string; href?: string; image?: string };
+
+function AboutEshop20Categories({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Baloo 2', 'Arial Rounded MT Bold', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const COCOA = "#4b2413";
+  const PINK = "#f6a7d7";
+  const PINK_DEEP = "#e0559f";
+  const CREAM = "#fdf8f0";
+  const INK = "#3c2010";
+  const LINE = "#efe4d5";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (c: Es20FavCat) => c.href ? resolve(c.href) : resolve(c.slug ? `/obchod?kategorie=${c.slug}` : "/obchod");
+
+  const heading = String(content.heading ?? "Top kategorie");
+  const items = ((content.items as Es20FavCat[]) ?? []).slice(0, 16);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canL, setCanL] = useState(false);
+  const [canR, setCanR] = useState(true);
+
+  const updateArrows = () => {
+    const el = railRef.current;
+    if (!el) return;
+    setCanL(el.scrollLeft > 8);
+    setCanR(el.scrollLeft < el.scrollWidth - el.clientWidth - 8);
+  };
+  const scrollBy = (dir: number) => {
+    const el = railRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.75), behavior: "smooth" });
+  };
+
+  if (!items.length) return null;
+
+  return (
+    <section data-variant="eshop-20-categories" style={{ fontFamily: SANS, background: "#fff", padding: "clamp(30px, 4.5vw, 56px) 0 18px", borderTop: `1px solid ${LINE}`, borderBottom: `1px solid ${LINE}` }}>
+      <style>{`
+        .es20c-rail { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding: 8px 2px 14px; }
+        .es20c-rail::-webkit-scrollbar { display: none; }
+        .es20c-tile { scroll-snap-align: start; flex: 0 0 auto; width: 132px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 11px; padding: 6px 4px; }
+        .es20c-circle { width: 104px; height: 104px; border-radius: 999px; overflow: hidden; background: ${CREAM}; border: 3px solid ${CREAM};
+          box-shadow: 0 2px 10px rgba(56,25,12,0.08); transition: border-color 0.18s, transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s; }
+        .es20c-tile:hover .es20c-circle { border-color: ${PINK}; transform: translateY(-4px); box-shadow: 0 14px 28px rgba(56,25,12,0.15); }
+        .es20c-circle img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
+        .es20c-tile:hover .es20c-circle img { transform: scale(1.1); }
+        .es20c-label { font-size: 13px; font-weight: 600; color: ${INK}; text-align: center; line-height: 1.35; min-height: 36px; display: flex; align-items: flex-start; justify-content: center; transition: color 0.14s; }
+        .es20c-tile:hover .es20c-label { color: ${PINK_DEEP}; }
+        .es20c-arrow { position: absolute; top: 50%; transform: translateY(-56%); z-index: 5; width: 44px; height: 44px; border-radius: 999px; border: 1.5px solid ${LINE};
+          background: #fff; color: ${COCOA}; cursor: pointer; display: none; align-items: center; justify-content: center;
+          box-shadow: 0 8px 20px rgba(56,25,12,0.13); transition: background 0.15s, opacity 0.2s; }
+        .es20c-arrow:hover { background: ${PINK}; }
+        @media (min-width: 768px) { .es20c-arrow { display: inline-flex; } }
+        .es20c-arrow[data-hidden="true"] { opacity: 0; pointer-events: none; }
+      `}</style>
+
+      <div className="px-4 md:px-7" style={{ maxWidth: 1420, margin: "0 auto", position: "relative" }}>
+        <div style={{ textAlign: "center", margin: "0 0 14px" }}>
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+            display: "inline-block", fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(21px, 2.2vw, 30px)",
+            letterSpacing: "0.03em", textTransform: "uppercase", color: COCOA, margin: 0, paddingBottom: 10,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='5' viewBox='0 0 20 5'%3E%3Cpath d='M0 3.5c2.5 0 2.5-2.5 5-2.5s2.5 2.5 5 2.5 2.5-2.5 5-2.5 2.5 2.5 5 2.5' fill='none' stroke='%23f6a7d7' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat-x", backgroundPosition: "center bottom",
+          }} />
+        </div>
+
+        <div style={{ position: "relative" }}>
+          <button className="es20c-arrow" style={{ left: -8 }} data-hidden={!canL} onClick={() => scrollBy(-1)} aria-label="Posunout doleva">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+          </button>
+          <button className="es20c-arrow" style={{ right: -8 }} data-hidden={!canR} onClick={() => scrollBy(1)} aria-label="Posunout doprava">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+          <div className="es20c-rail" ref={railRef} onScroll={updateArrows} style={{ justifyContent: "safe center" }}>
+            {items.map((c, i) => (
+              <a key={i} href={catHref(c)} className="es20c-tile">
+                <span className="es20c-circle">
+                  {c.image && <img src={c.image} alt={c.label ?? ""} loading="lazy" />}
+                </span>
+                <span className="es20c-label">{c.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── artist-01-about (O mně) ──────────────────────────────────────────────────────
+// Editorial bio: velký portrét vlevo (vínové šaty) + text vpravo — eyebrow,
+// serif titul, lead, dva odstavce, ručně-psaný podpis, statistiky (roky/alba/
+// koncerty). Award-level: portrét frame + garnet accent line, count-up staty,
+// reveal, hover na portrétu (subtle zoom + rám).
+// ─────────────────────────────────────────────────────────────────────────────
+function AboutArtist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const eyebrow = eyebrowRaw === undefined ? "O mně" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Viktorie Lánská" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
+  const lead   = String(content.lead ?? "Zpěvačka, muzikálová herečka a autorka. Na pódiu doma už přes dvacet let.");
+  const body   = String(content.body ?? "Narodila jsem se v Brně a k hudbě mě přivedla máma, která zpívala ve sboru. První velkou roli jsem dostala ve dvaceti — a od té doby jsem neopustila jeviště. Prošla jsem muzikály, koncertními sály i televizními studii, ale nejraději mám ten okamžik, kdy zhasnou světla a zůstane jen píseň.");
+  const body2  = String(content.body2 ?? "Své texty píšu sama. Věřím, že píseň má být pravdivá — i když bolí. Právě proto se každé album stává malým deníkem doby, kterou právě žiju.");
+  const signature = String(content.signature ?? "Viktorie");
+  const portrait  = String(content.imageUrl ?? "/templates/artist-01/about-portrait.webp");
+  const portraitAlt = String(content.imageAlt ?? "Portrét Viktorie Lánské");
+
+  const stats = (content.stats as Array<{ value: string; label: string }>) ?? [
+    { value: "20+", label: "let na pódiu" },
+    { value: "5",   label: "studiových alb" },
+    { value: "400+", label: "koncertů" },
+  ];
+
+  const RED = "#9b1c31";
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&family=Roboto:wght@300;400;500&display=swap" />
+      <style>{`
+        .ar01-about { background: #fff; padding: 100px 40px; }
+        .ar01-about-wrap {
+          max-width: 1180px; margin: 0 auto;
+          display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: center;
+        }
+        .ar01-about-figure { position: relative; }
+        .ar01-about-figure::before {
+          content: ""; position: absolute; left: -18px; top: -18px; width: 62%; height: 62%;
+          border: 1px solid rgba(155,28,49,.4); z-index: 0;
+          transition: transform .6s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-about-figure:hover::before { transform: translate(8px, 8px); }
+        .ar01-about-imgwrap { position: relative; z-index: 1; overflow: hidden; box-shadow: 0 30px 70px -34px rgba(20,16,14,.5); }
+        .ar01-about-imgwrap img {
+          display: block; width: 100%; height: auto; aspect-ratio: 4/5; object-fit: cover;
+          transition: transform 1.1s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-about-figure:hover .ar01-about-imgwrap img { transform: scale(1.04); }
+        .ar01-about-eyebrow {
+          display: block; font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 500;
+          letter-spacing: .34em; text-transform: uppercase; color: ${RED}; margin-bottom: 14px;
+        }
+        .ar01-about-title {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+          font-size: clamp(40px, 5vw, 60px); font-weight: 600; color: #14100e; margin: 0 0 22px; line-height: 1.02;
+        }
+        .ar01-about-lead {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; font-weight: 500; font-style: italic;
+          color: #3a3330; line-height: 1.4; margin: 0 0 24px; padding-left: 20px; border-left: 2px solid ${RED};
+        }
+        .ar01-about-body {
+          font-family: 'Roboto', sans-serif; font-size: 16.5px; line-height: 30px; color: #4b423d; margin: 0 0 18px;
+        }
+        .ar01-about-sign {
+          font-family: 'Great Vibes', cursive; font-size: 46px; color: ${RED}; line-height: 1; margin: 26px 0 0;
+        }
+        .ar01-about-stats {
+          display: flex; gap: 44px; margin-top: 38px; padding-top: 32px;
+          border-top: 1px solid #ece3d6; flex-wrap: wrap;
+        }
+        .ar01-about-stat-v {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-size: 44px; font-weight: 600; color: #14100e; line-height: 1;
+        }
+        .ar01-about-stat-l {
+          font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: .12em;
+          text-transform: uppercase; color: #9a8f84; margin-top: 8px;
+        }
+        @media (max-width: 900px) {
+          .ar01-about-wrap { grid-template-columns: 1fr; gap: 44px; max-width: 560px; }
+          .ar01-about-figure { max-width: 420px; margin: 0 auto; }
+        }
+        @media (max-width: 560px) { .ar01-about { padding: 64px 22px; } .ar01-about-stats { gap: 28px; } }
+      `}</style>
+
+      <section className="ar01-about" data-template="artist-01" id="o-mne">
+        <div className="ar01-about-wrap">
+          <div className="ar01-about-figure">
+            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={portrait} alt={portraitAlt} className="ar01-about-imgwrap">
+              <img src={portrait} alt={portraitAlt} />
+            </GenericEditableImage>
+          </div>
+
+          <div className="ar01-about-text">
+            {showHeader && (
+              <>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="ar01-about-eyebrow" />
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ar01-about-title" />
+              </>
+            )}
+            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="p" className="ar01-about-lead" />
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p" className="ar01-about-body" />
+            <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="p" className="ar01-about-body" />
+            <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="div" className="ar01-about-sign" />
+
+            <div className="ar01-about-stats">
+              {stats.map((s, i) => (
+                <div key={i}>
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={String(s.value)} tag="div" className="ar01-about-stat-v" />
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={String(s.label)} tag="div" className="ar01-about-stat-l" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+// barber-03 about. Vlastní komponenta, aby se hooks nevolaly až za early
+// returny dispatcheru — jinak změna varianty za běhu mění počet hooks.
+function AboutBarber03Luxury({ content, title, body, image, values, sectionId }: { content: Record<string, unknown>; title: string; body: string; image: string; values: Array<{ icon: string; title: string; text: string }>; sectionId: number }) {
+    // Barber-03 "Barbery" — warm cinematic urban (image left + dark moody story right)
+    const lead      = String(content.lead     ?? "");
+    const eyebrow   = String((content as Record<string, unknown>).eyebrow   ?? "");
+    const yearLabel = String((content as Record<string, unknown>).yearLabel ?? "");
+    const yearValue = String((content as Record<string, unknown>).yearValue ?? "");
+    const imgRef  = useRef<HTMLDivElement>(null);
+    const textRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const els = [imgRef.current, textRef.current].filter(Boolean) as HTMLElement[];
+      const obs = els.map((el, i) => {
+        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b03a-vis"); o.disconnect(); } }, { threshold: 0.1 });
+        o.observe(el); return o;
+      });
+      return () => obs.forEach(o => o.disconnect());
+    }, []);
+    return (
+      <section
+        style={{
+          padding: "clamp(96px, 13vw, 150px) clamp(20px, 5vw, 40px)",
+          backgroundColor: "#1c1410",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        data-template="barber-03"
+      >
+        {/* Top + bottom decorative gold hairlines */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1,
+          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1,
+          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
+        }} />
+
+        {/* Warm radial glow accent */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+          background: "radial-gradient(ellipse at 80% 30%, rgba(200,169,110,0.06) 0%, transparent 60%)",
+        }} />
+
+        <div
+          className="grid grid-cols-1 md:grid-cols-[1fr_1.05fr] items-center b03a-grid"
+          style={{ maxWidth: 1200, margin: "0 auto", gap: "clamp(40px, 7vw, 96px)", position: "relative", zIndex: 1 }}
+        >
+          {/* IMAGE LEFT — cinematic moody portrait */}
+          {image && (
+            <div ref={imgRef} className="b03a-reveal b03a-img-wrap relative w-full">
+              {/* 4 expanding gold corner brackets (diagonal accents) */}
+              <span aria-hidden className="b03a-corner b03a-corner-tl" style={{
+                position: "absolute", top: -12, left: -12, width: 48, height: 48, zIndex: 3,
+                borderTop: "1px solid #c8a96e", borderLeft: "1px solid #c8a96e",
+                transition: "all 0.45s cubic-bezier(.22,.68,0,1.1)",
+              }} />
+              <span aria-hidden className="b03a-corner b03a-corner-br" style={{
+                position: "absolute", bottom: -12, right: -12, width: 48, height: 48, zIndex: 3,
+                borderBottom: "1px solid #c8a96e", borderRight: "1px solid #c8a96e",
+                transition: "all 0.45s cubic-bezier(.22,.68,0,1.1)",
+              }} />
+
+              <div className="b03a-img" style={{
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 2,
+                aspectRatio: "4 / 5",
+                boxShadow: "0 30px 60px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.35)",
+              }}>
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field="image"
+                  src={image}
+                  alt={title || "Studio"}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src={image}
+                    alt={title || "Studio"}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    unoptimized={shouldSkipNextImageOptimization(image)}
+                  />
+                </GenericEditableImage>
+                {/* Subtle warm overlay for cinematic mood */}
+                <div aria-hidden style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(180deg, rgba(28,20,16,0.1) 0%, rgba(28,20,16,0.35) 100%)",
+                  pointerEvents: "none",
+                }} />
+              </div>
+
+              {/* Year badge — warm dark overlapping bottom-left */}
+              {yearValue && (
+                <div style={{
+                  position: "absolute", bottom: -28, left: -28, zIndex: 4,
+                  backgroundColor: "#1c1410",
+                  padding: "20px 28px",
+                  border: "1px solid rgba(200,169,110,0.4)",
+                  boxShadow: "0 16px 40px rgba(0,0,0,0.55)",
+                  textAlign: "center",
+                }}>
+                  <p style={{
+                    margin: 0,
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: "0.32em",
+                    textTransform: "uppercase",
+                    color: "#c8a96e",
+                    marginBottom: 4,
+                  }}>
+                    {yearLabel ? (
+                      <GenericEditableText sectionId={sectionId} field="yearLabel" value={yearLabel} tag="span" />
+                    ) : "Otevřeno"}
+                  </p>
+                  <p style={{
+                    margin: 0,
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "1.6rem",
+                    fontWeight: 700,
+                    color: "#f5efe6",
+                    letterSpacing: "0.04em",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="yearValue" value={yearValue} tag="span" />
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TEXT RIGHT — narrative + values */}
+          <div ref={textRef} className="b03a-reveal">
+            {eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                  color: "#c8a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+              </div>
+            )}
+
+            {title && (
+              <h2 style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.12,
+                letterSpacing: "0.04em",
+                color: "#f5efe6",
+                textTransform: "uppercase",
+                margin: "0 0 30px",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+
+            {lead && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "clamp(1.1rem, 1.6vw, 1.32rem)",
+                color: "#c8a96e",
+                lineHeight: 1.7,
+                marginBottom: 28,
+                paddingLeft: 20,
+                borderLeft: "2px solid #c8a96e",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+              </p>
+            )}
+
+            {body && (
+              <p style={{
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontSize: "1.02rem",
+                fontWeight: 300,
+                color: "rgba(245,239,230,0.78)",
+                lineHeight: 1.85,
+                marginBottom: 28,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+
+            {/* Signature divider */}
+            <div aria-hidden style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 32 }}>
+              <span style={{ width: 56, height: 1, backgroundColor: "rgba(200,169,110,0.6)" }} />
+              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+              <span style={{ width: 56, height: 1, backgroundColor: "rgba(200,169,110,0.6)" }} />
+            </div>
+
+            {/* Values — inline grid pod signature */}
+            {values.length > 0 && (
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                gap: 20,
+                marginTop: 40,
+                paddingTop: 32,
+                borderTop: "1px solid rgba(200,169,110,0.18)",
+              }}>
+                {values.map((v, i) => (
+                  <div key={i} className="b03a-value">
+                    {v.icon && <span style={{ fontSize: "1.5rem", color: "#c8a96e", display: "block", marginBottom: 10, transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)" }}>{v.icon}</span>}
+                    <p style={{
+                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                      fontSize: "0.8rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: "#f5efe6",
+                      margin: "0 0 6px",
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field={`values.${i}.title`} value={v.title} tag="span" />
+                    </p>
+                    <p style={{
+                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                      fontSize: "0.86rem",
+                      color: "rgba(245,239,230,0.62)",
+                      margin: 0,
+                      lineHeight: 1.55,
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field={`values.${i}.text`} value={v.text} tag="span" />
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <style>{`
+          @media (max-width: 768px) { [data-template="barber-03"] .b03a-grid { grid-template-columns: 1fr !important; } }
+        `}</style>
+      </section>
+    );
+}
+
+// barber-02 about. Vlastní komponenta, aby se hooks nevolaly až za early
+// returny dispatcheru — jinak změna varianty za běhu mění počet hooks.
+function AboutBarberLuxury({ content, title, body, image, sectionId }: { content: Record<string, unknown>; title: string; body: string; image: string; sectionId: number }) {
+    const lead = String(content.lead ?? "");
+    const eyebrow = String((content as Record<string, unknown>).eyebrow ?? "");
+    const established = String((content as Record<string, unknown>).established ?? "");
+    const textRef = useRef<HTMLDivElement>(null);
+    const imgRef  = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      const els = [textRef.current, imgRef.current].filter(Boolean) as HTMLElement[];
+      const obs = els.map((el, i) => {
+        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b02a-vis"); o.disconnect(); } }, { threshold: 0.1 });
+        o.observe(el); return o;
+      });
+      return () => obs.forEach(o => o.disconnect());
+    }, []);
+    return (
+      <section
+        style={{
+          padding: "clamp(80px,12vw,140px) clamp(20px,5vw,40px)",
+          backgroundColor: "#f9f7f5",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        data-template="barber-02"
+      >
+        {/* Subtle background ornament — single circle gold ring top-right (editorial detail) */}
+        <div aria-hidden style={{
+          position: "absolute", top: "8%", right: "-120px",
+          width: 360, height: 360, borderRadius: "50%",
+          border: "1px solid rgba(212,169,110,0.12)",
+          zIndex: 0,
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: "10%", left: "-80px",
+          width: 200, height: 200, borderRadius: "50%",
+          border: "1px solid rgba(212,169,110,0.10)",
+          zIndex: 0,
+        }} />
+
+        <div
+          className="grid grid-cols-1 md:grid-cols-[1.05fr_1fr] items-center b02-about-grid"
+          style={{ maxWidth: 1180, margin: "0 auto", gap: "clamp(40px,7vw,96px)", position: "relative", zIndex: 1 }}
+        >
+          {/* Text column */}
+          <div ref={textRef} className="b02-about-text b02a-reveal">
+            {eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#d4a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+              </div>
+            )}
+
+            {title && (
+              <h2 style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.15,
+                letterSpacing: "0.01em",
+                color: "#1a1a1a",
+                margin: "0 0 28px",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+
+            {lead && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "clamp(1.1rem, 1.6vw, 1.32rem)",
+                color: "#9a7a50",
+                lineHeight: 1.7,
+                marginBottom: 24,
+                paddingLeft: 18,
+                borderLeft: "2px solid #d4a96e",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+              </p>
+            )}
+
+            {body && (
+              <p style={{
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontSize: "1.02rem",
+                fontWeight: 300,
+                color: "#444",
+                lineHeight: 1.85,
+                marginBottom: 28,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+
+            {/* Signature-style divider — slim gold rule + dot */}
+            <div aria-hidden style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 32 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.5)" }} />
+              <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
+            </div>
+          </div>
+
+          {/* Image column with refined frame */}
+          {image && (
+            <div ref={imgRef} className="b02-about-img-wrap b02a-reveal relative w-full">
+              {/* Editorial corner accent — single TL corner, warm gold */}
+              <span aria-hidden style={{
+                position: "absolute", top: -14, left: -14, width: 56, height: 56,
+                borderTop: "1px solid #d4a96e", borderLeft: "1px solid #d4a96e",
+                zIndex: 3, pointerEvents: "none",
+              }} />
+              <span aria-hidden style={{
+                position: "absolute", bottom: -14, right: -14, width: 56, height: 56,
+                borderBottom: "1px solid #d4a96e", borderRight: "1px solid #d4a96e",
+                zIndex: 3, pointerEvents: "none",
+              }} />
+
+              <div className="b02-about-img" style={{
+                position: "relative",
+                overflow: "hidden",
+                borderRadius: 2,
+                aspectRatio: "4 / 5",
+                boxShadow: "0 30px 60px rgba(26,20,16,0.18), 0 8px 24px rgba(26,20,16,0.08)",
+              }}>
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field="image"
+                  src={image}
+                  alt={title || "Atelier"}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src={image}
+                    alt={title || "Atelier"}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    unoptimized={shouldSkipNextImageOptimization(image)}
+                  />
+                </GenericEditableImage>
+              </div>
+
+              {/* Established badge — bottom-left overlay */}
+              {established && (
+                <div style={{
+                  position: "absolute", bottom: -28, left: -28, zIndex: 4,
+                  backgroundColor: "#ffffff",
+                  padding: "18px 26px",
+                  border: "1px solid rgba(212,169,110,0.35)",
+                  boxShadow: "0 16px 40px rgba(26,20,16,0.15)",
+                  textAlign: "center",
+                }}>
+                  <p style={{
+                    margin: 0,
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    color: "#d4a96e",
+                    marginBottom: 4,
+                  }}><GenericEditableText sectionId={sectionId} field="establishedLabel" value={String((content as Record<string, unknown>).establishedLabel ?? "Atelier od")} tag="span" /></p>
+                  <p style={{
+                    margin: 0,
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "1.4rem",
+                    fontWeight: 700,
+                    color: "#1a1a1a",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="established" value={established} tag="span" />
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    );
 }

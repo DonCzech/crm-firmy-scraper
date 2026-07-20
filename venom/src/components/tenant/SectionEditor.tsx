@@ -509,8 +509,10 @@ function getFieldsForSection(type: string, _content: Record<string, unknown>): F
       ];
     case "rezora-widget":
       return [
-        { key: "bookingUrl", label: "Rezora URL", type: "url" },
-        { key: "ctaText", label: "Text tlačítka", type: "text" },
+        { key: "title", label: "Nadpis sekce", type: "text" },
+        { key: "subtitle", label: "Podnadpis", type: "textarea" },
+        { key: "providerSlug", label: "ID rezervačního profilu (slug)", type: "text" },
+        { key: "apiBaseUrl", label: "URL rezervačního systému (nepovinné)", type: "url" },
       ];
     case "services":
       return [

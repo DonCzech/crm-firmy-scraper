@@ -1,66 +1,139 @@
 {
   "navbar": {
-    "siteName": "Demo Homie Tattoo",
+    "siteName": "Shadow Ink",
     "logoUrl": "/templates/tattoo-02/logo.svg",
     "ctaText": "Objednat se",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 9–18 · So 9–14",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
     "links": [
-      { "label": "O nás",      "href": "#o-nas" },
-      { "label": "Portfolio",  "href": "#galerie" },
-      { "label": "Recenze",    "href": "#recenze" },
-      { "label": "Kontakt",    "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Portfolio",
+        "href": "/galerie"
+      },
+      {
+        "label": "Recenze",
+        "href": "/recenze"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
-    "title": "Prémiové tetovací studio Praha",
-    "subtitle": "Tetování jakékoliv složitosti a stylu od 1 800 Kč. Bezplatná konzultace.",
-    "cta1Text": "Bezplatná konzultace",
-    "cta1Href": "#kontakt",
-    "cta2Text": "Naše portfolio",
-    "cta2Href": "#galerie",
-    "backgroundImage": "/templates/tattoo-02/hero-bg.jpg",
-    "bullets": [
-      "Tetování jakékoliv složitosti a stylu",
-      "Konzultace zdarma",
-      "Individuální design",
-      "Rychlé termíny walk-in"
-    ]
-  },
-
-  "about": {
-    "heading": "Nejlepší tetovací salon v Praze",
-    "text": "Demo Homie Tattoo Studio jsme v Praze otevřeli v roce 2016 a s každým rokem se zlepšujeme, rosteme a rozšiřujeme. Nabízíme širokou škálu tetování od zkušených a profesionálních tatérů s vystudovanými uměleckými školami a příslušnými certifikáty.",
-    "text2": "Pokud zrovna nemáte konkrétní představu o tetování, během bezplatné konzultace se náš tým postará o perfektní zhmotnění Vašich ideálů. Zkušení tatéři Vám nakreslí návrh, který spolu můžete pozměnit dle Vašich přání.",
-    "ctaText": "Objednat se na konzultaci",
-    "ctaHref": "#kontakt",
-    "image": "/templates/tattoo-02/about.jpg",
+    "title": "Kde se umění otiskne do kůže",
+    "subtitle": "Prémiové tetování & piercing v srdci města. Bezplatná konzultace, individuální design.",
+    "cta1Text": "Rezervovat konzultaci",
+    "cta1Href": "/kontakt",
+    "cta2Text": "Prohlédnout portfolio",
+    "cta2Href": "/galerie",
+    "backgroundImage": "/templates/tattoo-02/hero-bg.webp",
     "stats": [
-      { "number": "500+", "label": "Spokojených zákazníků" },
-      { "number": "15+",  "label": "Tatérů" },
-      { "number": "8+",   "label": "Let zkušeností" },
-      { "number": "1 800", "label": "Kč od / tetování" }
+      {
+        "value": "500+",
+        "label": "Spokojených klientů"
+      },
+      {
+        "value": "12+",
+        "label": "Profesionálních tatérů"
+      },
+      {
+        "value": "8",
+        "label": "Let zkušeností"
+      },
+      {
+        "value": "1 800 Kč",
+        "label": "Cena od / motiv"
+      }
     ]
   },
-
+  "about": {
+    "eyebrow": "Náš příběh",
+    "heading": "Řemeslo, které zanechává stopu",
+    "text": "Založili jsme studio s jediným cílem — vytvořit prostor, kde se potkává umělecká vize s absolutní precizností. Každý motiv navrhujeme na míru, od prvního náčrtu po finální stínování.",
+    "text2": "Pracujeme výhradně s veganskými barvami certifikovanými EU a jednorázovými sterilními jehlami. Bezpečnost a čistota jsou u nás standardem, ne nadstavbou.",
+    "ctaText": "Sjednat konzultaci",
+    "ctaHref": "/kontakt",
+    "image": "/templates/tattoo-02/about.webp",
+    "stats": [
+      {
+        "number": "500+",
+        "label": "Spokojených zákazníků"
+      },
+      {
+        "number": "15+",
+        "label": "Tatérů"
+      },
+      {
+        "number": "8+",
+        "label": "Let zkušeností"
+      },
+      {
+        "number": "1 800",
+        "label": "Kč od / tetování"
+      }
+    ]
+  },
   "gallery": {
+    "eyebrow": "Naše práce",
     "heading": "Portfolio",
-    "subheading": "Ukázka naší práce",
-    "tabs": ["Tattoo", "Piercing"],
+    "tabs": [
+      "Tattoo",
+      "Piercing"
+    ],
+    "ctaText": "Objednat konzultaci",
+    "ctaHref": "/kontakt",
     "images": [
-      { "url": "/templates/tattoo-02/gallery-1.jpg",  "alt": "Tetování – ukázka 1",  "tab": "Tattoo" },
-      { "url": "/templates/tattoo-02/gallery-2.jpg",  "alt": "Tetování – ukázka 2",  "tab": "Tattoo" },
-      { "url": "/templates/tattoo-02/gallery-3.jpg",  "alt": "Tetování – ukázka 3",  "tab": "Tattoo" },
-      { "url": "/templates/tattoo-02/gallery-4.jpg",  "alt": "Tetování – ukázka 4",  "tab": "Tattoo" },
-      { "url": "/templates/tattoo-02/gallery-5.jpg",  "alt": "Tetování – ukázka 5",  "tab": "Tattoo" },
-      { "url": "/templates/tattoo-02/gallery-6.jpg",  "alt": "Tetování – ukázka 6",  "tab": "Tattoo" },
-      { "url": "/templates/tattoo-02/gallery-7.jpg",  "alt": "Piercing – ukázka 1",  "tab": "Piercing" },
-      { "url": "/templates/tattoo-02/gallery-8.jpg",  "alt": "Piercing – ukázka 2",  "tab": "Piercing" },
-      { "url": "/templates/tattoo-02/gallery-9.jpg",  "alt": "Piercing – ukázka 3",  "tab": "Piercing" },
-      { "url": "/templates/tattoo-02/gallery-10.jpg", "alt": "Piercing – ukázka 4",  "tab": "Piercing" }
+      {
+        "url": "/templates/tattoo-02/gallery-1.webp",
+        "alt": "Tatér při práci — realistický motiv",
+        "tab": "Tattoo"
+      },
+      {
+        "url": "/templates/tattoo-02/gallery-2.webp",
+        "alt": "Japonské tetování na zádech",
+        "tab": "Tattoo"
+      },
+      {
+        "url": "/templates/tattoo-02/gallery-3.webp",
+        "alt": "Květinové fine-line tetování na paži",
+        "tab": "Tattoo"
+      },
+      {
+        "url": "/templates/tattoo-02/gallery-4.webp",
+        "alt": "Drak a květina na rameni",
+        "tab": "Tattoo"
+      },
+      {
+        "url": "/templates/tattoo-02/gallery-5.webp",
+        "alt": "Detail práce tatéra černobíle",
+        "tab": "Tattoo"
+      },
+      {
+        "url": "/templates/tattoo-02/gallery-6.webp",
+        "alt": "Elegantní ušní šperk",
+        "tab": "Piercing"
+      },
+      {
+        "url": "/templates/tattoo-02/gallery-7.webp",
+        "alt": "Piercing a šperky",
+        "tab": "Piercing"
+      },
+      {
+        "alt": "Sleeve tetování — práce v procesu",
+        "tab": "Tattoo",
+        "url": "/templates/tattoo-02/gallery-8.webp"
+      }
     ]
   },
-
   "testimonials": {
     "heading": "Co říkají naši zákazníci",
     "items": [
@@ -87,34 +160,59 @@
       }
     ]
   },
-
   "contact": {
-    "heading": "Kontakty",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "phone": "704 123 456",
-    "email": "email@demo.cz",
-    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
-    "facebook": "https://facebook.com/demo",
-    "instagram": "https://instagram.com/demo",
-    "mapUrl": "/templates/tattoo-02/map.webp",
-    "siteName": "Demo Homie Tattoo"
+    "eyebrow": "Kontakt",
+    "heading": "Rezervujte si termín",
+    "text": "Každé tetování začíná rozhovorem. Napište nám nebo zavolejte — konzultace je zdarma a nezávazná.",
+    "address": "Vinohradská 42, 120 00 Praha 2",
+    "phone": "+420 704 555 321",
+    "email": "studio@shadowink.cz",
+    "hours": "Po–Pá 10:00–19:00 · So 10:00–15:00",
+    "ctaText": "Zavolat studio",
+    "instagram": "https://instagram.com/shadowink",
+    "facebook": "https://facebook.com/shadowink",
+    "image": "/templates/tattoo-02/contact.webp",
+    "showHeader": true
   },
-
   "footer": {
-    "siteName": "Demo Homie Tattoo",
-    "logoUrl": "/templates/tattoo-02/logo-white.svg",
-    "tagline": "Prémiové tetovací & piercing studio v srdci Prahy.",
+    "siteName": "Shadow Ink",
+    "tagline": "Prémiové tetovací & piercing studio v srdci Prahy. Originální návrhy, sterilní prostředí, osobní přístup.",
+    "address": "Vinohradská 42, 120 00 Praha 2",
+    "phone": "+420 704 555 321",
+    "email": "studio@shadowink.cz",
+    "hours": "Po–Pá 10:00–19:00 · So 10:00–15:00",
+    "copyright": "© 2026 Shadow Ink. Všechna práva vyhrazena.",
+    "instagram": "https://instagram.com/shadowink",
+    "facebook": "https://facebook.com/shadowink",
     "links": [
-      { "label": "O nás",     "href": "#o-nas" },
-      { "label": "Portfolio", "href": "#galerie" },
-      { "label": "Recenze",   "href": "#recenze" },
-      { "label": "Kontakt",   "href": "#kontakt" }
-    ],
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "phone": "+420 704 123 456",
-    "email": "email@demo.cz",
-    "facebook": "https://facebook.com/demo",
-    "instagram": "https://instagram.com/demo",
-    "copyright": "© 2025 Demo Homie Tattoo. Všechna práva vyhrazena."
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Recenze",
+        "href": "/recenze"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si termín",
+      "subtitle": "Vyberte motiv, tatéra a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

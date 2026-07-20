@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { getTenantBySlug, touchTenantActivity } from "@/lib/db";
 import { assertSameOrigin } from "@/lib/demo-auth";
+import { serializeAuthCookie } from "@/lib/auth";
 
 const BodySchema = z.object({
   accessToken: z.string().min(1),
@@ -67,7 +68,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   const headers = new Headers({ "Content-Type": "application/json" });
   headers.append(
     "Set-Cookie",
-    `${cookieName}=${tenant.access_token}; HttpOnly; Path=/; Max-Age=${maxAge}; SameSite=Lax`
+    serializeAuthCookie(cookieName, tenant.access_token, maxAge)
   );
 
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers });

@@ -5,16 +5,29 @@
     "ctaText": "Rezervace",
     "ctaHref": "#kontakt",
     "phone": "704 123 456",
-    "email": "rezervace@demo.cz",
     "links": [
-      { "label": "Akce",           "href": "/akce" },
-      { "label": "O nás",          "href": "/o-nas" },
-      { "label": "Jídelní lístek", "href": "/menu" },
-      { "label": "Galerie",        "href": "/galerie" },
-      { "label": "Kontakt",        "href": "#kontakt" }
+      {
+        "label": "Akce",
+        "href": "/akce"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Jídelní lístek",
+        "href": "/menu"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
-
   "hero": {
     "title": "Česká kuchyně\nv srdci Prahy.",
     "subtitle": "Žebra, svíčková, polední menu a výborné koktejly.\nVítejte v Hybernské.",
@@ -23,13 +36,24 @@
     "ctaSecondaryText": "Jídelní lístek",
     "ctaSecondaryHref": "/menu",
     "slides": [
-      { "url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
-      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
-      { "url": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 60%" },
-      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+      {
+        "url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center 40%"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center center"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center 60%"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85",
+        "pos": "center center"
+      }
     ]
   },
-
   "about": {
     "id": "o-nas",
     "tagline": "Náš příběh",
@@ -40,7 +64,6 @@
     "ctaHref": "/o-nas",
     "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
   },
-
   "services": {
     "id": "menu",
     "tagline": "Naše nabídka",
@@ -76,7 +99,6 @@
       }
     ]
   },
-
   "cta": {
     "id": "rezervace",
     "tagline": "Rezervujte si místo",
@@ -88,7 +110,6 @@
     "ctaSecondaryHref": "/menu",
     "image": "https://images.unsplash.com/photo-1550966871-3ed3cbe818b0?w=1920&h=1080&fit=crop&fm=webp&q=85"
   },
-
   "contact": {
     "id": "kontakt",
     "tagline": "Kde nás najdete",
@@ -104,7 +125,6 @@
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo"
   },
-
   "footer": {
     "siteName": "Demo Hybernská",
     "logoUrl": "/templates/restaurant-02/logo.svg",
@@ -114,21 +134,34 @@
     "email": "info@demo.cz",
     "hours": "Po–Pá 11:00–23:00, So–Ne 12:00–23:00",
     "ico": "12345678",
-    "web": "https://demo.cz",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "links": [
-      { "label": "Domů",            "href": "/" },
-      { "label": "Jídelní lístek",  "href": "/menu" },
-      { "label": "O nás",           "href": "/o-nas" },
-      { "label": "Kontakt",         "href": "/kontakt" },
-      { "label": "Ochrana osobních údajů", "href": "/gdpr" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Jídelní lístek",
+        "href": "/menu"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/gdpr"
+      }
     ]
   },
-
   "pages": {
     "menu": {
-      "seoTitle":       "Jídelní lístek — Demo Hybernská",
+      "seoTitle": "Jídelní lístek — Demo Hybernská",
       "seoDescription": "Prohlédněte si náš jídelní lístek — česká klasika, polední menu a sezónní speciality.",
       "hero": {
         "title": "Jídelní lístek",
@@ -143,7 +176,7 @@
       }
     },
     "o-nas": {
-      "seoTitle":       "O nás — Demo Hybernská",
+      "seoTitle": "O nás — Demo Hybernská",
       "seoDescription": "Příběh restaurace Hybernská — poctivá česká kuchyně v centru Prahy od roku 1998.",
       "hero": {
         "title": "Náš příběh",
@@ -161,7 +194,7 @@
       }
     },
     "kontakt": {
-      "seoTitle":       "Kontakt & Rezervace — Demo Hybernská",
+      "seoTitle": "Kontakt & Rezervace — Demo Hybernská",
       "seoDescription": "Rezervujte si stůl nebo nás kontaktujte. Ukázková 123, Praha 1."
     }
   }

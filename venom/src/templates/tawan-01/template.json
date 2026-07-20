@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "tawan-01",
-  "name": "Demo TAWAN Masáže",
+  "name": "Thajské Masáže Centrum",
   "industry": "wellness",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,15 +9,37 @@
   "description": "Luxusní thajské masáže, tmavě fialová #393145 + bronze #af8c6a, font Muli — hero slider, benefits grid, why tabs, services, news, branches slider, contact+footer. Inspirováno tawan.cz.",
   "sectionOrderNote": "Navbar → Hero → Benefits → Why → Services → News → Branches → Reviews → Contact → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",     "reason": "Tawan má ceník na podstránce /cenik, ne na homepage" },
-    { "pos": 6,  "name": "Gallery",     "reason": "Tawan nepoužívá galerii na homepage — fotky jsou součástí hero slideru a service karet" },
-    { "pos": 7,  "name": "Team",        "reason": "Masérky jsou zmíněny v about sekci, bez samostatného team bloku na homepage" },
-    { "pos": 9,  "name": "Booking/CTA", "reason": "Rezervace je přes tlačítko v navbaru" },
-    { "pos": 11, "name": "FAQ",         "reason": "FAQ je na podstránce, ne na homepage" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Tawan má ceník na podstránce /cenik, ne na homepage"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "Tawan nepoužívá galerii na homepage — fotky jsou součástí hero slideru a service karet"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Masérky jsou zmíněny v about sekci, bez samostatného team bloku na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "Rezervace je přes tlačítko v navbaru"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "FAQ je na podstránce, ne na homepage"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -25,20 +47,71 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "tawan-01-navbar",         "contentRef": "navbar" },
-        { "type": "hero",         "variant": "tawan-01-hero-slider",    "contentRef": "hero" },
-        { "type": "about",        "variant": "tawan-01-benefits",       "contentRef": "benefits" },
-        { "type": "about",        "variant": "tawan-01-why",            "contentRef": "why" },
-        { "type": "services",     "variant": "tawan-01-services",       "contentRef": "services" },
-        { "type": "about",        "variant": "tawan-01-news",           "contentRef": "news" },
-        { "type": "about",        "variant": "tawan-01-branches",       "contentRef": "branches" },
-        { "type": "testimonials", "variant": "tawan-01-reviews",        "contentRef": "testimonials" },
-        { "type": "contact",      "variant": "tawan-01-contact",        "contentRef": "contact" },
-        { "type": "footer",       "variant": "tawan-01-footer",         "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "tawan-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "tawan-01-hero-slider",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "tawan-01-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "about",
+          "variant": "tawan-01-why",
+          "contentRef": "why"
+        },
+        {
+          "type": "services",
+          "variant": "tawan-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "tawan-01-news",
+          "contentRef": "news"
+        },
+        {
+          "type": "about",
+          "variant": "tawan-01-branches",
+          "contentRef": "branches"
+        },
+        {
+          "type": "testimonials",
+          "variant": "tawan-01-reviews",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "tawan-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "tawan-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "tawan-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ]
 }

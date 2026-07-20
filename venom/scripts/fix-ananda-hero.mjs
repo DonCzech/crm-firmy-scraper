@@ -4,7 +4,7 @@
  * We inject a CSS hero background using the downloaded spa image.
  */
 import pg from 'pg';
-const pool = new pg.Pool({ connectionString: 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require' });
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
 // Inspect hero structure in the Playwright DOM to find the right container
 // From debug: h1 is inside "z-20 absolute h-full w-full"

@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "fitness-02",
-  "name": "Demo Fitness Victory",
+  "name": "Power Fitness",
   "industry": "fitness",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,18 +9,47 @@
   "description": "Fitness klub — černé pozadí #000000, neon pink #EA7AF4 akcent, Archivo Black uppercase nadpisy, Montserrat body — hero přes celou šířku s foto, stats bar, about sekce, skupinové lekce, galerie, kontakt. Inspirováno fitnessvictory.cz.",
   "sectionOrderNote": "Navbar → Hero → Stats → About → Services (lekce) → Gallery → Contact → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",      "reason": "Ceník je na samostatných stránkách pro každou pobočku — ne na homepage" },
-    { "pos": 7,  "name": "Team",         "reason": "Trenéři jsou na samostatných podstránkách, ne na homepage" },
-    { "pos": 8,  "name": "Testimonials", "reason": "Originál fitnessvictory.cz nemá recenze na homepage" },
-    { "pos": 9,  "name": "Booking/CTA",  "reason": "Booking je řešen přes pobočkové stránky; CTA jsou v hero a services" },
-    { "pos": 11, "name": "FAQ",          "reason": "FAQ není součástí hlavní stránky originálu" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je na samostatných stránkách pro každou pobočku — ne na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Trenéři jsou na samostatných podstránkách, ne na homepage"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál fitnessvictory.cz nemá recenze na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "Booking je řešen přes pobočkové stránky; CTA jsou v hero a services"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "FAQ není součástí hlavní stránky originálu"
+    }
   ],
   "extraSections": [
-    { "type": "stats", "reason": "Animované počítadlo (pobočky/trenéři/roky/klienti) — klíčový prvek vizuální identity Victory" }
+    {
+      "type": "stats",
+      "reason": "Animované počítadlo (pobočky/trenéři/roky/klienti) — klíčový prvek vizuální identity Victory"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,14 +57,51 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",   "variant": "fitness-02-navbar",           "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-fitness-02-fullwidth",   "contentRef": "hero" },
-        { "type": "stats",    "variant": "fitness-02-stats-bar",        "contentRef": "stats" },
-        { "type": "about",    "variant": "about-fitness-02-studio",     "contentRef": "about" },
-        { "type": "services", "variant": "fitness-02-services-grid",    "contentRef": "services" },
-        { "type": "gallery",  "variant": "fitness-02-gallery-grid",     "contentRef": "gallery" },
-        { "type": "contact",  "variant": "contact-fitness-02",          "contentRef": "contact" },
-        { "type": "footer",   "variant": "fitness-02-footer",           "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "fitness-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-fitness-02-fullwidth",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "fitness-02-stats-bar",
+          "contentRef": "stats"
+        },
+        {
+          "type": "about",
+          "variant": "about-fitness-02-studio",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "fitness-02-services-grid",
+          "contentRef": "services"
+        },
+        {
+          "type": "gallery",
+          "variant": "fitness-02-gallery-grid",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "fitness-02",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "contact-fitness-02",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "fitness-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

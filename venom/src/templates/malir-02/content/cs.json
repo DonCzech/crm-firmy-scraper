@@ -4,15 +4,32 @@
     "logoUrl": "/templates/malir-02/logo.svg",
     "phone": "603 251 874",
     "links": [
-      { "label": "Úvod",     "href": "#" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Reference","href": "#reference" },
-      { "label": "Kontakty", "href": "#kontakty" }
+      {
+        "label": "Úvod",
+        "href": "#"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Kontakty",
+        "href": "#kontakty"
+      }
     ]
   },
-
   "hero": {
     "slides": [
       {
@@ -38,20 +55,31 @@
       }
     ]
   },
-
   "about": {
     "items": [
-      { "icon": "target",     "label": "Pečlivost" },
-      { "icon": "person",     "label": "Profesionalita" },
-      { "icon": "broom",      "label": "Čistota" },
-      { "icon": "clock",      "label": "Dochvilnost" },
-      { "icon": "handshake",  "label": "Férová cena" }
+      {
+        "icon": "target",
+        "label": "Pečlivost"
+      },
+      {
+        "icon": "person",
+        "label": "Profesionalita"
+      },
+      {
+        "icon": "broom",
+        "label": "Čistota"
+      },
+      {
+        "icon": "clock",
+        "label": "Dochvilnost"
+      },
+      {
+        "icon": "handshake",
+        "label": "Férová cena"
+      }
     ]
   },
-
   "services": {
-    "heading": "Co pro vás uděláme",
-    "subheading": "Kompletní malířské a lakýrnické práce pro domácnosti i firmy.",
     "items": [
       {
         "image": "/templates/malir-02/service-interier.jpg",
@@ -75,7 +103,6 @@
       }
     ]
   },
-
   "promo": {
     "tagline": "Zdarma.",
     "heading": "Prohlídka a nacenění bez závazků.",
@@ -83,24 +110,77 @@
     "ctaLabel": "Kontaktovat nyní",
     "ctaHref": "#kontakty"
   },
-
   "gallery": {
     "heading": "Ukázky naší práce",
-    "filters": ["Vybrané", "Byty a domy", "Nebytové prostory", "Lakýrnické práce"],
+    "filters": [
+      "Vybrané",
+      "Byty a domy",
+      "Nebytové prostory",
+      "Lakýrnické práce"
+    ],
     "images": [
-      { "url": "/templates/malir-02/galerie-1.jpg", "title": "Kompletní výmalba obývacího pokoje",   "category": "Byty a domy",       "featured": true },
-      { "url": "/templates/malir-02/galerie-2.jpg", "title": "Renovace omítek a malba chodby",        "category": "Byty a domy",       "featured": true },
-      { "url": "/templates/malir-02/galerie-3.jpg", "title": "Nátěr recepce zdravotního střediska",   "category": "Nebytové prostory", "featured": true },
-      { "url": "/templates/malir-02/galerie-4.jpg", "title": "Epoxidový nátěr podzemní garáže",       "category": "Nebytové prostory", "featured": true },
-      { "url": "/templates/malir-02/galerie-5.jpg", "title": "Lakování dubových dveří a zárubní",     "category": "Lakýrnické práce",  "featured": true },
-      { "url": "/templates/malir-02/galerie-6.jpg", "title": "Dekorativní stírka v ložnici",          "category": "Byty a domy",       "featured": true },
-      { "url": "/templates/malir-02/galerie-7.jpg", "title": "Výmalba školní jídelny ve dvou dnech",  "category": "Nebytové prostory", "featured": true },
-      { "url": "/templates/malir-02/galerie-8.jpg", "title": "Dětský pokoj — pastelové barvy",        "category": "Byty a domy",       "featured": false },
-      { "url": "/templates/malir-02/galerie-9.jpg", "title": "Kontrastní barevná lišta v předsíni",   "category": "Byty a domy",       "featured": false },
-      { "url": "/templates/malir-02/galerie-10.jpg","title": "Ochranný nátěr plechové střechy",       "category": "Lakýrnické práce",  "featured": false }
+      {
+        "url": "/templates/malir-02/galerie-1.jpg",
+        "title": "Kompletní výmalba obývacího pokoje",
+        "category": "Byty a domy",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-2.jpg",
+        "title": "Renovace omítek a malba chodby",
+        "category": "Byty a domy",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-3.jpg",
+        "title": "Nátěr recepce zdravotního střediska",
+        "category": "Nebytové prostory",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-4.jpg",
+        "title": "Epoxidový nátěr podzemní garáže",
+        "category": "Nebytové prostory",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-5.jpg",
+        "title": "Lakování dubových dveří a zárubní",
+        "category": "Lakýrnické práce",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-6.jpg",
+        "title": "Dekorativní stírka v ložnici",
+        "category": "Byty a domy",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-7.jpg",
+        "title": "Výmalba školní jídelny ve dvou dnech",
+        "category": "Nebytové prostory",
+        "featured": true
+      },
+      {
+        "url": "/templates/malir-02/galerie-8.jpg",
+        "title": "Dětský pokoj — pastelové barvy",
+        "category": "Byty a domy",
+        "featured": false
+      },
+      {
+        "url": "/templates/malir-02/galerie-9.jpg",
+        "title": "Kontrastní barevná lišta v předsíni",
+        "category": "Byty a domy",
+        "featured": false
+      },
+      {
+        "url": "/templates/malir-02/galerie-10.jpg",
+        "title": "Ochranný nátěr plechové střechy",
+        "category": "Lakýrnické práce",
+        "featured": false
+      }
     ]
   },
-
   "pricing": {
     "heading": "Kolik výmalba stojí?",
     "subheading": "Cena závisí na stavu povrchů, použitých materiálech a rozsahu prací. Orientační přehled najdete níže — přesnou nabídku zpracujeme zdarma po prohlídce.",
@@ -109,43 +189,56 @@
     "pricingImg1": "/templates/malir-02/pricing-1.jpg",
     "pricingImg2": "/templates/malir-02/pricing-2.jpg",
     "barTitle": "Nezávazná cenová nabídka",
-    "barSub":   "Přijedeme se podívat a vypracujeme nabídku zdarma, bez jakýchkoliv závazků.",
+    "barSub": "Přijedeme se podívat a vypracujeme nabídku zdarma, bez jakýchkoliv závazků.",
     "barLabel": "Kontaktovat nás",
     "items": [
-      { "name": "Byt 1+1 nebo 2+kk",                                          "price": "5 500 – 8 000 Kč" },
-      { "name": "Byt 2+1 nebo 3+kk",                                          "price": "7 500 – 13 000 Kč" },
-      { "name": "Byt 3+1 a větší",                                            "price": "od 12 000 Kč" },
-      { "name": "Lakování oken, dveří a zárubní",                             "price": "od 290 Kč / m²" },
-      { "name": "Nátěr okapů, parapetů, zábradlí",                           "price": "110 Kč / bm" }
+      {
+        "name": "Byt 1+1 nebo 2+kk",
+        "price": "5 500 – 8 000 Kč"
+      },
+      {
+        "name": "Byt 2+1 nebo 3+kk",
+        "price": "7 500 – 13 000 Kč"
+      },
+      {
+        "name": "Byt 3+1 a větší",
+        "price": "od 12 000 Kč"
+      },
+      {
+        "name": "Lakování oken, dveří a zárubní",
+        "price": "od 290 Kč / m²"
+      },
+      {
+        "name": "Nátěr okapů, parapetů, zábradlí",
+        "price": "110 Kč / bm"
+      }
     ],
     "note": "Ceny jsou orientační a bez DPH. Pro přesnou kalkulaci nás kontaktujte — prohlídka a nacenění jsou zdarma."
   },
-
   "testimonials": {
     "heading": "Spokojení zákazníci mluví za nás",
     "kicker": "Reference",
     "items": [
       {
-        "name":   "Petra Horáčková",
-        "role":   "Majitelka bytu, Brno-střed",
+        "name": "Petra Horáčková",
+        "role": "Majitelka bytu, Brno-střed",
         "review": "Pan Novák přišel v dohodnutý čas, vše pečlivě zakryl a po výmalbě uklidil dočista. Barvy přesně podle mého výběru, žádné přesahy. Jednoznačně doporučuji a určitě se ozvu znovu.",
-        "image":  "/templates/malir-02/client-1.jpg"
+        "image": "/templates/malir-02/client-1.jpg"
       },
       {
-        "name":   "Radek Šimánek",
-        "role":   "Jednatel firmy, Brno-Komín",
+        "name": "Radek Šimánek",
+        "role": "Jednatel firmy, Brno-Komín",
         "review": "Potřebovali jsme vymalovat celou kancelář o víkendu, aby v pondělí mohl provoz pokračovat. Vše bylo hotové v sobotu večer, čisté a voňavé. Skvělá práce i komunikace.",
-        "image":  "/templates/malir-02/client-2.jpg"
+        "image": "/templates/malir-02/client-2.jpg"
       },
       {
-        "name":   "Markéta Blahová",
-        "role":   "Správkyně bytového domu",
+        "name": "Markéta Blahová",
+        "role": "Správkyně bytového domu",
         "review": "Svěřili jsme Malířství Novák renovaci fasády celého domu. Práce proběhla načas, s minimálním rušením nájemníků. Výsledek vypadá skvěle a cena byla fér.",
-        "image":  "/templates/malir-02/client-3.jpg"
+        "image": "/templates/malir-02/client-3.jpg"
       }
     ]
   },
-
   "contact": {
     "heading": "Napište nebo zavolejte",
     "subheading": "Ozveme se do 24 hodin a domluvíme nezávaznou prohlídku přímo u vás.",
@@ -154,24 +247,35 @@
     "address": "Vídeňská 55, 639 00 Brno",
     "hours": "Po–Pá 7:30–17:00, So dle dohody"
   },
-
   "footer": {
     "siteName": "Malířství Novák",
-    "logoUrl":  "/templates/malir-02/logo.svg",
+    "logoUrl": "/templates/malir-02/logo.svg",
     "copyright": "© 2025 Malířství Novák s.r.o. Všechna práva vyhrazena.",
-    "tagline":  "Profesionální malířské a lakýrnické práce v Brně a okolí. Kvalita, čistota a férová cena.",
+    "tagline": "Profesionální malířské a lakýrnické práce v Brně a okolí. Kvalita, čistota a férová cena.",
     "ctaTitle": "Poptejte nás ještě dnes",
-    "ctaSub":   "Přijedeme se podívat a nabídneme vám cenu zdarma, bez závazků.",
+    "ctaSub": "Přijedeme se podívat a nabídneme vám cenu zdarma, bez závazků.",
     "ctaLabel": "Napište nám",
-    "ctaHref":  "#kontakty",
-    "email":    "info@malirstvi-novak.cz",
-    "phone":    "603 251 874",
-    "address":  "Vídeňská 55, 639 00 Brno",
+    "ctaHref": "#kontakty",
+    "email": "info@malirstvi-novak.cz",
+    "phone": "603 251 874",
+    "address": "Vídeňská 55, 639 00 Brno",
     "links": [
-      { "label": "Služby",    "href": "#sluzby" },
-      { "label": "Galerie",   "href": "#galerie" },
-      { "label": "Ceník",     "href": "#cenik" },
-      { "label": "Kontakt",   "href": "#kontakty" }
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakty"
+      }
     ]
   }
 }

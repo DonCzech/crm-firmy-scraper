@@ -37,7 +37,7 @@
     "id": "o-nas",
     "tagline": "Náš příběh",
     "title": "Místo, kde se čas\nzastaví nad šálkem kávy.",
-    "body": "Demo Café Savoy je kavárna ve vídeňském stylu, kde se snídaně prolíná s brunčem a odpolední káva s večerní večeří. Interiér s vysokými stropy a lustry evokuje belle époque zlatého věku kavárny.",
+    "body": "Café Belvedere je kavárna ve vídeňském stylu, kde se snídaně prolíná s brunčem a odpolední káva s večerní večeří. Interiér s vysokými stropy a lustry evokuje belle époque zlatého věku kavárny.",
     "body2": "Nabízíme pečivo připravené denně v ranních hodinách, výběrovou kávu z prvoligových pražíren i obsáhlou nabídku snídaní a vídeňských specialit po celý den.",
     "ctaText": "Více o nás",
     "ctaHref": "/o-nas",
@@ -130,8 +130,8 @@
 
   "pages": {
     "menu": {
-      "seoTitle": "Menu — Demo Café Savoy",
-      "seoDescription": "Jídelní a nápojový lístek Demo Café Savoy. Snídaně, obědy a večeře ve vídeňském stylu.",
+      "seoTitle": "Menu — Café Belvedere",
+      "seoDescription": "Jídelní a nápojový lístek Café Belvedere. Snídaně, obědy a večeře ve vídeňském stylu.",
       "hero": {
         "title": "Naše menu",
         "subtitle": "Snídaně, obědy a večeře ve vídeňském stylu.",
@@ -147,8 +147,8 @@
       }
     },
     "rezervace": {
-      "seoTitle": "Rezervace — Demo Café Savoy",
-      "seoDescription": "Zarezervujte si stůl v Demo Café Savoy. Online rezervace nebo telefonicky.",
+      "seoTitle": "Rezervace — Café Belvedere",
+      "seoDescription": "Zarezervujte si stůl v Café Belvedere. Online rezervace nebo telefonicky.",
       "hero": {
         "title": "Rezervace",
         "subtitle": "Zarezervujte si stůl online nebo nás kontaktujte.",
@@ -156,8 +156,8 @@
       }
     },
     "o-nas": {
-      "seoTitle": "O nás — Demo Café Savoy",
-      "seoDescription": "Příběh Demo Café Savoy — vídeňská kavárna v srdci Prahy.",
+      "seoTitle": "O nás — Café Belvedere",
+      "seoDescription": "Příběh Café Belvedere — vídeňská kavárna v srdci Prahy.",
       "hero": {
         "title": "Náš příběh",
         "subtitle": "Vídeňská kavárna s tradicí a elegancí.",
@@ -166,7 +166,7 @@
       "about": {
         "tagline": "O nás",
         "title": "Tradice, elegance\na skvělá kuchyně.",
-        "body": "Demo Café Savoy vznikla s vizí přinést do Prahy autentickou atmosféru vídeňských kaváren. Vysoké stropy, lustry a obsluha v klasickém oděvu vytvářejí jedinečné prostředí.",
+        "body": "Café Belvedere vznikla s vizí přinést do Prahy autentickou atmosféru vídeňských kaváren. Vysoké stropy, lustry a obsluha v klasickém oděvu vytvářejí jedinečné prostředí.",
         "body2": "Naší filozofií je pečlivý výběr surovin, poctivá příprava a osobní přístup ke každému hostu.",
         "ctaText": "Zarezervovat stůl",
         "ctaHref": "/rezervace",
@@ -174,8 +174,8 @@
       }
     },
     "kontakt": {
-      "seoTitle": "Kontakt — Demo Café Savoy",
-      "seoDescription": "Kontakt a otevírací doba Demo Café Savoy."
+      "seoTitle": "Kontakt — Café Belvedere",
+      "seoDescription": "Kontakt a otevírací doba Café Belvedere."
     }
   }
 }

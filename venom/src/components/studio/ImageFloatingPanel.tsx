@@ -56,7 +56,7 @@ function FocusPicker({
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-lg bg-[#1e1e22] cursor-crosshair select-none touch-none"
+      className="relative w-full overflow-hidden rounded-lg bg-[var(--vs-surface-2)] cursor-crosshair select-none touch-none"
       style={{ height: PICKER_H }}
       onPointerDown={(e) => {
         isDragging.current = true;
@@ -77,7 +77,7 @@ function FocusPicker({
           draggable={false}
         />
       ) : (
-        <div className="flex h-full items-center justify-center text-[#555] text-[12px]">Bez obrázku</div>
+        <div className="flex h-full items-center justify-center text-[var(--vs-text-muted)] text-[12px]">Bez obrázku</div>
       )}
       {/* Crosshair — positioned relative to full image height so it stays on the right spot */}
       <div
@@ -197,7 +197,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
         ref={panelRef}
         role="dialog"
         aria-label="Nastavení obrázku"
-        className="fixed z-[210] flex w-[300px] flex-col rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-[0_24px_80px_rgba(0,0,0,.75)]"
+        className="fixed z-[210] flex w-[300px] flex-col rounded-2xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-[0_24px_80px_rgba(0,0,0,.75)]"
         style={{ left: clampedX, top: clampedY, maxHeight: panelMaxH }}
         onClick={e => e.stopPropagation()}
       >
@@ -211,7 +211,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
 
         {/* Title */}
         <div className="shrink-0 px-4 pb-3">
-          <span className="text-[15px] font-semibold text-white">Obrázek</span>
+          <span className="text-[15px] font-semibold text-[var(--vs-text)]">Obrázek</span>
         </div>
 
         {/* Body — scrollable, fills remaining height between header and footer */}
@@ -230,7 +230,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           {/* Action row */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <button type="button" title="Info o obrázku" className="text-[var(--vs-text-dim)] hover:text-white transition-colors">
+              <button type="button" title="Info o obrázku" className="text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] transition-colors">
                 <Info className="h-4 w-4" strokeWidth={1.75} />
               </button>
               <button
@@ -261,7 +261,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
                 setFocus(center);
                 panelRef2.current?.onFocusChange?.(center);
               }}
-              className="rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-2.5 py-1 text-[11px] text-[var(--vs-text-dim)] hover:text-white hover:border-[#3f3f46] transition-colors"
+              className="rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-surface-2)] px-2.5 py-1 text-[11px] text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] hover:border-[var(--vs-border-strong)] transition-colors"
             >
               Střed
             </button>
@@ -270,7 +270,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           {/* Vzhled row */}
           <button
             type="button"
-            className="flex w-full items-center justify-between rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2.5 text-[13px] text-[var(--vs-text-muted)] hover:text-white transition-colors"
+            className="flex w-full items-center justify-between rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-surface-2)] px-3 py-2.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
           >
             Vzhled <ChevronRight className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -278,7 +278,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           {/* Odkaz */}
           <div>
             <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-[var(--vs-text-dim)]">Odkaz</p>
-            <div className="flex items-center gap-2 rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2">
+            <div className="flex items-center gap-2 rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-surface-2)] px-3 py-2">
               <Link2 className="h-4 w-4 shrink-0 text-[var(--vs-text-dim)]" strokeWidth={1.75} />
               <span className="flex-1 truncate text-[12.5px] text-[var(--vs-text-muted)]">CMS odkaz</span>
               <div className="flex items-center gap-1.5 text-[var(--vs-text-dim)]">
@@ -301,8 +301,8 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
                   className={clsx(
                     "flex-1 rounded-lg border py-1.5 text-[11.5px] transition-colors",
                     lightbox === opt
-                      ? "border-white/30 bg-white/10 text-white"
-                      : "border-[var(--vs-surface-2)] bg-[#1a1a1d] text-[var(--vs-text-dim)] hover:text-[var(--vs-text-muted)]"
+                      ? "border-white/30 bg-white/10 text-[var(--vs-text)]"
+                      : "border-[var(--vs-surface-2)] bg-[var(--vs-surface-2)] text-[var(--vs-text-dim)] hover:text-[var(--vs-text-muted)]"
                   )}
                 >
                   {opt === "off" ? "Vypnuto" : opt === "image" ? "Obrázek" : "Odkaz"}
@@ -324,7 +324,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
                 type="text"
                 value={altText}
                 onChange={e => setAltText(e.target.value)}
-                className="w-full rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2 text-[12.5px] text-[var(--vs-text-muted)] outline-none focus:border-[#3f3f46] placeholder-[var(--vs-text-dim)]"
+                className="w-full rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-surface-2)] px-3 py-2 text-[12.5px] text-[var(--vs-text-muted)] outline-none focus:border-[var(--vs-border-strong)] placeholder-[var(--vs-text-dim)]"
               />
             </div>
           </div>
@@ -332,7 +332,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           {/* Pokročilé */}
           <button
             type="button"
-            className="flex w-full items-center justify-between rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2.5 text-[13px] text-[var(--vs-text-muted)] hover:text-white transition-colors"
+            className="flex w-full items-center justify-between rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-surface-2)] px-3 py-2.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
           >
             Pokročilé <ChevronRight className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -343,7 +343,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           <button
             type="button"
             onClick={() => { panelRef2.current?.onFocusSave?.(focus); close(); }}
-            className="w-full rounded-xl bg-[var(--vs-surface-2)] py-2.5 text-[13.5px] font-semibold text-white hover:bg-[#2a2a2e] transition-colors"
+            className="w-full rounded-xl bg-[var(--vs-surface-2)] py-2.5 text-[13.5px] font-semibold text-[var(--vs-text)] hover:bg-[var(--vs-surface-3)] transition-colors"
           >
             Hotovo
           </button>

@@ -102,7 +102,7 @@ for (const p of PAGES) {
     await page.waitForTimeout(500);
   } catch {}
 
-  let html = await page.content();
+  const html = await page.content();
   fs.writeFileSync(`${OUT}/pages/${p.slug}-raw.html`, html);
   console.log(`  Raw: ${html.length} bytes | css:${cssMap.size} img:${imgMap.size} js:${jsMap.size}`);
 

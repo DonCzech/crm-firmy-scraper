@@ -70,6 +70,8 @@ export function ResizableBox({
     startY: number;
     startW: number;
     startH: number;
+    /** Měřítko canvasu (CSS zoom / transform) — screen px → canvas px. */
+    scale: number;
     rafPending: number | null;
     lastClientX: number;
     lastClientY: number;
@@ -82,12 +84,19 @@ export function ResizableBox({
     e.stopPropagation();
     e.preventDefault();
     e.currentTarget.setPointerCapture(e.pointerId);
+    // Canvas Studia bývá škálovaný (zoom/fit) — bez přepočtu by box
+    // nesledoval kurzor 1:1. Poměr rect/offsetWidth pokrývá zoom i transform.
+    const el = boxRef.current;
+    const scale = el && el.offsetWidth > 0
+      ? (el.getBoundingClientRect().width / el.offsetWidth) || 1
+      : 1;
     dragState.current = {
       corner,
       startX: e.clientX,
       startY: e.clientY,
       startW: width,
       startH: height,
+      scale,
       rafPending: null,
       lastClientX: e.clientX,
       lastClientY: e.clientY,
@@ -96,8 +105,8 @@ export function ResizableBox({
   }
 
   function computeNext(d: NonNullable<typeof dragState.current>) {
-    const dx = d.lastClientX - d.startX;
-    const dy = d.lastClientY - d.startY;
+    const dx = (d.lastClientX - d.startX) / d.scale;
+    const dy = (d.lastClientY - d.startY) / d.scale;
     let w = d.startW;
     let h = d.startH;
     const c = d.corner;

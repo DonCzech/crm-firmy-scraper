@@ -13,7 +13,7 @@
 import pg from 'pg';
 
 const DB_URL = process.env.DATABASE_URL
-  || 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+  || process.env.DATABASE_URL;
 const baseUrl = process.env.VENOM_BASE_URL || 'http://localhost:3015';
 const MASTER_SLUG = 'barber-03-v2';
 const SHOWCASE_SLUG = 'barber-03-showcase';

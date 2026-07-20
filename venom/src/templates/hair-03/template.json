@@ -9,19 +9,52 @@
   "description": "Kadeřnický salon s espresso paletou (#2f201a), Lato, bílé pozadí — 2-col hero, founder story, kruhové portréty týmu, masonry galerie. Inspirováno petramechurova.cz.",
   "sectionOrderNote": "Originál má navbar → hero (2-col split) → about (founder story) → team (circles) → blog-preview → gallery (masonry) → footer; pořadí odpovídá service-personal kostře.",
   "skippedSections": [
-    { "pos": 4, "name": "Services", "reason": "originál nemá sekci služeb na homepage — přehled služeb je dostupný přes nav dropdown" },
-    { "pos": 5, "name": "Pricing", "reason": "originál nemá ceník na homepage" },
-    { "pos": 8, "name": "Testimonials", "reason": "originál nemá recenze na homepage" },
-    { "pos": 9, "name": "CTA", "reason": "CTA je součástí hero sekce a kontakt stránky" },
-    { "pos": 10, "name": "Locations", "reason": "originál má kontakt na samostatné stránce, ne jako homepage sekci" },
-    { "pos": 11, "name": "FAQ", "reason": "originál nemá FAQ sekci" }
+    {
+      "pos": 4,
+      "name": "Services",
+      "reason": "originál nemá sekci služeb na homepage — přehled služeb je dostupný přes nav dropdown"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "originál nemá ceník na homepage"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "originál nemá recenze na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "CTA",
+      "reason": "CTA je součástí hero sekce a kontakt stránky"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "originál má kontakt na samostatné stránce, ne jako homepage sekci"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "originál nemá FAQ sekci"
+    }
   ],
   "extraSections": [
-    { "type": "blog-preview", "reason": "originál má blog-preview sekci před galerií — klíčový element šablony petramechurova.cz" }
+    {
+      "type": "blog-preview",
+      "reason": "originál má blog-preview sekci před galerií — klíčový element šablony petramechurova.cz"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,42 +62,119 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "hair-03-navbar",        "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-hair-03-split",     "contentRef": "hero" },
-        { "type": "about",        "variant": "about-hair-03-founder",  "contentRef": "about" },
-        { "type": "team",         "variant": "hair-03-circles",        "contentRef": "team" },
-        { "type": "blog-preview", "variant": "hair-03-blog-cards",      "contentRef": "blog" },
-        { "type": "gallery",      "variant": "hair-03-gallery-slider",  "contentRef": "gallery" },
-        { "type": "footer",       "variant": "hair-03-footer",         "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-03-split",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-03-founder",
+          "contentRef": "about"
+        },
+        {
+          "type": "team",
+          "variant": "hair-03-circles",
+          "contentRef": "team"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "hair-03-blog-cards",
+          "contentRef": "blog"
+        },
+        {
+          "type": "gallery",
+          "variant": "hair-03-gallery-slider",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "hair-03",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "tym",
       "title": "Tým",
       "sections": [
-        { "type": "navbar",  "variant": "hair-03-navbar",       "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",        "contentRef": "pages.tym.hero" },
-        { "type": "team",    "variant": "hair-03-circles",      "contentRef": "team" },
-        { "type": "footer",  "variant": "hair-03-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.tym.hero"
+        },
+        {
+          "type": "team",
+          "variant": "hair-03-circles",
+          "contentRef": "team"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "kolekce",
       "title": "Kolekce",
       "sections": [
-        { "type": "navbar",   "variant": "hair-03-navbar",      "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",       "contentRef": "pages.kolekce.hero" },
-        { "type": "gallery",  "variant": "masonry",             "contentRef": "gallery" },
-        { "type": "footer",   "variant": "hair-03-footer",      "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.kolekce.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "masonry",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
       "slug": "kontakt",
       "title": "Kontakt",
       "sections": [
-        { "type": "navbar",   "variant": "hair-03-navbar",      "contentRef": "navbar" },
-        { "type": "contact",  "variant": "default",             "contentRef": "contact" },
-        { "type": "footer",   "variant": "hair-03-footer",      "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "default",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-03-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

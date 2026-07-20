@@ -103,7 +103,7 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
         "flex items-center gap-2 rounded-full border px-4 py-2 text-[12px] font-medium transition-all duration-150 select-none",
         dragOver
           ? "border-[var(--vs-accent)] bg-[var(--vs-accent-solid)] text-white shadow-[var(--vs-glow-brand)]"
-          : "border-dashed border-[rgba(212,212,216,0.35)] text-[#6b7280] hover:border-[var(--vs-accent)] hover:text-[var(--vs-accent-hi)] hover:bg-[rgba(212,212,216,0.08)]"
+          : "border-dashed border-[var(--vs-border-strong)] text-[var(--vs-text-muted)] hover:border-[var(--vs-accent)] hover:text-[var(--vs-accent-hi)] hover:bg-[var(--vs-accent-bg)]"
       )}>
         <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
         {dragOver ? "Pustit sem — přidat sekci" : "Přidat sekci"}

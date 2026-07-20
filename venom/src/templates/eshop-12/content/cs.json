@@ -1,0 +1,1035 @@
+{
+  "siteName": "PACKA",
+  "seo": {
+    "title": "PACKA — vše pro vaše mazlíčky | krmivo, hračky, potřeby",
+    "description": "PACKA je přátelský e-shop pro psy, kočky, hlodavce, ptáky i akva-tera. Kvalitní krmivo, hračky a potřeby s dopravou zdarma nad 1 299 Kč."
+  },
+  "navbar": {
+    "siteName": "PACKA",
+    "logoUrl": "",
+    "tagline": "vše pro vaše mazlíčky",
+    "phone": "+420 800 123 456",
+    "phoneLabel": "Poradíme vám",
+    "searchPlaceholder": "Co hledáte? např. granule, pelíšek, škrabadlo…",
+    "topLinks": [
+      {
+        "label": "Prodejny",
+        "href": "/prodejny"
+      },
+      {
+        "label": "Doprava a platba",
+        "href": "/doprava"
+      },
+      {
+        "label": "Poradna",
+        "href": "/poradna"
+      },
+      {
+        "label": "Blog",
+        "href": "/poradna"
+      }
+    ],
+    "topRightLinks": [
+      {
+        "label": "Sledování zásilky",
+        "href": "/sledovani"
+      },
+      {
+        "label": "Přihlášení",
+        "href": "/ucet"
+      }
+    ],
+    "promos": [
+      "Doprava ZDARMA nad 1 299 Kč 🐾",
+      "2+1 ZDARMA na vybrané pamlsky a hračky",
+      "Věrnostní klub PACKA — sbírejte tlapky a šetřete"
+    ],
+    "utility": {
+      "wishlistLabel": "Oblíbené",
+      "loginLabel": "Přihlášení",
+      "cartLabel": "Košík"
+    },
+    "shippingPill": "Doprava zdarma nad 1 299 Kč",
+    "megaTitle": "Nakupovat",
+    "categories": [
+      {
+        "label": "Léto 2026",
+        "slug": "leto",
+        "icon": "sun",
+        "tone": "season",
+        "children": [
+          {
+            "label": "Chladicí podložky",
+            "slug": "chladici-podlozky"
+          },
+          {
+            "label": "Cestovní potřeby",
+            "slug": "cestovani"
+          },
+          {
+            "label": "Bazény pro psy",
+            "slug": "bazeny"
+          },
+          {
+            "label": "Voda a napáječky",
+            "slug": "napajeni"
+          },
+          {
+            "label": "Antiparazitika",
+            "slug": "antiparazitika"
+          },
+          {
+            "label": "Sluneční ochrana",
+            "slug": "slunecni-ochrana"
+          },
+          {
+            "label": "Letní hračky",
+            "slug": "letni-hracky"
+          },
+          {
+            "label": "Osvěžující pamlsky",
+            "slug": "letni-pamlsky"
+          }
+        ],
+        "banner": {
+          "forLabel": "Užijte si",
+          "animal": "Léto 2026",
+          "bg": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=760&h=560&fit=crop&auto=format&q=80",
+          "allHref": "leto",
+          "subs": [
+            {
+              "label": "Chladicí podložky",
+              "slug": "chladici-podlozky",
+              "image": "https://images.unsplash.com/photo-1516750105099-4b8a83e217ee?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Na cesty",
+              "slug": "cestovani",
+              "image": "https://images.unsplash.com/photo-1444212477490-ca407925329e?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Napáječky",
+              "slug": "napajeni",
+              "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Antiparazitika",
+              "slug": "antiparazitika",
+              "image": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=200&h=200&fit=crop&auto=format&q=75"
+            }
+          ]
+        }
+      },
+      {
+        "label": "Psi",
+        "slug": "psi",
+        "icon": "dog",
+        "children": [
+          {
+            "label": "Granule pro psy",
+            "slug": "psi-granule"
+          },
+          {
+            "label": "Konzervy a kapsičky",
+            "slug": "psi-konzervy"
+          },
+          {
+            "label": "Pamlsky a kosti",
+            "slug": "psi-pamlsky"
+          },
+          {
+            "label": "Vodítka a obojky",
+            "slug": "psi-voditka"
+          },
+          {
+            "label": "Pelíšky a pelechy",
+            "slug": "psi-pelisky"
+          },
+          {
+            "label": "Boudy a přepravky",
+            "slug": "psi-boudy"
+          },
+          {
+            "label": "Hračky",
+            "slug": "psi-hracky"
+          },
+          {
+            "label": "Antiparazitika",
+            "slug": "psi-antiparazitika"
+          },
+          {
+            "label": "Kosmetika a hygiena",
+            "slug": "psi-kosmetika"
+          },
+          {
+            "label": "Doplňky stravy",
+            "slug": "psi-doplnky"
+          }
+        ],
+        "banner": {
+          "forLabel": "Pro",
+          "animal": "Psy",
+          "bg": "/templates/eshop-12/megamenu/pro-psi-petcenter.jpg",
+          "allHref": "psi",
+          "subs": [
+            {
+              "label": "Krmivo",
+              "slug": "psi-granule",
+              "image": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Pamlsky",
+              "slug": "psi-pamlsky",
+              "image": "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Antiparazitika",
+              "slug": "psi-antiparazitika",
+              "image": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Hračky",
+              "slug": "psi-hracky",
+              "image": "https://images.unsplash.com/photo-1535294435445-d7249524ef2e?w=200&h=200&fit=crop&auto=format&q=75"
+            }
+          ]
+        }
+      },
+      {
+        "label": "Kočky",
+        "slug": "kocky",
+        "icon": "cat",
+        "children": [
+          {
+            "label": "Granule pro kočky",
+            "slug": "kocky-granule"
+          },
+          {
+            "label": "Kapsičky a konzervy",
+            "slug": "kocky-kapsicky"
+          },
+          {
+            "label": "Pamlsky a tráva",
+            "slug": "kocky-pamlsky"
+          },
+          {
+            "label": "Kočkolit a steliva",
+            "slug": "kocky-kockolit"
+          },
+          {
+            "label": "Škrabadla a pelíšky",
+            "slug": "kocky-skrabadla"
+          },
+          {
+            "label": "Přepravky",
+            "slug": "kocky-prepravky"
+          },
+          {
+            "label": "Hračky",
+            "slug": "kocky-hracky"
+          },
+          {
+            "label": "Antiparazitika",
+            "slug": "kocky-antiparazitika"
+          },
+          {
+            "label": "Kosmetika a hygiena",
+            "slug": "kocky-kosmetika"
+          },
+          {
+            "label": "Misky a krmítka",
+            "slug": "kocky-misky"
+          }
+        ],
+        "banner": {
+          "forLabel": "Pro",
+          "animal": "Kočky",
+          "bg": "/templates/eshop-12/megamenu/pro-kocky-petcenter.jpg",
+          "allHref": "kocky",
+          "subs": [
+            {
+              "label": "Krmivo",
+              "slug": "kocky-granule",
+              "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Pamlsky",
+              "slug": "kocky-pamlsky",
+              "image": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Steliva",
+              "slug": "kocky-kockolit",
+              "image": "https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Antiparazitika",
+              "slug": "kocky-antiparazitika",
+              "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=200&h=200&fit=crop&auto=format&q=75"
+            }
+          ]
+        }
+      },
+      {
+        "label": "Hlodavci",
+        "slug": "hlodavci",
+        "icon": "rodent",
+        "children": [
+          {
+            "label": "Krmivo",
+            "slug": "hlodavci-krmivo"
+          },
+          {
+            "label": "Seno a byliny",
+            "slug": "hlodavci-seno"
+          },
+          {
+            "label": "Pamlsky",
+            "slug": "hlodavci-pamlsky"
+          },
+          {
+            "label": "Steliva a podestýlky",
+            "slug": "hlodavci-steliva"
+          },
+          {
+            "label": "Klece a přepravky",
+            "slug": "hlodavci-klece"
+          },
+          {
+            "label": "Domečky a hnízda",
+            "slug": "hlodavci-domecky"
+          },
+          {
+            "label": "Napáječky a misky",
+            "slug": "hlodavci-napajecky"
+          },
+          {
+            "label": "Hračky a kolotoče",
+            "slug": "hlodavci-hracky"
+          },
+          {
+            "label": "Kosmetika",
+            "slug": "hlodavci-kosmetika"
+          }
+        ],
+        "banner": {
+          "forLabel": "Pro",
+          "animal": "Hlodavce",
+          "bg": "/templates/eshop-12/megamenu/pro-hlodavce-petcenter.jpg",
+          "allHref": "hlodavci",
+          "subs": [
+            {
+              "label": "Krmivo",
+              "slug": "hlodavci-krmivo",
+              "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Pamlsky",
+              "slug": "hlodavci-pamlsky",
+              "image": "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Podestýlky",
+              "slug": "hlodavci-steliva",
+              "image": "https://images.unsplash.com/photo-1584553421349-3557471bed79?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Klece",
+              "slug": "hlodavci-klece",
+              "image": "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200&h=200&fit=crop&auto=format&q=75"
+            }
+          ]
+        }
+      },
+      {
+        "label": "Ptáci",
+        "slug": "ptaci",
+        "icon": "bird",
+        "children": [
+          {
+            "label": "Krmivo a zob",
+            "slug": "ptaci-krmivo"
+          },
+          {
+            "label": "Klece a voliéry",
+            "slug": "ptaci-klece"
+          },
+          {
+            "label": "Bidýlka a hřady",
+            "slug": "ptaci-bidylka"
+          },
+          {
+            "label": "Napáječky a krmítka",
+            "slug": "ptaci-napajecky"
+          },
+          {
+            "label": "Hračky",
+            "slug": "ptaci-hracky"
+          },
+          {
+            "label": "Hnízda a budky",
+            "slug": "ptaci-hnizda"
+          },
+          {
+            "label": "Doplňky",
+            "slug": "ptaci-doplnky"
+          }
+        ],
+        "banner": {
+          "forLabel": "Pro",
+          "animal": "Ptáky",
+          "bg": "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=760&h=560&fit=crop&auto=format&q=80",
+          "allHref": "ptaci",
+          "subs": [
+            {
+              "label": "Krmivo",
+              "slug": "ptaci-krmivo",
+              "image": "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Klece",
+              "slug": "ptaci-klece",
+              "image": "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Bidýlka",
+              "slug": "ptaci-bidylka",
+              "image": "https://images.unsplash.com/photo-1520808663317-647b476a81b9?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Hračky",
+              "slug": "ptaci-hracky",
+              "image": "https://images.unsplash.com/photo-1591198936750-16d8e15edb9e?w=200&h=200&fit=crop&auto=format&q=75"
+            }
+          ]
+        }
+      },
+      {
+        "label": "Akva-Tera",
+        "slug": "akva-tera",
+        "icon": "fish",
+        "children": [
+          {
+            "label": "Krmivo pro ryby",
+            "slug": "akva-krmivo"
+          },
+          {
+            "label": "Akvária a nádrže",
+            "slug": "akvaria"
+          },
+          {
+            "label": "Filtrace a technika",
+            "slug": "filtrace"
+          },
+          {
+            "label": "Osvětlení",
+            "slug": "osvetleni"
+          },
+          {
+            "label": "Dekorace a rostliny",
+            "slug": "dekorace"
+          },
+          {
+            "label": "Terária",
+            "slug": "teraria"
+          },
+          {
+            "label": "Krmivo pro plazy",
+            "slug": "krmivo-plazi"
+          },
+          {
+            "label": "Údržba vody",
+            "slug": "udrzba-vody"
+          }
+        ],
+        "banner": {
+          "forLabel": "Pro",
+          "animal": "Akva-Teru",
+          "bg": "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=760&h=560&fit=crop&auto=format&q=80",
+          "allHref": "akva-tera",
+          "subs": [
+            {
+              "label": "Krmivo",
+              "slug": "akva-krmivo",
+              "image": "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Akvária",
+              "slug": "akvaria",
+              "image": "https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Filtrace",
+              "slug": "filtrace",
+              "image": "https://images.unsplash.com/photo-1571752726703-5e7d1f6a986d?w=200&h=200&fit=crop&auto=format&q=75"
+            },
+            {
+              "label": "Terária",
+              "slug": "teraria",
+              "image": "https://images.unsplash.com/photo-1520302630591-fd1c66edc19d?w=200&h=200&fit=crop&auto=format&q=75"
+            }
+          ]
+        }
+      },
+      {
+        "label": "Akce",
+        "slug": "akce",
+        "icon": "paw",
+        "tone": "sale"
+      }
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "MOHLO BY SE HODIT",
+      "recoCta": "PŘIDAT",
+      "emptyText": "Váš košík je zatím prázdný.",
+      "continueText": "Zpět do obchodu",
+      "freeShippingThreshold": 129900,
+      "freeShippingLabel": "Do dopravy zdarma zbývá",
+      "freeShippingDone": "Máte dopravu zdarma"
+    }
+  },
+  "hero": {
+    "slides": [
+      {
+        "badge": "Akce týdne",
+        "titleTop": "2+1",
+        "titleBottom": "ZDARMA",
+        "subtitle": "na prémiové krmivo a pamlsky",
+        "text": "Vyberte tři balení oblíbeného krmiva — to nejlevnější neplatíte. Platí jen do neděle.",
+        "ctaText": "To chci",
+        "ctaHref": "akce",
+        "ctaSecondary": "Všechny akce",
+        "image": "https://images.unsplash.com/photo-1444212477490-ca407925329e?w=1800&h=760&fit=crop&auto=format&q=80",
+        "imagePos": "68% 58%"
+      },
+      {
+        "badge": "Novinka",
+        "titleTop": "Léto",
+        "titleBottom": "V POHODĚ",
+        "subtitle": "chladicí podložky a letní kolekce",
+        "text": "Osvěžení pro psy i kočky během tropických dní. Právě naskladněno.",
+        "ctaText": "Ou jéé",
+        "ctaHref": "leto",
+        "ctaSecondary": "Letní tipy",
+        "burst": "NOVINKA",
+        "image": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=1800&h=760&fit=crop&auto=format&q=80",
+        "imagePos": "70% 42%"
+      },
+      {
+        "badge": "Klub PACKA",
+        "titleTop": "Tlapky",
+        "titleBottom": "= ODMĚNY",
+        "subtitle": "věrnostní klub, který se mazlí",
+        "text": "Za každý nákup sbíráte tlapkové body. Vyměňte je za slevy a dárky pro mazlíčka.",
+        "ctaText": "Chci výhody",
+        "ctaHref": "klub",
+        "ctaSecondary": "Jak to funguje",
+        "image": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=1800&h=760&fit=crop&auto=format&q=80",
+        "imagePos": "72% 30%"
+      }
+    ],
+    "tiles": [
+      {
+        "kicker": "Pasty",
+        "title": "pro kočky",
+        "pill": "3+1 ZDARMA",
+        "href": "kocky-pamlsky",
+        "tone": "mango",
+        "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=340&h=340&fit=crop&auto=format&q=75"
+      },
+      {
+        "kicker": "Novinka",
+        "title": "chladicí podložky",
+        "pill": "OU JÉÉ",
+        "href": "chladici-podlozky",
+        "tone": "purple",
+        "image": "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=340&h=340&fit=crop&auto=format&q=75"
+      },
+      {
+        "kicker": "Pamlsky",
+        "title": "pro hlodavce",
+        "pill": "2+1 ZDARMA",
+        "href": "hlodavci-pamlsky",
+        "tone": "green",
+        "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=340&h=340&fit=crop&auto=format&q=75"
+      }
+    ],
+    "usps": [
+      {
+        "icon": "truck",
+        "title": "Doprava zdarma",
+        "text": "nad 1 299 Kč"
+      },
+      {
+        "icon": "paw",
+        "title": "Klub PACKA",
+        "text": "tlapkové body za nákupy"
+      },
+      {
+        "icon": "pin",
+        "title": "70+ prodejen",
+        "text": "po celé ČR"
+      },
+      {
+        "icon": "bolt",
+        "title": "Expresní vyzvednutí",
+        "text": "do 30 minut na prodejně"
+      }
+    ]
+  },
+  "productsPicked": {
+    "heading": "Vybíráme pro vašeho mazlíčka",
+    "moreLabel": "Zobrazit další produkty",
+    "moreHref": "/obchod",
+    "limit": 12,
+    "layout": "grid"
+  },
+  "favCategories": {
+    "heading": "Pro vaše mazlíčky máme jen to nejlepší",
+    "banners": [
+      {
+        "forLabel": "Pro",
+        "animal": "Psy",
+        "bg": "/templates/eshop-12/megamenu/pro-psi-petcenter.jpg",
+        "allHref": "psi",
+        "subs": [
+          {
+            "label": "Krmivo",
+            "slug": "psi-granule",
+            "image": "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Pamlsky",
+            "slug": "psi-pamlsky",
+            "image": "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Antiparazitika",
+            "slug": "psi-antiparazitika",
+            "image": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Hračky",
+            "slug": "psi-hracky",
+            "image": "https://images.unsplash.com/photo-1535294435445-d7249524ef2e?w=200&h=200&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "forLabel": "Pro",
+        "animal": "Kočky",
+        "bg": "/templates/eshop-12/megamenu/pro-kocky-petcenter.jpg",
+        "allHref": "kocky",
+        "subs": [
+          {
+            "label": "Krmivo",
+            "slug": "kocky-granule",
+            "image": "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Pamlsky",
+            "slug": "kocky-pamlsky",
+            "image": "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Steliva",
+            "slug": "kocky-kockolit",
+            "image": "https://images.unsplash.com/photo-1478098711619-5ab0b478d6e6?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Antiparazitika",
+            "slug": "kocky-antiparazitika",
+            "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=200&h=200&fit=crop&auto=format&q=75"
+          }
+        ]
+      },
+      {
+        "forLabel": "Pro",
+        "animal": "Hlodavce",
+        "bg": "/templates/eshop-12/megamenu/pro-hlodavce-petcenter.jpg",
+        "allHref": "hlodavci",
+        "subs": [
+          {
+            "label": "Krmivo",
+            "slug": "hlodavci-krmivo",
+            "image": "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Pamlsky",
+            "slug": "hlodavci-pamlsky",
+            "image": "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Podestýlky",
+            "slug": "hlodavci-steliva",
+            "image": "https://images.unsplash.com/photo-1584553421349-3557471bed79?w=200&h=200&fit=crop&auto=format&q=75"
+          },
+          {
+            "label": "Klece",
+            "slug": "hlodavci-klece",
+            "image": "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=200&h=200&fit=crop&auto=format&q=75"
+          }
+        ]
+      }
+    ]
+  },
+  "productsSale": {
+    "heading": "Máme v akci",
+    "moreLabel": "Všechny akce",
+    "moreHref": "/obchod?kategorie=akce",
+    "categorySlug": "akce",
+    "saleOnly": true,
+    "limit": 10,
+    "layout": "carousel"
+  },
+  "stores": {
+    "kicker": "Zastavte se",
+    "title": "na našich prodejnách",
+    "benefits": [
+      "Více než 70 prodejen po celé ČR",
+      "Exkluzivní slevové kupóny",
+      "Odborné poradenství přímo na prodejně",
+      "Členské slevové nabídky klubu PACKA"
+    ],
+    "ctaText": "Najít nejbližší prodejnu",
+    "ctaHref": "/prodejny",
+    "badgeTop": "Více než",
+    "badgeNum": "70×",
+    "badgeSub": "v ČR",
+    "note": "Otevřeno 7 dní v týdnu"
+  },
+  "brands": {
+    "heading": "Naše značky",
+    "moreLabel": "Všechny značky",
+    "items": [
+      {
+        "name": "Hafan",
+        "icon": "bone",
+        "color": "#f06e1e",
+        "tagline": "krmivo pro psy"
+      },
+      {
+        "name": "Micka",
+        "icon": "cat",
+        "color": "#6f45d1",
+        "style": "italic",
+        "tagline": "pro kočky"
+      },
+      {
+        "name": "Mlsoun",
+        "icon": "treat",
+        "color": "#d94f8a",
+        "style": "serif",
+        "tagline": "pamlsky"
+      },
+      {
+        "name": "ČENICH",
+        "icon": "paw",
+        "color": "#14224a",
+        "style": "wide",
+        "tagline": "výbava"
+      },
+      {
+        "name": "Chlupáč",
+        "icon": "cloud",
+        "color": "#8a5a2b",
+        "tagline": "hlodavci"
+      },
+      {
+        "name": "Zobík",
+        "icon": "bird",
+        "color": "#16a06a",
+        "style": "italic",
+        "tagline": "ptáci"
+      },
+      {
+        "name": "AquaVita",
+        "icon": "wave",
+        "color": "#1c7fd6",
+        "tagline": "akva-tera"
+      },
+      {
+        "name": "Tlapka Nature",
+        "icon": "leaf",
+        "color": "#4c8c2b",
+        "style": "serif",
+        "tagline": "bio péče"
+      }
+    ]
+  },
+  "blog": {
+    "heading": "Novinky z blogu",
+    "moreLabel": "Všechny články z blogu",
+    "posts": [
+      {
+        "chip": "O psech i kočkách",
+        "chipTone": "mango",
+        "title": "Jak se správně postarat o štěně či kotě?",
+        "excerpt": "Jaro je obdobím nového života. Příroda se probouzí a spolu s ní přichází i noví chlupatí členové rodiny. Práve na jaře je proto nejlepší čas připravit se na příchod mazlíčka.",
+        "author": "Tereza Hájková",
+        "date": "1. 7. 2026",
+        "image": "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=800&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "chip": "Zdraví",
+        "chipTone": "green",
+        "title": "Jak účinně ochránit mazlíčka před klíšťaty a blechami",
+        "excerpt": "S příchodem teplých dní číhá v trávě nebezpečí. Sezóna klíšťat a blech je v plném proudu — poradíme, jak vybrat správnou ochranu a na co si dát pozor.",
+        "author": "Tereza Hájková",
+        "date": "5. 7. 2026",
+        "image": "https://images.unsplash.com/photo-1516750105099-4b8a83e217ee?w=800&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "chip": "Ptáci",
+        "chipTone": "purple",
+        "title": "Zvláštnosti ptáků: fascinující svět létajících inteligentů",
+        "excerpt": "Ptáci patří mezi nejzajímavější domácí mazlíčky. Mají neuvěřitelnou paměť, hudební sluch a behaviorální zvláštnosti, které je odlišují od všech ostatních zvířat.",
+        "author": "Tereza Hájková",
+        "date": "12. 7. 2026",
+        "image": "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=800&h=500&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "PACKA",
+    "tagline": "Vše pro vaše mazlíčky — krmivo, hračky i odborné poradenství. Více než 70 prodejen po celé ČR a e-shop s dopravou zdarma nad 1 299 Kč.",
+    "newsletterTitle": "Nezmeškejte žádnou akci",
+    "newsletterText": "Přihlaste se k odběru a dostávejte akce, slevové kupóny a tipy pro mazlíčky přímo do e-mailu.",
+    "newsletterPlaceholder": "Váš e-mail",
+    "newsletterCta": "Odebírat",
+    "consentLabel": "Souhlasím se zpracováním osobních údajů",
+    "doneText": "Děkujeme! Jste přihlášeni k odběru.",
+    "contactTitle": "Kontaktujte nás",
+    "phone": "+420 800 123 456",
+    "phoneNote": "Po–Ne 8:00–20:00, zdarma",
+    "email": "info@packa.cz",
+    "followLabel": "Sledujte nás",
+    "columns": [
+      {
+        "title": "O PACKA",
+        "links": [
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Naše prodejny",
+            "href": "/prodejny"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Blog",
+            "href": "/poradna"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          }
+        ]
+      },
+      {
+        "title": "Vše o nákupu",
+        "links": [
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava"
+          },
+          {
+            "label": "Vrácení zboží",
+            "href": "/doprava"
+          },
+          {
+            "label": "Reklamace",
+            "href": "/doprava"
+          },
+          {
+            "label": "Časté dotazy (FAQ)",
+            "href": "/doprava"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchodni-podminky"
+          }
+        ]
+      },
+      {
+        "title": "Můj účet",
+        "links": [
+          {
+            "label": "Přihlášení",
+            "href": "/ucet"
+          },
+          {
+            "label": "Moje objednávky",
+            "href": "/ucet"
+          },
+          {
+            "label": "Sledování zásilky",
+            "href": "/sledovani"
+          },
+          {
+            "label": "Věrnostní klub PACKA",
+            "href": "/klub"
+          }
+        ]
+      }
+    ],
+    "storesCta": "Všechny prodejny",
+    "legal": [
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "/obchodni-podminky"
+      },
+      {
+        "label": "Cookies",
+        "href": "/obchodni-podminky"
+      }
+    ],
+    "payments": [
+      "VISA",
+      "Mastercard",
+      "Google Pay",
+      "Apple Pay",
+      "Dobírka"
+    ],
+    "copyright": "© 2026 PACKA · Vše pro vaše mazlíčky"
+  },
+  "pageAbout": {
+    "hero": {
+      "kicker": "O nás",
+      "title": "Vše pro vaše mazlíčky už přes 20 let",
+      "text": "PACKA je česká síť chovatelských potřeb. Věříme, že mazlíčci jsou členové rodiny — a podle toho vybíráme každý produkt v nabídce."
+    },
+    "text": {
+      "blocks": [
+        {
+          "title": "Náš příběh",
+          "text": "Začínali jsme v roce 2006 jednou malou prodejnou a velkou láskou ke zvířatům. Dnes najdete přes 70 prodejen PACKA po celé České republice a e-shop, který doručuje desetitisíce zásilek ročně.\nPořád ale platí to samé co na začátku: radíme srdcem a prodáváme jen to, co bychom dopřáli vlastním mazlíčkům."
+        },
+        {
+          "title": "Proč nakupovat u nás",
+          "bullets": [
+            "Vlastní značky s prověřeným složením — Hafan, Micka, Mlsoun a další",
+            "Odborné poradenství na každé prodejně",
+            "Doprava zdarma nad 1 299 Kč a vrácení do 30 dní",
+            "Věrnostní klub PACKA — tlapkové body za každý nákup"
+          ]
+        }
+      ]
+    }
+  },
+  "pageContact": {
+    "hero": {
+      "kicker": "Kontakt",
+      "title": "Jsme tu pro vás 7 dní v týdnu",
+      "text": "Zavolejte, napište, nebo se stavte na kterékoli prodejně. Poradíme s výběrem i objednávkou."
+    },
+    "form": {
+      "infoTitle": "Kontaktní údaje",
+      "formTitle": "Napište nám",
+      "doneText": "Děkujeme! Ozveme se co nejdříve.",
+      "phone": "+420 800 123 456",
+      "email": "info@packa.cz",
+      "address": "PACKA s.r.o.\nTlapková 12, 110 00 Praha 1",
+      "hours": "Po–Ne 8:00–20:00"
+    }
+  },
+  "pageShipping": {
+    "hero": {
+      "kicker": "Doprava a platba",
+      "title": "Doručíme rychle a bez starostí",
+      "text": "Nad 1 299 Kč máte dopravu zdarma. Objednávky do 14:00 odesíláme ještě týž den."
+    },
+    "text": {
+      "blocks": [
+        {
+          "title": "Možnosti dopravy",
+          "bullets": [
+            "Osobní odběr na 70+ prodejnách — zdarma, do 30 minut",
+            "Zásilkovna / výdejní boxy — 69 Kč",
+            "Kurýr na adresu — 99 Kč",
+            "Doprava ZDARMA u objednávek nad 1 299 Kč"
+          ]
+        },
+        {
+          "title": "Možnosti platby",
+          "bullets": [
+            "Kartou online (VISA, Mastercard)",
+            "Google Pay a Apple Pay",
+            "Dobírka — 39 Kč",
+            "Hotově i kartou na prodejně"
+          ]
+        },
+        {
+          "title": "Vrácení a reklamace",
+          "text": "Zboží můžete vrátit do 30 dní bez udání důvodu — na kterékoli prodejně nebo poštou. Reklamace vyřizujeme do 30 dní, o průběhu vás informujeme e-mailem."
+        }
+      ]
+    }
+  },
+  "pageStores": {
+    "hero": {
+      "kicker": "Naše prodejny",
+      "title": "Více než 70 prodejen po celé ČR",
+      "text": "Přijďte si pro krmivo, poradit s výběrem, nebo jen tak pohladit naše prodejní mazlíčky."
+    },
+    "text": {
+      "blocks": [
+        {
+          "title": "Kde nás najdete",
+          "text": "Prodejny PACKA najdete ve všech krajských městech a většině okresních. Otevřeno máme 7 dní v týdnu, obvykle 9:00–20:00.",
+          "bullets": [
+            "Praha — 14 prodejen",
+            "Brno — 8 prodejen",
+            "Ostrava — 6 prodejen",
+            "Plzeň, Liberec, Olomouc, Hradec Králové a další"
+          ]
+        }
+      ]
+    }
+  },
+  "pageBlog": {
+    "hero": {
+      "kicker": "Blog",
+      "title": "Novinky a tipy pro vaše mazlíčky",
+      "text": "Rady od veterinářů, návody a novinky ze světa chovatelství."
+    }
+  },
+  "pageTerms": {
+    "hero": {
+      "kicker": "Obchodní podmínky",
+      "title": "Férové podmínky bez hvězdiček",
+      "text": "Stručně a srozumitelně — jak u nás nakupování funguje."
+    },
+    "text": {
+      "blocks": [
+        {
+          "title": "1. Objednávka a kupní smlouva",
+          "text": "Odesláním objednávky vzniká kupní smlouva mezi vámi a PACKA s.r.o. Potvrzení obdržíte e-mailem včetně rekapitulace."
+        },
+        {
+          "title": "2. Ceny a platba",
+          "text": "Všechny ceny jsou konečné, včetně DPH. Platbu přijímáme kartou, přes Google Pay / Apple Pay, dobírkou nebo na prodejně."
+        },
+        {
+          "title": "3. Dodání zboží",
+          "text": "Zboží skladem odesíláme do 24 hodin. O předání dopravci i doručení vás informujeme e-mailem a SMS."
+        },
+        {
+          "title": "4. Odstoupení od smlouvy",
+          "text": "Do 30 dní můžete zboží vrátit bez udání důvodu. Peníze vracíme stejnou platební metodou do 14 dní od přijetí vráceného zboží."
+        },
+        {
+          "title": "5. Ochrana osobních údajů",
+          "text": "S osobními údaji nakládáme podle GDPR. Údaje používáme výhradně pro vyřízení objednávky a — s vaším souhlasem — pro zasílání novinek."
+        }
+      ]
+    }
+  }
+}

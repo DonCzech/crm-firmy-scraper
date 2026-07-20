@@ -545,7 +545,7 @@ try {
   const screenshotDir = path.join(researchDir, "screenshots");
   fs.mkdirSync(screenshotDir, { recursive: true });
 
-  let screenshots = { desktop: null, mobile: null };
+  const screenshots = { desktop: null, mobile: null };
   try {
     const { chromium } = await import("playwright-core");
     const chromePaths = [

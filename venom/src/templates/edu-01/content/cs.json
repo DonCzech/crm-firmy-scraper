@@ -1,34 +1,47 @@
 {
   "siteName": "Akademia Plus",
   "siteDescription": "Doučování s garantovanými výsledky — od základní školy až po vysokoškolské přijímačky.",
-
   "navbar": {
     "siteName": "Akademia Plus",
     "logoUrl": "/templates/edu-01/logo.svg",
     "phone": "776 543 210",
-    "email": "info@akademia-plus.cz",
     "ctaText": "Klientská zóna",
     "ctaHref": "/kontakt",
     "links": [
-      { "label": "Domů",      "href": "/" },
-      { "label": "Služby",    "href": "/sluzby" },
-      { "label": "O nás",     "href": "/o-nas" },
-      { "label": "Ceník",     "href": "/cenik" },
-      { "label": "Reference", "href": "/reference" },
-      { "label": "Lektoři",   "href": "/lektori" },
-      { "label": "Kontakt",   "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Lektoři",
+        "href": "/lektori"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
-    "title": "Doučování na míru",
     "heading": "Doučování na míru",
     "subheading": "Každý student je jiný — proto stavíme výuku kolem jeho potřeb. Přijímačky, maturita i jazyky.",
-    "ctaText": "Vybrat předmět",
     "ctaHref": "/sluzby",
-    "ctaSecondaryText": "Kontaktovat nás",
-    "ctaSecondaryHref": "/kontakt",
-    "backgroundImage": "/assets/edu-01/c6f14df800-large_virtual_classroom_study_space_23_2149178644_1ac594bc94.jpg",
     "heroImages": [
       "/assets/edu-01/c6f14df800-large_virtual_classroom_study_space_23_2149178644_1ac594bc94.jpg",
       "/assets/edu-01/4b00abd9bc-large_SP_3_2023_806_9058ffa96d.jpg",
@@ -36,22 +49,49 @@
       "/assets/edu-01/33538a0de4-large_Skola_Populo_10_2022_Socials_741_4_7afe053e0a.jpg"
     ]
   },
-
   "services": {
     "heading": "Jak vám pomůžeme",
     "subheading": "Komplexní vzdělávací podpora od 1. třídy ZŠ až po VŠ přijímačky a jazykové certifikáty",
     "services": [
-      { "name": "Školní předměty", "title": "Školní předměty", "description": "Matematika, fyzika, chemie, biologie, český jazyk a dějepis — vše pod jednou střechou.", "icon": "book" },
-      { "name": "Přípravné kurzy", "title": "Přípravné kurzy", "description": "Intenzivní příprava na přijímačky na SŠ a VŠ s procvičováním reálných testů.", "icon": "package" },
-      { "name": "Jazykové kurzy", "title": "Jazykové kurzy", "description": "Angličtina, němčina, španělština a italština pro děti, studenty i dospělé.", "icon": "globe" },
-      { "name": "Online videolekce", "title": "Online videolekce", "description": "Nahrané výkladové lekce ke klíčovým tématům, dostupné kdykoli a odkudkoli.", "icon": "video" },
-      { "name": "Maturitní příprava", "title": "Maturitní příprava", "description": "Cílená příprava na maturitu s rozborem minulých písemných i ústních zkoušek.", "icon": "clipboard" },
-      { "name": "Skupinové webináře", "title": "Skupinové webináře", "description": "Živé online lekce v malých skupinkách — interaktivní výuka bez dojíždění.", "icon": "monitor" }
+      {
+        "name": "Školní předměty",
+        "title": "Školní předměty",
+        "description": "Matematika, fyzika, chemie, biologie, český jazyk a dějepis — vše pod jednou střechou.",
+        "icon": "book"
+      },
+      {
+        "name": "Přípravné kurzy",
+        "title": "Přípravné kurzy",
+        "description": "Intenzivní příprava na přijímačky na SŠ a VŠ s procvičováním reálných testů.",
+        "icon": "package"
+      },
+      {
+        "name": "Jazykové kurzy",
+        "title": "Jazykové kurzy",
+        "description": "Angličtina, němčina, španělština a italština pro děti, studenty i dospělé.",
+        "icon": "globe"
+      },
+      {
+        "name": "Online videolekce",
+        "title": "Online videolekce",
+        "description": "Nahrané výkladové lekce ke klíčovým tématům, dostupné kdykoli a odkudkoli.",
+        "icon": "video"
+      },
+      {
+        "name": "Maturitní příprava",
+        "title": "Maturitní příprava",
+        "description": "Cílená příprava na maturitu s rozborem minulých písemných i ústních zkoušek.",
+        "icon": "clipboard"
+      },
+      {
+        "name": "Skupinové webináře",
+        "title": "Skupinové webináře",
+        "description": "Živé online lekce v malých skupinkách — interaktivní výuka bez dojíždění.",
+        "icon": "monitor"
+      }
     ]
   },
-
   "about": {
-    "title": "O nás",
     "heading": "Výsledky, na které se dá spolehnout",
     "subheading": "Malé skupiny, ověření lektoři, jasný plán",
     "body": "Akademia Plus vznikla s jediným cílem: aby každý student odcházel s pocitem, že to zvládne. Pracujeme výhradně v individuálním formátu nebo skupinkách do čtyř žáků, aby lektor mohl věnovat plnou pozornost každému.",
@@ -61,19 +101,28 @@
     "ctaText": "Více o nás",
     "ctaHref": "/o-nas"
   },
-
   "stats": {
     "heading": "Akademia Plus v číslech",
     "items": [
-      { "value": "21 000+", "label": "spokojených studentů" },
-      { "value": "780+",    "label": "prověřených lektorů" },
-      { "value": "93 %",    "label": "úspěšnost u přijímaček" },
-      { "value": "7+",      "label": "let na trhu" }
+      {
+        "value": "21 000+",
+        "label": "spokojených studentů"
+      },
+      {
+        "value": "780+",
+        "label": "prověřených lektorů"
+      },
+      {
+        "value": "93 %",
+        "label": "úspěšnost u přijímaček"
+      },
+      {
+        "value": "7+",
+        "label": "let na trhu"
+      }
     ]
   },
-
   "testimonials": {
-    "title": "Reference",
     "heading": "Co říkají naši studenti a rodiče",
     "testimonials": [],
     "rating": "4,9",
@@ -105,7 +154,6 @@
       }
     ]
   },
-
   "contact": {
     "heading": "Napište nám",
     "subheading": "Zanechte nám zprávu a ozveme se vám nejpozději do druhého pracovního dne.",
@@ -115,7 +163,6 @@
     "hours": "Po–Pá 8:00–19:00, So 9:00–13:00",
     "status": "Právě přijímáme nové studenty!"
   },
-
   "pages": {
     "sluzby": {
       "seoTitle": "Služby — Akademia Plus",
@@ -140,7 +187,6 @@
       "seoDescription": "Kontaktujte Akademia Plus. Rádi vám poradíme s výběrem kurzu a zodpovíme všechny otázky."
     }
   },
-
   "footer": {
     "siteName": "Akademia Plus",
     "logoUrl": "/templates/edu-01/logo.svg",
@@ -150,35 +196,73 @@
     "address": "Václavské náměstí 56, 110 00 Praha 1",
     "facebook": "https://facebook.com/akademiaplus",
     "instagram": "https://instagram.com/akademiaplus",
-    "companyName": "Akademia Plus s.r.o.",
     "ico": "09876543",
     "columns": [
       {
         "title": "Výuka",
         "links": [
-          { "label": "Školní předměty",  "href": "/sluzby/predmety" },
-          { "label": "Přípravné kurzy",  "href": "/sluzby/pripravne" },
-          { "label": "Jazykové kurzy",   "href": "/sluzby/jazyky" },
-          { "label": "Online výuka",     "href": "/sluzby/online" }
+          {
+            "label": "Školní předměty",
+            "href": "/sluzby/predmety"
+          },
+          {
+            "label": "Přípravné kurzy",
+            "href": "/sluzby/pripravne"
+          },
+          {
+            "label": "Jazykové kurzy",
+            "href": "/sluzby/jazyky"
+          },
+          {
+            "label": "Online výuka",
+            "href": "/sluzby/online"
+          }
         ]
       },
       {
         "title": "Pro studenty",
         "links": [
-          { "label": "Ceník",          "href": "/cenik" },
-          { "label": "Reference",      "href": "/reference" },
-          { "label": "Časté dotazy",   "href": "/faq" },
-          { "label": "Blog",           "href": "/blog" }
+          {
+            "label": "Ceník",
+            "href": "/cenik"
+          },
+          {
+            "label": "Reference",
+            "href": "/reference"
+          },
+          {
+            "label": "Časté dotazy",
+            "href": "/faq"
+          },
+          {
+            "label": "Blog",
+            "href": "/blog"
+          }
         ]
       },
       {
         "title": "O centru",
         "links": [
-          { "label": "O nás",             "href": "/o-nas" },
-          { "label": "Náš tým",           "href": "/lektori" },
-          { "label": "Kontakt",           "href": "/kontakt" },
-          { "label": "Obchodní podmínky", "href": "/podminky" },
-          { "label": "GDPR",              "href": "/gdpr" }
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Náš tým",
+            "href": "/lektori"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/podminky"
+          },
+          {
+            "label": "GDPR",
+            "href": "/gdpr"
+          }
         ]
       }
     ],

@@ -122,7 +122,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
   return (
     <div
       ref={panelRef}
-      className="fixed bottom-3 left-3 right-3 z-[200] max-h-[calc(100vh-24px)] overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(18,18,20,0.76)] shadow-[0_18px_58px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl vs-enter sm:bottom-[52px] sm:left-[55px] sm:right-auto sm:w-[320px]"
+      className="vs-overlay-panel fixed bottom-3 left-3 right-3 z-[200] max-h-[calc(100vh-24px)] overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(18,18,20,0.76)] shadow-[0_18px_58px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl vs-enter sm:bottom-[52px] sm:left-[64px] sm:right-auto sm:w-[340px]"
     >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[var(--vs-border)] px-4 py-3">
@@ -171,7 +171,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
                 className={clsx(
                   "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all",
                   isDone
-                    ? "border-[var(--vs-accent)] bg-[var(--vs-accent)] text-white"
+                    ? "border-[var(--vs-accent)] bg-[var(--vs-accent)] text-[var(--vs-text)]"
                     : "border-[var(--vs-border-strong)] text-[var(--vs-text-muted)] hover:border-[var(--vs-accent)]"
                 )}
                 aria-label={isDone ? "Označit jako nedokončeno" : "Označit jako dokončeno"}

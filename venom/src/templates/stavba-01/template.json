@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "stavba-01",
-  "name": "Demo Stavba Design",
+  "name": "Stavba Design",
   "industry": "stavba",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -9,16 +9,33 @@
   "description": "Stavební firma — komplexní rekonstrukce bytů a rodinných domů. Bílý moderní design, oranžový #FF6F0D akcent, tmavá #202021, Inter font. Topbar s kontakty, sticky navbar, fullbleed hero, 4 service karty, proces spolupráce, reference/galerie, FAQ, kontakt. Inspirováno stavbadesign.cz.",
   "sectionOrderNote": "Navbar → Hero → Services → About → Testimonials → CTA → Gallery → FAQ → Contact → Footer",
   "skippedSections": [
-    { "pos": 6,  "name": "Pricing/Estimate", "reason": "Ceník není součástí homepage flow — ceny jsou individuální dle rozsahu projektu" },
-    { "pos": 8,  "name": "Blog",             "reason": "Blog je samostatná sekce, ne součástí homepage šablony" },
-    { "pos": 10, "name": "Service area",     "reason": "Mapa servisní oblasti není součástí homepage — firma operuje celostátně" }
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceník není součástí homepage flow — ceny jsou individuální dle rozsahu projektu"
+    },
+    {
+      "pos": 8,
+      "name": "Blog",
+      "reason": "Blog je samostatná sekce, ne součástí homepage šablony"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Mapa servisní oblasti není součástí homepage — firma operuje celostátně"
+    }
   ],
   "extraSections": [
-    { "type": "contact", "reason": "Kontaktní formulář je součástí homepage jako finální CTA a zároveň standalone /kontakt stránky" }
+    {
+      "type": "contact",
+      "reason": "Kontaktní formulář je součástí homepage jako finální CTA a zároveň standalone /kontakt stránky"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -26,16 +43,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "stavba-01-navbar",       "contentRef": "navbar" },
-        { "type": "hero",         "variant": "stavba-01-hero",         "contentRef": "hero" },
-        { "type": "services",     "variant": "stavba-01-services",     "contentRef": "services" },
-        { "type": "about",        "variant": "stavba-01-about",        "contentRef": "about" },
-        { "type": "testimonials", "variant": "stavba-01-testimonials", "contentRef": "testimonials" },
-        { "type": "cta",          "variant": "stavba-01-cta",          "contentRef": "cta" },
-        { "type": "gallery",      "variant": "stavba-01-gallery",      "contentRef": "gallery" },
-        { "type": "faq",          "variant": "stavba-01-faq",          "contentRef": "faq" },
-        { "type": "contact",      "variant": "stavba-01-contact",      "contentRef": "contact" },
-        { "type": "footer",       "variant": "stavba-01-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "stavba-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "stavba-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "stavba-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "stavba-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "testimonials",
+          "variant": "stavba-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "cta",
+          "variant": "stavba-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "gallery",
+          "variant": "stavba-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "faq",
+          "variant": "stavba-01-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "contact",
+          "variant": "stavba-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "stavba-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -44,10 +101,26 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "stavba-01-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",      "contentRef": "pages.sluzby.hero" },
-        { "type": "services", "variant": "stavba-01-services", "contentRef": "pages.sluzby.services" },
-        { "type": "footer",   "variant": "stavba-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "stavba-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "stavba-01-services",
+          "contentRef": "pages.sluzby.services"
+        },
+        {
+          "type": "footer",
+          "variant": "stavba-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -56,10 +129,26 @@
       "seoTitleKey": "pages.reference.seoTitle",
       "seoDescriptionKey": "pages.reference.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "stavba-01-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",      "contentRef": "pages.reference.hero" },
-        { "type": "gallery",  "variant": "stavba-01-gallery",  "contentRef": "pages.reference.gallery" },
-        { "type": "footer",   "variant": "stavba-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "stavba-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.reference.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "stavba-01-gallery",
+          "contentRef": "pages.reference.gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "stavba-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -68,10 +157,26 @@
       "seoTitleKey": "pages.o-nas.seoTitle",
       "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "stavba-01-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",      "contentRef": "pages.o-nas.hero" },
-        { "type": "about",    "variant": "stavba-01-about",    "contentRef": "about" },
-        { "type": "footer",   "variant": "stavba-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "stavba-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "stavba-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "footer",
+          "variant": "stavba-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -80,9 +185,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "stavba-01-navbar",   "contentRef": "navbar" },
-        { "type": "contact",  "variant": "stavba-01-contact",  "contentRef": "contact" },
-        { "type": "footer",   "variant": "stavba-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "stavba-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "stavba-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "stavba-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

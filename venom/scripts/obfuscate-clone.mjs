@@ -356,7 +356,7 @@ async function main() {
   const cssFiles = findCssFiles(CLONE_DIR);
   console.log(`📂 Nalezeno ${cssFiles.length} CSS souborů v ${CLONE_DIR}`);
 
-  let allCssClasses = new Set();
+  const allCssClasses = new Set();
   const cssContents = {};
   for (const f of cssFiles) {
     const content = readFileSync(f, 'utf-8');
@@ -381,8 +381,8 @@ async function main() {
     console.log(`📄 Nalezeno ${sections.length} full-page-clone sekcí v DB`);
 
     // Collect IDs and HTML-only classes from all pages
-    let allIds = new Set();
-    let allHtmlClasses = new Set();
+    const allIds = new Set();
+    const allHtmlClasses = new Set();
     for (const section of sections) {
       const html = section.settings?.html ?? '';
       for (const id of extractHtmlIds(html)) allIds.add(id);

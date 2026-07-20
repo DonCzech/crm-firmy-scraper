@@ -1,62 +1,137 @@
 {
   "navbar": {
     "siteName": "GreenTax Poradenství",
-    "logoUrl":  "/templates/ucetni-02/logo.svg",
-    "ctaText":  "Kontaktujte nás",
-    "ctaHref":  "#kontakt",
-    "phone":    "+420 515 222 333",
-    "email":    "info@greentax-demo.cz",
+    "logoUrl": "/templates/ucetni-02/logo.svg",
+    "ctaText": "Kontaktujte nás",
+    "ctaHref": "#kontakt",
+    "phone": "+420 515 222 333",
+    "email": "info@greentax-demo.cz",
     "links": [
-      { "label": "Úvod",     "href": "/" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "O nás",    "href": "/o-nas" },
-      { "label": "Novinky",  "href": "#blog" },
-      { "label": "Kariéra",  "href": "#kariera" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Novinky",
+        "href": "#blog"
+      },
+      {
+        "label": "Kariéra",
+        "href": "#kariera"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
-    "title":    "Daně bez starostí, účetnictví bez chyb",
+    "title": "Daně bez starostí, účetnictví bez chyb",
     "subtitle": "Svěřte nám správu svých financí a soustřeďte se na to, co umíte nejlépe — rozvíjet svůj byznys. Náš tým certifikovaných poradců se postará o vše ostatní.",
-    "bgImage":  "/images/template-gallery/ucetni-02-hero-bg.jpg",
-    "ctaText":  "Domluvit konzultaci zdarma",
-    "ctaHref":  "#kontakt",
+    "bgImage": "/images/template-gallery/ucetni-02-hero-bg.jpg",
+    "ctaText": "Domluvit konzultaci zdarma",
+    "ctaHref": "#kontakt",
     "ctaSecondaryText": "Co nabízíme",
     "ctaSecondaryHref": "#sluzby"
   },
   "stats": {
     "items": [
-      { "value": "2 200+", "label": "spokojených klientů" },
-      { "value": "15+",    "label": "let zkušeností" },
-      { "value": "120+",   "label": "odborných poradců" }
+      {
+        "value": "2 200+",
+        "label": "spokojených klientů"
+      },
+      {
+        "value": "15+",
+        "label": "let zkušeností"
+      },
+      {
+        "value": "120+",
+        "label": "odborných poradců"
+      }
     ]
   },
   "services": {
-    "title":    "Oborová specializace",
-    "lead":     "Každé odvětví má svá specifika. Proto přistupujeme ke každému klientovi individuálně a s hlubokými znalostmi jeho oboru.",
+    "title": "Oborová specializace",
+    "lead": "Každé odvětví má svá specifika. Proto přistupujeme ke každému klientovi individuálně a s hlubokými znalostmi jeho oboru.",
     "services": [],
     "items": [
-      { "name": "Zdravotnictví",               "description": "Daňová a účetní podpora pro nemocnice, soukromé kliniky a lékaře.",        "icon": "heart" },
-      { "name": "Doprava a logistika",          "description": "Optimalizace daňové zátěže a mzdová agenda pro dopravní firmy.",           "icon": "truck" },
-      { "name": "Výroba a průmysl",             "description": "Komplexní účetnictví a poradenství pro výrobní a průmyslové podniky.",    "icon": "settings" },
-      { "name": "Zemědělství",                  "description": "Dotační poradenství a daňová optimalizace pro zemědělské subjekty.",      "icon": "leaf" },
-      { "name": "Technologie a IT",             "description": "Účetnictví a daňová podpora pro technologické firmy, SaaS a start-upy.", "icon": "monitor" },
-      { "name": "Stavebnictví",                 "description": "Finanční a daňové poradenství pro stavební firmy a developery.",          "icon": "building" },
-      { "name": "Energetika",                   "description": "Specializovaná podpora pro energetické a OZE společnosti.",               "icon": "zap" },
-      { "name": "Veřejná správa",               "description": "Účetnictví a kontroling pro obce, města a příspěvkové organizace.",      "icon": "map-pin" },
-      { "name": "Finance a pojišťovnictví",     "description": "Regulatorní compliance a reporting pro banky a pojišťovny.",             "icon": "bar-chart" },
-      { "name": "Maloobchod a e-commerce",      "description": "Daňová optimalizace a účetnictví pro obchodní řetězce i e-shopy.",       "icon": "shopping-bag" },
-      { "name": "Reality a development",        "description": "Daňové strukturování transakcí pro developery a realitní fondy.",        "icon": "home" },
-      { "name": "Gastronomie a cestovní ruch",  "description": "Účetnictví a daňová podpora pro hotely, restaurace a cestovní agentury.", "icon": "coffee" }
+      {
+        "name": "Zdravotnictví",
+        "description": "Daňová a účetní podpora pro nemocnice, soukromé kliniky a lékaře.",
+        "icon": "heart"
+      },
+      {
+        "name": "Doprava a logistika",
+        "description": "Optimalizace daňové zátěže a mzdová agenda pro dopravní firmy.",
+        "icon": "truck"
+      },
+      {
+        "name": "Výroba a průmysl",
+        "description": "Komplexní účetnictví a poradenství pro výrobní a průmyslové podniky.",
+        "icon": "settings"
+      },
+      {
+        "name": "Zemědělství",
+        "description": "Dotační poradenství a daňová optimalizace pro zemědělské subjekty.",
+        "icon": "leaf"
+      },
+      {
+        "name": "Technologie a IT",
+        "description": "Účetnictví a daňová podpora pro technologické firmy, SaaS a start-upy.",
+        "icon": "monitor"
+      },
+      {
+        "name": "Stavebnictví",
+        "description": "Finanční a daňové poradenství pro stavební firmy a developery.",
+        "icon": "building"
+      },
+      {
+        "name": "Energetika",
+        "description": "Specializovaná podpora pro energetické a OZE společnosti.",
+        "icon": "zap"
+      },
+      {
+        "name": "Veřejná správa",
+        "description": "Účetnictví a kontroling pro obce, města a příspěvkové organizace.",
+        "icon": "map-pin"
+      },
+      {
+        "name": "Finance a pojišťovnictví",
+        "description": "Regulatorní compliance a reporting pro banky a pojišťovny.",
+        "icon": "bar-chart"
+      },
+      {
+        "name": "Maloobchod a e-commerce",
+        "description": "Daňová optimalizace a účetnictví pro obchodní řetězce i e-shopy.",
+        "icon": "shopping-bag"
+      },
+      {
+        "name": "Reality a development",
+        "description": "Daňové strukturování transakcí pro developery a realitní fondy.",
+        "icon": "home"
+      },
+      {
+        "name": "Gastronomie a cestovní ruch",
+        "description": "Účetnictví a daňová podpora pro hotely, restaurace a cestovní agentury.",
+        "icon": "coffee"
+      }
     ]
   },
   "about": {
-    "title":    "Přes 15 let po vašem boku",
+    "title": "Přes 15 let po vašem boku",
     "subtitle": "Profesionalita, která se vyplácí",
-    "lead":     "Jsme brněnská daňová kancelář s pobočkami po celé České republice. Pomáháme podnikatelům, rodinným firmám i nadnárodním korporacím navigovat složitým světem daní a účetnictví.",
-    "body":     "Věříme, že správně nastavené finanční procesy jsou základem úspěšného podnikání. Proto nejen radíme — aktivně se podílíme na optimalizaci vašich nákladů, nastavení interních procesů a minimalizaci daňových rizik.",
-    "ctaText":  "Poznejte náš tým",
-    "ctaHref":  "/o-nas",
+    "lead": "Jsme brněnská daňová kancelář s pobočkami po celé České republice. Pomáháme podnikatelům, rodinným firmám i nadnárodním korporacím navigovat složitým světem daní a účetnictví.",
+    "body": "Věříme, že správně nastavené finanční procesy jsou základem úspěšného podnikání. Proto nejen radíme — aktivně se podílíme na optimalizaci vašich nákladů, nastavení interních procesů a minimalizaci daňových rizik.",
+    "ctaText": "Poznejte náš tým",
+    "ctaHref": "/o-nas",
     "imageUrl": "/images/template-gallery/ucetni-02-about.jpg",
     "badgeValue": "15+",
     "badgeLabel": "let zkušeností",
@@ -67,84 +142,116 @@
     ]
   },
   "blog": {
-    "title":   "Ze světa daní a práva",
-    "lead":    "Sledujte aktuální změny v legislativě, tipy na úsporu daní a novinky z naší kanceláře.",
+    "title": "Ze světa daní a práva",
+    "lead": "Sledujte aktuální změny v legislativě, tipy na úsporu daní a novinky z naší kanceláře.",
     "ctaText": "Zobrazit všechny články",
     "ctaHref": "#blog",
     "items": [
       {
-        "title":    "Konsolidační balíček 2026 — co se mění pro OSVČ",
-        "excerpt":  "Přinášíme přehled klíčových změn, které konsolidační balíček přináší pro osoby samostatně výdělečně činné od 1. ledna 2026.",
-        "date":     "2026-06-02",
+        "title": "Konsolidační balíček 2026 — co se mění pro OSVČ",
+        "excerpt": "Přinášíme přehled klíčových změn, které konsolidační balíček přináší pro osoby samostatně výdělečně činné od 1. ledna 2026.",
+        "date": "2026-06-02",
         "category": "Daně",
         "imageUrl": "",
-        "href":     "#"
+        "href": "#"
       },
       {
-        "title":    "DPH u nemovitostí: nová pravidla od července",
-        "excerpt":  "Novela zákona o DPH přináší zásadní změny v sazbách u prodeje a pronájmu nemovitostí. Víme, jak se na ně připravit.",
-        "date":     "2026-05-18",
+        "title": "DPH u nemovitostí: nová pravidla od července",
+        "excerpt": "Novela zákona o DPH přináší zásadní změny v sazbách u prodeje a pronájmu nemovitostí. Víme, jak se na ně připravit.",
+        "date": "2026-05-18",
         "category": "Legislativa",
         "imageUrl": "",
-        "href":     "#"
+        "href": "#"
       },
       {
-        "title":    "Otvíráme novou pobočku v Ostravě",
-        "excerpt":  "S rostoucí poptávkou po kvalitním daňovém poradenství na Moravě jsme se rozhodli rozšířit naše působení a otevřít kancelář v centru Ostravy.",
-        "date":     "2026-04-29",
+        "title": "Otvíráme novou pobočku v Ostravě",
+        "excerpt": "S rostoucí poptávkou po kvalitním daňovém poradenství na Moravě jsme se rozhodli rozšířit naše působení a otevřít kancelář v centru Ostravy.",
+        "date": "2026-04-29",
         "category": "Novinky",
         "imageUrl": "",
-        "href":     "#"
+        "href": "#"
       }
     ]
   },
   "contact": {
-    "title":     "Pojďme se sejít",
-    "lead":      "První konzultace je u nás zdarma. Rádi si vyslechneme vaši situaci a navrhneme optimální řešení — bez závazků a bez skrytých poplatků.",
-    "phone":     "+420 515 222 333",
-    "email":     "info@greentax-demo.cz",
-    "address":   "Náměstí Svobody 14, 602 00 Brno",
-    "hours":     "Po–Pá: 8:00–17:00",
+    "title": "Pojďme se sejít",
+    "lead": "První konzultace je u nás zdarma. Rádi si vyslechneme vaši situaci a navrhneme optimální řešení — bez závazků a bez skrytých poplatků.",
+    "phone": "+420 515 222 333",
+    "email": "info@greentax-demo.cz",
+    "address": "Náměstí Svobody 14, 602 00 Brno",
+    "hours": "Po–Pá: 8:00–17:00",
     "formTitle": "Zdarma konzultace"
   },
   "footer": {
-    "siteName":  "GreenTax Poradenství s.r.o.",
-    "tagline":   "Certifikovaná daňová kancelář s více než 15 lety zkušeností na českém trhu.",
-    "logoUrl":   "/templates/ucetni-02/logo.svg",
-    "email":     "info@greentax-demo.cz",
-    "phone":     "+420 515 222 333",
-    "address":   "Náměstí Svobody 14, 602 00 Brno",
-    "ico":       "87654321",
-    "web":       "https://greentax-demo.cz",
+    "siteName": "GreenTax Poradenství s.r.o.",
+    "tagline": "Certifikovaná daňová kancelář s více než 15 lety zkušeností na českém trhu.",
+    "logoUrl": "/templates/ucetni-02/logo.svg",
+    "email": "info@greentax-demo.cz",
+    "phone": "+420 515 222 333",
+    "address": "Náměstí Svobody 14, 602 00 Brno",
+    "ico": "87654321",
     "socials": [
-      { "icon": "linkedin",  "href": "https://linkedin.com/company/demo", "label": "LinkedIn" },
-      { "icon": "facebook",  "href": "https://facebook.com/demo",         "label": "Facebook" },
-      { "icon": "instagram", "href": "https://instagram.com/demo",        "label": "Instagram" }
+      {
+        "icon": "linkedin",
+        "href": "https://linkedin.com/company/demo",
+        "label": "LinkedIn"
+      },
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/demo",
+        "label": "Facebook"
+      },
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com/demo",
+        "label": "Instagram"
+      }
     ],
     "links": [
-      { "label": "Úvod",      "href": "/" },
-      { "label": "Služby",    "href": "#sluzby" },
-      { "label": "O nás",     "href": "/o-nas" },
-      { "label": "Novinky",   "href": "#blog" },
-      { "label": "Kontakt",   "href": "#kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Novinky",
+        "href": "#blog"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "legalLinks": [
-      { "label": "Zásady ochrany osobních údajů", "href": "#gdpr" },
-      { "label": "Obchodní podmínky",             "href": "#podminky" }
+      {
+        "label": "Zásady ochrany osobních údajů",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "#podminky"
+      }
     ],
     "copyright": "© 2026 GreenTax Poradenství s.r.o. Všechna práva vyhrazena."
   },
   "pages": {
     "o-nas": {
-      "seoTitle":       "O nás | GreenTax Poradenství s.r.o.",
+      "seoTitle": "O nás | GreenTax Poradenství s.r.o.",
       "seoDescription": "Brněnská daňová kancelář s 15 lety praxe. Pomáháme podnikatelům, rodinným firmám i korporacím nastavit daně a účetnictví správně.",
       "hero": {
-        "title":    "Náš příběh",
+        "title": "Náš příběh",
         "subtitle": "Začínali jsme jako malá brněnská kancelář. Dnes máme pobočky po celé republice a více než 2 200 spokojených klientů."
       }
     },
     "kontakt": {
-      "seoTitle":       "Kontakt | GreenTax Poradenství s.r.o.",
+      "seoTitle": "Kontakt | GreenTax Poradenství s.r.o.",
       "seoDescription": "Navštivte nás na Náměstí Svobody 14 v Brně nebo nám napište. První konzultace je zdarma."
     }
   }

@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#d5232c",
+    "secondary": "#212428",
+    "accent": "#ffd12e",
+    "background": "#f4f3ef",
+    "surface": "#ffffff",
+    "text": "#1d1f23",
+    "textMuted": "#6b6f76",
+    "border": "#e6e5e0"
+  },
+  "typography": {
+    "fontHeading": "'Space Grotesk', 'Arial', sans-serif",
+    "fontBody": "'Inter', 'Segoe UI', Arial, sans-serif"
+  }
+}

@@ -4,17 +4,30 @@
     "siteTagline": "Masážní studio Praha",
     "logoUrl": "",
     "phone": "704 123 456",
-    "ctaText": "REZERVOVAT",
-    "ctaHref": "#rezervace",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "tiktokUrl": "https://tiktok.com/@demo",
     "links": [
-      { "label": "Masáže",    "href": "#sluzby" },
-      { "label": "Terapeut",  "href": "#terapeut" },
-      { "label": "Reference", "href": "#reference" },
-      { "label": "Galerie",   "href": "#galerie" },
-      { "label": "Kontakt",   "href": "#kontakt" }
+      {
+        "label": "Masáže",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Terapeut",
+        "href": "#terapeut"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -59,9 +72,18 @@
     "bio1": "S více než 12 lety zkušeností se věnuji terapeutické masáži jako cestě k celkovému zdraví a rovnováze. Každé sezení přizpůsobuji individuálním potřebám klienta — ať už hledáte úlevu od bolesti, regeneraci po sportu, nebo prostě chvíli ticha pro sebe.",
     "bio2": "Mým cílem je vytvořit prostor, kde se můžete plně uvolnit a kde se vaše tělo i mysl dostanou do harmonie.",
     "stats": [
-      { "number": "12+", "label": "let praxe" },
-      { "number": "500+", "label": "spokojených klientů" },
-      { "number": "15", "label": "masážních technik" }
+      {
+        "number": "12+",
+        "label": "let praxe"
+      },
+      {
+        "number": "500+",
+        "label": "spokojených klientů"
+      },
+      {
+        "number": "15",
+        "label": "masážních technik"
+      }
     ],
     "image": "/assets/massage-01/648ab317d8-fc683be2-37c4-4f44-82a6-2fa514836c5e-683x1024.jpg"
   },
@@ -94,14 +116,38 @@
     "instagramHandle": "@demomasaze",
     "instagramUrl": "https://instagram.com/demo",
     "images": [
-      { "url": "/templates/massage-01/gallery-1.webp", "alt": "Masážní studio" },
-      { "url": "/templates/massage-01/gallery-2.webp", "alt": "Relaxační pokoj" },
-      { "url": "/templates/massage-01/gallery-3.webp", "alt": "Aromatické oleje" },
-      { "url": "/templates/massage-01/gallery-4.webp", "alt": "Masáž" },
-      { "url": "/templates/massage-01/gallery-5.webp", "alt": "Wellness prostor" },
-      { "url": "/templates/massage-01/gallery-6.webp", "alt": "Smyslová masáž" },
-      { "url": "/templates/massage-01/gallery-7.webp", "alt": "Regenerace" },
-      { "url": "/templates/massage-01/gallery-8.webp", "alt": "Relaxace" }
+      {
+        "url": "/templates/massage-01/gallery-1-v2.webp",
+        "alt": "Masážní studio"
+      },
+      {
+        "url": "/templates/massage-01/gallery-2-v2.webp",
+        "alt": "Relaxační pokoj"
+      },
+      {
+        "url": "/templates/massage-01/gallery-3-v2.webp",
+        "alt": "Aromatické oleje"
+      },
+      {
+        "url": "/templates/massage-01/gallery-4-v2.webp",
+        "alt": "Masáž"
+      },
+      {
+        "url": "/templates/massage-01/gallery-5-v2.webp",
+        "alt": "Wellness prostor"
+      },
+      {
+        "url": "/templates/massage-01/gallery-6-v2.webp",
+        "alt": "Smyslová masáž"
+      },
+      {
+        "url": "/templates/massage-01/gallery-7-v2.webp",
+        "alt": "Regenerace"
+      },
+      {
+        "url": "/templates/massage-01/gallery-8-v2.webp",
+        "alt": "Relaxace"
+      }
     ]
   },
   "contact": {
@@ -116,15 +162,26 @@
   "footer": {
     "siteName": "Demo Masáže",
     "siteTagline": "Masážní studio Praha",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "phone": "704 123 456",
-    "email": "email@demo.cz",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "copyright": "© 2025 Demo Masáže Praha. Všechna práva vyhrazena.",
     "legalLinks": [
-      { "label": "Ochrana osobních údajů", "href": "#gdpr" },
-      { "label": "Obchodní podmínky", "href": "#podminky" }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "#podminky"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si proceduru",
+      "subtitle": "Vyberte proceduru, terapeuta a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

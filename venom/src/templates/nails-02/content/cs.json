@@ -4,192 +4,317 @@
     "logoUrl": "",
     "ctaText": "Objednat se",
     "ctaHref": "/kontakt",
-    "phone":   "+420 704 123 456",
-    "hours":   "Po–Pá 9:00–20:00 · So 9:00–15:00",
-    "igHref":  "https://instagram.com/premiumnails.demo",
-    "waHref":  "https://wa.me/420704123456",
+    "phone": "+420 704 123 456",
+    "hours": "Po–Pá 9:00–20:00 · So 9:00–15:00",
+    "igHref": "https://instagram.com/premiumnails.demo",
+    "waHref": "https://wa.me/420704123456",
     "links": [
-      { "label": "Domů",     "href": "/" },
-      { "label": "O nás",    "href": "/onas" },
-      { "label": "Ceník",    "href": "/cenik" },
-      { "label": "Recenze",  "href": "/recenze" },
-      { "label": "Kontakty", "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "/onas"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Recenze",
+        "href": "/recenze"
+      },
+      {
+        "label": "Kontakty",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
-    "kicker":         "N°01 · Studio · Praha",
-    "tagline":        "Elegance, která začíná\nu ",
-    "taglineAccent":  "detailu",
-    "taglineTail":    ".",
-    "subtitle":       "Prémiové nehtové studio v srdci Prahy — manikúra, pedikúra a originální nail design. Od přirozeného French vzhledu po podpisové kolekce, každý detail vypilován do dokonalosti.",
-    "bgImage":        "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2400&q=88",
-    "ctaText":        "Objednat se",
-    "ctaHref":        "/kontakt",
-    "phone":          "+420 704 123 456",
-    "hours":          "Po–Pá 9:00–20:00",
-    "editionNumber":  "N°01"
+    "kicker": "N°01 · Studio · Praha",
+    "tagline": "Elegance, která začíná\nu ",
+    "taglineAccent": "detailu",
+    "taglineTail": ".",
+    "subtitle": "Prémiové nehtové studio v srdci Prahy — manikúra, pedikúra a originální nail design. Od přirozeného French vzhledu po podpisové kolekce, každý detail vypilován do dokonalosti.",
+    "bgImage": "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2400&q=88",
+    "ctaText": "Objednat se",
+    "ctaHref": "/kontakt",
+    "phone": "+420 704 123 456",
+    "hours": "Po–Pá 9:00–20:00",
+    "editionNumber": "N°01"
   },
   "about": {
-    "numberPrefix":  "(01)",
-    "title":         "Naše",
-    "ampersand":     "&",
-    "titleTail":     "studio",
-    "kicker":        "O studiu · Praha 1",
-    "bodyDrop":      "N",
-    "body":          "abízíme manikúru, pedikúru a nail design všech stylů — od přirozeného French vzhledu po prodloužení a podpisové kolekce. Naše práce vydrží dlouhé týdny a samozřejmostí je individuální přístup, sterilizované nástroje a maximální komfort.",
-    "signature":     "— Kateřina Novotná · zakladatelka studia",
-    "imageUrl":      "https://images.unsplash.com/photo-1604902396830-aca29e19b067?auto=format&fit=crop&w=1600&q=88",
-    "caption":       "Signature Collection · No. 2026",
+    "numberPrefix": "(01)",
+    "title": "Naše",
+    "ampersand": "&",
+    "titleTail": "studio",
+    "kicker": "O studiu · Praha 1",
+    "bodyDrop": "N",
+    "body": "abízíme manikúru, pedikúru a nail design všech stylů — od přirozeného French vzhledu po prodloužení a podpisové kolekce. Naše práce vydrží dlouhé týdny a samozřejmostí je individuální přístup, sterilizované nástroje a maximální komfort.",
+    "signature": "— Kateřina Novotná · zakladatelka studia",
+    "imageUrl": "https://images.unsplash.com/photo-1604902396830-aca29e19b067?auto=format&fit=crop&w=1600&q=88",
+    "caption": "Signature Collection · No. 2026",
     "polaroidLine1": "Studio",
     "polaroidLine2": "Praha 1",
     "stats": [
-      { "number": "8+",     "label": "let zkušeností" },
-      { "number": "2 200+", "label": "spokojených klientek" },
-      { "number": "20+",    "label": "podpisových designů" }
+      {
+        "number": "8+",
+        "label": "let zkušeností"
+      },
+      {
+        "number": "2 200+",
+        "label": "spokojených klientek"
+      },
+      {
+        "number": "20+",
+        "label": "podpisových designů"
+      }
     ]
   },
   "promo": {
-    "decorNumber":   "10%",
-    "label":         "Nová klientka",
-    "message":       "Věnujeme vám 10% slevu na první návštěvu — manikúru, pedikúru nebo podpisový nail design v Premium Nails.",
-    "ctaText":       "Rezervovat termín",
-    "ctaHref":       "/kontakt",
+    "decorNumber": "10%",
+    "label": "Nová klientka",
+    "message": "Věnujeme vám 10% slevu na první návštěvu — manikúru, pedikúru nebo podpisový nail design v Premium Nails.",
+    "ctaText": "Rezervovat termín",
+    "ctaHref": "/kontakt",
     "secondaryText": "Prohlédnout ceník",
     "secondaryHref": "/cenik",
-    "signature":     "— Nová kolekce 2026"
+    "signature": "— Nová kolekce 2026"
   },
   "pricing": {
-    "numberPrefix":  "(02)",
-    "title":         "Ceník",
-    "kicker":        "Ceník · Praha 1",
-    "lead":          "Editoriální ceník — všechny ceny v Kč včetně DPH. Skutečné ceny upraví majitel přes editor.",
-    "infoText":      "Ceny včetně DPH",
-    "infoText2":     "Rezervace 24 h předem",
-    "infoText3":     "Storno 12 h předem",
-    "ctaText":       "Objednat se",
-    "ctaHref":       "/kontakt",
+    "numberPrefix": "(02)",
+    "title": "Ceník",
+    "kicker": "Ceník · Praha 1",
+    "lead": "Editoriální ceník — všechny ceny v Kč včetně DPH. Skutečné ceny upraví majitel přes editor.",
+    "infoText": "Ceny včetně DPH",
+    "infoText2": "Rezervace 24 h předem",
+    "infoText3": "Storno 12 h předem",
+    "ctaText": "Objednat se",
+    "ctaHref": "/kontakt",
     "secondaryText": "Prohlédnout galerii",
     "secondaryHref": "/galerie",
     "groups": [
       {
         "title": "Manikúra",
         "items": [
-          { "name": "Klasická manikúra",         "price": "550 Kč" },
-          { "name": "Japonská manikúra",         "price": "750 Kč" },
-          { "name": "Gel lak / Shellac",         "price": "850 Kč" },
-          { "name": "Gel modeláž",               "price": "1 200 Kč" },
-          { "name": "Doplnění gelu",             "price": "950 Kč" },
-          { "name": "Odstranění gelu",           "price": "350 Kč" }
+          {
+            "name": "Klasická manikúra",
+            "price": "550 Kč"
+          },
+          {
+            "name": "Japonská manikúra",
+            "price": "750 Kč"
+          },
+          {
+            "name": "Gel lak / Shellac",
+            "price": "850 Kč"
+          },
+          {
+            "name": "Gel modeláž",
+            "price": "1 200 Kč"
+          },
+          {
+            "name": "Doplnění gelu",
+            "price": "950 Kč"
+          },
+          {
+            "name": "Odstranění gelu",
+            "price": "350 Kč"
+          }
         ]
       },
       {
         "title": "Pedikúra",
         "items": [
-          { "name": "Klasická pedikúra",         "price": "750 Kč" },
-          { "name": "Kombinovaná pedikúra",      "price": "950 Kč" },
-          { "name": "Pedikúra + gel lak",        "price": "1 200 Kč" },
-          { "name": "Spa pedikúra",              "price": "1 350 Kč" },
-          { "name": "Parafínový zábal",          "price": "250 Kč" }
+          {
+            "name": "Klasická pedikúra",
+            "price": "750 Kč"
+          },
+          {
+            "name": "Kombinovaná pedikúra",
+            "price": "950 Kč"
+          },
+          {
+            "name": "Pedikúra + gel lak",
+            "price": "1 200 Kč"
+          },
+          {
+            "name": "Spa pedikúra",
+            "price": "1 350 Kč"
+          },
+          {
+            "name": "Parafínový zábal",
+            "price": "250 Kč"
+          }
         ]
       },
       {
         "title": "Nail design",
         "items": [
-          { "name": "Francouzská manikúra",      "price": "+ 150 Kč" },
-          { "name": "Ombré efekt",               "price": "+ 200 Kč" },
-          { "name": "Ruční malba (1 nehet)",     "price": "+ 80 Kč" },
-          { "name": "Kamínky / chrom (1 nehet)", "price": "+ 60 Kč" },
-          { "name": "Stamping vzor",             "price": "+ 100 Kč" }
+          {
+            "name": "Francouzská manikúra",
+            "price": "+ 150 Kč"
+          },
+          {
+            "name": "Ombré efekt",
+            "price": "+ 200 Kč"
+          },
+          {
+            "name": "Ruční malba (1 nehet)",
+            "price": "+ 80 Kč"
+          },
+          {
+            "name": "Kamínky / chrom (1 nehet)",
+            "price": "+ 60 Kč"
+          },
+          {
+            "name": "Stamping vzor",
+            "price": "+ 100 Kč"
+          }
         ]
       },
       {
         "title": "Doplňky",
         "items": [
-          { "name": "Lakování klasické (ruce)",  "price": "250 Kč" },
-          { "name": "Lakování klasické (nohy)",  "price": "300 Kč" },
-          { "name": "Oprava jednoho nehtu",      "price": "120 Kč" },
-          { "name": "Dárkový poukaz",            "price": "od 500 Kč" }
+          {
+            "name": "Lakování klasické (ruce)",
+            "price": "250 Kč"
+          },
+          {
+            "name": "Lakování klasické (nohy)",
+            "price": "300 Kč"
+          },
+          {
+            "name": "Oprava jednoho nehtu",
+            "price": "120 Kč"
+          },
+          {
+            "name": "Dárkový poukaz",
+            "price": "od 500 Kč"
+          }
         ]
       }
     ]
   },
   "testimonials": {
-    "numberPrefix":  "(03)",
-    "title":         "Recenze",
-    "kicker":        "Co o nás říkají klientky",
-    "ratingScore":   "4.9",
-    "ratingText":    "/ 5 · 128 hodnocení na Google",
-    "ratingHref":    "https://google.com/search?q=demo",
+    "numberPrefix": "(03)",
+    "title": "Recenze",
+    "kicker": "Co o nás říkají klientky",
+    "ratingScore": "4.9",
+    "ratingText": "/ 5 · 128 hodnocení na Google",
+    "ratingHref": "https://google.com/search?q=demo",
     "secondaryText": "Přečíst všechny recenze",
     "secondaryHref": "https://google.com/search?q=demo",
     "reviews": [
       {
-        "quote":  "Naprostá spokojenost. Holky jsou opravdové profesionálky, manikúra mi vydržela přes čtyři týdny bez jediného škrábance. Atmosféra studia je úžasná, vždycky se ráda vracím.",
+        "quote": "Naprostá spokojenost. Holky jsou opravdové profesionálky, manikúra mi vydržela přes čtyři týdny bez jediného škrábance. Atmosféra studia je úžasná, vždycky se ráda vracím.",
         "author": "Tereza H.",
-        "meta":   "Praha · pravidelná klientka"
+        "meta": "Praha · pravidelná klientka"
       },
       {
-        "quote":  "Šla jsem na první návštěvu díky 10% slevě pro nové klientky. Byla jsem nadšená — výsledek přesně podle inspirace a velmi příjemný přístup. Doporučuju.",
+        "quote": "Šla jsem na první návštěvu díky 10% slevě pro nové klientky. Byla jsem nadšená — výsledek přesně podle inspirace a velmi příjemný přístup. Doporučuju.",
         "author": "Veronika M.",
-        "meta":   "Praha 10"
+        "meta": "Praha 10"
       },
       {
-        "quote":  "Pedikúra na úrovni špičkového wellness — pohodlí, čistota a krásné provedení. Cenu vnímám jako adekvátní kvalitě. Příště zkusím nail design.",
+        "quote": "Pedikúra na úrovni špičkového wellness — pohodlí, čistota a krásné provedení. Cenu vnímám jako adekvátní kvalitě. Příště zkusím nail design.",
         "author": "Klára S.",
-        "meta":   "Vinohrady"
+        "meta": "Vinohrady"
       }
     ]
   },
   "gallery": {
     "numberPrefix": "(bonus)",
-    "title":     "Galerie",
-    "kicker":    "Naše práce v detailu",
-    "lead":      "Výběr z podpisové kolekce — manikúra, pedikúra i originální nail design pro pravidelné klientky studia.",
+    "title": "Galerie",
+    "kicker": "Naše práce v detailu",
+    "lead": "Výběr z podpisové kolekce — manikúra, pedikúra i originální nail design pro pravidelné klientky studia.",
     "zoomLabel": "Zvětšit",
-    "igText":    "Sledujte @premiumnails.demo",
-    "igHref":    "https://instagram.com/premiumnails.demo",
+    "igText": "Sledujte @premiumnails.demo",
+    "igHref": "https://instagram.com/premiumnails.demo",
     "images": [
-      { "url": "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1600&q=88", "alt": "Manikúra detail" },
-      { "url": "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1200&q=88", "alt": "Nail design" },
-      { "url": "https://images.unsplash.com/photo-1604902396830-aca29e19b067?auto=format&fit=crop&w=1200&q=88", "alt": "Gel modeláž" },
-      { "url": "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=1200&q=88", "alt": "Francouzská manikúra" },
-      { "url": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1200&q=88", "alt": "Pedikúra spa" },
-      { "url": "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=1200&q=88", "alt": "Nail art detail" }
+      {
+        "url": "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1600&q=88",
+        "alt": "Manikúra detail"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1632345031435-8727f6897d53?auto=format&fit=crop&w=1200&q=88",
+        "alt": "Nail design"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1604902396830-aca29e19b067?auto=format&fit=crop&w=1200&q=88",
+        "alt": "Gel modeláž"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=1200&q=88",
+        "alt": "Francouzská manikúra"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1200&q=88",
+        "alt": "Pedikúra spa"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=1200&q=88",
+        "alt": "Nail art detail"
+      }
     ]
   },
   "contact": {
     "numberPrefix": "(04)",
-    "title":        "Kontakty",
-    "kicker":       "Těšíme se na vás",
-    "address":      "Melantrichova 15, 110 00 Praha 1",
-    "email":        "studio@premiumnails.cz",
-    "phone":        "+420 704 123 456",
-    "hours":        "Po–Pá 9:00–20:00 · So 9:00–15:00",
-    "mapEmbedUrl":  "https://www.google.com/maps?q=Melantrichova+15,+Praha&output=embed",
-    "igHref":       "https://instagram.com/premiumnails.demo",
-    "waHref":       "https://wa.me/420704123456"
+    "title": "Kontakty",
+    "kicker": "Těšíme se na vás",
+    "address": "Melantrichova 15, 110 00 Praha 1",
+    "email": "studio@premiumnails.cz",
+    "phone": "+420 704 123 456",
+    "hours": "Po–Pá 9:00–20:00 · So 9:00–15:00",
+    "mapEmbedUrl": "https://www.google.com/maps?q=Melantrichova+15,+Praha&output=embed",
+    "igHref": "https://instagram.com/premiumnails.demo",
+    "waHref": "https://wa.me/420704123456"
   },
   "footer": {
     "ctaKicker": "Rezervace",
-    "ctaTitle":  "Objednáte si termín ještě dnes?",
-    "ctaText":   "Rezervovat termín",
-    "ctaHref":   "/kontakt",
-    "siteName":  "Premium Nails",
-    "tagline":   "Prémiové nehtové studio v srdci Prahy — manikúra, pedikúra a originální nail design.",
-    "address":   "Melantrichova 15, 110 00 Praha 1",
-    "email":     "studio@premiumnails.cz",
-    "phone":     "+420 704 123 456",
-    "hours":     "Po–Pá 9:00–20:00\nSo 9:00–15:00",
-    "ico":       "12345678",
+    "ctaTitle": "Objednáte si termín ještě dnes?",
+    "ctaText": "Rezervovat termín",
+    "ctaHref": "/kontakt",
+    "siteName": "Premium Nails",
+    "tagline": "Prémiové nehtové studio v srdci Prahy — manikúra, pedikúra a originální nail design.",
+    "address": "Melantrichova 15, 110 00 Praha 1",
+    "email": "studio@premiumnails.cz",
+    "phone": "+420 704 123 456",
+    "hours": "Po–Pá 9:00–20:00\nSo 9:00–15:00",
+    "ico": "12345678",
     "copyright": "© 2026 Premium Nails. Demo web — všechna práva vyhrazena.",
-    "igHref":    "https://instagram.com/premiumnails.demo",
-    "waHref":    "https://wa.me/420704123456",
+    "igHref": "https://instagram.com/premiumnails.demo",
+    "waHref": "https://wa.me/420704123456",
     "links": [
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Recenze",  "href": "#recenze" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Kontakty", "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Recenze",
+        "href": "#recenze"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Kontakty",
+        "href": "#kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se k nám",
+      "subtitle": "Vyberte službu, manikérku a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

@@ -2,15 +2,35 @@
   "navbar": {
     "siteName": "MARTIN VESELÝ",
     "logoUrl": "",
-    "phone": "731 556 892",
     "links": [
-      { "label": "O mně",         "href": "#o-mne"    },
-      { "label": "Svatební videa","href": "#videa"    },
-      { "label": "Místa",         "href": "#mista"    },
-      { "label": "Reference",     "href": "#reference"},
-      { "label": "FAQ",           "href": "#faq"      },
-      { "label": "Nabídka",       "href": "#nabidka"  },
-      { "label": "Napište mi",    "href": "#kontakt"  }
+      {
+        "label": "O mně",
+        "href": "#o-mne"
+      },
+      {
+        "label": "Svatební videa",
+        "href": "#videa"
+      },
+      {
+        "label": "Místa",
+        "href": "#mista"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      },
+      {
+        "label": "Nabídka",
+        "href": "#nabidka"
+      },
+      {
+        "label": "Napište mi",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -25,7 +45,6 @@
   },
   "about": {
     "eyebrow": "Ahoj!",
-    "title": "Jsem Martin, snílek, táta, manžel a taky svatební kameraman.",
     "titleNormal": "Jsem Martin, snílek, táta, manžel a taky",
     "titleBold": "svatební kameraman",
     "body": "Baví mě lidi a jejich vztahy. S trpělivostí a empatií natáčím svatební filmy po celé České republice — od Šumavy až po Moravu.",
@@ -134,14 +153,29 @@
     "ico": "06184523",
     "copyright": "© 2026 Martin Veselý. Všechna práva vyhrazena.",
     "links": [
-      { "label": "O mně",          "href": "#o-mne"    },
-      { "label": "Svatební videa", "href": "#videa"    },
-      { "label": "Reference",      "href": "#reference"},
-      { "label": "Nabídka",        "href": "#nabidka"  },
-      { "label": "Napište mi",     "href": "#kontakt"  }
+      {
+        "label": "O mně",
+        "href": "#o-mne"
+      },
+      {
+        "label": "Svatební videa",
+        "href": "#videa"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Nabídka",
+        "href": "#nabidka"
+      },
+      {
+        "label": "Napište mi",
+        "href": "#kontakt"
+      }
     ],
     "instagram": "https://instagram.com/demo",
-    "facebook":  "https://facebook.com/demo",
-    "youtube":   "https://youtube.com/demo"
+    "facebook": "https://facebook.com/demo",
+    "youtube": "https://youtube.com/demo"
   }
 }

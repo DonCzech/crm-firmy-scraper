@@ -9,18 +9,50 @@
   "description": "Warm luxusní pánský barbershop — golden lighting, kožené tóny, gold accent na warm dark.",
   "sectionOrderNote": "Originál fade-room (barbershopurban.cz) má pořadí header → hero → promo → reviews → about → services+pricing → gallery → footer. Liší se od skeletonu service-personal (about → services → pricing → gallery → testimonials). Pro 1:1 vizuální paritu s /preview priorita > skeleton order — viz the-barber/barber-02 precedent.",
   "extraSections": [
-    { "pos": 3, "name": "Promo (Akce)", "type": "promo", "variant": "promo-2cards", "reason": "originál má dvojici akčních karet hned za hero" }
+    {
+      "pos": 3,
+      "name": "Promo (Akce)",
+      "type": "promo",
+      "variant": "promo-2cards",
+      "reason": "originál má dvojici akčních karet hned za hero"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "skippedSections": [
-    { "pos": 4,  "name": "Services",     "reason": "originál nemá samostatnou services sekci — služby v pricing-table-video combo (kombinováno se sekcí Pricing pos 5)" },
-    { "pos": 7,  "name": "Team",         "reason": "originál nemá team sekci" },
-    { "pos": 9,  "name": "Booking/CTA",  "reason": "phone callto v headeru je primární CTA, samostatná booking sekce neexistuje" },
-    { "pos": 10, "name": "Locations",    "reason": "jediná pobočka — mapa + adresa ve footeru" },
-    { "pos": 11, "name": "FAQ",          "reason": "/faq/ je samostatná podstránka, na homepage chybí; defer v1.1" }
+    {
+      "pos": 4,
+      "name": "Services",
+      "reason": "originál nemá samostatnou services sekci — služby v pricing-table-video combo (kombinováno se sekcí Pricing pos 5)"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "originál nemá team sekci"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "phone callto v headeru je primární CTA, samostatná booking sekce neexistuje"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "jediná pobočka — mapa + adresa ve footeru"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "/faq/ je samostatná podstránka, na homepage chybí; defer v1.1"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,14 +60,51 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar", "variant": "barber-overlay-promo", "contentRef": "navbar" },
-        { "type": "hero",   "variant": "hero-barber-titleonly",  "contentRef": "hero" },
-        { "type": "promo",         "variant": "promo-2cards",        "contentRef": "promo" },
-        { "type": "testimonials",  "variant": "barber-dark-3col",    "contentRef": "testimonials" },
-        { "type": "about",         "variant": "about-barber-03-luxury", "contentRef": "about" },
-        { "type": "pricing",       "variant": "pricing-table-video", "contentRef": "pricing" },
-        { "type": "gallery",       "variant": "four-col-contained",  "contentRef": "gallery" },
-        { "type": "footer",        "variant": "footer-map-contact",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "barber-overlay-promo",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-barber-titleonly",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "promo-2cards",
+          "contentRef": "promo"
+        },
+        {
+          "type": "testimonials",
+          "variant": "barber-dark-3col",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "about",
+          "variant": "about-barber-03-luxury",
+          "contentRef": "about"
+        },
+        {
+          "type": "pricing",
+          "variant": "pricing-table-video",
+          "contentRef": "pricing"
+        },
+        {
+          "type": "gallery",
+          "variant": "four-col-contained",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "barber-03",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "footer",
+          "variant": "footer-map-contact",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

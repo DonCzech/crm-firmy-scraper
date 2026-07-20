@@ -982,20 +982,42 @@ export interface Tenant {
   updated_at: string;
 }
 
+/**
+ * Sloupce tenanta, které se NIKDY nesmí dostat do stránky.
+ *
+ * Objekt tenanta putuje až do klientských komponent (TenantPublicView), a Next
+ * serializuje jejich props do HTML — cokoli tu zůstane, přečte si každý
+ * návštěvník ve zdroji stránky. Párovací klíč k rezervacím sem takhle jednou
+ * unikl; čte se výhradně cíleným dotazem (viz lib/rezora/client.ts).
+ */
+const TENANT_SECRETS = ["rezora_connection_key"] as const;
+
+function stripTenantSecrets(row: Tenant | null): Tenant | null {
+  if (!row) return null;
+  for (const key of TENANT_SECRETS) delete (row as unknown as Record<string, unknown>)[key];
+  return row;
+}
+
 export async function getTenantBySlug(slug: string): Promise<Tenant | null> {
-  return queryOne<Tenant>("SELECT * FROM tenants WHERE slug = $1", [slug]);
+  return stripTenantSecrets(
+    await queryOne<Tenant>("SELECT * FROM tenants WHERE slug = $1", [slug])
+  );
 }
 
 export async function getTenantById(id: number): Promise<Tenant | null> {
-  return queryOne<Tenant>("SELECT * FROM tenants WHERE id = $1", [id]);
+  return stripTenantSecrets(
+    await queryOne<Tenant>("SELECT * FROM tenants WHERE id = $1", [id])
+  );
 }
 
 export async function getTenantByDomain(domain: string): Promise<Tenant | null> {
-  return queryOne<Tenant>(
-    `SELECT t.* FROM tenants t
-     JOIN domains d ON d.tenant_id = t.id
-     WHERE d.domain = $1 AND d.verified = true`,
-    [domain]
+  return stripTenantSecrets(
+    await queryOne<Tenant>(
+      `SELECT t.* FROM tenants t
+       JOIN domains d ON d.tenant_id = t.id
+       WHERE d.domain = $1 AND d.verified = true`,
+      [domain]
+    )
   );
 }
 

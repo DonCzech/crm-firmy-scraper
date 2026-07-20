@@ -1,0 +1,457 @@
+{
+  "siteName": "Pohodář",
+  "seo": {
+    "title": "Pohodář — e-shop plný pohody",
+    "description": "Elektronika, oblečení, domácnost i zahrada na jednom místě. Doprava zdarma od 990 Kč, odeslání do 24 hodin a 3 000+ výdejních míst po celé ČR."
+  },
+  "navbar": {
+    "siteName": "Pohodář",
+    "logoUrl": "",
+    "topLinks": [
+      {
+        "label": "Doprava a platba",
+        "href": "/doprava-a-platba"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "ctaText": "Nakupovat",
+    "ctaHref": "/obchod",
+    "links": [
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "categories": [
+      {
+        "label": "Elektronika",
+        "slug": "elektronika",
+        "children": [
+          {
+            "label": "Notebooky",
+            "slug": "notebooky"
+          },
+          {
+            "label": "Mobilní telefony",
+            "slug": "mobily"
+          },
+          {
+            "label": "Sluchátka",
+            "slug": "sluchatka"
+          },
+          {
+            "label": "Tablety",
+            "slug": "tablety"
+          },
+          {
+            "label": "Chytré hodinky",
+            "slug": "chytre-hodinky"
+          },
+          {
+            "label": "Příslušenství",
+            "slug": "prislusenstvi-el"
+          }
+        ]
+      },
+      {
+        "label": "Oblečení",
+        "slug": "obleceni",
+        "children": [
+          {
+            "label": "Pánské",
+            "slug": "panske"
+          },
+          {
+            "label": "Dámské",
+            "slug": "damske"
+          },
+          {
+            "label": "Dětské",
+            "slug": "detske"
+          },
+          {
+            "label": "Trička & Polokošile",
+            "slug": "tricka"
+          },
+          {
+            "label": "Mikiny & Svetry",
+            "slug": "mikiny"
+          },
+          {
+            "label": "Bundy & Kabáty",
+            "slug": "bundy"
+          },
+          {
+            "label": "Kalhoty & Džíny",
+            "slug": "kalhoty"
+          }
+        ]
+      },
+      {
+        "label": "Boty",
+        "slug": "boty",
+        "children": [
+          {
+            "label": "Tenisky",
+            "slug": "tenisky"
+          },
+          {
+            "label": "Polobotky",
+            "slug": "polobotky"
+          },
+          {
+            "label": "Sandály & Pantofle",
+            "slug": "sandaly"
+          },
+          {
+            "label": "Zimní obuv",
+            "slug": "zimni-boty"
+          }
+        ]
+      },
+      {
+        "label": "Sport",
+        "slug": "sport",
+        "children": [
+          {
+            "label": "Fitness & Posilovna",
+            "slug": "fitness"
+          },
+          {
+            "label": "Cyklistika",
+            "slug": "cyklistika"
+          },
+          {
+            "label": "Běh",
+            "slug": "beh"
+          },
+          {
+            "label": "Outdoor & Turistika",
+            "slug": "outdoor"
+          },
+          {
+            "label": "Jóga & Pilates",
+            "slug": "joga"
+          }
+        ]
+      },
+      {
+        "label": "Domácnost",
+        "slug": "domacnost",
+        "children": [
+          {
+            "label": "Svíčky & Vůně",
+            "slug": "svicky-vune"
+          },
+          {
+            "label": "Textil & Povlečení",
+            "slug": "textil"
+          },
+          {
+            "label": "Kuchyně",
+            "slug": "kuchyne"
+          },
+          {
+            "label": "Dekorace",
+            "slug": "dekorace"
+          },
+          {
+            "label": "Osvětlení",
+            "slug": "osvetleni"
+          }
+        ]
+      },
+      {
+        "label": "Kosmetika",
+        "slug": "kosmetika",
+        "children": [
+          {
+            "label": "Péče o pleť",
+            "slug": "pece-o-plet"
+          },
+          {
+            "label": "Vlasová kosmetika",
+            "slug": "vlasova-kosmetika"
+          },
+          {
+            "label": "Parfémy",
+            "slug": "parfemy"
+          },
+          {
+            "label": "BIO & EKO",
+            "slug": "bio-eko"
+          }
+        ]
+      }
+    ],
+    "highlightLinks": [
+      {
+        "label": "Akce & Výprodej",
+        "slug": "akce",
+        "tone": "accent"
+      },
+      {
+        "label": "Novinky",
+        "slug": "novinky",
+        "tone": "light"
+      }
+    ]
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "heading": "O nás",
+        "text": "Pohodář začal v roce 2016 jako malý sklad v pražských Holešovicích. Dnes odesíláme tisíce balíků měsíčně — a pořád nás to baví stejně jako první den."
+      },
+      "banner": {
+        "image": "/templates/eshop-03/banner-sklad.webp",
+        "imageAlt": "Sklad e-shopu",
+        "badge": "Náš příběh",
+        "heading": "10 let posíláme dobrou náladu",
+        "text": "Vlastní sklad, rychlá expedice a zákaznická podpora, která opravdu zvedá telefon.",
+        "ctaText": "Nakupovat",
+        "ctaHref": "/obchod"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "heading": "Kontakt",
+        "text": "Zavolejte, napište, nebo se stavte osobně. Jsme tu pro vás každý všední den."
+      },
+      "contact": {
+        "phone": "+420 725 456 789",
+        "email": "ahoj@pohodar.cz",
+        "address": "Slunečná 8, 170 00 Praha 7",
+        "hours": "Po–Pá 8:00–18:00",
+        "formTitle": "Napište nám",
+        "formText": "Odpovídáme do 24 hodin, obvykle mnohem dřív."
+      }
+    },
+    "doprava": {
+      "hero": {
+        "heading": "Doprava a platba",
+        "text": "Doprava zdarma od 990 Kč. Objednávky do 14:00 odesíláme ještě tentýž den."
+      },
+      "shipping": {
+        "shippingTitle": "Doprava",
+        "shippingItems": [
+          {
+            "name": "Zásilkovna — výdejní místo",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "69 Kč"
+          },
+          {
+            "name": "Balíkovna České pošty",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "65 Kč"
+          },
+          {
+            "name": "PPL kurýr na adresu",
+            "note": "doručení následující pracovní den",
+            "price": "99 Kč"
+          },
+          {
+            "name": "GLS kurýr na adresu",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "89 Kč"
+          },
+          {
+            "name": "Osobní odběr — Praha 7",
+            "note": "Slunečná 8, Po–Pá 8:00–18:00",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Objednávka nad 990 Kč",
+            "note": "platí pro všechny dopravce",
+            "price": "Zdarma"
+          }
+        ],
+        "paymentTitle": "Platba",
+        "paymentItems": [
+          {
+            "name": "Platební kartou online",
+            "note": "Visa, Mastercard, Apple Pay, Google Pay",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Bankovní převod",
+            "note": "zboží odesíláme po připsání platby",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Dobírka",
+            "note": "platba při převzetí zásilky",
+            "price": "39 Kč"
+          }
+        ],
+        "note": "Ceny dopravy platí pro zásilky do 20 kg v rámci České republiky. Nadrozměrné zásilky a doručení na Slovensko řešíme individuálně — napište nám."
+      }
+    }
+  },
+  "hero": {
+    "slides": [
+      {
+        "image": "/templates/eshop-03/hero-elektronika.webp",
+        "imageAlt": "Sluchátka na žlutém pozadí",
+        "badge": "Letní výprodej",
+        "heading": "Elektronika, kterou si zamilujete",
+        "text": "Sluchátka, hodinky i notebooky skladem. Objednejte do 14:00 a zboží odešleme ještě dnes.",
+        "ctaText": "Nakupovat elektroniku",
+        "ctaHref": "/obchod?kategorie=elektronika"
+      },
+      {
+        "image": "/templates/eshop-03/hero-obleceni.webp",
+        "imageAlt": "Módní prodejna",
+        "badge": "Nová kolekce",
+        "heading": "Oblečení na každý den i do práce",
+        "text": "Pánská, dámská i dětská móda od ověřených značek. Doprava zdarma od 990 Kč.",
+        "ctaText": "Prohlédnout kolekci",
+        "ctaHref": "/obchod?kategorie=obleceni"
+      },
+      {
+        "image": "/templates/eshop-03/hero-domacnost.webp",
+        "imageAlt": "Útulný interiér",
+        "badge": "Akce až −40 %",
+        "heading": "Domácnost plná pohody",
+        "text": "Svíčky, textil, kuchyně i dekorace. Vše pro útulný domov na jednom místě.",
+        "ctaText": "Vybavit domácnost",
+        "ctaHref": "/obchod?kategorie=domacnost"
+      }
+    ]
+  },
+  "benefits": {
+    "items": [
+      {
+        "icon": "truck",
+        "title": "Doprava zdarma od 990 Kč",
+        "text": "Balíkovna, Zásilkovna i kurýr"
+      },
+      {
+        "icon": "clock",
+        "title": "Odeslání do 24 hodin",
+        "text": "objednávky do 14:00 ještě dnes"
+      },
+      {
+        "icon": "pin",
+        "title": "3 000+ výdejních míst",
+        "text": "po celé České republice"
+      },
+      {
+        "icon": "refresh",
+        "title": "30 dní na vrácení",
+        "text": "bez udání důvodu"
+      }
+    ]
+  },
+  "doporucujeme": {
+    "heading": "Doporučujeme",
+    "ctaLabel": "Zobrazit vše",
+    "ctaHref": "/obchod",
+    "source": "newest",
+    "limit": 9,
+    "columns": 3
+  },
+  "akce": {
+    "heading": "Akční zboží",
+    "ctaLabel": "Všechny akce",
+    "ctaHref": "/obchod?kategorie=akce",
+    "source": "newest",
+    "categorySlug": "akce",
+    "limit": 3,
+    "columns": 3
+  },
+  "banner": {
+    "image": "/templates/eshop-03/banner-zahrada.webp",
+    "imageAlt": "Zahrada v létě",
+    "badge": "Sezónní nabídka",
+    "heading": "Vybavte zahradu na léto",
+    "text": "Grily, nářadí i zahradní nábytek se slevou až 30 %. Jen do vyprodání zásob.",
+    "ctaText": "Do zahrady",
+    "ctaHref": "/obchod?kategorie=zahrada"
+  },
+  "novinky": {
+    "heading": "Novinky v sortimentu",
+    "ctaLabel": "Všechny novinky",
+    "ctaHref": "/obchod?kategorie=novinky",
+    "categorySlug": "novinky",
+    "limit": 9,
+    "columns": 3
+  },
+  "footer": {
+    "siteName": "Pohodář",
+    "tagline": "E-shop plný pohody. Elektronika, móda, domácnost i zahrada — vše skladem a s úsměvem odesíláme už 10 let.",
+    "phone": "+420 725 456 789",
+    "email": "ahoj@pohodar.cz",
+    "address": "Slunečná 8, 170 00 Praha 7",
+    "openNote": "Po–Pá 8:00–18:00, So 9:00–12:00. O víkendech odpovídáme na e-maily do 24 hodin.",
+    "shopTitle": "Nakupujte",
+    "shopLinks": [
+      {
+        "label": "Elektronika",
+        "href": "/obchod?kategorie=elektronika"
+      },
+      {
+        "label": "Oblečení",
+        "href": "/obchod?kategorie=obleceni"
+      },
+      {
+        "label": "Boty",
+        "href": "/obchod?kategorie=boty"
+      },
+      {
+        "label": "Sport & Outdoor",
+        "href": "/obchod?kategorie=sport"
+      },
+      {
+        "label": "Akce & Výprodej",
+        "href": "/obchod?kategorie=akce"
+      },
+      {
+        "label": "Novinky",
+        "href": "/obchod?kategorie=novinky"
+      }
+    ],
+    "infoTitle": "Informace",
+    "infoLinks": [
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Doprava a platba",
+        "href": "/doprava-a-platba"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Reklamace a vrácení",
+        "href": "/doprava-a-platba"
+      }
+    ],
+    "payments": [
+      "Visa",
+      "Mastercard",
+      "Apple Pay",
+      "Google Pay",
+      "Bankovní převod",
+      "Dobírka"
+    ],
+    "nlHeading": "Slevy a novinky e-mailem",
+    "nlText": "Sleva 10 % na první nákup za přihlášení k odběru.",
+    "nlPlaceholder": "vas@email.cz",
+    "nlButton": "Odebírat"
+  }
+}

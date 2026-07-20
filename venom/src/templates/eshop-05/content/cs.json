@@ -1,0 +1,1497 @@
+{
+  "siteName": "Hračkolandia",
+  "seo": {
+    "title": "Hračkolandia — Hračky online pro radost",
+    "description": "Tisíce hraček skladem, rychlé doručení a doprava zdarma od 1 500 Kč. LEGO, plyšáci, stavebnice, hry a vše pro děti."
+  },
+  "navbar": {
+    "siteName": "Hračkolandia",
+    "logoUrl": "",
+    "phone": "+420 776 402 318",
+    "phoneNote": "Po–Pá 8:00–17:00",
+    "phoneLabel": "Poradíme s výběrem hraček",
+    "searchPlaceholder": "Hledat produkty, kategorie, značky...",
+    "topLinks": [
+      {
+        "label": "Novinky a akce",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Klub Hračkolandia",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Doručení a platby",
+        "href": "/doprava-a-platba"
+      },
+      {
+        "label": "Napište nám",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Naše pobočky",
+        "href": "/kontakt"
+      }
+    ],
+    "megaBrands": [
+      "LEGO",
+      "Mattel",
+      "Hasbro",
+      "Hot Wheels"
+    ],
+    "megaProduct": {
+      "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=560&h=400&fit=crop&auto=format&q=80",
+      "title": "LEGO® Technic Monster Jam Megalodon 42134",
+      "price": "1 050 Kč",
+      "oldPrice": "1 099 Kč",
+      "badge": "-4 %",
+      "href": "/obchod?kategorie=lego-technic"
+    },
+    "categories": [
+      {
+        "label": "Všechny hračky",
+        "slug": "",
+        "brands": [
+          {
+            "label": "LEGO",
+            "bg": "#d01012",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Mattel",
+            "bg": "#e6003d",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Hasbro",
+            "bg": "#0057b8",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Plyšový medvěd Baxter 40 cm",
+            "price": "499 Kč",
+            "href": "/obchod?kategorie=plysaci"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Puzzle 1000 dílků Pohádkový zámek",
+            "price": "399 Kč",
+            "href": "/obchod?kategorie=puzzle"
+          }
+        ],
+        "children": [
+          {
+            "label": "Hry",
+            "slug": "hry",
+            "image": "https://images.unsplash.com/photo-1550747545-c896b5f89ff7?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Stolní hry",
+                "slug": "stolni-hry",
+                "image": "https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Karetní hry",
+                "slug": "karetni-hry",
+                "image": "https://images.unsplash.com/photo-1589254065878-42c9da997008?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Společenské hry",
+                "slug": "spolecenske-hry",
+                "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Strategické hry",
+                "slug": "strategicke-hry",
+                "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Hlavolamy",
+                "slug": "hlavolamy",
+                "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Dřevěné hračky",
+            "slug": "drevene",
+            "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Dřevěné vláčky",
+                "slug": "drevene-vlacky",
+                "image": "https://images.unsplash.com/photo-1550747545-c896b5f89ff7?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Dřevěné kostky",
+                "slug": "drevene-kostky",
+                "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Motorické hračky",
+                "slug": "motoricke-hracky",
+                "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Dřevěné zvířátka",
+                "slug": "drevene-zviratka",
+                "image": "https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Puzzle",
+            "slug": "puzzle",
+            "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Puzzle do 100 dílků",
+                "slug": "puzzle-100",
+                "image": "https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Puzzle 100–500 dílků",
+                "slug": "puzzle-500",
+                "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Puzzle 1000+ dílků",
+                "slug": "puzzle-1000",
+                "image": "https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "3D puzzle",
+                "slug": "3d-puzzle",
+                "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Plyšáci",
+            "slug": "plysaci",
+            "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Plyšová zvířátka",
+                "slug": "plysova-zviratka",
+                "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Velcí plyšáci",
+                "slug": "velci-plysaci",
+                "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Interaktivní plyšáci",
+                "slug": "interaktivni-plysaci",
+                "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Licenční plyšáci",
+                "slug": "licencni-plysaci",
+                "image": "https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Kreativní hračky",
+            "slug": "kreativni",
+            "image": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Výtvarné potřeby",
+                "slug": "vytvarne-potreby",
+                "image": "https://images.unsplash.com/photo-1608889335941-32ac5f2041b9?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Modelování",
+                "slug": "modelovani",
+                "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Výukové hračky",
+                "slug": "vyukove-hracky",
+                "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Hudební hračky",
+                "slug": "hudebni-hracky",
+                "image": "https://images.unsplash.com/photo-1589254065878-42c9da997008?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Pokusy a věda",
+                "slug": "pokusy-veda",
+                "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Slepovací modely",
+                "slug": "slepovaci-modely",
+                "image": "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Malování",
+                "slug": "malovani",
+                "image": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Zažehlovací korálky",
+                "slug": "zazehlovaci-koralky",
+                "image": "https://images.unsplash.com/photo-1558877385-81a1c7e67d72?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Škola",
+            "slug": "skola",
+            "image": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Školní batohy",
+                "slug": "skolni-batohy",
+                "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Penály a pouzdra",
+                "slug": "penaly",
+                "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Psací potřeby",
+                "slug": "psaci-potreby",
+                "image": "https://images.unsplash.com/photo-1558877385-81a1c7e67d72?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Sešity a bloky",
+                "slug": "sesity",
+                "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Dětské knihy",
+            "slug": "detske-knihy",
+            "image": "https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Leporela",
+                "slug": "leporela",
+                "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Pohádkové knihy",
+                "slug": "pohadkove-knihy",
+                "image": "https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Vzdělávací knihy",
+                "slug": "vzdelavaci-knihy",
+                "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Omalovánky",
+                "slug": "omalovanky-knihy",
+                "image": "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          },
+          {
+            "label": "Párty a karnevaly",
+            "slug": "party",
+            "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=160&h=160&fit=crop&auto=format&q=80",
+            "subchildren": [
+              {
+                "label": "Narozeninové dekorace",
+                "slug": "narozeniny",
+                "image": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Karnevalové kostýmy",
+                "slug": "kostymy",
+                "image": "https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Masky",
+                "slug": "masky",
+                "image": "https://images.unsplash.com/photo-1587145820266-a5951ee6f620?w=80&h=80&fit=crop&auto=format&q=80"
+              },
+              {
+                "label": "Balonky",
+                "slug": "balonky",
+                "image": "https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=80&h=80&fit=crop&auto=format&q=80"
+              }
+            ]
+          }
+        ],
+        "hasSidebar": true
+      },
+      {
+        "label": "Venkovní hraní",
+        "slug": "venkovni",
+        "brands": [
+          {
+            "label": "Yedoo",
+            "bg": "#00b3be",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Intex",
+            "bg": "#0071ce",
+            "color": "#ffffff"
+          },
+          {
+            "label": "BERG",
+            "bg": "#ffd500",
+            "color": "#1a1a1a"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Koloběžka Racer Pro 200 mm",
+            "price": "2 290 Kč",
+            "oldPrice": "2 590 Kč",
+            "badge": "-12 %",
+            "href": "/obchod?kategorie=kolobezky"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Trampolína 305 cm s ochrannou sítí",
+            "price": "4 990 Kč",
+            "oldPrice": "5 990 Kč",
+            "badge": "-17 %",
+            "href": "/obchod?kategorie=trampoliny"
+          }
+        ],
+        "children": [
+          {
+            "label": "Koloběžky",
+            "slug": "kolobezky",
+            "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Odrážedla",
+            "slug": "odrazedla",
+            "image": "https://images.unsplash.com/photo-1558877385-81a1c7e67d72?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Pískoviště",
+            "slug": "piskoviste",
+            "image": "https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Trampolíny",
+            "slug": "trampoliny",
+            "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Vodní hračky",
+            "slug": "vodni",
+            "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Šlapací auta",
+            "slug": "slapaci-auta",
+            "image": "https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Malí dobrodruzi",
+        "slug": "pro-kluky",
+        "brands": [
+          {
+            "label": "Hot Wheels",
+            "bg": "#e4002b",
+            "color": "#ffd100"
+          },
+          {
+            "label": "NERF",
+            "bg": "#f47b20",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Hasbro",
+            "bg": "#0057b8",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Hot Wheels Monster Trucks Bigfoot 50. výročí Set",
+            "price": "1 050 Kč",
+            "oldPrice": "1 099 Kč",
+            "badge": "-4 %",
+            "href": "/obchod?kategorie=auticka"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "NERF Elite 2.0 Commander RD-6",
+            "price": "599 Kč",
+            "oldPrice": "699 Kč",
+            "badge": "-14 %",
+            "href": "/obchod?kategorie=nerf"
+          }
+        ],
+        "children": [
+          {
+            "label": "Stavebnice LEGO®",
+            "slug": "stavebnice",
+            "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Autíčka",
+            "slug": "auticka",
+            "image": "https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Dinosauři",
+            "slug": "dinosauri",
+            "image": "https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Figurky",
+            "slug": "figurky",
+            "image": "https://images.unsplash.com/photo-1608889335941-32ac5f2041b9?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Akční hrdinové",
+            "slug": "akcni-hrdinove",
+            "image": "https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "NERF",
+            "slug": "nerf",
+            "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "RC modely",
+            "slug": "rc-modely",
+            "image": "https://images.unsplash.com/photo-1589254065878-42c9da997008?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Autodráhy",
+            "slug": "autodrahy",
+            "image": "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Malé parádnice",
+        "slug": "pro-holky",
+        "brands": [
+          {
+            "label": "Barbie",
+            "bg": "#e0218a",
+            "color": "#ffffff"
+          },
+          {
+            "label": "L.O.L.",
+            "bg": "#d81b8c",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Mattel",
+            "bg": "#e6003d",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Barbie Dreamhouse panenka s doplňky",
+            "price": "899 Kč",
+            "href": "/obchod?kategorie=panenky"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Dřevěná kuchyňka Chef Deluxe",
+            "price": "1 990 Kč",
+            "oldPrice": "2 290 Kč",
+            "badge": "-13 %",
+            "href": "/obchod?kategorie=kuchynky"
+          }
+        ],
+        "children": [
+          {
+            "label": "Panenky",
+            "slug": "panenky",
+            "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Kuchyňky",
+            "slug": "kuchynky",
+            "image": "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Šperky a doplňky",
+            "slug": "sperky",
+            "image": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "LOL Surprise",
+            "slug": "lol",
+            "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Pro nejmenší",
+        "slug": "pro-miminka",
+        "brands": [
+          {
+            "label": "Fisher-Price",
+            "bg": "#e31837",
+            "color": "#ffffff"
+          },
+          {
+            "label": "BRIO",
+            "bg": "#ee1c25",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Chicco",
+            "bg": "#0093d0",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Kolotoč nad postýlku Sweet Dreams",
+            "price": "799 Kč",
+            "href": "/obchod?kategorie=do-postylky"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Hrací deka s hrazdou Jungle",
+            "price": "1 190 Kč",
+            "href": "/obchod?kategorie=hraci-deky"
+          }
+        ],
+        "children": [
+          {
+            "label": "Hračky do postýlky",
+            "slug": "do-postylky",
+            "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Chrastítka",
+            "slug": "chrastitka",
+            "image": "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Ohrádky",
+            "slug": "ohradky",
+            "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hrací deky",
+            "slug": "hraci-deky",
+            "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Kostky a stavebnice",
+        "slug": "stavebnice",
+        "brands": [
+          {
+            "label": "LEGO",
+            "bg": "#d01012",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Cobi",
+            "bg": "#16457c",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Playmobil",
+            "bg": "#0090d7",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "LEGO® Technic Monster Jam Megalodon 42134",
+            "price": "1 050 Kč",
+            "oldPrice": "1 099 Kč",
+            "badge": "-4 %",
+            "href": "/obchod?kategorie=lego-technic"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "LEGO® Star Wars Millennium Falcon 75375",
+            "price": "2 499 Kč",
+            "href": "/obchod?kategorie=lego-star-wars"
+          }
+        ],
+        "children": [
+          {
+            "label": "LEGO Classic",
+            "slug": "lego-classic",
+            "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "LEGO Technic",
+            "slug": "lego-technic",
+            "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "LEGO City",
+            "slug": "lego-city",
+            "image": "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "LEGO Friends",
+            "slug": "lego-friends",
+            "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Cobi",
+            "slug": "cobi",
+            "image": "https://images.unsplash.com/photo-1589254065878-42c9da997008?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "LEGO Star Wars",
+            "slug": "lego-star-wars",
+            "image": "https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Zvířecí kamarádi",
+        "slug": "pro-mazlicky",
+        "brands": [
+          {
+            "label": "KONG",
+            "bg": "#d2232a",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Trixie",
+            "bg": "#6cb33f",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Karlie",
+            "bg": "#005baa",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Aportovací míček pro psy Extreme",
+            "price": "199 Kč",
+            "href": "/obchod?kategorie=hracky-pro-psy"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Škrábadlo s hračkou pro kočky",
+            "price": "649 Kč",
+            "href": "/obchod?kategorie=hracky-pro-kocky"
+          }
+        ],
+        "children": [
+          {
+            "label": "Hračky pro psy",
+            "slug": "hracky-pro-psy",
+            "image": "https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hračky pro kočky",
+            "slug": "hracky-pro-kocky",
+            "image": "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Čtení a učení",
+        "slug": "knihy",
+        "brands": [
+          {
+            "label": "Albatros",
+            "bg": "#009fe3",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Egmont",
+            "bg": "#e30613",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Slovart",
+            "bg": "#1c2b4a",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Velká encyklopedie dinosaurů",
+            "price": "499 Kč",
+            "href": "/obchod?kategorie=encyklopedie-knihy"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Pohádky bratří Grimmů — ilustrované vydání",
+            "price": "299 Kč",
+            "href": "/obchod?kategorie=pohadky"
+          }
+        ],
+        "children": [
+          {
+            "label": "Pohádky",
+            "slug": "pohadky",
+            "image": "https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Encyklopedie",
+            "slug": "encyklopedie-knihy",
+            "image": "https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Omalovánky",
+            "slug": "omalovanky",
+            "image": "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Slevy",
+        "slug": "akce",
+        "brands": [
+          {
+            "label": "LEGO",
+            "bg": "#d01012",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Mattel",
+            "bg": "#e6003d",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Hasbro",
+            "bg": "#0057b8",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Stavebnice Rytířský hrad (II. jakost)",
+            "price": "599 Kč",
+            "oldPrice": "999 Kč",
+            "badge": "-40 %",
+            "href": "/obchod?kategorie=vyprodej"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Koloběžka Racer Pro 200 mm",
+            "price": "2 290 Kč",
+            "oldPrice": "2 590 Kč",
+            "badge": "-12 %",
+            "href": "/obchod?kategorie=kolobezky"
+          }
+        ],
+        "children": [
+          {
+            "label": "Výprodej",
+            "slug": "vyprodej",
+            "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "II. jakost",
+            "slug": "ii-jakost",
+            "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Poslední kusy",
+            "slug": "posledni-kusy",
+            "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Top značky",
+        "slug": "",
+        "brands": [
+          {
+            "label": "LEGO",
+            "bg": "#d01012",
+            "color": "#ffffff"
+          },
+          {
+            "label": "Barbie",
+            "bg": "#e0218a",
+            "color": "#ffffff"
+          },
+          {
+            "label": "NERF",
+            "bg": "#f47b20",
+            "color": "#ffffff"
+          }
+        ],
+        "recos": [
+          {
+            "image": "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "LEGO® Classic Kreativní kostky 11016",
+            "price": "899 Kč",
+            "href": "/obchod?kategorie=lego-classic"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=560&h=400&fit=crop&auto=format&q=80",
+            "title": "Barbie Dreamhouse panenka s doplňky",
+            "price": "899 Kč",
+            "href": "/obchod?kategorie=panenky"
+          }
+        ],
+        "children": [
+          {
+            "label": "LEGO",
+            "slug": "stavebnice",
+            "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Mattel",
+            "slug": "pro-holky",
+            "image": "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hot Wheels",
+            "slug": "auticka",
+            "image": "https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Fisher-Price",
+            "slug": "pro-miminka",
+            "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Hasbro",
+            "slug": "hry",
+            "image": "https://images.unsplash.com/photo-1550747545-c896b5f89ff7?w=160&h=160&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Ravensburger",
+            "slug": "puzzle",
+            "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=160&h=160&fit=crop&auto=format&q=80"
+          }
+        ]
+      }
+    ],
+    "currency": "CZK"
+  },
+  "hero": {
+    "autoplayMs": 5500,
+    "slides": [
+      {
+        "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1920&h=760&fit=crop&auto=format&q=80",
+        "badge": "Novinka v sortimentu",
+        "title": "Postavte si svět z kostek",
+        "subtitle": "Stavebnice LEGO®, Cobi a další — stovky setů skladem a doprava zdarma od 999 Kč.",
+        "ctaText": "Nakupovat stavebnice",
+        "ctaHref": "/obchod?kategorie=stavebnice",
+        "secondaryText": "Zobrazit slevy",
+        "secondaryHref": "/obchod?kategorie=akce"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1920&h=760&fit=crop&auto=format&q=80",
+        "badge": "Léto venku",
+        "title": "Rozhýbejte léto na zahradě",
+        "subtitle": "Koloběžky, trampolíny a vodní hračky — zábava na celé prázdniny pro malé i velké.",
+        "ctaText": "Venkovní hraní",
+        "ctaHref": "/obchod?kategorie=venkovni",
+        "secondaryText": "Vodní hračky",
+        "secondaryHref": "/obchod?kategorie=vodni"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1550747545-c896b5f89ff7?w=1920&h=760&fit=crop&auto=format&q=80",
+        "badge": "Výprodej až −40 %",
+        "title": "Hrdinové dětských pokojů",
+        "subtitle": "Figurky, plyšáci a hry, které děti milují — teď za skvělé ceny, jen do vyprodání zásob.",
+        "ctaText": "Do výprodeje",
+        "ctaHref": "/obchod?kategorie=vyprodej",
+        "secondaryText": "Všechny hračky",
+        "secondaryHref": "/obchod"
+      }
+    ]
+  },
+  "hotOffer": {
+    "heading": "Právě letí",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=800&h=500&fit=crop&auto=format&q=80",
+        "title": "Závodní léto s Hot Wheels!",
+        "href": "/obchod?kategorie=auticka"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=800&h=500&fit=crop&auto=format&q=80",
+        "title": "Vodní hračky pro parádní léto",
+        "href": "/obchod?kategorie=vodni"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&h=500&fit=crop&auto=format&q=80",
+        "title": "Novinky ve stavebnicích",
+        "href": "/obchod?kategorie=stavebnice"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=800&h=500&fit=crop&auto=format&q=80",
+        "title": "Kreativní sady pro malé umělce",
+        "href": "/obchod?kategorie=kreativni"
+      }
+    ]
+  },
+  "productCarousel1": {
+    "heading": "Jdou na dračku",
+    "badge": "Poslední šance",
+    "source": "top",
+    "limit": 10
+  },
+  "bannerMosaic": {
+    "heading": "To děti zbožňují",
+    "items": [
+      {
+        "image": "/templates/eshop-05/mosaic-large.webp",
+        "imageAlt": "LEGO Botanicals",
+        "label": "Více zde",
+        "href": "/obchod?kategorie=stavebnice",
+        "size": "large"
+      },
+      {
+        "image": "/templates/eshop-05/mosaic-medium.webp",
+        "imageAlt": "LEGO Technic",
+        "label": "Více zde",
+        "href": "/obchod?kategorie=lego-technic",
+        "size": "medium"
+      },
+      {
+        "image": "/templates/eshop-05/mosaic-small-1.webp",
+        "imageAlt": "Panda rodinka",
+        "label": "Více zde",
+        "href": "/obchod?kategorie=plysaci",
+        "size": "small"
+      },
+      {
+        "image": "/templates/eshop-05/mosaic-small-2.webp",
+        "imageAlt": "Dinosauři",
+        "label": "Více zde",
+        "href": "/obchod?kategorie=dinosauri",
+        "size": "small"
+      }
+    ]
+  },
+  "productCarousel2": {
+    "heading": "Brzy zmizí",
+    "badge": "Poslední šance",
+    "source": "sale",
+    "limit": 10
+  },
+  "promoBanners": {
+    "items": [
+      {
+        "image": "/templates/eshop-05/promo-jakost.webp",
+        "imageAlt": "II. jakost",
+        "heading": "II. jakost",
+        "text": "Drobné vady, velké slevy — funkčně bez kompromisů.",
+        "ctaText": "Prohlédnout",
+        "href": "/obchod?kategorie=akce"
+      },
+      {
+        "image": "/templates/eshop-05/promo-katalog.webp",
+        "imageAlt": "Aktuální katalog",
+        "heading": "Aktuální katalog",
+        "text": "Prolistujte si naši nabídku pohodlně odkudkoli.",
+        "ctaText": "Otevřete katalog",
+        "href": "/obchod"
+      }
+    ]
+  },
+  "blog": {
+    "heading": "Žhavá témata",
+    "linkText": "O čem se mluví dál",
+    "linkHref": "/o-nas",
+    "posts": [
+      {
+        "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1100&h=680&fit=crop&auto=format&q=80",
+        "category": "Poradna",
+        "date": "3. 7. 2026",
+        "readTime": "5 min čtení",
+        "title": "Jak vybrat to správné odrážedlo?",
+        "excerpt": "Nevíte, jaké odrážedlo bude pro vaše dítě to pravé? Poradíme vám, na co se při výběru zaměřit, jak zvolit správnou velikost i typ odrážedla, aby z něj mělo dítě radost celé léto.",
+        "href": "/o-nas",
+        "size": "large"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=700&h=460&fit=crop&auto=format&q=80",
+        "category": "Novinky",
+        "date": "25. 6. 2026",
+        "readTime": "3 min čtení",
+        "title": "Top 10 stavebnic pro léto 2026",
+        "href": "/o-nas",
+        "size": "small"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=700&h=460&fit=crop&auto=format&q=80",
+        "category": "Bezpečnost",
+        "date": "1. 6. 2026",
+        "readTime": "4 min čtení",
+        "title": "Bezpečné hračky pro nejmenší — na co si dát pozor",
+        "href": "/o-nas",
+        "size": "small"
+      }
+    ]
+  },
+  "club": {
+    "heading": "Máte rádi výhody?",
+    "headingSub": "Staňte se členy našeho klubu!",
+    "text": "Už zítra můžete nakupovat za výhodnější VIP ceny a sbírat body, se kterými dále ušetříte. K narozeninám od nás dostanete dárek v podobě poukázky.",
+    "ctaText": "Objevte další výhody",
+    "ctaHref": "/o-nas"
+  },
+  "brands": {
+    "heading": "Trefa do černého",
+    "ctaText": "Mrkněte na všechny značky",
+    "ctaHref": "/obchod",
+    "items": [
+      {
+        "name": "LEGO",
+        "image": "/templates/eshop-05/brand-lego.webp",
+        "href": "/obchod?kategorie=stavebnice"
+      },
+      {
+        "name": "Mattel",
+        "image": "/templates/eshop-05/brand-mattel.webp",
+        "href": "/obchod"
+      },
+      {
+        "name": "Hot Wheels",
+        "image": "/templates/eshop-05/brand-hotwheels.webp",
+        "href": "/obchod?kategorie=auticka"
+      },
+      {
+        "name": "Fisher-Price",
+        "image": "/templates/eshop-05/brand-fisherprice.webp",
+        "href": "/obchod?kategorie=pro-miminka"
+      },
+      {
+        "name": "Spin Master",
+        "image": "/templates/eshop-05/brand-spinmaster.webp",
+        "href": "/obchod"
+      },
+      {
+        "name": "Hasbro",
+        "image": "/templates/eshop-05/brand-hasbro.webp",
+        "href": "/obchod?kategorie=hry"
+      }
+    ]
+  },
+  "footer": {
+    "columns": [
+      {
+        "title": "Vše o nákupu",
+        "links": [
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Reklamace",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Vrácení zboží",
+            "href": "/kontakt"
+          }
+        ]
+      },
+      {
+        "title": "Pro zákazníky",
+        "links": [
+          {
+            "label": "Značky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Slevy a akce",
+            "href": "/obchod?kategorie=vyprodej"
+          },
+          {
+            "label": "Blog — otestováno rodiči a dětmi",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Klub Hračkolandia",
+            "href": "/o-nas"
+          }
+        ]
+      },
+      {
+        "title": "Hračkolandia",
+        "links": [
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Soutěže — obecná pravidla",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Soubory cookie",
+            "href": "/kontakt"
+          }
+        ]
+      }
+    ],
+    "carriersTitle": "Doprava a platba",
+    "carriers": [
+      "PPL",
+      "Česká pošta",
+      "DPD",
+      "GLS"
+    ],
+    "payments": [
+      "GoPay",
+      "Mastercard",
+      "VISA"
+    ],
+    "trustBadge": "Ověřeno zákazníky",
+    "copyright": "© 2026 Hračkolandia.cz",
+    "legalLinks": [
+      {
+        "label": "Nastavení cookies",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Souhlas se zpracováním osobních údajů",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Zásady zpracování osobních údajů",
+        "href": "/kontakt"
+      }
+    ],
+    "social": [
+      {
+        "icon": "facebook",
+        "href": "#"
+      },
+      {
+        "icon": "youtube",
+        "href": "#"
+      },
+      {
+        "icon": "instagram",
+        "href": "#"
+      }
+    ]
+  },
+  "pages": {
+    "onas": {
+      "hero": {
+        "heading": "O nás",
+        "text": "Hračkolandia vznikla z lásky k dětskému světu. Vybíráme jen hračky, za kterými si stojíme — bezpečné, kreativní a radostné."
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "heading": "Kontakt",
+        "text": "Napište nám, zavolejte, nebo se stavte na některou z našich prodejen."
+      },
+      "contact": {
+        "phone": "+420 776 402 318",
+        "email": "info@hrackolandia.cz",
+        "address": "Husova 123, 110 00 Praha 1",
+        "hours": "Po–Pá 7:30–15:30",
+        "formTitle": "Napište nám",
+        "formText": "Odpovídáme do 24 hodin, obvykle mnohem dřív."
+      }
+    },
+    "doprava": {
+      "hero": {
+        "heading": "Doprava a platba",
+        "text": "Doprava zdarma od 1 500 Kč. Objednávky do 14:00 odesíláme ještě tentýž den."
+      },
+      "shipping": {
+        "shippingTitle": "Doprava",
+        "shippingItems": [
+          {
+            "name": "Zásilkovna — výdejní místo",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "69 Kč"
+          },
+          {
+            "name": "PPL kurýr na adresu",
+            "note": "doručení následující pracovní den",
+            "price": "99 Kč"
+          },
+          {
+            "name": "Česká pošta — Balíkovna",
+            "note": "doručení 1–2 pracovní dny",
+            "price": "65 Kč"
+          },
+          {
+            "name": "GLS kurýr na adresu",
+            "note": "doručení následující pracovní den",
+            "price": "109 Kč"
+          },
+          {
+            "name": "Objednávka nad 1 500 Kč",
+            "note": "platí pro všechny dopravce",
+            "price": "Zdarma"
+          }
+        ],
+        "paymentTitle": "Platba",
+        "paymentItems": [
+          {
+            "name": "Platební kartou online",
+            "note": "Visa, Mastercard, Apple Pay, Google Pay",
+            "price": "Zdarma"
+          },
+          {
+            "name": "GoPay",
+            "note": "bankovní převod, QR platba",
+            "price": "Zdarma"
+          },
+          {
+            "name": "Dobírka",
+            "note": "platba při převzetí zásilky",
+            "price": "39 Kč"
+          }
+        ],
+        "note": "Ceny dopravy platí pro zásilky do 30 kg v rámci České republiky."
+      }
+    }
+  },
+  "miniBanners": [
+    {
+      "icon": "trophy",
+      "tile": "#0e1b2c",
+      "label": "Vstup do světa šampionů",
+      "href": "/obchod?kategorie=hry"
+    },
+    {
+      "icon": "cards",
+      "tile": "#ffc233",
+      "label": "Sběratelské karty: Chytíš je všechny?",
+      "href": "/obchod",
+      "underline": true
+    },
+    {
+      "icon": "car",
+      "tile": "#1c91ff",
+      "label": "Přijmi výzvu s autíčky na závodní dráze",
+      "href": "/obchod?kategorie=auticka"
+    },
+    {
+      "icon": "tag",
+      "tile": "#ff3b5c",
+      "label": "Ušetřete! Zachraňte zboží s poškozeným obalem.",
+      "href": "/obchod?kategorie=ii-jakost"
+    }
+  ],
+  "bentoProducts": {
+    "heading": "To děti zbožňují",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1560961911-ba7ef651a56c?w=760&h=760&fit=crop&auto=format&q=80",
+        "badge": "KOSTKY",
+        "sku": "10374",
+        "title": "Kytice růžových růží",
+        "href": "/obchod?kategorie=stavebnice",
+        "size": "large"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?w=520&h=380&fit=crop&auto=format&q=80",
+        "badge": "KOSTKY",
+        "sku": "42213",
+        "title": "SUV terénní vůz 4×4",
+        "href": "/obchod?kategorie=stavebnice",
+        "size": "small"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1563901935883-cb61f5d49be4?w=520&h=380&fit=crop&auto=format&q=80",
+        "badge": "KOSTKY",
+        "sku": "42684",
+        "title": "Divoká zvířata: Pandí rodinka",
+        "href": "/obchod?kategorie=stavebnice",
+        "size": "small"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1472457897821-70d3819a0e24?w=520&h=380&fit=crop&auto=format&q=80",
+        "badge": "KOSTKY",
+        "sku": "31382",
+        "title": "Roztomilá zvířata: Roztomilé štěňátko",
+        "href": "/obchod?kategorie=stavebnice",
+        "size": "small"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1608889175123-8ee362201f81?w=520&h=380&fit=crop&auto=format&q=80",
+        "badge": "KOSTKY",
+        "sku": "42404",
+        "title": "Snová kavárna s jednorožcem",
+        "href": "/obchod?kategorie=stavebnice",
+        "size": "small"
+      }
+    ]
+  },
+  "twoBanners": [
+    {
+      "image": "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=200&h=200&fit=crop&auto=format&q=80",
+      "title": "II. jakost",
+      "subtitle": "Ušetřete peníze a myslete na planetu",
+      "ctaText": "Kupte zlevněné",
+      "href": "/obchod?kategorie=ii-jakost"
+    },
+    {
+      "image": "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=200&h=200&fit=crop&auto=format&q=80",
+      "title": "Aktuální katalog",
+      "subtitle": "Prohlížejte a vybírejte hračky v online katalogu",
+      "ctaText": "Otevřete katalog",
+      "href": "/o-nas"
+    }
+  ],
+  "clubBox": {
+    "heading": "Máte rádi výhody?",
+    "subheading": "Staňte se členy našeho klubu!",
+    "text": "Už zítra můžete nakupovat za výhodnější VIP ceny a sbírat body, které vyměníte za dárky. K narozeninám od nás dostanete dárek v podobě poukázky.",
+    "ctaText": "Objevte další výhody",
+    "ctaHref": "/o-nas"
+  },
+  "brandsGrid": {
+    "heading": "Trefa do černého",
+    "linkText": "Další značky, které frčí",
+    "linkHref": "/obchod",
+    "brands": [
+      {
+        "name": "LEGO",
+        "image": "/templates/eshop-05/brands/lego.svg"
+      },
+      {
+        "name": "Mattel",
+        "image": "/templates/eshop-05/brands/mattel.svg"
+      },
+      {
+        "name": "Hot Wheels",
+        "image": "/templates/eshop-05/brands/hotwheels.svg"
+      },
+      {
+        "name": "Hasbro",
+        "image": "/templates/eshop-05/brands/hasbro.svg"
+      },
+      {
+        "name": "Playmobil",
+        "image": "/templates/eshop-05/brands/playmobil.svg"
+      },
+      {
+        "name": "Ravensburger",
+        "image": "/templates/eshop-05/brands/ravensburger.svg"
+      }
+    ]
+  },
+  "preFooter": {
+    "helpLabel": "Poradíme vám",
+    "phone": "+420 776 402 318",
+    "phoneNote": "(Po–Pá 8:00–17:00)",
+    "email": "info@hrackolandia.cz",
+    "storesCount": "12×",
+    "storesLabel": "prodejen v ČR",
+    "storesHref": "/kontakt",
+    "shippingLabel": "Zboží skladem ihned odesíláme"
+  },
+  "newsletter": {
+    "heading": "Ať vám nic neunikne",
+    "text": "Nechte nám svůj e-mail. Maximálně 2× týdně vám budeme zasílat žhavé novinky, slevy a akce z našeho e-shopu.",
+    "linkText": "Ukázkový e-mail pro představu",
+    "linkHref": "/o-nas",
+    "placeholder": "Vaše e-mailová adresa",
+    "consent": "Uložením e-mailu souhlasíte se zpracováním osobních údajů."
+  },
+  "finder": {
+    "heading": "Vyberte super hračku",
+    "kids": [
+      {
+        "label": "Kluk",
+        "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=120&h=120&fit=crop&auto=format&q=80",
+        "value": "pro-kluky"
+      },
+      {
+        "label": "Holka",
+        "image": "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=120&h=120&fit=crop&auto=format&q=80",
+        "value": "pro-holky"
+      }
+    ],
+    "selects": [
+      {
+        "param": "vek",
+        "placeholder": "Věk",
+        "options": [
+          {
+            "label": "0–1 rok",
+            "value": "0-1"
+          },
+          {
+            "label": "1–3 roky",
+            "value": "1-3"
+          },
+          {
+            "label": "3–6 let",
+            "value": "3-6"
+          },
+          {
+            "label": "6–10 let",
+            "value": "6-10"
+          },
+          {
+            "label": "10+ let",
+            "value": "10plus"
+          }
+        ]
+      },
+      {
+        "param": "cena",
+        "placeholder": "Cena",
+        "options": [
+          {
+            "label": "Do 300 Kč",
+            "value": "0-300"
+          },
+          {
+            "label": "300–600 Kč",
+            "value": "300-600"
+          },
+          {
+            "label": "600–1 000 Kč",
+            "value": "600-1000"
+          },
+          {
+            "label": "1 000+ Kč",
+            "value": "1000plus"
+          }
+        ]
+      }
+    ],
+    "ctaText": "Najdi hračku",
+    "shopPath": "/obchod"
+  }
+}

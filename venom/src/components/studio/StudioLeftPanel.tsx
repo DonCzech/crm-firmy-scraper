@@ -39,7 +39,7 @@ export function StudioLeftPanel({ state }: { state: StudioState }) {
               <button
                 type="button"
                 onClick={() => studio.setLeftPanel(item.id)}
-                className="flex items-center h-11 w-full px-3 text-[14px] font-medium text-[#9ca3af] hover:text-[#d1d5db] hover:bg-[var(--vs-surface-2)] rounded-xl transition-colors duration-100 text-left"
+                className="flex items-center h-11 w-full px-3 text-[14px] font-medium text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] hover:bg-[var(--vs-surface-2)] rounded-xl transition-colors duration-100 text-left"
               >
                 {item.label}
               </button>
@@ -55,7 +55,7 @@ export function StudioLeftPanel({ state }: { state: StudioState }) {
     <div className="flex h-full flex-col">
       {/* Panel title — skip for "pages" (has own search header) */}
       {which !== "pages" && (
-        <div className="flex h-11 shrink-0 items-center px-4 border-b border-[var(--vs-border)]">
+        <div className="vs-panel-titlebar flex h-11 shrink-0 items-center px-4 border-b border-[var(--vs-border)]">
           <span className="text-[16px] font-bold text-[var(--vs-text)] tracking-tight leading-none">
             {TITLES[which] ?? which}
           </span>

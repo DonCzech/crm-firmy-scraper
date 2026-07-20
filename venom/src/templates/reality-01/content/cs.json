@@ -1,26 +1,36 @@
 {
   "navbar": {
-    "siteName": "DOMUS Reality",
     "logoUrl": "/templates/reality-01/logo.svg",
     "links": [
-      { "label": "Najít nemovitost",    "href": "/vypis-nemovitosti" },
-      { "label": "Nabídnout nemovitost","href": "/nabidnout-nemovitost" }
+      {
+        "label": "Nabídka",
+        "href": "/vypis-nemovitosti"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Nabídnout nemovitost",
+        "href": "/nabidnout-nemovitost"
+      }
     ],
     "phone": "777 234 567",
     "email": "info@domus-reality.cz"
   },
-
   "hero": {
     "tagline": "Prémiová realitní kancelář · Praha",
     "title": "Váš domov\nsi zaslouží\nsprávné ruce",
-    "subtitle": "Provázíme klienty celým procesem — od první prohlídky až po podpis smlouvy. S přehledem, klidem a výsledky.",
     "ctaText": "Prohlédnout nabídku",
     "ctaHref": "/vypis-nemovitosti",
     "ctaSecondaryText": "Kdo jsme",
     "ctaSecondaryHref": "/o-nas",
     "bgImage": "/templates/reality-01/hero-bg.jpg"
   },
-
   "listings": {
     "tagline": "Aktuální nabídka",
     "title": "Nemovitosti, které stojí za váš čas",
@@ -28,9 +38,18 @@
     "ctaText": "Celá nabídka nemovitostí",
     "ctaHref": "/vypis-nemovitosti",
     "services": [
-      { "name": "Prodej nemovitostí",  "description": "Prodáme za férovou cenu bez zbytečného čekání" },
-      { "name": "Pronájem nemovitostí","description": "Ověření nájemci, transparentní smlouvy, klid" },
-      { "name": "Správa nemovitostí",  "description": "Postaráme se o vaši investici jako o vlastní" }
+      {
+        "name": "Prodej nemovitostí",
+        "description": "Prodáme za férovou cenu bez zbytečného čekání"
+      },
+      {
+        "name": "Pronájem nemovitostí",
+        "description": "Ověření nájemci, transparentní smlouvy, klid"
+      },
+      {
+        "name": "Správa nemovitostí",
+        "description": "Postaráme se o vaši investici jako o vlastní"
+      }
     ],
     "items": [
       {
@@ -39,7 +58,7 @@
         "price": "11 200 000 Kč",
         "tag": "Prodej",
         "image": "/templates/reality-01/listing-1.jpg",
-        "href": "/vypis-nemovitosti"
+        "href": "/detail-nemovitosti"
       },
       {
         "name": "Rodinný dům — Praha 5, Zbraslav",
@@ -47,7 +66,7 @@
         "price": "16 900 000 Kč",
         "tag": "Prodej",
         "image": "/templates/reality-01/listing-2.jpg",
-        "href": "/vypis-nemovitosti"
+        "href": "/detail-nemovitosti"
       },
       {
         "name": "Byt 2+kk po rekonstrukci — Praha 2",
@@ -55,27 +74,37 @@
         "price": "38 500 Kč/měs",
         "tag": "Pronájem",
         "image": "/templates/reality-01/listing-3.jpg",
-        "href": "/vypis-nemovitosti"
+        "href": "/detail-nemovitosti"
       }
     ]
   },
-
   "about": {
     "tagline": "O kanceláři",
     "title": "Pracujeme pro lidi,\nne pro statistiky",
     "subtitle": "DOMUS Reality vznikla z přesvědčení, že realitní makléř má být průvodce — ne pouhý zprostředkovatel. Jsme tu od roku 1996.",
     "body": "Za téměř třicet let praxe jsme pomohli tisícům klientů najít domov nebo úspěšně prodat nemovitost. Pražský trh známe do hloubky — každou čtvrť, každý typ zástavby, každý trendový pohyb cen. Náš tým tvoří makléři s průměrně 12 lety zkušeností, kteří přistupují ke každé zakázce osobně a zodpovědně.",
     "stats": [
-      { "value": "28+",  "label": "let na trhu" },
-      { "value": "1900+","label": "úspěšných transakcí" },
-      { "value": "97%",  "label": "spokojených klientů" },
-      { "value": "9",    "label": "zkušených makléřů" }
+      {
+        "value": "28+",
+        "label": "let na trhu"
+      },
+      {
+        "value": "1900+",
+        "label": "úspěšných transakcí"
+      },
+      {
+        "value": "97%",
+        "label": "spokojených klientů"
+      },
+      {
+        "value": "9",
+        "label": "zkušených makléřů"
+      }
     ],
     "ctaText": "Zjistit více o nás",
     "ctaHref": "/o-nas",
     "image": "/templates/reality-01/about-bg.jpg"
   },
-
   "cta": {
     "title": "Prodáváte, kupujete nebo si nejste jisti?",
     "subtitle": "Zavolejte nám nebo napište — nezávazně poradíme, co je pro vás v danou chvíli nejlepší.",
@@ -84,39 +113,65 @@
     "ctaSecondaryText": "Celá nabídka",
     "ctaSecondaryHref": "/vypis-nemovitosti"
   },
-
+  "listingDetail": {
+    "title": "Rezidence Na Výšinách — byt 3+kk",
+    "price": "11 200 000 Kč",
+    "tag": "Prodej",
+    "address": "Na Výšinách 12, Praha 6 — Dejvice",
+    "area": "88 m²",
+    "rooms": "3+kk",
+    "floor": "3. / 5. NP",
+    "ownership": "Osobní",
+    "condition": "Po rekonstrukci",
+    "energy": "B",
+    "parking": "Garážové stání",
+    "description": "Nabízíme k prodeji prostorný cihlový byt 3+kk s terasou a výhledem na Prahu. Byt prošel kompletní rekonstrukcí v roce 2023 — nové rozvody, podlahové topení, dubové podlahy, designová koupelna s walk-in sprchou. Kuchyňská linka na míru je součástí prodeje.\n\nDispozice: vstupní chodba, obývací pokoj s kuchyňským koutem (35 m²), ložnice (16 m²), dětský pokoj (12 m²), koupelna, samostatné WC, šatna, terasa (8 m²). K bytu náleží sklep a garážové stání.",
+    "mainImage": "/templates/reality-01/detail-1.webp",
+    "image2": "/templates/reality-01/detail-2.webp",
+    "image3": "/templates/reality-01/detail-3.webp",
+    "image4": "/templates/reality-01/detail-4.webp",
+    "agentName": "Mgr. Petr Kovář",
+    "agentRole": "Senior makléř",
+    "agentPhone": "777 234 567",
+    "agentEmail": "kovar@domus-reality.cz"
+  },
   "contact": {
-    "tagline": "Kontakt",
     "title": "Pojďme si promluvit",
     "subtitle": "Ozvěte se nám. Odpovídáme do 24 hodin, schůzku dokážeme domluvit do 48 hodin.",
     "address": "Mánesova 28, 120 00 Praha 2 — Vinohrady",
     "phone": "777 234 567",
     "email": "info@domus-reality.cz",
-    "hours": "Po–Pá 9:00–18:00, So 10:00–14:00",
-    "facebook": "https://facebook.com/demo",
-    "instagram": "https://instagram.com/demo"
+    "hours": "Po–Pá 9:00–18:00, So 10:00–14:00"
   },
-
   "footer": {
-    "siteName": "DOMUS Reality",
     "logoUrl": "/templates/reality-01/logo.svg",
     "tagline": "Prémiová realitní kancelář v Praze — od roku 1996.",
     "address": "Mánesova 28, 120 00 Praha 2 — Vinohrady",
     "phone": "777 234 567",
     "email": "info@domus-reality.cz",
-    "web": "https://domus-reality.cz",
     "ic": "25634789",
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
     "links": [
-      { "label": "Najít nemovitost",    "href": "/vypis-nemovitosti" },
-      { "label": "Nabídnout nemovitost","href": "/nabidnout-nemovitost" },
-      { "label": "O nás",               "href": "/o-nas" },
-      { "label": "Kontakt",             "href": "/kontakt" }
+      {
+        "label": "Najít nemovitost",
+        "href": "/vypis-nemovitosti"
+      },
+      {
+        "label": "Nabídnout nemovitost",
+        "href": "/nabidnout-nemovitost"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "copyright": "© 1996–2025 DOMUS Reality s.r.o. Všechna práva vyhrazena."
   },
-
   "pages": {
     "o-nas": {
       "seoTitle": "O nás | DOMUS Reality Praha",
@@ -131,7 +186,31 @@
       "seoDescription": "Kontaktujte DOMUS Reality — Mánesova 28, Praha 2. Odpovídáme do 24 hodin, schůzku domluvíme do 48 hodin.",
       "hero": {
         "title": "Kontakt",
-        "subtitle": "Jsme připraveni vám pomoci"
+        "subtitle": "Ozvěte se — odpovídáme do 24 hodin"
+      }
+    },
+    "vypis-nemovitosti": {
+      "seoTitle": "Nabídka nemovitostí | DOMUS Reality Praha",
+      "seoDescription": "Aktuální nabídka prodejů a pronájmů nemovitostí v Praze a okolí. Prověřené inzeráty, reálné ceny.",
+      "hero": {
+        "title": "Nabídka nemovitostí",
+        "subtitle": "Prověřené nemovitosti v Praze a okolí"
+      }
+    },
+    "detail-nemovitosti": {
+      "seoTitle": "Rezidence Na Výšinách — byt 3+kk | DOMUS Reality",
+      "seoDescription": "Prostorný cihlový byt 3+kk s terasou v Dejvicích. 88 m², po rekonstrukci, garážové stání. Osobní vlastnictví.",
+      "hero": {
+        "title": "Detail nemovitosti",
+        "subtitle": "Kompletní informace o nabídce"
+      }
+    },
+    "nabidnout-nemovitost": {
+      "seoTitle": "Nabídnout nemovitost | DOMUS Reality Praha",
+      "seoDescription": "Chcete prodat nebo pronajmout nemovitost? Zadejte nezávaznou poptávku a my se ozveme do 24 hodin.",
+      "hero": {
+        "title": "Nabídnout nemovitost",
+        "subtitle": "Prodáváte nebo pronajímáte? Poradíme zdarma."
       }
     }
   }

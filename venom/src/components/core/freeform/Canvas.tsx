@@ -349,7 +349,10 @@ export function FreeformCanvas({
     function onMove(e: MouseEvent) {
       const d = fontSizeDragRef.current;
       if (!d) return;
-      const dy = e.clientY - d.startY;
+      // Stejná scale kompenzace jako u posunu elementů — canvas bývá zmenšený
+      const rect = containerRef.current?.getBoundingClientRect();
+      const scale = rect && rect.width > 0 ? rect.width / canvasW : 1;
+      const dy = (e.clientY - d.startY) / scale;
       const raw = d.startSize + dy;
       const snapped = Math.round(raw / 2) * 2;
       const clamped = Math.max(8, Math.min(200, snapped));
@@ -368,7 +371,7 @@ export function FreeformCanvas({
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
     return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
-  }, [isAdmin, onChange]);
+  }, [isAdmin, onChange, canvasW]);
 
   const selectedEl = elements.find((e) => e.id === selectedId) ?? null;
 

@@ -1,76 +1,207 @@
 {
   "siteName": "Peak Cut",
   "tagline": "Profesionální barbershop v centru Prahy.",
-
   "navbar": {
     "logoUrl": "/templates/peak-cut/logo.svg",
     "siteName": "Peak Cut",
     "links": [
-      { "label": "Služby",   "href": "/sluzby"  },
-      { "label": "O nás",    "href": "/o-nas"   },
-      { "label": "Galerie",  "href": "/galerie" },
-      { "label": "Kontakt",  "href": "/kontakt" }
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "ctaText": "",
     "ctaHref": "",
     "socials": [
-      { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com/demo" },
-      { "icon": "facebook",  "label": "Facebook",  "href": "https://facebook.com/demo" }
+      {
+        "icon": "instagram",
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "icon": "facebook",
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      }
     ]
   },
-
   "hero": {
     "title": "Střihy a holení pro muže, úprava vousů",
     "subtitle": "",
     "ctaText": "Rezervovat",
     "ctaHref": "#contacts",
-    "backgroundImage": { "__placeholder": [1920, 1080, "Hero — barber shop interior"] }
+    "backgroundImage": {
+      "__placeholder": [
+        1920,
+        1080,
+        "Hero — barber shop interior"
+      ]
+    }
   },
-
   "about": {
     "title": "O nás",
     "body": "Představte si místo, kde se budete cítit jako doma. Nejsme obyčejné holičství, každý návštěvník se u nás stává součásti naší Peak Cut rodiny. Mužský charakter se formuje již od malička. Chceme být nejlepší, odvážný, poctivý a stále růst. Tak jak v životě bývá, poctivost a práce se vyplácí, proto o Vás pečují ty nejlepší mistři ve svém oboru. Zakládáme si na kvalitě prověřenou letitou zkušenosti naších stálých zákazníku. Autentická atmosféra amerického stylu nenechá nikoho lhostejným. Uvítáme Vás sklenkou whiský nebo horké kávy a bezstarostný čas jen pro Vás může začít...",
     "highlight": "",
-    "image": { "__placeholder": [907, 531, "Team image"] }
+    "image": {
+      "__placeholder": [
+        907,
+        531,
+        "Team image"
+      ]
+    }
   },
-
   "services": {
     "title": "Naše služby",
     "services": [
-      { "name": "KLASICKÉ STŘÍHÁNÍ",                                "description": "Konzultace, mytí, střih strojkem a nůžkami, styling vlasů a parfém.",                                                                                                       "price": "850 Kč" },
-      { "name": "KLASICKÉ STŘÍHÁNÍ A TRADIČNÍ HOLENÍ",              "description": "Změkčení vousů speciálním olejíčkem, napářka horkým ručníkem, holení břitvou, kolínská, zklidňující krém po holení, střih, úprava kontur a chloupků, mytí hlavy, styling.", "price": "1 100 Kč" },
-      { "name": "KLASICKÉ STŘÍHÁNÍ A ÚPRAVA VOUSŮ",                 "description": "Konzultace, mytí, střih vlasů a úprava vousů, styling a parfém.",                                                                                                          "price": "1 050 Kč" },
-      { "name": "TRADIČNÍ HOLENÍ HOT TOWEL",                        "description": "Konzultace, změkčení vousů speciálním olejíčkem, napářka horkým ručníkem, holení břitvou, kolínská, zklidňující krém po holení.",                                          "price": "600 Kč" },
-      { "name": "ÚPRAVA VOUSŮ",                                     "description": "Konzultace, úprava vousů, ošetření olejem, voda po holení, parfém a styling.",                                                                                             "price": "550 Kč" },
-      { "name": "STŘIH STROJKEM",                                   "description": "Konzultace, mytí, střih vlasů pouze strojkem, parfém.",                                                                                                                    "price": "500 Kč" },
-      { "name": "KLASICKÉ STŘÍHÁNÍ PRO DÍTĚ (od 6 do 12 let)",      "description": "Konzultace, mytí, střih a styling.",                                                                                                                                       "price": "600 Kč" },
-      { "name": "BARVENÍ VLASŮ",                                    "description": "",                                                                                                                                                                          "price": "1 700 Kč" },
-      { "name": "TÓNOVÁNÍ VLASŮ / TÓNOVÁNÍ VOUSŮ",                  "description": "",                                                                                                                                                                          "price": "250–500 Kč" },
-      { "name": "VOSKOVÁ DEPILACE CHLOUPKŮ",                        "description": "",                                                                                                                                                                          "price": "130 Kč" }
+      {
+        "name": "KLASICKÉ STŘÍHÁNÍ",
+        "description": "Konzultace, mytí, střih strojkem a nůžkami, styling vlasů a parfém.",
+        "price": "850 Kč"
+      },
+      {
+        "name": "KLASICKÉ STŘÍHÁNÍ A TRADIČNÍ HOLENÍ",
+        "description": "Změkčení vousů speciálním olejíčkem, napářka horkým ručníkem, holení břitvou, kolínská, zklidňující krém po holení, střih, úprava kontur a chloupků, mytí hlavy, styling.",
+        "price": "1 100 Kč"
+      },
+      {
+        "name": "KLASICKÉ STŘÍHÁNÍ A ÚPRAVA VOUSŮ",
+        "description": "Konzultace, mytí, střih vlasů a úprava vousů, styling a parfém.",
+        "price": "1 050 Kč"
+      },
+      {
+        "name": "TRADIČNÍ HOLENÍ HOT TOWEL",
+        "description": "Konzultace, změkčení vousů speciálním olejíčkem, napářka horkým ručníkem, holení břitvou, kolínská, zklidňující krém po holení.",
+        "price": "600 Kč"
+      },
+      {
+        "name": "ÚPRAVA VOUSŮ",
+        "description": "Konzultace, úprava vousů, ošetření olejem, voda po holení, parfém a styling.",
+        "price": "550 Kč"
+      },
+      {
+        "name": "STŘIH STROJKEM",
+        "description": "Konzultace, mytí, střih vlasů pouze strojkem, parfém.",
+        "price": "500 Kč"
+      },
+      {
+        "name": "KLASICKÉ STŘÍHÁNÍ PRO DÍTĚ (od 6 do 12 let)",
+        "description": "Konzultace, mytí, střih a styling.",
+        "price": "600 Kč"
+      },
+      {
+        "name": "BARVENÍ VLASŮ",
+        "description": "",
+        "price": "1 700 Kč"
+      },
+      {
+        "name": "TÓNOVÁNÍ VLASŮ / TÓNOVÁNÍ VOUSŮ",
+        "description": "",
+        "price": "250–500 Kč"
+      },
+      {
+        "name": "VOSKOVÁ DEPILACE CHLOUPKŮ",
+        "description": "",
+        "price": "130 Kč"
+      }
     ]
   },
-
   "gallery": {
     "title": "Galerie",
     "images": [
-      { "url": { "__placeholder": [600, 600, "Galerie 01"] }, "alt": "Galerie 01" },
-      { "url": { "__placeholder": [600, 600, "Galerie 02"] }, "alt": "Galerie 02" },
-      { "url": { "__placeholder": [600, 600, "Galerie 03"] }, "alt": "Galerie 03" },
-      { "url": { "__placeholder": [600, 600, "Galerie 04"] }, "alt": "Galerie 04" },
-      { "url": { "__placeholder": [600, 600, "Galerie 05"] }, "alt": "Galerie 05" },
-      { "url": { "__placeholder": [600, 600, "Galerie 06"] }, "alt": "Galerie 06" }
+      {
+        "url": {
+          "__placeholder": [
+            600,
+            600,
+            "Galerie 01"
+          ]
+        },
+        "alt": "Galerie 01"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            600,
+            600,
+            "Galerie 02"
+          ]
+        },
+        "alt": "Galerie 02"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            600,
+            600,
+            "Galerie 03"
+          ]
+        },
+        "alt": "Galerie 03"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            600,
+            600,
+            "Galerie 04"
+          ]
+        },
+        "alt": "Galerie 04"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            600,
+            600,
+            "Galerie 05"
+          ]
+        },
+        "alt": "Galerie 05"
+      },
+      {
+        "url": {
+          "__placeholder": [
+            600,
+            600,
+            "Galerie 06"
+          ]
+        },
+        "alt": "Galerie 06"
+      }
     ]
   },
-
   "testimonials": {
     "title": "Co říkají klienti",
     "testimonials": [
-      { "name": "Jan Novák",    "text": "Nejlepší barber v okolí. Fade mám pokaždé přesně tak, jak si představuju — bez zbytečného vysvětlování. Jasná volba pro každého, kdo bere svůj střih vážně.", "rating": 5 },
-      { "name": "Tomáš Dvořák", "text": "Přišel jsem poprvé a hned věděl, že budu chodit pravidelně. Příjemná atmosféra, profíci co vědí co dělají, a holení břitvou je prostě rituál sám o sobě.",   "rating": 5 },
-      { "name": "Martin Černý", "text": "Konečně barbershop, kde vám poradí a nesnaží se prodat víc, než potřebujete. Vousy upravené na míru, precizní finish — 100 % doporučuji.",                     "rating": 5 }
+      {
+        "name": "Jan Novák",
+        "text": "Nejlepší barber v okolí. Fade mám pokaždé přesně tak, jak si představuju — bez zbytečného vysvětlování. Jasná volba pro každého, kdo bere svůj střih vážně.",
+        "rating": 5
+      },
+      {
+        "name": "Tomáš Dvořák",
+        "text": "Přišel jsem poprvé a hned věděl, že budu chodit pravidelně. Příjemná atmosféra, profíci co vědí co dělají, a holení břitvou je prostě rituál sám o sobě.",
+        "rating": 5
+      },
+      {
+        "name": "Martin Černý",
+        "text": "Konečně barbershop, kde vám poradí a nesnaží se prodat víc, než potřebujete. Vousy upravené na míru, precizní finish — 100 % doporučuji.",
+        "rating": 5
+      }
     ]
   },
-
   "contact": {
     "title": "Kontakty",
     "locations": [
@@ -81,7 +212,13 @@
         "phone": "+420 704 123 456",
         "hours": "Po – Ne: 10:00 – 20:00",
         "mapHref": "https://www.openstreetmap.org/search?query=Praha+1",
-        "image": { "__placeholder": [618, 403, "Contact image 1"] }
+        "image": {
+          "__placeholder": [
+            618,
+            403,
+            "Contact image 1"
+          ]
+        }
       },
       {
         "title": "VZOROVÁ",
@@ -90,35 +227,62 @@
         "phone": "+420 704 654 321",
         "hours": "Po – Ne: 10:00 – 20:00",
         "mapHref": "https://www.openstreetmap.org/search?query=Praha+2",
-        "image": { "__placeholder": [618, 403, "Contact image 2"] }
+        "image": {
+          "__placeholder": [
+            618,
+            403,
+            "Contact image 2"
+          ]
+        }
       }
     ],
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "+420 704 123 456",
     "email": "info@demo.cz",
-    "nameLabel": "Jméno *",
     "emailLabel": "E-mail *",
-    "phoneLabel": "Telefon",
-    "messageLabel": "Zpráva *",
-    "submitText": "Odeslat zprávu"
+    "phoneLabel": "Telefon"
   },
-
   "footer": {
     "siteName": "Peak Cut",
-    "tagline": "Profesionální barbershop v centru Prahy.",
     "phone": "+420 704 123 456",
     "email": "info@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1",
     "links": [
-      { "label": "Služby",   "href": "/sluzby"  },
-      { "label": "O nás",    "href": "/o-nas"   },
-      { "label": "Galerie",  "href": "/galerie" },
-      { "label": "Kontakt",  "href": "/kontakt" }
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "socials": [
-      { "label": "Instagram", "href": "https://instagram.com/demo" },
-      { "label": "Facebook",  "href": "https://facebook.com/demo" }
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      }
     ],
     "legal": "Demo Studio s.r.o., IČO 12345678, DIČ CZ12345678, Ukázková 123, 110 00 Praha 1. Jednatel: Jan Demo."
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte se u nás",
+      "subtitle": "Vyberte službu, barbera a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

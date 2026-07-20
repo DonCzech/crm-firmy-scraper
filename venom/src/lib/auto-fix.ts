@@ -14,6 +14,7 @@ import { createHash } from "crypto";
 import { query, queryOne, withTransaction } from "./db";
 import { loadTemplate } from "./templates/loader";
 import { invalidateTemplateCache } from "./section-resolver";
+import { assertSafeKey, resolveWithin } from "./safe-path";
 
 const PUBLIC_ROOT = path.join(process.cwd(), "public");
 const TEMPLATES_ROOT = path.join(process.cwd(), "src", "templates");
@@ -66,7 +67,7 @@ async function writeFileSafe(p: string, content: string): Promise<void> {
 
 async function copyLocalAsset(srcUrlPath: string, templateKey: string): Promise<string | null> {
   const decoded = decodeURI(srcUrlPath.split("?")[0]);
-  const srcAbs = path.join(PUBLIC_ROOT, decoded.replace(/^\//, ""));
+  const srcAbs = resolveWithin(PUBLIC_ROOT, decoded.replace(/^\//, ""));
   if (!existsSync(srcAbs)) return null;
   const baseName = path.basename(decoded);
   const targetName = `${hashOf(decoded)}-${baseName}`;
@@ -220,6 +221,7 @@ async function clearStaleOverrides(templateKey: string, summary: AutoFixSummary[
 }
 
 export async function autoFixTemplate(templateKey: string): Promise<AutoFixSummary> {
+  assertSafeKey(templateKey, "template key");
   const summary: AutoFixSummary = {
     key: templateKey,
     startedAt: new Date().toISOString(),
@@ -235,8 +237,8 @@ export async function autoFixTemplate(templateKey: string): Promise<AutoFixSumma
   };
 
   try {
-    const contentPath = path.join(TEMPLATES_ROOT, templateKey, "content", "cs.json");
-    const skinPath = path.join(TEMPLATES_ROOT, templateKey, "skin.css");
+    const contentPath = resolveWithin(TEMPLATES_ROOT, templateKey, "content", "cs.json");
+    const skinPath = resolveWithin(TEMPLATES_ROOT, templateKey, "skin.css");
     await processFileForResidues(contentPath, templateKey, summary.steps);
     await processFileForResidues(skinPath, templateKey, summary.steps);
     await reseedTemplate(templateKey, summary.steps);

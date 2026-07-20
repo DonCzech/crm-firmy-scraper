@@ -97,12 +97,12 @@ const PILOT_WEBSITES = [
   { url: "https://barberpraha.online", industry: "barber", label: "Barber Praha" },
   { url: "https://jarkacechova.cz", industry: "hairdresser", label: "Jarka Čechová" },
   { url: "https://www.prahamasaze.com", industry: "wellness", label: "Praha Masáže" },
-  { url: "https://anandaspa.cz", industry: "wellness", label: "Ananda Spa" },
+  { url: "https://harmoniespa.cz", industry: "wellness", label: "Harmonie Spa" },
   { url: "https://www.ambi.cz", industry: "restaurant", label: "Ambi Restaurant" },
   { url: "https://www.zrnozrnko.cz", industry: "cafe", label: "Zrno Zrnko" },
-  { url: "https://magicsmile.cz", industry: "dentist", label: "Magic Smile" },
+  { url: "https://dentia-klinika.cz", industry: "dentist", label: "Dentia" },
   { url: "https://www.havelpartners.cz", industry: "lawyer", label: "Havel Partners" },
-  { url: "https://www.lexxusnorton.cz", industry: "realEstate", label: "Lexxus Norton" },
+  { url: "https://www.domus-reality.cz", industry: "realEstate", label: "DOMUS Reality" },
 ];
 
 export default function TemplateLabPage() {

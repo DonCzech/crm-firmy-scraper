@@ -1,5 +1,5 @@
 import pg from 'pg';
-const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const DB_URL = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: DB_URL });
 
 const res = await pool.query('SELECT id FROM tenants WHERE slug = $1', ['selfbeauty-demo']);
@@ -7,7 +7,7 @@ const tid = res.rows[0].id;
 const secs = await pool.query('SELECT id, settings FROM sections WHERE tenant_id = $1', [tid]);
 
 for (const row of secs.rows) {
-  let s = row.settings;
+  const s = row.settings;
   let html = s.html || '';
 
   // Fix missed wixstatic images (hash-only IDs without mv2 suffix)

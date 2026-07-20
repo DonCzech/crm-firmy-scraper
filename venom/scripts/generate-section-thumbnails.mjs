@@ -67,7 +67,7 @@ async function loadVariants() {
   // Try tsx (if installed as devDep)
   try {
     require("tsx/cjs");
-    /* eslint-disable-next-line import/no-dynamic-require */
+     
     const mod = require(srcPath);
     return mod.SECTION_VARIANTS;
   } catch { /* fall through */ }

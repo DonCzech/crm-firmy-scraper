@@ -1,0 +1,182 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "rekonstrukce-01",
+  "name": "Byty & Jádra",
+  "industry": "rekonstrukce",
+  "skeleton": "b2b-trade",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "description": "Rekonstrukce bytů, bytových jader, koupelen a rodinných domů na klíč. Světlý, důvěryhodný, řemeslný design — teplá ambrová #C2622B, hluboká grafitová #1F1B17, Inter font. Solid sticky navbar s backdrop-blur, fullbleed hero s realizační fotkou, 3× USP pás, 8 service karet s construction ikonami, fotogalerie realizací, proč-nás blok, reference zákazníků, CTA poptávka, kontakt. Warm professional trade web.",
+  "sectionOrderNote": "Navbar → Hero → USP/Stats → Services → Gallery → About(Proč nás) → Testimonials → CTA → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Původní web ceník nemá — cena vždy individuálně přes nezávaznou poptávku (CTA sekce)"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Původní web mapu působnosti nemá — oblast je zmíněna v kontaktech"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Původní web FAQ nemá — reference + proč-nás blok nesou tuto roli"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "reason": "USP pás (25+ let, profesionální servis, ověřené materiály) pod hero — signature původního webu"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": [
+      "cs"
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "rekonstrukce-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "rekonstrukce-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "rekonstrukce-01-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "services",
+          "variant": "rekonstrukce-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "about",
+          "variant": "rekonstrukce-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "testimonials",
+          "variant": "rekonstrukce-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "cta",
+          "variant": "rekonstrukce-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "rekonstrukce-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "rekonstrukce-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "rekonstrukce-01-page",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "rekonstrukce-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "rekonstrukce-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "rekonstrukce-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "reference",
+      "title": "Reference",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "rekonstrukce-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "rekonstrukce-01-page",
+          "contentRef": "pages.reference.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "rekonstrukce-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "rekonstrukce-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "rekonstrukce-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "rekonstrukce-01-page",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "rekonstrukce-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "rekonstrukce-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ]
+}

@@ -2,22 +2,37 @@
   "navbar": {
     "siteName": "Clean Garden",
     "logoUrl": "",
-    "tagline": "Profesionální úklid Praha",
     "phone": "+420 600 000 000",
-    "email": "info@cleangarden.cz",
     "ctaText": "Poptat úklid",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Úvod",             "href": "/"          },
-      { "label": "Úklidové služby",  "href": "#sluzby"    },
-      { "label": "O nás",            "href": "#onas"      },
-      { "label": "Reference",        "href": "#reference" },
-      { "label": "Blog",             "href": "#blog"      },
-      { "label": "Ceník",            "href": "#cenik"     }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Úklidové služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Blog",
+        "href": "#blog"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      }
     ]
   },
   "hero": {
-    "title": "Profesionální úklidová firma v Praze",
     "subtitle": "Spolehlivá úklidová firma v Praze, která se postará o vše od A do Z. Uklidíme kanceláře i společné prostory v bytových domech. Pracujeme rychle, pečlivě a bez zbytečných řečí.",
     "ctaText": "Nezávazně poptat úklid",
     "ctaHref": "#kontakt",
@@ -28,15 +43,64 @@
     "backgroundImage2": "/assets/clean-02/a7541cd9f6-681cb882589f8948a612943b_hero_blend_2.webp"
   },
   "stats": {
-    "eyebrow": "Naši zákazníci",
     "title": "Mezi naše spokojené zákazníky patří 40+ firem a 40+ SVJ",
     "logos": [
-      { "url": "/assets/clean-02/01e2f6fa46-681cae1b84c6389712b69e54_abuco-footer-logo.svg", "alt": "Abuco" },
-      { "url": "/assets/clean-02/d0f4dac50d-681cae1b4ff9148c562c47b5_datasentics.webp",      "alt": "Datasentics" },
-      { "url": "/assets/clean-02/3592929a66-681cae1b7f06e8c199a80fc9_mavericks.webp",         "alt": "Mavericks" },
-      { "url": "/assets/clean-02/bad9752dd9-681cae1bdcb797cdee4230eb_marinov_partners.webp",  "alt": "Marinov Partners" },
-      { "url": "/assets/clean-02/9eeb005b19-681cae1b3f8047121580dcf9_epico.svg",              "alt": "Epico" },
-      { "url": "/assets/clean-02/1453ad2e18-681cae1bcceed0bfc512074b_Logo_Praha.svg",         "alt": "Praha" }
+      {
+        "url": "/clones/modryzralok/cdn/681cae1c20d29c335e1c5296_neeco.webp",
+        "alt": "Neeco"
+      },
+      {
+        "url": "/clones/modryzralok/cdn/681cae1c20d29c335e1c5293_rezidence_ostrovni.webp",
+        "alt": "Rezidence Ostrovní"
+      },
+      {
+        "url": "/clones/modryzralok/cdn/681cae1c843b20affee73c79_prazsky_inovacni_institut.webp",
+        "alt": "Pražský inovační institut"
+      },
+      {
+        "url": "/assets/clean-02/3592929a66-681cae1b7f06e8c199a80fc9_mavericks.webp",
+        "alt": "Mavericks"
+      },
+      {
+        "url": "/assets/clean-02/bad9752dd9-681cae1bdcb797cdee4230eb_marinov_partners.webp",
+        "alt": "Marinov Partners"
+      },
+      {
+        "url": "/assets/clean-02/9eeb005b19-681cae1b3f8047121580dcf9_epico.svg",
+        "alt": "Epico"
+      },
+      {
+        "url": "/clones/modryzralok/cdn/681cae1b1b0a5a67e1c78249_semtex.webp",
+        "alt": "Semtex"
+      },
+      {
+        "url": "/clones/modryzralok/cdn/681cae1b25fcbe847140c5fd_luchter_a_luchterova.webp",
+        "alt": "Luchter & Luchterová"
+      },
+      {
+        "url": "/assets/clean-02/d0f4dac50d-681cae1b4ff9148c562c47b5_datasentics.webp",
+        "alt": "Datasentics"
+      },
+      {
+        "url": "/clones/modryzralok/cdn/681cae1b174454af7d6d85a1_ebsco.svg",
+        "alt": "EBSCO"
+      },
+      {
+        "url": "/clones/modryzralok/cdn/681cae1b9e808d9501e75e05_nfpk.svg",
+        "alt": "NFPK"
+      },
+      {
+        "url": "/assets/clean-02/1453ad2e18-681cae1bcceed0bfc512074b_Logo_Praha.svg",
+        "alt": "Praha"
+      },
+      {
+        "url": "/assets/clean-02/2a5a4536ce-6980de5f0ac51c789eac79a1_modryzralok-eurocz.webp",
+        "alt": "Euro CZ"
+      },
+      {
+        "url": "/assets/clean-02/2079c82cca-6980de5f9878e93a1738015e_modryzralok-metro.png",
+        "alt": "Metro"
+      }
     ]
   },
   "promo": {
@@ -243,19 +307,52 @@
     "servicesLabel": "Služby",
     "infoLabel": "Informace",
     "links": [
-      { "label": "Úklid kanceláří a firem",        "href": "#sluzby" },
-      { "label": "Úklid panelových domů a SVJ",    "href": "#sluzby" },
-      { "label": "Generální úklid",                "href": "#sluzby" },
-      { "label": "Čištění koberců a sedaček",      "href": "#sluzby" },
-      { "label": "Strojové čištění garáží",        "href": "#sluzby" },
-      { "label": "Výškové mytí oken",              "href": "#sluzby" }
+      {
+        "label": "Úklid kanceláří a firem",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Úklid panelových domů a SVJ",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Generální úklid",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Čištění koberců a sedaček",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Strojové čištění garáží",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Výškové mytí oken",
+        "href": "#sluzby"
+      }
     ],
     "linksCol2": [
-      { "label": "O nás",                          "href": "#onas"    },
-      { "label": "Blog",                           "href": "#blog"    },
-      { "label": "Reference",                      "href": "#reference" },
-      { "label": "Kariéra",                        "href": "#kariera" },
-      { "label": "Ochrana osobních údajů",         "href": "#gdpr"    }
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Blog",
+        "href": "#blog"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Kariéra",
+        "href": "#kariera"
+      },
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#gdpr"
+      }
     ],
     "copyright": "© 2026 Clean Garden s.r.o. Všechna práva vyhrazena."
   },

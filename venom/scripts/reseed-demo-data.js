@@ -3,11 +3,10 @@
  * Fixes content structure bugs and adds missing sections (navbar, footer, about, gallery, team, etc.)
  */
 
-const { Pool } = require("pg");
+import { Pool } from "pg";
 
-const DB_URL =
-  process.env.DATABASE_URL ||
-  "postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require";
+const DB_URL = process.env.DATABASE_URL;
+if (!DB_URL) throw new Error("DATABASE_URL is required");
 
 const pool = new Pool({ connectionString: DB_URL, ssl: { rejectUnauthorized: false } });
 

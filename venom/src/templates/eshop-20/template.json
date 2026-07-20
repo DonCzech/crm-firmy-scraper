@@ -1,0 +1,142 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-20",
+  "name": "Vykuk",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "ponozky",
+    "spodni-pradlo",
+    "fashion",
+    "dedoles-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Dedoles.cz sortimentní DNA (veselé ponožky, spodní prádlo, pantofle, plavky, pyžama, doplňky pro ženy/muže/děti) povýšená na awwwards identitu Vykuk — cocoa & bubblegum pop. Kakaová hněď #4b2413/#38190c (wordmark, text, gender taby), bubblegum růžová #f6a7d7 (CTA pilly, badge košíku, podtrhy), limetková #d6e84a (promo aside, newsletter), jantarová #f0a04b (promo topbar), krém #fdf8f0, zelená #2f9e44 jen doprava zdarma/sklad, červená #e03131 jen slevy. Baloo 2 (chunky rounded wordmark „vykuk“ + uppercase nadpisy a taby) + Figtree. Header: jantarový promo pruh (výprodej −70 % + Nakupovat, zavíratelný) → bílý trust strip (⭐ 4,7 (32 481 recenzí) | ® Originální design navržený u nás + rychlé odeslání | Kontaktujte nás) → hlavní řádek: gender taby ŽENY/MUŽI/DĚTI/DOPLŇKY (Baloo uppercase, hover růžový vlnitý podtrh, hover mega menu per gender: skupiny Ponožky/Spodní prádlo/Obuv/Plavky/Pyžama + limetková promo karta s maskotem) | vycentrovaný wordmark vykuk s vykukujícím maskotem (kilroy mark) | pill search + účet + srdíčko + kakaový košík-pill s růžovým badge → centrovaný podřádek (Letní výprodej červeně, Ponožky, Spodní prádlo, Obuv, Letní kolekce, Outlet, Novinky). Pop-up košík Dedoles-stylu: uppercase „N PRODUKTŮ V KOŠÍKU“, zelený progress do dopravy zdarma 999 Kč, položky se stepperem, růžová CTA Pokladna, trust blok (4,7 hvězd, vrácení do 100 dnů, bezpečný nákup), recos „Mohlo by se ti také líbit“.",
+  "sectionOrderNote": "Homepage KOMPLETNÍ dle Dedoles homepage.pdf: navbar, hero, výprodejové dlaždice, Nejoblíbenější, Letní kolekce, Top kategorie kruhy, Top nabídky, novinky dlaždice, story odkazy, Letní výprodej pás, newsletter lime, link hub, footer. Zbývá: kategorie listing, detail, košík.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-20-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-20-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-20-tiles",
+          "contentRef": "saleTiles"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-20-products",
+          "contentRef": "popularProducts"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-20-products",
+          "contentRef": "summerProducts"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-20-categories",
+          "contentRef": "topCategories"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-20-tiles",
+          "contentRef": "topOffers"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-20-tiles",
+          "contentRef": "newsTiles"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-20-links",
+          "contentRef": "storyLinks"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-20-products",
+          "contentRef": "saleProducts"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-20-newsletter",
+          "contentRef": "newsletter"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-20-linkhub",
+          "contentRef": "linkHub"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-20-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories (services)",
+      "reason": "Kategorie řeší Top kategorie kruhový karusel (eshop-20-categories, about) a link hub — Dedoles nemá statickou services sekci"
+    },
+    {
+      "pos": 4,
+      "name": "Featured products (gallery)",
+      "reason": "Produktové výběry řeší commerce sekce featured-products (Nejoblíbenější, Letní kolekce, Letní výprodej) napojené na katalog"
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Dedoles homepage nemá služby — roli plní promo dlaždice (výprodeje, top nabídky, novinky) a story odkazy"
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Recenze budují trust strip v headeru (4,7 hvězd + počet recenzí) a trust blok v pop-up košíku — Dedoles nemá samostatnou sekci recenzí na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Dedoles je čistě online e-shop bez poboček"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ je odkaz v footeru (Nejčastější otázky) — Dedoles homepage FAQ sekci nemá"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Dedoles DNA: 3× produktový karusel (Nejoblíbenější položky, Letní kolekce, Letní výprodej) napojený na commerce katalog"
+    },
+    {
+      "type": "promo",
+      "reason": "Dedoles DNA: výprodejové dlaždice, Top nabídky, novinky dlaždice, story odkazy a Top kategorie link hub"
+    }
+  ]
+}

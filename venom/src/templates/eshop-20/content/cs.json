@@ -1,0 +1,818 @@
+{
+  "siteName": "Vykuk",
+  "seo": {
+    "title": "Vykuk — veselé ponožky, prádlo a pantofle | demo",
+    "description": "Vykuk je demo e-shop s veselými ponožkami, spodním prádlem, pantoflemi a pyžamy pro ženy, muže i děti. Originální design, rychlé odeslání do 48 hodin."
+  },
+  "hero": {
+    "slides": [
+      {
+        "kicker": "Letní výprodej",
+        "title": "Teplo stoupá,",
+        "accent": "ceny padají",
+        "sub": "Slevy až −70 % na veselé kousky do vlny i k vodě. Jen dokud jsou skladem!",
+        "ctaText": "Chci −20 %!",
+        "ctaHref": "/obchod?kategorie=letni-vyprodej",
+        "img": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1920&h=1000&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Letní kolekce",
+        "title": "Vykukni ze zástupu",
+        "accent": "u vody",
+        "sub": "Plavky, žabky a melounové ponožky — celá letní kolekce pro celou rodinu.",
+        "ctaText": "Ponoř se!",
+        "ctaHref": "/obchod?kategorie=letni-kolekce",
+        "img": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=1920&h=1000&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "2 + 1 zdarma",
+        "title": "Boxerky, co tě",
+        "accent": "podrží",
+        "sub": "Na vybrané pánské boxerky s kódem VYKUK — třetí kus je na nás.",
+        "ctaText": "Vybrat boxerky",
+        "ctaHref": "/obchod?kategorie=panske-boxerky",
+        "img": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1000&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "saleTiles": {
+    "tiles": [
+      {
+        "label": "Dámský výprodej",
+        "badge": "−70 %",
+        "href": "/obchod?kategorie=letni-vyprodej",
+        "img": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Pánský výprodej",
+        "badge": "−70 %",
+        "href": "/obchod?kategorie=letni-vyprodej",
+        "img": "https://images.unsplash.com/photo-1550246140-29f40b909e5a?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Výprodej pro děti",
+        "badge": "−70 %",
+        "href": "/obchod?kategorie=letni-vyprodej",
+        "img": "https://images.unsplash.com/photo-1476234251651-f353703a034d?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Pomocník s dárky",
+        "href": "/obchod?kategorie=darky",
+        "img": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&h=820&fit=crop&auto=format&q=75"
+      }
+    ]
+  },
+  "popularProducts": {
+    "heading": "Nejoblíbenější položky",
+    "limit": 8,
+    "promoText": "S kódem VYKUK · 2 + 1 zdarma",
+    "moreLabel": "",
+    "moreHref": "/obchod"
+  },
+  "summerProducts": {
+    "heading": "Letní kolekce",
+    "limit": 8,
+    "categorySlug": "letni-kolekce",
+    "source": "newest",
+    "promoText": "S kódem SUMMER · −20 % navíc",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=letni-kolekce"
+  },
+  "topCategories": {
+    "heading": "Top kategorie",
+    "items": [
+      {
+        "label": "Veselé ponožky",
+        "slug": "vesele-ponozky",
+        "image": "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Veselé pantofle",
+        "slug": "pantofle",
+        "image": "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Dámské plavky",
+        "slug": "damske-plavky",
+        "image": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Pánské boxerky",
+        "slug": "panske-boxerky",
+        "image": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Doplňky pro psy",
+        "slug": "doplnky-pro-psy",
+        "image": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Dámské kalhotky",
+        "slug": "damske-kalhotky",
+        "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Dětské plavky",
+        "slug": "detske-plavky",
+        "image": "https://images.unsplash.com/photo-1476234251651-f353703a034d?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Dětská obuv",
+        "slug": "papuce",
+        "image": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Tenisky",
+        "slug": "tenisky",
+        "image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Batohy a tašky",
+        "slug": "batohy-a-tasky",
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Čepice a čelenky",
+        "slug": "cepice-a-celenky",
+        "image": "https://images.unsplash.com/photo-1510598969022-c4c6c5d05769?w=300&h=300&fit=crop&auto=format&q=70"
+      },
+      {
+        "label": "Pyžama",
+        "slug": "pyzama",
+        "image": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=300&h=300&fit=crop&auto=format&q=70"
+      }
+    ]
+  },
+  "topOffers": {
+    "tiles": [
+      {
+        "label": "Boxerky 2 + 1 zdarma",
+        "badge": "Kód VYKUK",
+        "href": "/obchod?kategorie=panske-boxerky",
+        "img": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Plavky k vodě",
+        "href": "/obchod?kategorie=plavky",
+        "img": "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Žabky a pantofle",
+        "href": "/obchod?kategorie=obuv",
+        "img": "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Outlet od 129 Kč",
+        "badge": "−70 %",
+        "href": "/obchod?kategorie=outlet",
+        "img": "https://images.unsplash.com/photo-1582966772680-860e372bb558?w=800&h=820&fit=crop&auto=format&q=75"
+      }
+    ],
+    "heading": "Top nabídky"
+  },
+  "newsTiles": {
+    "tiles": [
+      {
+        "label": "Dámské novinky",
+        "href": "/obchod?kategorie=novinky",
+        "img": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Pánské novinky",
+        "href": "/obchod?kategorie=novinky",
+        "img": "https://images.unsplash.com/photo-1622519407650-3df9883f76a5?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Dětské novinky",
+        "href": "/obchod?kategorie=novinky",
+        "img": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=820&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Novinky",
+        "href": "/obchod?kategorie=novinky",
+        "img": "https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?w=800&h=820&fit=crop&auto=format&q=75"
+      }
+    ]
+  },
+  "storyLinks": {
+    "links": [
+      {
+        "label": "Vykuk příběh",
+        "icon": "story"
+      },
+      {
+        "label": "Udržitelnost",
+        "icon": "leaf"
+      },
+      {
+        "label": "Vykuk pomáhá",
+        "icon": "help"
+      },
+      {
+        "label": "Vykuk drobné",
+        "icon": "coins"
+      }
+    ]
+  },
+  "navbar": {
+    "siteName": "Vykuk",
+    "logoUrl": "",
+    "searchPlaceholder": "Hledej veselé kousky…",
+    "promo": {
+      "text": "Objev žhavý letní výprodej a nakupuj se slevami až −70 %",
+      "linkText": "Nakupovat",
+      "href": "/obchod?kategorie=letni-vyprodej"
+    },
+    "trust": {
+      "rating": 4.7,
+      "reviewsLabel": "(32 481 recenzí)",
+      "claims": [
+        {
+          "icon": "original",
+          "label": "Originální design navržený u nás"
+        },
+        {
+          "icon": "shipping",
+          "label": "Rychlé odeslání do 48 hodin"
+        }
+      ],
+      "contactLabel": "Kontaktujte nás",
+      "contactHref": "/kontakt"
+    },
+    "genders": [
+      {
+        "label": "Ženy",
+        "slug": "zeny",
+        "groups": [
+          {
+            "label": "Ponožky",
+            "slug": "ponozky",
+            "links": [
+              {
+                "label": "Veselé ponožky",
+                "slug": "vesele-ponozky"
+              },
+              {
+                "label": "Sportovní ponožky",
+                "slug": "sportovni-ponozky"
+              },
+              {
+                "label": "Kotníkové ponožky",
+                "slug": "kotnikove-ponozky"
+              },
+              {
+                "label": "Nízké ponožky",
+                "slug": "nizke-ponozky"
+              },
+              {
+                "label": "Teplé ponožky",
+                "slug": "teple-ponozky"
+              }
+            ]
+          },
+          {
+            "label": "Spodní prádlo",
+            "slug": "spodni-pradlo",
+            "links": [
+              {
+                "label": "Dámské kalhotky",
+                "slug": "damske-kalhotky"
+              },
+              {
+                "label": "Podprsenky",
+                "slug": "podprsenky"
+              },
+              {
+                "label": "Dámská pyžama",
+                "slug": "damska-pyzama"
+              }
+            ]
+          },
+          {
+            "label": "Obuv",
+            "slug": "obuv",
+            "links": [
+              {
+                "label": "Veselé pantofle",
+                "slug": "pantofle"
+              },
+              {
+                "label": "Žabky",
+                "slug": "zabky"
+              },
+              {
+                "label": "Tenisky",
+                "slug": "tenisky"
+              }
+            ]
+          },
+          {
+            "label": "Plavky",
+            "slug": "plavky",
+            "links": [
+              {
+                "label": "Dámské plavky",
+                "slug": "damske-plavky"
+              },
+              {
+                "label": "Letní kolekce",
+                "slug": "letni-kolekce"
+              }
+            ]
+          }
+        ],
+        "promo": {
+          "heading": "Letní výprodej",
+          "text": "Slevy až −70 % na veselé kousky do vlny i k vodě.",
+          "linkText": "Ponoř se!",
+          "href": "/obchod?kategorie=letni-vyprodej"
+        }
+      },
+      {
+        "label": "Muži",
+        "slug": "muzi",
+        "groups": [
+          {
+            "label": "Ponožky",
+            "slug": "ponozky",
+            "links": [
+              {
+                "label": "Veselé ponožky",
+                "slug": "vesele-ponozky"
+              },
+              {
+                "label": "Sportovní ponožky",
+                "slug": "sportovni-ponozky"
+              },
+              {
+                "label": "Kotníkové ponožky",
+                "slug": "kotnikove-ponozky"
+              },
+              {
+                "label": "Nízké ponožky",
+                "slug": "nizke-ponozky"
+              },
+              {
+                "label": "Teplé ponožky",
+                "slug": "teple-ponozky"
+              }
+            ]
+          },
+          {
+            "label": "Spodní prádlo",
+            "slug": "spodni-pradlo",
+            "links": [
+              {
+                "label": "Pánské boxerky",
+                "slug": "panske-boxerky"
+              },
+              {
+                "label": "Pánské trenky",
+                "slug": "panske-trenky"
+              },
+              {
+                "label": "Pánská pyžama",
+                "slug": "panska-pyzama"
+              }
+            ]
+          },
+          {
+            "label": "Obuv",
+            "slug": "obuv",
+            "links": [
+              {
+                "label": "Veselé pantofle",
+                "slug": "pantofle"
+              },
+              {
+                "label": "Žabky",
+                "slug": "zabky"
+              },
+              {
+                "label": "Tenisky",
+                "slug": "tenisky"
+              }
+            ]
+          },
+          {
+            "label": "Plavky",
+            "slug": "plavky",
+            "links": [
+              {
+                "label": "Pánské plavky",
+                "slug": "panske-plavky"
+              },
+              {
+                "label": "Letní kolekce",
+                "slug": "letni-kolekce"
+              }
+            ]
+          }
+        ],
+        "promo": {
+          "heading": "2 + 1 zdarma",
+          "text": "Na vybrané boxerky s kódem VYKUK — třetí kus je na nás.",
+          "linkText": "Vybrat boxerky",
+          "href": "/obchod?kategorie=panske-boxerky"
+        }
+      },
+      {
+        "label": "Děti",
+        "slug": "deti",
+        "groups": [
+          {
+            "label": "Ponožky",
+            "slug": "ponozky",
+            "links": [
+              {
+                "label": "Dětské ponožky",
+                "slug": "detske-ponozky"
+              },
+              {
+                "label": "Teplé ponožky",
+                "slug": "teple-ponozky"
+              }
+            ]
+          },
+          {
+            "label": "Spodní prádlo",
+            "slug": "spodni-pradlo",
+            "links": [
+              {
+                "label": "Chlapecké boxerky",
+                "slug": "chlapecke-boxerky"
+              },
+              {
+                "label": "Dívčí kalhotky",
+                "slug": "divci-kalhotky"
+              },
+              {
+                "label": "Dětská pyžama",
+                "slug": "detska-pyzama"
+              }
+            ]
+          },
+          {
+            "label": "Obuv",
+            "slug": "obuv",
+            "links": [
+              {
+                "label": "Papuče",
+                "slug": "papuce"
+              },
+              {
+                "label": "Žabky",
+                "slug": "zabky"
+              }
+            ]
+          },
+          {
+            "label": "Plavky",
+            "slug": "plavky",
+            "links": [
+              {
+                "label": "Dětské plavky",
+                "slug": "detske-plavky"
+              }
+            ]
+          }
+        ],
+        "promo": {
+          "heading": "Výprodej pro děti",
+          "text": "Veselé kousky pro malé objevitele se slevou až −70 %.",
+          "linkText": "Mrknout",
+          "href": "/obchod?kategorie=letni-vyprodej"
+        }
+      },
+      {
+        "label": "Doplňky",
+        "slug": "doplnky",
+        "groups": [
+          {
+            "label": "Doplňky",
+            "slug": "doplnky",
+            "links": [
+              {
+                "label": "Čepice a čelenky",
+                "slug": "cepice-a-celenky"
+              },
+              {
+                "label": "Batohy a tašky",
+                "slug": "batohy-a-tasky"
+              },
+              {
+                "label": "Doplňky pro psy",
+                "slug": "doplnky-pro-psy"
+              },
+              {
+                "label": "Dárkové balení",
+                "slug": "darkove-baleni"
+              }
+            ]
+          },
+          {
+            "label": "Dárky",
+            "slug": "darky",
+            "links": [
+              {
+                "label": "Pomocník s dárky",
+                "slug": "darky"
+              },
+              {
+                "label": "Novinky",
+                "slug": "novinky"
+              },
+              {
+                "label": "Outlet",
+                "slug": "outlet"
+              }
+            ]
+          }
+        ],
+        "promo": {
+          "heading": "Pomocník s dárky",
+          "text": "Nevíš čím potěšit? Veselý dárek najdeš do minuty.",
+          "linkText": "Najít dárek",
+          "href": "/obchod?kategorie=darky"
+        }
+      }
+    ],
+    "mainNav": [
+      {
+        "label": "Letní výprodej až do −70 %",
+        "href": "/obchod?kategorie=letni-vyprodej",
+        "highlight": true
+      },
+      {
+        "label": "Ponožky",
+        "href": "/obchod?kategorie=ponozky"
+      },
+      {
+        "label": "Spodní prádlo",
+        "href": "/obchod?kategorie=spodni-pradlo"
+      },
+      {
+        "label": "Obuv",
+        "href": "/obchod?kategorie=obuv"
+      },
+      {
+        "label": "Letní kolekce",
+        "href": "/obchod?kategorie=letni-kolekce"
+      },
+      {
+        "label": "Outlet",
+        "href": "/obchod?kategorie=outlet"
+      },
+      {
+        "label": "Novinky",
+        "href": "/obchod?kategorie=novinky"
+      }
+    ],
+    "utility": {
+      "loginLabel": "Přihlásit se",
+      "wishlistLabel": "Oblíbené",
+      "cartLabel": "Košík"
+    },
+    "drawer": {
+      "titleOne": "produkt v košíku",
+      "titleFew": "produkty v košíku",
+      "titleMany": "produktů v košíku",
+      "freeShippingThreshold": 99900,
+      "freeShippingLabel": "Už tam skoro jste. Nakupte ještě za {amount} a získáte dopravu zdarma.",
+      "freeShippingDone": "Hurá! Máte dopravu zdarma.",
+      "totalLabel": "Celkem za produkty",
+      "shippingNote": "Odesíláme do 1–2 pracovních dnů",
+      "ctaText": "Pokladna",
+      "continueText": "Pokračovat v nákupu",
+      "emptyText": "Tvůj košík zatím zeje prázdnotou.",
+      "recosHeading": "Mohlo by se ti také líbit",
+      "recoCta": "Přidat",
+      "trustCustomers": "Víc než 4M spokojených zákazníků",
+      "trustRating": "SKVĚLÉ",
+      "trustReviews": "(32 481 recenzí)",
+      "trustReturns": "Vrácení až do 100 dnů",
+      "trustSecure": "Zaručeně bezpečný nákup"
+    }
+  },
+  "saleProducts": {
+    "heading": "Letní výprodej až do −70 %",
+    "limit": 8,
+    "categorySlug": "letni-vyprodej",
+    "source": "newest",
+    "promoText": "Jen dokud jsou skladem",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=letni-vyprodej"
+  },
+  "newsletter": {
+    "heading": "Získej 15% slevu",
+    "text": "Odebírej náš newsletter a získej kód na 15% slevu na nákup. Navíc budeš mezi prvními, kdo se dozví o novinkách a speciálních akcích, a získáš VIP přístup do výprodejů.",
+    "placeholder": "tvůj e-mail…",
+    "optionA": "Žena",
+    "optionB": "Muž",
+    "successText": "Hotovo! Sleva 15 % ti letí do e-mailu.",
+    "disclaimer": "Chci dostávat pravidelné informace o novinkách a slevách prostřednictvím newsletteru a souhlasím se zpracováním svých osobních údajů pro tyto účely."
+  },
+  "linkHub": {
+    "heading": "Top kategorie",
+    "columns": [
+      {
+        "title": "Ženské kategorie",
+        "links": [
+          {
+            "label": "Ponožky",
+            "slug": "ponozky"
+          },
+          {
+            "label": "Spodní prádlo",
+            "slug": "damske-kalhotky"
+          },
+          {
+            "label": "Obuv",
+            "slug": "obuv"
+          },
+          {
+            "label": "Plavky",
+            "slug": "damske-plavky"
+          },
+          {
+            "label": "Pyžama",
+            "slug": "damska-pyzama"
+          }
+        ]
+      },
+      {
+        "title": "Pánské kategorie",
+        "links": [
+          {
+            "label": "Ponožky",
+            "slug": "ponozky"
+          },
+          {
+            "label": "Boxerky",
+            "slug": "panske-boxerky"
+          },
+          {
+            "label": "Trenky",
+            "slug": "panske-trenky"
+          },
+          {
+            "label": "Plavky",
+            "slug": "panske-plavky"
+          },
+          {
+            "label": "Pyžama",
+            "slug": "panska-pyzama"
+          }
+        ]
+      },
+      {
+        "title": "Dětské kategorie",
+        "links": [
+          {
+            "label": "Ponožky",
+            "slug": "detske-ponozky"
+          },
+          {
+            "label": "Spodní prádlo",
+            "slug": "chlapecke-boxerky"
+          },
+          {
+            "label": "Papuče",
+            "slug": "papuce"
+          },
+          {
+            "label": "Plavky",
+            "slug": "detske-plavky"
+          },
+          {
+            "label": "Pyžama",
+            "slug": "detska-pyzama"
+          }
+        ]
+      },
+      {
+        "title": "Kolekce",
+        "links": [
+          {
+            "label": "Letní kolekce",
+            "slug": "letni-kolekce"
+          },
+          {
+            "label": "Letní výprodej",
+            "slug": "letni-vyprodej"
+          },
+          {
+            "label": "Novinky",
+            "slug": "novinky"
+          },
+          {
+            "label": "Outlet",
+            "slug": "outlet"
+          },
+          {
+            "label": "Pomocník s dárky",
+            "slug": "darky"
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Vykuk",
+    "groups": [
+      {
+        "title": "Pomoc a vrácení",
+        "icon": "help",
+        "links": [
+          {
+            "label": "Kontaktujte nás",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Nejčastější otázky"
+          },
+          {
+            "label": "Vrácení a reklamace"
+          },
+          {
+            "label": "Odstoupení od smlouvy"
+          }
+        ]
+      },
+      {
+        "title": "O Vykuk",
+        "icon": "bag",
+        "links": [
+          {
+            "label": "O nás"
+          },
+          {
+            "label": "O produktech"
+          },
+          {
+            "label": "Velkoobchod"
+          }
+        ]
+      }
+    ],
+    "paymentsTitle": "Způsoby platby",
+    "payments": [
+      "Visa",
+      "Mastercard",
+      "Apple Pay",
+      "Google Pay"
+    ],
+    "deliveryTitle": "Způsoby doručení",
+    "deliveries": [
+      "Výdejní box",
+      "Kurýr",
+      "Pošta"
+    ],
+    "email": "email@demo.cz",
+    "phone": "704 123 456",
+    "promo": {
+      "title": "Vykuk drobné",
+      "lead": "Přispějte drobnými a pomozte zlepšit život na naší planetě",
+      "text": "I drobné věci mohou zlepšit život na naší planetě. Díky drobným, kterými přispíváte při svém nákupu, pomáháme vytvářet lepší a zdravější budoucnost pro všechny. Děkujeme!",
+      "linkText": "Vykuk drobným"
+    },
+    "followLabel": "Sledujte nás:",
+    "socials": [
+      {
+        "kind": "facebook",
+        "label": "Facebook",
+        "href": ""
+      },
+      {
+        "kind": "instagram",
+        "label": "Instagram",
+        "href": ""
+      },
+      {
+        "kind": "tiktok",
+        "label": "TikTok",
+        "href": ""
+      },
+      {
+        "kind": "youtube",
+        "label": "YouTube",
+        "href": ""
+      }
+    ],
+    "copyright": "© 2011–2026 Vykuk — demo",
+    "legal": [
+      {
+        "label": "Obchodní podmínky"
+      },
+      {
+        "label": "Soubory cookies"
+      },
+      {
+        "label": "Zpracování osobních údajů"
+      },
+      {
+        "label": "GPSR"
+      }
+    ]
+  }
+}

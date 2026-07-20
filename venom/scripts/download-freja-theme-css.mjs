@@ -12,7 +12,7 @@ const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'public/clones/freja/css');
 import pg from 'pg';
 
-const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const DB_URL = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: DB_URL });
 
 function dlUrl(url) {
@@ -62,7 +62,7 @@ console.log(`Total CSS files: ${fs.readdirSync(OUT).length}`);
 const allCss = fs.readdirSync(OUT).sort().map(f => `/clones/freja/css/${f}`);
 
 // Also fix the home.html body to remove inline CSS link tags and update DB
-let htmlBody = fs.readFileSync(path.join(ROOT, 'public/clones/freja/pages/home.html'), 'utf8');
+const htmlBody = fs.readFileSync(path.join(ROOT, 'public/clones/freja/pages/home.html'), 'utf8');
 const bodyM = htmlBody.match(/<body[^>]*>([\s\S]*)<\/body>/i);
 let body = bodyM ? bodyM[1].trim() : htmlBody;
 

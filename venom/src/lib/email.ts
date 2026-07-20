@@ -1,10 +1,17 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY ?? "";
 const EMAIL_FROM = process.env.EMAIL_FROM ?? "Webero <noreply@webero.co>";
 
+export interface EmailAttachment {
+  filename: string;
+  /** Obsah souboru v base64 (Resend formát). */
+  content: string;
+}
+
 interface SendOptions {
   to: string;
   subject: string;
   html: string;
+  attachments?: EmailAttachment[];
 }
 
 export async function sendEmail(opts: SendOptions): Promise<void> {
@@ -15,7 +22,13 @@ export async function sendEmail(opts: SendOptions): Promise<void> {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
-    body: JSON.stringify({ from: EMAIL_FROM, to: opts.to, subject: opts.subject, html: opts.html }),
+    body: JSON.stringify({
+      from: EMAIL_FROM,
+      to: opts.to,
+      subject: opts.subject,
+      html: opts.html,
+      ...(opts.attachments?.length ? { attachments: opts.attachments } : {}),
+    }),
   });
   if (!res.ok) {
     const body = await res.text().catch(() => "");

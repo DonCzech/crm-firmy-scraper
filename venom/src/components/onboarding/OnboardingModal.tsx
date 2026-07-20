@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { PlatformLocale } from "@/lib/platform-i18n";
 
-type Step = "choice" | "register" | "templates" | "agency-form" | "building" | "done";
+type Step = "choice" | "ai-brief" | "register" | "templates" | "agency-form" | "building" | "done";
 
 const BUILD_STEPS = [
   "Připravuje se doména",
@@ -25,11 +25,44 @@ const BUILD_STEPS_EN = [
   "Done",
 ];
 
+const BUILDER_BUILD_STEPS = [
+  "Zakládá se projekt",
+  "Připravuje se prázdné plátno",
+  "Startuje AI studio",
+  "Připisují se kredity zdarma",
+  "Hotovo",
+];
+
+const BUILDER_BUILD_STEPS_EN = [
+  "Creating the project",
+  "Preparing the blank canvas",
+  "Starting the AI studio",
+  "Adding free credits",
+  "Done",
+];
+
+/** Klíč, přes který builder převezme první zadání (viz BuilderShell). */
+const builderBriefKey = (slug: string) => `webero-builder-brief:${slug}`;
+
+const BRIEF_EXAMPLES = [
+  "Web pro půjčovnu lodí s ceníkem a rezervačním formulářem",
+  "E-shop s ručně šitými batohy",
+  "Portfolio pro fotografku — galerie a kontakt",
+  "Landing page pro mobilní aplikaci",
+];
+
+const BRIEF_EXAMPLES_EN = [
+  "A website for a boat rental with pricing and a booking form",
+  "An e-shop with handmade backpacks",
+  "A portfolio for a photographer — gallery and contact",
+  "A landing page for a mobile app",
+];
+
 export interface ModalTemplate {
   key: string;
   name: string;
   industry?: string | null;
-  previewImage?: string;
+  previewImage?: string | null;
   demoUrl?: string | null;
 }
 
@@ -39,6 +72,8 @@ interface Props {
   initialTemplate?: string;
   templateName?: string;
   catalogTemplates?: ModalTemplate[];
+  /** Deep-link vstup (dashboard „Nový projekt"): rovnou AI brief / výběr šablony. */
+  initialStep?: "ai-brief" | "templates";
 }
 
 const INDUSTRY_LABELS: Record<string, string> = {
@@ -150,6 +185,17 @@ const ONBOARDING_COPY = {
     close: "Zavřít",
     back: "Zpět",
     choiceTitle: "Jak chcete začít?",
+    aiTag: "AI Builder",
+    aiBadge: "Novinka",
+    aiTitle: "Postavit cokoliv",
+    aiText: "Popište svůj nápad a AI postaví web nebo e-shop od nuly — během pár minut, přesně podle vás.",
+    aiCta: "Začít tvořit s AI",
+    briefTitle: "Co spolu postavíme?",
+    briefText: "Popište projekt vlastními slovy. Čím víc detailů — obor, služby, styl — tím lepší první verze. Doladíme ji pak společně v konverzaci.",
+    briefPlaceholder: "Např. „Web pro moje bistro v Brně — menu, otevírací doba, rezervace stolu. Moderní, teplé barvy…“",
+    briefContinue: "Pokračovat",
+    briefHint: "První sestavení webu máte zdarma — na účet dostanete startovní kredity.",
+    briefTry: "Nebo zkuste:",
     diyTag: "Samostatně",
     diyTitle: "Web chci stavět sám",
     diyText: "Prvních 14 dní zdarma. Bez kreditní karty. Žádné riziko, žádné závazky.",
@@ -220,6 +266,17 @@ const ONBOARDING_COPY = {
     close: "Close",
     back: "Back",
     choiceTitle: "How do you want to start?",
+    aiTag: "AI Builder",
+    aiBadge: "New",
+    aiTitle: "Build anything",
+    aiText: "Describe your idea and AI builds a website or e-shop from scratch — in minutes, exactly your way.",
+    aiCta: "Start building with AI",
+    briefTitle: "What shall we build?",
+    briefText: "Describe your project in your own words. The more detail — industry, services, style — the better the first version. We'll fine-tune it together in a conversation.",
+    briefPlaceholder: "E.g. “A website for my bistro in Brno — menu, opening hours, table booking. Modern, warm colors…”",
+    briefContinue: "Continue",
+    briefHint: "Your first website build is free — you'll get starter credits on your account.",
+    briefTry: "Or try:",
     diyTag: "Self-serve",
     diyTitle: "I want to build the site myself",
     diyText: "First 14 days free. No credit card. No risk, no commitment.",
@@ -288,12 +345,20 @@ const ONBOARDING_COPY = {
   },
 } as const;
 
-export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templateName, catalogTemplates }: Props) {
+export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templateName, catalogTemplates, initialStep }: Props) {
   const copy = ONBOARDING_COPY[locale];
   const buildSteps = locale === "en" ? BUILD_STEPS_EN : BUILD_STEPS;
   const budgetOptions = locale === "en" ? BUDGET_OPTIONS_EN : BUDGET_OPTIONS;
   const projectTypes = locale === "en" ? PROJECT_TYPES_EN : PROJECT_TYPES;
-  const [step, setStep] = useState<Step>(initialTemplate ? "register" : "choice");
+  const [step, setStep] = useState<Step>(
+    initialTemplate ? "register" : initialStep ?? "choice"
+  );
+  // "diy" = klasický výběr šablony, "builder" = AI Builder („Postavit cokoliv")
+  const [flow, setFlow] = useState<"diy" | "builder">(initialStep === "ai-brief" ? "builder" : "diy");
+  const [brief, setBrief] = useState("");
+  // Přihlášený uživatel (webero_user_token) přeskakuje registraci — další
+  // projekt se založí pod jeho účtem přes /api/account/tenants.
+  const [loggedInEmail, setLoggedInEmail] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -329,6 +394,18 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
 
   useEffect(() => {
     if (window.matchMedia("(max-width: 640px)").matches) setIsMobileDevice(true);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/account/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (data?.email) {
+          setLoggedInEmail(data.email as string);
+          setEmail(data.email as string);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -389,28 +466,52 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
     };
   }, [onClose, step]);
 
+  const isBuilderFlow = flow === "builder";
+  const activeBuildSteps = isBuilderFlow
+    ? (locale === "en" ? BUILDER_BUILD_STEPS_EN : BUILDER_BUILD_STEPS)
+    : buildSteps;
+
   async function startBuilding() {
     setError("");
     setStep("building");
     setBuildStep(0);
 
-    for (let i = 0; i < buildSteps.length - 1; i++) {
+    for (let i = 0; i < activeBuildSteps.length - 1; i++) {
       await delay(1100);
       setBuildStep(i + 1);
     }
 
     try {
-      const res = await fetch("/api/onboarding", {
+      // Přihlášený uživatel: nový projekt pod stejným účtem (žádná registrace).
+      const endpoint = loggedInEmail ? "/api/account/tenants" : "/api/onboarding";
+      const payload = loggedInEmail
+        ? (isBuilderFlow ? { mode: "builder" } : { templateKey: template })
+        : (isBuilderFlow
+            ? { email, name, phone, password: password || undefined, mode: "builder" }
+            : { email, name, phone, password: password || undefined, templateKey: template });
+
+      const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, phone, password: password || undefined, templateKey: template }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
         setError(data.error ?? copy.buildError);
-        setStep("register");
+        setStep(loggedInEmail ? (isBuilderFlow ? "ai-brief" : "templates") : "register");
+        return;
+      }
+
+      if (isBuilderFlow) {
+        // Zadání z onboardingu si builder převezme přes sessionStorage a pošle
+        // ho jako první AI prompt. Rovnou předáváme do fullscreen builderu —
+        // žádná mezizastávka, ať neztratíme momentum (Lovable-style handoff).
+        try {
+          if (brief.trim()) sessionStorage.setItem(builderBriefKey(data.slug), brief.trim());
+        } catch { /* noop */ }
+        window.location.href = data.builderUrl ?? `/demo/${data.slug}/admin?builder=1`;
         return;
       }
 
@@ -421,13 +522,13 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
       setStep("done");
     } catch {
       setError(copy.serverError);
-      setStep("register");
+      setStep(loggedInEmail ? (isBuilderFlow ? "ai-brief" : "templates") : "register");
     }
   }
 
   async function handleRegisterSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (initialTemplate) {
+    if (initialTemplate || isBuilderFlow) {
       await startBuilding();
     } else {
       setStep("templates");
@@ -439,7 +540,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
     setAgSent(true);
   }
 
-  const progressPercent = ((buildStep + 1) / buildSteps.length) * 100;
+  const progressPercent = ((buildStep + 1) / activeBuildSteps.length) * 100;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-[#111111]">
@@ -473,13 +574,49 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             </div>
 
             {/* Cards row */}
-            <div className="flex flex-1 flex-col gap-3 overflow-hidden px-5 pb-4 md:flex-row md:gap-4 md:px-8">
+            <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-5 pb-4 md:flex-row md:gap-4 md:overflow-hidden md:px-8">
 
-              {/* LEFT — DIY */}
+              {/* AI BUILDER — „Postavit cokoliv" */}
               <button
                 type="button"
-                onClick={() => setStep("register")}
-                className="group relative flex flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
+                onClick={() => { setFlow("builder"); setStep("ai-brief"); }}
+                className="group relative flex min-h-[220px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-violet-500/40 text-left outline-none transition-all duration-300 hover:border-violet-400/80 hover:shadow-[0_0_0_1px_rgba(167,139,250,0.35),0_24px_60px_rgba(88,28,135,0.55)] focus-visible:ring-2 focus-visible:ring-violet-400/60"
+              >
+                {/* Gradient plátno místo fotky */}
+                <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_80%_0%,#4c1d95_0%,#312e81_45%,#14141e_100%)]" />
+                {/* Jemná animovaná záře */}
+                <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-violet-500/30 blur-3xl transition-opacity duration-700 group-hover:opacity-100 opacity-60" />
+                {/* Dekorativní hvězdičky */}
+                <svg aria-hidden className="absolute right-6 top-6 h-8 w-8 text-violet-300/70 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                <svg aria-hidden className="absolute right-14 top-14 h-4 w-4 text-indigo-300/60 transition-transform duration-500 group-hover:-rotate-12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+
+                {/* Hover ring */}
+                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-violet-300/40 transition-opacity duration-300 group-hover:opacity-100" />
+
+                <div className="relative z-10 mt-auto w-full p-7 md:p-8">
+                  <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-violet-300/30 bg-violet-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-violet-100 backdrop-blur-sm">
+                    <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
+                    {copy.aiTag}
+                    <span className="ml-1 rounded-full bg-gradient-to-r from-violet-400 to-indigo-400 px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-white">{copy.aiBadge}</span>
+                  </span>
+                  <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.6vw, 34px)" }}>
+                    {copy.aiTitle}
+                  </h2>
+                  <p className="mt-2.5 text-[14px] leading-relaxed text-white/75">
+                    {copy.aiText}
+                  </p>
+                  <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-violet-500 group-hover:to-indigo-500 group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(139,92,246,0.55)]">
+                    {copy.aiCta}
+                    <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                  </div>
+                </div>
+              </button>
+
+              {/* DIY — výběr šablony */}
+              <button
+                type="button"
+                onClick={() => { setFlow("diy"); setStep(loggedInEmail ? "templates" : "register"); }}
+                className="group relative flex min-h-[220px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 {/* Photo */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -519,7 +656,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
               <button
                 type="button"
                 onClick={() => setStep("agency-form")}
-                className="group relative flex flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
+                className="group relative flex min-h-[220px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 {/* Photo */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -559,6 +696,110 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
           </motion.div>
         )}
 
+        {/* ══════════════ STEP 1b: AI BRIEF ══════════════ */}
+        {step === "ai-brief" && (
+          <motion.div
+            key="ai-brief"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            className="flex h-full flex-col items-center justify-center overflow-y-auto px-4 py-10"
+          >
+            <button type="button" onClick={() => setStep("choice")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+              {copy.back}
+            </button>
+            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+            </button>
+
+            <div className="w-full max-w-[640px] text-center">
+              <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-violet-300/25 bg-violet-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-violet-200">
+                <svg aria-hidden width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                {copy.aiTag}
+              </span>
+              <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(30px, 4.5vw, 56px)" }}>
+                {copy.briefTitle}
+              </h1>
+              <p className="mx-auto mt-4 max-w-lg text-[14.5px] leading-relaxed text-white/45">
+                {copy.briefText}
+              </p>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (brief.trim().length < 10) return;
+                  if (loggedInEmail) void startBuilding();
+                  else setStep("register");
+                }}
+                className="mt-8 text-left"
+              >
+                <div className="rounded-2xl border border-[#2e2e3e] bg-[#191924] p-1.5 transition focus-within:border-violet-500/70 focus-within:ring-2 focus-within:ring-violet-500/20">
+                  <textarea
+                    value={brief}
+                    onChange={(e) => setBrief(e.target.value)}
+                    autoFocus
+                    rows={5}
+                    maxLength={2000}
+                    placeholder={copy.briefPlaceholder}
+                    className="w-full resize-none bg-transparent px-4 py-3 text-[15px] leading-relaxed text-white placeholder-white/28 outline-none"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && brief.trim().length >= 10) {
+                        if (loggedInEmail) void startBuilding();
+                        else setStep("register");
+                      }
+                    }}
+                  />
+                  <div className="flex items-center justify-between px-2 pb-1.5">
+                    <span className="text-[11px] text-white/25">{brief.length}/2000</span>
+                    <button
+                      type="submit"
+                      disabled={brief.trim().length < 10}
+                      className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 px-5 py-2.5 text-[13.5px] font-bold text-white shadow-[0_6px_20px_rgba(139,92,246,0.4)] transition hover:brightness-110 disabled:opacity-35 disabled:shadow-none"
+                    >
+                      {copy.briefContinue}
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              {error && (
+                <div className="mt-3 rounded-lg border border-red-900/40 bg-red-950/40 px-4 py-3 text-left text-[13px] text-red-400">{error}</div>
+              )}
+
+              {loggedInEmail && (
+                <p className="mt-3 text-[12px] text-white/30">
+                  {locale === "en" ? "Signed in as" : "Přihlášen jako"} <span className="text-white/55">{loggedInEmail}</span>
+                </p>
+              )}
+
+              {/* Příklady zadání */}
+              <div className="mt-6">
+                <p className="mb-2.5 text-[11.5px] font-semibold uppercase tracking-wider text-white/30">{copy.briefTry}</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {(locale === "en" ? BRIEF_EXAMPLES_EN : BRIEF_EXAMPLES).map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      onClick={() => setBrief(ex)}
+                      className="rounded-full border border-[#2e2e3e] bg-[#1a1a26] px-3.5 py-2 text-[12px] text-white/55 transition hover:border-violet-500/50 hover:text-white"
+                    >
+                      {ex}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <p className="mt-7 inline-flex items-center gap-2 text-[12px] text-white/35">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                {copy.briefHint}
+              </p>
+            </div>
+          </motion.div>
+        )}
+
         {/* ══════════════ STEP 2: REGISTER ══════════════ */}
         {step === "register" && (
           <motion.div
@@ -570,7 +811,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             className="flex h-full flex-col items-center justify-center px-4"
           >
             {!initialTemplate && (
-              <button type="button" onClick={() => setStep("choice")} className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
+              <button type="button" onClick={() => setStep(isBuilderFlow ? "ai-brief" : "choice")} className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                 {copy.back}
               </button>
@@ -625,7 +866,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             className="flex h-full flex-col"
           >
-            <button type="button" onClick={() => setStep("register")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
+            <button type="button" onClick={() => setStep(loggedInEmail ? "choice" : "register")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
               {copy.back}
             </button>
@@ -776,12 +1017,18 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                       )
                     ) : (
                       <div className="h-full overflow-y-auto">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={previewSheet.previewImage ?? `/templates/${previewSheet.key}/preview.png`}
-                          alt={previewSheet.name}
-                          className="w-full object-cover object-top"
-                        />
+                        {previewSheet.previewImage ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={previewSheet.previewImage}
+                            alt={previewSheet.name}
+                            className="w-full object-cover object-top"
+                          />
+                        ) : (
+                          <div className="grid min-h-full place-items-center bg-gradient-to-br from-[#20202a] to-[#111118] px-6 text-center text-sm font-semibold text-white/45">
+                            {previewSheet.name}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -791,6 +1038,9 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
 
             {/* Sticky bottom */}
             <div className="fixed inset-x-0 bottom-0 z-10 flex items-center justify-center gap-5 border-t border-[#1e1e1e] bg-[#111]/96 px-6 py-4 backdrop-blur-md">
+              {error && (
+                <span className="text-[12.5px] text-red-400">{error}</span>
+              )}
               {template && selectedName && (
                 <span className="hidden text-[13px] text-white/40 sm:inline">
                   {copy.selected} <span className="font-semibold text-white/80">{selectedName}</span>
@@ -994,7 +1244,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                 {copy.buildingTitle}
               </h1>
               <p className="mt-5 flex items-center justify-center gap-2 text-[15px] text-white/40">
-                {buildStep + 1}. {copy.stepWord} {buildSteps.length} - {buildSteps[buildStep]}
+                {buildStep + 1}. {copy.stepWord} {activeBuildSteps.length} - {activeBuildSteps[buildStep]}
                 {/* Spinning circle */}
                 <svg
                   className="h-4 w-4 animate-spin text-white/40"
@@ -1112,7 +1362,7 @@ function TemplateCard({ t, active, onSelect, locale = "cs" }: { t: ModalTemplate
     el.style.transform = "translateY(0)";
   }
 
-  const previewSrc = t.previewImage ?? `/templates/${t.key}/preview.png`;
+  const previewSrc = t.previewImage || null;
   const industry = t.industry ?? industryFromKey(t.key);
 
   return (
@@ -1128,15 +1378,30 @@ function TemplateCard({ t, active, onSelect, locale = "cs" }: { t: ModalTemplate
           transition: "box-shadow 0.25s",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          ref={imgRef}
-          src={previewSrc}
-          alt={t.name}
-          className="absolute left-0 top-0 block w-full will-change-transform"
-          style={{ height: "auto", minHeight: "100%", objectFit: "cover", objectPosition: "top", transform: "translateY(0)", transitionProperty: "transform" }}
-          loading="lazy"
-        />
+        {previewSrc ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            ref={imgRef}
+            src={previewSrc}
+            alt={t.name}
+            className="absolute left-0 top-0 block w-full will-change-transform"
+            style={{ height: "auto", minHeight: "100%", objectFit: "cover", objectPosition: "top", transform: "translateY(0)", transitionProperty: "transform" }}
+            loading="lazy"
+          />
+        ) : t.demoUrl ? (
+          <iframe
+            src={t.demoUrl}
+            title={t.name}
+            tabIndex={-1}
+            loading="lazy"
+            className="pointer-events-none absolute left-0 top-0 border-0"
+            style={{ width: "200%", height: "200%", transform: "scale(0.5)", transformOrigin: "top left" }}
+          />
+        ) : (
+          <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#20202a] to-[#111118] text-[12px] font-semibold text-white/45">
+            {t.name}
+          </div>
+        )}
         {/* Hover gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent transition-opacity duration-300" style={{ opacity: hovered ? 1 : 0 }} />
         {/* Active checkmark */}

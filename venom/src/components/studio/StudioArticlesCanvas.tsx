@@ -26,7 +26,7 @@ interface BlogPost {
 
 function EmptyIllustration() {
   return (
-    <div className="w-full max-w-[280px] rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl p-4">
+    <div className="vs-chrome-card w-full max-w-[280px] rounded-xl border p-4">
       {[0.75, 0.55, 0.65].map((w, i) => (
         <div key={i} className="flex items-center gap-3 mb-3">
           <div className="h-7 w-7 rounded-full bg-[var(--vs-surface-3)] shrink-0" />
@@ -53,7 +53,7 @@ function ToolbarBtn({ onMouseDown, children }: { onMouseDown: (e: React.MouseEve
     <button
       type="button"
       onMouseDown={onMouseDown}
-      className="flex h-6 w-6 items-center justify-center rounded text-white hover:bg-[var(--vs-surface-2)] transition-colors"
+      className="flex h-6 w-6 items-center justify-center rounded text-[var(--vs-text)] hover:bg-[var(--vs-surface-2)] transition-colors"
     >
       {children}
     </button>
@@ -256,7 +256,7 @@ function EditorMode({ state, post, onRefresh }: {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Top bar */}
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-6 py-3 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.16)] shrink-0">
+      <div className="vs-chrome-header sticky top-0 z-10 flex items-center justify-between border-b px-6 py-3 shrink-0">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -278,7 +278,7 @@ function EditorMode({ state, post, onRefresh }: {
             <Folder size={13} /> <span>Šablony / Články: Záhlaví</span>
           </div>
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${
-            indexing ? "bg-[var(--vs-success-bg)] text-[var(--vs-success)]" : "bg-red-500 text-white"
+            indexing ? "bg-[var(--vs-success-bg)] text-[var(--vs-success)]" : "bg-red-500 text-[var(--vs-text)]"
           }`}>
             <span className="h-1.5 w-1.5 rounded-full bg-current" />
             {indexing ? "Indexing" : "Not indexing"}
@@ -362,7 +362,7 @@ function EditorMode({ state, post, onRefresh }: {
         >
           <select
             onChange={(e) => execCmd("formatBlock", e.target.value)}
-            className="bg-transparent text-white text-[12px] border-0 outline-none mr-1 cursor-pointer"
+            className="bg-transparent text-[var(--vs-text)] text-[12px] border-0 outline-none mr-1 cursor-pointer"
             defaultValue="p"
           >
             <option value="p">Text</option>

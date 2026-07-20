@@ -1,0 +1,10 @@
+import { chromium } from "playwright-core";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV-CRM/7ec14c67-ee68-443c-861e-34e686cfd306/scratchpad";
+const URL = "http://localhost:3015/demo/eshop-19-v2";
+const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const ctx = await browser.newContext({ viewport: { width: 1600, height: 1000 } });
+const page = await ctx.newPage();
+await page.goto(URL + "?ts=" + Date.now(), { waitUntil: "networkidle", timeout: 120000 });
+await page.waitForTimeout(1500);
+await page.screenshot({ path: `${OUT}/es19-full.png`, fullPage: true });
+await browser.close(); console.log("done");

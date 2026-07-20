@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const DB_URL = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString: DB_URL });
 
 function log(m) { console.log(`[${new Date().toISOString().slice(11,19)}] ${m}`); }

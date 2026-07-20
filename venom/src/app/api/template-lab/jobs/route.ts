@@ -1,8 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getJobs } from "@/lib/template-lab/workflow";
 import { query, initDb } from "@/lib/db";
+import { requirePlatformAdmin } from "@/lib/platform-admin";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const auth = requirePlatformAdmin(req);
+  if (!auth.ok) return auth.response;
   try {
     await initDb();
     // Try DB first

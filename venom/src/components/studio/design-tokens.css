@@ -55,6 +55,12 @@
   /* Plochy závislé na tématu (glass popovery, canvas podklady, text toolbar) */
   --vs-glass-bg:         rgba(18,18,20,0.86);
   --vs-toolbar-bg:       rgba(20,21,34,0.97);
+  --vs-chrome-panel:     rgba(18,18,20,0.78);
+  --vs-chrome-bar:       rgba(18,18,20,0.72);
+  --vs-chrome-subtle:    rgba(18,18,20,0.48);
+  --vs-chrome-highlight: rgba(255,255,255,0.035);
+  --vs-chrome-divider:   rgba(255,255,255,0.09);
+  --vs-field-bg:         rgba(12,12,14,0.48);
   --vs-canvas-glow-rgb:  220, 220, 228;    /* radial glow nad canvasem            */
   --vs-canvas-dot-rgb:   255, 255, 255;    /* tečkovaná mřížka canvasu            */
   --vs-canvas-deep-from: rgba(12,12,14,0.92);  /* gradient canvasu Nastavení/Články */
@@ -220,6 +226,23 @@
   -webkit-backdrop-filter: blur(16px) saturate(1.5);
 }
 
+/* Theme-aware studio chrome. These classes replace legacy graphite rgba
+   values in full-page module/settings surfaces and floating assistants. */
+.vs-chrome-card {
+  background: var(--vs-chrome-panel);
+  border-color: var(--vs-chrome-divider);
+  box-shadow: var(--vs-shadow-md);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.vs-chrome-header {
+  background: var(--vs-chrome-bar);
+  border-color: var(--vs-chrome-divider);
+  box-shadow: var(--vs-shadow-sm);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 /* Canvas backdrop — faint dot grid + top brand glow, Figma/Framer style.
    Gives the page frame depth so the edited site reads as an artboard. */
 .vs-canvas-bg {
@@ -245,6 +268,15 @@
 .vs-pop {
   animation: vs-pop-in var(--vs-dur-2) var(--vs-ease-out);
   transform-origin: top center;
+}
+
+/* Slide-out drawer entrance (AI Builder) — vyjíždí zleva vedle railu */
+@keyframes vs-drawer-in {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.vs-drawer-enter {
+  animation: vs-drawer-in var(--vs-dur-3) var(--vs-ease-out);
 }
 
 /* ── Editor themes (data-vs-theme na <html>) ────────────────────────────────
@@ -291,6 +323,345 @@
   --vs-canvas-deep-to:   rgba(18,18,20,0.86);
 }
 
+/* Světlé — profesionální light shell (Figma/Framer light). Kompletní
+   paleta včetně textové škály, semantiky, stínů, glass i canvas podkladů.
+   Akcentová rodina zůstává violet, ale ztmavená na kontrast na bílé. */
+:root[data-vs-theme="light"],
+:root[data-vs-theme="light"] [data-studio] {
+  --vs-bg:            #e8eaf3;
+  --vs-bg-soft:       rgba(246,247,252,0.78);
+  --vs-surface:       rgba(255,255,255,0.72);
+  --vs-surface-2:     rgba(235,238,248,0.78);
+  --vs-surface-3:     rgba(220,225,241,0.82);
+  --vs-border:        rgba(70,78,112,0.11);
+  --vs-border-strong: rgba(82,91,126,0.20);
+  --vs-text:          #171a2a;
+  --vs-text-soft:     #35394e;
+  --vs-text-muted:    #666c84;
+  --vs-text-dim:      #9298ad;
+  --vs-text-disabled: #bdc2d1;
+
+  --vs-accent:        #4f46e5;            /* indigo-600 — čitelné na bílé  */
+  --vs-accent-hi:     #4338ca;            /* indigo-700 — hover/focus      */
+  --vs-accent-bg:     rgba(79,70,229,0.08);
+  --vs-accent-ring:   rgba(79,70,229,0.30);
+  --vs-accent-solid:    #4f46e5;
+  --vs-accent-solid-hi: #6366f1;
+  --vs-grad-brand:    linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%);
+  --vs-grad-brand-hi: linear-gradient(135deg, #818cf8 0%, #a78bfa 56%, #c084fc 100%);
+
+  --vs-success:       #16a34a;
+  --vs-success-bg:    rgba(22,163,74,0.10);
+  --vs-warning:       #d97706;
+  --vs-warning-bg:    rgba(217,119,6,0.10);
+  --vs-danger:        #dc2626;
+  --vs-danger-bg:     rgba(220,38,38,0.08);
+  --vs-info:          #2563eb;
+  --vs-info-bg:       rgba(37,99,235,0.08);
+
+  /* Stíny navržené pro světlé povrchy — měkké, bez inset white linky */
+  --vs-shadow-sm: 0 1px 2px rgba(15,23,42,0.06), 0 1px 1px rgba(15,23,42,0.04);
+  --vs-shadow-md: 0 2px 6px rgba(15,23,42,0.07), 0 8px 24px rgba(15,23,42,0.08);
+  --vs-shadow-lg: 0 4px 12px rgba(15,23,42,0.08), 0 18px 44px rgba(15,23,42,0.12);
+  --vs-shadow-xl: 0 8px 20px rgba(15,23,42,0.10), 0 32px 80px rgba(15,23,42,0.16);
+  --vs-glow-accent:
+    0 0 0 1px rgba(79,70,229,0.30),
+    0 8px 24px rgba(79,70,229,0.14);
+  --vs-glow-brand:
+    0 1px 0 0 rgba(255,255,255,0.35) inset,
+    0 2px 10px rgba(99,102,241,0.30),
+    0 6px 22px rgba(99,102,241,0.18);
+
+  --vs-cta-grad:      linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%);
+  --vs-cta-rgb:       99, 102, 241;
+  --vs-cta-soft-rgb:  129, 140, 248;
+  --vs-cta-text:      #6d28d9;            /* violet-700 — textový akcent na světlé   */
+  --vs-cta-text-hi:   #5b21b6;
+
+  --vs-glass-bg:         rgba(249,250,255,0.72);
+  --vs-toolbar-bg:       rgba(249,250,255,0.88);
+  --vs-chrome-panel:     rgba(248,249,254,0.76);
+  --vs-chrome-bar:       rgba(250,251,255,0.72);
+  --vs-chrome-subtle:    rgba(235,238,248,0.68);
+  --vs-chrome-highlight: rgba(255,255,255,0.92);
+  --vs-chrome-divider:   rgba(70,78,112,0.12);
+  --vs-field-bg:         rgba(255,255,255,0.68);
+  --vs-canvas-glow-rgb:  99, 102, 241;
+  --vs-canvas-dot-rgb:   71, 85, 105;
+  --vs-canvas-deep-from: rgba(238,239,243,0.94);
+  --vs-canvas-deep-to:   rgba(248,249,251,0.90);
+}
+
+/* ── Light Studio art direction ───────────────────────────────────────────
+   The light theme is the primary product experience: restrained indigo,
+   warm-white chrome, crisp type and layered elevation instead of dark glass.
+   Everything below is deliberately scoped so the dark themes stay intact. */
+:root[data-vs-theme="light"] [data-studio] {
+  background:
+    radial-gradient(900px 520px at 8% -12%, rgba(133,113,255,0.20), transparent 68%),
+    radial-gradient(760px 560px at 96% 108%, rgba(74,178,255,0.15), transparent 68%),
+    linear-gradient(145deg, #eef0f8 0%, #e6e9f3 52%, #edf1f7 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+:root[data-vs-theme="light"] .vs-topbar {
+  background: linear-gradient(110deg, rgba(255,255,255,0.83), rgba(245,247,255,0.68));
+  border-color: rgba(255,255,255,0.76);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.94) inset, 0 1px 0 rgba(70,78,112,0.13), 0 14px 34px rgba(38,43,73,0.07);
+  backdrop-filter: blur(28px) saturate(1.45);
+}
+
+:root[data-vs-theme="light"] .vs-secondary-bar {
+  background: linear-gradient(90deg, rgba(244,246,253,0.64), rgba(255,255,255,0.73), rgba(241,244,252,0.64));
+  border-color: rgba(255,255,255,0.74);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 24px rgba(38,43,73,0.055);
+  backdrop-filter: blur(24px) saturate(1.35);
+}
+
+:root[data-vs-theme="light"] .vs-rail {
+  background:
+    radial-gradient(circle at 50% 5%, rgba(112,92,246,0.13), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,0.77), rgba(239,242,251,0.66));
+  box-shadow: 1px 0 0 rgba(255,255,255,0.88) inset, 1px 0 0 rgba(70,78,112,0.12), 10px 0 32px rgba(38,43,73,0.06);
+  backdrop-filter: blur(30px) saturate(1.5);
+}
+
+:root[data-vs-theme="light"] .vs-side-panel,
+:root[data-vs-theme="light"] .vs-inspector-panel {
+  background:
+    radial-gradient(500px 280px at 0% 0%, rgba(255,255,255,0.84), transparent 70%),
+    linear-gradient(160deg, rgba(252,252,255,0.76), rgba(239,242,250,0.66));
+  border-color: rgba(255,255,255,0.74);
+  box-shadow: 1px 0 0 rgba(70,78,112,0.11), 14px 0 38px rgba(38,43,73,0.085);
+  backdrop-filter: blur(32px) saturate(1.4);
+}
+:root[data-vs-theme="light"] .vs-inspector-panel {
+  box-shadow: -1px 0 0 rgba(70,78,112,0.11), -14px 0 38px rgba(38,43,73,0.085);
+}
+
+:root[data-vs-theme="light"] .vs-rail-button:hover {
+  background: linear-gradient(145deg, rgba(255,255,255,0.82), rgba(229,233,247,0.76));
+  color: #20273a;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.88) inset, 0 7px 18px rgba(38,43,73,0.10);
+  transform: translateY(-1px);
+}
+:root[data-vs-theme="light"] .vs-rail-button[class*="bg-[var(--vs-accent-bg)]"] {
+  background: linear-gradient(145deg, rgba(255,255,255,0.86), rgba(219,218,255,0.82));
+  color: #4338ca;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.92) inset, 0 0 0 1px rgba(79,70,229,0.14), 0 8px 22px rgba(79,70,229,0.16);
+}
+
+:root[data-vs-theme="light"] .vs-add-primary {
+  min-height: 32px;
+  border: 1px solid rgba(67,56,202,0.82);
+  border-radius: 9px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.18), transparent 48%),
+    linear-gradient(125deg, #5964f2 0%, #6d4ce4 54%, #4a5bd5 100%);
+  color: #fff;
+  letter-spacing: -0.01em;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.42) inset, 0 0 0 1px rgba(255,255,255,0.10) inset, 0 2px 4px rgba(49,46,129,0.24), 0 10px 26px rgba(91,76,222,0.30);
+}
+:root[data-vs-theme="light"] .vs-add-primary:hover {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.22), transparent 48%),
+    linear-gradient(125deg, #6974fb 0%, #7b59ef 54%, #5869e5 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.32) inset, 0 2px 4px rgba(49,46,129,0.20), 0 9px 24px rgba(79,70,229,0.28);
+  transform: translateY(-1px);
+}
+:root[data-vs-theme="light"] .vs-add-primary[aria-expanded="true"] {
+  background: linear-gradient(145deg, rgba(255,255,255,0.88), rgba(224,224,255,0.82));
+  border-color: rgba(79,70,229,0.28);
+  color: #4338ca;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.10), 0 2px 6px rgba(15,23,42,0.08);
+}
+
+:root[data-vs-theme="light"] .vs-breakpoint-switch {
+  background: rgba(224,228,241,0.66);
+  border: 1px solid rgba(255,255,255,0.72);
+  box-shadow: 0 1px 2px rgba(49,55,88,0.08) inset, 0 1px 0 rgba(255,255,255,0.76);
+  backdrop-filter: blur(16px);
+}
+
+:root[data-vs-theme="light"] .vs-button {
+  border-radius: 8px;
+  border-color: rgba(82,91,126,0.18);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.88) inset, 0 4px 12px rgba(38,43,73,0.055);
+  backdrop-filter: blur(14px);
+}
+:root[data-vs-theme="light"] .vs-button:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+:root[data-vs-theme="light"] .vs-input-shell {
+  background: rgba(255,255,255,0.62);
+  border-color: rgba(82,91,126,0.20);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.88) inset, 0 4px 12px rgba(38,43,73,0.045);
+  backdrop-filter: blur(16px) saturate(1.25);
+}
+:root[data-vs-theme="light"] .vs-input-shell:focus,
+:root[data-vs-theme="light"] .vs-input-shell:focus-within {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.12), 0 1px 2px rgba(15,23,42,0.05);
+}
+
+:root[data-vs-theme="light"] .vs-chrome-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.73), rgba(240,242,251,0.60));
+  border-color: rgba(255,255,255,0.76);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.94) inset, 0 0 0 1px rgba(82,91,126,0.08), 0 18px 46px rgba(38,43,73,0.11);
+  backdrop-filter: blur(28px) saturate(1.4);
+}
+:root[data-vs-theme="light"] .vs-chrome-header {
+  background: linear-gradient(90deg, rgba(255,255,255,0.74), rgba(241,244,252,0.62));
+  border-color: rgba(255,255,255,0.72);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.86) inset, 0 1px 0 rgba(70,78,112,0.10);
+}
+
+:root[data-vs-theme="light"] .vs-panel-titlebar {
+  background: linear-gradient(110deg, rgba(255,255,255,0.78), rgba(236,239,249,0.64));
+  border-color: rgba(255,255,255,0.70);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.88) inset;
+}
+:root[data-vs-theme="light"] .vs-panel-titlebar > span:first-of-type {
+  color: #1d2433;
+}
+:root[data-vs-theme="light"] .vs-inspector-tabs {
+  background: rgba(222,226,240,0.56);
+  border-color: rgba(255,255,255,0.68);
+  padding: 4px;
+  gap: 2px;
+}
+:root[data-vs-theme="light"] .vs-inspector-tabs > button {
+  border-radius: 7px;
+}
+:root[data-vs-theme="light"] .vs-inspector-tabs > button:hover {
+  background: rgba(255,255,255,0.62);
+}
+:root[data-vs-theme="light"] .vs-inspector-tabs > button[class*="text-[var(--vs-text)]"] {
+  background: linear-gradient(145deg, rgba(255,255,255,0.90), rgba(236,239,251,0.76));
+  box-shadow: 0 1px 0 rgba(255,255,255,0.92) inset, 0 3px 10px rgba(38,43,73,0.08);
+}
+
+:root[data-vs-theme="light"] .vs-glass {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.76), rgba(235,238,249,0.66));
+  border-color: rgba(255,255,255,0.76);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.94) inset, 0 0 0 1px rgba(82,91,126,0.09), 0 26px 70px rgba(38,43,73,0.17);
+  backdrop-filter: blur(34px) saturate(1.5);
+  -webkit-backdrop-filter: blur(34px) saturate(1.5);
+}
+
+:root[data-vs-theme="light"] ::selection {
+  background: rgba(99,102,241,0.20);
+  color: #242057;
+}
+
+/* High-priority header/footer actions need opaque contrast even when they sit
+   on translucent chrome. Never let glass or disabled opacity wash them out. */
+:root[data-vs-theme="light"] .vs-golive-blocked {
+  color: #7c2d12;
+  background: linear-gradient(145deg, rgba(255,248,218,0.96), rgba(252,211,77,0.76));
+  border: 1px solid rgba(180,83,9,0.32);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.82) inset, 0 5px 14px rgba(180,83,9,0.16);
+}
+:root[data-vs-theme="light"] .vs-golive-blocked:hover {
+  color: #651f0b;
+  background: linear-gradient(145deg, #fff7cf, #fbcf4b);
+}
+:root[data-vs-theme="light"] .vs-golive-published {
+  color: #065f46;
+  background: rgba(209,250,229,0.82);
+  border: 1px solid rgba(5,150,105,0.22);
+}
+:root[data-vs-theme="light"] .vs-golive-warning-title {
+  color: #92400e;
+}
+
+:root[data-vs-theme="light"] .vs-publish-group {
+  border: 1px solid rgba(30,41,89,0.48);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.24) inset, 0 2px 4px rgba(30,41,89,0.22), 0 9px 24px rgba(67,56,202,0.25);
+}
+:root[data-vs-theme="light"] .vs-publish-main,
+:root[data-vs-theme="light"] .vs-publish-menu {
+  color: #ffffff;
+  background: linear-gradient(135deg, #263a80 0%, #4034a9 54%, #552a9b 100%);
+  text-shadow: 0 1px 1px rgba(15,23,42,0.34);
+}
+:root[data-vs-theme="light"] .vs-publish-menu {
+  border-left-color: rgba(255,255,255,0.26);
+  background: linear-gradient(135deg, #3a3098, #50268f);
+}
+:root[data-vs-theme="light"] .vs-publish-main:disabled {
+  opacity: 0.78;
+}
+
+:root[data-vs-theme="light"] .vs-subscribe-button {
+  color: #ffffff;
+  background: linear-gradient(135deg, #263a80 0%, #4b32a7 58%, #6930a5 100%);
+  border: 1px solid rgba(30,41,89,0.44);
+  text-shadow: 0 1px 1px rgba(15,23,42,0.32);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.27) inset, 0 2px 4px rgba(30,41,89,0.20), 0 8px 22px rgba(67,56,202,0.23);
+}
+:root[data-vs-theme="light"] .vs-subscribe-button:hover {
+  background: linear-gradient(135deg, #304797 0%, #5a3cc0 58%, #7a3abb 100%);
+}
+
+/* Utility overlays opened from the bottom rail must stay above the edited
+   website and use denser glass than passive chrome for effortless reading. */
+:root[data-vs-theme="light"] .vs-overlay-panel {
+  color: #171a2a;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.975), rgba(241,243,251,0.955));
+  border-color: rgba(82,91,126,0.20);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,1) inset,
+    0 0 0 1px rgba(255,255,255,0.56),
+    0 24px 70px rgba(28,33,64,0.25),
+    0 8px 24px rgba(28,33,64,0.14);
+  backdrop-filter: blur(36px) saturate(1.25);
+  -webkit-backdrop-filter: blur(36px) saturate(1.25);
+}
+
+:root[data-vs-theme="light"] .vs-profile-menu {
+  isolation: isolate;
+  z-index: 420;
+}
+
+:root[data-vs-theme="light"] .vs-command-backdrop {
+  background: rgba(39,43,68,0.28);
+  backdrop-filter: blur(8px) saturate(0.9);
+  -webkit-backdrop-filter: blur(8px) saturate(0.9);
+}
+
+:root[data-vs-theme="light"] .vs-section-type-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.82), rgba(237,240,250,0.68));
+  border-color: rgba(82,91,126,0.18);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.92) inset, 0 5px 14px rgba(38,43,73,0.055);
+}
+:root[data-vs-theme="light"] .vs-section-type-card:hover {
+  background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(229,232,250,0.82));
+  border-color: rgba(79,70,229,0.30);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.96) inset, 0 10px 24px rgba(67,56,202,0.13);
+}
+
+:root[data-vs-theme="light"] .vs-canvas-bg {
+  background-color: #e4e7f0;
+  background-image:
+    radial-gradient(760px 460px at 18% -12%, rgba(119,94,246,0.17), transparent 68%),
+    radial-gradient(720px 480px at 88% 108%, rgba(56,165,238,0.13), transparent 70%),
+    linear-gradient(145deg, rgba(239,241,249,0.92), rgba(224,228,239,0.94)),
+    radial-gradient(rgba(74,82,113,0.12) 0.75px, transparent 0.85px);
+  background-size: auto, auto, auto, 20px 20px;
+}
+
+:root[data-vs-theme="light"] .vs-scroll {
+  scrollbar-color: #c9ced8 transparent;
+}
+:root[data-vs-theme="light"] .vs-scroll::-webkit-scrollbar-thumb {
+  background: #c9ced8;
+  border-color: transparent;
+  background-clip: padding-box;
+}
+
 /* Indigo — původní deep indigo-navy shell (POLISH-2 éra) */
 :root[data-vs-theme="indigo"],
 :root[data-vs-theme="indigo"] [data-studio] {
@@ -333,6 +704,1154 @@
   --vs-canvas-deep-from: rgba(11,12,20,0.92);
   --vs-canvas-deep-to:   rgba(18,19,30,0.86);
 }
+
+/* ── Xora light — primary editor skin ─────────────────────────────────────
+   Mirrors convee-app's light dashboard language: pearl-violet navigation,
+   restrained aurora, crisp white work surfaces and violet/fuchsia actions.
+   The separate Minimal skin is excluded via data-vs-style="apple". */
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]),
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) [data-studio] {
+  --vs-bg: #f3f4f8;
+  --vs-bg-soft: #ffffff;
+  --vs-surface: #ffffff;
+  --vs-surface-2: #f5f3fa;
+  --vs-surface-3: #ebe8f4;
+  --vs-border: rgba(91,80,125,0.10);
+  --vs-border-strong: #ddd9e8;
+  --vs-text: #181724;
+  --vs-text-soft: #3f3b4f;
+  --vs-text-muted: #716b80;
+  --vs-text-dim: #9a94a8;
+  --vs-text-disabled: #c9c5d2;
+  --vs-accent: #7c3aed;
+  --vs-accent-hi: #6d28d9;
+  --vs-accent-bg: rgba(124,58,237,0.09);
+  --vs-accent-ring: rgba(124,58,237,0.28);
+  --vs-accent-solid: #7c3aed;
+  --vs-accent-solid-hi: #6d28d9;
+  --vs-grad-brand: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 52%, #c026d3 100%);
+  --vs-grad-brand-hi: linear-gradient(135deg, #9f75ff 0%, #8b4cf0 52%, #d13be1 100%);
+  --vs-cta-grad: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 52%, #c026d3 100%);
+  --vs-cta-rgb: 124, 58, 237;
+  --vs-cta-soft-rgb: 167, 139, 250;
+  --vs-cta-text: #7c3aed;
+  --vs-cta-text-hi: #6d28d9;
+  --vs-glass-bg: rgba(255,255,255,0.94);
+  --vs-toolbar-bg: rgba(255,255,255,0.98);
+  --vs-chrome-panel: #f8f7fb;
+  --vs-chrome-bar: rgba(255,255,255,0.90);
+  --vs-chrome-subtle: #f5f3fa;
+  --vs-chrome-highlight: rgba(255,255,255,0.95);
+  --vs-chrome-divider: rgba(91,80,125,0.11);
+  --vs-field-bg: #ffffff;
+  --vs-shadow-sm: 0 1px 2px rgba(28,20,48,0.05);
+  --vs-shadow-md: 0 6px 18px rgba(35,24,61,0.08);
+  --vs-shadow-lg: 0 16px 40px rgba(35,24,61,0.12);
+  --vs-shadow-xl: 0 28px 72px rgba(35,24,61,0.18);
+}
+
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) [data-studio] {
+  background: #f3f4f8;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-topbar {
+  position: relative;
+  background: rgba(255,255,255,0.82);
+  border-color: rgba(124,58,237,0.08);
+  box-shadow: 0 1px 2px rgba(15,10,40,0.03);
+  backdrop-filter: blur(24px);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-topbar::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,181,253,0.82), transparent);
+  pointer-events: none;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-secondary-bar {
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(91,80,125,0.10);
+  box-shadow: 0 4px 14px rgba(35,24,61,0.035);
+  backdrop-filter: blur(20px);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-rail {
+  background:
+    radial-gradient(260px 220px at -30% 4%, rgba(196,181,253,0.48), transparent 72%),
+    radial-gradient(220px 260px at 130% 42%, rgba(240,171,252,0.24), transparent 72%),
+    linear-gradient(180deg, #f7f6fc 0%, #efedf8 100%);
+  box-shadow: 1px 0 0 rgba(91,80,125,0.10), 8px 0 24px rgba(35,24,61,0.035);
+  backdrop-filter: none;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-side-panel,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-inspector-panel {
+  background: linear-gradient(180deg, #faf9fd 0%, #f5f3fa 100%);
+  border-color: rgba(91,80,125,0.11);
+  box-shadow: 8px 0 24px rgba(35,24,61,0.05);
+  backdrop-filter: none;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-inspector-panel {
+  box-shadow: -8px 0 24px rgba(35,24,61,0.055);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-rail-button:hover {
+  background: rgba(255,255,255,0.82);
+  color: #5b21b6;
+  box-shadow: 0 4px 12px rgba(76,29,149,0.08);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-rail-button[class*="bg-[var(--vs-accent-bg)]"] {
+  background: #ffffff;
+  color: #7c3aed;
+  box-shadow: 0 1px 2px rgba(35,24,61,0.06), 0 7px 18px rgba(124,58,237,0.14);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-add-primary,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-publish-main,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-publish-menu,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-subscribe-button {
+  color: #ffffff;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 52%, #c026d3 100%);
+  border-color: rgba(109,40,217,0.48);
+  text-shadow: 0 1px 1px rgba(49,18,83,0.28);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.25) inset, 0 7px 18px rgba(124,58,237,0.26);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-add-primary:hover,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-subscribe-button:hover {
+  background: linear-gradient(135deg, #9f75ff 0%, #8b4cf0 52%, #d13be1 100%);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.28) inset, 0 10px 24px rgba(124,58,237,0.32);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-add-primary[aria-expanded="true"] {
+  color: #6d28d9;
+  background: #ffffff;
+  border-color: #ddd6fe;
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.10), 0 3px 10px rgba(35,24,61,0.07);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-breakpoint-switch,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-inspector-tabs {
+  background: #eeeaf6;
+  border-color: rgba(91,80,125,0.10);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-inspector-tabs > button[class*="text-[var(--vs-text)]"] {
+  background: #ffffff;
+  color: #6d28d9;
+  box-shadow: 0 1px 3px rgba(35,24,61,0.09);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-panel-titlebar,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-chrome-header {
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(91,80,125,0.10);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-input-shell {
+  background: #ffffff;
+  border-color: #ded9e8;
+  box-shadow: 0 1px 2px rgba(35,24,61,0.04);
+  backdrop-filter: none;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-input-shell:focus,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-input-shell:focus-within {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px rgba(124,58,237,0.10);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-chrome-card,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-section-type-card {
+  background: #ffffff;
+  border-color: #e4e0eb;
+  box-shadow: 0 1px 2px rgba(35,24,61,0.04), 0 7px 20px rgba(35,24,61,0.055);
+  backdrop-filter: none;
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-section-type-card:hover {
+  background: #ffffff;
+  border-color: #c4b5fd;
+  box-shadow: 0 10px 26px rgba(124,58,237,0.13);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-overlay-panel,
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-glass {
+  background: rgba(255,255,255,0.97);
+  border-color: #ddd9e8;
+  box-shadow: 0 22px 64px rgba(35,24,61,0.20);
+  backdrop-filter: blur(22px);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-command-backdrop {
+  background: rgba(28,23,43,0.28);
+  backdrop-filter: blur(7px);
+}
+:root[data-vs-theme="light"]:not([data-vs-style="apple"]) .vs-canvas-bg {
+  background-color: #f3f4f8;
+  background-image:
+    radial-gradient(620px 340px at 10% -8%, rgba(196,181,253,0.20), transparent 70%),
+    radial-gradient(520px 360px at 98% 100%, rgba(240,171,252,0.13), transparent 72%),
+    radial-gradient(rgba(91,80,125,0.10) 0.7px, transparent 0.8px);
+  background-size: auto, auto, 22px 22px;
+}
+
+/* Xora iconography and component geometry: expressive duotone modules,
+   compact dashboard rhythm and bright white active tiles. */
+:root[data-vs-style="xora"] {
+  --vs-r-1: 5px;
+  --vs-r-2: 7px;
+  --vs-r-3: 9px;
+  --vs-r-4: 12px;
+  --vs-r-5: 14px;
+  --vs-r-6: 18px;
+}
+:root[data-vs-style="xora"] .vs-brand-mark {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b5cf6, #d946ef) !important;
+  box-shadow: 0 8px 20px rgba(124,58,237,0.28), 0 1px 0 rgba(255,255,255,0.30) inset;
+}
+:root[data-vs-style="xora"] .vs-topbar {
+  min-height: 58px;
+  background:
+    radial-gradient(420px 130px at 17% -80%, rgba(196,181,253,0.30), transparent 72%),
+    linear-gradient(90deg, rgba(255,255,255,0.94), rgba(250,249,253,0.90));
+  box-shadow: 0 1px 0 rgba(255,255,255,0.96) inset, 0 7px 24px rgba(48,31,78,0.065);
+}
+:root[data-vs-style="xora"] .vs-topbar-left {
+  background:
+    radial-gradient(220px 100px at 5% 0%, rgba(196,181,253,0.32), transparent 76%),
+    linear-gradient(90deg, rgba(247,246,252,0.92), rgba(255,255,255,0.62));
+  border-color: rgba(124,58,237,0.10);
+}
+:root[data-vs-style="xora"] .vs-topbar-main {
+  padding-inline: 12px;
+}
+:root[data-vs-style="xora"] .vs-breadcrumb {
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid rgba(91,80,125,0.09);
+  border-radius: 11px;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 1px 2px rgba(35,24,61,0.035), 0 1px 0 rgba(255,255,255,0.92) inset;
+}
+:root[data-vs-style="xora"] .vs-topbar-actions {
+  min-height: 40px;
+  padding: 3px 4px;
+  gap: 2px;
+  border: 1px solid rgba(91,80,125,0.09);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 5px 18px rgba(35,24,61,0.055), 0 1px 0 rgba(255,255,255,0.94) inset;
+}
+:root[data-vs-style="xora"] .vs-topbar-actions > div[class*="h-[22px]"] {
+  opacity: 0.58;
+}
+:root[data-vs-style="xora"] .vs-breakpoint-switch {
+  min-height: 32px;
+  padding: 3px;
+  border-color: rgba(124,58,237,0.10);
+  background: #f0edf7;
+  box-shadow: 0 1px 2px rgba(35,24,61,0.06) inset;
+}
+:root[data-vs-style="xora"] .vs-secondary-bar {
+  position: relative;
+  min-height: 46px;
+  gap: 4px;
+  background:
+    radial-gradient(360px 100px at 50% -80%, rgba(196,181,253,0.26), transparent 76%),
+    linear-gradient(90deg, #faf9fd, #f6f3fb 50%, #faf9fd);
+  border-color: rgba(124,58,237,0.09);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.94) inset, 0 5px 18px rgba(35,24,61,0.045);
+}
+:root[data-vs-style="xora"] .vs-secondary-bar::after {
+  content: "";
+  position: absolute;
+  inset: auto 28% 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.42), transparent);
+}
+:root[data-vs-style="xora"] .vs-add-primary {
+  min-height: 34px;
+  padding-inline: 16px;
+  border-radius: 11px;
+}
+:root[data-vs-style="xora"] .vs-publish-group {
+  height: 34px;
+  border-radius: 11px;
+}
+:root[data-vs-style="xora"] .vs-golive-blocked {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  color: #9a5400;
+  background: linear-gradient(145deg, #fff8dc, #ffe29a);
+  border-color: rgba(217,119,6,0.28);
+  box-shadow: 0 4px 12px rgba(217,119,6,0.14), 0 1px 0 rgba(255,255,255,0.9) inset;
+}
+:root[data-vs-style="xora"] .vs-rail-button {
+  border-radius: 12px;
+}
+:root[data-vs-style="xora"] .vs-rail-button[class*="bg-[var(--vs-accent-bg)]"] {
+  color: #7c3aed;
+  background: #ffffff;
+  box-shadow: 0 7px 18px rgba(124,58,237,0.16), 0 0 0 1px rgba(124,58,237,0.08);
+}
+:root[data-vs-style="xora"] .vs-rail-button[class*="bg-[var(--vs-accent-bg)]"] svg {
+  filter: drop-shadow(0 2px 4px rgba(124,58,237,0.18));
+}
+:root[data-vs-style="xora"] .vs-side-panel,
+:root[data-vs-style="xora"] .vs-inspector-panel {
+  border-radius: 0;
+}
+:root[data-vs-style="xora"] .vs-panel-titlebar {
+  min-height: 48px;
+}
+:root[data-vs-style="xora"] .vs-section-type-card {
+  border-radius: 14px;
+}
+:root[data-vs-style="xora"] .vs-button,
+:root[data-vs-style="xora"] .vs-input-shell {
+  border-radius: 10px;
+}
+
+/* ── Minimal Studio base ───────────────────────────────────────────────────
+   Independent readable light-mode foundation. Final flattening overrides
+   below deliberately remove decorative glass and metallic effects. */
+:root[data-vs-style="apple"],
+:root[data-vs-style="apple"] [data-studio] {
+  --vs-bg: #dedee1;
+  --vs-bg-soft: #f5f5f7;
+  --vs-surface: #ffffff;
+  --vs-surface-2: #ececee;
+  --vs-surface-3: #e2e2e5;
+  --vs-border: rgba(0,0,0,0.085);
+  --vs-border-strong: rgba(0,0,0,0.16);
+  --vs-text: #1d1d1f;
+  --vs-text-soft: #424245;
+  --vs-text-muted: #6e6e73;
+  --vs-text-dim: #86868b;
+  --vs-text-disabled: #b9b9be;
+  --vs-accent: #0071e3;
+  --vs-accent-hi: #0066cc;
+  --vs-accent-bg: rgba(0,113,227,0.095);
+  --vs-accent-ring: rgba(0,113,227,0.26);
+  --vs-accent-solid: #0071e3;
+  --vs-accent-solid-hi: #0077ed;
+  --vs-grad-brand: #0071e3;
+  --vs-grad-brand-hi: #0077ed;
+  --vs-cta-grad: #0071e3;
+  --vs-cta-rgb: 0, 113, 227;
+  --vs-cta-soft-rgb: 41, 151, 255;
+  --vs-cta-text: #0071e3;
+  --vs-cta-text-hi: #0066cc;
+  --vs-glass-bg: rgba(250,250,252,0.96);
+  --vs-toolbar-bg: rgba(250,250,252,0.98);
+  --vs-chrome-panel: #f5f5f7;
+  --vs-chrome-bar: rgba(250,250,252,0.92);
+  --vs-chrome-subtle: #ececee;
+  --vs-chrome-highlight: rgba(255,255,255,0.72);
+  --vs-chrome-divider: rgba(0,0,0,0.085);
+  --vs-field-bg: #ffffff;
+  --vs-canvas-glow-rgb: 255,255,255;
+  --vs-canvas-dot-rgb: 92,92,98;
+  --vs-r-1: 5px;
+  --vs-r-2: 7px;
+  --vs-r-3: 9px;
+  --vs-r-4: 12px;
+  --vs-r-5: 14px;
+  --vs-r-6: 18px;
+  --vs-shadow-sm: 0 1px 2px rgba(0,0,0,0.045);
+  --vs-shadow-md: 0 8px 24px rgba(0,0,0,0.075), 0 1px 2px rgba(0,0,0,0.04);
+  --vs-shadow-lg: 0 20px 50px rgba(0,0,0,0.13), 0 4px 12px rgba(0,0,0,0.06);
+  --vs-shadow-xl: 0 34px 90px rgba(0,0,0,0.19), 0 10px 30px rgba(0,0,0,0.08);
+  --vs-glow-accent: 0 0 0 3px rgba(0,113,227,0.14);
+  --vs-glow-brand: 0 8px 20px rgba(0,113,227,0.22);
+  --vs-font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --vs-topbar-h: 50px;
+}
+:root[data-vs-style="apple"] [data-studio] {
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.52) 0%, transparent 26%, transparent 68%, rgba(255,255,255,0.32) 100%),
+    linear-gradient(180deg, #e6e6e8 0%, #d8d8dc 100%);
+  letter-spacing: -0.01em;
+  font-synthesis: none;
+}
+:root[data-vs-style="apple"] .vs-topbar {
+  height: 50px;
+  min-height: 50px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.105);
+  border-radius: 0;
+  background: rgba(250,250,252,0.91);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.78) inset;
+  backdrop-filter: blur(24px) saturate(1.35);
+}
+:root[data-vs-style="apple"] .vs-topbar-left {
+  border-right-color: rgba(0,0,0,0.08);
+  background: rgba(245,245,247,0.72);
+}
+:root[data-vs-style="apple"] .vs-topbar-main {
+  padding-inline: 10px 12px;
+}
+:root[data-vs-style="apple"] .vs-breadcrumb {
+  min-height: 30px;
+  padding: 0 4px 0 8px;
+  border: 0;
+  border-radius: 980px;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-index-badge {
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-actions {
+  gap: 2px;
+}
+:root[data-vs-style="apple"] .vs-topbar-actions > button,
+:root[data-vs-style="apple"] .vs-topbar-actions > a {
+  border-radius: 980px;
+}
+:root[data-vs-style="apple"] .vs-secondary-bar {
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(0,0,0,0.09);
+  border-radius: 0;
+  background: rgba(245,245,247,0.93);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.70) inset;
+  backdrop-filter: blur(20px) saturate(1.25);
+}
+:root[data-vs-style="apple"] .vs-brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #1d1d1f !important;
+  box-shadow: 0 1px 1px rgba(255,255,255,0.20) inset, 0 3px 9px rgba(0,0,0,0.16);
+}
+:root[data-vs-style="apple"] .vs-rail {
+  margin: 0;
+  border: 0;
+  border-right: 1px solid rgba(0,0,0,0.09);
+  border-radius: 0;
+  background: rgba(245,245,247,0.94);
+  box-shadow: 1px 0 0 rgba(255,255,255,0.68) inset;
+  backdrop-filter: blur(22px) saturate(1.2);
+}
+:root[data-vs-style="apple"] .vs-rail-button {
+  width: 39px;
+  height: 39px;
+  border-radius: 12px;
+  color: #6e6e73;
+}
+:root[data-vs-style="apple"] .vs-rail-button:hover {
+  background: rgba(0,0,0,0.045);
+  color: #1d1d1f;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-rail-button[class*="bg-[var(--vs-accent-bg)]"] {
+  color: #0071e3;
+  background: rgba(0,113,227,0.105);
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-rail-active-indicator {
+  left: 3px;
+  width: 3px;
+  height: 18px;
+  background: #0071e3;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-side-panel {
+  margin: 0;
+  border: 0;
+  border-right: 1px solid rgba(0,0,0,0.09);
+  border-radius: 0;
+  background: rgba(245,245,247,0.96);
+  box-shadow: 1px 0 0 rgba(255,255,255,0.72) inset;
+  backdrop-filter: blur(22px) saturate(1.18);
+}
+:root[data-vs-style="apple"] .vs-inspector-panel {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border: 0;
+  border-left: 1px solid rgba(0,0,0,0.10);
+  border-radius: 0;
+  background: rgba(245,245,247,0.97);
+  box-shadow: -1px 0 0 rgba(255,255,255,0.70) inset;
+  backdrop-filter: blur(22px) saturate(1.18);
+}
+:root[data-vs-style="apple"] .vs-canvas-bg {
+  margin: 12px;
+  border: 1px solid rgba(255,255,255,0.68);
+  border-radius: 20px;
+  background-color: #d4d4d8;
+  background-image:
+    linear-gradient(112deg, rgba(255,255,255,0.42), transparent 24%, transparent 70%, rgba(255,255,255,0.18)),
+    radial-gradient(rgba(60,60,67,0.11) 0.65px, transparent 0.8px);
+  background-size: auto, 22px 22px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.72), 0 18px 44px rgba(0,0,0,0.075) inset, 0 8px 26px rgba(0,0,0,0.055);
+}
+:root[data-vs-style="apple"] .vs-panel-titlebar {
+  min-height: 48px;
+  padding-inline: 16px;
+  background: rgba(250,250,252,0.94);
+  border-color: rgba(0,0,0,0.085);
+  backdrop-filter: blur(16px);
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs {
+  margin: 10px 12px 8px;
+  border: 0 !important;
+  border-radius: 9px;
+  background: rgba(118,118,128,0.12);
+  padding: 2px;
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs > button {
+  min-height: 29px;
+  padding-block: 0;
+  border-radius: 7px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+  font-weight: 500;
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs > button[class*="text-[var(--vs-text)]"] {
+  background: #ffffff;
+  color: #1d1d1f;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.14), 0 1px 1px rgba(0,0,0,0.06);
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs > button > span {
+  display: none;
+}
+:root[data-vs-style="apple"] .vs-breakpoint-switch {
+  padding: 2px;
+  border-radius: 9px;
+  background: rgba(118,118,128,0.12);
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-breakpoint-switch > button {
+  height: 27px;
+  border-radius: 7px;
+}
+:root[data-vs-style="apple"] .vs-breakpoint-switch > button[class*="bg-[var(--vs-surface-3)]"] {
+  color: #1d1d1f;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.13), 0 1px 1px rgba(0,0,0,0.05);
+}
+:root[data-vs-style="apple"] .vs-add-primary,
+:root[data-vs-style="apple"] .vs-publish-main,
+:root[data-vs-style="apple"] .vs-publish-menu,
+:root[data-vs-style="apple"] .vs-subscribe-button {
+  min-height: 32px;
+  border-radius: 980px;
+  color: #ffffff;
+  background: #0071e3;
+  border-color: #0071e3;
+  text-shadow: none;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-add-primary:hover,
+:root[data-vs-style="apple"] .vs-publish-main:hover,
+:root[data-vs-style="apple"] .vs-publish-menu:hover,
+:root[data-vs-style="apple"] .vs-subscribe-button:hover {
+  background: #0077ed;
+  border-color: #0077ed;
+  transform: none;
+}
+:root[data-vs-style="apple"] .vs-add-primary[aria-expanded="true"] {
+  color: #0066cc;
+  background: #ffffff;
+  border-color: rgba(0,113,227,0.22);
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.10);
+}
+:root[data-vs-style="apple"] .vs-golive-blocked {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #9a5b00;
+  background: #fff4d6;
+  border-color: rgba(154,91,0,0.20);
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-button {
+  min-height: 30px;
+  border-radius: 980px;
+  padding-inline: 14px;
+  font-weight: 500;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-input-shell {
+  min-height: 34px;
+  border-radius: 9px;
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.025) inset;
+}
+:root[data-vs-style="apple"] .vs-input-shell:focus,
+:root[data-vs-style="apple"] .vs-input-shell:focus-within {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.13);
+  outline: none;
+}
+:root[data-vs-style="apple"] .vs-section-type-card {
+  border-radius: 14px;
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.035);
+}
+:root[data-vs-style="apple"] .vs-section-type-card:hover {
+  border-color: rgba(0,113,227,0.34);
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08), 0 0 0 3px rgba(0,113,227,0.07);
+  transform: translateY(-1px);
+}
+:root[data-vs-style="apple"] .vs-chrome-card {
+  border-radius: 16px;
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.09);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.045);
+}
+:root[data-vs-style="apple"] .vs-chrome-header {
+  background: #fafafa;
+  border-color: rgba(0,0,0,0.08);
+}
+:root[data-vs-style="apple"] .vs-overlay-panel,
+:root[data-vs-style="apple"] .vs-glass {
+  border-radius: 18px;
+  background: rgba(250,250,252,0.97);
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 28px 80px rgba(0,0,0,0.20), 0 8px 24px rgba(0,0,0,0.08), 0 1px 0 rgba(255,255,255,0.85) inset;
+  backdrop-filter: blur(30px) saturate(1.35);
+}
+:root[data-vs-style="apple"] .vs-command-backdrop {
+  background: rgba(0,0,0,0.24);
+  backdrop-filter: blur(9px) saturate(0.85);
+}
+:root[data-vs-style="apple"] .vs-profile-menu button:hover {
+  background: rgba(0,0,0,0.045);
+}
+:root[data-vs-style="apple"] .vs-profile-avatar {
+  color: #ffffff;
+  background: #1d1d1f !important;
+  border-color: rgba(255,255,255,0.28);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.18) inset, 0 4px 12px rgba(0,0,0,0.16) !important;
+}
+:root[data-vs-style="apple"] .vs-toolbar-bg,
+:root[data-vs-style="apple"] .vs-tb-close {
+  background: rgba(250,250,252,0.98);
+}
+:root[data-vs-style="apple"] .vs-trialbar {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,0.09);
+  border-radius: 0;
+  background: rgba(245,245,247,0.94);
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.64) inset;
+  backdrop-filter: blur(20px) saturate(1.2);
+}
+:root[data-vs-style="apple"] .vs-subscribe-button {
+  padding-inline: 17px;
+}
+:root[data-vs-style="apple"] .vs-scroll {
+  scrollbar-color: rgba(0,0,0,0.22) transparent;
+}
+:root[data-vs-style="apple"] .vs-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.18);
+  border-color: transparent;
+}
+:root[data-vs-style="apple"] .vs-focus-ring:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0,113,227,0.22);
+}
+
+/* Minimal light — final flattening layer. The variant deliberately avoids
+   glass, metallic gradients and floating-card geometry. Hierarchy comes from
+   spacing, typography and hairline separators; blue is reserved for action. */
+:root[data-vs-style="apple"],
+:root[data-vs-style="apple"] [data-studio] {
+  --vs-bg: #e9eaec;
+  --vs-bg-soft: #ffffff;
+  --vs-surface: #ffffff;
+  --vs-surface-2: #f4f5f6;
+  --vs-surface-3: #e9ebee;
+  --vs-border: #e1e3e6;
+  --vs-border-strong: #cbd0d6;
+  --vs-text: #17181a;
+  --vs-text-soft: #3f4247;
+  --vs-text-muted: #656a72;
+  --vs-text-dim: #8b9098;
+  --vs-text-disabled: #b7bbc1;
+  --vs-accent: #1769e0;
+  --vs-accent-hi: #0d5dcf;
+  --vs-accent-bg: #edf4ff;
+  --vs-accent-ring: rgba(23,105,224,0.24);
+  --vs-accent-solid: #1769e0;
+  --vs-accent-solid-hi: #0d5dcf;
+  --vs-grad-brand: #1769e0;
+  --vs-grad-brand-hi: #0d5dcf;
+  --vs-cta-grad: #1769e0;
+  --vs-cta-rgb: 23,105,224;
+  --vs-cta-soft-rgb: 23,105,224;
+  --vs-glass-bg: #ffffff;
+  --vs-toolbar-bg: #ffffff;
+  --vs-chrome-panel: #ffffff;
+  --vs-chrome-bar: #ffffff;
+  --vs-chrome-subtle: #f7f8f9;
+  --vs-chrome-highlight: transparent;
+  --vs-chrome-divider: #e1e3e6;
+  --vs-field-bg: #ffffff;
+  --vs-shadow-sm: 0 1px 2px rgba(17,24,39,0.04);
+  --vs-shadow-md: 0 8px 24px rgba(17,24,39,0.08);
+  --vs-shadow-lg: 0 16px 42px rgba(17,24,39,0.12);
+  --vs-shadow-xl: 0 24px 64px rgba(17,24,39,0.16);
+  --vs-r-1: 4px;
+  --vs-r-2: 6px;
+  --vs-r-3: 8px;
+  --vs-r-4: 10px;
+  --vs-r-5: 12px;
+  --vs-r-6: 14px;
+  --vs-font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+:root[data-vs-style="apple"] [data-studio] {
+  background: #e9eaec;
+  letter-spacing: -0.006em;
+}
+:root[data-vs-style="apple"] .vs-topbar {
+  height: 62px;
+  min-height: 62px;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: rgba(255,255,255,0.97);
+  box-shadow: 0 5px 22px rgba(17,24,39,0.055);
+  backdrop-filter: none;
+}
+:root[data-vs-style="apple"] .vs-topbar,
+:root[data-vs-style="apple"] .vs-secondary-bar,
+:root[data-vs-style="apple"] .vs-rail,
+:root[data-vs-style="apple"] .vs-side-panel,
+:root[data-vs-style="apple"] .vs-inspector-panel,
+:root[data-vs-style="apple"] .vs-overlay-panel,
+:root[data-vs-style="apple"] .vs-glass {
+  font-family: var(--vs-font-sans) !important;
+}
+:root[data-vs-style="apple"] .vs-side-panel,
+:root[data-vs-style="apple"] .vs-inspector-panel {
+  background: #f8f9fa;
+}
+:root[data-vs-style="apple"] .vs-panel-titlebar {
+  background: #ffffff;
+}
+:root[data-vs-style="apple"] .vs-secondary-bar {
+  background: #f8f9fa;
+}
+:root[data-vs-style="apple"] .vs-section-type-card {
+  min-height: 112px;
+  padding-block: 15px;
+  border-color: #d9dde2;
+  background: #ffffff;
+}
+:root[data-vs-style="apple"] .vs-section-type-card > span:first-child {
+  color: #ffffff;
+  background: #1769e0;
+}
+:root[data-vs-style="apple"] .vs-section-type-card > span:nth-child(2) {
+  color: #4f5660;
+}
+:root[data-vs-style="apple"] .vs-section-type-card > span:nth-child(3) {
+  color: #353a42;
+  font-weight: 600;
+}
+:root[data-vs-style="apple"] .vs-section-type-card > span:last-child {
+  color: #777d86;
+}
+:root[data-vs-style="apple"] .vs-empty-selection {
+  justify-content: flex-start;
+  background: #f8f9fa;
+}
+:root[data-vs-style="apple"] .vs-empty-selection h3,
+:root[data-vs-style="apple"] .vs-empty-selection p,
+:root[data-vs-style="apple"] .vs-empty-hint {
+  font-family: var(--vs-font-sans) !important;
+}
+:root[data-vs-style="apple"] .vs-empty-hint {
+  border-color: #dfe2e6;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(17,24,39,0.03);
+}
+:root[data-vs-style="apple"] .vs-empty-hint:hover {
+  border-color: #b9c9df;
+  background: #fbfdff;
+  box-shadow: none;
+  transform: none;
+}
+:root[data-vs-style="apple"] .vs-trialbar > div:last-child {
+  padding-block: 6px;
+}
+:root[data-vs-style="apple"] .vs-command-backdrop {
+  background: rgba(17,24,39,0.24);
+  backdrop-filter: blur(3px);
+}
+:root[data-vs-style="apple"] .vs-topbar-left {
+  background: #ffffff;
+  border-right: 0;
+}
+:root[data-vs-style="apple"] .vs-brand-cell {
+  box-shadow: none !important;
+}
+:root[data-vs-style="apple"] .vs-topbar-panel-strip {
+  display: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-back {
+  margin-right: 2px;
+  border-right: 0;
+}
+:root[data-vs-style="apple"] .vs-topbar-main {
+  gap: 16px;
+  padding-inline: 14px 16px;
+}
+:root[data-vs-style="apple"] .vs-topbar-context {
+  flex: 0 1 auto;
+  justify-content: flex-start !important;
+  padding-inline: 4px 10px;
+}
+:root[data-vs-style="apple"] .vs-breadcrumb {
+  min-height: 38px;
+  padding-inline: 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-inline-actions {
+  min-width: 0;
+  margin-right: auto;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-inline-actions > span {
+  display: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-add-primary {
+  min-width: 116px;
+  height: 38px;
+  padding-inline: 17px;
+  border: 0;
+  border-radius: 9px;
+  font-size: 13.5px;
+  box-shadow: 0 4px 12px rgba(23,105,224,0.16);
+}
+:root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-inline-ai,
+:root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-inline-reorder {
+  height: 38px;
+  border: 0;
+  border-radius: 8px;
+  padding-inline: 12px;
+  color: #4f5660;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+:root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-inline-ai svg {
+  color: #1769e0;
+}
+:root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-inline-ai:hover,
+:root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-inline-reorder:hover {
+  color: #17181a;
+  background: #f2f4f7;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-actions {
+  gap: 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-device-switch {
+  gap: 3px;
+  margin-right: 5px;
+}
+:root[data-vs-style="apple"] .vs-device-button {
+  height: 34px;
+  padding-inline: 10px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-device-button[class*="bg-[var(--vs-accent-bg)]"] {
+  color: #1769e0;
+  border-color: #d8e6fb;
+  background: #edf4ff;
+  box-shadow: 0 1px 2px rgba(23,105,224,0.08);
+}
+:root[data-vs-style="apple"] .vs-topbar-actions > button,
+:root[data-vs-style="apple"] .vs-topbar-actions > a {
+  border: 0;
+  border-radius: 8px;
+}
+:root[data-vs-style="apple"] .vs-topbar-actions > div[class*="h-[22px]"] {
+  display: none;
+}
+:root[data-vs-style="apple"] .vs-brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #17181a !important;
+  box-shadow: 0 6px 16px rgba(17,24,39,0.18), 0 1px 0 rgba(255,255,255,0.18) inset;
+}
+:root[data-vs-style="apple"] .vs-secondary-bar {
+  height: 42px;
+  min-height: 42px;
+  margin: 0;
+  border: 0;
+  border-bottom: 1px solid #e1e3e6;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+:root[data-vs-style="apple"] .vs-rail {
+  margin: 0;
+  border: 0;
+  border-right: 1px solid #e1e3e6;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+:root[data-vs-style="apple"] .vs-rail-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  color: #6b7078;
+}
+:root[data-vs-style="apple"] .vs-rail-button:hover {
+  color: #17181a;
+  background: #f2f3f5;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-rail-button[class*="bg-[var(--vs-accent-bg)]"] {
+  color: #1769e0;
+  background: #edf4ff;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-rail-active-indicator {
+  left: 0;
+  width: 2px;
+  height: 22px;
+  background: #1769e0;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-side-panel,
+:root[data-vs-style="apple"] .vs-inspector-panel {
+  margin: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+:root[data-vs-style="apple"] .vs-side-panel {
+  border: 0;
+  border-right: 1px solid #dfe2e5;
+}
+:root[data-vs-style="apple"] .vs-inspector-panel {
+  border: 0;
+  border-left: 1px solid #dfe2e5;
+}
+:root[data-vs-style="apple"] .vs-canvas-bg {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: #e9eaec;
+  background-image: radial-gradient(rgba(51,55,61,0.11) 0.6px, transparent 0.7px);
+  background-size: 20px 20px;
+  box-shadow: inset 0 1px 4px rgba(17,24,39,0.06);
+}
+:root[data-vs-style="apple"] .vs-canvas-bg.h-full {
+  min-height: 0;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+:root[data-vs-style="apple"] .vs-panel-titlebar,
+:root[data-vs-style="apple"] .vs-chrome-header {
+  min-height: 48px;
+  padding-inline: 14px;
+  background: #ffffff;
+  border-color: #e1e3e6;
+  backdrop-filter: none;
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs {
+  margin: 0;
+  padding: 0 8px;
+  border: 0;
+  border-bottom: 1px solid #e1e3e6;
+  border-radius: 0;
+  background: #ffffff;
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs > button {
+  min-height: 40px;
+  padding-block: 0;
+  border-radius: 0;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs > button[class*="text-[var(--vs-text)]"] {
+  color: #1769e0;
+  background: transparent;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-inspector-tabs > button > span {
+  display: block;
+  height: 2px;
+  background: #1769e0;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-breakpoint-switch {
+  padding: 2px;
+  border: 1px solid #d9dde2;
+  border-radius: 7px;
+  background: #f4f5f6;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-topbar-actions .vs-breakpoint-switch {
+  margin-right: 7px;
+  border: 0;
+  border-radius: 10px;
+  background: #f0f2f5;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-breakpoint-switch > button[class*="bg-[var(--vs-surface-3)]"] {
+  color: #1769e0;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(17,24,39,0.08);
+}
+:root[data-vs-style="apple"] .vs-add-primary,
+:root[data-vs-style="apple"] .vs-publish-main,
+:root[data-vs-style="apple"] .vs-publish-menu,
+:root[data-vs-style="apple"] .vs-subscribe-button {
+  min-height: 32px;
+  border-radius: 7px;
+  color: #ffffff;
+  background: #1769e0;
+  border: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-publish-group {
+  height: 36px;
+  margin-left: 3px;
+}
+:root[data-vs-style="apple"] .vs-publish-main,
+:root[data-vs-style="apple"] .vs-publish-menu {
+  min-height: 36px;
+}
+:root[data-vs-style="apple"] .vs-add-primary:hover,
+:root[data-vs-style="apple"] .vs-publish-main:hover,
+:root[data-vs-style="apple"] .vs-publish-menu:hover,
+:root[data-vs-style="apple"] .vs-subscribe-button:hover {
+  background: #0d5dcf;
+  border-color: #0d5dcf;
+  transform: none;
+}
+:root[data-vs-style="apple"] .vs-button {
+  min-height: 31px;
+  border-radius: 7px;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-input-shell {
+  min-height: 34px;
+  border-radius: 7px;
+  color: #17181a;
+  background: #ffffff;
+  border-color: #cbd0d6;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-input-shell:focus,
+:root[data-vs-style="apple"] .vs-input-shell:focus-within {
+  border-color: #1769e0;
+  box-shadow: 0 0 0 2px rgba(23,105,224,0.14);
+  outline: none;
+}
+:root[data-vs-style="apple"] .vs-section-type-card,
+:root[data-vs-style="apple"] .vs-chrome-card {
+  border-radius: 9px;
+  color: #17181a;
+  background: #ffffff;
+  border-color: #dfe2e5;
+  box-shadow: none;
+}
+:root[data-vs-style="apple"] .vs-section-type-card:hover {
+  border-color: #9bbcf0;
+  background: #f8fbff;
+  box-shadow: 0 0 0 1px #9bbcf0;
+  transform: none;
+}
+:root[data-vs-style="apple"] .vs-overlay-panel,
+:root[data-vs-style="apple"] .vs-glass {
+  border-radius: 10px;
+  color: #17181a;
+  background: #ffffff;
+  border-color: #d7dbe0;
+  box-shadow: 0 16px 44px rgba(17,24,39,0.16);
+  backdrop-filter: none;
+}
+:root[data-vs-style="apple"] .vs-profile-avatar {
+  color: #ffffff;
+  background: #17181a !important;
+  box-shadow: none !important;
+}
+:root[data-vs-style="apple"] .vs-trialbar {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid #e1e3e6;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* Keep the primary editor actions explicit on normal desktop widths.
+   Collapse labels only when the toolbar genuinely runs out of room. */
+@media (max-width: 1220px) {
+  :root .vs-toolbar-control-label {
+    display: none;
+  }
+  :root .vs-topbar-actions > button,
+  :root .vs-topbar-actions > a {
+    width: 31px;
+    padding-inline: 0;
+  }
+  :root .vs-device-button {
+    width: 31px;
+    padding-inline: 0;
+  }
+  :root .vs-zoom-label {
+    min-width: 56px;
+  }
+}
+
+@media (max-width: 1180px) {
+  :root .vs-topbar-inline-actions .vs-inline-ai > span:last-child,
+  :root .vs-topbar-inline-actions .vs-inline-reorder > span:last-child {
+    display: none;
+  }
+  :root .vs-topbar-inline-actions .vs-inline-ai,
+  :root .vs-topbar-inline-actions .vs-inline-reorder {
+    width: 34px;
+    justify-content: center;
+    padding-inline: 0;
+  }
+}
+
+@media (max-width: 1380px) {
+  :root .vs-index-badge {
+    display: none;
+  }
+  :root[data-vs-style="apple"] .vs-topbar-inline-actions .vs-add-primary {
+    min-width: 98px;
+    padding-inline: 12px;
+  }
+}
+
 
 /* Per-breakpoint section visibility — set by ElementMicroRail's
    "Skrýt na mobilu / tabletu" toggle. Hides the wrapped section element

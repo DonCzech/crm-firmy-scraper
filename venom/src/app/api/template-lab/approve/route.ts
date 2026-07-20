@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query, initDb } from "@/lib/db";
-import { updateReviewItem, logProgress, appendJobLog } from "@/lib/template-lab/workflow";
+import { updateReviewItem, logProgress } from "@/lib/template-lab/workflow";
+import { requirePlatformAdmin } from "@/lib/platform-admin";
 
 export async function POST(req: NextRequest) {
+  const auth = requirePlatformAdmin(req, { mutation: true });
+  if (!auth.ok) return auth.response;
   const body = await req.json().catch(() => ({}));
   const { templateSlug, action, notes } = body as {
     templateSlug?: string;

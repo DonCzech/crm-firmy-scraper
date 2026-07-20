@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#1266cc",
+    "secondary":  "#142b45",
+    "accent":     "#f0803c",
+    "background": "#ffffff",
+    "surface":    "#f5f8fb",
+    "text":       "#1c2b3a",
+    "textMuted":  "#64748b",
+    "border":     "#e3e9f0"
+  },
+  "typography": {
+    "fontHeading": "'Open Sans', 'Segoe UI', Arial, sans-serif",
+    "fontBody":    "'Open Sans', 'Segoe UI', Arial, sans-serif"
+  }
+}

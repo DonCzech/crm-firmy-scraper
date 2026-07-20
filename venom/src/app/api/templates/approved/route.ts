@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
+import { getOnboardingEshop, ONBOARDING_ESHOP_KEYS } from "@/lib/templates/onboarding-catalog";
 
 /** Public read-only endpoint for the onboarding modal template picker. */
 
@@ -29,17 +30,25 @@ export async function GET() {
             ORDER BY t.id LIMIT 1
          ) AS demo_slug
        FROM templates tpl
-       WHERE tpl.review_status = 'approved' AND tpl.status = 'active'
-       ORDER BY tpl.reviewed_at DESC NULLS LAST, tpl.key ASC`
+       WHERE tpl.status = 'active'
+         AND (tpl.review_status = 'approved' OR tpl.key = ANY($1::text[]))
+       ORDER BY CASE WHEN tpl.key = ANY($1::text[]) THEN 0 ELSE 1 END,
+                tpl.reviewed_at DESC NULLS LAST, tpl.key ASC`,
+      [ONBOARDING_ESHOP_KEYS]
     );
 
-    const items = rows.map((r) => ({
-      key: r.key,
-      name: r.name,
-      industry: r.industry ?? null,
-      previewImage: `/templates/${r.key}/preview.png`,
-      demoUrl: r.demo_slug ? `/demo/${r.demo_slug}` : null,
-    }));
+    const items = rows.map((r) => {
+      const featuredEshop = getOnboardingEshop(r.key);
+      return {
+        key: r.key,
+        name: r.name,
+        industry: r.industry ?? null,
+        previewImage: featuredEshop?.previewImage ?? null,
+        demoUrl: featuredEshop
+          ? `/demo/${featuredEshop.demoSlug}`
+          : r.demo_slug ? `/demo/${r.demo_slug}` : null,
+      };
+    });
 
     return NextResponse.json({ items });
   } catch (err) {

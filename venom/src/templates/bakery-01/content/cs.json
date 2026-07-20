@@ -1,26 +1,42 @@
 {
   "navbar": {
-    "siteName": "Demo Zrno Zrnko",
+    "siteName": "Kvásek & Káva",
     "logoUrl": "/templates/bakery-01/logo.svg",
     "fbHref": "https://facebook.com/demo",
     "igHref": "https://instagram.com/demo",
     "links": [
-      { "label": "O NÁS",      "href": "/o-nas" },
-      { "label": "PEKÁRNA",    "href": "/pekarna" },
-      { "label": "KÁVA",       "href": "/kava" },
-      { "label": "AKCE",       "href": "#akce" },
-      { "label": "DODÁVÁME",   "href": "#dodavame" },
-      { "label": "KONTAKT",    "href": "#kontakt" }
+      {
+        "label": "O NÁS",
+        "href": "/o-nas"
+      },
+      {
+        "label": "PEKÁRNA",
+        "href": "/pekarna"
+      },
+      {
+        "label": "KÁVA",
+        "href": "/kava"
+      },
+      {
+        "label": "AKCE",
+        "href": "#akce"
+      },
+      {
+        "label": "DODÁVÁME",
+        "href": "#dodavame"
+      },
+      {
+        "label": "KONTAKT",
+        "href": "#kontakt"
+      }
     ]
   },
-
   "hero": {
     "heading": "PEČEME S LÁSKOU OD ROKU 2016",
     "backgroundImage": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80"
   },
-
   "about": {
-    "heading": "Zrno Zrnko",
+    "heading": "Kvásek & Káva",
     "subheading": "Řemeslná pekárna a kavárna v srdci Prahy",
     "body": "Každé ráno vstáváme se sluníčkem, protože dobrý chléb počká jen na ty, kdo mu dají čas. Pracujeme s prověřenými českými mlýny, pečeme na kvásku a kávu pražíme ze zrn, která si sami vybíráme. Žádné zkratky — jen řemeslo, poctivé suroviny a radost z dobré práce.",
     "col1Image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
@@ -32,7 +48,6 @@
     "col2Cta": "NAŠE KÁVA",
     "col2CtaHref": "/kava"
   },
-
   "services": {
     "heading": "Přijďte, je tu vždy co zažít",
     "items": [
@@ -52,22 +67,32 @@
       }
     ]
   },
-
   "footer": {
-    "siteName": "Demo Zrno Zrnko",
+    "siteName": "Kvásek & Káva",
     "links": [
-      { "label": "O NÁS",    "href": "/o-nas" },
-      { "label": "PEKÁRNA",  "href": "/pekarna" },
-      { "label": "KÁVA",     "href": "/kava" },
-      { "label": "KONTAKT",  "href": "#kontakt" }
+      {
+        "label": "O NÁS",
+        "href": "/o-nas"
+      },
+      {
+        "label": "PEKÁRNA",
+        "href": "/pekarna"
+      },
+      {
+        "label": "KÁVA",
+        "href": "/kava"
+      },
+      {
+        "label": "KONTAKT",
+        "href": "#kontakt"
+      }
     ],
-    "copyright": "© 2026 Demo Zrno Zrnko s.r.o.  |  Náměstí Míru 12, 120 00 Praha 2  |  IČO: 12345678  |  info@zrno-zrnko.cz"
+    "copyright": "© 2026 Kvásek & Káva s.r.o.  |  Náměstí Míru 12, 120 00 Praha 2  |  IČO: 12345678  |  info@kvasekakava.cz"
   },
-
   "pages": {
     "o-nas": {
-      "seoTitle": "O nás — Demo Zrno Zrnko",
-      "seoDescription": "Příběh pražské řemeslné pekárny a kavárny Zrno Zrnko — od prvního bochníku až po dnešek.",
+      "seoTitle": "O nás — Kvásek & Káva",
+      "seoDescription": "Příběh pražské řemeslné pekárny a kavárny Kvásek & Káva — od prvního bochníku až po dnešek.",
       "about": {
         "heading": "Náš příběh",
         "subheading": "Malá pekárna s velkou vizí — od roku 2016",
@@ -80,14 +105,16 @@
         "col2Text": "Ke kávě přistupujeme stejně jako k chlebu — s respektem k surovině a k lidem, kteří ji pěstují. Pražíme sami, v malých šaržích.",
         "col2Cta": "NAŠE KÁVA",
         "col2CtaHref": "/kava"
+      },
+      "hero": {
+        "title": "O nás"
       }
     },
     "pekarna": {
-      "seoTitle": "Pekárna — Demo Zrno Zrnko",
+      "seoTitle": "Pekárna — Kvásek & Káva",
       "seoDescription": "Řemeslné kvasové pečivo z Prahy — kvasový chléb, bagety, croissanty a sezónní koláče.",
       "hero": {
-        "heading": "Pekárna",
-        "subheading": "Čerstvé každý den od čtyř ráno"
+        "title": "Pekárna"
       },
       "services": {
         "heading": "Co u nás najdete",
@@ -110,11 +137,10 @@
       }
     },
     "kava": {
-      "seoTitle": "Káva — Demo Zrno Zrnko",
+      "seoTitle": "Káva — Kvásek & Káva",
       "seoDescription": "Výběrová káva z vlastní pražírny — espresso, pour over, cold brew a sezónní single origin.",
       "hero": {
-        "heading": "Káva",
-        "subheading": "Pražíme sami, vaříme s péčí"
+        "title": "Káva"
       },
       "services": {
         "heading": "Jak podáváme kávu",
@@ -134,6 +160,80 @@
             "ctaHref": "#kontakt"
           }
         ]
+      }
+    },
+    "akce": {
+      "seoTitle": "Akce — Kvásek & Káva",
+      "seoDescription": "Aktuální akce, degustace a pekařské kurzy v Kvásek & Káva.",
+      "hero": {
+        "title": "Akce"
+      },
+      "services": {
+        "heading": "Co právě chystáme",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80",
+            "heading": "Kurz kvasového pečení",
+            "text": "Celodenní kurz pro začátečníky — od založení kvasu po upečení vlastního bochníku. Každou první sobotu v měsíci, kapacita 8 míst.",
+            "cta": "REZERVOVAT",
+            "ctaHref": "/kontakt"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&q=80",
+            "heading": "Degustace výběrové kávy",
+            "text": "Cupping s naším pražičem — ochutnáte pět single origin káv a dozvíte se, jak vzniká náš espresso blend. Čtvrtky od 18:00.",
+            "cta": "PŘIHLÁSIT SE",
+            "ctaHref": "/kontakt"
+          }
+        ]
+      }
+    },
+    "dodavame": {
+      "seoTitle": "Dodáváme — Kvásek & Káva",
+      "seoDescription": "Velkoobchodní dodávky kvasového pečiva pro kavárny, bistra a restaurace v Praze.",
+      "hero": {
+        "title": "Dodáváme"
+      },
+      "services": {
+        "heading": "Jak spolupráce funguje",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=800&q=80",
+            "heading": "Pro kavárny a bistra",
+            "text": "Denní závoz kvasového chleba a viennoiserie po Praze do 7:00 ráno. Minimální objednávka 15 ks, objednávky den předem do 14:00.",
+            "cta": "CHCI NABÍDKU",
+            "ctaHref": "/kontakt"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80",
+            "heading": "Pro firmy a eventy",
+            "text": "Snídaňové boxy, chlebíčkové mísy a sladké rauty na míru. Rozvoz po celé Praze, fakturace na firmu.",
+            "cta": "POPTAT EVENT",
+            "ctaHref": "/kontakt"
+          }
+        ]
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Kvásek & Káva",
+      "seoDescription": "Kontakt na pekárnu a kavárnu Kvásek & Káva — adresa, otevírací doba, mapa.",
+      "hero": {
+        "title": "Kontakt"
+      },
+      "contact": {
+        "eyebrow": "Ozvěte se nám",
+        "title": "Přijďte na kávu",
+        "subtitle": "Máte dotaz, přání k dortu nebo chcete rezervovat stůl? Napište nám — ozveme se ještě týž den.",
+        "address": "Kavčí Hory 8, Praha 4",
+        "phone": "+420 704 123 456",
+        "email": "ahoj@demo-pekarna.cz",
+        "hoursTitle": "Otevírací doba",
+        "hours": [
+          "Po–Pá · 7:00–19:00",
+          "So–Ne · 8:00–17:00"
+        ],
+        "formTitle": "Napište nám",
+        "submitLabel": "Odeslat zprávu"
       }
     }
   }

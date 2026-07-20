@@ -1,12 +1,13 @@
 {
   "navbar": {
-    "siteName": "Stavební Firma",
+    "siteName": "Stavba Design",
     "logoUrl": "/templates/stavba-01/logo.svg",
-    "ctaText": "Kontaktujte nás",
-    "ctaHref": "#kontakt",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
     "phone": "704 123 456",
-    "email": "info@demo.cz",
+    "email": "info@stavbadesign.cz",
     "topbarAddress": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 7:00–17:00",
     "links": [
       {
         "label": "Služby",
@@ -27,15 +28,14 @@
     ]
   },
   "hero": {
-    "title": "Rekonstrukce bytů\na stavby rodinných domů",
-    "subtitle": "Stavíme tak, abychom tam sami chtěli bydlet.",
-    "ctaText": "Nezávazná konzultace",
-    "ctaHref": "#kontakt",
-    "ctaSecondaryText": "Naše reference",
+    "title": "Stavíme domovy,\nkteré vydrží generace",
+    "subtitle": "Kompletní rekonstrukce bytů a výstavba rodinných domů na klíč — od prvního návrhu až po předání hotového díla včetně úklidu.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "Prohlédnout realizace",
     "ctaSecondaryHref": "/reference",
-    "image": "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&h=900&fit=crop&fm=webp&q=85",
-    "label": "Stavební firma",
-    "image2": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&h=1100&fit=crop&fm=webp&q=85",
+    "image": "/templates/stavba-01/hero.webp",
+    "label": "Rekonstrukce & stavby na klíč · Praha",
     "heroServices": [
       {
         "name": "Rekonstrukce bytů a domů",
@@ -50,41 +50,42 @@
         "icon": "revitalization"
       },
       {
-        "name": "Stavební práce & development",
+        "name": "Stavební práce a development",
         "icon": "builder"
       }
     ]
   },
   "services": {
     "id": "sluzby",
-    "tagline": "Co umíme",
-    "title": "Naše stavební\nslužby",
+    "tagline": "Co pro vás postavíme",
+    "title": "Stavební služby\npod jednou střechou",
+    "subtitle": "Od kompletních rekonstrukcí bytů až po rodinné domy na klíč — jeden partner, který provede vaši stavbu od návrhu po předání.",
     "items": [
       {
         "name": "Rekonstrukce bytů",
-        "description": "Kompletní přestavba bytových jednotek od dispozičních změn přes nové rozvody až po finální povrchy. Výsledkem je moderní domov na míru vašim potřebám.",
-        "image": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=400&fit=crop&fm=webp&q=85",
+        "description": "Kompletní přestavba bytových jednotek od dispozičních změn přes nové rozvody až po finální povrchy. Výsledkem je moderní domov ušitý na míru vašim potřebám.",
+        "image": "/templates/stavba-01/svc-1.webp",
         "ctaText": "Více o službě",
         "ctaHref": "/sluzby"
       },
       {
         "name": "Rekonstrukce rodinných domů",
-        "description": "Rozsáhlé renovace rodinných domů zahrnující střechy, fasády, interiéry i energetické úspory. Dílo předáme s tříletou zárukou.",
-        "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&fm=webp&q=85",
+        "description": "Rozsáhlé renovace rodinných domů — střechy, fasády, interiéry i energetické úspory. Hotové dílo předáváme s tříletou zárukou a kompletní dokumentací.",
+        "image": "/templates/stavba-01/svc-2.webp",
         "ctaText": "Více o službě",
         "ctaHref": "/sluzby"
       },
       {
         "name": "Rodinné domy na klíč",
-        "description": "Výstavba novostaveb rodinných domů od projektu až po předání klíčů. Pevný termín, transparentní cena, bez skrytých nákladů.",
-        "image": "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=600&h=400&fit=crop&fm=webp&q=85",
+        "description": "Výstavba novostaveb od projektu až po předání klíčů. Pevný termín, transparentní cena a jeden zodpovědný tým bez skrytých nákladů.",
+        "image": "/templates/stavba-01/svc-3.webp",
         "ctaText": "Více o službě",
         "ctaHref": "/sluzby"
       },
       {
         "name": "Revitalizace bytových domů",
-        "description": "Zateplení, nová fasáda, oprava střechy a společných prostor pro bytová družstva a SVJ. Dotace z IROP a zelené bonusy.",
-        "image": "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=600&h=400&fit=crop&fm=webp&q=85",
+        "description": "Zateplení, nová fasáda, oprava střechy a společných prostor pro bytová družstva a SVJ. Poradíme s dotacemi z programů IROP i Nová zelená úsporám.",
+        "image": "/templates/stavba-01/svc-4.webp",
         "ctaText": "Více o službě",
         "ctaHref": "/sluzby"
       }
@@ -92,19 +93,19 @@
   },
   "about": {
     "id": "o-nas",
-    "tagline": "Náš model spolupráce",
-    "title": "O vaši zakázku se\nstaráme 3 odborníci",
-    "body": "Ke každé zakázce přiřadíme tříčlenný tým: architekta, projektového manažera a stavbyvedoucího. Architekt navrhne dispozice a materiály, manažer koordinuje termíny a dodavatele, stavbyvedoucí dohlíží na kvalitu přímo na místě. Vy máte jedno kontaktní místo a průběžný přehled o postupu prací.",
+    "tagline": "Jak spolupráce probíhá",
+    "title": "Na vaší zakázce pracují\ntři odborníci",
+    "body": "Ke každému projektu sestavíme tříčlenný tým — architekta, projektového manažera a stavbyvedoucího. Architekt navrhne dispozice a materiály, manažer hlídá termíny, rozpočet a dodavatele a stavbyvedoucí dohlíží na kvalitu přímo na stavbě. Vy máte jediné kontaktní místo a stálý přehled o postupu prací.",
     "steps": [
       {
         "number": "01",
         "title": "Architekt",
-        "desc": "Návrh dispozic, výběr materiálů, vizualizace"
+        "desc": "Návrh dispozic, výběr materiálů a realistická vizualizace"
       },
       {
         "number": "02",
         "title": "Projektový manažer",
-        "desc": "Koordinace termínů, dodavatelů a rozpočtu"
+        "desc": "Koordinace termínů, dodavatelů a hlídání rozpočtu"
       },
       {
         "number": "03",
@@ -112,9 +113,9 @@
         "desc": "Dohled nad kvalitou a dodržením standardů přímo na stavbě"
       }
     ],
-    "ctaText": "Proč s námi?",
+    "ctaText": "Proč právě my",
     "ctaHref": "/o-nas",
-    "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&fm=webp&q=85",
+    "image": "/templates/stavba-01/about.webp",
     "stats": [
       {
         "value": "850+",
@@ -122,7 +123,7 @@
       },
       {
         "value": "14",
-        "label": "let zkušeností"
+        "label": "let na trhu"
       },
       {
         "value": "3 roky",
@@ -133,7 +134,7 @@
   "testimonials": {
     "id": "recenze",
     "tagline": "Co říkají klienti",
-    "title": "Reference\nnaších zákazníků",
+    "title": "Reference\nnašich zákazníků",
     "rating": "4.9",
     "reviewCount": "214",
     "items": [
@@ -146,112 +147,122 @@
       {
         "name": "Petra Svobodová",
         "role": "Novostavba rodinného domu, Průhonice",
-        "text": "Dům na klíč jsme zadali Stavební Firma po doporučení od sousedů. Projekt od návrhu po stěhování trval 11 měsíců — přesně jak slíbili. Cena odpovídala nabídce bez překvapení.",
+        "text": "Dům na klíč jsme zadali Stavba Design po doporučení od sousedů. Projekt od návrhu po stěhování trval 11 měsíců — přesně jak slíbili. Cena odpovídala nabídce, bez skrytých překvapení.",
         "stars": 5
       },
       {
         "name": "Tomáš Dvořák",
         "role": "Revitalizace bytového domu, Praha 4",
-        "text": "Jako předseda SVJ jsem ocenil, že veškerá agenda šla přes jediného manažera. Zateplení, výměna výplní i oprava střechy proběhly v jedné sezoně. Dotace jsme dostali o 3 měsíce dříve, než jsme čekali.",
+        "text": "Jako předseda SVJ jsem ocenil, že veškerá agenda šla přes jediného manažera. Zateplení, výměna oken i oprava střechy proběhly v jedné sezoně a dotaci jsme dostali dřív, než jsme čekali.",
         "stars": 5
       }
-    ]
+    ],
+    "reviewSuffix": "recenzí na Google"
   },
   "cta": {
     "id": "cta-konzultace",
     "tagline": "Zdarma a nezávazně",
-    "title": "Zvažujete rekonstrukci?",
-    "subtitle": "Zavolejte nebo napište — rádi Vám poradíme s rozsahem, termíny i financováním vaší stavby.",
-    "ctaText": "Nezávazná konzultace",
-    "ctaHref": "#kontakt",
+    "title": "Plánujete stavbu nebo rekonstrukci?",
+    "subtitle": "Ozvěte se nám — nezávazně probereme rozsah, termíny i možnosti financování a připravíme orientační cenový odhad.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
     "ctaSecondaryText": "704 123 456",
     "ctaSecondaryHref": "tel:+420704123456"
   },
   "gallery": {
     "id": "reference",
-    "tagline": "Portfolio",
-    "title": "Naše reference",
-    "subtitle": "Ukázky dokončených rekonstrukcí a novostaveb",
+    "tagline": "Naše realizace",
+    "title": "Vybrané reference",
+    "subtitle": "Prohlédněte si dokončené rekonstrukce, novostavby i revitalizace — filtrovat můžete podle typu projektu.",
     "items": [
       {
         "title": "Rekonstrukce bytu 4+1, Praha 2",
         "category": "Rekonstrukce bytů",
-        "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/stavba-01/gal-1.webp"
       },
       {
         "title": "Rodinný dům na klíč, Říčany",
         "category": "Novostavby",
-        "image": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/stavba-01/gal-2.webp"
       },
       {
         "title": "Rekonstrukce domu, Praha-západ",
         "category": "Rekonstrukce domů",
-        "image": "https://images.unsplash.com/photo-1416331108676-a22ccb276e35?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/stavba-01/gal-3.webp"
       },
       {
-        "title": "Revitalizace BD, Praha 4",
+        "title": "Revitalizace bytového domu, Praha 4",
         "category": "Revitalizace",
-        "image": "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/stavba-01/gal-4.webp"
       },
       {
         "title": "Půdní vestavba, Praha 1",
         "category": "Rekonstrukce bytů",
-        "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/stavba-01/gal-5.webp"
       },
       {
         "title": "Rodinný dům, Průhonice",
         "category": "Novostavby",
-        "image": "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=800&h=600&fit=crop&fm=webp&q=85"
+        "image": "/templates/stavba-01/gal-6.webp"
       }
     ]
   },
   "faq": {
     "id": "faq",
     "tagline": "Časté dotazy",
-    "title": "Odpovědi na\nčasté otázky",
+    "title": "Na co se klienti\nnejčastěji ptají",
     "items": [
       {
         "question": "Jak dlouho trvá rekonstrukce bytu?",
-        "answer": "Standardní rekonstrukce bytu 2+1 trvá 6–10 týdnů v závislosti na rozsahu prací. Přesný harmonogram dostanete před zahájením, termín dodávky je smluvně závazný."
+        "answer": "Standardní rekonstrukce bytu 2+1 trvá 6–10 týdnů podle rozsahu prací. Přesný harmonogram dostanete před zahájením a termín předání je smluvně závazný."
       },
       {
-        "question": "Jaká je záruka na stavební práce?",
-        "answer": "Na veškeré stavební práce poskytujeme 3letou záruku — dvojnásobek zákonného minima. Na zabudované materiály platí záruky výrobce."
+        "question": "Jakou dáváte záruku na stavební práce?",
+        "answer": "Na veškeré stavební práce poskytujeme tříletou záruku — dvojnásobek zákonného minima. Na zabudované materiály platí navíc záruka výrobce."
       },
       {
-        "question": "Zvládnete financování nebo pomoc s dotacemi?",
-        "answer": "Ano — spolupracujeme s finančními poradci a máme zkušenosti s dotacemi IROP, Zelená úsporám i komunitními programy. Provedeme vás celým procesem."
+        "question": "Pomůžete s financováním a dotacemi?",
+        "answer": "Ano. Spolupracujeme s finančními poradci a máme zkušenosti s dotacemi IROP i Nová zelená úsporám. Celým procesem vás provedeme a připravíme podklady."
       },
       {
-        "question": "Zajišťujete také architektonický návrh?",
-        "answer": "Součástí každé zakázky je návrh od interního architekta. Pokud preferujete vlastní architekta, rádi spolupracujeme — pouze koordinujeme technické provedení."
+        "question": "Zajišťujete i architektonický návrh?",
+        "answer": "Součástí každé zakázky je návrh od interního architekta. Máte-li vlastního architekta, rádi s ním spolupracujeme a postaráme se o technické provedení."
       },
       {
         "question": "Jak probíhá cenová nabídka?",
-        "answer": "Po úvodní bezplatné konzultaci zpracujeme podrobný itemizovaný rozpočet do 5 pracovních dní. Nabídka je fixní — výsledná cena neobsahuje skryté položky."
+        "answer": "Po bezplatné úvodní konzultaci zpracujeme podrobný položkový rozpočet do 5 pracovních dnů. Nabídka je fixní — konečná cena neobsahuje skryté položky."
       }
-    ]
+    ],
+    "subtitle": "Nenašli jste odpověď? Zavolejte nebo napište — ozveme se do 24 hodin."
   },
   "contact": {
     "id": "kontakt",
     "tagline": "Napište nebo zavolejte",
-    "title": "Domluvme si\nkonzultaci",
+    "title": "Domluvme si\nnezávaznou konzultaci",
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "hours": "Po–Pá 8:00–17:00",
+    "email": "info@stavbadesign.cz",
+    "hours": "Po–Pá 7:00–17:00",
     "mapEmbedUrl": "",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo"
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-mail",
+    "addressLabel": "Adresa",
+    "hoursLabel": "Provozní doba",
+    "namePlaceholder": "Vaše jméno",
+    "phonePlaceholder": "Telefon",
+    "messagePlaceholder": "Popište váš projekt nebo dotaz…",
+    "submitText": "Odeslat poptávku",
+    "sentTitle": "Zpráva odeslána!",
+    "sentText": "Ozveme se vám do 24 hodin."
   },
   "footer": {
-    "siteName": "Stavební Firma",
+    "siteName": "Stavba Design",
     "logoUrl": "/templates/stavba-01/logo-light.svg",
-    "tagline": "Rekonstrukce bytů a stavby rodinných domů",
-    "email": "info@demo.cz",
+    "tagline": "Rekonstrukce bytů a stavby rodinných domů na klíč — od návrhu po předání.",
+    "email": "info@stavbadesign.cz",
     "phone": "704 123 456",
     "address": "Ukázková 123\n110 00 Praha 1",
-    "companyName": "Demo Studio s.r.o.",
+    "companyName": "Stavba Design s.r.o.",
     "ico": "12345678",
     "dic": "CZ12345678",
     "links": [
@@ -272,8 +283,11 @@
         "href": "/kontakt"
       }
     ],
-    "socialFacebook": "https://facebook.com/demo",
-    "socialInstagram": "https://instagram.com/demo"
+    "navLabel": "Navigace",
+    "firmLabel": "Firma",
+    "icoLabel": "IČO:",
+    "dicLabel": "DIČ:",
+    "legalText": "Všechna práva vyhrazena."
   },
   "pages": {
     "sluzby": {

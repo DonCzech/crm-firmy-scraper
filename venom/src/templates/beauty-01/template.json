@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "beauty-01",
-  "name": "Demo Beauty Studio",
+  "name": "Atelier Lumina",
   "industry": "beauty",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,19 +9,51 @@
   "description": "Prémiové beauty & wellness studio, Fahkwang font, cream #FFF8F1 paleta, sand #E0BE9A accent — selfbeauty.cz origin, barber+nehty+pleť, 6 specialistů, recenze, kontakty.",
   "sectionOrderNote": "Originál selfbeauty má: navbar → hero → brands → services(3) → about(4 features) → team → gallery → testimonials → cta → contact → footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",    "reason": "originál selfbeauty nemá samostatnou pricing sekci — ceník je přístupný přes linky v service kartách" },
-    { "pos": 7,  "name": "Booking/CTA","reason": "rezervační CTA je inline v navbar + services kartách" },
-    { "pos": 8,  "name": "FAQ",        "reason": "originál selfbeauty nemá FAQ sekci" },
-    { "pos": 9,  "name": "Locations",  "reason": "jediná pobočka, adresa v contact sekci" },
-    { "pos": 11, "name": "FAQ",        "reason": "duplicitní položka skeleton — originál nemá FAQ" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "originál selfbeauty nemá samostatnou pricing sekci — ceník je přístupný přes linky v service kartách"
+    },
+    {
+      "pos": 7,
+      "name": "Booking/CTA",
+      "reason": "rezervační CTA je inline v navbar + services kartách"
+    },
+    {
+      "pos": 8,
+      "name": "FAQ",
+      "reason": "originál selfbeauty nemá FAQ sekci"
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "jediná pobočka, adresa v contact sekci"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "duplicitní položka skeleton — originál nemá FAQ"
+    }
   ],
   "extraSections": [
-    { "type": "about", "reason": "Brands bar — prémiové značky (SPARITUAL, Dermalogica, LUMORE Paris)" },
-    { "type": "about", "reason": "Features — 4 důvody proč us vybrat (Proč nás?)" }
+    {
+      "type": "about",
+      "reason": "Brands bar — prémiové značky (SPARITUAL, Dermalogica, LUMORE Paris)"
+    },
+    {
+      "type": "about",
+      "reason": "Features — 4 důvody proč us vybrat (Proč nás?)"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,17 +61,66 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "beauty-01-topbar",           "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-beauty-01-fullbleed",   "contentRef": "hero" },
-        { "type": "about",        "variant": "about-beauty-01-brands",     "contentRef": "brands" },
-        { "type": "services",     "variant": "beauty-01-services-3col",    "contentRef": "services" },
-        { "type": "about",        "variant": "about-beauty-01-features",   "contentRef": "features" },
-        { "type": "team",         "variant": "beauty-01-team-grid",        "contentRef": "team" },
-        { "type": "gallery",      "variant": "beauty-01-gallery-masonry",  "contentRef": "gallery" },
-        { "type": "testimonials", "variant": "beauty-01-testimonials-3col","contentRef": "testimonials" },
-        { "type": "cta",          "variant": "cta-beauty-01",              "contentRef": "cta" },
-        { "type": "contact",      "variant": "contact-beauty-01",          "contentRef": "contact" },
-        { "type": "footer",       "variant": "beauty-01-footer",           "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "beauty-01-topbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-beauty-01-fullbleed",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "about-beauty-01-brands",
+          "contentRef": "brands"
+        },
+        {
+          "type": "services",
+          "variant": "beauty-01-services-3col",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "about-beauty-01-features",
+          "contentRef": "features"
+        },
+        {
+          "type": "team",
+          "variant": "beauty-01-team-grid",
+          "contentRef": "team"
+        },
+        {
+          "type": "gallery",
+          "variant": "beauty-01-gallery-masonry",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "beauty-01-testimonials-3col",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "cta",
+          "variant": "cta-beauty-01",
+          "contentRef": "cta"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "beauty-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "contact-beauty-01",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "beauty-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

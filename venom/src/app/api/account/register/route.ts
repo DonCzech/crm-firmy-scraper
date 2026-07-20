@@ -2,8 +2,14 @@ import { NextRequest } from "next/server";
 import bcrypt from "bcryptjs";
 import { getUserByEmail, createUserAccount, initDb, query } from "@/lib/db";
 import { signUserToken, USER_COOKIE_NAME, USER_COOKIE_MAX_AGE } from "@/lib/user-auth";
+import { serializeAuthCookie } from "@/lib/auth";
+import { assertSameOrigin } from "@/lib/demo-auth";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
+  if (!assertSameOrigin(request)) return Response.json({ error: "Invalid request origin" }, { status: 403 });
+  const limited = checkRateLimit(request, "account-register", 3, 60 * 60_000);
+  if (!limited.ok) return limited.response;
   const { email, password, name } = await request.json();
   if (!email || !password || password.length < 6) {
     return Response.json({ error: "Email a heslo (min 6 znaků) jsou povinné" }, { status: 400 });
@@ -27,6 +33,6 @@ export async function POST(request: NextRequest) {
   const token = signUserToken({ id: user.id, email: user.email });
   return Response.json(
     { ok: true, email: user.email, name: user.name },
-    { headers: { "Set-Cookie": `${USER_COOKIE_NAME}=${token}; HttpOnly; Path=/; Max-Age=${USER_COOKIE_MAX_AGE}; SameSite=Lax` } }
+    { headers: { "Set-Cookie": serializeAuthCookie(USER_COOKIE_NAME, token, USER_COOKIE_MAX_AGE) } }
   );
 }

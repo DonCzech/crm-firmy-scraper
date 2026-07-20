@@ -345,3 +345,50 @@
     object-position: center;
   }
 }
+
+/* ── Testimonials (shared barber-03 variant) — retypeset to barber-01 identity ── */
+/* The barber-dark-3col variant ships Libre Baskerville + warm brown; barber-01
+   is Montserrat + neutral black/gold. Override the header typography so the
+   section reads as part of this template, not a foreign one. */
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] {
+  background-color: #121212 !important;
+}
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] h2 {
+  font-family: var(--font-heading, 'Montserrat', sans-serif) !important;
+  font-style: normal !important;
+  text-transform: none !important;
+  letter-spacing: -0.01em !important;
+  font-weight: 800 !important;
+  color: var(--color-text, #F5F5F5) !important;
+}
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] h2 + p,
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] h2 ~ p {
+  font-family: var(--font-body, 'Inter', sans-serif) !important;
+  font-style: normal !important;
+}
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] .b03t-card p,
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] .b03t-card span {
+  font-family: var(--font-body, 'Inter', sans-serif) !important;
+  font-style: normal !important;
+}
+/* Eyebrow above testimonials title — match gold caps eyebrow used elsewhere */
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] h2 ~ div span,
+[data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] div:first-child span {
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+/* Exactly 4 testimonials → balanced 2×2 grid instead of 3+1 orphan */
+@media (min-width: 1024px) {
+  [data-industry="barber"]:has([data-template="barber-01"]) section[data-template="barber-03"] .grid:has(> .b03t-card:nth-child(4):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+}
+
+/* barber-01 — team avatars: larger presence with gold ring */
+[data-template="barber-01"] .bc-team-avatar > div {
+  width: 104px !important;
+  height: 104px !important;
+  box-shadow: 0 0 0 2px rgba(201,168,76,0.35), 0 12px 30px rgba(0,0,0,0.45);
+}

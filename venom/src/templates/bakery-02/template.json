@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "bakery-02",
-  "name": "Demo Pekářství",
+  "name": "Pekařství Růžek",
   "industry": "bakery",
   "skeleton": "gastro",
   "version": "0.1.0",
@@ -9,18 +9,59 @@
   "description": "Řemeslná pekárna & kavárna Praha — tmavý transparent navbar s dual-logem (bílé/tmavé), fullscreen hero slider 3 slidů, mosaic 3-col grid, Wolt/Bolt delivery promo, 3-col location cards s overlay, 4-col footer s adresami. Inspirováno antoninovopekarstvi.cz (WordPress Marco theme).",
   "sectionOrderNote": "Navbar → Hero → About(mosaic) → Services(delivery) → Services(locations) → Footer",
   "skippedSections": [
-    { "pos": 4, "name": "Gallery",      "reason": "Originál nemá dedikovanou galerii na homepage — fotky jsou součástí mosaic a hero slideru" },
-    { "pos": 5, "name": "Testimonials", "reason": "Recenze nejsou na homepage originálu" },
-    { "pos": 6, "name": "Pricing",      "reason": "Ceník není na homepage" },
-    { "pos": 7, "name": "Contact",      "reason": "Kontakt je skrz pobočky v locations sekci, ne dedikovaný form" }
+    {
+      "pos": 4,
+      "name": "Gallery",
+      "reason": "Originál nemá dedikovanou galerii na homepage — fotky jsou součástí mosaic a hero slideru"
+    },
+    {
+      "pos": 5,
+      "name": "Testimonials",
+      "reason": "Recenze nejsou na homepage originálu"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing",
+      "reason": "Ceník není na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Contact",
+      "reason": "Kontakt je skrz pobočky v locations sekci, ne dedikovaný form"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Předloha reference na homepage nemá"
+    },
+    {
+      "pos": 9,
+      "name": "Events",
+      "reason": "Předloha blog/novinky nemá"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha FAQ nemá"
+    }
   ],
   "extraSections": [
-    { "type": "services", "variant": "bakery-02-delivery",  "reason": "Wolt/Bolt delivery promo blok — specifický pro tuto pekárnu (7 poboček + delivery)" },
-    { "type": "services", "variant": "bakery-02-locations", "reason": "3-col location cards s bg foto + overlay — multi-pobočkový layout" }
+    {
+      "type": "services",
+      "variant": "bakery-02-delivery",
+      "reason": "Wolt/Bolt delivery promo blok — specifický pro tuto pekárnu (7 poboček + delivery)"
+    },
+    {
+      "type": "services",
+      "variant": "bakery-02-locations",
+      "reason": "3-col location cards s bg foto + overlay — multi-pobočkový layout"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,12 +69,36 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",   "variant": "bakery-02-navbar",    "contentRef": "navbar" },
-        { "type": "hero",     "variant": "bakery-02-hero",      "contentRef": "hero" },
-        { "type": "about",    "variant": "bakery-02-mosaic",    "contentRef": "mosaic" },
-        { "type": "services", "variant": "bakery-02-delivery",  "contentRef": "delivery" },
-        { "type": "services", "variant": "bakery-02-locations", "contentRef": "locations" },
-        { "type": "footer",   "variant": "bakery-02-footer",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "bakery-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "bakery-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "bakery-02-mosaic",
+          "contentRef": "mosaic"
+        },
+        {
+          "type": "services",
+          "variant": "bakery-02-delivery",
+          "contentRef": "delivery"
+        },
+        {
+          "type": "services",
+          "variant": "bakery-02-locations",
+          "contentRef": "locations"
+        },
+        {
+          "type": "footer",
+          "variant": "bakery-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -42,9 +107,21 @@
       "seoTitleKey": "pages.nase-pecivo.seoTitle",
       "seoDescriptionKey": "pages.nase-pecivo.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "bakery-02-navbar", "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",    "contentRef": "pages.nase-pecivo.hero" },
-        { "type": "footer",  "variant": "bakery-02-footer", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "bakery-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.nase-pecivo.hero"
+        },
+        {
+          "type": "footer",
+          "variant": "bakery-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -53,9 +130,21 @@
       "seoTitleKey": "pages.o-nas.seoTitle",
       "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "bakery-02-navbar", "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",    "contentRef": "pages.o-nas.hero" },
-        { "type": "footer",  "variant": "bakery-02-footer", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "bakery-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "footer",
+          "variant": "bakery-02-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -64,10 +153,26 @@
       "seoTitleKey": "pages.pobocky.seoTitle",
       "seoDescriptionKey": "pages.pobocky.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "bakery-02-navbar",    "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",       "contentRef": "pages.pobocky.hero" },
-        { "type": "services", "variant": "bakery-02-locations", "contentRef": "locations" },
-        { "type": "footer",   "variant": "bakery-02-footer",    "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "bakery-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.pobocky.hero"
+        },
+        {
+          "type": "services",
+          "variant": "bakery-02-locations",
+          "contentRef": "locations"
+        },
+        {
+          "type": "footer",
+          "variant": "bakery-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

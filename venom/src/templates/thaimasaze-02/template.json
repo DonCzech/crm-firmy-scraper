@@ -1,24 +1,50 @@
 {
   "$schema": "../../schemas/template.schema.json",
-  "key": "tawan-02",
-  "name": "Demo Escape Massage",
+  "key": "thaimasaze-02",
+  "name": "Harmony Spa",
   "industry": "wellness",
   "skeleton": "service-personal",
   "version": "0.1.0",
   "baseTemplate": null,
-  "description": "Luxusní thajské masáže, warm brown #604B3A + #927259, font Candara — hero image, icon boxes, massage card slider, why-us, testimonials, gift voucher, footer. Inspirováno escapemassage.cz.",
+  "description": "Luxusní thajské masáže, warm brown #604B3A + #927259, font Candara — hero image, icon boxes, massage card slider, why-us, testimonials, gift voucher, footer. Luxusní thajský spa styl.",
   "sectionOrderNote": "Navbar → Hero → Boxes → Services → Why → Testimonials → Gift → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",     "reason": "Ceník je samostatná podstránka (/cenik); homepage ho nezahrnuje — viz escapemassage.cz" },
-    { "pos": 6,  "name": "Gallery",     "reason": "Galerie neexistuje na homepage originálu — fotky jsou vloženy inline v hero a why-us" },
-    { "pos": 7,  "name": "Team",        "reason": "Masérky nejsou prezentovány jmenovitě — pouze kolektivní 'certifikované masérky' v hero" },
-    { "pos": 9,  "name": "Booking/CTA", "reason": "CTA je v navbaru (Rezervace tlačítko) a v hero — samostatná CTA sekce na homepage chybí" },
-    { "pos": 10, "name": "Locations",   "reason": "Jediná pobočka — adresa ve footeru, mapa na kontaktní stránce" },
-    { "pos": 11, "name": "FAQ",         "reason": "FAQ není na homepage originálu escapemassage.cz" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceník je samostatná podstránka (/cenik); homepage ho nezahrnuje — viz thajské masáže reference"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "Galerie neexistuje na homepage originálu — fotky jsou vloženy inline v hero a why-us"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Masérky nejsou prezentovány jmenovitě — pouze kolektivní 'certifikované masérky' v hero"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "CTA je v navbaru (Rezervace tlačítko) a v hero — samostatná CTA sekce na homepage chybí"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "Jediná pobočka — adresa ve footeru, mapa na kontaktní stránce"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "FAQ není na homepage originálu thajské masáže reference"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -26,18 +52,61 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "tawan-02-navbar",      "contentRef": "navbar" },
-        { "type": "hero",         "variant": "tawan-02-hero",        "contentRef": "hero" },
-        { "type": "about",        "variant": "tawan-02-boxes",       "contentRef": "boxes" },
-        { "type": "services",     "variant": "tawan-02-services",    "contentRef": "services" },
-        { "type": "about",        "variant": "tawan-02-why",         "contentRef": "why" },
-        { "type": "testimonials", "variant": "tawan-02-testimonials","contentRef": "testimonials" },
-        { "type": "about",        "variant": "tawan-02-gift",        "contentRef": "gift" },
-        { "type": "footer",       "variant": "tawan-02-footer",      "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "thaimasaze-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "thaimasaze-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "thaimasaze-02-boxes",
+          "contentRef": "boxes"
+        },
+        {
+          "type": "services",
+          "variant": "thaimasaze-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "thaimasaze-02-why",
+          "contentRef": "why"
+        },
+        {
+          "type": "testimonials",
+          "variant": "thaimasaze-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "about",
+          "variant": "thaimasaze-02-gift",
+          "contentRef": "gift"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "thaimasaze-02",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "footer",
+          "variant": "thaimasaze-02-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ]
 }

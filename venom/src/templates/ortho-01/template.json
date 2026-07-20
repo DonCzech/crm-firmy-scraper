@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "ortho-01",
-  "name": "Demo Svět rovnátek",
+  "name": "Úsměv Ortodoncie",
   "industry": "ortho",
   "skeleton": "service-personal",
   "version": "0.1.0",
@@ -9,18 +9,58 @@
   "description": "Ortodontická klinika neviditelných rovnátek — transparentní navbar s teal #00b7ad CTA, fullbleed hero s dark overlay a Google rating 4.8, promo strip konzultace zdarma, 5 důvodů sekce číslované s fotkami, velká doktorova citace, FAQ accordion, kontakt, footer. Inspirováno svetrov.cz.",
   "sectionOrderNote": "Navbar → Hero → Promo → Services → Testimonials → FAQ → Contact → Footer (dle svetrov.cz)",
   "skippedSections": [
-    { "pos": 5,  "name": "Gallery",   "reason": "Svetrov nemá dedikovanou galerii na homepage" },
-    { "pos": 6,  "name": "Team",      "reason": "Tým prezentován přes doktorovu citaci, ne team grid" },
-    { "pos": 8,  "name": "About",     "reason": "Originál nemá samostatnou About sekci — firemní info je v patičce" },
-    { "pos": 9,  "name": "Pricing",   "reason": "Ceník je na samostatné stránce; homepage jen odkazuje na konzultaci" }
+    {
+      "pos": 3,
+      "name": "About",
+      "reason": "Předloha nemá samostatný About blok na homepage"
+    },
+    {
+      "pos": 5,
+      "name": "Gallery",
+      "reason": "Svetrov nemá dedikovanou galerii na homepage"
+    },
+    {
+      "pos": 6,
+      "name": "Team",
+      "reason": "Tým prezentován přes doktorovu citaci, ne team grid"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Předloha tým neprezentuje"
+    },
+    {
+      "pos": 8,
+      "name": "About",
+      "reason": "Originál nemá samostatnou About sekci — firemní info je v patičce"
+    },
+    {
+      "pos": 9,
+      "name": "Pricing",
+      "reason": "Ceník je na samostatné stránce; homepage jen odkazuje na konzultaci"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "name": "Konzultace ZDARMA strip", "reason": "Svetrov má výrazný promo strip hned pod hero s CTA Objednat se" },
-    { "type": "faq",   "name": "Nejčastější otázky",      "reason": "Svetrov má FAQ accordion na homepage" }
+    {
+      "type": "promo",
+      "name": "Konzultace ZDARMA strip",
+      "reason": "Svetrov má výrazný promo strip hned pod hero s CTA Objednat se"
+    },
+    {
+      "type": "faq",
+      "name": "Nejčastější otázky",
+      "reason": "Svetrov má FAQ accordion na homepage"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,14 +68,51 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "ortho-01-navbar",       "contentRef": "navbar" },
-        { "type": "hero",         "variant": "ortho-01-hero",         "contentRef": "hero" },
-        { "type": "promo",        "variant": "ortho-01-promo",        "contentRef": "promo" },
-        { "type": "services",     "variant": "ortho-01-services",     "contentRef": "services" },
-        { "type": "testimonials", "variant": "ortho-01-testimonials", "contentRef": "testimonials" },
-        { "type": "faq",          "variant": "ortho-01-faq",          "contentRef": "faq" },
-        { "type": "contact",      "variant": "ortho-01-contact",      "contentRef": "contact" },
-        { "type": "footer",       "variant": "ortho-01-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "ortho-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "ortho-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "ortho-01-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "services",
+          "variant": "ortho-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "testimonials",
+          "variant": "ortho-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "faq",
+          "variant": "ortho-01-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "ortho-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "ortho-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "ortho-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

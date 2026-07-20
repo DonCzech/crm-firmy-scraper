@@ -4,15 +4,29 @@
     "logoUrl": "/templates/arbo-01/logo.svg",
     "tagline": "Arboristické a lesnické služby",
     "phone": "+420 731 882 045",
-    "email": "info@zelarbo.cz",
     "ctaText": "Nezávazná poptávka",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Služby",        "href": "#sluzby" },
-      { "label": "Naše vybavení", "href": "#onas" },
-      { "label": "Reference",     "href": "#reference" },
-      { "label": "O nás",         "href": "#onas" },
-      { "label": "Kontakt",       "href": "#kontakt" }
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Naše vybavení",
+        "href": "#onas"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -21,23 +35,59 @@
     "ctaText": "Nezávazná poptávka",
     "ctaHref": "#kontakt",
     "slides": [
-      { "url": "/assets/arbo-01/3c89f9b19a-img-01-desktop.jpg", "alt": "Arboristické práce" },
-      { "url": "/assets/arbo-01/b05ac043e1-img-02-desktop.jpg", "alt": "Péče o stromy" },
-      { "url": "/assets/arbo-01/6e215d00c0-slider-2.jpg",       "alt": "Kácení stromů" },
-      { "url": "/assets/arbo-01/bb262f3339-slider-1.jpg",       "alt": "Lesnické práce" },
-      { "url": "/assets/arbo-01/be91abc2a9-img-05-desktop.jpg", "alt": "Rizikové kácení" },
-      { "url": "/assets/arbo-01/e6bb342eb8-img-06-desktop.jpg", "alt": "Těžba dřeva" }
+      {
+        "url": "/assets/arbo-01/3c89f9b19a-img-01-desktop.jpg",
+        "alt": "Arboristické práce"
+      },
+      {
+        "url": "/assets/arbo-01/b05ac043e1-img-02-desktop.jpg",
+        "alt": "Péče o stromy"
+      },
+      {
+        "url": "/assets/arbo-01/6e215d00c0-slider-2.jpg",
+        "alt": "Kácení stromů"
+      },
+      {
+        "url": "/assets/arbo-01/bb262f3339-slider-1.jpg",
+        "alt": "Lesnické práce"
+      },
+      {
+        "url": "/assets/arbo-01/be91abc2a9-img-05-desktop.jpg",
+        "alt": "Rizikové kácení"
+      },
+      {
+        "url": "/assets/arbo-01/e6bb342eb8-img-06-desktop.jpg",
+        "alt": "Těžba dřeva"
+      }
     ]
   },
   "services": {
     "title": "Vše, co váš strom potřebuje — od půdy po špičku koruny.",
     "services": [
-      { "name": "Rizikové kácení",        "description": "Bezpečné odstranění stromů v náročném terénu" },
-      { "name": "Zdravotní ořezy",        "description": "Odborná péče o korunu a větve" },
-      { "name": "Štěpkování a odvoz",     "description": "Likvidace klestí a dřevní hmoty" },
-      { "name": "Frézování pařezů",       "description": "Odstranění pařezů pod úroveň terénu" },
-      { "name": "Výsadba dřevin",         "description": "Osazení nových stromů a keřů" },
-      { "name": "Dendrologické posudky",  "description": "Odborné hodnocení zdraví a stability stromů" }
+      {
+        "name": "Rizikové kácení",
+        "description": "Bezpečné odstranění stromů v náročném terénu"
+      },
+      {
+        "name": "Zdravotní ořezy",
+        "description": "Odborná péče o korunu a větve"
+      },
+      {
+        "name": "Štěpkování a odvoz",
+        "description": "Likvidace klestí a dřevní hmoty"
+      },
+      {
+        "name": "Frézování pařezů",
+        "description": "Odstranění pařezů pod úroveň terénu"
+      },
+      {
+        "name": "Výsadba dřevin",
+        "description": "Osazení nových stromů a keřů"
+      },
+      {
+        "name": "Dendrologické posudky",
+        "description": "Odborné hodnocení zdraví a stability stromů"
+      }
     ],
     "items": [
       {
@@ -92,21 +142,48 @@
     "ctaHref": "#onas",
     "image": "/assets/arbo-01/4817a25969-bg-team-desktop.jpg",
     "stats": [
-      { "value": "7+",      "label": "let na trhu" },
-      { "value": "12",      "label": "certifikovaných arboristů" },
-      { "value": "8 500+",  "label": "ošetřených stromů" },
-      { "value": "Vlastní", "label": "technika a vybavení" }
+      {
+        "value": "7+",
+        "label": "let na trhu"
+      },
+      {
+        "value": "12",
+        "label": "certifikovaných arboristů"
+      },
+      {
+        "value": "8 500+",
+        "label": "ošetřených stromů"
+      },
+      {
+        "value": "Vlastní",
+        "label": "technika a vybavení"
+      }
     ],
     "certLogos": [
-      { "url": "/assets/arbo-01/c2b57db9a4-logo_ccas.png", "alt": "CCAS certifikát" },
-      { "url": "/assets/arbo-01/11196c67ae-logo_eac.png",  "alt": "EAC certifikát" }
+      {
+        "url": "/assets/arbo-01/c2b57db9a4-logo_ccas.png",
+        "alt": "CCAS certifikát"
+      },
+      {
+        "url": "/assets/arbo-01/11196c67ae-logo_eac.png",
+        "alt": "EAC certifikát"
+      }
     ]
   },
   "testimonials": {
     "testimonials": [
-      { "author": "Správa bytových domů Brno s.r.o.", "text": "Rychlé jednání, precizní práce, areál předán čistý." },
-      { "author": "Ing. Radek Horáček",               "text": "Doporučuji každému, kdo hledá spolehlivého arboristiku." },
-      { "author": "Petra a Lukáš Součkovi",           "text": "Stromy vypadají skvěle, jsme nadšení." }
+      {
+        "author": "Správa bytových domů Brno s.r.o.",
+        "text": "Rychlé jednání, precizní práce, areál předán čistý."
+      },
+      {
+        "author": "Ing. Radek Horáček",
+        "text": "Doporučuji každému, kdo hledá spolehlivého arboristiku."
+      },
+      {
+        "author": "Petra a Lukáš Součkovi",
+        "text": "Stromy vypadají skvěle, jsme nadšení."
+      }
     ],
     "title": "Co říkají naši zákazníci",
     "items": [
@@ -127,12 +204,30 @@
   "gallery": {
     "title": "Ukázky naší práce",
     "images": [
-      { "url": "/assets/arbo-01/6170f65d9f-gallery-01.jpg", "alt": "Rizikové kácení u budovy" },
-      { "url": "/assets/arbo-01/16ecd3b4a6-gallery-02.jpg", "alt": "Ořez koruny stromu" },
-      { "url": "/assets/arbo-01/69b1c845ff-gallery-03.jpg", "alt": "Horolezecká technika" },
-      { "url": "/assets/arbo-01/e169a0c35e-img__gallery-pila-format.jpg", "alt": "Zpracování kmene" },
-      { "url": "/assets/arbo-01/4e645cf6b4-team.jpg",       "alt": "Tým Zelarbo v akci" },
-      { "url": "/assets/arbo-01/9d93c1e8eb-gallery-06.jpg", "alt": "Dokončená realizace" }
+      {
+        "url": "/assets/arbo-01/6170f65d9f-gallery-01.jpg",
+        "alt": "Rizikové kácení u budovy"
+      },
+      {
+        "url": "/assets/arbo-01/16ecd3b4a6-gallery-02.jpg",
+        "alt": "Ořez koruny stromu"
+      },
+      {
+        "url": "/assets/arbo-01/69b1c845ff-gallery-03.jpg",
+        "alt": "Horolezecká technika"
+      },
+      {
+        "url": "/assets/arbo-01/e169a0c35e-img__gallery-pila-format.jpg",
+        "alt": "Zpracování kmene"
+      },
+      {
+        "url": "/assets/arbo-01/4e645cf6b4-team.jpg",
+        "alt": "Tým Zelarbo v akci"
+      },
+      {
+        "url": "/assets/arbo-01/9d93c1e8eb-gallery-06.jpg",
+        "alt": "Dokončená realizace"
+      }
     ],
     "ctaText": "Poptejte práci",
     "ctaHref": "#kontakt"
@@ -143,24 +238,32 @@
     "email": "info@zelarbo.cz",
     "address": "Stromořadí 18\n602 00 Brno",
     "instagram": "https://instagram.com/zelarbo.cz",
-    "links": [
-      { "label": "O nás",              "href": "#onas" },
-      { "label": "Zdravotní ořezy",    "href": "#sluzby" },
-      { "label": "Rizikové kácení",    "href": "#sluzby" },
-      { "label": "Frézování pařezů",   "href": "#sluzby" },
-      { "label": "Výsadba dřevin",     "href": "#sluzby" },
-      { "label": "Kontakt",            "href": "#kontakt" }
-    ],
     "services": [
-      { "label": "Rizikové kácení",       "href": "#sluzby" },
-      { "label": "Zdravotní ořezy",       "href": "#sluzby" },
-      { "label": "Štěpkování a odvoz",    "href": "#sluzby" },
-      { "label": "Frézování pařezů",      "href": "#sluzby" },
-      { "label": "Výsadba dřevin",        "href": "#sluzby" },
-      { "label": "Dendrologické posudky", "href": "#sluzby" }
-    ],
-    "ctaText": "Nezávazná poptávka",
-    "ctaHref": "#kontakt"
+      {
+        "label": "Rizikové kácení",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Zdravotní ořezy",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Štěpkování a odvoz",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Frézování pařezů",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Výsadba dřevin",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Dendrologické posudky",
+        "href": "#sluzby"
+      }
+    ]
   },
   "footer": {
     "siteName": "Zelarbo s.r.o.",
@@ -172,18 +275,48 @@
     "ctaText": "Nezávazná poptávka",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "O nás",              "href": "#onas" },
-      { "label": "Služby",             "href": "#sluzby" },
-      { "label": "Reference",          "href": "#reference" },
-      { "label": "Kontakt",            "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "services": [
-      { "label": "Rizikové kácení",       "href": "#sluzby" },
-      { "label": "Zdravotní ořezy",       "href": "#sluzby" },
-      { "label": "Štěpkování a odvoz",    "href": "#sluzby" },
-      { "label": "Frézování pařezů",      "href": "#sluzby" },
-      { "label": "Výsadba dřevin",        "href": "#sluzby" },
-      { "label": "Dendrologické posudky", "href": "#sluzby" }
+      {
+        "label": "Rizikové kácení",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Zdravotní ořezy",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Štěpkování a odvoz",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Frézování pařezů",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Výsadba dřevin",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Dendrologické posudky",
+        "href": "#sluzby"
+      }
     ]
   }
 }

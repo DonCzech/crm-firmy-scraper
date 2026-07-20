@@ -17,6 +17,7 @@ interface BlogPost {
   excerpt: string | null;
   content: unknown[];
   featured_image: string | null;
+  og_image: string | null;
   author: string | null;
   category: string | null;
   tags: string[];
@@ -53,11 +54,12 @@ export default async function EditBlogPostPage({ params }: Props) {
         slug: post.slug,
         title: post.title,
         excerpt: post.excerpt ?? "",
-        content: Array.isArray(post.content) ? (post.content as Array<{ type: string; text?: string; url?: string; alt?: string }>) : [],
+        content: Array.isArray(post.content) ? (post.content as import("@/lib/blog/content").BlogBlock[]) : [],
         featured_image: post.featured_image ?? "",
+        og_image: post.og_image ?? "",
         author: post.author ?? "",
         category: post.category ?? "",
-        tags: (post.tags ?? []).join(", "),
+        tags: post.tags ?? [],
         status: post.status,
         seo_title: post.seo_title ?? "",
         seo_description: post.seo_description ?? "",

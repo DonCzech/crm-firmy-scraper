@@ -6,16 +6,27 @@
     "ctaHref": "#kontakt",
     "phone": "704 123 456",
     "email": "info@vasefyzio.cz",
-    "address": "Náměstí Míru 12, Praha 2",
-    "hours": "Po–Pá 7:00–20:00",
-    "facebookUrl": "https://facebook.com/vasefyzio",
-    "instagramUrl": "https://instagram.com/vasefyzio",
     "links": [
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "Tým",      "href": "#tym" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Tým",
+        "href": "#tym"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -96,8 +107,6 @@
     "tagline": "Náš tým",
     "title": "Odborníci, kterým můžete věřit",
     "body": "Tým Vaše Fyzio tvoří zkušení fyzioterapeuti a rehabilitační lékaři s mnohaletou praxí a specializovaným vzděláním.",
-    "ctaText": "Více o týmu",
-    "ctaHref": "#o-nas",
     "members": [
       {
         "name": "MUDr. Tomáš Krejčí",
@@ -146,7 +155,6 @@
     "title": "Jsme tu pro vás",
     "phone": "704 123 456",
     "email": "info@vasefyzio.cz",
-    "emailInfo": "rezervace@vasefyzio.cz",
     "address": "Náměstí Míru 12",
     "city": "120 00 Praha 2",
     "hours": "Po–Pá 7:00–20:00",
@@ -165,22 +173,66 @@
     "instagramUrl": "https://instagram.com/vasefyzio",
     "copyright": "© 2025 Vaše Fyzio s.r.o. Všechna práva vyhrazena.",
     "links": [
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "Tým",      "href": "#tym" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Tým",
+        "href": "#tym"
+      },
+      {
+        "label": "Ceník",
+        "href": "#cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "linksServices": [
-      { "label": "Manuální terapie",       "href": "#sluzby" },
-      { "label": "Sportovní rehabilitace", "href": "#sluzby" },
-      { "label": "Fyzioterapie pro ženy",  "href": "#sluzby" },
-      { "label": "Vertebrologie",          "href": "#sluzby" },
-      { "label": "Přístrojová terapie",    "href": "#sluzby" }
+      {
+        "label": "Manuální terapie",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Sportovní rehabilitace",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Fyzioterapie pro ženy",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Vertebrologie",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Přístrojová terapie",
+        "href": "#sluzby"
+      }
     ],
     "linksInfo": [
-      { "label": "Ochrana osobních údajů", "href": "#" },
-      { "label": "Cookies",                "href": "#" }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#"
+      },
+      {
+        "label": "Cookies",
+        "href": "#"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se na vyšetření",
+      "subtitle": "Vyberte vyšetření, terapeuta a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

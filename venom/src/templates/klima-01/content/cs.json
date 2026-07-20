@@ -2,43 +2,55 @@
   "navbar": {
     "siteName": "AirComfort",
     "logoUrl": "",
-    "ctaText": "",
-    "ctaHref": "",
     "links": [
-      { "label": "Pro firmy",       "href": "/"          },
-      { "label": "Služby",          "href": "/sluzby"    },
-      { "label": "Katalog",         "href": "/#katalog"  },
-      { "label": "AKCE",            "href": "/#akce"     },
-      { "label": "O nás",           "href": "/#onas"     },
-      { "label": "Reference",       "href": "/reference" },
-      { "label": "Kontaktujte nás", "href": "/kontakt"   }
+      {
+        "label": "Pro firmy",
+        "href": "/pro-firmy"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Katalog",
+        "href": "/katalog"
+      },
+      {
+        "label": "AKCE",
+        "href": "/akce"
+      },
+      {
+        "label": "O nás",
+        "href": "/onas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
-    "title": "Vaše pohoda začíná\nsprávaným klimatem",
-    "subtitle": "Navrhujeme, instalujeme a servisujeme klimatizace i tepelná čerpadla pro domy, kanceláře i průmyslové budovy. Kvalita a spolehlivost na prvním místě.",
-    "ctaText": "Naše služby",
-    "ctaHref": "/sluzby",
-    "backgroundImage": "/assets/klima-01/1cd0a16196-66e32818d6ddddd24e43bbd5_bg_hero_2.jpg",
+    "title": "Dokonalé klima\npro váš prostor",
+    "backgroundImage": "/assets/klima-01/hero-slide1.webp",
     "slides": [
       {
-        "backgroundImage": "/assets/klima-01/1cd0a16196-66e32818d6ddddd24e43bbd5_bg_hero_2.jpg",
-        "title": "Vaše pohoda začíná\nsprávným klimatem",
-        "subtitle": "Navrhujeme, instalujeme a servisujeme klimatizace i tepelná čerpadla pro domy, kanceláře i průmyslové budovy. Kvalita a spolehlivost na prvním místě.",
+        "backgroundImage": "/assets/klima-01/hero-slide1.webp",
+        "title": "Dokonalé klima\npro váš prostor",
+        "subtitle": "Navrhujeme, instalujeme a servisujeme klimatizace i tepelná čerpadla pro byty, kanceláře a průmyslové objekty. Spolehlivost a kvalita na prvním místě.",
         "ctaText": "Naše služby",
         "ctaHref": "/sluzby"
       },
       {
-        "backgroundImage": "/assets/klima-01/0ae969f17a-664c97eae9de77d93cd34efb_bg_carousel2.jpg",
-        "title": "Tepelná čerpadla\ns garancí úspory energie",
-        "subtitle": "Moderní tepelná čerpadla vzduch–vzduch i vzduch–voda pro vytápění a chlazení. Snižte náklady na energie až o 70 %.",
+        "backgroundImage": "/assets/klima-01/hero-slide2.webp",
+        "title": "Tepelná čerpadla\ns garancí úspory",
+        "subtitle": "Moderní tepelná čerpadla vzduch–voda pro vytápění i chlazení. Snižte náklady na energie až o 60 % s prověřenou technologií.",
         "ctaText": "Zjistit více",
         "ctaHref": "/sluzby"
       },
       {
-        "backgroundImage": "/assets/klima-01/2ace2977fa-664cd12f7049cec2d60c71a6_bg_redbox.jpg",
-        "title": "Servis a údržba\nklimatizačních systémů",
-        "subtitle": "Pravidelná péče o vaše zařízení prodlouží jeho životnost a sníží provozní náklady. Naši technici jsou k dispozici do 24 hodin.",
+        "backgroundImage": "/assets/klima-01/hero-slide3.webp",
+        "title": "Servis do 24 hodin\npo celém regionu",
+        "subtitle": "Pravidelná údržba prodlužuje životnost vašeho zařízení a snižuje provozní náklady. Certifikovaní technici jsou vám k dispozici.",
         "ctaText": "Objednat servis",
         "ctaHref": "/kontakt"
       }
@@ -46,9 +58,18 @@
   },
   "stats": {
     "items": [
-      { "value": "18+ let",   "label": "Působíme na trhu s klimatizační technikou a tepelnými čerpadly." },
-      { "value": "1 200+",    "label": "Úspěšně dokončených instalací a servisních zakázek za sebou." },
-      { "value": "25+ lidí",  "label": "Certifikovaných techniků připravených pomoci s vaším projektem." }
+      {
+        "value": "18+ let",
+        "label": "Působíme na trhu s klimatizační technikou a tepelnými čerpadly."
+      },
+      {
+        "value": "1 200+",
+        "label": "Úspěšně dokončených instalací a servisních zakázek za sebou."
+      },
+      {
+        "value": "25+ lidí",
+        "label": "Certifikovaných techniků připravených pomoci s vaším projektem."
+      }
     ]
   },
   "catalog": {
@@ -100,31 +121,68 @@
     "eyebrow": "O nás",
     "title": "Specialisté na klimatizace a tepelná čerpadla od roku 2006",
     "body": "Jsme rodinná firma s dlouholetou tradicí v oboru klimatizační techniky. Za více než 18 let jsme vybudovali tým zkušených techniků a navázali partnerství s předními světovými výrobci. Každý projekt řešíme individuálně a s maximální péčí o zákazníka.",
-    "image": "/assets/klima-01/f545fec939-665783c29672ba40b12e8745_Montaz_img.jpg",
+    "image": "/assets/klima-01/about-team.webp",
     "features": [
-      { "title": "18 let zkušeností",       "desc": "Na trhu od roku 2006, stovky spokojených zákazníků po celé republice." },
-      { "title": "Certifikovaný tým",        "desc": "Všichni technici mají platná certifikáty pro práci s chladícími médii." },
-      { "title": "Přes 1 200 realizací",     "desc": "Bytové, komerční i průmyslové instalace klimatizací a tepelných čerpadel." },
-      { "title": "Prémiové značky",          "desc": "Autorizovaný prodejce a servisní partner Daikin, LG, Samsung a dalších." },
-      { "title": "Kompletní dodávka",        "desc": "Projekt, dodávka, montáž, uvedení do provozu i následný servis na klíč." },
-      { "title": "Záruční péče",             "desc": "Rozšířená záruka až 5 let a pravidelná servisní smlouva pro klid v duši." }
+      {
+        "title": "18 let zkušeností",
+        "desc": "Na trhu od roku 2006, stovky spokojených zákazníků po celé republice."
+      },
+      {
+        "title": "Certifikovaný tým",
+        "desc": "Všichni technici mají platná certifikáty pro práci s chladícími médii."
+      },
+      {
+        "title": "Přes 1 200 realizací",
+        "desc": "Bytové, komerční i průmyslové instalace klimatizací a tepelných čerpadel."
+      },
+      {
+        "title": "Prémiové značky",
+        "desc": "Autorizovaný prodejce a servisní partner Daikin, LG, Samsung a dalších."
+      },
+      {
+        "title": "Kompletní dodávka",
+        "desc": "Projekt, dodávka, montáž, uvedení do provozu i následný servis na klíč."
+      },
+      {
+        "title": "Záruční péče",
+        "desc": "Rozšířená záruka až 5 let a pravidelná servisní smlouva pro klid v duši."
+      }
     ],
     "ctaText": "Více o firmě",
     "ctaHref": "/#onas"
   },
   "gallery": {
+    "skin": "tiles",
+    "palette": "mono-light",
+    "accent": "#e30016",
     "eyebrow": "Naše realizace",
     "title": "Ukázky dokončených projektů",
-    "subtitle": "Vyberte si inspiraci z bytových, komerčních i průmyslových instalací.",
-    "ctaText": "Zobrazit všechny reference",
-    "ctaHref": "/reference",
+    "subtitle": "Podívejte se na vybrané instalace klimatizací a tepelných čerpadel pro naše klienty.",
     "images": [
-      { "url": "/assets/klima-01/78f8c6c8e4-673ded8766d8bb158991a4ba_IMG_2042-p-1080.jpeg",  "alt": "Instalace klimatizace — administrativní budova",  "tag": "Komerční"    },
-      { "url": "/assets/klima-01/01c2f9a624-67b73670fac7d7b45c0cfbe7_IMG_1011-p-1080.jpeg",  "alt": "Tepelné čerpadlo — rodinný dům",                 "tag": "Rezidenční"  },
-      { "url": "/assets/klima-01/9bd4df9efb-66d6b03c58f75ce77e714e1d_servis.jpg",             "alt": "Servisní zásah — klimatizační jednotka",         "tag": "Servis"      },
-      { "url": "/assets/klima-01/413f85803d-66d6afacc1d92dd32d8ba4b9_montaze-p-500.jpg",     "alt": "Montáž nástěnné klimatizace",                    "tag": "Rezidenční"  },
-      { "url": "/assets/klima-01/af222e5820-66d6afcde0913170810bf4fe_projektovani-p-500.jpg","alt": "Projektová dokumentace klimatizačního systému",  "tag": "Projekce"    },
-      { "url": "/assets/klima-01/d5ef76421f-685284ef39d96f2712f8242b_1-p-1080.jpg",          "alt": "Průmyslová klimatizace — výrobní hala",          "tag": "Průmyslový"  }
+      {
+        "url": "/assets/klima-01/gal-1.webp",
+        "alt": "Instalace klimatizace v administrativní budově"
+      },
+      {
+        "url": "/assets/klima-01/gal-2.webp",
+        "alt": "Komerční klimatizační systém — open space kancelář"
+      },
+      {
+        "url": "/assets/klima-01/gal-3.webp",
+        "alt": "Tepelné čerpadlo vzduch–voda — rodinný dům"
+      },
+      {
+        "url": "/assets/klima-01/gal-4.webp",
+        "alt": "Montáž nástěnné klimatizace v bytě"
+      },
+      {
+        "url": "/assets/klima-01/gal-5.webp",
+        "alt": "VRF systém pro průmyslovou halu"
+      },
+      {
+        "url": "/assets/klima-01/gal-6.webp",
+        "alt": "Servisní práce na venkovní jednotce"
+      }
     ]
   },
   "footer": {
@@ -133,23 +191,71 @@
     "email": "info@aircomfort.cz",
     "phone": "737 456 789",
     "address": "Průmyslová 42, 602 00 Brno",
-    "web": "https://aircomfort.cz",
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
     "ico": "87654321",
     "dic": "CZ87654321",
     "hours": "Po–Pá 7:30–16:30",
     "links": [
-      { "label": "Služby",    "href": "/sluzby"    },
-      { "label": "O nás",     "href": "/#onas"     },
-      { "label": "Reference", "href": "/reference"  },
-      { "label": "Kontakt",   "href": "/kontakt"   }
+      {
+        "label": "Pro firmy",
+        "href": "/pro-firmy"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Katalog",
+        "href": "/katalog"
+      },
+      {
+        "label": "AKCE",
+        "href": "/akce"
+      },
+      {
+        "label": "O nás",
+        "href": "/onas"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "copyright": "© 2025 AirComfort s.r.o. IČO: 87654321"
   },
   "pages": {
-    "sluzby":    { "seoTitle": "Služby — AirComfort",    "seoDescription": "Instalace, servis a opravy klimatizací a tepelných čerpadel." },
-    "reference": { "seoTitle": "Reference — AirComfort", "seoDescription": "Realizace klimatizačních systémů a tepelných čerpadel." },
-    "kontakt":   { "seoTitle": "Kontakt — AirComfort",   "seoDescription": "Poptejte nezávazně instalaci nebo servis klimatizace." }
+    "pro-firmy": {
+      "seoTitle": "Pro firmy — AirComfort",
+      "seoDescription": "Klimatizační řešení pro kanceláře, obchodní centra a průmyslové objekty."
+    },
+    "sluzby": {
+      "seoTitle": "Služby — AirComfort",
+      "seoDescription": "Instalace, servis a opravy klimatizací a tepelných čerpadel."
+    },
+    "katalog": {
+      "seoTitle": "Katalog — AirComfort",
+      "seoDescription": "Katalog klimatizací, tepelných čerpadel a příslušenství."
+    },
+    "akce": {
+      "seoTitle": "AKCE — AirComfort",
+      "seoDescription": "Aktuální akční nabídky na klimatizace a tepelná čerpadla."
+    },
+    "reference": {
+      "seoTitle": "Reference — AirComfort",
+      "seoDescription": "Realizace klimatizačních systémů a tepelných čerpadel."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — AirComfort",
+      "seoDescription": "Poptejte nezávazně instalaci nebo servis klimatizace."
+    },
+    "onas": {
+      "seoTitle": "O nás — AirComfort",
+      "seoDescription": "O firmě AirComfort — specialisté na klimatizace od roku 2006."
+    }
   }
 }

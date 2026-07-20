@@ -3,16 +3,29 @@
     "siteName": "ZELENÁČ",
     "logoUrl": "",
     "tagline": "Zahradní tvorba",
-    "phone": "+420 731 882 044",
-    "email": "info@zelenac.cz",
     "ctaText": "Nezávazná poptávka",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Domů",   "href": "/" },
-      { "label": "O nás",  "href": "#onas" },
-      { "label": "Služby", "href": "#sluzby" },
-      { "label": "Galerie","href": "#galerie" },
-      { "label": "Kontakt","href": "#kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -28,25 +41,64 @@
     "title": "Naše realizace",
     "subtitle": "Každá zahrada je jiná — prohlédněte si, jak proměňujeme prostory v živá místa.",
     "images": [
-      { "url": "/assets/garden-01/dd01f064c6-3-3-1536x1152.jpg",     "alt": "Zahrada rodinného domu, Brno-Bystrc" },
-      { "url": "/assets/garden-01/7a78130366-3-2-1536x1152.jpg",     "alt": "Terasa s trávníkem a okrasným záhonem" },
-      { "url": "/assets/garden-01/8ff5446d55-16-scaled.jpg",         "alt": "Přírodní zahrada s cestičkou, Šlapanice" },
-      { "url": "/assets/garden-01/4eec3d1847-14-scaled.jpg",         "alt": "Revitalizace zahrady, Kuřim" },
-      { "url": "/assets/garden-01/1c0b9e790b-Kun2-2-scaled.jpg",     "alt": "Zahrada s bazénem a pergolou" },
-      { "url": "/assets/garden-01/c362209fa8-2-1536x1152.jpg",       "alt": "Okrasný trávník s keři, Blansko" },
-      { "url": "/assets/garden-01/ff1609ea2f-25-scaled.jpg",         "alt": "Střešní terasa, Brno-centrum" },
-      { "url": "/assets/garden-01/2b350dac46-Kun2-2-2048x1536.jpg",  "alt": "Zahrada se závlahou a osvětlením" }
+      {
+        "url": "/assets/garden-01/dd01f064c6-3-3-1536x1152.jpg",
+        "alt": "Zahrada rodinného domu, Brno-Bystrc"
+      },
+      {
+        "url": "/assets/garden-01/7a78130366-3-2-1536x1152.jpg",
+        "alt": "Terasa s trávníkem a okrasným záhonem"
+      },
+      {
+        "url": "/assets/garden-01/8ff5446d55-16-scaled.jpg",
+        "alt": "Přírodní zahrada s cestičkou, Šlapanice"
+      },
+      {
+        "url": "/assets/garden-01/4eec3d1847-14-scaled.jpg",
+        "alt": "Revitalizace zahrady, Kuřim"
+      },
+      {
+        "url": "/assets/garden-01/1c0b9e790b-Kun2-2-scaled.jpg",
+        "alt": "Zahrada s bazénem a pergolou"
+      },
+      {
+        "url": "/assets/garden-01/c362209fa8-2-1536x1152.jpg",
+        "alt": "Okrasný trávník s keři, Blansko"
+      },
+      {
+        "url": "/assets/garden-01/ff1609ea2f-25-scaled.jpg",
+        "alt": "Střešní terasa, Brno-centrum"
+      },
+      {
+        "url": "/assets/garden-01/2b350dac46-Kun2-2-2048x1536.jpg",
+        "alt": "Zahrada se závlahou a osvětlením"
+      }
     ]
   },
   "about": {
     "title": "Proč si nás zákazníci vybírají",
     "subtitle": "Za 12 let jsme navrhli přes 300 zahrad po celém Jihomoravském kraji. Každému projektu věnujeme plnou pozornost od prvního hovoru až po předání klíčů.",
-    "body": "Za 12 let jsme navrhli přes 300 zahrad po celém Jihomoravském kraji. Každému projektu věnujeme plnou pozornost od prvního hovoru až po předání klíčů.",
     "items": [
-      { "icon": "clock",    "title": "Ozveme se do 24 hodin",      "description": "Žádné čekání — váš dotaz vyřídíme rychle a bez zbytečných průtahů." },
-      { "icon": "home",     "title": "Přijedeme na místo zdarma",   "description": "Prohlídku pozemku a první konzultaci nabízíme zcela bez poplatků." },
-      { "icon": "edit",     "title": "Cena předem, bez překvapení", "description": "Dostanete jasnou kalkulaci. Co odsouhlasíme, to zaplatíte — nic víc." },
-      { "icon": "check",    "title": "Termín = závazek",            "description": "Termín dokončení bereme vážně. Naši zákazníci na nás mohou spolehnout." }
+      {
+        "icon": "clock",
+        "title": "Ozveme se do 24 hodin",
+        "description": "Žádné čekání — váš dotaz vyřídíme rychle a bez zbytečných průtahů."
+      },
+      {
+        "icon": "home",
+        "title": "Přijedeme na místo zdarma",
+        "description": "Prohlídku pozemku a první konzultaci nabízíme zcela bez poplatků."
+      },
+      {
+        "icon": "edit",
+        "title": "Cena předem, bez překvapení",
+        "description": "Dostanete jasnou kalkulaci. Co odsouhlasíme, to zaplatíte — nic víc."
+      },
+      {
+        "icon": "check",
+        "title": "Termín = závazek",
+        "description": "Termín dokončení bereme vážně. Naši zákazníci na nás mohou spolehnout."
+      }
     ]
   },
   "contact": {
@@ -64,22 +116,44 @@
     "email": "info@zelenac.cz",
     "address": "Podlesní 17, 621 00 Brno",
     "ico": "09341265",
-    "facebook": "https://facebook.com/zelenac",
-    "instagram": "https://instagram.com/zelenac",
     "copyright": "© 2025 Zelenáč s.r.o. Všechna práva vyhrazena.",
     "linksCol1Title": "Co děláme",
     "linksCol1": [
-      { "label": "Návrh a realizace zahrad",  "href": "#" },
-      { "label": "Údržba a péče o zeleň",     "href": "#" },
-      { "label": "Terénní a zemní úpravy",    "href": "#" },
-      { "label": "Automatická závlaha",        "href": "#" }
+      {
+        "label": "Návrh a realizace zahrad",
+        "href": "#"
+      },
+      {
+        "label": "Údržba a péče o zeleň",
+        "href": "#"
+      },
+      {
+        "label": "Terénní a zemní úpravy",
+        "href": "#"
+      },
+      {
+        "label": "Automatická závlaha",
+        "href": "#"
+      }
     ],
     "linksCol2Title": "Navigace",
     "linksCol2": [
-      { "label": "Úvod",    "href": "/" },
-      { "label": "O nás",   "href": "#onas" },
-      { "label": "Galerie", "href": "#galerie" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Galerie",
+        "href": "#galerie"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "ctaTitle": "Chcete zahradu, na kterou budete hrdí?",
     "ctaText": "Zavolejte nebo napište — první konzultace a prohlídka je zdarma.",

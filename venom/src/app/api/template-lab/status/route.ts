@@ -1,8 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getWorkflowState, getJobs, getReviewQueue } from "@/lib/template-lab/workflow";
 import { query, initDb } from "@/lib/db";
+import { requirePlatformAdmin } from "@/lib/platform-admin";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const auth = requirePlatformAdmin(req);
+  if (!auth.ok) return auth.response;
   const state = getWorkflowState();
   const jobs = getJobs();
   const reviewQueue = getReviewQueue();
@@ -30,6 +33,6 @@ export async function GET() {
     },
     reviewQueue,
     templates: dbTemplates,
-    queueLength: 54,
+    queueLength: reviewQueue.length,
   });
 }

@@ -1,0 +1,154 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-19",
+  "name": "Grunt",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "stavebniny",
+    "stavba",
+    "remeslnici",
+    "dek-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Dek.cz sortimentní DNA (stavebniny: hrubá stavba, střechy a izolace, suchá výstavba a fasády, voda topení sanita, elektromateriál, nářadí, barvy a laky, půjčovna) povýšená na awwwards identitu GRUNT — červená & grafit & papír. Rumělková #d5232c (wordmark s cihlovým markem, search tlačítko, AKCE pill, akční ceny, badge Výhodná cena), grafit #212428/#17191c (navigační pás, footer), papír #f4f3ef, zelená #1e8f4a jen nákupní CTA a skladovost (stavebniny konvence), žlutá #ffd12e jen −% vlajky a sleva badge. Space Grotesk (wordmark GRUNT s cihlovým markem, nadpisy uppercase) + Inter. Header dle DEK: grafitový topbar (Zákaznické centrum + linka | Seznam prodejen / Vyberte si prodejnu) → bílý řádek: wordmark + tagline „stavebniny do gruntu“ | search s červeným tlačítkem | Přihlášení | červený košík s mezisoučtem → grafitový pás kategorií s mega menu per kategorie (podkategorie + aside Rádce Grunt + červený promo strip), vpravo pill B2B PORTÁL + červená AKCE. Pop-up košík: zelený pruh PŘIDÁNO DO KOŠÍKU, progress do dopravy zdarma, zelená CTA, doporučené položky.",
+  "sectionOrderNote": "Homepage 1:1 dle dek.cz, vylepšeno: navbar → hero promo banner s tab lištou (4 taby přepínají slidy) → dlaždice sortimentu → Vybrali jsme pro vás (4 promo karty) → Akční položky (produktový pás s DEK cenovkou) → JIŽ 33 LET ZKUŠENOSTÍ (mapa prodejen + služby + kariéra) → Novinky pás → pás výrobců (CSS wordmarky) → užitečné odkazy → footer.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-19-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-19-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-19-categories",
+          "contentRef": "categoryTiles"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-19-picks",
+          "contentRef": "picks"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-19-products",
+          "contentRef": "saleRail"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-19-experience",
+          "contentRef": "experience"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-19-products",
+          "contentRef": "newRail"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-19-brands",
+          "contentRef": "brandsBar"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-19-links",
+          "contentRef": "usefulLinks"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-19-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Dlaždice sortimentu řeší vlastní varianta eshop-19-categories (about typ) — dek.cz vzor „Vybírejte z našeho širokého sortimentu“; skeleton services-typ dlaždic tu nedává smysl."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Nahrazeno DEK-specifickými produktovými pásy eshop-19-products (Akční položky + Novinky, featured-products v extraSections)."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Služby na prodejnách nese panel v sekci JIŽ 33 LET ZKUŠENOSTÍ (eshop-19-experience) — dek.cz vzor."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Dek.cz homepage nemá newsletter — konverzi nesou produktové pásy, AKCE pill v navbaru a Zákaznické centrum ve footeru."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Dek.cz homepage nemá recenze — důvěru nesou badge v bottom baru footeru a pás výrobců."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Prodejny řeší mapa ČR v sekci eshop-19-experience + odkazy Seznam prodejen v topbaru — dek.cz vzor."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Dek.cz homepage nemá FAQ — odkaz Často kladené otázky je ve footeru (Nevíte si rady?)."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "hero",
+      "variant": "eshop-19-hero",
+      "reason": "DEK hero: velký promo banner s lištou 4 tabů, které přepínají slidy — klíčový prvek dek.cz homepage."
+    },
+    {
+      "type": "promo",
+      "variant": "eshop-19-picks",
+      "reason": "Vybrali jsme pro vás — 4 promo karty (dek.cz homepage sekce)."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-19-products",
+      "reason": "Akční položky — produktový pás s DEK cenovkou (žlutá −% vlajka, Výhodná cena, zelené Do košíku)."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-19-products",
+      "reason": "Novinky — druhý produktový pás (source newest, categorySlug novinky)."
+    },
+    {
+      "type": "promo",
+      "variant": "eshop-19-brands",
+      "reason": "Pás kvalitních výrobců s CSS wordmarky — dek.cz homepage sekce."
+    },
+    {
+      "type": "promo",
+      "variant": "eshop-19-links",
+      "reason": "Užitečné odkazy — lišta 4 tlačítek nad footerem (dek.cz homepage sekce)."
+    }
+  ]
+}

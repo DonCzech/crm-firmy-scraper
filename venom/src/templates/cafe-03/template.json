@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "cafe-03",
-  "name": "Demo Cathedral Café",
+  "name": "Cathedral Café",
   "industry": "cafe",
   "skeleton": "gastro",
   "version": "1.0.0",
@@ -9,20 +9,57 @@
   "description": "Kavárna & Restaurace ve gotickém centru Prahy — transparentní navbar logo-vlevo, fullscreen 3-slide hero se zlatým kicker, 2-col about s Great Vibes, 3-karta directory promo, horizontální gallery slider, kontaktní formulář. Inspirováno cathedral.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Promo (directory) → Gallery → CTA → Contact → Footer",
   "skippedSections": [
-    { "pos": 4,  "name": "Pricing",      "reason": "Kavárna/restaurace nemá ceník na homepage — menu je na samostatné podstránce" },
-    { "pos": 7,  "name": "Locations",    "reason": "Kavárna má jednu pobočku — kontakt je v Contact sekci, samostatná Locations stránka zbytečná" },
-    { "pos": 8,  "name": "Testimonials", "reason": "Recenze nejsou na primárním homepage flow originálu" },
-    { "pos": 9,  "name": "Team",         "reason": "Tým není součástí homepage flow originálu" },
-    { "pos": 10, "name": "FAQ",          "reason": "FAQ není v homepage flow originálu" }
+    {
+      "pos": 4,
+      "name": "Pricing",
+      "reason": "Kavárna/restaurace nemá ceník na homepage — menu je na samostatné podstránce"
+    },
+    {
+      "pos": 7,
+      "name": "Locations",
+      "reason": "Kavárna má jednu pobočku — kontakt je v Contact sekci, samostatná Locations stránka zbytečná"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Recenze nejsou na primárním homepage flow originálu"
+    },
+    {
+      "pos": 9,
+      "name": "Team",
+      "reason": "Tým není součástí homepage flow originálu"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "FAQ není v homepage flow originálu"
+    }
   ],
   "extraSections": [
-    { "name": "Directory Promo", "type": "promo", "variant": "cafe-03-promo", "reason": "Originál má 3 čtvercové image karty (Akce/Menu/Rezervace) jako directory navigaci na homepage" },
-    { "name": "Gallery Slider",  "type": "gallery", "variant": "cafe-03-gallery", "reason": "Horizontální slider 10 interiérových fotek je součástí homepage flow" },
-    { "name": "Menu záložky",    "type": "services", "variant": "cafe-03-menu", "reason": "Záložkový menu s 4 kategoriemi (Snídaně/Menu/Nápoje/Víno) na podstránce nase-menu" }
+    {
+      "name": "Directory Promo",
+      "type": "promo",
+      "variant": "cafe-03-promo",
+      "reason": "Originál má 3 čtvercové image karty (Akce/Menu/Rezervace) jako directory navigaci na homepage"
+    },
+    {
+      "name": "Gallery Slider",
+      "type": "gallery",
+      "variant": "cafe-03-gallery",
+      "reason": "Horizontální slider 10 interiérových fotek je součástí homepage flow"
+    },
+    {
+      "name": "Menu záložky",
+      "type": "services",
+      "variant": "cafe-03-menu",
+      "reason": "Záložkový menu s 4 kategoriemi (Snídaně/Menu/Nápoje/Víno) na podstránce nase-menu"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -30,13 +67,41 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",  "variant": "cafe-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "cafe-03-hero",    "contentRef": "hero" },
-        { "type": "about",   "variant": "cafe-03-about",   "contentRef": "about" },
-        { "type": "promo",   "variant": "cafe-03-promo",   "contentRef": "promo" },
-        { "type": "gallery", "variant": "cafe-03-gallery", "contentRef": "gallery" },
-        { "type": "cta",     "variant": "cafe-03-cta",     "contentRef": "cta" },
-        { "type": "footer",  "variant": "cafe-03-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "cafe-03-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "cafe-03-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "cafe-03-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "gallery",
+          "variant": "cafe-03-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "cta",
+          "variant": "cafe-03-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -45,10 +110,26 @@
       "seoTitleKey": "pages.nase-menu.seoTitle",
       "seoDescriptionKey": "pages.nase-menu.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "cafe-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-cafe-03-page",   "contentRef": "pages.nase-menu.hero" },
-        { "type": "services", "variant": "cafe-03-menu",    "contentRef": "pages.nase-menu.services" },
-        { "type": "footer",   "variant": "cafe-03-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-cafe-03-page",
+          "contentRef": "pages.nase-menu.hero"
+        },
+        {
+          "type": "services",
+          "variant": "cafe-03-menu",
+          "contentRef": "pages.nase-menu.services"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -57,10 +138,26 @@
       "seoTitleKey": "pages.galerie.seoTitle",
       "seoDescriptionKey": "pages.galerie.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "cafe-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-cafe-03-page",   "contentRef": "pages.galerie.hero" },
-        { "type": "gallery", "variant": "cafe-03-gallery", "contentRef": "pages.galerie.gallery" },
-        { "type": "footer",  "variant": "cafe-03-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-cafe-03-page",
+          "contentRef": "pages.galerie.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "cafe-03-gallery",
+          "contentRef": "pages.galerie.gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-03-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -69,9 +166,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "cafe-03-navbar",  "contentRef": "navbar" },
-        { "type": "contact", "variant": "cafe-03-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "cafe-03-footer",  "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "cafe-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "cafe-03-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "cafe-03-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

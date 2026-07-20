@@ -9,18 +9,47 @@
   "description": "Luxusní kadeřnický salon s Montserrat fontem, gold accent #8a6f28, cream paleta — Tilda-origin, 7 stylistek, recenze, kontakty.",
   "sectionOrderNote": "Originál studio-jarka má About+Stats na pozici 3 (před Services), bez samostatného Pricing — shoduje se s service-personal skeleton.",
   "skippedSections": [
-    { "pos": 5, "name": "Pricing", "reason": "originál nemá samostatný ceník — ceny jen přes booking systém" },
-    { "pos": 9, "name": "Booking/CTA", "reason": "inline CTA tlačítka v každé services kartě" },
-    { "pos": 10, "name": "Locations", "reason": "jediná pobočka — adresa v footer" },
-    { "pos": 11, "name": "FAQ", "reason": "originál nemá FAQ" },
-    { "pos": 6, "name": "Gallery", "reason": "originál nemá galerii — studio-jarka používá tým s fotkami jako vizuální blok" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "originál nemá samostatný ceník — ceny jen přes booking systém"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "inline CTA tlačítka v každé services kartě"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "jediná pobočka — adresa v footer"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "originál nemá FAQ"
+    },
+    {
+      "pos": 6,
+      "name": "Gallery",
+      "reason": "originál nemá galerii — studio-jarka používá tým s fotkami jako vizuální blok"
+    }
   ],
   "extraSections": [
-    { "type": "about", "reason": "Druhý about blok — values sekce (Víme, jak důležité jsou...) — two-col varianta" }
+    {
+      "type": "about",
+      "reason": "Druhý about blok — values sekce (Víme, jak důležité jsou...) — two-col varianta"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -28,15 +57,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "hair-01-topbar",         "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-hair-fullbleed",     "contentRef": "hero" },
-        { "type": "about",        "variant": "about-hair-split-stats",  "contentRef": "about" },
-        { "type": "services",     "variant": "hair-numbered-cards",     "contentRef": "services" },
-        { "type": "cta",          "variant": "cta-hair-01",             "contentRef": "cta" },
-        { "type": "about",        "variant": "about-hair-values",        "contentRef": "values" },
-        { "type": "team",         "variant": "hair-01-team-cards",      "contentRef": "team" },
-        { "type": "testimonials", "variant": "hair-01-cards",           "contentRef": "testimonials" },
-        { "type": "footer",       "variant": "hair-01-footer",          "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "hair-01-topbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-fullbleed",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-split-stats",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "hair-numbered-cards",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "cta-hair-01",
+          "contentRef": "cta"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-values",
+          "contentRef": "values"
+        },
+        {
+          "type": "team",
+          "variant": "hair-01-team-cards",
+          "contentRef": "team"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-01-cards",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "hair-01",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

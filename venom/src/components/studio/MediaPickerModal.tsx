@@ -98,12 +98,12 @@ export function MediaPickerModal({
       onClick={onClose}
     >
       <div
-        className="relative flex flex-col w-[min(720px,95vw)] max-h-[80vh] rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-2xl"
+        className="relative flex flex-col w-[min(720px,95vw)] max-h-[80vh] rounded-2xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex shrink-0 items-center justify-between border-b border-[var(--vs-surface-2)] px-5 py-3.5">
-          <span className="text-[14px] font-semibold text-white">Vybrat obrázek</span>
+          <span className="text-[14px] font-semibold text-[var(--vs-text)]">Vybrat obrázek</span>
           <div className="flex items-center gap-3">
             {/* Upload button */}
             <button
@@ -129,7 +129,7 @@ export function MediaPickerModal({
             <button
               type="button"
               onClick={onClose}
-              className="text-[var(--vs-text-dim)] hover:text-white text-lg leading-none"
+              className="text-[var(--vs-text-dim)] hover:text-[var(--vs-text)] text-lg leading-none"
             >
               ✕
             </button>
@@ -146,7 +146,7 @@ export function MediaPickerModal({
                 onClick={() => setActiveFolder(f.key)}
                 className={`relative flex items-center gap-1.5 px-3 pb-2.5 text-[12.5px] font-medium transition-colors ${
                   activeFolder === f.key
-                    ? "text-white"
+                    ? "text-[var(--vs-text)]"
                     : "text-[var(--vs-text-dim)] hover:text-[var(--vs-text-muted)]"
                 }`}
               >

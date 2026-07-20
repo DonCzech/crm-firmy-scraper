@@ -1,17 +1,28 @@
 {
   "navbar": {
-    "siteName": "Demo TAWAN",
+    "siteName": "Demo Thajské Centrum",
     "logoUrl": "",
-    "phone": "704 123 456",
     "ctaText": "Rezervace",
     "ctaHref": "#kontakt",
     "voucherText": "Dárkové poukazy",
     "voucherHref": "#kontakt",
     "links": [
-      { "label": "Masáže",   "href": "#sluzby" },
-      { "label": "Salony",   "href": "#salony" },
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      {
+        "label": "Masáže",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Salony",
+        "href": "#salony"
+      },
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -24,7 +35,7 @@
         "bgImage": "/assets/tawan-01/5e879134cd-Homepage-thajske-masaze-tawan-praha.jpg"
       },
       {
-        "headline": "Thajské masáže TAWAN",
+        "headline": "Thajské masáže Thajské Centrum",
         "subline": "Darujte výjimečný zážitek v podobě masáží",
         "ctaText": "Dárkové poukazy",
         "ctaHref": "#kontakt",
@@ -35,12 +46,12 @@
         "subline": "Před každou masáží si popovídáme o vašich potřebách",
         "ctaText": "Rezervovat",
         "ctaHref": "#kontakt",
-        "bgImage": "/assets/tawan-01/436837abdc-TAWAN-4-Hilton-Hotel-Praha-Karlin-Thajske-masaze-2000x1000.jpg"
+        "bgImage": "/assets/tawan-01/436837abdc-Thajské Centrum-4-Hilton-Hotel-Praha-Karlin-Thajske-masaze-2000x1000.jpg"
       }
     ]
   },
   "benefits": {
-    "sectionTag": "Proč TAWAN?",
+    "sectionTag": "Proč nás?",
     "heading": "Nejvyšší úroveň služeb",
     "items": [
       {
@@ -66,7 +77,7 @@
     ]
   },
   "why": {
-    "heading": "Proč TAWAN?",
+    "heading": "Proč nás?",
     "tabs": [
       {
         "number": "1",
@@ -104,25 +115,25 @@
     "subtitle": "Každá masáž je přizpůsobena vašim individuálním potřebám",
     "items": [
       {
-        "image": "/assets/tawan-01/075102c835-TAWAN-classic-thai-massage-anti-stress4.jpg",
+        "image": "/assets/tawan-01/075102c835-Thajské Centrum-classic-thai-massage-anti-stress4.jpg",
         "title": "Klasická thajská masáž",
         "description": "Tradiční thajská masáž uvolní napětí ve svalech a kloubech. Kombinuje akupresuru, strečink a masážní techniky.",
         "price": "od 990 Kč"
       },
       {
-        "image": "/assets/tawan-01/96ad657dc3-TAWAN-oil-massage.jpg",
+        "image": "/assets/tawan-01/96ad657dc3-Thajské Centrum-oil-massage.jpg",
         "title": "Olejová masáž",
         "description": "Relaxační masáž s přírodními olejy, která hluboce hydratuje pokožku a odstraňuje stres a napětí.",
         "price": "od 1 090 Kč"
       },
       {
-        "image": "/assets/tawan-01/092a3b6da3-TAWAN-Herbal-Royal-massage2.jpg",
+        "image": "/assets/tawan-01/092a3b6da3-Thajské Centrum-Herbal-Royal-massage2.jpg",
         "title": "Herbal Royal masáž",
         "description": "Masáž bylinkovými váčky s tradičními thajskými bylinami. Ideální při bolestech svalů a kloubů.",
         "price": "od 1 290 Kč"
       },
       {
-        "image": "/assets/tawan-01/049a5f1506-TAWAN-back-oil-massage.jpg",
+        "image": "/assets/tawan-01/049a5f1506-Thajské Centrum-back-oil-massage.jpg",
         "title": "Masáž zad a šíje",
         "description": "Zaměřená masáž na záda, šíji a ramena — ideální při sedavém zaměstnání a bolestech páteře.",
         "price": "od 790 Kč"
@@ -132,7 +143,6 @@
     "ctaHref": "#kontakt"
   },
   "news": {
-    "sectionTag": "Akce a novinky",
     "heading": "Akce a novinky",
     "description": "Každý měsíc pro vás máme skvělé akce a slevy. Přihlaste se do našeho newsletteru a nic vám neunikne.",
     "ctaText": "Všechny akce",
@@ -140,7 +150,7 @@
     "items": [
       {
         "tag": "Akce",
-        "image": "/assets/tawan-01/39e280ef67-TAWAN-thajske-masaze-Harmony-Ostrava-5.jpg",
+        "image": "/assets/tawan-01/39e280ef67-Thajské Centrum-thajske-masaze-Harmony-Ostrava-5.jpg",
         "title": "Jarní sleva 15 % na všechny masáže",
         "text": "Oslavte příchod jara s námi. Celý měsíc máte 15% slevu na veškeré masáže ve všech našich salonech.",
         "date": "Platí do 31. března 2025",
@@ -148,7 +158,7 @@
       },
       {
         "tag": "Akce",
-        "image": "/assets/tawan-01/fa7729e3ed-TAWAN-thajske-masaze-Vanoce-2024.jpg",
+        "image": "/assets/tawan-01/fa7729e3ed-Thajské Centrum-thajske-masaze-Vanoce-2024.jpg",
         "title": "Dárkové poukazy — ideální dárek",
         "text": "Darujte svým blízkým výjimečný zážitek. Dárkové poukazy jsou k dispozici ve všech hodnotách a salonech.",
         "date": "Platí po celý rok",
@@ -164,7 +174,7 @@
     "ctaHref": "#kontakt",
     "items": [
       {
-        "image": "/assets/tawan-01/0b6cc022cf-TAWAN-Rezidence-Vysehrad-Thajske-Masaze-Praha-2000x1000-07.jpg",
+        "image": "/assets/tawan-01/0b6cc022cf-Thajské Centrum-Rezidence-Vysehrad-Thajske-Masaze-Praha-2000x1000-07.jpg",
         "city": "Praha",
         "name": "Rezidence Vyšehrad",
         "address": "Na Pankráci 1683/127, Praha 4",
@@ -172,7 +182,7 @@
         "href": "#kontakt"
       },
       {
-        "image": "/assets/tawan-01/436837abdc-TAWAN-4-Hilton-Hotel-Praha-Karlin-Thajske-masaze-2000x1000.jpg",
+        "image": "/assets/tawan-01/436837abdc-Thajské Centrum-4-Hilton-Hotel-Praha-Karlin-Thajske-masaze-2000x1000.jpg",
         "city": "Praha",
         "name": "Hilton Hotel Praha Karlín",
         "address": "Pobřežní 1, Praha 8",
@@ -180,7 +190,7 @@
         "href": "#kontakt"
       },
       {
-        "image": "/assets/tawan-01/8802eee6a6-TAWAN-thajske-masaze-Harmony-Ostrava.jpg",
+        "image": "/assets/tawan-01/8802eee6a6-Thajské Centrum-thajske-masaze-Harmony-Ostrava.jpg",
         "city": "Ostrava",
         "name": "Harmony Ostrava",
         "address": "Náměstí Republiky 1, Ostrava",
@@ -222,7 +232,7 @@
     "mapEmbedUrl": ""
   },
   "footer": {
-    "siteName": "Demo TAWAN",
+    "siteName": "Demo Thajské Centrum",
     "siteTagline": "Thajské masáže",
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
@@ -230,18 +240,50 @@
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.1234567890!2d14.4172!3d50.0755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zUHJhaGE!5e0!3m2!1scs!2scz!4v1234567890",
-    "copyright": "© 2025 Demo TAWAN Masáže. Všechna práva vyhrazena.",
+    "copyright": "© 2025 Thajské Masáže Centrum. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Masáže",          "href": "#sluzby" },
-      { "label": "Salony",          "href": "#salony" },
-      { "label": "Dárkové poukazy", "href": "#kontakt" },
-      { "label": "Rezervace",       "href": "#kontakt" },
-      { "label": "O nás",           "href": "#o-nas" },
-      { "label": "Kontakt",         "href": "#kontakt" }
+      {
+        "label": "Masáže",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Salony",
+        "href": "#salony"
+      },
+      {
+        "label": "Dárkové poukazy",
+        "href": "#kontakt"
+      },
+      {
+        "label": "Rezervace",
+        "href": "#kontakt"
+      },
+      {
+        "label": "O nás",
+        "href": "#o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "legalLinks": [
-      { "label": "Ochrana osobních údajů", "href": "#gdpr" },
-      { "label": "Obchodní podmínky",       "href": "#podminky" }
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "#podminky"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si proceduru",
+      "subtitle": "Vyberte proceduru, terapeuta a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

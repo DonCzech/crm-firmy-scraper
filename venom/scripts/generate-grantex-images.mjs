@@ -7,7 +7,7 @@ import path from 'node:path';
 import pg from 'pg';
 
 const IMG_DIR = 'public/clones/grantex/img';
-const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const DB_URL = process.env.DATABASE_URL;
 function log(m) { console.log(`[${new Date().toISOString().slice(11,19)}] ${m}`); }
 
 function download(url, destPath) {

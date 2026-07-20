@@ -1,98 +1,145 @@
 {
   "navbar": {
-    "siteName": "Demo Tattoo Studio",
+    "siteName": "Inkwell Studio",
     "logoUrl": "/templates/tattoo-01/logo-white.svg",
-    "phone": "704 123 456",
     "ctaText": "Objednat se",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "shopHref": "#",
-    "shopText": "E-SHOP",
+    "shopText": "E-shop",
     "links": [
-      { "label": "Tattoo",   "href": "#tattoo" },
-      { "label": "Piercing", "href": "#piercing" },
-      { "label": "Kontakt",  "href": "#kontakt" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Služby",   "href": "#sluzby" }
+      {
+        "label": "Tattoo",
+        "href": "/tattoo"
+      },
+      {
+        "label": "Piercing",
+        "href": "/piercing"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
-    "title": "Demo Tattoo Studio",
-    "subtitle": "Tetování a piercing od roku 1996",
+    "eyebrow": "Tetovací & piercing studio — Praha",
+    "title": "Inkwell Studio",
+    "subtitle": "Autorská tvorba, precizní řemeslo a hygiena na první místě. Vaše první i další tetování ve správných rukou.",
     "cta1Text": "Tattoo",
-    "cta1Href": "#tattoo",
+    "cta1Href": "/tattoo",
     "cta2Text": "Piercing",
-    "cta2Href": "#piercing",
+    "cta2Href": "/piercing",
     "cta3Text": "Objednat se",
-    "cta3Href": "#kontakt",
-    "backgroundImage": "/assets/tattoo-01/00d07958d1-true-love-tribo-valentyn.jpg",
+    "cta3Href": "/kontakt",
+    "backgroundImage": "/templates/tattoo-01/hero-bg.webp",
     "artImage": "/templates/tattoo-01/hero-art.webp"
   },
   "intro": {
-    "title": "Profesionální tetování a piercing",
-    "body": "Věnujeme se profesionálnímu tetování a piercingu na té nejvyšší úrovni. V našem studiu a obchodě najdete největší výběr šperků z titanu, zirconu, oceli, dřeva, rohoviny a dalších materiálů.",
-    "text": "Věnujeme se profesionálnímu tetování a piercingu na té nejvyšší úrovni. V našem studiu a obchodě najdete největší výběr šperků z titanu, zirconu, oceli, dřeva, rohoviny a dalších materiálů."
+    "eyebrow": "O studiu",
+    "title": "Umění, které nosíte celý život",
+    "body": "Jsme autorské tetovací a piercing studio v centru Prahy. Každý motiv vzniká ve spolupráci s vámi — od první skici po poslední linku. Klademe důraz na čistotu, bezpečí a řemeslo, které vydrží i po letech. U nás nejste číslo v pořadníku, ale příběh, který se propíše do kůže.",
+    "text": "Jsme autorské tetovací a piercing studio v centru Prahy. Každý motiv vzniká ve spolupráci s vámi — od první skici po poslední linku."
   },
   "servicesTattoo": {
+    "eyebrow": "Tetování",
     "title": "Tattoo",
-    "body": "V našem studiu pracuje 6 tatérů a každý má svůj specifický styl. Důležitá je pro nás nejen kvalita a originalita, ale také, aby tetování vypadalo dobře i za dvacet let.",
     "heading": "Tattoo",
-    "text": "V našem studiu pracuje 6 tatérů a každý má svůj specifický styl. Důležitá je pro nás nejen kvalita a originalita, ale také, aby tetování vypadalo dobře i za dvacet let. Prohlédněte si portfolia jednotlivých umělců a domluvte si osobní konzultaci.",
+    "text": "V našem ateliéru pracuje tým tatérů — každý s vlastním rukopisem, od jemného fine-line přes blackwork až po realistiku. Nejde nám jen o krásu dnes, ale i o to, aby motiv skvěle vypadal i za dvacet let. Prohlédněte si portfolia jednotlivých umělců a domluvte si nezávaznou konzultaci.",
+    "body": "V našem ateliéru pracuje tým tatérů — každý s vlastním rukopisem, od jemného fine-line přes blackwork až po realistiku.",
     "cta1Text": "Objednat se",
-    "cta1Href": "#kontakt",
+    "cta1Href": "/kontakt",
     "cta2Text": "Naši tatéři",
-    "cta2Href": "#tattoo",
-    "image": "/assets/tattoo-01/d96c81e0e3-sluzby-tattoo-sq.jpg"
+    "cta2Href": "/tattoo",
+    "image": "/templates/tattoo-01/services-tattoo.webp"
   },
   "servicesPiercing": {
+    "eyebrow": "Piercing",
     "title": "Piercing",
-    "body": "Bodypiercingu se věnujeme přes 30 let. Naši pierceři jsou zkušení odborníci s mnoholetou praxí.",
     "heading": "Piercing",
-    "text": "Bodypiercingu se věnujeme přes 30 let. Naši pierceři jsou zkušení odborníci s mnoholetou praxí. Také u nás najdete největší výběr šperků v ČR, protože zastupujeme legendárního výrobce šperků.",
+    "text": "Bodypiercingu se věnujeme přes tři dekády. Naši pierceři jsou zkušení odborníci, kteří vsadí na sterilní jehlu, správnou anatomii a šperk, který vám bude slušet i sedět. Od klasického ucha po projekty na míru — a k tomu jeden z nejširších výběrů kvalitních šperků v Česku.",
+    "body": "Bodypiercingu se věnujeme přes tři dekády. Naši pierceři jsou zkušení odborníci se sterilním přístupem a citem pro anatomii.",
     "cta1Text": "Objednat se",
-    "cta1Href": "#kontakt",
+    "cta1Href": "/kontakt",
     "cta2Text": "Naši pierceři",
-    "cta2Href": "#piercing",
-    "image": "/assets/tattoo-01/a68d7d069e-pierce-sq.jpg"
+    "cta2Href": "/piercing",
+    "image": "/templates/tattoo-01/services-piercing-v2.webp"
   },
   "gallery": {
+    "eyebrow": "Portfolio",
     "heading": "Naše práce",
     "images": [
-      { "url": "/assets/tattoo-01/54abfa9857-2j0b1788.jpg",           "alt": "Tetování ukázka 1" },
-      { "url": "/assets/tattoo-01/203e6c041d-2j0b8090.jpg",           "alt": "Tetování ukázka 2" },
-      { "url": "/assets/tattoo-01/6fb95cc08e-petra13200.jpg",          "alt": "Tetování ukázka 3" },
-      { "url": "/assets/tattoo-01/dee30c3c09-tmavsi-petra.jpg",        "alt": "Tetování ukázka 4" },
-      { "url": "/assets/tattoo-01/d96c81e0e3-sluzby-tattoo-sq.jpg",   "alt": "Tetování ukázka 5" },
-      { "url": "/assets/tattoo-01/a68d7d069e-pierce-sq.jpg",          "alt": "Piercing ukázka" },
-      { "url": "/assets/tattoo-01/ca7a175945-jakub.jpg",              "alt": "Tetování ukázka 7" },
-      { "url": "/assets/tattoo-01/8604cccad8-tribo-new.jpg",          "alt": "Studio interiér" }
+      {
+        "url": "/templates/tattoo-01/gallery-01.webp",
+        "alt": "Japonský back piece — irezumi"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-02.webp",
+        "alt": "Květinové tetování na předloktí"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-03.webp",
+        "alt": "Tatér při práci — barevný irezumi"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-04.webp",
+        "alt": "Detail tetování — sleeve"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-05.webp",
+        "alt": "Drak s květinami — rameno"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-06.webp",
+        "alt": "Lining — tatér při práci"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-07.webp",
+        "alt": "Close-up tetování — rukavice"
+      },
+      {
+        "url": "/templates/tattoo-01/gallery-08.webp",
+        "alt": "Full body tattoo — artový záběr"
+      }
     ]
   },
   "testimonials": {
+    "eyebrow": "Reference",
     "heading": "Co říkají naši klienti",
     "testimonials": [
       {
-        "text": "Jsem moc ráda, že jsem si vymyslela motiv, který pro mě má určitý smysl, a také že jsem našla tatéra, který ho dokázal dokonale vytetovat. Ze studia jsem odcházela s první kérkou, která je naprosto dokonalá.",
-        "quote": "Jsem moc ráda, že jsem si vymyslela motiv, který pro mě má určitý smysl, a také že jsem našla tatéra, který ho dokázal dokonale vytetovat. Ze studia jsem odcházela s první kérkou, která je naprosto dokonalá.",
-        "author": "Katka",
-        "image": "/assets/tattoo-01/ca7a175945-jakub.jpg"
+        "text": "Přišla jsem s vlastní myšlenkou a odešla s prvním tetováním, které mi sedí, jako bych ho měla odjakživa. Konzultace, návrh i samotné sezení — všechno naprosto v klidu a profesionálně. Rozhodně nejlepší volba pro první kérku.",
+        "quote": "Přišla jsem s vlastní myšlenkou a odešla s prvním tetováním, které mi sedí, jako bych ho měla odjakživa. Konzultace, návrh i samotné sezení — všechno naprosto v klidu a profesionálně.",
+        "author": "Kateřina N.",
+        "role": "První tetování · fine-line",
+        "image": "/templates/tattoo-01/gallery-02.webp"
       },
       {
-        "text": "Super fast, super friendly! Felt very safe and I'm satisfied. Will come back! Really professional and clean. Great sense of design.",
-        "quote": "Super fast, super friendly! Felt very safe and I'm satisfied. Will come back! Really professional and clean. Great sense of design.",
-        "author": "Berlin Guys",
-        "image": "/assets/tattoo-01/54abfa9857-2j0b1788.jpg"
+        "text": "Nechal jsem si dodělat celý rukáv a výsledek předčil očekávání. Čistota studia, preciznost linek a přístup celého týmu jsou na špičkové úrovni. Sezení proběhla přesně podle plánu a bolelo míň, než jsem čekal.",
+        "quote": "Nechal jsem si dodělat celý rukáv a výsledek předčil očekávání. Čistota studia, preciznost linek a přístup celého týmu jsou na špičkové úrovni.",
+        "author": "Martin K.",
+        "role": "Blackwork sleeve",
+        "image": "/templates/tattoo-01/gallery-01.webp"
       },
       {
-        "text": "Po konzultaci mi vytvořil krásné, jemné tetování, které ke mně jde, jako bych ho měla od narození.",
-        "quote": "Po konzultaci mi vytvořil krásné, jemné tetování, které ke mně jde, jako bych ho měla od narození.",
-        "author": "Tereza Bartošová",
-        "image": "/assets/tattoo-01/dee30c3c09-tmavsi-petra.jpg"
+        "text": "Jemné tetování, které přesně vystihlo to, co jsem chtěla. Oceňuji hlavně to, jak si na mě dali čas a všechno mi vysvětlili — od návrhu přes průběh až po péči o hojení. Za mě jednoznačné doporučení.",
+        "quote": "Jemné tetování, které přesně vystihlo to, co jsem chtěla. Oceňuji hlavně to, jak si na mě dali čas a všechno mi vysvětlili — od návrhu přes průběh až po péči o hojení.",
+        "author": "Tereza B.",
+        "role": "Dotwork · rameno",
+        "image": "/templates/tattoo-01/gallery-05.webp"
       }
     ]
   },
   "principles": {
+    "eyebrow": "Proč právě my",
     "title": "Naše zásady",
-    "body": "Pracujeme podle přísných standardů kvality a bezpečnosti.",
     "heading": "Naše zásady",
     "items": [
       {
@@ -118,32 +165,56 @@
     ]
   },
   "contact": {
+    "eyebrow": "Najdete nás",
     "heading": "Kontakt",
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
-    "email": "email@demo.cz",
+    "email": "studio@inkwell.cz",
     "hours": "Po–Pá 10:00–19:00, So 10:00–17:00",
-    "image": "/assets/tattoo-01/8604cccad8-tribo-new.jpg",
-    "facebook": "https://facebook.com/demo",
-    "instagram": "https://instagram.com/demo"
+    "image": "/templates/tattoo-01/contact-studio.webp",
+    "facebook": "https://facebook.com/inkwellstudio",
+    "instagram": "https://instagram.com/inkwellstudio"
   },
   "footer": {
-    "siteName": "Demo Tattoo Studio",
-    "tagline": "Profesionální tetování a piercing v srdci Prahy. Přes 30 let zkušeností.",
+    "siteName": "Inkwell Studio",
+    "tagline": "Autorské tetovací a piercing studio v srdci Prahy. Řemeslo, čistota a motivy, které vydrží.",
     "logoUrl": "/templates/tattoo-01/logo-white.svg",
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "704 123 456",
-    "email": "email@demo.cz",
-    "hours": "Po–So  10:00–20:00",
-    "facebook": "https://facebook.com/demo",
-    "instagram": "https://instagram.com/demo",
-    "copyright": "© Demo Tattoo Studio 2026",
+    "email": "studio@inkwell.cz",
+    "hours": "Po–Pá 10:00–19:00, So 10:00–17:00",
+    "facebook": "https://facebook.com/inkwellstudio",
+    "instagram": "https://instagram.com/inkwellstudio",
+    "copyright": "© Inkwell Studio 2026",
     "navLinks": [
-      { "label": "Tattoo",   "href": "#tattoo" },
-      { "label": "Piercing", "href": "#piercing" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      {
+        "label": "Tattoo",
+        "href": "/tattoo"
+      },
+      {
+        "label": "Piercing",
+        "href": "/piercing"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Rezervujte si termín",
+      "subtitle": "Vyberte motiv, tatéra a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

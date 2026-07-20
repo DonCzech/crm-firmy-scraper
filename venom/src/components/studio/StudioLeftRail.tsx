@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Feather, Settings2, AlignJustify, LayoutGrid, Search, Bell, Images, Briefcase, PanelLeft,
-  CreditCard, Users, HelpCircle, Keyboard, LogOut, CheckSquare, Files,
+  CreditCard, Users, HelpCircle, Keyboard, LogOut, CheckSquare, Files, Plus, Sparkles,
 } from "@/components/studio/icons";
 import type { IconWeight } from "@phosphor-icons/react";
 import { useStudio, type StudioLeftPanel, type EditorTheme } from "./StudioContext";
+import { toggleWixAdd, useWixAdd } from "./panels/wix-add-state";
 import { Tooltip } from "./ui";
 import clsx from "clsx";
 
@@ -92,12 +93,12 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
   return (
     <div
       ref={ref}
-      className="vs-glass vs-pop fixed bottom-3 left-[68px] right-3 z-[240] max-h-[calc(100vh-24px)] w-auto overflow-hidden rounded-xl shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] sm:absolute sm:bottom-0 sm:left-[59px] sm:right-auto sm:w-[220px]"
+      className="vs-glass vs-overlay-panel vs-profile-menu vs-pop fixed bottom-3 left-[68px] right-3 z-[240] max-h-[calc(100vh-24px)] w-auto overflow-hidden rounded-xl shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] sm:bottom-[58px] sm:left-[64px] sm:right-auto sm:w-[240px]"
     >
       {/* User header */}
       <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[var(--vs-border)]">
         <div
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)]"
+          className="vs-profile-avatar flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)]"
           style={{ background: "var(--vs-cta-grad)" }}
         >
           TB
@@ -131,11 +132,13 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
       {/* Editor theme switcher */}
       <div className="border-t border-[var(--vs-border)] px-3 py-2.5">
         <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--vs-text-dim)]">Vzhled editoru</p>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {([
-            { id: "violet", label: "Violet", swatch: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" },
-            { id: "silver", label: "Stříbrná", swatch: "linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%)" },
-            { id: "indigo", label: "Indigo", swatch: "linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%)" },
+            { id: "light",  label: "Světlé",   swatch: "linear-gradient(135deg, #ffffff 0%, #eef0f4 60%, #dfe2e8 100%)" },
+            { id: "apple",  label: "Minimal", swatch: "linear-gradient(135deg, #ffffff 0%, #f7f7f8 58%, #e8e8eb 100%)" },
+            { id: "violet", label: "Violet (tmavé)", swatch: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" },
+            { id: "silver", label: "Stříbrná (tmavé)", swatch: "linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%)" },
+            { id: "indigo", label: "Indigo (tmavé)", swatch: "linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%)" },
           ] as Array<{ id: EditorTheme; label: string; swatch: string }>).map((t) => (
             <Tooltip key={t.id} side="top" label={t.label}>
               <button
@@ -204,11 +207,14 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
 export function StudioLeftRail() {
   const studio = useStudio();
   const [accountOpen, setAccountOpen] = useState(false);
+  const minimal = studio.editorTheme === "apple";
+  const wixAddView = useWixAdd();
+  const addActive = wixAddView !== "closed";
 
   return (
     <aside
       data-tour-id="rail"
-      className="flex w-[55px] shrink-0 flex-col bg-[var(--vs-bg-soft)] relative"
+      className="vs-rail relative z-[80] flex w-[55px] shrink-0 flex-col bg-[var(--vs-bg-soft)]"
       style={{ boxShadow: "inset -1px 0 0 rgba(255,255,255,0.055)" }}
     >
       {/* Sidebar toggle */}
@@ -226,14 +232,64 @@ export function StudioLeftRail() {
       </div>
       <div className="mx-3 mb-2 h-px bg-[rgba(255,255,255,0.07)]" />
 
+      {/* Primární akce: Přidat obsah + AI Builder — stejný vizuální jazyk
+          jako nav ikony níže (ghost + akcent při aktivaci + levý indikátor) */}
+      <nav className="flex flex-col items-center py-1 w-full gap-0.5 pb-2">
+        {([
+          {
+            id: "add" as const,
+            label: "Přidat — sekce, prvky, stránky",
+            active: addActive,
+            tourId: "wix-add-button",
+            onClick: toggleWixAdd,
+            Icon: Plus,
+          },
+          {
+            id: "builder" as const,
+            label: "AI Builder — popište změnu a AI ji postaví",
+            active: studio.builderOpen,
+            tourId: "rail-ai-builder",
+            onClick: () => studio.setBuilderOpen(!studio.builderOpen),
+            Icon: Sparkles,
+          },
+        ]).map(({ id, label, active, tourId, onClick, Icon }) => {
+          const sw = minimal ? (active ? 1.8 : 1.45) : (active ? 1.9 : 1.55);
+          const weight: IconWeight = minimal ? "regular" : active ? "duotone" : "regular";
+          return (
+            <div key={id} className="relative w-full flex justify-center px-[3.5px] py-0.5">
+              {active && (
+                <span className="vs-rail-active-indicator pointer-events-none absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-[var(--vs-accent)] shadow-[0_0_10px_var(--vs-accent-ring)]" />
+              )}
+              <Tooltip side="right" label={label}>
+                <button
+                  type="button"
+                  aria-label={label}
+                  data-tour-id={tourId}
+                  onClick={onClick}
+                  className={clsx(
+                    "vs-rail-button flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color,transform,box-shadow] duration-150 active:scale-95",
+                    active
+                      ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] shadow-[inset_0_0_0_1px_rgba(212,212,216,0.22)]"
+                      : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
+                  )}
+                >
+                  <Icon size={minimal ? 19 : 20} strokeWidth={sw} weight={weight} />
+                </button>
+              </Tooltip>
+            </div>
+          );
+        })}
+      </nav>
+      <div className="mx-3 mb-2 h-px bg-[rgba(255,255,255,0.07)]" />
+
       {/* Nav icons */}
       <nav className="flex flex-col items-center py-1 w-full gap-0.5">
         {RAIL_ITEMS.map((item) => {
           const isAssets = item.id === "assets";
           const active = isAssets ? studio.assetsOpen : studio.leftPanel === item.id;
-          const sw = active ? 1.8 : 1.5;
+          const sw = minimal ? (active ? 1.8 : 1.45) : (active ? 1.9 : 1.55);
           // Aktivní ikona = duotone (dvoutónový prémiový look), neaktivní regular
-          const weight: IconWeight = active ? "duotone" : "regular";
+          const weight: IconWeight = minimal ? "regular" : active ? "duotone" : "regular";
 
           return (
             <div
@@ -242,7 +298,7 @@ export function StudioLeftRail() {
               className="relative w-full flex justify-center px-[3.5px] py-0.5"
             >
               {active && (
-                <span className="pointer-events-none absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-[var(--vs-accent)] shadow-[0_0_10px_var(--vs-accent-ring)]" />
+                <span className="vs-rail-active-indicator pointer-events-none absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-[var(--vs-accent)] shadow-[0_0_10px_var(--vs-accent-ring)]" />
               )}
               <Tooltip side="right" label={item.label}>
                 <button
@@ -256,13 +312,13 @@ export function StudioLeftRail() {
                     }
                   }}
                   className={clsx(
-                    "flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color,transform] duration-100 active:scale-95",
+                    "vs-rail-button flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color,transform,box-shadow] duration-150 active:scale-95",
                     active
                       ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] shadow-[inset_0_0_0_1px_rgba(212,212,216,0.22)]"
                       : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
                   )}
                 >
-                  <item.Icon size={20} strokeWidth={sw} weight={weight} />
+                  <item.Icon size={minimal ? 19 : 20} strokeWidth={sw} weight={weight} />
                 </button>
               </Tooltip>
             </div>
@@ -322,7 +378,7 @@ export function StudioLeftRail() {
               type="button"
               aria-label="Profil"
               onClick={() => setAccountOpen((v) => !v)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:brightness-110 transition-[filter] shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.36)] ring-1 ring-white/10"
+              className="vs-profile-avatar flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:brightness-110 transition-[filter] shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.36)] ring-1 ring-white/10"
               style={{ background: "var(--vs-cta-grad)" }}
             >
               TB

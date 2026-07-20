@@ -9,17 +9,43 @@
   "description": "Nehtové studio Wix Thunderbolt — krémový navbar #FCF9F0 s near-black uppercase wordmark a brown #806248 pill CTA, dark #0B090C hero s centrovaným tagline, cream about, services tabbed, instagram gallery, dark testimonials, light contact s mapou. Inspirováno maidenstudio.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Promo banner → Services → Gallery → Testimonials → Contact → Footer (dle maidenstudio.cz)",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",     "reason": "maidenstudio nezveřejňuje ceník na homepage — ceny jsou v e-shopu rezervačního systému" },
-    { "pos": 7,  "name": "Team",        "reason": "Web neprezentuje jména/foto týmu" },
-    { "pos": 9,  "name": "Booking/CTA", "reason": "Rezervace řešena přes CTA v navbaru + sekce Kontakty" },
-    { "pos": 11, "name": "FAQ",         "reason": "Originál nemá FAQ sekci na homepage" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "maidenstudio nezveřejňuje ceník na homepage — ceny jsou v e-shopu rezervačního systému"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Web neprezentuje jména/foto týmu"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "Rezervace řešena přes CTA v navbaru + sekce Kontakty"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál nemá FAQ sekci na homepage"
+    }
   ],
   "extraSections": [
-    { "type": "promo", "name": "Cashback banner", "reason": "Originál má cashback program sekci — předěláno na editorial promo banner" }
+    {
+      "type": "promo",
+      "name": "Cashback banner",
+      "reason": "Originál má cashback program sekci — předěláno na editorial promo banner"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -27,15 +53,56 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "nails-03-navbar",       "contentRef": "navbar" },
-        { "type": "hero",         "variant": "nails-03-hero",         "contentRef": "hero" },
-        { "type": "about",        "variant": "nails-03-about",        "contentRef": "about" },
-        { "type": "promo",        "variant": "nails-03-promo",        "contentRef": "promo" },
-        { "type": "services",     "variant": "nails-03-services",     "contentRef": "services" },
-        { "type": "gallery",      "variant": "nails-03-gallery",      "contentRef": "gallery" },
-        { "type": "testimonials", "variant": "nails-03-testimonials", "contentRef": "testimonials" },
-        { "type": "contact",      "variant": "nails-03-contact",      "contentRef": "contact" },
-        { "type": "footer",       "variant": "nails-03-footer",       "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "nails-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "nails-03-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "nails-03-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "nails-03-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "services",
+          "variant": "nails-03-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "gallery",
+          "variant": "nails-03-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "nails-03-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "nails-03",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "nails-03-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "nails-03-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

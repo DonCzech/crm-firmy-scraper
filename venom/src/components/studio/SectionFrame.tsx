@@ -311,7 +311,7 @@ export function SectionFrame({
           onClick={(e) => e.stopPropagation()}
           onMouseDown={(e) => e.stopPropagation()}
           className={clsx(
-            "pointer-events-auto absolute left-0 top-0 z-[60] flex h-6 w-6 cursor-grab items-center justify-center rounded-br-md text-white shadow-md ring-1 ring-white/20 transition-colors active:cursor-grabbing",
+            "pointer-events-auto absolute left-0 top-0 z-[60] flex h-6 w-6 cursor-grab items-center justify-center rounded-br-md text-[var(--vs-text)] shadow-md ring-1 ring-white/20 transition-colors active:cursor-grabbing",
             selected ? "bg-[var(--vs-accent-solid)] hover:bg-[var(--vs-accent-solid-hi)]" : "bg-[var(--vs-accent-solid)]/90 hover:bg-[var(--vs-accent-solid-hi)]"
           )}
         >
@@ -326,21 +326,23 @@ export function SectionFrame({
           )}
         >
           <span className={clsx(
-            "rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
+            "rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-[var(--vs-text)]",
             selected ? "bg-[var(--vs-accent-solid)]" : "bg-[var(--vs-accent-solid)]/80"
           )}>
             {label}
           </span>
           {!section.is_visible && (
-            <span className="rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-white">
+            <span className="rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-[var(--vs-text)]">
               Skryto
             </span>
           )}
         </div>
       )}
-      {/* Bottom edge resize handle — only on sortable sections (mimo navbar/footer)
-          aby uživatel nezvětšoval fixed header / footer. T1.3. */}
-      {selected && sortable && (
+      {/* Bottom edge resize handle — mimo navbar/footer (fixed header/footer
+          se roztahovat nemá). Záměrně NEvázáno na `sortable`: to je aktivní
+          jen při 2+ prostředních sekcích a web s jedinou sekcí (čerstvý blank
+          z builderu) by jinak neměl jak měnit výšku. T1.3. */}
+      {selected && section.section_type !== "navbar" && section.section_type !== "footer" && (
         <SectionResizeHandle section={section} state={state} />
       )}
       {selected && (
@@ -480,7 +482,7 @@ function SaveTemplatePopover({
         type="button"
         onClick={() => void save()}
         disabled={busy || !label.trim()}
-        className="flex w-full items-center justify-center gap-1.5 rounded-md py-1.5 text-[12px] font-semibold text-white transition-[filter] hover:brightness-110 disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-1.5 rounded-md py-1.5 text-[12px] font-semibold text-[var(--vs-text)] transition-[filter] hover:brightness-110 disabled:opacity-60"
         style={{ background: "var(--vs-cta-grad)" }}
       >
         {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : done ? <Check className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}
@@ -510,7 +512,7 @@ function FrameBtn({
       className={clsx(
         "inline-flex h-6 w-6 items-center justify-center rounded transition-colors duration-150 hover:bg-[var(--vs-surface-2)]",
         active ? "bg-[var(--vs-accent-solid)] text-white hover:bg-[var(--vs-accent-solid-hi)]" : "text-[var(--vs-text-muted)]",
-        danger ? "hover:text-red-400" : !active && "hover:text-white",
+        danger ? "hover:text-red-400" : !active && "hover:text-[var(--vs-text)]",
         disabled && "opacity-30 hover:bg-transparent"
       )}
     >
@@ -550,7 +552,7 @@ function AddElementPopover({ onAdd, onClose }: { onAdd: (type: string) => void; 
           key={type}
           type="button"
           onClick={(e) => { e.stopPropagation(); onAdd(type); }}
-          className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-[11px] text-[var(--vs-text-muted)] transition-colors hover:bg-[var(--vs-surface-2)] hover:text-white"
+          className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-[11px] text-[var(--vs-text-muted)] transition-colors hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
         >
           <span className="text-[var(--vs-text-dim)]">{icon}</span>
           {label}

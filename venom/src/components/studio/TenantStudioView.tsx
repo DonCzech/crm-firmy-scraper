@@ -17,6 +17,8 @@ interface Props {
   page: Page;
   sections: Section[];
   overrides?: TenantOverride[];
+  /** Otevřít Studio rovnou v režimu AI Builderu (?builder=1). */
+  initialBuilderOpen?: boolean;
 }
 
 const MAX_HISTORY = 30;
@@ -111,9 +113,9 @@ export interface StudioState {
   updateSectionLocal: (id: number, patch: Partial<Section>) => void;
 }
 
-export function TenantStudioView({ tenant, page, sections: initialSections, overrides = [] }: Props) {
+export function TenantStudioView({ tenant, page, sections: initialSections, overrides = [], initialBuilderOpen = false }: Props) {
   return (
-    <StudioProvider>
+    <StudioProvider initialBuilderOpen={initialBuilderOpen}>
       <InnerStudio tenant={tenant} page={page} initialSections={initialSections} overrides={overrides} />
     </StudioProvider>
   );

@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "dj-01",
-  "name": "Demo DJ",
+  "name": "Nokturn Sound",
   "industry": "dj",
   "skeleton": "events-media",
   "version": "0.1.0",
@@ -9,20 +9,51 @@
   "description": "DJ & technický support — profesionální eventový web. Pevný černý navbar + SVG headphone wordmark, fullscreen hero s tmavým overlayem, 4×2 services grid s bg fotkami, textová about sekce s team fotkou, 7 USP bodů (promo), logo-grid referencí (promo), quick-contact sidebar, tmavý footer s Facebook+YouTube. Inspirováno vasdj.cz. System fonts, oranžový #f15a24.",
   "sectionOrderNote": "Navbar → Hero → Services → About → WhyUs (promo) → References (promo) → Contact → Footer",
   "skippedSections": [
-    { "pos": 3,  "name": "Portfolio",      "reason": "DJ web nepotřebuje fotogalerii — vizuální obsah řeší hero + services dlaždice" },
-    { "pos": 7,  "name": "Pricing/Packages", "reason": "Ceny se zadávají individuálně — DJ web nemá veřejný ceník" },
-    { "pos": 8,  "name": "Testimonials",   "reason": "Reference nahrazeny logo-gridem klientů (dj-01-references promo sekce)" },
-    { "pos": 9,  "name": "CTA/Booking",    "reason": "Booking nahrazen quick-contact sidebarem (dj-01-contact)" },
-    { "pos": 10, "name": "FAQ",            "reason": "DJ web neobsahuje FAQ sekci — USP body (whyus) plní podobnou roli" }
+    {
+      "pos": 3,
+      "name": "Portfolio",
+      "reason": "DJ web nepotřebuje fotogalerii — vizuální obsah řeší hero + services dlaždice"
+    },
+    {
+      "pos": 7,
+      "name": "Pricing/Packages",
+      "reason": "Ceny se zadávají individuálně — DJ web nemá veřejný ceník"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Reference nahrazeny logo-gridem klientů (dj-01-references promo sekce)"
+    },
+    {
+      "pos": 9,
+      "name": "CTA/Booking",
+      "reason": "Booking nahrazen quick-contact sidebarem (dj-01-contact)"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "DJ web neobsahuje FAQ sekci — USP body (whyus) plní podobnou roli"
+    }
   ],
   "extraSections": [
-    { "type": "promo",   "reason": "7 USP bodů — proč zvolit tuto DJ agenturu (whyus)" },
-    { "type": "promo",   "reason": "Logo-grid klientů ČSOB/O2/BMW/IKEA... (references)" },
-    { "type": "contact", "reason": "Quick-contact sidebar s tel + email" }
+    {
+      "type": "promo",
+      "reason": "7 USP bodů — proč zvolit tuto DJ agenturu (whyus)"
+    },
+    {
+      "type": "promo",
+      "reason": "Logo-grid klientů ČSOB/O2/BMW/IKEA... (references)"
+    },
+    {
+      "type": "contact",
+      "reason": "Quick-contact sidebar s tel + email"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -30,14 +61,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "dj-01-navbar",      "contentRef": "navbar"     },
-        { "type": "hero",     "variant": "dj-01-hero",        "contentRef": "hero"       },
-        { "type": "services", "variant": "dj-01-services",    "contentRef": "services"   },
-        { "type": "about",    "variant": "dj-01-about",       "contentRef": "about"      },
-        { "type": "promo",    "variant": "dj-01-whyus",       "contentRef": "whyus"      },
-        { "type": "promo",    "variant": "dj-01-references",  "contentRef": "references" },
-        { "type": "contact",  "variant": "dj-01-contact",     "contentRef": "contact"    },
-        { "type": "footer",   "variant": "dj-01-footer",      "contentRef": "footer"     }
+        {
+          "type": "navbar",
+          "variant": "dj-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "dj-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "dj-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "about",
+          "variant": "dj-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "promo",
+          "variant": "dj-01-whyus",
+          "contentRef": "whyus"
+        },
+        {
+          "type": "promo",
+          "variant": "dj-01-references",
+          "contentRef": "references"
+        },
+        {
+          "type": "contact",
+          "variant": "dj-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "dj-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

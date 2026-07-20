@@ -13,8 +13,10 @@ const SNAP = 8;
 function snap(v: number) {
   return Math.round(v / SNAP) * SNAP;
 }
-function clamp(v: number) {
-  return Math.max(MIN, Math.min(MAX, v));
+/** Horní mez roste s výchozí hodnotou — šablona může mít vlastní padding
+ *  větší než MAX a clamp by ho při prvním tahu skokově ořízl. */
+function clamp(v: number, max = MAX) {
+  return Math.max(MIN, Math.min(Math.max(max, MAX), v));
 }
 
 /**
@@ -38,25 +40,54 @@ export function SectionResizeHandle({
   const dragState = useRef<{
     startY: number;
     startPad: number;
+    /** Měřítko canvasu (zoom/fit) — screen px → canvas px. */
+    scale: number;
     rafPending: number | null;
     lastClientY: number;
   } | null>(null);
   const [draggingValue, setDraggingValue] = useState<number | null>(null);
 
-  // Read saved paddingBottom as the starting baseline.
-  const savedPad = (section.settings?.layout as { paddingBottom?: number } | undefined)?.paddingBottom ?? 0;
+  // Uložená hodnota slideru — undefined znamená „šablona si padding řídí sama".
+  const savedPad = (section.settings?.layout as { paddingBottom?: number } | undefined)?.paddingBottom;
 
   function onPointerDown(e: React.PointerEvent<HTMLButtonElement>) {
     e.stopPropagation();
     e.preventDefault();
     e.currentTarget.setPointerCapture(e.pointerId);
+
+    // Baseline = SKUTEČNĚ vykreslený padding-bottom. Jakmile se totiž
+    // paddingBottom nastaví (i transientně), wrapper přebírá odpovědnost za
+    // celou osu a vlastní padding šablony se nuluje (SectionRenderer
+    // overrideCss). Start z `saved ?? 0` proto sekci při prvním tahu skokově
+    // ZMENŠIL o šablonový padding — místo roztažení se po puštění smrskla.
+    // Pozor: [data-sr-id] wrapper existuje JEN u sekcí s layout overridem —
+    // kotvíme přes SectionFrame ([data-section-id]), který je v canvasu vždy.
+    const wrapEl = document.querySelector<HTMLElement>(`[data-section-id="${section.id}"]`);
+    let startPad = savedPad;
+    if (typeof startPad !== "number") {
+      const templateSection = wrapEl?.querySelector("section") ?? wrapEl;
+      startPad = templateSection
+        ? Math.round(parseFloat(getComputedStyle(templateSection).paddingBottom) || 0)
+        : 0;
+    }
+
+    // Canvas je škálovaný (zoom / fit) — delta kurzoru v px obrazovky se musí
+    // přepočítat na px plátna, jinak drag „neposlouchá" kurzor.
+    const scale = wrapEl && wrapEl.offsetWidth > 0
+      ? (wrapEl.getBoundingClientRect().width / wrapEl.offsetWidth) || 1
+      : 1;
+
     dragState.current = {
       startY: e.clientY,
-      startPad: savedPad,
+      startPad,
+      scale,
       rafPending: null,
       lastClientY: e.clientY,
     };
-    setDraggingValue(savedPad);
+    setDraggingValue(startPad);
+    // Okamžitý live přenos baseline — přechod šablonový padding → wrapper
+    // padding je tak vizuálně neutrální už od prvního pixelu tahu.
+    studio.setTransientPadding({ sectionId: section.id, paddingBottom: startPad });
   }
 
   function applyTransient(value: number) {
@@ -72,8 +103,8 @@ export function SectionResizeHandle({
     d.rafPending = requestAnimationFrame(() => {
       if (!dragState.current) return;
       dragState.current.rafPending = null;
-      const delta = dragState.current.lastClientY - dragState.current.startY;
-      const next = clamp(snap(dragState.current.startPad + delta));
+      const delta = (dragState.current.lastClientY - dragState.current.startY) / dragState.current.scale;
+      const next = clamp(snap(dragState.current.startPad + delta), dragState.current.startPad);
       applyTransient(next);
     });
   }
@@ -82,13 +113,14 @@ export function SectionResizeHandle({
     const d = dragState.current;
     if (!d) return;
     if (d.rafPending != null) cancelAnimationFrame(d.rafPending);
-    const delta = d.lastClientY - d.startY;
-    const finalPad = clamp(snap(d.startPad + delta));
+    const delta = (d.lastClientY - d.startY) / d.scale;
+    const finalPad = clamp(snap(d.startPad + delta), d.startPad);
     dragState.current = null;
     setDraggingValue(null);
     try { e.currentTarget.releasePointerCapture(e.pointerId); } catch { /* noop */ }
-    // Commit only if value actually changed.
-    if (finalPad !== savedPad) {
+    // Commit jen při reálné změně proti baseline (u nedotčené šablony je
+    // baseline měřený padding — klik bez tahu nesmí nic přepsat).
+    if (finalPad !== d.startPad) {
       const layout = { ...(section.settings?.layout ?? {}), paddingBottom: finalPad };
       void state.patchSection(section.id, {
         settings: { ...(section.settings ?? {}), layout },
@@ -141,7 +173,7 @@ export function SectionResizeHandle({
       {/* Value tooltip during drag */}
       {dragging && (
         <span
-          className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 rounded-md bg-[var(--vs-surface)] px-2 py-0.5 text-[11px] font-mono text-white shadow-lg ring-1 ring-white/10"
+          className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 rounded-md bg-[var(--vs-surface)] px-2 py-0.5 text-[11px] font-mono text-[var(--vs-text)] shadow-lg ring-1 ring-white/10"
         >
           {draggingValue} px
         </span>

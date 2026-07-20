@@ -1,0 +1,174 @@
+{
+  "siteName": "Moderno Store",
+  "seo": {
+    "title": "Moderno Store — pečlivě vybrané věci pro každý den",
+    "description": "Kvalitní oblečení a doplňky do domácnosti. Pečlivě vybíráme materiály i výrobce — méně věcí, které vydrží déle. Doprava zdarma od 1 500 Kč."
+  },
+  "navbar": {
+    "siteName": "Moderno Store",
+    "logoUrl": "",
+    "ctaText": "Nakupovat",
+    "ctaHref": "/obchod",
+    "links": [
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Obchod",
+        "href": "/obchod"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Méně věcí. Lepší věci.",
+    "subtitle": "Pečlivě vybraný sortiment pro každý den — kvalitní materiály, férová výroba a design, který přežije sezónní trendy.",
+    "ctaText": "Prozkoumat kolekci",
+    "ctaHref": "/obchod",
+    "ctaSecondaryText": "Náš příběh",
+    "ctaSecondaryHref": "/o-nas",
+    "image": "/assets/eshop-01/hero-store.webp",
+    "badgeText": "Podzimní řada právě naskladněna"
+  },
+  "featured": {
+    "eyebrow": "Náš výběr",
+    "heading": "Doporučujeme",
+    "ctaLabel": "Zobrazit celý obchod",
+    "limit": 8,
+    "columns": 4
+  },
+  "categories": {
+    "eyebrow": "Kategorie",
+    "heading": "Nakupujte podle kategorií",
+    "limit": 4
+  },
+  "about": {
+    "title": "Obchod, který dává smysl",
+    "image": "/assets/eshop-01/mikina-oversize.webp",
+    "body": "Moderno Store vznikl z jednoduché myšlenky: raději méně věcí, ale takových, které opravdu vydrží. Každý produkt v našem sortimentu procházíme osobně — od složení materiálu po podmínky výroby. Nenajdete u nás tisíce položek, najdete u nás ty správné.",
+    "caption": "Vybíráme osobně od roku 2018",
+    "eyebrow": "Náš příběh",
+    "usp": [
+      {
+        "title": "Doprava zdarma od 1 500 Kč",
+        "text": "Objednávky do 14:00 expedujeme tentýž den."
+      },
+      {
+        "title": "Vrácení do 30 dnů",
+        "text": "Bez otázek, peníze zpět do 3 dnů od přijetí."
+      },
+      {
+        "title": "Ověřená kvalita",
+        "text": "Každý produkt testujeme, než ho zařadíme do nabídky."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Co říkají zákazníci",
+    "testimonials": [
+      {
+        "name": "Kateřina H.",
+        "text": "Objednávka přišla druhý den, krásně zabalená. Tričko po deseti praních vypadá pořád jako nové.",
+        "rating": 5
+      },
+      {
+        "name": "Martin V.",
+        "text": "Konečně obchod, kde nemusím hodinu filtrovat balast. Malý výběr, ale všechno stojí za to.",
+        "rating": 5
+      },
+      {
+        "name": "Lucie P.",
+        "text": "Termohrnek beru všude s sebou. A když jsem řešila výměnu velikosti, odpověděli do hodiny.",
+        "rating": 5
+      }
+    ],
+    "eyebrow": "Recenze"
+  },
+  "faq": {
+    "title": "Časté otázky",
+    "items": [
+      {
+        "question": "Jak rychle doručujete?",
+        "answer": "Objednávky odeslané do 14:00 expedujeme tentýž den. Zásilkovna i kurýr obvykle doručí do 1–2 pracovních dnů."
+      },
+      {
+        "question": "Kolik stojí doprava?",
+        "answer": "Zásilkovna od 79 Kč, kurýr od 119 Kč. Nad 1 500 Kč je doprava zdarma."
+      },
+      {
+        "question": "Můžu zboží vrátit?",
+        "answer": "Ano, do 30 dnů bez udání důvodu. Stačí vyplnit online formulář a zboží poslat zpět — peníze vracíme do 3 dnů od přijetí."
+      },
+      {
+        "question": "Jak řešíte reklamace?",
+        "answer": "Napište nám na podpora@modernostore.cz. Reklamace vyřizujeme do 30 dnů, většinu ale zvládneme do týdne."
+      }
+    ],
+    "eyebrow": "Podpora"
+  },
+  "cta": {
+    "title": "Doprava zdarma od 1 500 Kč",
+    "subtitle": "A vrácení do 30 dnů bez otázek. Nakupování bez rizika.",
+    "buttonText": "Začít nakupovat",
+    "ctaHref": "/obchod"
+  },
+  "contact": {
+    "title": "Kontaktujte nás",
+    "subtitle": "Odpovídáme v pracovní dny do 24 hodin.",
+    "email": "podpora@modernostore.cz",
+    "phone": "+420 777 123 456",
+    "address": "Bubenská 1477/1, 170 00 Praha 7"
+  },
+  "footer": {
+    "siteName": "Moderno Store",
+    "logoUrl": "",
+    "tagline": "Méně věcí. Lepší věci.",
+    "email": "podpora@modernostore.cz",
+    "phone": "+420 777 123 456",
+    "address": "Bubenská 1477/1, 170 00 Praha 7",
+    "links": [
+      {
+        "label": "Obchod",
+        "href": "/obchod"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "/kontakt"
+      }
+    ],
+    "instagram": "https://instagram.com/modernostore",
+    "facebook": "https://facebook.com/modernostore"
+  },
+  "pages": {
+    "o-nas": {
+      "seoTitle": "O nás — Moderno Store",
+      "seoDescription": "Proč jsme založili Moderno Store a jak vybíráme produkty. Méně věcí, které vydrží déle.",
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Raději méně věcí, ale takových, které opravdu vydrží.",
+        "ctaText": "",
+        "backgroundImage": ""
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Moderno Store",
+      "seoDescription": "Napište nám — odpovídáme v pracovní dny do 24 hodin. podpora@modernostore.cz, +420 777 123 456."
+    }
+  }
+}

@@ -23,12 +23,36 @@ interface Props {
 
 type Status = "idle" | "sending" | "success" | "error";
 
+function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isAdmin = false) {
+  if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return href;
+  const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+  return base + (href.startsWith("/") ? href : `/${href}`);
+}
+
 export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
+  if (variant === "artist-01-contact") return <ContactArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "contact-bakery-01") return <ContactBakery01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-prefooter") return <ContactEshop05Prefooter content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-02-contact") {
+    return <ContactEshop02 content={content} sectionId={sectionId} />;
+  }
+  if (variant === "eshop-03-contact") {
+    return <ContactEshop03 content={content} sectionId={sectionId} />;
+  }
+  if (variant === "eshop-04-contact") {
+    return <ContactEshop04 content={content} sectionId={sectionId} />;
+  }
   if (variant === "contact-photo-01") {
     return <ContactPhoto01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
-  if (variant === "ananda-01-contact") {
-    return <ContactAnanda01 content={content} sectionId={sectionId} />;
+  if (variant === "eshop-06-contact") {
+    return <ContactEshop06 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "contact-floors-01") {
+    return <ContactFloors01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "harmonie-01-contact") {
+    return <ContactHarmonie01 content={content} sectionId={sectionId} />;
   }
   if (variant === "tawan-01-contact") {
     return <ContactTawan01 content={content} sectionId={sectionId} />;
@@ -52,7 +76,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
     return <ContactTattoo02 content={content} sectionId={sectionId} />;
   }
   if (variant === "tattoo-03-contact") {
-    return <ContactTattoo03 content={content} sectionId={sectionId} />;
+    return <ContactTattoo03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "nails-02-contact") {
     return <ContactNails02 content={content} sectionId={sectionId} />;
@@ -67,7 +91,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
     return <ContactClinic03 content={content} sectionId={sectionId} />;
   }
   if (variant === "restaurant-01-contact") {
-    return <ContactRestaurant01 content={content} sectionId={sectionId} />;
+    return <ContactRestaurant01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "restaurant-02-contact") {
     return <ContactRestaurant02 content={content} sectionId={sectionId} />;
@@ -82,6 +106,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
     return <ContactCafe03 content={content} sectionId={sectionId} />;
   }
   if (variant === "reality-01-contact")    return <ContactReality01 content={content} sectionId={sectionId} />;
+  if (variant === "reality-05-contact")    return <ContactReality05 content={content} sectionId={sectionId} />;
   if (variant === "reality-02-contact")    return <ContactReality02 content={content} sectionId={sectionId} />;
   if (variant === "reality-04-contact")    return <ContactReality04 content={content} sectionId={sectionId} />;
   if (variant === "reality-06-contact")    return <ContactReality06 content={content} sectionId={sectionId} isAdmin={isAdmin} tenantSlug={tenantSlug} />;
@@ -131,10 +156,12 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "solar-02-contact")     return <ContactSolar02 content={content} sectionId={sectionId} />;
   if (variant === "klempir-01-contact")   return <ContactKlempir01 content={content} sectionId={sectionId} />;
   if (variant === "garden-01-contact")    return <ContactGarden01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "garden-02-contact")    return <ContactGarden02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-contact")     return <ContactClean02  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hotel-01-contact")     return <ContactHotel01  content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "arbo-01-contact")      return <ContactArbo01   content={content} sectionId={sectionId} />;
   if (variant === "malir-02-contact")     return <ContactMalir02  content={content} sectionId={sectionId} isAdmin={isAdmin} />;
+  if (variant === "malir-01-contact")     return <ContactMalir01  content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "dj-01-contact")        return <ContactDj01      content={content} sectionId={sectionId} />;
   if (variant === "restaurant-04-contact") return <ContactRestaurant04 content={content} sectionId={sectionId} />;
   if (variant === "barber-dark")           return <ContactBarberDark content={content} sectionId={sectionId} />;
@@ -378,10 +405,8 @@ function ContactNails01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ── contact-massage-01 ───────────────────────────────────────────────────────
-// Dark BG #0A0A0A, 2-col: vlevo info (section-label + H2 + popis + 4 items)
-// vpravo mapa iframe nebo šedý placeholder, contact-item: ikona 40×40 + label + value
-// ─────────────────────────────────────────────────────────────────────────────
 function ContactMassage01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const sectionTag  = String(content.sectionTag  ?? "Kontakt");
   const heading     = String(content.heading     ?? "Kde nás najdete");
   const description = String(content.description ?? "");
   const address     = String(content.address     ?? "");
@@ -390,20 +415,9 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
   const hours       = String(content.hours       ?? "");
   const mapEmbedUrl = String(content.mapEmbedUrl ?? "");
 
-  const BG        = "#0A0A0A";
-  const SURFACE   = "#141414";
-  const BORDER    = "#2A2520";
-  const GOLD      = "#C9A962";
-  const TEXT      = "#F5F0E8";
-  const SECONDARY = "#A09888";
-  const MUTED     = "#6A6058";
-  const FONT      = "'Inter', sans-serif";
-  const SERIF     = "'Cormorant Garamond', serif";
-
-  const items = [
+  const items: { label: string; value: string; field: string; href?: string; icon: React.ReactNode }[] = [
     {
-      label: "Adresa",
-      value: address,
+      label: "Adresa", field: "address", value: address,
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
@@ -411,9 +425,7 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
       ),
     },
     {
-      label: "Telefon",
-      value: phone,
-      href: `tel:${phone.replace(/\s/g, "")}`,
+      label: "Telefon", field: "phone", value: phone, href: `tel:${phone.replace(/\s/g, "")}`,
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
@@ -421,9 +433,7 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
       ),
     },
     {
-      label: "E-mail",
-      value: email,
-      href: `mailto:${email}`,
+      label: "E-mail", field: "email", value: email, href: `mailto:${email}`,
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
@@ -431,8 +441,7 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
       ),
     },
     {
-      label: "Otevírací doba",
-      value: hours,
+      label: "Otevírací doba", field: "hours", value: hours,
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
           <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -441,50 +450,42 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
     },
   ].filter(item => item.value);
 
+  const showHeader = !!(sectionTag.trim() || heading.trim());
+
   return (
-    <section
-      id="kontakt"
-      style={{ backgroundColor: BG, padding: "100px 80px" }}
-      data-template="massage-01"
-    >
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, maxWidth: 1280, margin: "0 auto" }}>
-        {/* Vlevo — info */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
-          <p style={{ display: "inline-flex", alignItems: "center", gap: 8, color: GOLD, fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>
-            <span style={{ display: "inline-block", width: 6, height: 6, background: GOLD, borderRadius: "50%" }} />
-            Kontakt
-          </p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 400, color: TEXT, lineHeight: 1.1, margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          {description && (
-            <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, lineHeight: 1.7, margin: 0 }}>
+    <section id="kontakt" className="m01-contact" data-template="massage-01">
+      <div className="m01-contact-grid">
+        {/* Left — info */}
+        <div className="m01-contact-info">
+          {showHeader && (
+            <>
+              <p className="m01-hero-tag">
+                <span className="m01-hero-tag-dot" />
+                <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
+              </p>
+              <h2 className="m01-contact-title">
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+            </>
+          )}
+          {description.trim() && (
+            <p className="m01-contact-desc">
               <GenericEditableText sectionId={sectionId} field="description" value={description} tag="span" />
             </p>
           )}
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div className="m01-contact-items">
             {items.map((item, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
-                <div style={{
-                  width: 40, height: 40, flexShrink: 0,
-                  background: SURFACE,
-                  border: `1px solid ${BORDER}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  color: GOLD,
-                }}>
-                  {item.icon}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <p style={{ fontFamily: FONT, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: MUTED, margin: 0 }}>
-                    {item.label}
-                  </p>
-                  <p style={{ fontFamily: FONT, fontSize: 15, color: TEXT, margin: 0 }}>
+              <div key={i} className="m01-contact-item">
+                <div className="m01-contact-icon">{item.icon}</div>
+                <div className="m01-contact-item-text">
+                  <p className="m01-contact-label">{item.label}</p>
+                  <p className="m01-contact-value">
                     {item.href ? (
-                      <a href={item.href} style={{ color: TEXT, textDecoration: "none" }}>
-                        <GenericEditableText sectionId={sectionId} field={item.label.toLowerCase()} value={item.value} tag="span" />
+                      <a href={item.href} className="m01-contact-link">
+                        <GenericEditableText sectionId={sectionId} field={item.field} value={item.value} tag="span" />
                       </a>
                     ) : (
-                      <GenericEditableText sectionId={sectionId} field={item.label.toLowerCase()} value={item.value} tag="span" />
+                      <GenericEditableText sectionId={sectionId} field={item.field} value={item.value} tag="span" />
                     )}
                   </p>
                 </div>
@@ -493,8 +494,8 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
           </div>
         </div>
 
-        {/* Vpravo — mapa */}
-        <div style={{ minHeight: 400, background: SURFACE, border: `1px solid ${BORDER}`, overflow: "hidden" }}>
+        {/* Right — map */}
+        <div className="m01-contact-map">
           {mapEmbedUrl ? (
             <iframe
               src={mapEmbedUrl}
@@ -506,11 +507,11 @@ function ContactMassage01({ content, sectionId }: { content: Record<string, unkn
               referrerPolicy="no-referrer-when-downgrade"
             />
           ) : (
-            <div style={{ width: "100%", height: "100%", minHeight: 400, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, color: MUTED }}>
+            <div className="m01-contact-map-placeholder">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" width="40" height="40">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
               </svg>
-              <p style={{ fontFamily: FONT, fontSize: 12, letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Vložte URL mapy</p>
+              <p>Vložte URL mapy</p>
             </div>
           )}
         </div>
@@ -1344,17 +1345,16 @@ function ContactTawan01({ content, sectionId }: { content: Record<string, unknow
   );
 }
 
-// ── ananda-01-contact ─────────────────────────────────────────────────────────
-function ContactAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// ── harmonie-01-contact ─────────────────────────────────────────────────────────
+function ContactHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD  = "#AA813A";
   const CREAM = "#F2EDE4";
-  const BLUE  = "#2A9ABC";
 
   const [status, setStatus] = useState<Status>("idle");
 
   const title   = String(content.title   ?? "CHCETE VĚDĚT VÍC?\nKONTAKTUJTE NÁS");
   const phone   = String(content.phone   ?? "704 123 456");
-  const email   = String(content.email   ?? "email@demo.cz");
+  const email   = String(content.email   ?? "info@demo.cz");
   const address = String(content.address ?? "Náměstí Míru 12, Praha 2");
   const hours   = String(content.hours   ?? "Po–Pá 9:00–20:00 / So–Ne 10:00–18:00");
 
@@ -1366,82 +1366,8 @@ function ContactAnanda01({ content, sectionId }: { content: Record<string, unkno
   }
 
   return (
-    <section id="kontakt" style={{ backgroundColor: GOLD, padding: "80px 0" }}>
-      <style>{`
-        .ana-con-wrap {
-          max-width: 1100px;
-          margin: 0 auto;
-          padding: 0 32px;
-          display: grid;
-          grid-template-columns: 1fr 1.3fr;
-          gap: 64px;
-          align-items: start;
-        }
-        @media (max-width: 800px) {
-          .ana-con-wrap { grid-template-columns: 1fr; gap: 40px; }
-        }
-        .ana-con-info-label {
-          font-family: 'Jost', sans-serif;
-          font-size: 10px;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          color: rgba(242,237,228,0.7);
-          margin: 0 0 4px;
-        }
-        .ana-con-info-val {
-          font-family: 'Jost', sans-serif;
-          font-size: 16px;
-          font-weight: 400;
-          color: ${CREAM};
-          margin: 0 0 28px;
-          line-height: 1.5;
-        }
-        .ana-con-form {
-          background: rgba(242,237,228,0.12);
-          border-radius: 4px;
-          padding: 36px 36px 32px;
-        }
-        .ana-con-field {
-          width: 100%;
-          box-sizing: border-box;
-          background: rgba(242,237,228,0.18);
-          border: 1px solid rgba(242,237,228,0.35);
-          border-radius: 3px;
-          padding: 13px 16px;
-          color: ${CREAM};
-          font-family: 'Jost', sans-serif;
-          font-size: 14px;
-          outline: none;
-          margin-bottom: 14px;
-          transition: border-color 0.2s ease;
-        }
-        .ana-con-field::placeholder { color: rgba(242,237,228,0.5); }
-        .ana-con-field:focus { border-color: rgba(242,237,228,0.7); }
-        .ana-con-field.textarea { min-height: 110px; resize: vertical; }
-        .ana-con-submit {
-          width: 100%;
-          background: ${CREAM};
-          color: ${GOLD};
-          border: none;
-          border-radius: 3px;
-          padding: 14px 28px;
-          font-family: 'Jost', sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 2.5px;
-          text-transform: uppercase;
-          cursor: pointer;
-          transition: background 0.25s ease, color 0.25s ease;
-          margin-top: 6px;
-        }
-        .ana-con-submit:hover:not(:disabled) {
-          background: #1a1208;
-          color: ${CREAM};
-        }
-        .ana-con-submit:disabled { opacity: 0.6; cursor: default; }
-      `}</style>
-
-      <div className="ana-con-wrap">
+    <section id="kontakt" data-template="harmonie-01" style={{ backgroundColor: GOLD, padding: "88px 0 96px" }}>
+      <div className="harmonie-con-wrap">
         {/* Left — info */}
         <div>
           <h2 style={{
@@ -1458,21 +1384,21 @@ function ContactAnanda01({ content, sectionId }: { content: Record<string, unkno
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
 
-          <p className="ana-con-info-label">Telefon</p>
-          <p className="ana-con-info-val"><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></p>
+          <p className="harmonie-con-info-label">Telefon</p>
+          <p className="harmonie-con-info-val"><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></p>
 
-          <p className="ana-con-info-label">E-mail</p>
-          <p className="ana-con-info-val"><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></p>
+          <p className="harmonie-con-info-label">E-mail</p>
+          <p className="harmonie-con-info-val"><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></p>
 
-          <p className="ana-con-info-label">Adresa</p>
-          <p className="ana-con-info-val"><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>
+          <p className="harmonie-con-info-label">Adresa</p>
+          <p className="harmonie-con-info-val"><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>
 
-          <p className="ana-con-info-label">Otevírací doba</p>
-          <p className="ana-con-info-val" style={{ marginBottom: 0 }}><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></p>
+          <p className="harmonie-con-info-label">Otevírací doba</p>
+          <p className="harmonie-con-info-val" style={{ marginBottom: 0 }}><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></p>
         </div>
 
         {/* Right — form */}
-        <div className="ana-con-form">
+        <div className="harmonie-con-form">
           {status === "success" ? (
             <div style={{ textAlign: "center", padding: "40px 0" }}>
               <p style={{ fontFamily: "'Jost', sans-serif", fontSize: 18, color: CREAM, letterSpacing: 1 }}>
@@ -1481,11 +1407,11 @@ function ContactAnanda01({ content, sectionId }: { content: Record<string, unkno
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <input  className="ana-con-field" type="text"  name="name"  placeholder="Jméno a příjmení" required />
-              <input  className="ana-con-field" type="email" name="email" placeholder="E-mail" required />
-              <input  className="ana-con-field" type="tel"   name="phone" placeholder="Telefon (nepovinné)" />
-              <textarea className="ana-con-field textarea" name="message" placeholder="Váš dotaz nebo zájem o proceduru..." />
-              <button className="ana-con-submit" type="submit" disabled={status === "sending"}>
+              <input  className="harmonie-con-field" type="text"  name="name"  placeholder="Jméno a příjmení" required />
+              <input  className="harmonie-con-field" type="email" name="email" placeholder="E-mail" required />
+              <input  className="harmonie-con-field" type="tel"   name="phone" placeholder="Telefon (nepovinné)" />
+              <textarea className="harmonie-con-field textarea" name="message" placeholder="Váš dotaz nebo zájem o proceduru..." />
+              <button className="harmonie-con-submit" type="submit" disabled={status === "sending"}>
                 {status === "sending" ? "Odesílám…" : "Odeslat zprávu"}
               </button>
             </form>
@@ -1499,6 +1425,7 @@ function ContactAnanda01({ content, sectionId }: { content: Record<string, unkno
 // ── tattoo-01-contact ─────────────────────────────────────────────────────────
 function ContactTattoo01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const heading   = String(content.heading   ?? "Kontakt");
+  const eyebrow   = String(content.eyebrow   ?? "Najdete nás");
   const address   = String(content.address   ?? "");
   const phone     = String(content.phone     ?? "");
   const email     = String(content.email     ?? "");
@@ -1508,6 +1435,32 @@ function ContactTattoo01({ content, sectionId }: { content: Record<string, unkno
   const instagram = String(content.instagram ?? "");
   const ACCENT = "#ff5c4b";
   const SANS   = "Arial, Helvetica, sans-serif";
+
+  const infoRef  = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const [infoVis, setInfoVis]   = useState(false);
+  const [photoVis, setPhotoVis] = useState(false);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInfoVis(true); o.disconnect(); } }, { threshold: 0.25 });
+    if (infoRef.current) o.observe(infoRef.current);
+    return () => o.disconnect();
+  }, []);
+  useEffect(() => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setPhotoVis(true); o.disconnect(); } }, { threshold: 0.2 });
+    if (photoRef.current) o.observe(photoRef.current);
+    return () => o.disconnect();
+  }, []);
+
+  const iconSvg = (name: string) => {
+    const base = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: ACCENT, strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    switch (name) {
+      case "address": return <svg {...base}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>;
+      case "phone":   return <svg {...base}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+      case "email":   return <svg {...base}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></svg>;
+      case "hours":   return <svg {...base}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>;
+      default:        return null;
+    }
+  };
 
   return (
     <>
@@ -1520,26 +1473,29 @@ function ContactTattoo01({ content, sectionId }: { content: Record<string, unkno
       <section id="kontakt" data-template="tattoo-01" style={{ backgroundColor: "#0a0a0a", overflow: "hidden" }}>
         <div className="t01-contact-row" style={{ display: "flex", maxWidth: 1280, margin: "0 auto" }}>
           {/* Levý sloupec — info */}
-          <div style={{ flex: "0 0 50%", padding: "clamp(56px, 8vw, 96px) clamp(32px, 5vw, 72px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <div ref={infoRef} className={`t01-gal-reveal ${infoVis ? "t01-visible" : ""}`} style={{ flex: "0 0 50%", padding: "clamp(56px, 8vw, 96px) clamp(32px, 5vw, 72px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <p style={{ fontFamily: SANS, fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.18em", color: ACCENT, margin: "0 0 16px" }}>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </p>
             <div style={{ width: 48, height: 3, backgroundColor: ACCENT, marginBottom: 24 }} aria-hidden />
             <h2 style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(1.6rem, 3vw, 2.4rem)", fontWeight: 900, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 clamp(28px, 4vw, 44px)" }}>
               <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
             </h2>
             {[
-              { icon: "📍", field: "address", value: address },
-              { icon: "📞", field: "phone",   value: phone   },
-              { icon: "✉️",  field: "email",   value: email   },
-              { icon: "🕐", field: "hours",   value: hours   },
+              { icon: "address", field: "address", value: address },
+              { icon: "phone",   field: "phone",   value: phone   },
+              { icon: "email",   field: "email",   value: email   },
+              { icon: "hours",   field: "hours",   value: hours   },
             ].filter(r => r.value).map(({ icon, field, value }) => (
-              <div key={field} style={{ display: "flex", gap: 16, marginBottom: 20, alignItems: "flex-start" }}>
-                <span style={{ fontSize: 18, flexShrink: 0, marginTop: 1 }} aria-hidden>{icon}</span>
+              <div key={field} className="t01-contact-line">
+                <span className="t01-contact-icon" aria-hidden>{iconSvg(icon)}</span>
                 <span style={{ fontFamily: SANS, fontSize: "0.95rem", color: "rgba(255,255,255,0.75)", lineHeight: 1.6 }}>
                   <GenericEditableText sectionId={sectionId} field={field} value={value} tag="span" />
                 </span>
               </div>
             ))}
             {(facebook || instagram) && (
-              <div style={{ display: "flex", gap: 20, marginTop: 12 }}>
+              <div style={{ display: "flex", gap: 20, marginTop: 20 }}>
                 {facebook && (
                   <a href={facebook} target="_blank" rel="noopener noreferrer"
                     style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.55)", fontFamily: SANS, fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.1em", textDecoration: "none", transition: "color 0.2s" }}
@@ -1563,11 +1519,13 @@ function ContactTattoo01({ content, sectionId }: { content: Record<string, unkno
           </div>
 
           {/* Pravý sloupec — foto studia */}
-          <div className="t01-contact-photo" style={{ flex: "0 0 50%", position: "relative", minHeight: "clamp(300px, 40vw, 500px)" }}>
+          <div ref={photoRef} className={`t01-contact-photo t01-contact-photo-reveal ${photoVis ? "t01-visible" : ""}`} style={{ flex: "0 0 50%", position: "relative", minHeight: "clamp(300px, 40vw, 500px)" }}>
             {image ? (
               <>
-                <Image src={image} alt="Studio" fill className="object-cover" sizes="50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(10,10,10,0.45) 0%, transparent 40%)" }} aria-hidden />
+                <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Studio" className="t01-contact-img" style={{ position: "absolute", inset: 0 }}>
+                  <Image src={image} alt="Studio" fill className="object-cover" sizes="50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
+                </GenericEditableImage>
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(10,10,10,0.55) 0%, transparent 42%)", pointerEvents: "none" }} aria-hidden />
               </>
             ) : (
               <div style={{ position: "absolute", inset: 0, backgroundColor: "#1a1a1a" }} />
@@ -1580,291 +1538,322 @@ function ContactTattoo01({ content, sectionId }: { content: Record<string, unkno
 }
 
 // ── tattoo-02-contact ─────────────────────────────────────────────────────────
-// Tmavé bg (#111), 2-col: vlevo kontaktní info s ikonami, vpravo embed mapa.
+// Dark 2-col: left info (Oswald + gold icons), right studio photo. Luxe tier.
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactTattoo02({ content, sectionId }: {
   content: Record<string, unknown>;
   sectionId: number;
 }) {
-  const c        = content as Record<string, unknown>;
-  const heading  = String(c.heading  ?? "Kontakty");
-  const address  = String(c.address  ?? "Ukázková 123, 110 00 Praha 1");
-  const phone    = String(c.phone    ?? "704 123 456");
-  const email    = String(c.email    ?? "email@demo.cz");
-  const hours    = String(c.hours    ?? "Po–Pá 9:00–18:00");
-  const instagram= String(c.instagram ?? "");
-  const facebook = String(c.facebook  ?? "");
+  const c          = content as Record<string, unknown>;
+  const showHeader = c.showHeader !== false;
+  const eyebrow   = String(c.eyebrow   ?? "Kontakt");
+  const heading    = String(c.heading   ?? "Rezervujte si termín");
+  const text       = String(c.text      ?? "Každé tetování začíná rozhovorem. Napište nám nebo zavolejte — konzultace je zdarma a nezávazná.");
+  const address    = String(c.address   ?? "Ukázková 123, 110 00 Praha 1");
+  const phone      = String(c.phone     ?? "704 123 456");
+  const email      = String(c.email     ?? "email@demo.cz");
+  const hours      = String(c.hours     ?? "Po–Pá 10:00–19:00 · So 10:00–15:00");
+  const ctaText    = String(c.ctaText   ?? "Zavolat studio");
+  const instagram  = String(c.instagram ?? "");
+  const facebook   = String(c.facebook  ?? "");
+  const image      = String(c.image     ?? "/templates/tattoo-02/contact.webp");
 
-  const GOLD = "#BF8A1D";
-  const DARK = "#111111";
-
-  const IconPin = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
-    </svg>
-  );
-  const IconPhone = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 0 0 .07 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
-    </svg>
-  );
-  const IconMail = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-    </svg>
-  );
-  const IconClock = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
-    </svg>
-  );
-  const IconIG = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-    </svg>
-  );
-  const IconFB = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-    </svg>
-  );
-
-  const Row = ({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) => (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 28 }}>
-      <div style={{
-        width: 44, height: 44, flexShrink: 0,
-        border: `1px solid ${GOLD}55`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>{icon}</div>
-      <div style={{ paddingTop: 10 }}>{children}</div>
-    </div>
-  );
+  const OSWALD = "var(--font-oswald), 'Oswald', Impact, sans-serif";
 
   return (
-    <>
-      <style>{`
-        .tc02-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          min-height: 520px;
-        }
-        @media (max-width: 800px) {
-          .tc02-grid { grid-template-columns: 1fr; }
-          .tc02-map  { min-height: 300px; }
-        }
-        .tc02-social a {
-          display: inline-flex; align-items: center; justify-content: center;
-          width: 40px; height: 40px;
-          border: 1px solid rgba(255,255,255,0.2);
-          color: rgba(255,255,255,0.6);
-          text-decoration: none;
-          transition: border-color 0.2s, color 0.2s;
-        }
-        .tc02-social a:hover { border-color: ${GOLD}; color: ${GOLD}; }
-      `}</style>
+    <section id="kontakt" data-template="tattoo-02" className="t02-ct-section">
+      <div className="t02-ct-wrap">
+        {/* Left — contact info */}
+        <div className="t02-ct-info">
+          {showHeader && (
+            <>
+              <p className="t02-ct-eyebrow" style={{ fontFamily: OSWALD }}>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </p>
+              <div className="t02-ct-rule" aria-hidden />
+              <h2 className="t02-ct-heading" style={{ fontFamily: OSWALD }}>
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+            </>
+          )}
+          <p className="t02-ct-text">
+            <GenericEditableText sectionId={sectionId} field="text" value={text} tag="span" />
+          </p>
 
-      <section id="kontakt" data-section="contact-tattoo-02" style={{ background: DARK }}>
-        <div className="tc02-grid">
-
-          {/* Levý panel — info */}
-          <div style={{
-            padding: "clamp(56px,8vw,100px) clamp(28px,5vw,72px)",
-            display: "flex", flexDirection: "column", justifyContent: "center",
-          }}>
-            <p style={{
-              fontFamily: "Arial, sans-serif", fontSize: "0.7rem", fontWeight: 700,
-              color: GOLD, letterSpacing: "0.3em", textTransform: "uppercase",
-              margin: "0 0 14px",
-            }}>Najdete nás</p>
-            <div aria-hidden style={{ width: 48, height: 2, backgroundColor: GOLD, marginBottom: 24 }} />
-            <h2 style={{
-              fontFamily: "'Arial Black', Arial, sans-serif",
-              fontWeight: 900, fontSize: "clamp(26px,3vw,38px)",
-              color: "#fff", margin: "0 0 40px", lineHeight: 1.15,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </h2>
-
-            <Row icon={<IconPin />}>
-              <div style={{ fontFamily: "Arial, sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.6 }}>
+          {/* Info rows */}
+          <div className="t02-ct-rows">
+            <div className="t02-ct-row">
+              <div className="t02-ct-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
+                </svg>
+              </div>
+              <div className="t02-ct-label">
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </div>
-            </Row>
-            <Row icon={<IconPhone />}>
-              <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ fontFamily: "Arial, sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.8)", textDecoration: "none" }}>
+            </div>
+            <div className="t02-ct-row">
+              <div className="t02-ct-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 010 2.18A2 2 0 012.18 0H5a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0120 18.92z"/>
+                </svg>
+              </div>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="t02-ct-label t02-ct-link">
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
-            </Row>
-            <Row icon={<IconMail />}>
-              <a href={`mailto:${email}`} style={{ fontFamily: "Arial, sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.8)", textDecoration: "none" }}>
+            </div>
+            <div className="t02-ct-row">
+              <div className="t02-ct-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <a href={`mailto:${email}`} className="t02-ct-label t02-ct-link">
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
-            </Row>
-            <Row icon={<IconClock />}>
-              <div style={{ fontFamily: "Arial, sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.6 }}>
+            </div>
+            <div className="t02-ct-row">
+              <div className="t02-ct-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+                </svg>
+              </div>
+              <div className="t02-ct-label">
                 <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
               </div>
-            </Row>
-
-            {/* Sociální sítě */}
-            <div className="tc02-social" style={{ display: "flex", gap: 10, marginTop: 8 }}>
-              {instagram && <a href={instagram} target="_blank" rel="noopener" aria-label="Instagram"><IconIG /></a>}
-              {facebook  && <a href={facebook}  target="_blank" rel="noopener" aria-label="Facebook"><IconFB /></a>}
             </div>
           </div>
 
-          {/* Pravý panel — Google mapa embed */}
-          <div className="tc02-map" style={{ position: "relative", overflow: "hidden", minHeight: 480 }}>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2560.0!2d14.4208!3d50.0880!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDA1JzE2LjgiTiAxNMKwMjUnMTQuOSJF!5e0!3m2!1scs!2scz!4v1700000000000"
-              width="100%" height="100%"
-              style={{ border: 0, display: "block", minHeight: 480, filter: "grayscale(30%) contrast(1.05)" }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Mapa studia"
-            />
-            {/* Zlatý border vlevo */}
-            <div aria-hidden style={{
-              position: "absolute", left: 0, top: 0, bottom: 0,
-              width: 4, backgroundColor: GOLD,
-            }} />
-          </div>
+          {/* CTA */}
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="t02-ct-cta" style={{ fontFamily: OSWALD }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
 
+          {/* Social */}
+          <div className="t02-ct-social">
+            {instagram && (
+              <a href={instagram} target="_blank" rel="noopener" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+              </a>
+            )}
+            {facebook && (
+              <a href={facebook} target="_blank" rel="noopener" aria-label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                </svg>
+              </a>
+            )}
+          </div>
         </div>
-      </section>
-    </>
+
+        {/* Right — studio photo */}
+        <div className="t02-ct-photo">
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+            <Image
+              src={image}
+              alt="Studio"
+              fill
+              sizes="(max-width:800px) 100vw, 50vw"
+              style={{ objectFit: "cover" }}
+              unoptimized={shouldSkipNextImageOptimization(image)}
+            />
+          </GenericEditableImage>
+          <div className="t02-ct-photo-border" aria-hidden />
+        </div>
+      </div>
+    </section>
   );
 }
 
 // ── tattoo-03-contact ─────────────────────────────────────────────────────────
-// Tmavý 2-col kontakt — magictattoo.cz inspired
-// #0A0A0E bg, foto studia vlevo (aspect 4/3), kontakt info vpravo (adresa/tel/email/hodiny + červené CTA + social)
+// Dark 2-col: studio photo left (grayscale hover), contact info right
+// Bebas Neue heading, Barlow Condensed labels, crimson accents + brackets
 // ─────────────────────────────────────────────────────────────────────────────
-function ContactTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ContactTattoo03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const c          = content as Record<string, unknown>;
-  const heading    = String(c.heading    ?? "Kontaktujte nás");
-  const subheading = String(c.subheading ?? "Rezervace & informace");
+  const showHeader = c.showHeader !== false;
+  const showForm   = c.showForm === true;
+  const eyebrow    = String(c.eyebrow    ?? "Kontakt");
+  const heading    = String(c.heading    ?? "Rezervujte si termín");
   const address    = String(c.address    ?? "Ukázková 123, 110 00 Praha 1");
   const phone      = String(c.phone      ?? "704 123 456");
   const email      = String(c.email      ?? "email@demo.cz");
-  const hours      = String(c.hours      ?? "Po–Ne 10:00–20:00");
+  const hours      = String(c.hours      ?? "Po–Pá 10:00–20:00 · So 10:00–16:00");
+  const ctaLabel   = String(c.ctaLabel   ?? "Zavolat studio");
   const facebook   = String(c.facebook   ?? "https://facebook.com/demo");
   const instagram  = String(c.instagram  ?? "https://instagram.com/demo");
-  const image      = String(c.image      ?? "/templates/tattoo-03/contact-studio.jpg");
+  const image      = String(c.image      ?? "/templates/tattoo-03/contact-studio.webp");
+  const formTitle  = String(c.formTitle  ?? "Napište nám");
+  const submitText = String(c.submitText ?? "Odeslat poptávku");
 
-  const BG     = "#0A0A0E";
   const ACCENT = "#D41515";
-  const SURFACE = "#111114";
+
+  const [fName, setFName] = useState("");
+  const [fEmail, setFEmail] = useState("");
+  const [fPhone, setFPhone] = useState("");
+  const [fMsg, setFMsg] = useState("");
+  const [honey, setHoney] = useState("");
+  const [fStatus, setFStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [fErr, setFErr] = useState("");
+
+  async function handleContactSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin || honey || !tenantSlug) return;
+    setFStatus("sending"); setFErr("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: fName, email: fEmail, phone: fPhone, message: fMsg, website: honey }),
+      });
+      const json = await res.json() as { error?: string };
+      if (!res.ok) { setFErr(json.error ?? "Nepodařilo se odeslat zprávu."); setFStatus("error"); }
+      else { setFStatus("success"); setFName(""); setFEmail(""); setFPhone(""); setFMsg(""); }
+    } catch {
+      setFErr("Nepodařilo se odeslat zprávu. Zkuste to znovu."); setFStatus("error");
+    }
+  }
 
   const rows = [
     {
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      ),
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
       label: "ADRESA", field: "address", value: address, href: `https://maps.google.com/?q=${encodeURIComponent(address)}`,
     },
     {
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      ),
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
       label: "TELEFON", field: "phone", value: phone, href: `tel:+420${phone.replace(/\s/g, "")}`,
     },
     {
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      ),
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
       label: "E-MAIL", field: "email", value: email, href: `mailto:${email}`,
     },
     {
-      icon: (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      ),
-      label: "PROVOZNÍ HODINY", field: "hours", value: hours, href: null,
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+      label: "OTEVÍRACÍ DOBA", field: "hours", value: hours, href: null,
     },
   ];
 
   return (
-    <section id="kontakt" style={{ backgroundColor: BG }}>
+    <section id="kontakt" data-template="tattoo-03" style={{ backgroundColor: "#0a0a0a" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600&family=Barlow:wght@400&display=swap" rel="stylesheet" />
+
       <style>{`
-        @media (max-width: 900px) {
-          .t03-contact-grid { grid-template-columns: 1fr !important; }
-          .t03-contact-img  { min-height: 300px !important; }
+        [data-template="tattoo-03"] .t03-form-input {
+          width: 100%; box-sizing: border-box;
+          background: #131315; border: 1px solid rgba(255,255,255,0.1);
+          color: #fff; font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+          padding: 14px 16px; outline: none;
+          transition: border-color 0.2s ease, background 0.2s ease;
         }
+        [data-template="tattoo-03"] .t03-form-input::placeholder { color: rgba(255,255,255,0.35); }
+        [data-template="tattoo-03"] .t03-form-input:focus { border-color: ${ACCENT}; background: #17171a; }
+        [data-template="tattoo-03"] .t03-form-input:disabled { opacity: 0.5; }
+        [data-template="tattoo-03"] .t03-form-submit:hover { background: #b31212; }
       `}</style>
+      <div className="t03-contact-grid" style={{ maxWidth: 1360, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+        {showForm ? (
+          /* Contact form — left */
+          <div style={{ padding: "clamp(48px,6vw,88px) clamp(28px,5vw,72px)", backgroundColor: "#0a0a0a", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <h3 style={{ fontFamily: "'Bebas Neue', sans-serif", fontWeight: 400, fontSize: "clamp(26px, 3vw, 40px)", color: "#ffffff", margin: "0 0 6px", letterSpacing: "0.04em", lineHeight: 1.05 }}>
+              <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
+            </h3>
+            <div style={{ width: 40, height: 2, backgroundColor: ACCENT, margin: "12px 0 32px" }} aria-hidden />
+            {fStatus === "success" ? (
+              <div style={{ padding: "28px 24px", border: "1px solid rgba(212,21,21,0.4)", background: "rgba(212,21,21,0.06)", color: "#fff", fontFamily: "'Barlow', sans-serif" }}>
+                <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: "1.5rem", letterSpacing: "0.04em", marginBottom: 6 }}>Děkujeme!</div>
+                <p style={{ margin: 0, color: "rgba(255,255,255,0.7)", fontSize: "0.95rem" }}>Vaše poptávka dorazila. Ozveme se vám co nejdříve.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <input type="text" required placeholder="Jméno *" aria-label="Jméno" className="t03-form-input" value={fName} onChange={e => setFName(e.target.value)} disabled={fStatus === "sending"} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <input type="email" required placeholder="E-mail *" aria-label="E-mail" className="t03-form-input" value={fEmail} onChange={e => setFEmail(e.target.value)} disabled={fStatus === "sending"} />
+                  <input type="tel" placeholder="Telefon" aria-label="Telefon" className="t03-form-input" value={fPhone} onChange={e => setFPhone(e.target.value)} disabled={fStatus === "sending"} />
+                </div>
+                <textarea required rows={5} placeholder="Váš motiv, umístění, velikost, termín… *" aria-label="Zpráva" className="t03-form-input" style={{ resize: "vertical", minHeight: 120 }} value={fMsg} onChange={e => setFMsg(e.target.value)} disabled={fStatus === "sending"} />
+                <input type="text" tabIndex={-1} autoComplete="off" aria-hidden value={honey} onChange={e => setHoney(e.target.value)} style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }} />
+                {fStatus === "error" && <p style={{ margin: 0, color: "#ff6b6b", fontFamily: "'Barlow', sans-serif", fontSize: "0.85rem" }}>{fErr}</p>}
+                <button type="submit" disabled={fStatus === "sending"} className="t03-form-submit"
+                  style={{ marginTop: 6, alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: ACCENT, color: "#fff", border: "none", cursor: fStatus === "sending" ? "wait" : "pointer", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "0.95rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", padding: "15px 40px", transition: "background 0.2s ease" }}>
+                  {fStatus === "sending" ? "Odesílám…" : submitText}
+                  <span aria-hidden>→</span>
+                </button>
+              </form>
+            )}
+          </div>
+        ) : (
+          /* Studio photo — left */
+          <div className="t03-contact-img t03-contact-photo" style={{ position: "relative", minHeight: 600, overflow: "hidden" }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Tetovací studio" className="absolute inset-0 w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+              <img src={image} alt="Tetovací studio" loading="lazy" className="t03-contact-photo-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", transition: "filter 0.5s ease, transform 0.5s ease" }} />
+            </GenericEditableImage>
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, transparent 50%, rgba(10,10,10,0.7) 100%)" }} />
+            {/* Corner brackets */}
+            <div className="t03-contact-bracket" style={{ position: "absolute", top: 24, left: 24, width: 40, height: 40, borderTop: `2px solid rgba(212,21,21,0.6)`, borderLeft: `2px solid rgba(212,21,21,0.6)`, pointerEvents: "none" }} />
+            <div className="t03-contact-bracket" style={{ position: "absolute", bottom: 24, right: 24, width: 40, height: 40, borderBottom: `2px solid rgba(255,255,255,0.2)`, borderRight: `2px solid rgba(255,255,255,0.2)`, pointerEvents: "none" }} />
+          </div>
+        )}
 
-      <div
-        className="t03-contact-grid"
-        style={{ maxWidth: 1360, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}
-      >
-        {/* Foto studia — vlevo */}
-        <div className="t03-contact-img" style={{ position: "relative", minHeight: 560, overflow: "hidden" }}>
-          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Tetovací studio" className="absolute inset-0 w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-            <img src={image} alt="Tetovací studio" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
-          </GenericEditableImage>
-          {/* Tmavý gradient overlay */}
-          <div aria-hidden style={{
-            position: "absolute", inset: 0,
-            background: "linear-gradient(to right, transparent 60%, rgba(17,17,20,0.6) 100%)",
-          }} />
-        </div>
+        {/* Contact info — right */}
+        <div style={{ padding: "clamp(48px,6vw,88px) clamp(28px,5vw,72px)", backgroundColor: "#0e0e0e", display: "flex", flexDirection: "column", justifyContent: "center", borderLeft: "1px solid rgba(255,255,255,0.04)" }}>
 
-        {/* Kontakt info — vpravo */}
-        <div style={{ padding: "clamp(48px,6vw,88px) clamp(24px,5vw,80px)", backgroundColor: SURFACE, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          {showHeader && (
+            <>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.4" aria-hidden><line x1="12" y1="2" x2="12" y2="22"/><line x1="8" y1="6" x2="16" y2="6" strokeWidth="0.8"/></svg>
+                <p style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "0.72rem", fontWeight: 600,
+                  color: ACCENT, letterSpacing: "0.22em",
+                  textTransform: "uppercase", margin: 0,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </p>
+              </div>
+              <h2 style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontWeight: 400,
+                fontSize: "clamp(28px, 3.2vw, 48px)",
+                color: "#ffffff",
+                margin: "0 0 8px",
+                letterSpacing: "0.04em",
+                lineHeight: 1.05,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+              <div style={{ width: 40, height: 2, backgroundColor: ACCENT, margin: "12px 0 40px" }} aria-hidden />
+            </>
+          )}
 
-          {/* Subheading */}
-          <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: "0.7rem", fontWeight: 700,
-            color: ACCENT, letterSpacing: "0.22em",
-            textTransform: "uppercase", margin: "0 0 12px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-
-          {/* Heading */}
-          <h2 style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontWeight: 900,
-            fontSize: "clamp(26px, 3vw, 42px)",
-            color: "#ffffff",
-            margin: "0 0 8px",
-            lineHeight: 1.1,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-
-          {/* Červená linka pod nadpisem */}
-          <div style={{ width: 48, height: 3, backgroundColor: ACCENT, margin: "16px 0 40px" }} aria-hidden />
-
-          {/* Kontaktní řádky */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 40 }}>
+          {/* Contact rows */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 0, marginBottom: 44 }}>
             {rows.map((row, i) => {
               const inner = (
-                <div style={{ display: "flex", alignItems: "center", gap: 18, padding: "16px 0", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
-                  {/* Ikona v čtverci */}
+                <div className="t03-contact-row" style={{ display: "flex", alignItems: "center", gap: 18, padding: "18px 0", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                   <div style={{
-                    width: 42, height: 42, flexShrink: 0,
+                    width: 44, height: 44, flexShrink: 0,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    border: `1px solid rgba(212,21,21,0.3)`,
-                    backgroundColor: "rgba(212,21,21,0.06)",
+                    border: "1px solid rgba(212,21,21,0.2)",
+                    backgroundColor: "rgba(212,21,21,0.04)",
                   }}>
                     {row.icon}
                   </div>
                   <div>
                     <div style={{
-                      fontFamily: "Arial, Helvetica, sans-serif",
-                      fontSize: "0.65rem", fontWeight: 700,
-                      color: "rgba(255,255,255,0.35)",
-                      textTransform: "uppercase", letterSpacing: "0.14em",
-                      marginBottom: 3,
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: "0.62rem", fontWeight: 600,
+                      color: "rgba(255,255,255,0.3)",
+                      textTransform: "uppercase", letterSpacing: "0.16em",
+                      marginBottom: 4,
                     }}>
                       {row.label}
                     </div>
                     <div style={{
-                      fontFamily: "Arial, Helvetica, sans-serif",
+                      fontFamily: "'Barlow', sans-serif",
                       fontSize: "0.92rem",
-                      color: "rgba(255,255,255,0.88)",
+                      color: "rgba(255,255,255,0.85)",
                       lineHeight: 1.4,
                     }}>
                       <GenericEditableText sectionId={sectionId} field={row.field} value={row.value} tag="span" />
@@ -1873,10 +1862,7 @@ function ContactTattoo03({ content, sectionId }: { content: Record<string, unkno
                 </div>
               );
               return row.href ? (
-                <a key={i} href={row.href} style={{ textDecoration: "none", transition: "opacity 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-                >{inner}</a>
+                <a key={i} href={row.href} className="t03-contact-link" style={{ textDecoration: "none" }}>{inner}</a>
               ) : (
                 <div key={i}>{inner}</div>
               );
@@ -1887,42 +1873,36 @@ function ContactTattoo03({ content, sectionId }: { content: Record<string, unkno
           <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
             <a
               href={`tel:+420${phone.replace(/\s/g, "")}`}
+              className="t03-contact-cta"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 10,
                 backgroundColor: ACCENT, color: "#ffffff",
-                fontFamily: "Arial, Helvetica, sans-serif",
-                fontSize: "0.88rem", fontWeight: 700,
-                letterSpacing: "0.06em",
-                padding: "14px 32px",
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: "0.88rem", fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "15px 36px",
                 textDecoration: "none",
-                transition: "background 0.2s",
               }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b30000")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = ACCENT)}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              Zavolat nám
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.08 3.4 2 2 0 0 1 3.06 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span" />
             </a>
 
             <div style={{ display: "flex", gap: 10 }}>
               {[
-                { href: facebook, label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-                { href: instagram, label: "Instagram", path: null },
+                { href: facebook, label: "Facebook", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+                { href: instagram, label: "Instagram", icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg> },
               ].map((s, i) => (
                 <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                  className="t03-contact-social"
                   style={{
-                    width: 42, height: 42, display: "flex", alignItems: "center", justifyContent: "center",
-                    border: "1px solid rgba(255,255,255,0.18)", color: "rgba(255,255,255,0.65)",
-                    textDecoration: "none", transition: "border-color 0.2s, color 0.2s",
+                    width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center",
+                    border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)",
+                    textDecoration: "none",
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.color = ACCENT; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}
                 >
-                  {s.path ? (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d={s.path}/></svg>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-                  )}
+                  {s.icon}
                 </a>
               ))}
             </div>
@@ -2498,6 +2478,7 @@ function ContactClinic02({ content, sectionId }: { content: Record<string, unkno
   const city     = String(content.city     ?? "130 00 Praha 3 — Vinohrady");
   const phone    = String(content.phone    ?? "+420 234 567 890");
   const email    = String(content.email    ?? "info@aurelie-clinic.cz");
+  const web = String(content.web ?? "");
   const ctaText  = String(content.ctaText  ?? "Zavolat nyní");
   const ctaCardTitle = String((content as Record<string,unknown>).ctaCardTitle ?? "Rezervujte si návštěvu");
   const ctaCardBody  = String((content as Record<string,unknown>).ctaCardBody  ?? "Vyberte si termín, který vám vyhovuje. Naše recepce je vám k dispozici po celý pracovní den.");
@@ -2536,6 +2517,15 @@ function ContactClinic02({ content, sectionId }: { content: Record<string, unkno
         </a>
       ),
     },
+    ...(web ? [{
+      label: "Web",
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>,
+      body: (
+        <a href={web} target="_blank" rel="noopener noreferrer" style={{ color: NAVY, textDecoration: "none" }}>
+          <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" />
+        </a>
+      ),
+    }] : []),
     {
       label: "Otevírací doba",
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
@@ -2724,7 +2714,7 @@ function ContactClinic02({ content, sectionId }: { content: Record<string, unkno
 // Surface #F7F5F0 bg, gold kicker + dark H2
 // 2-col: vlevo 4 info bloky (Adresa/Tel/Email/Hodiny) s gold ikonami
 //        vpravo white card s gold CTA
-// Reference: yesvisage.cz — kontaktní sekce
+// Reference: diamond-look.cz — kontaktní sekce
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactClinic03({ content, sectionId }: { content: Record<string,unknown>; sectionId: number }) {
   const GOLD   = "#97855F";
@@ -2745,6 +2735,7 @@ function ContactClinic03({ content, sectionId }: { content: Record<string,unknow
   const email   = String(content.email   ?? "recepce@diamondlook.cz");
   const hours   = String(content.hours   ?? "Po–Pá 8:00–19:00, So 9:00–14:00");
   const ctaText = String(content.ctaText ?? "Odeslat zprávu");
+  const ctaHref = String(content.ctaHref ?? "#kontakt");
   const formTitle     = String((content as Record<string,unknown>).formTitle ?? "Napište nám");
   const formSubtitle  = String((content as Record<string,unknown>).formSubtitle ?? "Odpovíme do 24 hodin");
   const nameLabel     = String((content as Record<string,unknown>).nameLabel ?? "Jméno a příjmení");
@@ -2890,7 +2881,7 @@ function ContactClinic03({ content, sectionId }: { content: Record<string,unknow
             </div>
 
             <a
-              href="#kontakt"
+              href={ctaHref}
               className="c03-contact-submit"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
@@ -2931,6 +2922,8 @@ function ContactFitness02({ content, sectionId }: { content: Record<string, unkn
   const title     = String(content.title     ?? "Vyber si své studio");
   const phone     = String(content.phone     ?? "");
   const email     = String(content.email     ?? "");
+  const facebookUrl  = String(content.facebookUrl  ?? "");
+  const instagramUrl = String(content.instagramUrl ?? "");
   const hours     = String(content.hours     ?? "");
   const locations = ((content.locations as Fitness02Location[]) ?? []).slice(0, 4);
   const showHeader = (content as { showHeader?: boolean }).showHeader !== false;
@@ -3032,6 +3025,20 @@ function ContactFitness02({ content, sectionId }: { content: Record<string, unkn
                 <span style={{ color: ACCENT }}><MailIcon /></span>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
+            )}
+            {(facebookUrl || instagramUrl) && (
+              <span className="fitness02-contact-strip-item" style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
+                {facebookUrl && (
+                  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" style={{ color: ACCENT, display: "inline-flex" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+                  </a>
+                )}
+                {instagramUrl && (
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ color: ACCENT, display: "inline-flex" }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 3.4a6.4 6.4 0 1 0 0 12.8 6.4 6.4 0 0 0 0-12.8zm0 10.6a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm6.6-10.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+                  </a>
+                )}
+              </span>
             )}
             {hours && (
               <span className="fitness02-contact-strip-item" style={{
@@ -3539,110 +3546,157 @@ function ContactFyzio01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── contact-fyzio-02 ──────────────────────────────────────────────────────────
-// 2-col: vlevo info karty (telefon, email, adresa, hodiny) + CTA
-//        vpravo jednoduchý kontaktní formulář na bílém bg
-// Surface #f5f3ee bg sekce, navy + zlaté akcenty
+// Světlé #f1f6f6, 2-col: vlevo intro + info karty (teal ikony) + hodiny,
+// vpravo form karta (teal focus + pill submit), dole full-width OSM mapa. Movia.
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactFyzio02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tagline = String(content.tagline ?? "Kontakt");
-  const title   = String(content.title   ?? "Zjistěte, co přesně děláme");
-  const body    = String(content.body    ?? "Rádi vám odpovíme na vaše otázky.");
-  const phone   = String(content.phone   ?? "704 123 456");
-  const email   = String(content.email   ?? "email@demo.cz");
-  const address = String(content.address ?? "Ukázková 123");
-  const city    = String(content.city    ?? "110 00 Praha 1");
-  const hours   = String(content.hours   ?? "Po–Pá 8:00–20:00");
   const id      = String(content.id      ?? "kontakt");
+  const phone   = String(content.phone   ?? "725 480 190");
+  const email   = String(content.email   ?? "recepce@movia.cz");
+  const address = String(content.address ?? "Vinohradská 42");
+  const city    = String(content.city    ?? "120 00 Praha 2 — Vinohrady");
+  const hours   = String(content.hours   ?? "Po–Pá 7:00–20:00, So 8:00–13:00");
 
-  const NAVY  = "#1a2e4a";
-  const GOLD  = "#c9a84c";
-  const SURF  = "#f5f3ee";
-  const MUTED = "#6b7280";
-  const WHITE = "#ffffff";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  const labelPhone   = String(content.labelPhone   ?? "Telefon");
+  const labelEmail   = String(content.labelEmail   ?? "E-mail");
+  const labelAddress = String(content.labelAddress ?? "Kde nás najdete");
+  const labelHours   = String(content.labelHours   ?? "Ordinační hodiny");
 
-  const InfoRow = ({ icon, label, field, value }: { icon: React.ReactNode; label: string; field: string; value: string }) => (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "20px 0", borderBottom: "1px solid #e8e4dc" }}>
-      <span style={{ width: 40, height: 40, borderRadius: 8, backgroundColor: WHITE, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD, flexShrink: 0, boxShadow: "0 1px 6px rgba(26,46,74,0.07)" }}>
-        {icon}
-      </span>
-      <div>
-        <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, color: GOLD, letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 2px" }}>{label}</p>
-        <p style={{ fontFamily: SANS, fontSize: 15, color: NAVY, fontWeight: 500, margin: 0 }}>
-          <GenericEditableText sectionId={sectionId} field={field} value={value} tag="span" />
-        </p>
-      </div>
-    </div>
-  );
+  const formTitle    = String(content.formTitle    ?? "Napište nám");
+  const nameLabel    = String(content.nameLabel    ?? "Jméno a příjmení");
+  const emailLabel   = String(content.emailLabel   ?? "E-mail");
+  const phoneFieldLabel = String(content.phoneFieldLabel ?? "Telefon");
+  const messageLabel = String(content.messageLabel ?? "Co vás trápí?");
+  const submitLabel  = String(content.submitLabel  ?? "Odeslat poptávku");
+  const formNote     = String(content.formNote     ?? "Ozveme se vám do jednoho pracovního dne.");
+
+  // conditional header
+  const eyebrowRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const bodyRaw    = (content as Record<string, unknown>).body;
+  const tagline = eyebrowRaw === undefined ? "Objednání" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Objednejte se nebo se zeptejte" : String(titleRaw);
+  const body    = bodyRaw    === undefined ? "Rádi zodpovíme jakékoli dotazy ještě před první návštěvou. Stačí zavolat nebo vyplnit formulář." : String(bodyRaw);
+  const showHeader = !!(tagline.trim() || title.trim() || body.trim());
+
+  const mapLat = String(content.mapLat ?? "50.0782");
+  const mapLng = String(content.mapLng ?? "14.4490");
+  const latN = parseFloat(mapLat);
+  const lngN = parseFloat(mapLng);
+  const delta = 0.005;
+  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lngN - delta}%2C${latN - delta}%2C${lngN + delta}%2C${latN + delta}&layer=mapnik&marker=${latN}%2C${lngN}`;
+
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("fz2-vis"); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    el.querySelectorAll<HTMLElement>("[data-fz2ct]").forEach(i => obs.observe(i));
+    return () => obs.disconnect();
+  }, []);
+
+  const iconPhone = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.71 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+  const iconMail  = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>;
+  const iconPin   = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>;
+  const iconClock = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>;
 
   return (
-    <section id={id} data-template="fyzio-02" style={{ backgroundColor: SURF, padding: "80px 24px", fontFamily: SANS }}>
-      <style>{`
-        .f02-contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; max-width: 1100px; margin: 0 auto; }
-        .f02-form-input { width: 100%; padding: 12px 14px; border: 1.5px solid #e0ddd5; border-radius: 8px; font-family: ${SANS}; font-size: 14px; color: ${NAVY}; background: ${WHITE}; outline: none; transition: border-color 0.15s; box-sizing: border-box; }
-        .f02-form-input:focus { border-color: ${GOLD}; }
-        .f02-form-textarea { resize: vertical; min-height: 120px; }
-        @media(max-width: 760px) { .f02-contact-grid { grid-template-columns: 1fr !important; gap: 40px !important; } }
-        @media(max-width: 480px) { .f02-form-name-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
-
-      <div className="f02-contact-grid">
-        {/* Levý sloupec — info */}
-        <div>
-          <div style={{ marginBottom: 40 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-              <span style={{ width: 24, height: 2, backgroundColor: GOLD }} />
-              <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: GOLD, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+    <section ref={secRef} id={id} data-template="fyzio-02" className="fz2-ct">
+      <div className="fz2-ct-inner">
+        {showHeader && (
+          <div className="fz2-ct-head fz2-reveal" data-fz2ct>
+            {tagline.trim() && (
+              <span className="fz2-pill">
                 <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
               </span>
+            )}
+            {title.trim() && (
+              <h2 className="fz2-ct-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {body.trim() && (
+              <p className="fz2-ct-lead">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="fz2-ct-grid">
+          {/* Levý sloupec — info */}
+          <div className="fz2-ct-info fz2-reveal" data-fz2ct>
+            <a href={`tel:+420${phone.replace(/\s/g, "")}`} className="fz2-ct-card">
+              <span className="fz2-ct-ico">{iconPhone}</span>
+              <span className="fz2-ct-card-txt">
+                <GenericEditableText sectionId={sectionId} field="labelPhone" value={labelPhone} tag="span" style={{ display: "block", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#218384", marginBottom: "3px" }} />
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" style={{ display: "block", fontSize: "1.02rem", fontWeight: 600, color: "#092029" }} />
+              </span>
+            </a>
+            <a href={`mailto:${email}`} className="fz2-ct-card">
+              <span className="fz2-ct-ico">{iconMail}</span>
+              <span className="fz2-ct-card-txt">
+                <GenericEditableText sectionId={sectionId} field="labelEmail" value={labelEmail} tag="span" style={{ display: "block", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#218384", marginBottom: "3px" }} />
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" style={{ display: "block", fontSize: "1.02rem", fontWeight: 600, color: "#092029" }} />
+              </span>
+            </a>
+            <div className="fz2-ct-card fz2-ct-card--static">
+              <span className="fz2-ct-ico">{iconPin}</span>
+              <span className="fz2-ct-card-txt">
+                <GenericEditableText sectionId={sectionId} field="labelAddress" value={labelAddress} tag="span" style={{ display: "block", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#218384", marginBottom: "3px" }} />
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" style={{ display: "block", fontSize: "1.02rem", fontWeight: 600, color: "#092029" }} />
+                <GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" style={{ display: "block", fontSize: "0.86rem", color: "#56676a", marginTop: "2px" }} />
+              </span>
             </div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)", fontWeight: 400, color: NAVY, lineHeight: 1.2, marginBottom: 12 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <p style={{ fontFamily: SANS, fontSize: 15, color: MUTED, lineHeight: 1.75 }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
+            <div className="fz2-ct-card fz2-ct-card--static">
+              <span className="fz2-ct-ico">{iconClock}</span>
+              <span className="fz2-ct-card-txt">
+                <GenericEditableText sectionId={sectionId} field="labelHours" value={labelHours} tag="span" style={{ display: "block", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#218384", marginBottom: "3px" }} />
+                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" style={{ display: "block", fontSize: "0.98rem", fontWeight: 500, color: "#092029" }} />
+              </span>
+            </div>
           </div>
 
-          <InfoRow
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.71 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}
-            label="Telefon" field="phone" value={phone}
-          />
-          <InfoRow
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>}
-            label="E-mail" field="email" value={email}
-          />
-          <InfoRow
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>}
-            label="Adresa" field="address" value={`${address}, ${city}`}
-          />
-          <InfoRow
-            icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>}
-            label="Hodiny" field="hours" value={hours}
-          />
+          {/* Pravý sloupec — formulář */}
+          <div className="fz2-ct-form fz2-reveal" data-fz2ct style={{ transitionDelay: "0.1s" }}>
+            <h3 className="fz2-ct-form-title">
+              <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
+            </h3>
+            <form onSubmit={e => e.preventDefault()} className="fz2-ct-form-body">
+              <label className="fz2-ct-field">
+                <GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span" />
+                <input type="text" className="fz2-ct-input" aria-label={nameLabel} />
+              </label>
+              <div className="fz2-ct-field-row">
+                <label className="fz2-ct-field">
+                  <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" />
+                  <input type="email" className="fz2-ct-input" aria-label={emailLabel} />
+                </label>
+                <label className="fz2-ct-field">
+                  <GenericEditableText sectionId={sectionId} field="phoneFieldLabel" value={phoneFieldLabel} tag="span" />
+                  <input type="tel" className="fz2-ct-input" aria-label={phoneFieldLabel} />
+                </label>
+              </div>
+              <label className="fz2-ct-field">
+                <GenericEditableText sectionId={sectionId} field="messageLabel" value={messageLabel} tag="span" />
+                <textarea className="fz2-ct-input fz2-ct-textarea" aria-label={messageLabel} />
+              </label>
+              <button type="submit" data-btn="primary" className="fz2-ct-submit">
+                <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />
+                <svg width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 5.5h12M9 1l4 4.5L9 10" /></svg>
+              </button>
+              <p className="fz2-ct-note">
+                <GenericEditableText sectionId={sectionId} field="formNote" value={formNote} tag="span" />
+              </p>
+            </form>
+          </div>
         </div>
 
-        {/* Pravý sloupec — formulář */}
-        <div style={{ backgroundColor: WHITE, borderRadius: 16, padding: "40px", boxShadow: "0 4px 24px rgba(26,46,74,0.08)" }}>
-          <h3 style={{ fontFamily: SERIF, fontSize: "1.4rem", fontWeight: 400, color: NAVY, marginBottom: 28 }}>Napište nám</h3>
-          <form onSubmit={e => e.preventDefault()} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <div className="f02-form-name-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              <input className="f02-form-input" type="text" placeholder="Jméno" aria-label="Jméno" />
-              <input className="f02-form-input" type="text" placeholder="Příjmení" aria-label="Příjmení" />
-            </div>
-            <input className="f02-form-input" type="email" placeholder="E-mail" aria-label="E-mail" />
-            <input className="f02-form-input" type="tel" placeholder="Telefon" aria-label="Telefon" />
-            <textarea className="f02-form-input f02-form-textarea" placeholder="Vaše zpráva..." aria-label="Zpráva" />
-            <button
-              type="submit"
-              style={{ backgroundColor: GOLD, color: WHITE, fontFamily: SANS, fontSize: "0.95rem", fontWeight: 600, padding: "0.9rem", borderRadius: 8, border: "none", cursor: "pointer", transition: "background 0.15s" }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b8943d")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-            >
-              Odeslat zprávu
-            </button>
-          </form>
+        {/* OSM mapa */}
+        <div className="fz2-ct-map fz2-reveal" data-fz2ct>
+          <iframe title="Mapa — Movia" src={mapSrc} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </div>
       </div>
     </section>
@@ -3688,11 +3742,17 @@ function ContactCafe02({ content, sectionId }: { content: Record<string, unknown
   const delta = 0.006;
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lngN - delta}%2C${latN - delta}%2C${lngN + delta}%2C${latN + delta}&layer=mapnik&marker=${latN}%2C${lngN}`;
 
-  const socials = (content.socials as Array<{ label?: string; href?: string; icon?: string }>) ?? [
-    { icon: "instagram", label: "Instagram", href: "https://instagram.com/" },
-    { icon: "facebook",  label: "Facebook",  href: "https://facebook.com/" },
-    { icon: "google",    label: "Google",    href: "https://google.com/" },
-  ];
+  // socials[] má přednost; jinak se poskládá z plochých URL polí (facebookUrl/instagramUrl)
+  const flatSocials = [
+    content.instagramUrl ? { icon: "instagram", label: "Instagram", href: String(content.instagramUrl) } : null,
+    content.facebookUrl  ? { icon: "facebook",  label: "Facebook",  href: String(content.facebookUrl)  } : null,
+  ].filter(Boolean) as Array<{ label?: string; href?: string; icon?: string }>;
+  const socials = (content.socials as Array<{ label?: string; href?: string; icon?: string }>)
+    ?? (flatSocials.length ? flatSocials : [
+      { icon: "instagram", label: "Instagram", href: "https://instagram.com/" },
+      { icon: "facebook",  label: "Facebook",  href: "https://facebook.com/" },
+      { icon: "google",    label: "Google",    href: "https://google.com/" },
+    ]);
 
   const SocialIcon = ({ name }: { name?: string }) => {
     const p = { width: 15, height: 15, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
@@ -3844,7 +3904,7 @@ function ContactCafe02({ content, sectionId }: { content: Record<string, unknown
 // Dark #1a0e0a bg; 2-col: vlevo kontaktní info s amber ikonami + červené CTA
 // vpravo OpenStreetMap embed (nebo placeholder)
 // ─────────────────────────────────────────────────────────────────────────────
-function ContactRestaurant01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function ContactRestaurant01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const secRef = useRef<HTMLElement>(null);
   useEffect(() => {
     const el = secRef.current;
@@ -3856,15 +3916,29 @@ function ContactRestaurant01({ content, sectionId }: { content: Record<string, u
     return () => obs.disconnect();
   }, []);
 
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
   const id      = String(content.id      ?? "kontakt");
-  const tagline = String(content.tagline ?? "Kde nás najdete");
-  const title   = String(content.title   ?? "Kontakt a rezervace");
-  const address = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
-  const phone   = String(content.phone   ?? "704 123 456");
-  const email   = String(content.email   ?? "rezervace@demo.cz");
-  const hours   = String(content.hours   ?? "Po–Pá 9:00–18:00, So 9:00–14:00");
+  const tagline = String(content.tagline ?? "Přijďte k nám");
+  const title   = String(content.title   ?? "Rezervace\na kontakt");
+  const address = String(content.address ?? "Vinohradská 42, 120 00 Praha 2");
+  const phone   = String(content.phone   ?? "222 333 444");
+  const email   = String(content.email   ?? "rezervace@memento.cz");
+  const hours   = String(content.hours   ?? "Po–Čt 11:00–23:00, Pá–So 11:00–00:00, Ne 11:00–22:00");
   const ctaText = String(content.ctaText ?? "Rezervovat stůl");
-  const ctaHref = String(content.ctaHref ?? "mailto:rezervace@demo.cz");
+  const ctaHref = String(content.ctaHref ?? "mailto:rezervace@memento.cz");
+  const mapLat  = String(content.mapLat  ?? "50.0755");
+  const mapLng  = String(content.mapLng  ?? "14.4378");
+  const fbUrl   = String(content.facebookUrl  ?? "");
+  const igUrl   = String(content.instagramUrl ?? "");
+
+  const addressLabel = String(content.addressLabel ?? "Adresa");
+  const phoneLabel   = String(content.phoneLabel   ?? "Telefon");
+  const emailLabel   = String(content.emailLabel   ?? "E-mail");
+  const hoursLabel   = String(content.hoursLabel   ?? "Otevírací doba");
+
+  const showHeader = !!(tagline.trim() || title.trim());
 
   const DARK  = "#1a0e0a";
   const CREAM = "#f5ede0";
@@ -3874,78 +3948,119 @@ function ContactRestaurant01({ content, sectionId }: { content: Record<string, u
   const FONT  = "Georgia, 'Times New Roman', serif";
   const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
+  const lat = parseFloat(mapLat);
+  const lng = parseFloat(mapLng);
+  const mapBbox = `${(lng - 0.015).toFixed(4)}%2C${(lat - 0.015).toFixed(4)}%2C${(lng + 0.015).toFixed(4)}%2C${(lat + 0.015).toFixed(4)}`;
+  const mapSrc  = `https://www.openstreetmap.org/export/embed.html?bbox=${mapBbox}&layer=mapnik&marker=${lat}%2C${lng}`;
+
+  const iconCircle = (children: React.ReactNode) => (
+    <span style={{ width: 44, height: 44, borderRadius: "50%", border: `1px solid rgba(200,148,63,0.35)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+      {children}
+    </span>
+  );
+
   const svgPin   = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>;
   const svgPhone = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
   const svgMail  = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
   const svgClock = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>;
 
   const infos = [
-    { icon: svgPin,   label: "Adresa",        value: address, field: "address" },
-    { icon: svgPhone, label: "Telefon",        value: phone,   field: "phone" },
-    { icon: svgMail,  label: "E-mail",         value: email,   field: "email" },
-    { icon: svgClock, label: "Otevírací doba", value: hours,   field: "hours" },
+    { icon: svgPin,   label: addressLabel, value: address, field: "address", labelField: "addressLabel" },
+    { icon: svgPhone, label: phoneLabel,   value: phone,   field: "phone",   labelField: "phoneLabel" },
+    { icon: svgMail,  label: emailLabel,   value: email,   field: "email",   labelField: "emailLabel" },
+    { icon: svgClock, label: hoursLabel,   value: hours,   field: "hours",   labelField: "hoursLabel" },
   ];
 
-  return (
-    <section ref={secRef} id={id} data-variant="restaurant-01-contact" style={{ backgroundColor: DARK, padding: "96px 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
-        {/* Header */}
-        <div data-r01="0" style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: AMBER, margin: "0 0 16px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <div style={{ width: 40, height: 1.5, backgroundColor: AMBER, margin: "0 auto 0" }} />
-        </div>
+  const socialIcon = (url: string, d: string) => url ? (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="r01-ct-social" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid rgba(200,148,63,0.3)`, display: "inline-flex", alignItems: "center", justifyContent: "center", transition: "border-color .3s, background-color .3s" }}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill={AMBER} style={{ transition: "fill .3s" }}><path d={d}/></svg>
+    </a>
+  ) : null;
 
-        <div className="r01-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "start" }}>
-          {/* Levá strana — info */}
-          <div data-r01="1" style={{ transitionDelay: "0.1s" }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 400, color: CREAM, margin: "0 0 40px", lineHeight: 1.2 }}>
+  return (
+    <section ref={secRef} id={id} data-template="restaurant-01" style={{ backgroundColor: DARK, padding: "clamp(72px, 10vw, 120px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* top amber hairline */}
+      <div style={{ position: "absolute", top: 0, left: "10%", right: "10%", height: 1, background: `linear-gradient(90deg, transparent, ${AMBER}44, transparent)` }} />
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
+        {/* Conditional header */}
+        {showHeader && (
+          <div data-r01="0" style={{ textAlign: "center", marginBottom: 64 }}>
+            <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: AMBER, margin: "0 0 18px" }}>
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            {/* diamond ornament */}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, margin: "0 0 24px" }}>
+              <div style={{ width: 40, height: 1, backgroundColor: `${AMBER}55` }} />
+              <div style={{ width: 7, height: 7, backgroundColor: AMBER, transform: "rotate(45deg)", opacity: 0.7 }} />
+              <div style={{ width: 40, height: 1, backgroundColor: `${AMBER}55` }} />
+            </div>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 50px)", fontWeight: 400, color: CREAM, margin: 0, lineHeight: 1.15, whiteSpace: "pre-line" }}>
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
+          </div>
+        )}
 
-            {infos.map((inf, i) => (
-              <div key={i} style={{ display: "flex", gap: 16, marginBottom: 28, alignItems: "flex-start" }}>
-                <span style={{ marginTop: 1, flexShrink: 0 }}>{inf.icon}</span>
-                <div>
-                  <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: AMBER, margin: "0 0 4px" }}>{inf.label}</p>
-                  <p style={{ fontSize: 14, fontWeight: 300, color: MUTED, margin: 0, lineHeight: 1.6 }}>
-                    <GenericEditableText sectionId={sectionId} field={inf.field} value={inf.value} tag="span" />
-                  </p>
+        <div className="r01-ct-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 72px)", alignItems: "start" }}>
+          {/* Left — info cards */}
+          <div data-r01="1" style={{ transitionDelay: "0.1s" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+              {infos.map((inf, i) => (
+                <div key={i} className="r01-ct-info" style={{ display: "flex", gap: 18, alignItems: "flex-start", padding: "20px 24px", borderRadius: 4, border: `1px solid rgba(200,148,63,0.12)`, backgroundColor: "rgba(200,148,63,0.03)", transition: "border-color .3s, background-color .3s" }}>
+                  {iconCircle(inf.icon)}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: AMBER, margin: "0 0 6px" }}>
+                      <GenericEditableText sectionId={sectionId} field={inf.labelField} value={inf.label} tag="span" />
+                    </p>
+                    <p style={{ fontSize: 15, fontWeight: 300, color: MUTED, margin: 0, lineHeight: 1.6 }}>
+                      <GenericEditableText sectionId={sectionId} field={inf.field} value={inf.value} tag="span" />
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
-            <div style={{ marginTop: 40 }}>
-              <a href={ctaHref} data-btn="primary" style={{
+            {/* Social + CTA row */}
+            <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 36, flexWrap: "wrap" }}>
+              <a href={resolve(ctaHref)} data-btn="primary" className="r01-ct-cta" style={{
                 fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
                 textTransform: "uppercase", color: "#fff", textDecoration: "none",
-                padding: "14px 36px", backgroundColor: RED, borderRadius: 3,
-                display: "inline-block", transition: "background-color 0.2s",
-              }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#a93226")}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-              >
+                padding: "15px 40px", backgroundColor: RED, borderRadius: 3,
+                display: "inline-block", transition: "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
+              }}>
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               </a>
+
+              {(fbUrl || igUrl) && (
+                <div style={{ display: "flex", gap: 10 }}>
+                  {socialIcon(fbUrl, "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z")}
+                  {socialIcon(igUrl, "M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z")}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Pravá strana — mapa */}
-          <div data-r01="2" className="r01-contact-map" style={{ aspectRatio: "4/3", borderRadius: 2, overflow: "hidden", border: `1px solid rgba(200,148,63,0.2)`, transitionDelay: "0.22s" }}>
+          {/* Right — map */}
+          <div data-r01="2" className="r01-ct-map" style={{ aspectRatio: "4/3", borderRadius: 4, overflow: "hidden", border: `1px solid rgba(200,148,63,0.2)`, transitionDelay: "0.22s", position: "relative" }}>
             <iframe
-              src="https://www.openstreetmap.org/export/embed.html?bbox=14.4063%2C50.0725%2C14.4363%2C50.1025&layer=mapnik&marker=50.0875%2C14.4213"
-              style={{ width: "100%", height: "100%", border: 0, display: "block", filter: "invert(0.85) hue-rotate(180deg) brightness(0.85)" }}
+              src={mapSrc}
+              style={{ width: "100%", height: "100%", border: 0, display: "block", filter: "invert(0.85) hue-rotate(180deg) brightness(0.85) contrast(1.05)" }}
               title="Mapa"
               loading="lazy"
             />
+            {/* amber corner accent */}
+            <div style={{ position: "absolute", top: 0, left: 0, width: 32, height: 32, borderTop: `2px solid ${AMBER}55`, borderLeft: `2px solid ${AMBER}55`, pointerEvents: "none" }} />
+            <div style={{ position: "absolute", bottom: 0, right: 0, width: 32, height: 32, borderBottom: `2px solid ${AMBER}55`, borderRight: `2px solid ${AMBER}55`, pointerEvents: "none" }} />
           </div>
         </div>
       </div>
 
       <style>{`
-        @media(max-width:768px){.r01-contact-grid{grid-template-columns:1fr!important}}
-        @media(max-width:768px){.r01-contact-map{aspect-ratio:16/9!important}}
+        @media(max-width:768px){.r01-ct-grid{grid-template-columns:1fr!important}}
+        @media(max-width:768px){.r01-ct-map{aspect-ratio:16/9!important}}
+        .r01-ct-info:hover{border-color:rgba(200,148,63,0.3)!important;background-color:rgba(200,148,63,0.06)!important}
+        .r01-ct-cta:hover{background-color:#a93226!important;transform:translateY(-2px);box-shadow:0 8px 24px rgba(192,57,43,0.3)!important}
+        .r01-ct-social:hover{border-color:${AMBER}!important;background-color:rgba(200,148,63,0.12)!important}
         [data-r01]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
         [data-r01].r01-vis{opacity:1;transform:translateY(0)}
       `}</style>
@@ -3959,12 +4074,19 @@ function ContactRestaurant01({ content, sectionId }: { content: Record<string, u
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactRestaurant02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const id       = String(content.id       ?? "kontakt");
-  const tagline  = String(content.tagline  ?? "Kde nás najdete");
-  const title    = String(content.title    ?? "Kontakt\na rezervace");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Kde nás najdete" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Kontakt\na rezervace" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const address  = String(content.address  ?? "Ukázková 123, 110 00 Praha 1");
   const phone    = String(content.phone    ?? "704 123 456");
   const email    = String(content.email    ?? "rezervace@demo.cz");
   const hours    = String(content.hours    ?? "Po–Pá 11:00–23:00, So–Ne 12:00–23:00");
+  const addressLabel = String(content.addressLabel ?? "Adresa");
+  const phoneLabel   = String(content.phoneLabel   ?? "Telefon");
+  const emailLabel   = String(content.emailLabel   ?? "E-mail");
+  const hoursLabel   = String(content.hoursLabel   ?? "Otevírací doba");
   const ctaText  = String(content.ctaText  ?? "Rezervovat stůl");
   const ctaHref  = String(content.ctaHref  ?? "mailto:rezervace@demo.cz");
   const mapLat   = String(content.mapLat   ?? "50.0875");
@@ -3974,8 +4096,7 @@ function ContactRestaurant02({ content, sectionId }: { content: Record<string, u
 
   const RED     = "#c0392b";
   const BLACK   = "#1a1a1a";
-  const MUTED   = "#666666";
-  const BORDER  = "#e8e8e8";
+  const MUTED   = "#5f5f5f";
   const POPPINS = "'Poppins', sans-serif";
 
   const secRef = useRef<HTMLElement>(null);
@@ -3988,96 +4109,89 @@ function ContactRestaurant02({ content, sectionId }: { content: Record<string, u
     return () => obs.disconnect();
   }, []);
 
+  const rise = (d: number): React.CSSProperties => ({
+    opacity: vis ? 1 : 0,
+    transform: vis ? "translateY(0)" : "translateY(24px)",
+    transition: `opacity 0.7s cubic-bezier(.2,.7,.2,1) ${d}s, transform 0.7s cubic-bezier(.2,.7,.2,1) ${d}s`,
+  });
+
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${parseFloat(mapLng)-0.012}%2C${parseFloat(mapLat)-0.008}%2C${parseFloat(mapLng)+0.012}%2C${parseFloat(mapLat)+0.008}&layer=mapnik&marker=${mapLat}%2C${mapLng}`;
 
+  const iconAddr = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>;
+  const iconPhone = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6.29 6.29l.95-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+  const iconMail = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
+  const iconClock = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+
+  const rows: Array<{ icon: React.ReactNode; label: string; labelField: string; value: string; field: string; href?: string }> = [
+    { icon: iconAddr,  label: addressLabel, labelField: "addressLabel", value: address, field: "address" },
+    { icon: iconPhone, label: phoneLabel,   labelField: "phoneLabel",   value: phone,   field: "phone", href: `tel:${phone.replace(/\s/g, "")}` },
+    { icon: iconMail,  label: emailLabel,   labelField: "emailLabel",   value: email,   field: "email", href: `mailto:${email}` },
+    { icon: iconClock, label: hoursLabel,   labelField: "hoursLabel",   value: hours,   field: "hours" },
+  ];
+
   return (
-    <section ref={secRef} id={id} data-template="restaurant-02" style={{ backgroundColor: "#ffffff", padding: "clamp(64px, 8vw, 112px) 0", fontFamily: POPPINS }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 96px)", alignItems: "start" }} className="r02-contact-grid">
+    <section ref={secRef} id={id} data-template="restaurant-02" style={{ backgroundColor: "#ffffff", padding: "clamp(72px, 9vw, 120px) 0", fontFamily: POPPINS }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 88px)", alignItems: "start" }} className="r02-contact-grid">
 
         {/* Info vlevo */}
-        <div style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.7s ease, transform 0.7s ease" }}>
-          <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: RED, margin: "0 0 14px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{ fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 700, lineHeight: 1.2, color: BLACK, margin: "0 0 36px", whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+        <div>
+          {showHeader && (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, ...rise(0) }}>
+                <span aria-hidden style={{ width: 36, height: 2, background: RED }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                  style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: RED }} />
+              </div>
+              <h2 style={{ ...rise(0.06), fontSize: "clamp(28px, 3.2vw, 42px)", fontWeight: 700, lineHeight: 1.18, color: BLACK, margin: "0 0 36px", whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            </>
+          )}
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 36 }}>
-            {/* Adresa */}
-            <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-              <span style={{ color: RED, fontSize: 18, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              </span>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: MUTED, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-              </p>
-            </div>
-            {/* Telefon */}
-            <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-              <span style={{ color: RED, fontSize: 18, lineHeight: 1, flexShrink: 0 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6.29 6.29l.95-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              </span>
-              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontSize: 14, color: BLACK, textDecoration: "none", fontWeight: 500 }}>
-                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-              </a>
-            </div>
-            {/* E-mail */}
-            <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-              <span style={{ color: RED, fontSize: 18, lineHeight: 1, flexShrink: 0 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              </span>
-              <a href={`mailto:${email}`} style={{ fontSize: 14, color: BLACK, textDecoration: "none", fontWeight: 500 }}>
-                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-              </a>
-            </div>
-            {/* Hodiny */}
-            <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-              <span style={{ color: RED, fontSize: 18, lineHeight: 1, flexShrink: 0, marginTop: 2 }}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </span>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: MUTED, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
-              </p>
-            </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 34 }}>
+            {rows.map((r, i) => {
+              const inner = (
+                <>
+                  <span className="r02-contact-ico" style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, flexShrink: 0, borderRadius: 3, backgroundColor: "rgba(192,57,43,0.08)", color: RED }}>{r.icon}</span>
+                  <span style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                    <GenericEditableText sectionId={sectionId} field={r.labelField} value={r.label} tag="span"
+                      style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: RED }} />
+                    <GenericEditableText sectionId={sectionId} field={r.field} value={r.value} tag="span"
+                      style={{ fontSize: 14.5, lineHeight: 1.5, color: r.href ? BLACK : MUTED, fontWeight: r.href ? 600 : 400 }} />
+                  </span>
+                </>
+              );
+              return r.href ? (
+                <a key={i} href={r.href} className="r02-contact-row" style={{ ...rise(0.1 + i * 0.06), display: "flex", gap: 14, alignItems: "center", textDecoration: "none", padding: "10px 12px", borderRadius: 4 }}>{inner}</a>
+              ) : (
+                <div key={i} className="r02-contact-row" style={{ ...rise(0.1 + i * 0.06), display: "flex", gap: 14, alignItems: "center", padding: "10px 12px", borderRadius: 4 }}>{inner}</div>
+              );
+            })}
           </div>
 
           {/* Social + CTA */}
-          <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#ffffff", textDecoration: "none", padding: "13px 32px", backgroundColor: RED, display: "inline-block", transition: "background-color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#a93226")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-            >
+          <div style={{ ...rise(0.38), display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+            <a href={ctaHref} className="r02-contact-cta" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.11em", textTransform: "uppercase", color: "#ffffff", textDecoration: "none", padding: "14px 34px", backgroundColor: RED, display: "inline-block", position: "relative", overflow: "hidden" }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
-            <div style={{ display: "flex", gap: 12 }}>
+            <div style={{ display: "flex", gap: 10 }}>
               {fbUrl && (
-                <a href={fbUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                  style={{ color: MUTED, transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = RED)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                <a href={fbUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="r02-contact-social">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 </a>
               )}
               {igUrl && (
-                <a href={igUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                  style={{ color: MUTED, transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = RED)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <a href={igUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="r02-contact-social">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                 </a>
               )}
             </div>
           </div>
         </div>
 
-        {/* Mapa vpravo */}
-        <div style={{ opacity: vis ? 1 : 0, transform: vis ? "translateX(0)" : "translateX(28px)", transition: "opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s", lineHeight: 0, border: `1px solid ${BORDER}` }}>
+        {/* Mapa vpravo — rámovaná s red accentem */}
+        <div className="r02-contact-map" style={{ ...rise(0.15), position: "relative", lineHeight: 0 }}>
+          <span aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: RED, zIndex: 1 }} />
           <iframe
             src={mapSrc}
             width="100%"
@@ -4088,37 +4202,43 @@ function ContactRestaurant02({ content, sectionId }: { content: Record<string, u
           />
         </div>
       </div>
-
-      <style>{`
-        @media(max-width:768px){ .r02-contact-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
     </section>
   );
 }
 
 // ── restaurant-03-contact ─────────────────────────────────────────────────────
-// Dark #0c351a bg, zlatý kicker + bílý serif H2
-// 2-col: vlevo kontaktní info (adresa/tel/email/hodiny) se zlatými SVG ikonami
-//        + zlaté outline CTA "Rezervovat stůl"
-//        vpravo: Google mapa iframe s tmavým overlay frame
-// Ref: lacasalatina.cz kontaktní údaje
+// La Casa Dorada — luxe deep-green #0c351a + gold. Ornament header, 2-col:
+// LEVÁ gold-framed info karta (ikony/hodiny/social) · PRAVÁ rezervační formulář
+// (underline inputy, gold focus, gold submit). Dole celoširoká mapa se zlatým
+// rámem + green duotone filter. Conditional header pro /kontakt.
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactRestaurant03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const id      = String(content.id      ?? "kontakt");
-  const tagline = String(content.tagline ?? "Kde nás najdete");
-  const title   = String(content.title   ?? "Kontakt\na rezervace");
-  const address = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Kde nás najdete" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Kontakt\na rezervace" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
+  const address = String(content.address ?? "Zlatnická 12, 110 00 Praha 1");
   const phone   = String(content.phone   ?? "704 123 456");
-  const email   = String(content.email   ?? "rezervace@demo.cz");
+  const email   = String(content.email   ?? "rezervace@lacasadorada.cz");
   const hours   = String(content.hours   ?? "Po–Ne: 12:00–01:00");
   const hours2  = String(content.hours2  ?? "");
-  const ctaText = String(content.ctaText ?? "Rezervovat stůl");
-  const ctaHref = String(content.ctaHref ?? "mailto:rezervace@demo.cz");
+  const infoTitle = String(content.infoTitle ?? "Spojení");
+  const formTitle = String(content.formTitle ?? "Rezervace stolu");
+  const formNote  = String(content.formNote  ?? "Ozveme se vám do hodiny s potvrzením.");
+  const nameLabel   = String(content.nameLabel   ?? "Jméno a příjmení");
+  const phoneLabel  = String(content.phoneLabel  ?? "Telefon");
+  const dateLabel   = String(content.dateLabel   ?? "Datum & čas");
+  const guestsLabel = String(content.guestsLabel ?? "Počet hostů");
+  const noteLabel   = String(content.noteLabel   ?? "Poznámka");
+  const submitLabel = String(content.submitLabel ?? "Odeslat rezervaci");
   const mapUrl  = String(content.mapEmbedUrl ?? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2559.9!2d14.4208!3d50.0880!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDA1JzE2LjgiTiAxNMKwMjUnMTUuMCJF!5e0!3m2!1scs!2scz!4v1700000000000");
 
-  const BG   = "#0d1b2a";
-  const SURF = "#162032";
-  const GOLD = "#e05e3f";
+  const BG   = "#0c351a";
+  const SURF = "#0a2d15";
+  const GOLD = "#b97d26";
+  const GOLD_LT = "#d4a24c";
   const WHITE = "#ffffff";
   const FONT = "Georgia, 'Times New Roman', serif";
   const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
@@ -4128,67 +4248,78 @@ function ContactRestaurant03({ content, sectionId }: { content: Record<string, u
   const infoRows = [
     {
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s-8-5.686-8-11a8 8 0 1116 0c0 5.314-8 11-8 11z"/><circle cx="12" cy="11" r="3"/></svg>,
-      label: "Adresa",
-      value: address,
-      href: undefined,
+      label: "Adresa", field: "address", value: address, href: undefined,
     },
     {
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.18 2 2 0 012 .07h3a2 2 0 012 1.72 12.05 12.05 0 00.66 2.89 2 2 0 01-.45 2.11L6.04 7.91a16 16 0 006.05 6.05l1.12-1.17a2 2 0 012.11-.45 12.05 12.05 0 002.89.66A2 2 0 0122 14.92z"/></svg>,
-      label: "Telefon",
-      value: phone,
-      href: `tel:+420${phone.replace(/\s/g, "")}`,
+      label: "Telefon", field: "phone", value: phone, href: `tel:+420${phone.replace(/\s/g, "")}`,
     },
     {
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
-      label: "E-mail",
-      value: email,
-      href: `mailto:${email}`,
+      label: "E-mail", field: "email", value: email, href: `mailto:${email}`,
     },
     {
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
-      label: "Otevírací doba",
-      value: hours,
-      href: undefined,
+      label: "Otevírací doba", field: "hours", value: hours, href: undefined,
     },
   ];
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%", background: "transparent", border: "none",
+    borderBottom: "1px solid rgba(212,162,76,0.35)", color: WHITE,
+    fontFamily: SANS, fontSize: 14.5, padding: "10px 2px", outline: "none",
+  };
+  const labelStyle: React.CSSProperties = {
+    fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.16em",
+    textTransform: "uppercase", color: `${WHITE}88`, marginBottom: 6, display: "block",
+  };
+
   return (
-    <section ref={secRef} id={id} data-variant="restaurant-03-contact" style={{ backgroundColor: BG, padding: "96px 0", fontFamily: SANS }}>
+    <section ref={secRef} id={id} data-template="restaurant-03" data-variant="restaurant-03-contact" style={{ backgroundColor: BG, padding: "clamp(72px,10vw,116px) 0", fontFamily: SANS }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
         {/* Header */}
-        <div style={{ marginBottom: 56, textAlign: "center" }}>
-          <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, margin: "0 0 12px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <div style={{ width: 48, height: 1, backgroundColor: GOLD, margin: "0 auto 20px", opacity: 0.5 }} />
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", fontWeight: 400, color: WHITE, margin: 0, lineHeight: 1.2, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div style={{ marginBottom: 54, textAlign: "center" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <span aria-hidden style={{ width: 34, height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD})` }} />
+              <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                style={{ fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT }} />
+              <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)" }} />
+              <span aria-hidden style={{ width: 34, height: 1, background: `linear-gradient(to left, ${GOLD}00, ${GOLD})` }} />
+            </div>
+            <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.6vw, 48px)", fontWeight: 400, color: WHITE, margin: 0, lineHeight: 1.16, whiteSpace: "pre-line" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+          </div>
+        )}
 
-        {/* 2-col grid */}
-        <div className="r03-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 5vw, 72px)", alignItems: "start" }}>
+        {/* 2-col grid: info + form */}
+        <div className="r03-contact-grid" style={{ display: "grid", gridTemplateColumns: "0.85fr 1fr", gap: "clamp(28px, 4vw, 56px)", alignItems: "stretch", marginBottom: 40 }}>
 
-          {/* Levý sloupec — info */}
-          <div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 28, marginBottom: 40 }}>
+          {/* Levá info karta */}
+          <div style={{ position: "relative", background: SURF, border: "1px solid rgba(185,125,38,0.28)", borderRadius: 2, padding: "clamp(28px,4vw,40px)" }}>
+            <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 400, color: WHITE, margin: "0 0 26px" }}>
+              <GenericEditableText sectionId={sectionId} field="infoTitle" value={infoTitle} tag="span" />
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {infoRows.map((row, i) => (
                 <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                  <div style={{ color: GOLD, flexShrink: 0, marginTop: 2 }}>{row.icon}</div>
+                  <div style={{ color: GOLD_LT, flexShrink: 0, marginTop: 2 }}>{row.icon}</div>
                   <div>
                     <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: `${WHITE}66`, margin: "0 0 4px" }}>{row.label}</p>
                     {row.href ? (
-                      <a href={row.href} style={{ fontFamily: SANS, fontSize: 15, color: `${WHITE}cc`, textDecoration: "none", lineHeight: 1.5, transition: "color 0.18s" }}
-                        onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
+                      <a href={row.href} className="r03-contact-link" style={{ fontFamily: SANS, fontSize: 15, color: `${WHITE}cc`, textDecoration: "none", lineHeight: 1.5, transition: "color 0.2s" }}
+                        onMouseEnter={e => (e.currentTarget.style.color = GOLD_LT)}
                         onMouseLeave={e => (e.currentTarget.style.color = `${WHITE}cc`)}
                       >
-                        <GenericEditableText sectionId={sectionId} field={`row_${i}`} value={row.value} tag="span" />
+                        <GenericEditableText sectionId={sectionId} field={row.field} value={row.value} tag="span" />
                       </a>
                     ) : (
                       <p style={{ fontFamily: SANS, fontSize: 15, color: `${WHITE}cc`, margin: 0, lineHeight: 1.5 }}>
-                        <GenericEditableText sectionId={sectionId} field={["address","phone","email","hours"][i] ?? `row_${i}`} value={row.value} tag="span" />
+                        <GenericEditableText sectionId={sectionId} field={row.field} value={row.value} tag="span" />
                         {hours2 && i === 3 && (
-                          <><br /><span style={{ fontSize: 13, color: `${WHITE}88` }}>{hours2}</span></>
+                          <><br /><GenericEditableText sectionId={sectionId} field="hours2" value={hours2} tag="span" style={{ fontSize: 13, color: `${WHITE}88` }} /></>
                         )}
                       </p>
                     )}
@@ -4196,41 +4327,72 @@ function ContactRestaurant03({ content, sectionId }: { content: Record<string, u
                 </div>
               ))}
             </div>
-
-            {/* CTA */}
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{
-                fontFamily: SANS, fontSize: 11, fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                color: GOLD, textDecoration: "none",
-                padding: "12px 28px", border: `1px solid ${GOLD}`,
-                display: "inline-block", transition: "background-color 0.2s, color 0.2s",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = WHITE; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD; }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
           </div>
 
-          {/* Pravý sloupec — mapa */}
-          <div style={{ position: "relative", borderRadius: 2, overflow: "hidden", border: `1px solid ${WHITE}15` }}>
-            <iframe
-              src={mapUrl}
-              width="100%"
-              height="400"
-              style={{ border: 0, display: "block", filter: "invert(90%) hue-rotate(180deg) saturate(0.7)" }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Mapa"
-            />
+          {/* Pravá — rezervační formulář */}
+          <div style={{ position: "relative", background: SURF, border: "1px solid rgba(185,125,38,0.28)", borderRadius: 2, padding: "clamp(28px,4vw,40px)" }}>
+            <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 400, color: WHITE, margin: "0 0 6px" }}>
+              <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
+            </h3>
+            <p style={{ fontFamily: SANS, fontSize: 13.5, color: `${WHITE}88`, margin: "0 0 26px", lineHeight: 1.6 }}>
+              <GenericEditableText sectionId={sectionId} field="formNote" value={formNote} tag="span" />
+            </p>
+            <form onSubmit={(e) => e.preventDefault()} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px 22px" }}>
+              <div style={{ gridColumn: "1 / -1" }}>
+                <GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="label" style={labelStyle} />
+                <input className="r03-input" type="text" style={inputStyle} />
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="label" style={labelStyle} />
+                <input className="r03-input" type="tel" style={inputStyle} />
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="dateLabel" value={dateLabel} tag="label" style={labelStyle} />
+                <input className="r03-input" type="text" style={inputStyle} />
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="guestsLabel" value={guestsLabel} tag="label" style={labelStyle} />
+                <input className="r03-input" type="number" min={1} style={inputStyle} />
+              </div>
+              <div style={{ gridColumn: "1 / -1" }}>
+                <GenericEditableText sectionId={sectionId} field="noteLabel" value={noteLabel} tag="label" style={labelStyle} />
+                <input className="r03-input" type="text" style={inputStyle} />
+              </div>
+              <button
+                type="submit"
+                data-btn="primary"
+                style={{ gridColumn: "1 / -1", marginTop: 8, fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: BG, background: GOLD, border: "none", borderRadius: 2, padding: "15px 32px", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10, transition: "background-color 0.3s, transform 0.3s" }}
+                onMouseEnter={e => { e.currentTarget.style.background = GOLD_LT; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.background = GOLD; e.currentTarget.style.transform = "translateY(0)"; }}
+              >
+                <span aria-hidden style={{ width: 6, height: 6, background: "currentColor", transform: "rotate(45deg)" }} />
+                <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />
+              </button>
+            </form>
           </div>
         </div>
+
+        {/* Celoširoká mapa se zlatým rámem */}
+        <div style={{ position: "relative", borderRadius: 2, overflow: "hidden", border: `1px solid rgba(185,125,38,0.3)` }}>
+          <iframe
+            src={mapUrl}
+            width="100%"
+            height="380"
+            style={{ border: 0, display: "block", filter: "grayscale(0.4) sepia(0.25) hue-rotate(70deg) saturate(0.9) brightness(0.85)" }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Mapa"
+          />
+        </div>
       </div>
-      <style>{`@media(max-width:768px){.r03-contact-grid{grid-template-columns:1fr!important}}`}</style>
+      <style>{`
+        [data-template="restaurant-03"] .r03-input:focus { border-bottom-color: ${GOLD_LT} !important; }
+        [data-template="restaurant-03"] .r03-input::placeholder { color: rgba(255,255,255,0.3); }
+        @media(max-width:768px){
+          .r03-contact-grid{grid-template-columns:1fr!important}
+        }
+      `}</style>
     </section>
   );
 }
@@ -4555,7 +4717,7 @@ function ContactCafe04({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── reality-02-contact ────────────────────────────────────────────────────────
-// Ref: fermakleri.cz kontakt stránka — tel/email/adresa vlevo + CTA karta vpravo
+// Ref: realitni-pruvodce.cz kontakt stránka — tel/email/adresa vlevo + CTA karta vpravo
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactReality02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const title    = String(content.title    ?? "Kontaktujte nás");
@@ -4629,90 +4791,106 @@ function ContactReality02({ content, sectionId }: { content: Record<string, unkn
 }
 
 // ── reality-01-contact ────────────────────────────────────────────────────────
-// Bílý 2-col: vlevo info + ikony; vpravo mapa — ref: lexxusnorton.cz
-// ─────────────────────────────────────────────────────────────────────────────
 function ContactReality01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tagline  = String(content.tagline  ?? "Kontakt");
-  const title    = String(content.title    ?? "Jsme tu pro vás");
-  const subtitle = String(content.subtitle ?? "Ozvěte se nám a my se vám obratem ozveme zpět.");
-  const address  = String(content.address  ?? "Ukázková 123, 110 00 Praha 1");
+  const eyebrowRaw  = content.eyebrow;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Najdete nás snadno" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Stavte se osobně nebo nám napište — odpovídáme do 24 hodin." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const address  = String(content.address  ?? "Pařížská 28, 110 00 Praha 1");
   const phone    = String(content.phone    ?? "704 123 456");
-  const email    = String(content.email    ?? "email@demo.cz");
+  const email    = String(content.email    ?? "info@domus-reality.cz");
   const hours    = String(content.hours    ?? "Po–Pá 9:00–18:00, So 9:00–14:00");
 
-  const DARK       = "#1a3640";
-  const GOLD       = "#d4a96e";
-  const WHITE      = "#ffffff";
-  const SURFACE    = "#f4ebe5";
-  const TEXT       = "#141414";
+  const DARK = "#1a3640";
+  const GOLD = "#d4a96e";
+  const WHITE = "#ffffff";
+  const SURFACE = "#f4ebe5";
   const TEXT_MUTED = "#6b7280";
-  const MONTSERRAT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
-  const OPEN_SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+  const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed&z=15`;
 
-  type ContactItem = { icon: React.ReactNode; label: string; value: string; href?: string };
-  const contactItems: ContactItem[] = [
+  type ContactItem = { icon: React.ReactNode; label: string; field: string; value: string; href?: string };
+  const items: ContactItem[] = [
     {
       icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/></svg>,
-      label: "Adresa", value: address,
+      label: "Adresa", field: "address", value: address,
     },
     {
       icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02z" fill="currentColor"/></svg>,
-      label: "Telefon", value: `+420 ${phone}`, href: `tel:+420${phone.replace(/\s/g,"")}`,
+      label: "Telefon", field: "phone", value: `+420 ${phone}`, href: `tel:+420${phone.replace(/\s/g,"")}`,
     },
     {
       icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/></svg>,
-      label: "E-mail", value: email, href: `mailto:${email}`,
+      label: "E-mail", field: "email", value: email, href: `mailto:${email}`,
     },
     {
       icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm.5 5v5.25l4.5 2.67-.75 1.23L11 13V7h1.5z" fill="currentColor"/></svg>,
-      label: "Otevírací doba", value: hours,
+      label: "Otevírací doba", field: "hours", value: hours,
     },
   ];
 
   return (
-    <section style={{ backgroundColor: WHITE, padding: "clamp(56px,8vw,96px) 0" }}>
-      <div style={{ maxWidth: 1340, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
-        <div data-r01-contact style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,5vw,72px)", alignItems: "start" }}>
+    <section data-template="reality-01" id="contact" style={{ backgroundColor: WHITE, padding: "clamp(64px,9vw,112px) 0", position: "relative" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
 
-          {/* LEFT — contact info */}
-          <div>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
-              style={{ fontFamily: MONTSERRAT, fontSize: 12, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }} />
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
-              style={{ fontFamily: MONTSERRAT, fontSize: "clamp(26px,3vw,40px)", fontWeight: 700, lineHeight: 1.2, color: DARK, margin: "0 0 16px" }} />
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
-              style={{ fontFamily: OPEN_SANS, fontSize: 16, color: TEXT_MUTED, margin: "0 0 40px", lineHeight: 1.7 }} />
-
-            {/* Contact items */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              {contactItems.map((item, i) => (
-                <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 8, backgroundColor: SURFACE, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD, flexShrink: 0 }}>
-                    {item.icon}
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: MONTSERRAT, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: TEXT_MUTED, marginBottom: 4 }}>{item.label}</div>
-                    {item.href ? (
-                      <a href={item.href} style={{ fontFamily: OPEN_SANS, fontSize: 15, color: DARK, textDecoration: "none", fontWeight: 500 }}
-                        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = GOLD; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = DARK; }}
-                      >
-                        <GenericEditableText sectionId={sectionId} field={["address","phone","email","hours"][i] as string} value={item.value} tag="span" />
-                      </a>
-                    ) : (
-                      <GenericEditableText sectionId={sectionId} field={["address","phone","email","hours"][i] as string} value={item.value} tag="div"
-                        style={{ fontFamily: OPEN_SANS, fontSize: 15, color: TEXT, lineHeight: 1.5 }} />
-                    )}
-                  </div>
-                </div>
-              ))}
+        {showHeader && (
+          <div style={{ marginBottom: 56 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
+              <div style={{ width: 32, height: 1, background: GOLD }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: GOLD }} />
             </div>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+              style={{ fontFamily: FONT, fontSize: "clamp(28px,3.5vw,42px)", fontWeight: 700, lineHeight: 1.15, color: DARK, margin: "0 0 14px", letterSpacing: "-0.02em" }} />
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+              style={{ fontFamily: BODY, fontSize: 16, color: TEXT_MUTED, margin: 0, lineHeight: 1.7, maxWidth: 520 }} />
+          </div>
+        )}
+
+        <div className="r01-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,5vw,72px)", alignItems: "start" }}>
+          {/* LEFT — contact cards */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            {items.map((item, i) => (
+              <div key={i} className="r01-contact-card" style={{
+                padding: "28px 24px", borderRadius: 10,
+                backgroundColor: i === 0 ? DARK : SURFACE,
+                transition: "transform 0.3s, box-shadow 0.3s",
+              }}>
+                <div style={{
+                  width: 44, height: 44, borderRadius: 10,
+                  backgroundColor: i === 0 ? "rgba(212,169,110,0.15)" : "rgba(26,54,64,0.06)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: GOLD, marginBottom: 16,
+                }}>
+                  {item.icon}
+                </div>
+                <div style={{ fontFamily: FONT, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: i === 0 ? "rgba(255,255,255,0.5)" : TEXT_MUTED, marginBottom: 8 }}>
+                  {item.label}
+                </div>
+                {item.href ? (
+                  <a href={item.href} className="r01-contact-link" style={{
+                    fontFamily: BODY, fontSize: 15, fontWeight: 500,
+                    color: i === 0 ? WHITE : DARK,
+                    textDecoration: "none", transition: "color 0.2s",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={item.field} value={item.value} tag="span" />
+                  </a>
+                ) : (
+                  <GenericEditableText sectionId={sectionId} field={item.field} value={item.value} tag="div"
+                    style={{ fontFamily: BODY, fontSize: 15, color: i === 0 ? WHITE : DARK, lineHeight: 1.5, fontWeight: 500 }} />
+                )}
+              </div>
+            ))}
           </div>
 
           {/* RIGHT — map */}
-          <div style={{ borderRadius: 8, overflow: "hidden", boxShadow: "0 2px 16px rgba(0,0,0,0.10)", aspectRatio: "4/3", position: "relative", backgroundColor: SURFACE }}>
+          <div style={{ borderRadius: 10, overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.08)", aspectRatio: "4/3", position: "relative", backgroundColor: SURFACE }}>
             <iframe
               title="Mapa kanceláře"
               src={mapSrc}
@@ -4726,150 +4904,288 @@ function ContactReality01({ content, sectionId }: { content: Record<string, unkn
       </div>
 
       <style>{`
-        @media (max-width: 767px) { [data-r01-contact] { grid-template-columns: 1fr !important; } }
+        @media (max-width: 800px) {
+          .r01-contact-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 500px) {
+          .r01-contact-grid > div:first-child { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </section>
   );
 }
 
+// ── reality-05-contact ────────────────────────────────────────────────────────
+function ContactReality05({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Ozvěte se mi" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Rád zodpovím vaše dotazy a domluvíme nezávaznou konzultaci." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const address   = String(content.address  ?? "Národní 15, 110 00 Praha 1");
+  const phone     = String(content.phone    ?? "602 345 678");
+  const email     = String(content.email    ?? "info@demo-reality.cz");
+  const hours     = String(content.hours    ?? "Po–Pá 9:00–18:00");
+  const addrLabel = String((content as Record<string,unknown>).addressLabel ?? "Kancelář");
+  const phoneLabel = String((content as Record<string,unknown>).phoneLabel ?? "Telefon");
+  const emailLabel = String((content as Record<string,unknown>).emailLabel ?? "E-mail");
+  const hoursLabel = String((content as Record<string,unknown>).hoursLabel ?? "Dostupnost");
+
+  const GOLD  = "#CFA968";
+  const DARK  = "#1c1c1c";
+  const WHITE = "#ffffff";
+  const CREAM = "#f8f5f0";
+  const SANS  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed&z=15`;
+
+  const contactItems = [
+    {
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>,
+      labelField: "addressLabel", label: addrLabel, valueField: "address", value: address,
+    },
+    {
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+      labelField: "phoneLabel", label: phoneLabel, valueField: "phone", value: phone,
+      href: `tel:${phone.replace(/\s/g, "")}`,
+    },
+    {
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+      labelField: "emailLabel", label: emailLabel, valueField: "email", value: email,
+      href: `mailto:${email}`,
+    },
+    {
+      icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+      labelField: "hoursLabel", label: hoursLabel, valueField: "hours", value: hours,
+    },
+  ];
+
+  return (
+    <section id="kontakt" data-template="reality-05" style={{ backgroundColor: WHITE, fontFamily: SANS }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px clamp(20px,4vw,56px) 88px" }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: GOLD, display: "block", marginBottom: 12 }}
+              />
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                style={{ fontSize: "clamp(28px,3.2vw,40px)", fontWeight: 700, color: DARK, margin: "0 0 14px", lineHeight: 1.15 }}
+              />
+            )}
+            {subtitle.trim() && (
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+                style={{ fontSize: 16, color: "#666", margin: "0 0 12px", lineHeight: 1.7, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}
+              />
+            )}
+            <div style={{ width: 40, height: 2, backgroundColor: GOLD, margin: "0 auto", opacity: 0.5 }} />
+          </div>
+        )}
+
+        <div className="r05-contact-grid">
+          {/* LEFT — contact items */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+            {contactItems.map((item, i) => (
+              <div key={i} className="r05-contact-item" style={{ display: "flex", gap: 18, alignItems: "flex-start", transition: "transform 0.25s" }}>
+                <div style={{
+                  width: 44, height: 44, flexShrink: 0,
+                  backgroundColor: CREAM, display: "flex", alignItems: "center", justifyContent: "center",
+                  color: GOLD, transition: "background-color 0.25s, color 0.25s",
+                }}>
+                  {item.icon}
+                </div>
+                <div>
+                  <GenericEditableText sectionId={sectionId} field={item.labelField} value={item.label} tag="div"
+                    style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "#999", marginBottom: 4 }}
+                  />
+                  {item.href ? (
+                    <a href={item.href} className="r05-contact-link" style={{ fontSize: 15, color: DARK, textDecoration: "none", fontWeight: 500, transition: "color 0.2s" }}>
+                      <GenericEditableText sectionId={sectionId} field={item.valueField} value={item.value} tag="span" />
+                    </a>
+                  ) : (
+                    <GenericEditableText sectionId={sectionId} field={item.valueField} value={item.value} tag="div"
+                      style={{ fontSize: 15, color: DARK, lineHeight: 1.5 }}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* RIGHT — map */}
+          <div style={{ overflow: "hidden", aspectRatio: "4/3", position: "relative", backgroundColor: CREAM, boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}>
+            <iframe
+              title="Mapa kanceláře"
+              src={mapSrc}
+              width="100%" height="100%"
+              style={{ position: "absolute", inset: 0, border: 0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── reality-04-contact ────────────────────────────────────────────────────────
-// Ref: quantumreality.cz — kontaktní sekce
-// Bílé bg; 2-col: vlevo formulář (jméno/telefon/email/zpráva + submit),
-// vpravo kontaktní info (adresa, tel, email, hodiny) + OpenStreetMap iframe
-// ─────────────────────────────────────────────────────────────────────────────
 function ContactReality04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const sectionAnchor = String(content.id          ?? "kontakt");
-  const title         = String(content.title        ?? "Chci nezávazně poradit s prodejem / pronájmem");
-  const companyName   = String(content.companyName  ?? "Demo Reality s.r.o.");
-  const address       = String(content.address      ?? "Ukázková 123");
-  const city          = String(content.city         ?? "110 00 Praha 1");
+  const sectionAnchor = String(content.id ?? "kontakt");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Poradíme vám nezávazně s prodejem i pronájmem" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Napište nám nebo zavolejte — ozveme se obvykle do jednoho pracovního dne." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const companyName   = String(content.companyName  ?? "Rezido reality s.r.o.");
+  const address       = String(content.address      ?? "Náměstí Míru 12");
+  const city          = String(content.city         ?? "120 00 Praha 2");
   const hours         = String(content.hours        ?? "Pracovní dny: 9:00 – 18:00");
   const phone         = String(content.phone        ?? "704 123 456");
   const phone2        = String(content.phone2       ?? "");
-  const email         = String(content.email        ?? "info@demo.cz");
-  const mapLat        = Number(content.mapLat       ?? 50.076);
-  const mapLng        = Number(content.mapLng       ?? 14.434);
+  const email         = String(content.email        ?? "info@rezido.cz");
+  const mapLat        = Number(content.mapLat       ?? 50.0755);
+  const mapLng        = Number(content.mapLng       ?? 14.4378);
+
+  const nameLabel     = String(content.nameLabel     ?? "Jméno a příjmení");
+  const phoneLabel    = String(content.phoneLabel    ?? "Telefon");
+  const emailLabel    = String(content.emailLabel    ?? "E-mail");
+  const typeLabel     = String(content.typeLabel     ?? "Typ nemovitosti");
+  const messageLabel  = String(content.messageLabel  ?? "Zpráva");
+  const submitLabel   = String(content.submitLabel   ?? "Odeslat poptávku");
+  const privacyNote   = String(content.privacyNote   ?? "Odesláním souhlasíte se zpracováním osobních údajů.");
+  const infoTitle     = String(content.infoTitle     ?? "Kde nás najdete");
 
   const PRIMARY = "#1032CF";
   const GREEN   = "#21b276";
-  const DARK    = "#241f0c";
-  const MUTED   = "#666";
-  const BORDER  = "#e0e0e0";
-  const WHITE   = "#ffffff";
+  const DARK    = "#141414";
+  const MUTED   = "#6b7280";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%", padding: "12px 14px", fontFamily: SANS, fontSize: 14,
-    border: `1px solid ${BORDER}`, borderRadius: 4, outline: "none",
-    color: DARK, backgroundColor: WHITE, boxSizing: "border-box",
-    transition: "border-color 0.2s",
-  };
+  const labelStyle: React.CSSProperties = { fontFamily: SANS, fontSize: 13, fontWeight: 600, color: DARK, marginBottom: 7, display: "block" };
 
   const InfoRow = ({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) => (
-    <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 14 }}>
-      <div style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "#f2f2f2", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+    <div style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 18 }}>
+      <div style={{ width: 42, height: 42, borderRadius: 12, backgroundColor: "#eef1fe", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
         {icon}
       </div>
-      <div style={{ fontFamily: SANS, fontSize: 14, color: DARK, lineHeight: 1.5, paddingTop: 8 }}>{children}</div>
+      <div style={{ fontFamily: SANS, fontSize: 14.5, color: DARK, lineHeight: 1.5, paddingTop: 4 }}>{children}</div>
     </div>
   );
 
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${mapLng - 0.008}%2C${mapLat - 0.005}%2C${mapLng + 0.008}%2C${mapLat + 0.005}&layer=mapnik&marker=${mapLat}%2C${mapLng}`;
 
   return (
-    <section id={sectionAnchor} style={{ backgroundColor: WHITE, padding: "clamp(56px, 7vw, 96px) 0" }}>
+    <section id={sectionAnchor} style={{ backgroundColor: "#f6f7fb", padding: "clamp(56px, 7vw, 100px) 0" }} data-template="reality-04">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
 
-        <h2 style={{ fontFamily: SANS, fontSize: "clamp(20px, 2.4vw, 30px)", fontWeight: 700, color: DARK, marginTop: 0, marginBottom: "clamp(32px, 4vw, 52px)", maxWidth: 640 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
+        {showHeader && (
+          <div style={{ maxWidth: 640, marginBottom: "clamp(32px, 4vw, 52px)" }}>
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p"
+                style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GREEN, margin: "0 0 12px" }} />
+            )}
+            {title.trim() && (
+              <h2 style={{ fontFamily: SANS, fontSize: "clamp(24px, 2.8vw, 34px)", fontWeight: 700, color: DARK, margin: "0 0 14px", lineHeight: 1.18, letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p style={{ fontFamily: SANS, fontSize: 16.5, color: MUTED, margin: 0, lineHeight: 1.6 }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="r04-contact-grid">
-          {/* Levý sloupec — formulář */}
-          <div>
-            <form onSubmit={e => e.preventDefault()} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          {/* Levý sloupec — formulář v bílé kartě */}
+          <div style={{ background: "#fff", borderRadius: 20, padding: "clamp(24px, 3vw, 40px)", boxShadow: "0 6px 30px rgba(16,50,207,0.08)", border: "1px solid #e8ebf2" }}>
+            <form onSubmit={e => e.preventDefault()} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
               <div className="r04-contact-row">
-                <input type="text" placeholder="Jméno a příjmení" required style={inputStyle}
-                  onFocus={e => (e.currentTarget.style.borderColor = PRIMARY)}
-                  onBlur={e => (e.currentTarget.style.borderColor = BORDER)}
-                />
-                <input type="tel" placeholder="Telefon" style={inputStyle}
-                  onFocus={e => (e.currentTarget.style.borderColor = PRIMARY)}
-                  onBlur={e => (e.currentTarget.style.borderColor = BORDER)}
-                />
+                <div>
+                  <GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="label" style={labelStyle} />
+                  <input type="text" className="r04-input" placeholder={nameLabel} required />
+                </div>
+                <div>
+                  <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="label" style={labelStyle} />
+                  <input type="tel" className="r04-input" placeholder={phoneLabel} />
+                </div>
               </div>
-              <input type="email" placeholder="E-mail" style={inputStyle}
-                onFocus={e => (e.currentTarget.style.borderColor = PRIMARY)}
-                onBlur={e => (e.currentTarget.style.borderColor = BORDER)}
-              />
-              <select style={{ ...inputStyle, color: MUTED, appearance: "none", backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E\")", backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center" }}>
-                <option value="">Vyberte typ nemovitosti</option>
-                <option>Byt</option>
-                <option>Dům</option>
-                <option>Pozemek</option>
-                <option>Komerční nemovitost</option>
-                <option>Jiné</option>
-              </select>
-              <textarea placeholder="Vaše zpráva (nepovinné)" rows={4} style={{ ...inputStyle, resize: "vertical", lineHeight: 1.6 }}
-                onFocus={e => (e.currentTarget.style.borderColor = PRIMARY)}
-                onBlur={e => (e.currentTarget.style.borderColor = BORDER)}
-              />
               <div>
-                <button
-                  type="submit"
-                  style={{ padding: "12px 32px", backgroundColor: GREEN, color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 500, border: "none", borderRadius: 50, cursor: "pointer", boxShadow: `inset 0 0 0 2px ${GREEN}`, transition: "all 350ms ease" }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GREEN; }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = GREEN; e.currentTarget.style.color = WHITE; }}
-                >
-                  Odeslat poptávku
+                <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="label" style={labelStyle} />
+                <input type="email" className="r04-input" placeholder={emailLabel} />
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="typeLabel" value={typeLabel} tag="label" style={labelStyle} />
+                <select className="r04-input r04-select">
+                  <option value="">Vyberte…</option>
+                  <option>Byt</option>
+                  <option>Dům</option>
+                  <option>Pozemek</option>
+                  <option>Komerční nemovitost</option>
+                  <option>Jiné</option>
+                </select>
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="messageLabel" value={messageLabel} tag="label" style={labelStyle} />
+                <textarea className="r04-input" placeholder="Vaše zpráva (nepovinné)" rows={4} style={{ resize: "vertical", lineHeight: 1.6 }} />
+              </div>
+              <div>
+                <button type="submit" className="r04-contact-submit">
+                  <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />
                 </button>
+                <GenericEditableText sectionId={sectionId} field="privacyNote" value={privacyNote} tag="p"
+                  style={{ fontFamily: SANS, fontSize: 12, color: MUTED, margin: "12px 0 0" }} />
               </div>
             </form>
           </div>
 
           {/* Pravý sloupec — kontaktní info + mapa */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-            <div style={{ backgroundColor: "#f8f8f8", borderRadius: 8, padding: "clamp(20px, 2.5vw, 32px)" }}>
-              <div style={{ fontFamily: SANS, fontSize: 16, fontWeight: 700, color: DARK, marginBottom: 18 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ backgroundColor: "#fff", borderRadius: 20, padding: "clamp(24px, 2.5vw, 34px)", border: "1px solid #e8ebf2", boxShadow: "0 6px 30px rgba(16,50,207,0.06)" }}>
+              <div style={{ fontFamily: SANS, fontSize: 17, fontWeight: 700, color: DARK, marginBottom: 22 }}>
                 <GenericEditableText sectionId={sectionId} field="companyName" value={companyName} tag="span" />
               </div>
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>}>
+              <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>}>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />{", "}
                 <GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" />
               </InfoRow>
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}>
+              <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>}>
                 <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: DARK, textDecoration: "none" }}>
                   <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                 </a>
                 {phone2 && <><br /><a href={`tel:${phone2.replace(/\s/g,"")}`} style={{ color: DARK, textDecoration: "none" }}><GenericEditableText sectionId={sectionId} field="phone2" value={phone2} tag="span" /></a></>}
               </InfoRow>
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}>
+              <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}>
                 <a href={`mailto:${email}`} style={{ color: DARK, textDecoration: "none" }}>
                   <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                 </a>
               </InfoRow>
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>}>
+              <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>}>
                 <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
               </InfoRow>
             </div>
 
             {/* Mapa */}
-            <div style={{ borderRadius: 8, overflow: "hidden", height: 220, flexShrink: 0 }}>
-              <iframe
-                src={mapSrc}
-                width="100%" height="100%"
-                style={{ border: 0, display: "block" }}
-                loading="lazy"
-                title="Mapa"
-              />
+            <div style={{ borderRadius: 20, overflow: "hidden", height: 260, flexShrink: 0, border: "1px solid #e8ebf2", boxShadow: "0 6px 30px rgba(16,50,207,0.06)" }}>
+              <iframe src={mapSrc} width="100%" height="100%" style={{ border: 0, display: "block" }} loading="lazy" title="Mapa" />
             </div>
           </div>
         </div>
       </div>
 
       <style>{`
-        .r04-contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: start; }
-        .r04-contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .r04-contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(24px, 4vw, 44px); align-items: start; }
+        .r04-contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         @media (max-width: 860px) { .r04-contact-grid { grid-template-columns: 1fr; } }
         @media (max-width: 480px) { .r04-contact-row { grid-template-columns: 1fr; } }
       `}</style>
@@ -4999,6 +5315,8 @@ function ContactAutoservis02({ content, sectionId }: { content: Record<string, u
   const address = String(content.address ?? "Revoluční 42, 130 00 Praha 3");
   const phone   = String(content.phone ?? "725 800 900");
   const email   = String(content.email ?? "info@demo-servis.cz");
+  const facebookUrl  = String(content.facebookUrl  ?? "");
+  const instagramUrl = String(content.instagramUrl ?? "");
   const hours   = String(content.hours ?? "Po–Pá 7:30–17:30, So 8:00–13:00");
 
   const labelAddress = String(content.labelAddress ?? "Adresa dílny");
@@ -5068,6 +5386,22 @@ function ContactAutoservis02({ content, sectionId }: { content: Record<string, u
                 <div key={i}>{inner}</div>
               );
             })}
+            {(facebookUrl || instagramUrl) && (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 6 }}>
+                {facebookUrl && (
+                  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 10, backgroundColor: RED, color: "#fff", textDecoration: "none" }}>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+                  </a>
+                )}
+                {instagramUrl && (
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 10, backgroundColor: RED, color: "#fff", textDecoration: "none" }}>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 3.4a6.4 6.4 0 1 0 0 12.8 6.4 6.4 0 0 0 0-12.8zm0 10.6a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm6.6-10.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+                  </a>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Right: form card */}
@@ -5133,6 +5467,8 @@ function ContactAutoservis01({ content, sectionId }: { content: Record<string, u
   const address = String(content.address ?? "");
   const phone   = String(content.phone   ?? "");
   const email   = String(content.email   ?? "");
+  const facebookUrl  = String(content.facebookUrl  ?? "");
+  const instagramUrl = String(content.instagramUrl ?? "");
   const hours   = String(content.hours   ?? "");
   const mapUrl  = String(content.mapEmbedUrl ?? "");
 
@@ -5244,6 +5580,23 @@ function ContactAutoservis01({ content, sectionId }: { content: Record<string, u
               ))}
             </div>
 
+            {(facebookUrl || instagramUrl) && (
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 4 }}>
+                {facebookUrl && (
+                  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: "50%", backgroundColor: ORANGE, color: DARK, textDecoration: "none", transition: "transform .2s ease, opacity .2s ease" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+                  </a>
+                )}
+                {instagramUrl && (
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: "50%", backgroundColor: ORANGE, color: DARK, textDecoration: "none", transition: "transform .2s ease, opacity .2s ease" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 3.4a6.4 6.4 0 1 0 0 12.8 6.4 6.4 0 0 0 0-12.8zm0 10.6a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm6.6-10.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+                  </a>
+                )}
+              </div>
+            )}
+
             {mapUrl && (
               <div style={{ borderRadius: 10, overflow: "hidden", height: 220, border: "1px solid rgba(255,255,255,0.12)" }}>
                 <iframe src={mapUrl} width="100%" height="100%" style={{ border: 0, display: "block" }} loading="lazy" />
@@ -5310,6 +5663,8 @@ function ContactAutoservis03({ content, sectionId }: { content: Record<string, u
   const hours    = (content.hours as string)        || "";
   const whatsapp = (content.whatsapp as string)     || "";
   const whatsappText = String(content.whatsappText ?? "Napsat na WhatsApp");
+  const facebookUrl  = (content.facebookUrl as string)  || "";
+  const instagramUrl = (content.instagramUrl as string) || "";
   const formTitle    = (content.formTitle as string)    || "Rezervace termínu";
   const formSubtitle = (content.formSubtitle as string) || "";
   const services = (content.services as string[])   || [];
@@ -5381,6 +5736,48 @@ function ContactAutoservis03({ content, sectionId }: { content: Record<string, u
       data-template="autoservis-03"
       className={`a03-ct${inView ? " a03-in" : ""}`}
     >
+      <style>{`
+        .a03-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #f97316; margin-bottom: 14px; }
+        .a03-eyebrow-bar { width: 26px; height: 2px; background: linear-gradient(to right,#f97316,#c2410c); border-radius: 2px; flex-shrink: 0; }
+
+        .a03-ct { position: relative; background: #0d0d0d; padding: clamp(72px,9vw,110px) 24px; overflow: hidden; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; }
+        .a03-ct-glow { position: absolute; top: -220px; right: -160px; width: 560px; height: 560px; background: radial-gradient(circle, rgba(249,115,22,0.09) 0%, transparent 65%); pointer-events: none; }
+        .a03-ct-wrap { max-width: 1160px; margin: 0 auto; position: relative; }
+        .a03-ct-head { text-align: center; max-width: 640px; margin: 0 auto clamp(40px,5vw,56px); }
+        .a03-ct-h2 { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: clamp(1.8rem,3.4vw,2.7rem); font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.15; margin: 0; }
+        .a03-ct-note { font-size: 15px; line-height: 1.7; color: #9ca3af; margin: 14px 0 0; }
+        .a03-ct-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px,5vw,64px); align-items: start; }
+        .a03-ct-info { display: flex; flex-direction: column; gap: 24px; opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+        .a03-ct.a03-in .a03-ct-info { opacity: 1; transform: none; }
+        .a03-ct-info-item { display: flex; align-items: flex-start; gap: 16px; }
+        .a03-ct-info-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(249,115,22,0.12); color: #f97316; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .a03-ct-info-label { font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: #6b7280; margin-bottom: 4px; }
+        .a03-ct-info-val { font-size: 15.5px; font-weight: 600; color: #e5e7eb; line-height: 1.5; }
+        .a03-ct-info-link { text-decoration: none; transition: color .2s; }
+        .a03-ct-info-link:hover { color: #f97316; }
+        .a03-ct-wa { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; margin-top: 4px; padding: 12px 22px; border-radius: 999px; border: 1px solid #2c2c2c; background: #141414; color: #22c55e; font-size: 14px; font-weight: 700; text-decoration: none; transition: border-color .2s, transform .2s; }
+        .a03-ct-wa:hover { border-color: rgba(34,197,94,0.5); transform: translateY(-2px); }
+        .a03-ct-social { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+        .a03-ct-soc { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 999px; border: 1px solid #2c2c2c; background: #141414; color: #f97316; text-decoration: none; transition: border-color .2s, transform .2s; }
+        .a03-ct-soc:hover { border-color: rgba(249,115,22,0.5); transform: translateY(-2px); }
+        .a03-ct-form { background: #141414; border: 1px solid #232323; border-radius: 20px; padding: clamp(26px,3.4vw,38px); opacity: 0; transform: translateY(24px); transition: opacity .6s ease .12s, transform .6s ease .12s; }
+        .a03-ct.a03-in .a03-ct-form { opacity: 1; transform: none; }
+        .a03-ct-form-title { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 20px; font-weight: 800; color: #ffffff; margin: 0 0 6px; letter-spacing: -0.2px; }
+        .a03-ct-form-sub { font-size: 14px; color: #9ca3af; margin: 0 0 20px; line-height: 1.6; }
+        .a03-ct-fields { display: flex; flex-direction: column; gap: 16px; margin-top: 14px; }
+        .a03-ct-label { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #9ca3af; margin-bottom: 7px; }
+        .a03-ct-input { width: 100%; box-sizing: border-box; background: #0d0d0d; border: 1px solid #2c2c2c; border-radius: 11px; color: #ffffff; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 14.5px; padding: 13px 15px; outline: none; transition: border-color .2s, box-shadow .2s; }
+        .a03-ct-input::placeholder { color: #6b7280; }
+        .a03-ct-input:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,0.15); }
+        select.a03-ct-input { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23f97316' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; }
+        .a03-ct-submit { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: linear-gradient(to right,#f97316,#ea6c08); color: #0a0a0a; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 15px; font-weight: 800; letter-spacing: 0.4px; border: 0; cursor: pointer; padding: 15px 28px; border-radius: 999px; margin-top: 6px; transition: transform .2s, box-shadow .25s; }
+        .a03-ct-submit:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(249,115,22,0.35); }
+        .a03-ct-success { text-align: center; padding: 34px 10px 22px; }
+        .a03-ct-success-ic { width: 62px; height: 62px; border-radius: 50%; background: rgba(34,197,94,0.14); color: #22c55e; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .a03-ct-success-t { font-size: 18px; font-weight: 800; color: #ffffff; margin: 0 0 6px; }
+        .a03-ct-success-s { font-size: 14px; color: #9ca3af; margin: 0; }
+        @media (max-width: 900px) { .a03-ct-grid { grid-template-columns: 1fr; } }
+      `}</style>
       <div aria-hidden="true" className="a03-ct-glow" />
       <div className="a03-ct-wrap">
         {showHeader && (
@@ -5430,6 +5827,21 @@ function ContactAutoservis03({ content, sectionId }: { content: Record<string, u
                 </svg>
                 <GenericEditableText sectionId={sectionId} field="whatsappText" value={whatsappText} tag="span" />
               </a>
+            )}
+
+            {(facebookUrl || instagramUrl) && (
+              <div className="a03-ct-social">
+                {facebookUrl && (
+                  <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="a03-ct-soc">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg>
+                  </a>
+                )}
+                {instagramUrl && (
+                  <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="a03-ct-soc">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c0 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2 0-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c0-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 3.4a6.4 6.4 0 1 0 0 12.8 6.4 6.4 0 0 0 0-12.8zm0 10.6a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm6.6-10.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+                  </a>
+                )}
+              </div>
             )}
           </div>
 
@@ -5716,133 +6128,133 @@ function ContactOrtho01({ content, sectionId }: { content: Record<string, unknow
 function ContactOrtho02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const BEIGE = "#B7B3A5";
   const DARK  = "#1a1a1a";
-  const MUTED = "#888";
-  const FONT  = "'Raleway', 'Montserrat', Arial, sans-serif";
+  const MUTED = "#777";
+  const GOLD  = "#b39f6b";
+  const FONT  = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
 
-  const heading     = String(content.heading     ?? "Kontaktujte nás");
-  const subheading  = String(content.subheading  ?? "Objednejte se");
-  const body        = String(content.body        ?? "Online, telefonicky nebo e-mailem. Těšíme se na vás!");
-  const phone       = String(content.phone       ?? "");
-  const email       = String(content.email       ?? "");
-  const address     = String(content.address     ?? "");
-  const hours       = String(content.hours       ?? "");
-  const bookingHref = String(content.bookingHref ?? "#");
+  const eyebrowRaw = (content as Record<string,unknown>).subheading;
+  const titleRaw   = (content as Record<string,unknown>).heading;
+  const bodyRaw    = (content as Record<string,unknown>).body;
+  const eyebrow  = eyebrowRaw === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw   === undefined ? "Těšíme se na vaši návštěvu" : String(titleRaw);
+  const body     = bodyRaw    === undefined ? "Napište nám nebo zavolejte — rádi vám poradíme a domluvíme termín." : String(bodyRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || body.trim());
+
+  const phone       = String(content.phone       ?? "+420 222 333 444");
+  const email       = String(content.email       ?? "info@harmonyortho.cz");
+  const address     = String(content.address     ?? "Vinohradská 48, 120 00 Praha 2");
+  const hours       = String(content.hours       ?? "Po–Pá 8:00–18:00");
   const ctaText     = String(content.ctaText     ?? "Objednat se online");
+  const bookingHref = String(content.bookingHref ?? "#");
   const mapLat      = String(content.mapLat      ?? "50.0755");
   const mapLng      = String(content.mapLng      ?? "14.4378");
 
+  const phoneLabel   = String((content as Record<string,unknown>).phoneLabel   ?? "Telefon");
+  const emailLabel   = String((content as Record<string,unknown>).emailLabel   ?? "E-mail");
+  const addressLabel = String((content as Record<string,unknown>).addressLabel ?? "Adresa kliniky");
+  const hoursLabel   = String((content as Record<string,unknown>).hoursLabel   ?? "Ordinační hodiny");
+
   const mapSrc = `https://maps.google.com/maps?q=${mapLat},${mapLng}&z=15&output=embed`;
+
+  const infoCards = [
+    { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.08 4.18 2 2 0 015 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>, label: phoneLabel, field: "phoneLabel", value: phone, valueField: "phone", href: `tel:${phone.replace(/\s/g, "")}` },
+    { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>, label: emailLabel, field: "emailLabel", value: email, valueField: "email", href: `mailto:${email}` },
+    { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>, label: addressLabel, field: "addressLabel", value: address, valueField: "address", href: null },
+    { icon: <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>, label: hoursLabel, field: "hoursLabel", value: hours, valueField: "hours", href: null },
+  ];
 
   return (
     <section
       id="kontakt"
-      data-section-type="contact"
-      data-variant="ortho-02-contact"
+      data-template="ortho-02"
       style={{ backgroundColor: "#fff", fontFamily: FONT }}
     >
-      {/* Info strip */}
-      <div style={{ backgroundColor: "#f7f6f4", padding: "clamp(56px, 7vw, 96px) 0" }}>
+      <div style={{ backgroundColor: "#f7f6f3", padding: "clamp(72px, 9vw, 110px) 0" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-
-          {/* Header */}
-          <div style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 64px)" }}>
-            <p style={{ fontSize: "clamp(0.7rem, 1vw, 0.78rem)", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: MUTED, marginBottom: 14 }}>
-              <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-            </p>
-            <h2 style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)", fontWeight: 300, color: DARK, margin: "0 auto 16px", lineHeight: 1.25 }}>
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </h2>
-            <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.05rem)", color: MUTED, margin: 0 }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          </div>
-
-          {/* Info cards */}
-          <div className="o02-contact-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "clamp(12px, 2vw, 24px)", marginBottom: "clamp(32px, 4vw, 56px)" }}>
-            <div style={{ backgroundColor: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "clamp(20px, 2.5vw, 32px)", textAlign: "center" }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={BEIGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block", margin: "0 auto 12px" }}>
-                <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.08 4.18 2 2 0 015 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-              </svg>
-              <p style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, margin: "0 0 6px" }}>Telefon</p>
-              <a href={`tel:${phone}`} style={{ fontSize: "clamp(0.88rem, 1.1vw, 1rem)", fontWeight: 600, color: DARK, textDecoration: "none" }}>
-                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-              </a>
-            </div>
-
-            <div style={{ backgroundColor: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "clamp(20px, 2.5vw, 32px)", textAlign: "center" }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={BEIGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block", margin: "0 auto 12px" }}>
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-              </svg>
-              <p style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, margin: "0 0 6px" }}>E-mail</p>
-              <a href={`mailto:${email}`} style={{ fontSize: "clamp(0.88rem, 1.1vw, 1rem)", fontWeight: 600, color: DARK, textDecoration: "none" }}>
-                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-              </a>
-            </div>
-
-            <div style={{ backgroundColor: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "clamp(20px, 2.5vw, 32px)", textAlign: "center" }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={BEIGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block", margin: "0 auto 12px" }}>
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
-              </svg>
-              <p style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, margin: "0 0 6px" }}>Adresa</p>
-              <p style={{ fontSize: "clamp(0.88rem, 1.1vw, 1rem)", fontWeight: 600, color: DARK, margin: 0, lineHeight: 1.4 }}>
-                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+          {showHeader && (
+            <div style={{ textAlign: "center", marginBottom: "clamp(48px, 6vw, 72px)" }}>
+              <p style={{ fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, marginBottom: 16 }}>
+                <GenericEditableText sectionId={sectionId} field="subheading" value={eyebrow} tag="span" />
+              </p>
+              <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.4rem)", fontWeight: 300, color: DARK, margin: "0 auto 16px", lineHeight: 1.3, maxWidth: 700 }}>
+                <GenericEditableText sectionId={sectionId} field="heading" value={title} tag="span" />
+              </h2>
+              <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.02rem)", color: MUTED, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto", fontFamily: FONT_B, lineHeight: 1.7 }}>
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
               </p>
             </div>
+          )}
 
-            <div style={{ backgroundColor: "#fff", border: "1px solid #e8e5e0", borderRadius: 4, padding: "clamp(20px, 2.5vw, 32px)", textAlign: "center" }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={BEIGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: "block", margin: "0 auto 12px" }}>
-                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-              </svg>
-              <p style={{ fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, margin: "0 0 6px" }}>Ordinační hodiny</p>
-              <p style={{ fontSize: "clamp(0.88rem, 1.1vw, 1rem)", fontWeight: 600, color: DARK, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
-              </p>
-            </div>
+          <div className="o02-ct-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "clamp(12px, 2vw, 20px)", marginBottom: "clamp(40px, 5vw, 64px)" }}>
+            {infoCards.map((card, i) => (
+              <div key={i} className="o02-ct-card" style={{
+                backgroundColor: "#ffffff",
+                border: "1px solid #edeae5",
+                borderRadius: 6,
+                padding: "clamp(24px, 3vw, 36px) clamp(16px, 2vw, 24px)",
+                textAlign: "center",
+                transition: "transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease",
+              }}>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>{card.icon}</div>
+                <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: BEIGE, margin: "0 0 8px", fontFamily: FONT }}>
+                  <GenericEditableText sectionId={sectionId} field={card.field} value={card.label} tag="span" />
+                </p>
+                {card.href ? (
+                  <a href={card.href} style={{ fontSize: "clamp(0.88rem, 1.1vw, 0.98rem)", fontWeight: 600, color: DARK, textDecoration: "none", fontFamily: FONT, transition: "color 0.2s" }}
+                    onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                    onMouseLeave={e => { e.currentTarget.style.color = DARK; }}
+                  >
+                    <GenericEditableText sectionId={sectionId} field={card.valueField} value={card.value} tag="span" />
+                  </a>
+                ) : (
+                  <p style={{ fontSize: "clamp(0.88rem, 1.1vw, 0.98rem)", fontWeight: 600, color: DARK, margin: 0, lineHeight: 1.5, fontFamily: FONT }}>
+                    <GenericEditableText sectionId={sectionId} field={card.valueField} value={card.value} tag="span" />
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* CTA */}
           <div style={{ textAlign: "center" }}>
             <a
               href={bookingHref}
+              className="o02-ct-cta"
               style={{
-                display: "inline-flex", alignItems: "center",
-                padding: "14px 40px",
-                border: `2px solid ${DARK}`, borderRadius: 2,
-                fontSize: "clamp(0.85rem, 1vw, 0.95rem)", fontWeight: 600,
-                letterSpacing: "0.05em", textTransform: "uppercase",
-                color: DARK, textDecoration: "none",
-                transition: "background 0.18s, color 0.18s",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "14px 36px",
+                backgroundColor: GOLD,
+                color: "#ffffff",
+                fontFamily: FONT,
+                fontSize: "0.82rem",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase" as const,
+                borderRadius: 999,
+                textDecoration: "none",
+                transition: "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
               }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = DARK; e.currentTarget.style.color = "#fff"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = DARK; }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Map */}
-      <div style={{ width: "100%", height: "clamp(280px, 35vw, 480px)", overflow: "hidden" }}>
+      <div style={{ width: "100%", height: "clamp(300px, 35vw, 480px)", overflow: "hidden" }}>
         <iframe
           src={mapSrc}
           width="100%" height="100%"
-          style={{ border: 0, display: "block", filter: "grayscale(25%)" }}
+          style={{ border: 0, display: "block", filter: "grayscale(20%) saturate(0.9)" }}
           loading="lazy"
           allowFullScreen
           referrerPolicy="no-referrer-when-downgrade"
-          title="Mapa ordinace"
+          title="Mapa kliniky"
         />
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .o02-contact-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 480px) {
-          .o02-contact-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -5854,92 +6266,133 @@ function ContactLawyer01({ content, sectionId }: { content: Record<string, unkno
   const HEADING = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
   const BODY    = "'Open Sans','Helvetica Neue',Arial,sans-serif";
 
-  const title   = String(content.title ?? "Kontaktujte nás");
+  const eyebrowRaw = content.eyebrow;
+  const titleRaw   = content.title;
+  const eyebrow  = eyebrowRaw === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw   === undefined ? "Kontaktujte nás" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
   const offices = Array.isArray(content.offices) ? content.offices as Array<Record<string, string>> : [];
+
+  const formTitle  = String(content.formTitle  ?? "Napište nám");
+  const nameLabel  = String(content.nameLabel  ?? "Jméno a příjmení");
+  const emailLabel = String(content.emailLabel ?? "E-mailová adresa");
+  const phoneLabel = String(content.phoneLabel ?? "Telefon");
+  const msgLabel   = String(content.messageLabel ?? "Zpráva");
+  const submitText = String(content.submitText ?? "Odeslat zprávu");
+  const labels = [nameLabel, emailLabel, phoneLabel];
+  const labelFields = ["nameLabel", "emailLabel", "phoneLabel"];
+
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("l01ct-on"); obs.disconnect(); } }, { threshold: 0.12 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <section
+      ref={ref}
       id="kontakt"
+      data-template="lawyer-01"
       data-variant="lawyer-01-contact"
-      style={{ backgroundColor: "#f7f8fa", padding: "88px 0 96px" }}
+      style={{ backgroundColor: "#f5f6f9", padding: "clamp(72px,9vw,110px) 0", opacity: 1 }}
     >
       <style>{`
+        .l01ct-rise{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+        .l01ct-on .l01ct-rise{opacity:1;transform:translateY(0);}
+        .l01ct-office{position:relative;background:#fff;padding:26px 24px;border-top:3px solid ${CRIMSON};box-shadow:0 2px 14px rgba(20,23,96,.07);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s ease;overflow:hidden;}
+        .l01ct-office::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:${NAVY};transform:scaleX(0);transform-origin:left;transition:transform .34s cubic-bezier(.4,0,.2,1);}
+        .l01ct-office:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,23,96,.14);}
+        .l01ct-office:hover::before{transform:scaleX(1);}
+        .l01ct-tel{color:${NAVY};transition:color .2s ease;}
+        .l01ct-office:hover .l01ct-tel{color:${CRIMSON};}
+        .l01ct-mail{color:${CRIMSON};transition:opacity .2s ease;}
+        .l01ct-mail:hover{opacity:.7;}
+        .l01ct-input{width:100%;padding:12px 15px;font-family:${BODY};font-size:.92rem;border:1px solid #e2e5ec;border-radius:2px;outline:none;box-sizing:border-box;color:#1a1a1a;background:#fff;transition:border-color .2s ease,box-shadow .2s ease;}
+        .l01ct-input:focus{border-color:${NAVY};box-shadow:0 0 0 3px rgba(20,23,96,.12);}
+        .l01ct-submit{position:relative;padding:14px 0;background:${NAVY};color:#fff;font-family:${BODY};font-size:.92rem;font-weight:700;border:none;border-radius:2px;cursor:pointer;letter-spacing:.05em;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:transform .2s ease,box-shadow .24s ease;box-shadow:0 8px 20px rgba(20,23,96,.2);}
+        .l01ct-submit::before{content:"";position:absolute;inset:0;background:${CRIMSON};transform:translateX(-101%);transition:transform .34s cubic-bezier(.4,0,.2,1);z-index:0;}
+        .l01ct-submit > *{position:relative;z-index:1;}
+        .l01ct-submit:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(167,3,54,.3);}
+        .l01ct-submit:hover::before{transform:translateX(0);}
+        .l01ct-submit svg{transition:transform .3s ease;}
+        .l01ct-submit:hover svg{transform:translateX(4px);}
         @media (max-width: 900px) {
           .l01-contact-outer { grid-template-columns: 1fr !important; }
           .l01-contact-grid  { grid-template-columns: 1fr 1fr !important; }
         }
-        @media (max-width: 580px) {
+        @media (max-width: 560px) {
           .l01-contact-grid  { grid-template-columns: 1fr !important; }
         }
       `}</style>
 
       <div style={{ maxWidth: 1180, margin: "0 auto", padding: "0 32px" }}>
         {/* Header */}
-        <div style={{ marginBottom: 56 }}>
-          <div style={{ width: 36, height: 3, backgroundColor: CRIMSON, marginBottom: 20 }} />
-          <h2 style={{ fontFamily: HEADING, fontSize: "clamp(1.75rem,3vw,2.5rem)", fontWeight: 700, color: NAVY, margin: 0, lineHeight: 1.15 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div className="l01ct-rise" style={{ marginBottom: 52 }}>
+            {eyebrow.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                <span style={{ display: "block", width: 30, height: 2, background: CRIMSON }} />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+                  style={{ fontFamily: BODY, fontWeight: 700, fontSize: "0.78rem", letterSpacing: "0.2em", textTransform: "uppercase", color: CRIMSON }} />
+              </div>
+            )}
+            {title.trim() && (
+              <h2 style={{ fontFamily: HEADING, fontSize: "clamp(1.8rem,3vw,2.6rem)", fontWeight: 700, color: NAVY, margin: 0, lineHeight: 1.14, letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+          </div>
+        )}
 
         {/* 2-col: offices grid left, form right */}
-        <div className="l01-contact-outer" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px,5vw,80px)", alignItems: "start" }}>
+        <div className="l01-contact-outer" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px,5vw,72px)", alignItems: "start" }}>
 
           {/* Offices */}
-          <div>
-            <div
-              className="l01-contact-grid"
-              style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}
-            >
-              {offices.map((o, i) => (
-                <div
-                  key={i}
-                  style={{ backgroundColor: "#fff", borderRadius: 4, padding: "24px 22px", borderTop: `3px solid ${CRIMSON}`, boxShadow: "0 2px 12px rgba(20,23,96,0.07)" }}
-                >
-                  <p style={{ fontFamily: HEADING, fontSize: "1rem", fontWeight: 700, color: NAVY, margin: "0 0 10px" }}>
-                    <GenericEditableText sectionId={sectionId} field={`offices.${i}.city`} value={o.city ?? ""} tag="span" />
-                  </p>
-                  <p style={{ fontFamily: BODY, fontSize: "0.85rem", color: "#4b5563", margin: "0 0 8px", lineHeight: 1.5 }}>
-                    <GenericEditableText sectionId={sectionId} field={`offices.${i}.address`} value={o.address ?? ""} tag="span" />
-                  </p>
-                  <a href={`tel:${(o.phone ?? "").replace(/\s/g, "")}`} style={{ fontFamily: BODY, fontSize: "0.83rem", color: NAVY, textDecoration: "none", display: "block", marginBottom: 2 }}>
-                    <GenericEditableText sectionId={sectionId} field={`offices.${i}.phone`} value={o.phone ?? ""} tag="span" />
-                  </a>
-                  <a href={`mailto:${o.email ?? ""}`} style={{ fontFamily: BODY, fontSize: "0.83rem", color: CRIMSON, textDecoration: "none" }}>
-                    <GenericEditableText sectionId={sectionId} field={`offices.${i}.email`} value={o.email ?? ""} tag="span" />
-                  </a>
-                </div>
-              ))}
-            </div>
+          <div className="l01ct-rise l01-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+            {offices.map((o, i) => (
+              <div key={i} className="l01ct-office">
+                <p style={{ fontFamily: HEADING, fontSize: "1.05rem", fontWeight: 700, color: NAVY, margin: "0 0 10px" }}>
+                  <GenericEditableText sectionId={sectionId} field={`offices.${i}.city`} value={o.city ?? ""} tag="span" />
+                </p>
+                <p style={{ fontFamily: BODY, fontSize: "0.85rem", color: "#4b5563", margin: "0 0 10px", lineHeight: 1.55 }}>
+                  <GenericEditableText sectionId={sectionId} field={`offices.${i}.address`} value={o.address ?? ""} tag="span" />
+                </p>
+                <a href={`tel:${(o.phone ?? "").replace(/\s/g, "")}`} className="l01ct-tel" style={{ fontFamily: BODY, fontSize: "0.85rem", textDecoration: "none", display: "block", marginBottom: 3, fontWeight: 600 }}>
+                  <GenericEditableText sectionId={sectionId} field={`offices.${i}.phone`} value={o.phone ?? ""} tag="span" />
+                </a>
+                <a href={`mailto:${o.email ?? ""}`} className="l01ct-mail" style={{ fontFamily: BODY, fontSize: "0.85rem", textDecoration: "none" }}>
+                  <GenericEditableText sectionId={sectionId} field={`offices.${i}.email`} value={o.email ?? ""} tag="span" />
+                </a>
+              </div>
+            ))}
           </div>
 
           {/* Contact form */}
-          <div style={{ backgroundColor: "#fff", borderRadius: 4, padding: "40px 36px", boxShadow: "0 2px 16px rgba(20,23,96,0.08)" }}>
-            <h3 style={{ fontFamily: HEADING, fontSize: "1.2rem", fontWeight: 700, color: NAVY, margin: "0 0 28px" }}>Napište nám</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-              {(["Jméno a příjmení", "E-mailová adresa", "Telefon"] as string[]).map((label, i) => (
+          <div className="l01ct-rise" style={{ backgroundColor: "#fff", borderRadius: 2, padding: "clamp(28px,3vw,42px)", boxShadow: "0 6px 30px rgba(20,23,96,0.09)", borderTop: `3px solid ${NAVY}` }}>
+            <h3 style={{ fontFamily: HEADING, fontSize: "1.25rem", fontWeight: 700, color: NAVY, margin: "0 0 26px" }}>
+              <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
+            </h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
+              {labels.map((label, i) => (
                 <div key={i}>
-                  <label style={{ fontFamily: BODY, fontSize: "0.8rem", fontWeight: 600, color: "#6b7280", letterSpacing: "0.04em", display: "block", marginBottom: 6 }}>{label.toUpperCase()}</label>
-                  <input
-                    type={i === 1 ? "email" : i === 2 ? "tel" : "text"}
-                    style={{ width: "100%", padding: "11px 14px", fontFamily: BODY, fontSize: "0.92rem", border: "1px solid #e5e7eb", borderRadius: 4, outline: "none", boxSizing: "border-box", color: "#1a1a1a" }}
-                  />
+                  <label style={{ fontFamily: BODY, fontSize: "0.74rem", fontWeight: 700, color: "#6b7280", letterSpacing: "0.09em", textTransform: "uppercase", display: "block", marginBottom: 6 }}>
+                    <GenericEditableText sectionId={sectionId} field={labelFields[i]} value={label} tag="span" />
+                  </label>
+                  <input type={i === 1 ? "email" : i === 2 ? "tel" : "text"} className="l01ct-input" />
                 </div>
               ))}
               <div>
-                <label style={{ fontFamily: BODY, fontSize: "0.8rem", fontWeight: 600, color: "#6b7280", letterSpacing: "0.04em", display: "block", marginBottom: 6 }}>ZPRÁVA</label>
-                <textarea
-                  rows={4}
-                  style={{ width: "100%", padding: "11px 14px", fontFamily: BODY, fontSize: "0.92rem", border: "1px solid #e5e7eb", borderRadius: 4, outline: "none", resize: "vertical", boxSizing: "border-box", color: "#1a1a1a" }}
-                />
+                <label style={{ fontFamily: BODY, fontSize: "0.74rem", fontWeight: 700, color: "#6b7280", letterSpacing: "0.09em", textTransform: "uppercase", display: "block", marginBottom: 6 }}>
+                  <GenericEditableText sectionId={sectionId} field="messageLabel" value={msgLabel} tag="span" />
+                </label>
+                <textarea rows={4} className="l01ct-input" style={{ resize: "vertical" }} />
               </div>
-              <button
-                type="submit"
-                style={{ padding: "13px 0", backgroundColor: NAVY, color: "#fff", fontFamily: BODY, fontSize: "0.93rem", fontWeight: 600, border: "none", borderRadius: 4, cursor: "pointer", letterSpacing: "0.04em", transition: "background 0.18s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = CRIMSON; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = NAVY; }}
-              >
-                ODESLAT ZPRÁVU
+              <button type="submit" className="l01ct-submit">
+                <GenericEditableText sectionId={sectionId} field="submitText" value={submitText} tag="span" />
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </button>
             </div>
           </div>
@@ -5957,30 +6410,60 @@ function ContactStavba01({ content, sectionId }: { content: Record<string, unkno
   const GRAY   = "#6b6b6b";
   const FONT   = "'Inter', sans-serif";
 
-  const tagline   = String(content.tagline   ?? "Napište nebo zavolejte");
-  const title     = String(content.title     ?? "Domluvme si\nkonzultaci");
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline   = taglineRaw === undefined ? "Napište nebo zavolejte" : String(taglineRaw);
+  const title     = titleRaw   === undefined ? "Domluvme si\nkonzultaci" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const formTitle = String(content.formTitle ?? "Nezávazná poptávka");
   const address   = String(content.address   ?? "");
   const phone     = String(content.phone     ?? "");
   const email     = String(content.email     ?? "");
   const hours     = String(content.hours     ?? "");
+  const mapEmbed  = String(content.mapEmbedUrl ?? "");
+
+  const phoneLabel = String(content.phoneLabel ?? "Telefon");
+  const emailLabel = String(content.emailLabel ?? "E-mail");
+  const addressLabel = String(content.addressLabel ?? "Adresa");
+  const hoursLabel = String(content.hoursLabel ?? "Provozní doba");
+  const namePlaceholder = String(content.namePlaceholder ?? "Vaše jméno");
+  const phonePlaceholder = String(content.phonePlaceholder ?? "Telefon");
+  const messagePlaceholder = String(content.messagePlaceholder ?? "Popište váš projekt nebo dotaz…");
+  const submitText = String(content.submitText ?? "Odeslat poptávku");
+  const sentTitle = String(content.sentTitle ?? "Zpráva odeslána!");
+  const sentText = String(content.sentText ?? "Ozveme se Vám co nejdříve.");
 
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", message: "" });
 
-  const InfoItem = ({ icon, label, value, href, field }: { icon: React.ReactNode; label: string; value: string; href?: string; field: string }) => (
-    <div style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-      <div style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 10, backgroundColor: "rgba(255,111,13,0.10)", display: "flex", alignItems: "center", justifyContent: "center", color: ORANGE }}>
+  const secRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const sec = secRef.current;
+    if (!sec) return;
+    const els = Array.from(sec.querySelectorAll<HTMLElement>(".s01-ct-reveal"));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { (e.target as HTMLElement).classList.add("s01-ct-vis"); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  const InfoItem = ({ icon, label, value, href, field, labelField }: { icon: React.ReactNode; label: string; value: string; href?: string; field: string; labelField: string }) => (
+    <div className="s01-ct-info" style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
+      <div className="s01-ct-info-ic" style={{ flexShrink: 0, width: 44, height: 44, borderRadius: 10, backgroundColor: "rgba(255,111,13,0.10)", display: "flex", alignItems: "center", justifyContent: "center", color: ORANGE }}>
         {icon}
       </div>
       <div>
-        <div style={{ color: GRAY, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 2 }}>{label}</div>
+        <GenericEditableText sectionId={sectionId} field={labelField} value={label} tag="div"
+          style={{ color: GRAY, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 3 }} />
         {href ? (
           <a href={href} style={{ color: DARK, fontSize: "0.95rem", fontWeight: 600, textDecoration: "none" }}>
             <GenericEditableText sectionId={sectionId} field={field} value={value} tag="span" />
           </a>
         ) : (
-          <div style={{ color: DARK, fontSize: "0.95rem", fontWeight: 600 }}>
+          <div style={{ color: DARK, fontSize: "0.95rem", fontWeight: 600, whiteSpace: "pre-line" }}>
             <GenericEditableText sectionId={sectionId} field={field} value={value} tag="span" />
           </div>
         )}
@@ -5989,51 +6472,66 @@ function ContactStavba01({ content, sectionId }: { content: Record<string, unkno
   );
 
   return (
-    <section id={String(content.id ?? "kontakt")} style={{ backgroundColor: "#ffffff", fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
+    <section ref={secRef} id={String(content.id ?? "kontakt")} style={{ backgroundColor: "#ffffff", fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0" }} data-template="stavba-01">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
         <div className="stavba-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }}>
 
           {/* Left — info */}
-          <div>
-            <p style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 40px", whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+          <div className="s01-ct-reveal">
+            {showHeader && tagline.trim() && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ display: "block", width: 30, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                  style={{ color: ORANGE, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", margin: 0 }} />
+              </div>
+            )}
+            {showHeader && title.trim() && (
+              <h2 style={{ color: DARK, fontSize: "clamp(26px,3.5vw,44px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 40px", whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              {phone && <InfoItem field="phone" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72c.12.97.33 1.93.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.88.37 1.84.58 2.81.7A2 2 0 0 1 21 16.92z"/></svg>} label="Telefon" value={phone} href={`tel:+420${phone.replace(/\s/g,"")}`} />}
-              {email && <InfoItem field="email" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>} label="E-mail" value={email} href={`mailto:${email}`} />}
-              {address && <InfoItem field="address" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>} label="Adresa" value={address} />}
-              {hours && <InfoItem field="hours" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>} label="Provozní doba" value={hours} />}
+              {phone && <InfoItem field="phone" labelField="phoneLabel" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72c.12.97.33 1.93.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.88.37 1.84.58 2.81.7A2 2 0 0 1 21 16.92z"/></svg>} label={phoneLabel} value={phone} href={`tel:+420${phone.replace(/\s/g,"")}`} />}
+              {email && <InfoItem field="email" labelField="emailLabel" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>} label={emailLabel} value={email} href={`mailto:${email}`} />}
+              {address && <InfoItem field="address" labelField="addressLabel" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>} label={addressLabel} value={address} />}
+              {hours && <InfoItem field="hours" labelField="hoursLabel" icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>} label={hoursLabel} value={hours} />}
             </div>
+
+            {/* Optional map */}
+            {mapEmbed && (
+              <div style={{ marginTop: 32, borderRadius: 14, overflow: "hidden", border: "1px solid #ececec", aspectRatio: "16/9" }}>
+                <iframe src={mapEmbed} title="Mapa" width="100%" height="100%" style={{ border: 0, display: "block" }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+              </div>
+            )}
           </div>
 
           {/* Right — form */}
-          <div style={{ backgroundColor: "#f8f7f4", borderRadius: 16, padding: 40 }}>
+          <div className="s01-ct-reveal s01-ct-reveal-2" style={{ backgroundColor: "#f8f7f4", borderRadius: 16, padding: 40 }}>
             {sent ? (
               <div style={{ textAlign: "center", padding: "32px 0" }}>
                 <div style={{ width: 56, height: 56, borderRadius: "50%", backgroundColor: "rgba(255,111,13,0.12)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", color: ORANGE }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                 </div>
-                <h3 style={{ color: DARK, fontFamily: FONT, fontWeight: 700, fontSize: "1.1rem", margin: "0 0 8px" }}>Zpráva odeslána!</h3>
-                <p style={{ color: GRAY, fontSize: "0.9rem", margin: 0 }}>Ozveme se Vám co nejdříve.</p>
+                <h3 style={{ color: DARK, fontFamily: FONT, fontWeight: 700, fontSize: "1.1rem", margin: "0 0 8px" }}>
+                  <GenericEditableText sectionId={sectionId} field="sentTitle" value={sentTitle} tag="span" />
+                </h3>
+                <p style={{ color: GRAY, fontSize: "0.9rem", margin: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field="sentText" value={sentText} tag="span" />
+                </p>
               </div>
             ) : (
               <form onSubmit={e => { e.preventDefault(); setSent(true); }} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <h3 style={{ color: DARK, fontFamily: FONT, fontWeight: 700, fontSize: "1.1rem", margin: "0 0 8px" }}>
                   <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
                 </h3>
-                <input type="text" placeholder="Vaše jméno" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required
+                <input type="text" className="s01-ct-input" placeholder={namePlaceholder} value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required
                   style={{ padding: "12px 14px", borderRadius: 8, border: "1px solid #e0e0e0", fontFamily: FONT, fontSize: "0.9rem", color: DARK, backgroundColor: "#fff", outline: "none" }} />
-                <input type="tel" placeholder="Telefon" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                <input type="tel" className="s01-ct-input" placeholder={phonePlaceholder} value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                   style={{ padding: "12px 14px", borderRadius: 8, border: "1px solid #e0e0e0", fontFamily: FONT, fontSize: "0.9rem", color: DARK, backgroundColor: "#fff", outline: "none" }} />
-                <textarea placeholder="Popište váš projekt nebo dotaz..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} rows={4}
+                <textarea className="s01-ct-input" placeholder={messagePlaceholder} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} rows={4}
                   style={{ padding: "12px 14px", borderRadius: 8, border: "1px solid #e0e0e0", fontFamily: FONT, fontSize: "0.9rem", color: DARK, backgroundColor: "#fff", resize: "vertical", outline: "none" }} />
-                <button type="submit" style={{ padding: "14px 0", backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, border: "none", borderRadius: 8, cursor: "pointer", marginTop: 4, boxShadow: "0 4px 16px rgba(255,111,13,0.28)", transition: "opacity 0.18s" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = "0.88"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = "1"; }}>
-                  Odeslat poptávku
+                <button type="submit" className="s01-ct-submit" style={{ padding: "14px 0", backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, border: "none", borderRadius: 8, cursor: "pointer", marginTop: 4, boxShadow: "0 4px 16px rgba(255,111,13,0.28)" }}>
+                  <GenericEditableText sectionId={sectionId} field="submitText" value={submitText} tag="span" />
                 </button>
               </form>
             )}
@@ -6047,7 +6545,6 @@ function ContactStavba01({ content, sectionId }: { content: Record<string, unkno
     </section>
   );
 }
-
 // ── legal-02-contact ─────────────────────────────────────────────────────────
 // ── elektro-01-contact ────────────────────────────────────────────────────────
 // Tmavé #1b1b1b bg, červený kicker, 2-col: info vlevo + formulář vpravo
@@ -6190,84 +6687,167 @@ function ContactElektro01({ content, sectionId, isAdmin: _isAdmin, tenantSlug: _
 }
 
 function ContactLegal02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const c = content as Record<string, unknown>;
   const NAVY   = "#143171";
-  const ORANGE = "#EB5C2E";
-  const BOLD   = "bw_gradualbold, Georgia, serif";
-  const REG    = "bw_gradualregular, Georgia, serif";
+  const BOLD   = "'bw_gradualbold', 'Montserrat', Georgia, serif";
+  const REG    = "'Open Sans', Georgia, serif";
 
-  const title    = (content.title    as string) ?? "Jsme tu pro vás";
-  const subtitle = (content.subtitle as string) ?? "";
-  const phone    = (content.phone    as string) ?? "";
-  const email    = (content.email    as string) ?? "";
-  const address  = (content.address  as string) ?? "";
+  const eyebrowRaw  = c.tagline;
+  const titleRaw    = c.title;
+  const subtitleRaw = c.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Pojďme to vyřešit společně" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Napište nebo zavolejte. První konzultaci poskytujeme zdarma — odpovídáme do 24 hodin." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const phone   = String(c.phone   ?? "226 555 800");
+  const email   = String(c.email   ?? "info@dolezal-partneri.cz");
+  const address = String(c.address ?? "Revoluční 15, 110 00 Praha 1");
+  const hours   = String(c.hours   ?? "Po–Pá 8:30–18:00");
+  const phoneLabel   = String(c.phoneLabel   ?? "Telefon");
+  const emailLabel   = String(c.emailLabel   ?? "E-mail");
+  const addressLabel = String(c.addressLabel ?? "Adresa");
+  const hoursLabel   = String(c.hoursLabel   ?? "Otevírací doba");
+  const nameFieldLabel = String(c.nameFieldLabel ?? "Jméno a příjmení");
+  const emailFieldLabel = String(c.emailFieldLabel ?? "E-mailová adresa");
+  const phoneFieldLabel = String(c.phoneFieldLabel ?? "Telefon");
+  const msgFieldLabel = String(c.msgFieldLabel ?? "Zpráva");
+  const submitText = String(c.submitText ?? "Odeslat zprávu");
+  const successTitle = String(c.successTitle ?? "Zpráva odeslána");
+  const successText  = String(c.successText  ?? "Děkujeme, ozveme se vám do 24 hodin.");
+  const linkedin = String(c.linkedin ?? "");
+  const facebook = String(c.facebook ?? "");
+  const instagram = String(c.instagram ?? "");
+
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSending(true);
+    await new Promise(r => setTimeout(r, 800));
+    setSending(false);
+    setSent(true);
+  };
+
+  const PhoneIco = () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1 .37 1.94.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.87.33 1.81.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>);
+  const MailIco = () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>);
+  const PinIco = () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>);
+  const ClockIco = () => (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>);
 
   return (
-    <section id={String(sectionId)} data-variant="legal-02-contact" style={{ backgroundColor: "#ECEFF4", padding: "128px 0" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px", boxSizing: "border-box" }}>
-        <div style={{ backgroundColor: "#DCDFEB", padding: "104px" }}>
-          <div style={{ display: "flex", gap: 80 }}>
+    <section id="kontakt" data-template="legal-02" style={{ backgroundColor: "#ECEFF4", padding: "clamp(72px,9vw,120px) 0" }}>
+      <style>{`
+        @font-face { font-family:'bw_gradualbold'; src:url('/templates/legal-02/bwgradual-bold-webfont.woff2') format('woff2'); font-display:swap; }
+        .l02c-card { background:#DCDFEB; padding: clamp(40px,6vw,96px); }
+        .l02c-grid { display:flex; gap: clamp(40px,6vw,80px); }
+        .l02c-label { font-family:${BOLD}; font-size:12px; letter-spacing:0.08em; color:${NAVY}; opacity:0.6; display:block; margin-bottom:7px; text-transform:uppercase; }
+        @media (max-width:900px){ .l02c-grid { flex-direction:column; } .l02c-form { width:100% !important; } .l02c-outer { padding-left:24px !important; padding-right:24px !important; } }
+      `}</style>
+
+      <div className="l02c-outer" style={{ maxWidth: 1440, margin: "0 auto", padding: "0 80px", boxSizing: "border-box" }}>
+        <div className="l02c-card">
+          <div className="l02c-grid">
 
             {/* Left — info */}
             <div style={{ flex: 1 }}>
-              <h2 style={{ fontFamily: BOLD, fontSize: 32, lineHeight: "40px", fontWeight: 400, color: NAVY, margin: "0 0 32px" }}>
-                {title}
-              </h2>
-              {subtitle && (
-                <p style={{ fontFamily: REG, fontSize: 18, lineHeight: "28px", color: NAVY, margin: "0 0 48px", opacity: 0.85 }}>
-                  {subtitle}
-                </p>
+              {showHeader && (
+                <>
+                  {eyebrow.trim() && (
+                    <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                      <span style={{ width: 40, height: 2, background: "#EB5C2E", display: "block" }} />
+                      <GenericEditableText sectionId={sectionId} field="tagline" value={eyebrow} tag="p"
+                        style={{ fontFamily: BOLD, fontSize: 13, letterSpacing: "0.16em", textTransform: "uppercase", color: "#EB5C2E", margin: 0 }} />
+                    </div>
+                  )}
+                  {title.trim() && (
+                    <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+                      style={{ fontFamily: BOLD, fontSize: "clamp(30px,3.4vw,44px)", lineHeight: 1.12, fontWeight: 400, color: NAVY, margin: "0 0 20px", letterSpacing: "-0.01em" }} />
+                  )}
+                  {subtitle.trim() && (
+                    <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+                      style={{ fontFamily: REG, fontSize: 18, lineHeight: 1.6, color: NAVY, margin: "0 0 44px", opacity: 0.85 }} />
+                  )}
+                </>
               )}
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 20, fontFamily: REG, fontSize: 16, color: NAVY }}>
-                {phone && (
-                  <div style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
-                    <span style={{ fontFamily: BOLD, fontSize: 13, letterSpacing: "0.1em", opacity: 0.55, minWidth: 20 }}>T</span>
-                    <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: NAVY, textDecoration: "none", fontSize: 18 }}>{phone}</a>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                <div className="l02c-row">
+                  <span className="l02c-ico"><PhoneIco /></span>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="p" style={{ fontFamily: BOLD, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: NAVY, opacity: 0.55, margin: "0 0 4px" }} />
+                    <p className="l02c-val" style={{ margin: 0, fontFamily: REG, fontSize: 18 }}><a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a></p>
                   </div>
-                )}
-                {email && (
-                  <div style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
-                    <span style={{ fontFamily: BOLD, fontSize: 13, letterSpacing: "0.1em", opacity: 0.55, minWidth: 20 }}>E</span>
-                    <a href={`mailto:${email}`} style={{ color: NAVY, textDecoration: "none", fontSize: 18 }}>{email}</a>
+                </div>
+                <div className="l02c-row">
+                  <span className="l02c-ico"><MailIco /></span>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="p" style={{ fontFamily: BOLD, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: NAVY, opacity: 0.55, margin: "0 0 4px" }} />
+                    <p className="l02c-val" style={{ margin: 0, fontFamily: REG, fontSize: 18 }}><a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a></p>
                   </div>
-                )}
-                {address && (
-                  <div style={{ display: "flex", gap: 12, alignItems: "baseline" }}>
-                    <span style={{ fontFamily: BOLD, fontSize: 13, letterSpacing: "0.1em", opacity: 0.55, minWidth: 20 }}>A</span>
-                    <span style={{ fontSize: 16 }}>{address}</span>
+                </div>
+                <div className="l02c-row">
+                  <span className="l02c-ico"><PinIco /></span>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="addressLabel" value={addressLabel} tag="p" style={{ fontFamily: BOLD, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: NAVY, opacity: 0.55, margin: "0 0 4px" }} />
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p" style={{ margin: 0, fontFamily: REG, fontSize: 18, color: NAVY }} />
                   </div>
-                )}
+                </div>
+                <div className="l02c-row">
+                  <span className="l02c-ico"><ClockIco /></span>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="p" style={{ fontFamily: BOLD, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: NAVY, opacity: 0.55, margin: "0 0 4px" }} />
+                    <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="p" style={{ margin: 0, fontFamily: REG, fontSize: 18, color: NAVY }} />
+                  </div>
+                </div>
               </div>
+
+              {(linkedin || facebook || instagram) && (
+                <div style={{ display: "flex", gap: 12, marginTop: 36 }}>
+                  {linkedin && <a className="l02c-social" href={linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.24 8h4.5v13H.24V8zm7.98 0h4.31v1.78h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V21h-4.5v-6.16c0-1.47-.03-3.36-2.05-3.36-2.05 0-2.37 1.6-2.37 3.25V21h-4.5V8z"/></svg></a>}
+                  {facebook && <a className="l02c-social" href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a>}
+                  {instagram && <a className="l02c-social" href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>}
+                </div>
+              )}
             </div>
 
             {/* Right — form */}
-            <div style={{ width: "50%", flexShrink: 0 }}>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {(["Jméno a příjmení", "E-mailová adresa", "Telefon"] as string[]).map((label, i) => (
-                  <div key={i}>
-                    <label style={{ fontFamily: BOLD, fontSize: 12, letterSpacing: "0.08em", color: NAVY, opacity: 0.6, display: "block", marginBottom: 6 }}>{label.toUpperCase()}</label>
-                    <input
-                      type={i === 1 ? "email" : i === 2 ? "tel" : "text"}
-                      style={{ width: "100%", padding: "13px 16px", fontFamily: REG, fontSize: 15, border: "1px solid rgba(20,49,113,0.25)", backgroundColor: "#fff", outline: "none", boxSizing: "border-box", color: NAVY }}
-                    />
-                  </div>
-                ))}
-                <div>
-                  <label style={{ fontFamily: BOLD, fontSize: 12, letterSpacing: "0.08em", color: NAVY, opacity: 0.6, display: "block", marginBottom: 6 }}>ZPRÁVA</label>
-                  <textarea
-                    rows={5}
-                    style={{ width: "100%", padding: "13px 16px", fontFamily: REG, fontSize: 15, border: "1px solid rgba(20,49,113,0.25)", backgroundColor: "#fff", outline: "none", resize: "vertical", boxSizing: "border-box", color: NAVY }}
-                  />
+            <div className="l02c-form" style={{ width: "50%", flexShrink: 0 }}>
+              {sent ? (
+                <div style={{ background: "#fff", padding: "56px 40px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+                  <span style={{ width: 60, height: 60, borderRadius: "50%", background: "rgba(235,92,46,0.12)", color: "#EB5C2E", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  </span>
+                  <GenericEditableText sectionId={sectionId} field="successTitle" value={successTitle} tag="h3" style={{ fontFamily: BOLD, fontSize: 24, color: NAVY, margin: 0 }} />
+                  <GenericEditableText sectionId={sectionId} field="successText" value={successText} tag="p" style={{ fontFamily: REG, fontSize: 16, color: "#6b7280", margin: 0 }} />
                 </div>
-                <button
-                  type="submit"
-                  style={{ padding: "16px 0", backgroundColor: NAVY, color: "#fff", fontFamily: BOLD, fontSize: 14, letterSpacing: "0.08em", border: "none", cursor: "pointer", transition: "background 0.18s" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = ORANGE; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = NAVY; }}
-                >
-                  ODESLAT ZPRÁVU
-                </button>
-              </div>
+              ) : (
+                <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="nameFieldLabel" value={nameFieldLabel} tag="label" className="l02c-label" />
+                    <input className="l02c-input" required value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} />
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                    <div>
+                      <GenericEditableText sectionId={sectionId} field="emailFieldLabel" value={emailFieldLabel} tag="label" className="l02c-label" />
+                      <input className="l02c-input" type="email" required value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} />
+                    </div>
+                    <div>
+                      <GenericEditableText sectionId={sectionId} field="phoneFieldLabel" value={phoneFieldLabel} tag="label" className="l02c-label" />
+                      <input className="l02c-input" type="tel" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} />
+                    </div>
+                  </div>
+                  <div>
+                    <GenericEditableText sectionId={sectionId} field="msgFieldLabel" value={msgFieldLabel} tag="label" className="l02c-label" />
+                    <textarea className="l02c-textarea" rows={5} required value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} />
+                  </div>
+                  <button type="submit" className="l02c-submit" disabled={sending}
+                    style={{ fontFamily: BOLD, fontSize: 15, letterSpacing: "0.04em" }}>
+                    <GenericEditableText sectionId={sectionId} field="submitText" value={sending ? "Odesílám…" : submitText} tag="span" />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </button>
+                </form>
+              )}
             </div>
 
           </div>
@@ -7833,111 +8413,155 @@ function ContactKids01({ content, sectionId }: { content: Record<string, unknown
 //   vpravo teal bg CTA karta + mailto odkaz
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactVet01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const kicker       = String(content.kicker       ?? "Kontakt");
-  const heading      = String(content.heading      ?? "Navštivte nás");
+  const kickerRaw  = content.kicker;
+  const headingRaw = content.heading;
+  const kicker       = kickerRaw  === undefined ? "Kontakt" : String(kickerRaw);
+  const heading      = headingRaw === undefined ? "Přijďte nás navštívit" : String(headingRaw);
+  const showHeader   = !!(kicker.trim() || heading.trim());
   const phone        = String(content.phone        ?? "");
   const email        = String(content.email        ?? "");
   const address      = String(content.address      ?? "");
   const hours        = String(content.hours        ?? "");
   const hoursNote    = String(content.hoursNote    ?? "");
-  const ctaText      = String(content.ctaText      ?? "Napište nám");
+  const phoneLabel   = String(content.phoneLabel   ?? "Zavolejte nám");
+  const emailLabel   = String(content.emailLabel   ?? "Napište nám");
+  const addressLabel = String(content.addressLabel ?? "Kde nás najdete");
+  const hoursLabel   = String(content.hoursLabel   ?? "Otevírací doba");
+  const ctaText      = String(content.ctaText      ?? "Napsat e-mail");
   const ctaHref      = String(content.ctaHref      ?? `mailto:${email}`);
+  const callLabel    = String(content.callLabel    ?? "Zavolat");
   const ctaCardTitle = String(content.ctaCardTitle ?? "Máte dotaz nebo chcete objednat mazlíčka?");
   const ctaCardBody  = String(content.ctaCardBody  ?? "Neváhejte nás kontaktovat. Rádi odpovíme na vaše otázky a pomůžeme s objednáním termínu.");
+  const mapSrc       = String(content.mapSrc       ?? "https://www.openstreetmap.org/export/embed.html?bbox=16.590%2C49.188%2C16.624%2C49.202&layer=mapnik&marker=49.195%2C16.607");
 
-  const TEAL   = "#286C7E";
+  const TEAL   = "#0d7486";
+  const PRIMARY= "#286C7E";
   const TEAL_L = "#42aaba";
-  const TEAL_D = "#0d7486";
   const DARK   = "#1a2c33";
   const FONT_H = "'Forum', 'Georgia', serif";
   const FONT_B = "'Roboto Condensed', 'Roboto', sans-serif";
 
-  const InfoRow = ({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) => (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: 14, padding: "16px 0", borderBottom: "1px solid #e8f0f3" }}>
-      <span style={{ width: 36, height: 36, borderRadius: "50%", background: "#e8f4f7", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: TEAL }}>
-        {icon}
-      </span>
-      <div style={{ fontFamily: FONT_B, fontSize: 15, color: DARK, lineHeight: 1.5 }}>{children}</div>
+  const InfoCard = ({ icon, label, children }: { icon: React.ReactNode; label: React.ReactNode; children: React.ReactNode }) => (
+    <div className="v01con-card">
+      <span className="v01con-badge" aria-hidden="true">{icon}</span>
+      <div>
+        <p className="v01con-card-label">{label}</p>
+        <div className="v01con-card-val">{children}</div>
+      </div>
     </div>
   );
 
   return (
     <section
-      id={String(sectionId)}
-      data-variant="vet-01-contact"
-      style={{ background: "#fff", padding: "clamp(56px,7vw,96px) clamp(20px,5vw,40px)" }}
+      id="kontakt"
+      data-template="vet-01-contact"
+      style={{ background: "linear-gradient(180deg,#f4fafb,#fff)", padding: "clamp(64px,8vw,104px) clamp(20px,5vw,40px)" }}
     >
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
       <style>{`
-        .v01con-inner { max-width: 1140px; margin: 0 auto; }
-        .v01con-header { margin-bottom: 48px; }
-        .v01con-kicker { font-family: ${FONT_B}; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${TEAL_L}; margin: 0 0 10px; }
-        .v01con-heading { font-family: ${FONT_H}; font-weight: 400; font-size: clamp(1.8rem,3vw,2.5rem); color: ${DARK}; margin: 0; }
-        .v01con-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-        .v01con-info-list { padding: 0; list-style: none; margin: 0; }
-        .v01con-cta-card { background: ${TEAL_D}; border-radius: 8px; padding: 48px 36px; display: flex; flex-direction: column; gap: 20px; }
-        .v01con-cta-card h3 { font-family: ${FONT_H}; font-size: 1.6rem; font-weight: 400; color: #fff; margin: 0; }
-        .v01con-cta-card p  { font-family: ${FONT_B}; font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.65; margin: 0; }
-        .v01con-cta-btn { display: inline-block; padding: 13px 32px; background: #fff; color: ${TEAL}; font-family: ${FONT_B}; font-size: 15px; font-weight: 700; text-decoration: none; border-radius: 3px; align-self: flex-start; transition: background 0.2s; }
-        .v01con-cta-btn:hover { background: ${TEAL_L}; color: #fff; }
-        .v01con-link { color: ${TEAL}; text-decoration: none; font-family: ${FONT_B}; font-size: 15px; }
-        .v01con-link:hover { text-decoration: underline; }
+        .v01con-inner { max-width: 1160px; margin: 0 auto; }
+        .v01con-header { text-align:center; margin-bottom: 52px; }
+        .v01con-kicker { display:inline-flex; align-items:center; gap:9px; font-family: ${FONT_B}; font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${TEAL}; margin: 0 0 14px; }
+        .v01con-kicker svg { color:${TEAL_L}; }
+        .v01con-heading { font-family: ${FONT_H}; font-weight: 400; font-size: clamp(2rem,3.4vw,2.9rem); color: ${DARK}; margin: 0 0 16px; line-height:1.12; }
+        .v01con-rule { width:60px; height:3px; background:linear-gradient(90deg,${TEAL},${TEAL_L}); border-radius:2px; margin:0 auto; }
+        .v01con-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
         @media (max-width: 820px) { .v01con-grid { grid-template-columns: 1fr; } }
+        .v01con-cards { display:flex; flex-direction:column; gap:14px; }
+        .v01con-card { display:flex; gap:16px; align-items:flex-start; background:#fff; border:1px solid #e4eef1; border-radius:14px; padding:20px 22px; transition:transform 0.28s cubic-bezier(.4,0,.2,1), box-shadow 0.28s, border-color 0.28s; }
+        .v01con-card:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(13,116,134,0.13); border-color:#cfe6ec; }
+        .v01con-badge { width:46px; height:46px; border-radius:13px; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:linear-gradient(140deg,#e6f3f5,#d4e9ee); color:${TEAL}; transition:background 0.3s, color 0.3s, transform 0.34s cubic-bezier(.34,1.4,.64,1); }
+        .v01con-card:hover .v01con-badge { background:linear-gradient(140deg,${TEAL},${PRIMARY}); color:#fff; transform:rotate(-6deg) scale(1.06); }
+        .v01con-card-label { font-family:${FONT_B}; font-size:12px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:${TEAL_L}; margin:0 0 5px; }
+        .v01con-card-val { font-family:${FONT_B}; font-size:16px; color:${DARK}; line-height:1.5; }
+        .v01con-card-note { font-size:13.5px; color:#7a9ba6; margin-top:3px; }
+        .v01con-link { color:${TEAL}; text-decoration:none; transition:color 0.2s; }
+        .v01con-link:hover { color:${PRIMARY}; text-decoration:underline; }
+        /* CTA card */
+        .v01con-cta-card { position:relative; overflow:hidden; background:linear-gradient(150deg,${TEAL},${PRIMARY}); border-radius:20px; padding:44px 40px; display:flex; flex-direction:column; gap:18px; box-shadow:0 18px 44px rgba(13,116,134,0.28); }
+        .v01con-cta-card h3 { font-family:${FONT_H}; font-size:1.7rem; font-weight:400; color:#fff; margin:0; line-height:1.2; position:relative; z-index:1; }
+        .v01con-cta-card p  { font-family:${FONT_B}; font-size:15.5px; color:rgba(255,255,255,0.85); line-height:1.65; margin:0; position:relative; z-index:1; }
+        .v01con-cta-btns { display:flex; flex-wrap:wrap; gap:12px; margin-top:8px; position:relative; z-index:1; }
+        .v01con-cta-btn { display:inline-flex; align-items:center; gap:9px; padding:14px 28px; background:#fff; color:${TEAL}; font-family:${FONT_B}; font-size:16px; font-weight:600; text-decoration:none; border-radius:50px; transition:transform 0.26s, box-shadow 0.26s; }
+        .v01con-cta-btn:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,0.2); }
+        .v01con-cta-btn.ghost { background:rgba(255,255,255,0.12); color:#fff; border:1.5px solid rgba(255,255,255,0.5); }
+        .v01con-cta-btn.ghost:hover { background:rgba(255,255,255,0.2); }
+        .v01con-cta-paw { position:absolute; right:-24px; bottom:-24px; width:180px; height:180px; fill:#fff; opacity:0.08; transform:rotate(-16deg); pointer-events:none; }
+        /* Map */
+        .v01con-map { margin-top:28px; border-radius:18px; overflow:hidden; border:1px solid #e4eef1; box-shadow:0 10px 30px rgba(13,116,134,0.1); line-height:0; }
+        .v01con-map iframe { width:100%; height:340px; border:0; display:block; filter:grayscale(0.15); }
       `}</style>
 
       <div className="v01con-inner">
-        <div className="v01con-header">
-          <p className="v01con-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="v01con-heading">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
+        {showHeader && (
+          <div className="v01con-header">
+            <p className="v01con-kicker">
+              <svg width="15" height="15" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+            <h2 className="v01con-heading">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <div className="v01con-rule" />
+          </div>
+        )}
 
         <div className="v01con-grid">
           {/* Info karty vlevo */}
-          <div>
+          <div className="v01con-cards">
             {phone && (
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.94 6.94l1.51-1.51a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>}>
+              <InfoCard label={<GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />} icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.94 6.94l1.51-1.51a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>}>
                 <a href={`tel:${phone.replace(/\s/g, "")}`} className="v01con-link">
                   <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                 </a>
-              </InfoRow>
+              </InfoCard>
             )}
             {email && (
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}>
+              <InfoCard label={<GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" />} icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>}>
                 <a href={`mailto:${email}`} className="v01con-link">
                   <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                 </a>
-              </InfoRow>
+              </InfoCard>
             )}
             {address && (
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>}>
+              <InfoCard label={<GenericEditableText sectionId={sectionId} field="addressLabel" value={addressLabel} tag="span" />} icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>}>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-              </InfoRow>
+              </InfoCard>
             )}
             {hours && (
-              <InfoRow icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>}>
-                <div>
-                  <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
-                  {hoursNote && (
-                    <div style={{ fontSize: 13, color: "#7a9ba6", marginTop: 2 }}>
-                      <GenericEditableText sectionId={sectionId} field="hoursNote" value={hoursNote} tag="span" />
-                    </div>
-                  )}
-                </div>
-              </InfoRow>
+              <InfoCard label={<GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />} icon={<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>}>
+                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                {hoursNote && (
+                  <div className="v01con-card-note">
+                    <GenericEditableText sectionId={sectionId} field="hoursNote" value={hoursNote} tag="span" />
+                  </div>
+                )}
+              </InfoCard>
             )}
           </div>
 
           {/* CTA karta vpravo */}
           <div className="v01con-cta-card">
+            <svg className="v01con-cta-paw" viewBox="0 0 60 60" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
             <h3><GenericEditableText sectionId={sectionId} field="ctaCardTitle" value={ctaCardTitle} tag="span" /></h3>
             <p><GenericEditableText sectionId={sectionId} field="ctaCardBody" value={ctaCardBody} tag="span" /></p>
-            <a href={ctaHref} data-btn="primary" className="v01con-cta-btn">
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
+            <div className="v01con-cta-btns">
+              <a href={ctaHref} className="v01con-cta-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+              {phone && (
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="v01con-cta-btn ghost">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.94 6.94l1.51-1.51a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                  <GenericEditableText sectionId={sectionId} field="callLabel" value={callLabel} tag="span" />
+                </a>
+              )}
+            </div>
           </div>
+        </div>
+
+        <div className="v01con-map">
+          <iframe src={mapSrc} title="Mapa — poloha kliniky" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </div>
       </div>
     </section>
@@ -8166,13 +8790,23 @@ function ContactGrooming01({ content, sectionId }: { content: Record<string, unk
   const DARK  = "#101417";
   const FONT  = "'Hanken Grotesk', 'Inter', sans-serif";
 
-  const heading    = String(content.heading    ?? "Kontakt");
-  const kicker     = String(content.kicker     ?? "Napište nám");
-  const subheading = String(content.subheading ?? "Objednejte svého mazlíčka");
+  const eyebrowRaw = (content as Record<string, unknown>).kicker;
+  const titleRaw   = (content as Record<string, unknown>).heading;
+  const subRaw     = (content as Record<string, unknown>).subheading;
+  const kicker     = eyebrowRaw === undefined ? "Napište nám" : String(eyebrowRaw);
+  const heading    = titleRaw   === undefined ? "Rezervace" : String(titleRaw);
+  const subheading = subRaw      === undefined ? "Objednejte svého mazlíčka online — ozveme se vám co nejdříve." : String(subRaw);
+  const showHeader = !!(kicker.trim() || heading.trim() || subheading.trim());
   const phone      = String(content.phone      ?? "");
   const email      = String(content.email      ?? "");
   const address    = String(content.address    ?? "");
   const hours      = String(content.hours      ?? "");
+  const nameLabel  = String(content.nameLabel  ?? "Jméno a příjmení");
+  const emailLabel = String(content.emailLabel ?? "E-mail");
+  const phoneLabel = String(content.phoneLabel ?? "Telefon");
+  const msgLabel   = String(content.msgLabel   ?? "Zpráva / preferovaný termín");
+  const submitLabel  = String(content.submitLabel  ?? "Odeslat rezervaci");
+  const successText  = String(content.successText  ?? "Zpráva odeslána! Ozveme se vám co nejdříve.");
 
   type Social = { icon?: string; label?: string; href?: string };
   const socials = (content.socials as Social[]) ?? [];
@@ -8182,48 +8816,23 @@ function ContactGrooming01({ content, sectionId }: { content: Record<string, unk
 
   return (
     <section id="kontakt" data-template="grooming-01-contact" style={{ background: DARK, fontFamily: FONT }}>
-      <style>{`
-        .gr01ct-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:600px;}
-        .gr01ct-left{padding:clamp(56px,8vw,100px) clamp(32px,6vw,72px);display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,0.08);}
-        .gr01ct-kicker{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:${GOLD};margin:0 0 14px;}
-        .gr01ct-h2{font-size:clamp(26px,3vw,40px);font-weight:700;color:#fff;margin:0 0 10px;line-height:1.15;}
-        .gr01ct-sub{font-size:15px;color:rgba(255,255,255,0.55);margin:0 0 44px;}
-        .gr01ct-info{display:flex;flex-direction:column;gap:20px;margin-bottom:40px;}
-        .gr01ct-row{display:flex;align-items:flex-start;gap:14px;}
-        .gr01ct-ico{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(208,170,87,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-        .gr01ct-val{font-size:14px;color:rgba(255,255,255,0.78);line-height:1.55;}
-        .gr01ct-val a{color:${GOLD};text-decoration:none;}
-        .gr01ct-social{display:flex;gap:12px;margin-top:4px;}
-        .gr01ct-social a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(208,170,87,0.4);transition:border-color 0.2s,background 0.2s;}
-        .gr01ct-social a:hover{border-color:${GOLD};background:rgba(208,170,87,0.12);}
-        .gr01ct-right{padding:clamp(56px,8vw,100px) clamp(32px,6vw,72px);display:flex;flex-direction:column;justify-content:center;}
-        .gr01ct-form{display:flex;flex-direction:column;gap:16px;}
-        .gr01ct-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;font-family:${FONT};font-size:14px;padding:14px 16px;outline:none;transition:border-color 0.2s;box-sizing:border-box;}
-        .gr01ct-input::placeholder{color:rgba(255,255,255,0.35);}
-        .gr01ct-input:focus{border-color:${GOLD};}
-        .gr01ct-textarea{resize:vertical;min-height:120px;}
-        .gr01ct-submit{background:${GOLD};color:${DARK};border:none;cursor:pointer;font-family:${FONT};font-size:13px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;padding:16px 36px;width:100%;transition:opacity 0.2s;margin-top:4px;}
-        .gr01ct-submit:hover{opacity:0.85;}
-        .gr01ct-success{text-align:center;padding:40px 0;}
-        .gr01ct-success p{color:#fff;font-size:16px;margin:12px 0 0;}
-        @media(max-width:800px){
-          .gr01ct-wrap{grid-template-columns:1fr;}
-          .gr01ct-left{border-right:none;border-bottom:1px solid rgba(255,255,255,0.08);}
-          .gr01ct-left,.gr01ct-right{padding:56px 28px;}
-        }
-      `}</style>
       <div className="gr01ct-wrap">
         {/* Left — info */}
         <div className="gr01ct-left">
-          <p className="gr01ct-kicker">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 className="gr01ct-h2">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-          <p className="gr01ct-sub">
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
+          <svg className="gr01ct-paw" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><ellipse cx="16" cy="21" rx="8.5" ry="6.5"/><ellipse cx="8.5" cy="14" rx="3.2" ry="4.2"/><ellipse cx="23.5" cy="14" rx="3.2" ry="4.2"/><ellipse cx="12.5" cy="11" rx="2.3" ry="3"/><ellipse cx="19.5" cy="11" rx="2.3" ry="3"/></svg>
+          {showHeader && (
+            <>
+              <p className="gr01ct-kicker">
+                <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+              </p>
+              <h2 className="gr01ct-h2">
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+              <p className="gr01ct-sub">
+                <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+              </p>
+            </>
+          )}
           <div className="gr01ct-info">
             {phone && (
               <div className="gr01ct-row">
@@ -8289,43 +8898,33 @@ function ContactGrooming01({ content, sectionId }: { content: Record<string, unk
           {sent ? (
             <div className="gr01ct-success">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill={GOLD}/><path d="M14 24l7 7 13-13" stroke={DARK} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              <p>Zpráva odeslána! Ozveme se vám co nejdříve.</p>
+              <p><GenericEditableText sectionId={sectionId} field="successText" value={successText} tag="span" /></p>
             </div>
           ) : (
             <form
               className="gr01ct-form"
               onSubmit={e => { e.preventDefault(); setSent(true); }}
             >
-              <input
-                className="gr01ct-input"
-                type="text"
-                placeholder="Jméno a příjmení"
-                value={form.name}
-                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                required
-              />
-              <input
-                className="gr01ct-input"
-                type="email"
-                placeholder="E-mail"
-                value={form.email}
-                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                required
-              />
-              <input
-                className="gr01ct-input"
-                type="tel"
-                placeholder="Telefon"
-                value={form.phone}
-                onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-              />
-              <textarea
-                className="gr01ct-input gr01ct-textarea"
-                placeholder="Zpráva / termín"
-                value={form.message}
-                onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-              />
-              <button type="submit" className="gr01ct-submit">Odeslat rezervaci</button>
+              <label className="gr01ct-field">
+                <span className="gr01ct-label"><GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span" /></span>
+                <input className="gr01ct-input" type="text" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
+              </label>
+              <label className="gr01ct-field">
+                <span className="gr01ct-label"><GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" /></span>
+                <input className="gr01ct-input" type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
+              </label>
+              <label className="gr01ct-field">
+                <span className="gr01ct-label"><GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" /></span>
+                <input className="gr01ct-input" type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
+              </label>
+              <label className="gr01ct-field">
+                <span className="gr01ct-label"><GenericEditableText sectionId={sectionId} field="msgLabel" value={msgLabel} tag="span" /></span>
+                <textarea className="gr01ct-input gr01ct-textarea" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+              </label>
+              <button type="submit" className="gr01ct-submit">
+                <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
             </form>
           )}
         </div>
@@ -9418,21 +10017,23 @@ function ContactInstala02({ content, sectionId }: { content: Record<string, unkn
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
 
-  const RED    = "#ee4036";
-  const DARK   = "#111111";
-  const WHITE  = "#ffffff";
-  const FONT_H = "'Montserrat', sans-serif";
-  const FONT_B = "'Roboto', sans-serif";
+  const kickerRaw = c.kicker as string | undefined;
+  const titleRaw  = c.title  as string | undefined;
+  const bodyRaw   = c.subtitle as string | undefined;
+  const hasText = (v: unknown) => typeof v === "string" && v.trim() !== "";
+  const showHeader = hasText(kickerRaw) || hasText(titleRaw) || hasText(bodyRaw);
 
-  const kicker   = String(c.kicker   ?? "Kontakt a poptávka");
-  const title    = String(c.title    ?? "Napište nám nebo zavolejte");
-  const subtitle = String(c.subtitle ?? "Obratem se ozveme s konkrétní nabídkou nebo si domluvíme nezávaznou konzultaci.");
+  const kicker   = String(kickerRaw ?? "Kontakt a poptávka");
+  const title    = String(titleRaw  ?? "Napište nám nebo zavolejte");
+  const subtitle = String(bodyRaw   ?? "Obratem se ozveme s konkrétní nabídkou nebo si domluvíme nezávaznou konzultaci.");
   const phone    = String(c.phone    ?? "+420 704 123 456");
   const email    = String(c.email    ?? "info@demo.cz");
   const address  = String(c.address  ?? "Ukázková 123, 110 00 Praha 1");
   const hours    = String(c.hours    ?? "Po–Pá 7:00–17:00");
   const ico      = String(c.ico      ?? "12345678");
   const submitText = String(c.submitText ?? "Odeslat poptávku");
+  const mapEmbed = String(c.mapEmbed ?? "");
+  const mapSrc = mapEmbed || `https://www.openstreetmap.org/export/embed.html?bbox=14.40%2C50.07%2C14.44%2C50.09&layer=mapnik&marker=50.08%2C14.42`;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -9443,11 +10044,9 @@ function ContactInstala02({ content, sectionId }: { content: Record<string, unkn
   }
 
   const InfoRow = ({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) => (
-    <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 20 }}>
-      <div style={{ width: 40, height: 40, background: RED, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-        {icon}
-      </div>
-      <div style={{ fontSize: 15, color: "#ccc", lineHeight: 1.55, paddingTop: 4 }}>{children}</div>
+    <div className="i2ct-info-row">
+      <div className="i2ct-info-icon">{icon}</div>
+      <div className="i2ct-info-body">{children}</div>
     </div>
   );
 
@@ -9455,88 +10054,53 @@ function ContactInstala02({ content, sectionId }: { content: Record<string, unkn
     <section
       id="kontakt"
       data-template="instala-02-contact"
-      style={{ backgroundColor: "#111", fontFamily: FONT_B, padding: "96px 0" }}
+      style={{ backgroundColor: "#111", fontFamily: "'Roboto', sans-serif", padding: "96px 0" }}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
-      <style>{`        .i2ct-outer   { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
-        .i2ct-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
-
-        /* left panel */
-        .i2ct-kicker  { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${RED}; margin: 0 0 16px; display: flex; align-items: center; gap: 12px; }
-        .i2ct-kicker::before { content: ''; display: inline-block; width: 36px; height: 2px; background: ${RED}; }
-        .i2ct-h2      { font-family: ${FONT_H}; font-size: clamp(26px, 3vw, 42px); font-weight: 800; color: ${WHITE}; line-height: 1.12; margin: 0 0 14px; }
-        .i2ct-sub     { font-size: 15px; color: #888; line-height: 1.65; margin: 0 0 40px; max-width: 400px; }
-        .i2ct-divider { width: 48px; height: 3px; background: ${RED}; margin: 0 0 36px; border-radius: 2px; }
-
-        /* right panel — form */
-        .i2ct-form    { background: #1a1a1a; border-radius: 16px; padding: 40px; border: 1px solid rgba(255,255,255,0.06); }
-        .i2ct-form-title { font-family: ${FONT_H}; font-size: 18px; font-weight: 800; color: ${WHITE}; margin: 0 0 28px; }
-        .i2ct-row     { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-        .i2ct-field   { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-        .i2ct-label   { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #666; }
-        .i2ct-input   { background: #111; border: 1.5px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 16px; font-family: ${FONT_B}; font-size: 14px; color: ${WHITE}; outline: none; transition: border-color .2s; }
-        .i2ct-input:focus { border-color: ${RED}; }
-        .i2ct-input::placeholder { color: #444; }
-        .i2ct-textarea { resize: vertical; min-height: 110px; }
-        .i2ct-btn     { width: 100%; background: ${RED}; color: ${WHITE}; font-family: ${FONT_H}; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; padding: 15px 24px; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background .2s; margin-top: 6px; }
-        .i2ct-btn:hover { background: #c42d2d; }
-        .i2ct-btn:disabled { opacity: 0.6; cursor: default; }
-        .i2ct-ok      { text-align: center; padding: 32px 0; }
-        .i2ct-ok-icon { width: 56px; height: 56px; background: ${RED}; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
-        .i2ct-ok-title { font-family: ${FONT_H}; font-size: 20px; font-weight: 800; color: ${WHITE}; margin: 0 0 8px; }
-        .i2ct-ok-sub  { font-size: 14px; color: #666; }
-
-        @media (max-width: 900px) {
-          .i2ct-outer { padding: 0 20px !important; }
-          .i2ct-grid  { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .i2ct-row   { grid-template-columns: 1fr !important; }
-          .i2ct-form  { padding: 28px 20px !important; }
-        }
-      `}</style>
-
       <div className="i2ct-outer">
         <div className="i2ct-grid">
 
           {/* ── Left: info panel ── */}
           <div>
-            <p className="i2ct-kicker">
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </p>
-            <h2 className="i2ct-h2">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <p className="i2ct-sub">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-            <div className="i2ct-divider" />
+            {showHeader && (
+              <>
+                <p className="i2ct-kicker">
+                  <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+                </p>
+                <h2 className="i2ct-h2">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+                <p className="i2ct-sub">
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+                </p>
+                <div className="i2ct-divider" />
+              </>
+            )}
 
             <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l1.11-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}>
-              <div style={{ fontFamily: FONT_H, fontSize: 11, fontWeight: 700, color: "#666", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 3 }}>Telefon</div>
-              <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: WHITE, fontFamily: FONT_H, fontSize: 18, fontWeight: 800, textDecoration: "none" }}>
+              <div className="i2ct-info-label">Telefon</div>
+              <a href={`tel:${phone.replace(/\s/g,"")}`} className="i2ct-info-phone">
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
             </InfoRow>
 
             <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><polyline points="22,6 12,13 2,6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}>
-              <div style={{ fontFamily: FONT_H, fontSize: 11, fontWeight: 700, color: "#666", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 3 }}>E-mail</div>
-              <a href={`mailto:${email}`} style={{ color: WHITE, fontFamily: FONT_H, fontSize: 15, fontWeight: 700, textDecoration: "none" }}>
+              <div className="i2ct-info-label">E-mail</div>
+              <a href={`mailto:${email}`} className="i2ct-info-link">
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             </InfoRow>
 
             <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="10" r="3" stroke="white" strokeWidth="2"/></svg>}>
-              <div style={{ fontFamily: FONT_H, fontSize: 11, fontWeight: 700, color: "#666", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 3 }}>Adresa</div>
+              <div className="i2ct-info-label">Adresa</div>
               <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
             </InfoRow>
 
             <InfoRow icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2"/><polyline points="12 6 12 12 16 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}>
-              <div style={{ fontFamily: FONT_H, fontSize: 11, fontWeight: 700, color: "#666", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 3 }}>Provozní doba</div>
+              <div className="i2ct-info-label">Provozní doba</div>
               <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
             </InfoRow>
 
-            <div style={{ marginTop: 8, padding: "14px 18px", background: "rgba(255,255,255,0.04)", borderRadius: 8, border: "1px solid rgba(255,255,255,0.06)", fontSize: 13, color: "#555", fontFamily: FONT_H }}>
+            <div className="i2ct-ico-box">
               IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
             </div>
           </div>
@@ -9592,6 +10156,15 @@ function ContactInstala02({ content, sectionId }: { content: Record<string, unkn
             )}
           </div>
 
+        </div>
+
+        {/* ── Map ── */}
+        <div className="i2ct-map">
+          <iframe
+            src={mapSrc}
+            width="100%" height="280" style={{ border: 0, borderRadius: 12 }}
+            loading="lazy" title="Mapa provozovny"
+          />
         </div>
       </div>
     </section>
@@ -10232,6 +10805,323 @@ function ContactGarden01({ content, sectionId, tenantSlug, isAdmin }: { content:
                     <textarea placeholder="Popište vaši zahradu a co byste si přáli…" rows={5} required />
                   </div>
                   <button type="submit" className="g01c-submit" disabled={sending}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+                      <path d="M4 20C4 12 10 5 20 4C19 14 12 20 4 20Z" fill="currentColor"/>
+                    </svg>
+                    <GenericEditableText sectionId={sectionId} field="buttonText" value={sending ? "Odesílám…" : buttonText} tag="span" />
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+// ── garden-02-contact ────────────────────────────────────────────────────────
+function ContactGarden02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Domluvte si konzultaci" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Popište nám svůj záměr a ozveme se s nezávazným návrhem do 24 hodin." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const phone      = String(content.phone      ?? "+420 775 234 567");
+  const email      = String(content.email      ?? "info@edenpro.cz");
+  const address    = String(content.address    ?? "Praha a Středočeský kraj");
+  const buttonText = String(content.buttonText ?? "Odeslat poptávku");
+  const phoneLabel = String(content.phoneLabel ?? "Telefon");
+  const emailLabel = String(content.emailLabel ?? "E-mail");
+  const addressLabel = String(content.addressLabel ?? "Oblast působení");
+  const nameLabel  = String(content.nameLabel  ?? "Jméno a příjmení");
+  const telLabel   = String(content.telLabel   ?? "Telefon");
+  const emailFormLabel = String(content.emailFormLabel ?? "E-mail");
+  const msgLabel   = String(content.msgLabel   ?? "Popište svůj záměr");
+  const successText = String(content.successText ?? "Děkujeme! Ozveme se vám do 24 hodin.");
+  const infoHeading = String(content.infoHeading ?? "Spojte se s námi");
+
+  const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setTimeout(() => { setSending(false); setSent(true); }, 800);
+  }
+
+  const GREEN = "#95c11f";
+  const DARK  = "#1a2e05";
+  const BG    = "#f5f5f0";
+
+  return (
+    <>
+      <style>{`
+        .g02c-section {
+          background: ${BG};
+          padding: 6rem 2.5rem;
+          position: relative;
+        }
+        .g02c-container { max-width: 1200px; margin: 0 auto; }
+        .g02c-header { max-width: 600px; margin: 0 0 3rem 0; }
+        .g02c-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-family: 'Inter', Arial, sans-serif; font-size: 0.78rem; font-weight: 600;
+          letter-spacing: 0.14em; text-transform: uppercase; color: ${GREEN};
+          margin-bottom: 0.85rem;
+        }
+        .g02c-eyebrow::before {
+          content: ''; display: inline-block; width: 8px; height: 8px;
+          border-radius: 50%; background: ${GREEN}; flex-shrink: 0;
+        }
+        .g02c-title {
+          font-family: 'Inter', Arial, sans-serif;
+          font-size: clamp(1.6rem, 3vw, 2.4rem);
+          font-weight: 800; color: ${DARK};
+          margin: 0 0 0.75rem 0; line-height: 1.15;
+          letter-spacing: -0.02em;
+        }
+        .g02c-subtitle {
+          font-family: 'Inter', Arial, sans-serif; font-size: 1rem;
+          color: #5a5a5a; margin: 0; line-height: 1.7;
+        }
+        .g02c-inner {
+          display: grid;
+          grid-template-columns: 1fr 1.6fr;
+          gap: 2.5rem;
+          align-items: start;
+        }
+
+        /* Info panel — dark green */
+        .g02c-info {
+          background: ${DARK};
+          border-radius: 16px;
+          padding: 2.5rem 2rem;
+          display: flex; flex-direction: column; gap: 1.75rem;
+          position: relative; overflow: hidden;
+        }
+        .g02c-info::after {
+          content: ''; position: absolute; bottom: -40px; right: -40px;
+          width: 200px; height: 200px; border-radius: 50%;
+          background: radial-gradient(circle, rgba(149,193,31,0.12) 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .g02c-info-heading {
+          font-family: 'Inter', Arial, sans-serif; font-size: 1.2rem; font-weight: 700;
+          color: #ffffff; margin: 0; line-height: 1.3;
+        }
+        .g02c-contact-items {
+          display: flex; flex-direction: column; gap: 1.25rem;
+        }
+        .g02c-contact-item {
+          display: flex; align-items: center; gap: 1rem;
+          padding: 0.75rem 0;
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          transition: padding-left 0.3s ease;
+        }
+        .g02c-contact-item:hover { padding-left: 0.5rem; }
+        .g02c-contact-item:last-child { border-bottom: none; }
+        .g02c-contact-icon {
+          width: 42px; height: 42px; border-radius: 10px;
+          background: rgba(149,193,31,0.15);
+          display: flex; align-items: center; justify-content: center;
+          color: ${GREEN}; flex-shrink: 0;
+          transition: background 0.25s ease, color 0.25s ease;
+        }
+        .g02c-contact-item:hover .g02c-contact-icon {
+          background: ${GREEN}; color: #ffffff;
+        }
+        .g02c-contact-text { display: flex; flex-direction: column; }
+        .g02c-contact-label {
+          font-family: 'Inter', Arial, sans-serif; font-size: 0.7rem; font-weight: 600;
+          color: rgba(255,255,255,0.45); text-transform: uppercase;
+          letter-spacing: 0.12em; margin-bottom: 0.15rem;
+        }
+        .g02c-contact-value {
+          font-family: 'Inter', Arial, sans-serif; font-size: 0.95rem;
+          color: #ffffff; font-weight: 500;
+          text-decoration: none; transition: color 0.2s;
+        }
+        .g02c-contact-value:hover { color: ${GREEN}; }
+        .g02c-info-leaf {
+          margin-top: auto; opacity: 0.06; pointer-events: none;
+          align-self: flex-end; position: relative; z-index: 1;
+        }
+
+        /* Form card */
+        .g02c-form-card {
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 2.5rem;
+          box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+          border: 1px solid rgba(0,0,0,0.04);
+        }
+        .g02c-form-row {
+          display: grid; grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+        .g02c-field {
+          display: flex; flex-direction: column;
+          margin-bottom: 1rem;
+        }
+        .g02c-field label {
+          font-family: 'Inter', Arial, sans-serif; font-size: 0.78rem; font-weight: 600;
+          color: ${DARK}; margin-bottom: 0.4rem;
+          letter-spacing: 0.03em;
+        }
+        .g02c-field input,
+        .g02c-field textarea {
+          font-family: 'Inter', Arial, sans-serif; font-size: 0.95rem;
+          color: ${DARK}; background: #fafaf6;
+          border: 1.5px solid #e0ddd5;
+          border-radius: 8px; padding: 0.7rem 0.9rem;
+          outline: none; resize: vertical;
+          transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+          width: 100%; box-sizing: border-box;
+        }
+        .g02c-field input:focus,
+        .g02c-field textarea:focus {
+          border-color: ${GREEN};
+          background: #ffffff;
+          box-shadow: 0 0 0 3px rgba(149,193,31,0.14);
+        }
+        .g02c-submit {
+          display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+          background: ${GREEN}; color: #ffffff;
+          font-family: 'Inter', Arial, sans-serif; font-size: 0.92rem; font-weight: 700;
+          border: none; border-radius: 9999px;
+          padding: 0.85rem 2rem; cursor: pointer;
+          letter-spacing: 0.02em; width: 100%; margin-top: 0.5rem;
+          box-shadow: 0 6px 20px rgba(149,193,31,0.25);
+          transition: background 0.3s ease, transform 0.3s cubic-bezier(.22,.68,0,1.1), box-shadow 0.3s ease;
+        }
+        .g02c-submit:hover:not(:disabled) {
+          background: #7aa31a; transform: translateY(-2px);
+          box-shadow: 0 10px 28px rgba(149,193,31,0.4);
+        }
+        .g02c-submit:disabled { opacity: 0.7; cursor: default; }
+        .g02c-success {
+          text-align: center; padding: 3rem 1rem;
+          font-family: 'Inter', Arial, sans-serif; font-size: 1.2rem; color: ${GREEN};
+          font-weight: 700; line-height: 1.5;
+        }
+        .g02c-success-icon {
+          display: flex; align-items: center; justify-content: center;
+          width: 56px; height: 56px; border-radius: 50%;
+          background: rgba(149,193,31,0.1); color: ${GREEN};
+          margin: 0 auto 1rem;
+        }
+
+        @media (max-width: 1023px) {
+          .g02c-inner { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        @media (max-width: 639px) {
+          .g02c-section { padding: 4rem 1.25rem; }
+          .g02c-form-card { padding: 1.5rem; }
+          .g02c-form-row { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      <section id="kontakt" className="g02c-section" data-template="garden-02">
+        <div className="g02c-container">
+          {showHeader && (
+            <div className="g02c-header">
+              {eyebrow.trim() && (
+                <div className="g02c-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </div>
+              )}
+              {title.trim() && (
+                <GenericEditableText tag="h2" className="g02c-title" value={title} sectionId={sectionId} field="title" />
+              )}
+              {subtitle.trim() && (
+                <GenericEditableText tag="p" className="g02c-subtitle" value={subtitle} sectionId={sectionId} field="subtitle" />
+              )}
+            </div>
+          )}
+
+          <div className="g02c-inner">
+            <div className="g02c-info">
+              <GenericEditableText tag="p" className="g02c-info-heading" value={infoHeading} sectionId={sectionId} field="infoHeading" />
+              <div className="g02c-contact-items">
+                <div className="g02c-contact-item">
+                  <div className="g02c-contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/>
+                    </svg>
+                  </div>
+                  <div className="g02c-contact-text">
+                    <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" className="g02c-contact-label" />
+                    <a href={`tel:${phone.replace(/\s/g,"")}`} className="g02c-contact-value">
+                      <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                    </a>
+                  </div>
+                </div>
+                <div className="g02c-contact-item">
+                  <div className="g02c-contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                  </div>
+                  <div className="g02c-contact-text">
+                    <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" className="g02c-contact-label" />
+                    <a href={`mailto:${email}`} className="g02c-contact-value">
+                      <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                    </a>
+                  </div>
+                </div>
+                <div className="g02c-contact-item">
+                  <div className="g02c-contact-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+                    </svg>
+                  </div>
+                  <div className="g02c-contact-text">
+                    <GenericEditableText sectionId={sectionId} field="addressLabel" value={addressLabel} tag="span" className="g02c-contact-label" />
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" className="g02c-contact-value" />
+                  </div>
+                </div>
+              </div>
+              <svg className="g02c-info-leaf" width="80" height="80" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style={{ color: GREEN }}>
+                <path d="M4 20C4 12 10 5 20 4C19 14 12 20 4 20Z"/>
+              </svg>
+            </div>
+
+            <div className="g02c-form-card">
+              {sent ? (
+                <div className="g02c-success">
+                  <div className="g02c-success-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                  </div>
+                  <GenericEditableText sectionId={sectionId} field="successText" value={successText} tag="span" />
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} noValidate>
+                  <div className="g02c-form-row">
+                    <div className="g02c-field">
+                      <label><GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span" /></label>
+                      <input type="text" placeholder="Jan Novák" required />
+                    </div>
+                    <div className="g02c-field">
+                      <label><GenericEditableText sectionId={sectionId} field="telLabel" value={telLabel} tag="span" /></label>
+                      <input type="tel" placeholder="+420 000 000 000" />
+                    </div>
+                  </div>
+                  <div className="g02c-field">
+                    <label><GenericEditableText sectionId={sectionId} field="emailFormLabel" value={emailFormLabel} tag="span" /></label>
+                    <input type="email" placeholder="vas@email.cz" required />
+                  </div>
+                  <div className="g02c-field">
+                    <label><GenericEditableText sectionId={sectionId} field="msgLabel" value={msgLabel} tag="span" /></label>
+                    <textarea placeholder="Popište svůj záměr — velikost zahrady, terén, přání…" rows={5} required />
+                  </div>
+                  <button type="submit" className="g02c-submit" disabled={sending}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
                       <path d="M4 20C4 12 10 5 20 4C19 14 12 20 4 20Z" fill="currentColor"/>
                     </svg>
@@ -11336,12 +12226,13 @@ function ContactDj01({ content, sectionId }: { content: Record<string, unknown>;
 // 2 lokace (Praha 5 + Praha 9), kontaktní formulář, tmavé pozadí #0d1f0a.
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactRestaurant04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tagline   = String(content.tagline   ?? "Kde nás najdete");
-  const title     = String(content.title     ?? "Dvě pobočky\nv Praze.");
+  const tagline   = String(content.tagline   ?? "");
+  const title     = String(content.title     ?? "");
   const body      = String(content.body      ?? "");
   const formTitle = String((content as any).formTitle ?? "Zanechte zprávu");
   const formSub   = String((content as any).formSubtitle ?? "Vyplňte formulář a my se vám ozveme.");
   const locations = ((content as any).locations as Array<{ name: string; address: string; city: string; phone?: string; email?: string; hours?: string }>) ?? [];
+  const showHeader = !!(tagline.trim() || title.trim());
 
   const DARK  = "#0d1f0a";
   const SURF  = "#152d11";
@@ -11357,14 +12248,6 @@ function ContactRestaurant04({ content, sectionId }: { content: Record<string, u
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSent(true);
-  };
-
-  const inputStyle: React.CSSProperties = {
-    width: "100%", boxSizing: "border-box",
-    background: SURF, border: `1px solid ${BORDER}`,
-    borderRadius: 2, padding: "12px 16px",
-    fontFamily: SANS, fontSize: 14, color: CREAM,
-    outline: "none", transition: "border-color 0.2s",
   };
 
   const IconPin = () => (
@@ -11392,50 +12275,65 @@ function ContactRestaurant04({ content, sectionId }: { content: Record<string, u
   );
 
   return (
-    <section id="kontakt" style={{ background: DARK, padding: "clamp(64px, 10vw, 120px) clamp(24px, 6vw, 80px)" }}>
-      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ marginBottom: 56 }}>
-          <p style={{
-            fontFamily: SANS, fontSize: 11, fontWeight: 700,
-            letterSpacing: "0.22em", textTransform: "uppercase",
-            color: RED, margin: "0 0 16px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <h2 style={{
-            fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 50px)", fontWeight: 400,
-            fontStyle: "italic", color: CREAM, margin: "0 0 20px", lineHeight: 1.12,
-            whiteSpace: "pre-line",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontFamily: SANS, fontSize: 16, color: MUTED, lineHeight: 1.7, margin: 0, maxWidth: 560 }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-        </div>
+    <section
+      id="kontakt"
+      data-template="restaurant-04"
+      style={{ background: DARK, padding: "clamp(80px, 12vw, 140px) clamp(24px, 6vw, 80px)" }}
+    >
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        {/* Header — conditional */}
+        {showHeader && (
+          <div style={{ marginBottom: 60 }}>
+            {tagline && (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 16px" }}>
+                <span style={{ width: 28, height: 1, background: RED }} />
+                <p style={{
+                  fontFamily: SANS, fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  color: RED, margin: 0,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </p>
+              </div>
+            )}
+            {title && (
+              <h2 style={{
+                fontFamily: SERIF, fontSize: "clamp(28px, 4.5vw, 52px)", fontWeight: 400,
+                fontStyle: "italic", color: CREAM, margin: "0 0 20px", lineHeight: 1.1,
+                whiteSpace: "pre-line",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {body && (
+              <p style={{ fontFamily: SANS, fontSize: 16, color: MUTED, lineHeight: 1.7, margin: 0, maxWidth: 560 }}>
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         {/* 2-col: lokace + formulář */}
         <div style={{
           display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 6vw, 80px)",
         }} className="r04-contact-grid">
           {/* Lokace */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {locations.map((loc, i) => (
-              <div key={i} style={{
+              <div key={i} className="r04-loc-card" style={{
                 background: SURF, border: `1px solid ${BORDER}`,
-                borderTop: `2px solid ${RED}`,
-                borderRadius: 2, padding: "28px 28px 32px",
+                borderRadius: 3, padding: "32px 28px",
+                position: "relative", overflow: "hidden",
               }}>
+                {/* Red top accent */}
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, ${RED}, ${RED}66)` }} />
                 <h3 style={{
-                  fontFamily: SERIF, fontSize: "clamp(16px, 2vw, 20px)", fontWeight: 400,
+                  fontFamily: SERIF, fontSize: "clamp(17px, 2vw, 22px)", fontWeight: 400,
                   fontStyle: "italic", color: CREAM, margin: "0 0 20px",
                 }}>
                   <GenericEditableText sectionId={sectionId} field={`locations.${i}.name`} value={loc.name} tag="span" />
                 </h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                     <IconPin />
                     <span style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
@@ -11447,7 +12345,7 @@ function ContactRestaurant04({ content, sectionId }: { content: Record<string, u
                   {loc.phone && (
                     <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                       <IconPhone />
-                      <a href={`tel:${loc.phone.replace(/\s/g, "")}`} style={{ fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none" }}>
+                      <a href={`tel:${loc.phone.replace(/\s/g, "")}`} className="r04-contact-link" style={{ fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none" }}>
                         <GenericEditableText sectionId={sectionId} field={`locations.${i}.phone`} value={loc.phone} tag="span" />
                       </a>
                     </div>
@@ -11455,7 +12353,7 @@ function ContactRestaurant04({ content, sectionId }: { content: Record<string, u
                   {loc.email && (
                     <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                       <IconMail />
-                      <a href={`mailto:${loc.email}`} style={{ fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none" }}>
+                      <a href={`mailto:${loc.email}`} className="r04-contact-link" style={{ fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none" }}>
                         <GenericEditableText sectionId={sectionId} field={`locations.${i}.email`} value={loc.email} tag="span" />
                       </a>
                     </div>
@@ -11474,65 +12372,56 @@ function ContactRestaurant04({ content, sectionId }: { content: Record<string, u
           </div>
 
           {/* Formulář */}
-          <div style={{ background: SURF, border: `1px solid ${BORDER}`, borderRadius: 2, padding: "36px" }}>
+          <div style={{
+            background: SURF, border: `1px solid ${BORDER}`, borderRadius: 3,
+            padding: "40px 36px", position: "relative", overflow: "hidden",
+          }}>
+            {/* Subtle red glow top-right */}
+            <div style={{
+              position: "absolute", top: -40, right: -40, width: 120, height: 120,
+              background: `radial-gradient(circle, ${RED}18 0%, transparent 70%)`,
+              borderRadius: "50%",
+            }} />
             <h3 style={{
-              fontFamily: SERIF, fontSize: "clamp(18px, 2.5vw, 26px)", fontWeight: 400,
-              fontStyle: "italic", color: CREAM, margin: "0 0 8px",
+              fontFamily: SERIF, fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 400,
+              fontStyle: "italic", color: CREAM, margin: "0 0 8px", position: "relative",
             }}>
               <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
             </h3>
-            <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, margin: "0 0 28px" }}><GenericEditableText sectionId={sectionId} field="formSubtitle" value={formSub} tag="span" /></p>
+            <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, margin: "0 0 32px", position: "relative" }}>
+              <GenericEditableText sectionId={sectionId} field="formSubtitle" value={formSub} tag="span" />
+            </p>
 
             {sent ? (
               <div style={{
-                padding: "28px 24px", background: DARK, borderRadius: 2,
+                padding: "36px 24px", background: DARK, borderRadius: 3,
                 textAlign: "center", border: `1px solid ${RED}44`,
               }}>
-                <div style={{ fontSize: 28, marginBottom: 12 }}>✓</div>
-                <p style={{ fontFamily: SANS, fontSize: 15, color: CREAM, margin: 0 }}>
+                <div style={{
+                  width: 48, height: 48, borderRadius: "50%",
+                  background: `${RED}22`, border: `1.5px solid ${RED}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  margin: "0 auto 16px", color: RED, fontSize: 22,
+                }}>✓</div>
+                <p style={{ fontFamily: SANS, fontSize: 15, color: CREAM, margin: 0, lineHeight: 1.6 }}>
                   Zpráva odeslána. Ozveme se vám co nejdříve.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <input
-                  type="text" placeholder="Vaše jméno" required
-                  style={inputStyle}
-                  onFocus={e => (e.target.style.borderColor = RED)}
-                  onBlur={e => (e.target.style.borderColor = BORDER)}
-                />
-                <input
-                  type="email" placeholder="E-mail" required
-                  style={inputStyle}
-                  onFocus={e => (e.target.style.borderColor = RED)}
-                  onBlur={e => (e.target.style.borderColor = BORDER)}
-                />
-                <input
-                  type="tel" placeholder="Telefon (nepovinné)"
-                  style={inputStyle}
-                  onFocus={e => (e.target.style.borderColor = RED)}
-                  onBlur={e => (e.target.style.borderColor = BORDER)}
-                />
-                <textarea
-                  placeholder="Vaše zpráva nebo dotaz k rezervaci..." required
-                  rows={5}
-                  style={{ ...inputStyle, resize: "vertical" }}
-                  onFocus={e => (e.target.style.borderColor = RED)}
-                  onBlur={e => (e.target.style.borderColor = BORDER)}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    fontFamily: SANS, fontSize: 11, fontWeight: 700,
-                    letterSpacing: "0.14em", textTransform: "uppercase",
-                    color: CREAM, background: RED, border: "none",
-                    borderRadius: 2, padding: "15px 32px",
-                    cursor: "pointer", transition: "background-color 0.2s",
-                    alignSelf: "flex-start",
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#a01515")}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-                >
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16, position: "relative" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="r04-form-row">
+                  <input type="text" placeholder="Vaše jméno" required className="r04-input" />
+                  <input type="email" placeholder="E-mail" required className="r04-input" />
+                </div>
+                <input type="tel" placeholder="Telefon (nepovinné)" className="r04-input" />
+                <textarea placeholder="Vaše zpráva nebo dotaz k rezervaci..." required rows={5} className="r04-input" style={{ resize: "vertical" }} />
+                <button type="submit" className="r04-cta1" style={{
+                  fontFamily: SANS, fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: CREAM, background: RED, border: "none",
+                  borderRadius: 2, padding: "16px 36px",
+                  cursor: "pointer", alignSelf: "flex-start",
+                }}>
                   Odeslat zprávu
                 </button>
               </form>
@@ -11540,10 +12429,6 @@ function ContactRestaurant04({ content, sectionId }: { content: Record<string, u
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) { .r04-contact-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
     </section>
   );
 }
@@ -11957,6 +12842,7 @@ function ContactArch01({ content, sectionId }: { content: Record<string, unknown
   const subheading = String(content.subheading ?? "");
   const email      = String(content.email      ?? "");
   const phone      = String(content.phone      ?? "");
+  const phoneSecondary = String(content.phoneSecondary ?? "");
   const offices    = (content.offices as Array<{ name?: string; address?: string; city?: string }>) ?? [];
   const formFields = (content.formFields ?? {}) as { namePlaceholder?: string; emailPlaceholder?: string; messagePlaceholder?: string; submitText?: string };
   const [status, setStatus] = useState<"idle" | "sending" | "done">("idle");
@@ -12023,6 +12909,11 @@ function ContactArch01({ content, sectionId }: { content: Record<string, unknown
             {phone && (
               <div className="ar01cnt-detail">
                 <a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>
+              </div>
+            )}
+            {phoneSecondary && (
+              <div className="ar01cnt-detail">
+                <a href={`tel:${phoneSecondary.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phoneSecondary" value={phoneSecondary} tag="span" /></a>
               </div>
             )}
             {email && (
@@ -12447,6 +13338,134 @@ function ContactRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: Omit
 
 // ── contact-photo-01 ──────────────────────────────────────────────────────────
 // Fotografka kontakt: cream editorial, 2-col (info+hodiny / formulář), Playfair, taupe accent
+function ContactFloors01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const c = content as Record<string, unknown>;
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const eyebrow   = String(c.eyebrow ?? "Napište nám");
+  const title     = String(c.title ?? "Poradíme s výběrem i pokládkou");
+  const lead      = String(c.lead ?? "Zanechte nám zprávu a ozveme se do 24 hodin, nebo se stavte v kterémkoli showroomu.");
+  const nameLabel = String(c.nameLabel ?? "Jméno a příjmení");
+  const emailLabel = String(c.emailLabel ?? "E-mail");
+  const phoneLabel = String(c.phoneLabel ?? "Telefon");
+  const msgLabel   = String(c.messageLabel ?? "Zpráva");
+  const submitText = String(c.submitText ?? "Odeslat poptávku");
+  const successText = String(c.successText ?? "Děkujeme! Ozveme se vám co nejdříve.");
+  const asideTitle = String(c.asideTitle ?? "Spojte se s námi");
+  const phoneVal   = String(c.phone ?? "+420 704 118 260");
+  const emailVal   = String(c.email ?? "studio@parketo.cz");
+  const hoursLabel = String(c.hoursLabel ?? "Otevírací doba");
+  const hoursVal   = String(c.hoursVal ?? "Po–Pá 8:00–18:00 · So 9:00–13:00");
+  const phoneRLabel = String(c.phoneRLabel ?? "Telefon");
+  const emailRLabel = String(c.emailRLabel ?? "E-mail");
+  const showroomsLabel = String(c.showroomsLabel ?? "Naše showroomy");
+  const showrooms = (c.showrooms as string[]) ?? ["Praha – Západ", "Brno – Centrum", "Olomouc", "České Budějovice", "Liberec"];
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin) return;
+    if (honeypot) return;
+    if (!tenantSlug) return;
+    setStatus("sending"); setErrorMsg("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, message, website: honeypot }),
+      });
+      const json = await res.json() as { error?: string };
+      if (!res.ok) { setErrorMsg(json.error ?? "Nepodařilo se odeslat zprávu."); setStatus("error"); }
+      else { setStatus("success"); setName(""); setEmail(""); setPhone(""); setMessage(""); }
+    } catch { setErrorMsg("Nepodařilo se odeslat zprávu. Zkuste to znovu."); setStatus("error"); }
+  }
+
+  const FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const PhoneIcon = () => (<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /></svg>);
+  const MailIcon = () => (<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 6L2 7" /></svg>);
+  const ClockIcon = () => (<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>);
+
+  return (
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
+      <div className="f01c-section">
+        <div className="f01c-wrap">
+          {/* Form */}
+          <div>
+            <span className="f01c-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="f01c-title" />
+            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="p" className="f01c-lead" />
+            {status === "success" ? (
+              <p className="f01c-note ok" style={{ fontSize: 15 }}><GenericEditableText sectionId={sectionId} field="successText" value={successText} tag="span" /></p>
+            ) : (
+              <form className="f01c-form" onSubmit={handleSubmit}>
+                <div className="f01c-field">
+                  <label className="f01c-label"><GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span" /></label>
+                  <input className="f01c-input" value={name} onChange={(e) => setName(e.target.value)} required />
+                </div>
+                <div className="f01c-field">
+                  <label className="f01c-label"><GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" /></label>
+                  <input className="f01c-input" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                </div>
+                <div className="f01c-field full">
+                  <label className="f01c-label"><GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" /></label>
+                  <input className="f01c-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="f01c-field full">
+                  <label className="f01c-label"><GenericEditableText sectionId={sectionId} field="messageLabel" value={msgLabel} tag="span" /></label>
+                  <textarea className="f01c-textarea" value={message} onChange={(e) => setMessage(e.target.value)} required />
+                </div>
+                <input type="text" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }} aria-hidden="true" />
+                <button type="submit" className="f01c-submit" disabled={status === "sending" || isAdmin}>
+                  {status === "sending" ? "Odesílám…" : <GenericEditableText sectionId={sectionId} field="submitText" value={submitText} tag="span" />}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+                </button>
+                {status === "error" && <p className="f01c-note err">{errorMsg}</p>}
+              </form>
+            )}
+          </div>
+
+          {/* Aside info */}
+          <aside className="f01c-aside">
+            <p className="f01c-aside-title"><GenericEditableText sectionId={sectionId} field="asideTitle" value={asideTitle} tag="span" /></p>
+            <div className="f01c-row">
+              <span className="f01c-ricon" aria-hidden="true"><PhoneIcon /></span>
+              <div>
+                <p className="f01c-rlabel"><GenericEditableText sectionId={sectionId} field="phoneRLabel" value={phoneRLabel} tag="span" /></p>
+                <a className="f01c-rval" href={`tel:${phoneVal.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phoneVal} tag="span" /></a>
+              </div>
+            </div>
+            <div className="f01c-row">
+              <span className="f01c-ricon" aria-hidden="true"><MailIcon /></span>
+              <div>
+                <p className="f01c-rlabel"><GenericEditableText sectionId={sectionId} field="emailRLabel" value={emailRLabel} tag="span" /></p>
+                <a className="f01c-rval" href={`mailto:${emailVal}`}><GenericEditableText sectionId={sectionId} field="email" value={emailVal} tag="span" /></a>
+              </div>
+            </div>
+            <div className="f01c-row">
+              <span className="f01c-ricon" aria-hidden="true"><ClockIcon /></span>
+              <div>
+                <p className="f01c-rlabel"><GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" /></p>
+                <p className="f01c-rval"><GenericEditableText sectionId={sectionId} field="hoursVal" value={hoursVal} tag="span" /></p>
+              </div>
+            </div>
+            <p className="f01c-rlabel" style={{ marginTop: 18 }}><GenericEditableText sectionId={sectionId} field="showroomsLabel" value={showroomsLabel} tag="span" /></p>
+            <div className="f01c-chips">
+              {showrooms.map((s, i) => (
+                <span key={i} className="f01c-chip"><GenericEditableText sectionId={sectionId} field={`showrooms.${i}`} value={s} tag="span">{s}</GenericEditableText></span>
+              ))}
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ContactPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const c = content as Record<string, unknown>;
   const eyebrowRaw  = c.eyebrow;
@@ -12598,6 +13617,1029 @@ function ContactPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: 
             </button>
             {status === "success" && <p className="ph01ct-note ok">{successText}</p>}
             {status === "error" && <p className="ph01ct-note err">{errorMsg}</p>}
+          </form>
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+// ── malir-01-contact ──────────────────────────────────────────────────────────
+function ContactMalir01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin?: boolean }) {
+  const AMBER  = "#E79B0E";
+  const NAVY   = "#0F297B";
+  const DARK   = "#0a0a0a";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Playfair Display', Georgia, serif";
+  const FONT_B = "'Raleway', sans-serif";
+
+  const heading    = String(content.heading ?? "Kontaktujte nás");
+  const subheading = String(content.subheading ?? "Rádi vám připravíme nezávaznou cenovou nabídku.");
+  const email      = String(content.email ?? "info@demo.cz");
+  const phone      = String(content.phone ?? "704 123 456");
+  const address    = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
+  const hours      = String(content.hours ?? "Po–Pá 8:00–17:00");
+  const showHeader = content.showHeader !== false;
+
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "", gdpr: false });
+  const [status, setStatus] = useState<"idle"|"sending"|"ok"|"err">("idle");
+  const [touched, setTouched] = useState(false);
+  const set = (k: string, v: string | boolean) => setForm(f => ({ ...f, [k]: v }));
+
+  const errors = {
+    name:  !form.name.trim(),
+    email: !form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email),
+    gdpr:  !form.gdpr,
+  };
+  const hasErrors = Object.values(errors).some(Boolean);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTouched(true);
+    if (hasErrors || isAdmin) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sectionId, ...form }) });
+      setStatus(res.ok ? "ok" : "err");
+    } catch { setStatus("err"); }
+  };
+
+  const infoCards = [
+    { icon: "phone", label: "Telefon", value: phone, href: `tel:${phone.replace(/\s/g, "")}` },
+    { icon: "email", label: "E-mail", value: email, href: `mailto:${email}` },
+    { icon: "pin", label: "Adresa", value: address },
+    { icon: "clock", label: "Pracovní doba", value: hours },
+  ];
+
+  const icons: Record<string, React.ReactElement> = {
+    phone: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
+    email: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>,
+    pin:   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+    clock: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%", boxSizing: "border-box" as const,
+    fontFamily: FONT_B, fontSize: 14, color: WHITE,
+    background: `${WHITE}0a`, border: `1.5px solid ${WHITE}18`,
+    padding: "14px 16px", borderRadius: 4, outline: "none",
+    transition: "border-color 0.3s, background 0.3s",
+  };
+
+  return (
+    <section data-template="malir-01" style={{ background: WHITE, padding: "clamp(48px, 8vw, 80px) 0 0" }}>
+      {/* Section header (conditionally hidden on subpages) */}
+      {showHeader && (
+        <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto clamp(36px, 5vw, 56px)", padding: "0 30px" }}>
+          <div className="m01ct-reveal" style={{ fontFamily: FONT_B, fontWeight: 600, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" as const, color: AMBER, marginBottom: 12 }}>Kontakt</div>
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2" style={{
+            fontFamily: FONT_H, fontWeight: 700, fontSize: "clamp(26px, 3.5vw, 40px)", color: "#1a1a1a", lineHeight: 1.15, margin: "0 0 14px",
+          }} />
+          <div style={{ width: 48, height: 3, background: AMBER, borderRadius: 2, margin: "0 auto 16px" }} />
+          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="p" style={{
+            fontFamily: FONT_B, fontSize: 15, lineHeight: 1.7, color: "#666", margin: 0,
+          }} />
+        </div>
+      )}
+
+      {/* 2-col layout: info + form */}
+      <div className="m01ct-grid" style={{
+        maxWidth: 1140, margin: "0 auto", padding: "0 30px clamp(48px, 8vw, 80px)",
+        display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 5vw, 64px)", alignItems: "start",
+      }}>
+        {/* Left: info cards */}
+        <div>
+          <div className="m01ct-reveal" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+            {infoCards.map((card, i) => (
+              <div key={i} className="m01ct-card" style={{
+                background: "#f8f7f5", padding: "22px 20px", borderRadius: 6,
+                borderBottom: `3px solid transparent`, transition: "border-color 0.3s, transform 0.3s",
+              }}>
+                <div style={{ marginBottom: 10 }}>{icons[card.icon]}</div>
+                <div style={{ fontFamily: FONT_B, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "#aaa", marginBottom: 4 }}>
+                  {card.label}
+                </div>
+                <div style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 600, color: "#1a1a1a", lineHeight: 1.4 }}>
+                  {card.href ? (
+                    <a href={card.href} style={{ color: "#1a1a1a", textDecoration: "none", transition: "color 0.3s" }}
+                       onMouseOver={e => (e.currentTarget.style.color = AMBER)}
+                       onMouseOut={e => (e.currentTarget.style.color = "#1a1a1a")}>
+                      <GenericEditableText sectionId={sectionId} field={`contact.${card.icon}`} value={card.value} tag="span" />
+                    </a>
+                  ) : (
+                    <GenericEditableText sectionId={sectionId} field={`contact.${card.icon}`} value={card.value} tag="span" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Map placeholder */}
+          <div className="m01ct-reveal" style={{
+            marginTop: 14, background: "#f0ede8", borderRadius: 6,
+            height: 180, display: "flex", alignItems: "center", justifyContent: "center",
+            color: "#aaa", fontSize: 13, fontFamily: FONT_B,
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 8 }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Mapa — k dispozici po propojení
+          </div>
+        </div>
+
+        {/* Right: form */}
+        <div className="m01ct-reveal" style={{
+          background: DARK, padding: "clamp(32px, 4vw, 44px) clamp(24px, 3vw, 40px)",
+          borderRadius: 6,
+        }}>
+          <div style={{ fontFamily: FONT_H, fontWeight: 700, fontSize: 20, color: WHITE, marginBottom: 6 }}>
+            Nezávazná poptávka
+          </div>
+          <div style={{ fontFamily: FONT_B, fontSize: 13, color: `${WHITE}55`, marginBottom: 28 }}>
+            Vyplňte formulář a ozveme se do 24 hodin.
+          </div>
+
+          {status === "ok" ? (
+            <div style={{ textAlign: "center", padding: "40px 20px" }}>
+              <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+              <div style={{ fontFamily: FONT_H, fontSize: 20, color: AMBER, marginBottom: 8 }}>Děkujeme!</div>
+              <div style={{ fontFamily: FONT_B, fontSize: 14, color: `${WHITE}88` }}>Vaši zprávu jsme přijali a budeme vás kontaktovat.</div>
+            </div>
+          ) : (
+            <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                <input placeholder="Jméno *" value={form.name} onChange={e => set("name", e.target.value)}
+                  style={{ ...inputStyle, borderColor: touched && errors.name ? "#e74c3c" : `${WHITE}18` }}
+                  onFocus={e => { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.background = `${WHITE}10`; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = touched && errors.name ? "#e74c3c" : `${WHITE}18`; e.currentTarget.style.background = `${WHITE}0a`; }}
+                />
+                <input placeholder="Telefon" value={form.phone} onChange={e => set("phone", e.target.value)}
+                  style={inputStyle}
+                  onFocus={e => { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.background = `${WHITE}10`; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = `${WHITE}18`; e.currentTarget.style.background = `${WHITE}0a`; }}
+                />
+              </div>
+              <input type="email" placeholder="E-mail *" value={form.email} onChange={e => set("email", e.target.value)}
+                style={{ ...inputStyle, borderColor: touched && errors.email ? "#e74c3c" : `${WHITE}18` }}
+                onFocus={e => { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.background = `${WHITE}10`; }}
+                onBlur={e => { e.currentTarget.style.borderColor = touched && errors.email ? "#e74c3c" : `${WHITE}18`; e.currentTarget.style.background = `${WHITE}0a`; }}
+              />
+              <textarea placeholder="Vaše zpráva…" value={form.message} onChange={e => set("message", e.target.value)}
+                style={{ ...inputStyle, resize: "vertical" as const, minHeight: 110 }}
+                onFocus={e => { e.currentTarget.style.borderColor = AMBER; e.currentTarget.style.background = `${WHITE}10`; }}
+                onBlur={e => { e.currentTarget.style.borderColor = `${WHITE}18`; e.currentTarget.style.background = `${WHITE}0a`; }}
+              />
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer", marginTop: 4 }}>
+                <input type="checkbox" checked={form.gdpr} onChange={e => set("gdpr", e.target.checked)}
+                  style={{ accentColor: AMBER, marginTop: 3, width: 16, height: 16 }}
+                />
+                <span style={{ fontFamily: FONT_B, fontSize: 12, color: touched && errors.gdpr ? "#e74c3c" : `${WHITE}66`, lineHeight: 1.5 }}>
+                  Souhlasím se zpracováním osobních údajů za účelem odpovědi na poptávku. *
+                </span>
+              </label>
+              <button type="submit" disabled={status === "sending"} className="m01ct-submit" style={{
+                marginTop: 8, fontFamily: FONT_B, fontWeight: 700, fontSize: 13,
+                letterSpacing: "0.1em", textTransform: "uppercase" as const,
+                background: AMBER, color: DARK, border: "none",
+                padding: "16px 32px", borderRadius: 4, cursor: "pointer",
+                transition: "background 0.3s, transform 0.2s",
+              }}
+                onMouseOver={e => { e.currentTarget.style.background = "#d08a0c"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                onMouseOut={e => { e.currentTarget.style.background = AMBER; e.currentTarget.style.transform = "none"; }}
+              >
+                {status === "sending" ? "Odesílám…" : "Odeslat poptávku"}
+              </button>
+              {status === "err" && (
+                <div style={{ fontFamily: FONT_B, fontSize: 13, color: "#e74c3c", marginTop: 4 }}>
+                  Odeslání se nezdařilo. Zkuste to prosím znovu.
+                </div>
+              )}
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — kontaktní stránka.
+ * Vlevo info karty (telefon/e-mail/adresa/otevírací doba),
+ * vpravo demo formulář se success stavem.
+ * ============================================================ */
+
+function ContactEshop02({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const BLUE = "#1266cc";
+  const ACCENT = "#f0803c";
+  const DARK = "#142b45";
+  const MUTED = "#64748b";
+  const BORDER = "#e3e9f0";
+  const SURFACE = "#f5f8fb";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const phone = String(content.phone ?? "+420 777 123 456");
+  const email = String(content.email ?? "info@modrykosik.cz");
+  const address = String(content.address ?? "Skladová 12, 190 00 Praha 9");
+  const hours = String(content.hours ?? "Po–Ne 8:00–20:00");
+  const formTitle = content.formTitle === undefined ? "Napište nám" : String(content.formTitle);
+  const formText = content.formText === undefined ? "Odpovídáme do 24 hodin, obvykle mnohem dřív." : String(content.formText);
+
+  const [sent, setSent] = useState(false);
+
+  const infoCard = (icon: React.ReactNode, label: string, labelField: string, value: string, valueField: string, href?: string) => (
+    <div className="wc2ct-card">
+      <span className="wc2ct-ico" aria-hidden>{icon}</span>
+      <div>
+        <GenericEditableText sectionId={sectionId} field={labelField} value={label} tag="span" className="wc2ct-label" />
+        {href ? (
+          <a href={href} className="wc2ct-value"><GenericEditableText sectionId={sectionId} field={valueField} value={value} tag="span" /></a>
+        ) : (
+          <GenericEditableText sectionId={sectionId} field={valueField} value={value} tag="span" className="wc2ct-value" />
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="wc2ct" data-variant="eshop-02-contact" id="kontakt">
+      <style>{`
+        .wc2ct { background: #fff; color: ${DARK}; font-family: ${SANS}; }
+        .wc2ct-inner { max-width: 1280px; margin: 0 auto; padding: clamp(48px,6vw,84px) 24px; display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(28px,4.5vw,64px); align-items: start; }
+        @media (max-width: 900px) { .wc2ct-inner { grid-template-columns: 1fr; } }
+        .wc2ct-cards { display: flex; flex-direction: column; gap: 12px; }
+        .wc2ct-card { display: flex; align-items: center; gap: 14px; background: ${SURFACE}; border: 1px solid ${BORDER}; border-radius: 12px; padding: 16px 18px; transition: border-color .2s; }
+        .wc2ct-card:hover { border-color: ${BLUE}; }
+        .wc2ct-ico { flex-shrink: 0; width: 42px; height: 42px; border-radius: 11px; background: ${BLUE}; color: #fff; display: grid; place-items: center; }
+        .wc2ct-label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: ${MUTED}; margin-bottom: 2px; }
+        .wc2ct-value { display: block; font-size: 15.5px; font-weight: 700; color: ${DARK}; text-decoration: none; }
+        a.wc2ct-value:hover { color: ${BLUE}; }
+        .wc2ct-form-wrap { background: ${SURFACE}; border: 1px solid ${BORDER}; border-radius: 16px; padding: clamp(22px,3vw,34px); }
+        .wc2ct-form-title { font-size: clamp(20px,2.2vw,26px); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; color: ${DARK}; }
+        .wc2ct-form-text { font-size: 14px; color: ${MUTED}; margin: 0 0 20px; }
+        .wc2ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        @media (max-width: 560px) { .wc2ct-row { grid-template-columns: 1fr; } }
+        .wc2ct-input, .wc2ct-area { width: 100%; border: 1px solid ${BORDER}; border-radius: 9px; background: #fff; font-family: inherit; font-size: 14.5px; color: ${DARK}; padding: 12px 14px; outline: none; transition: border-color .2s, box-shadow .2s; }
+        .wc2ct-input:focus, .wc2ct-area:focus { border-color: ${BLUE}; box-shadow: 0 0 0 3px rgba(18,102,204,0.12); }
+        .wc2ct-area { min-height: 130px; resize: vertical; margin-bottom: 14px; }
+        .wc2ct-submit { border: 0; cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 700; color: #fff; background: ${BLUE}; border-radius: 9px; padding: 13px 30px; transition: background .2s, transform .15s; }
+        .wc2ct-submit:hover { background: #0e51a3; transform: translateY(-1px); }
+        .wc2ct-done { display: flex; align-items: center; gap: 12px; background: #e8f7ef; border: 1px solid #b5e5c9; border-radius: 12px; padding: 18px 20px; font-size: 15px; font-weight: 600; color: #14683a; }
+        .wc2ct-done-ico { flex-shrink: 0; width: 34px; height: 34px; border-radius: 999px; background: #2ec573; display: grid; place-items: center; }
+      `}</style>
+      <div className="wc2ct-inner">
+        <div className="wc2ct-cards">
+          {infoCard(
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+            "Zákaznická linka", "phoneLabel", phone, "phone", `tel:${phone.replace(/\s/g, "")}`
+          )}
+          {infoCard(
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>,
+            "E-mail", "emailLabel", email, "email", `mailto:${email}`
+          )}
+          {infoCard(
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+            "Sídlo a sklad", "addressLabel", address, "address"
+          )}
+          {infoCard(
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
+            "Jsme vám k dispozici", "hoursLabel", hours, "hours"
+          )}
+        </div>
+        <div className="wc2ct-form-wrap">
+          <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="h2" className="wc2ct-form-title" />
+          <GenericEditableText sectionId={sectionId} field="formText" value={formText} tag="p" className="wc2ct-form-text" />
+          {sent ? (
+            <div className="wc2ct-done" role="status">
+              <span className="wc2ct-done-ico" aria-hidden>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+              </span>
+              Děkujeme za zprávu! Ozveme se co nejdřív.
+            </div>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+              <div className="wc2ct-row">
+                <input className="wc2ct-input" type="text" required placeholder="Vaše jméno" aria-label="Jméno" />
+                <input className="wc2ct-input" type="email" required placeholder="Váš e-mail" aria-label="E-mail" />
+              </div>
+              <textarea className="wc2ct-area" required placeholder="S čím vám můžeme pomoci?" aria-label="Zpráva" />
+              <button type="submit" className="wc2ct-submit">Odeslat zprávu</button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-03-contact ────────────────────────────────────────────────────────────
+// Shoptet Disco kontakt: flat info karty (radius 0, žlutý ikonový čtverec)
+// vlevo + hranatý formulář s žlutým uppercase submitem vpravo. Nunito.
+// ──────────────────────────────────────────────────────────────────────────────
+function ContactEshop03({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const YELLOW = "#FFC500";
+  const BLACK = "#000000";
+  const MUTED = "#767676";
+  const BORDER = "#e6e6e6";
+  const SANS = "'Nunito', 'Segoe UI', Arial, sans-serif";
+
+  const phone = String(content.phone ?? "+420 725 456 789");
+  const email = String(content.email ?? "ahoj@kanarek.cz");
+  const address = String(content.address ?? "Slunečná 8, 170 00 Praha 7");
+  const hours = String(content.hours ?? "Po–Pá 8:00–18:00");
+  const formTitle = content.formTitle === undefined ? "Napište nám" : String(content.formTitle);
+  const formText = content.formText === undefined ? "Odpovídáme do 24 hodin, obvykle mnohem dřív." : String(content.formText);
+
+  const [sent, setSent] = useState(false);
+
+  const infoCard = (icon: React.ReactNode, label: string, labelField: string, value: string, valueField: string, href?: string) => (
+    <div className="wc3ct-card">
+      <span className="wc3ct-ico" aria-hidden>{icon}</span>
+      <div>
+        <GenericEditableText sectionId={sectionId} field={labelField} value={label} tag="span" className="wc3ct-label" />
+        {href ? (
+          <a href={href} className="wc3ct-value"><GenericEditableText sectionId={sectionId} field={valueField} value={value} tag="span" /></a>
+        ) : (
+          <GenericEditableText sectionId={sectionId} field={valueField} value={value} tag="span" className="wc3ct-value" />
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="wc3ct" data-variant="eshop-03-contact" id="kontakt">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+      <style>{`
+        .wc3ct { background: #fff; color: ${BLACK}; font-family: ${SANS}; }
+        .wc3ct-inner { max-width: 1280px; margin: 0 auto; padding: clamp(40px,5vw,72px) 20px; display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(28px,4.5vw,64px); align-items: start; }
+        @media (max-width: 900px) { .wc3ct-inner { grid-template-columns: 1fr; } }
+        .wc3ct-cards { display: flex; flex-direction: column; gap: 12px; }
+        .wc3ct-card { display: flex; align-items: center; gap: 14px; border: 1px solid ${BORDER}; padding: 16px 18px; transition: box-shadow .2s; }
+        .wc3ct-card:hover { box-shadow: 0 0 10px rgba(0,0,0,0.12); }
+        .wc3ct-ico { flex-shrink: 0; width: 46px; height: 46px; background: ${YELLOW}; color: ${BLACK}; display: grid; place-items: center; }
+        .wc3ct-label { display: block; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: ${MUTED}; margin-bottom: 2px; }
+        .wc3ct-value { display: block; font-size: 16px; font-weight: 800; color: ${BLACK}; text-decoration: none; }
+        a.wc3ct-value:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+        .wc3ct-form-wrap { background: #f6f6f6; padding: clamp(22px,3vw,34px); }
+        .wc3ct-form-title { font-size: clamp(22px,2.4vw,28px); font-weight: 900; letter-spacing: -0.01em; margin: 0 0 6px; color: ${BLACK}; }
+        .wc3ct-form-text { font-size: 14.5px; color: ${MUTED}; margin: 0 0 20px; font-weight: 600; }
+        .wc3ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        @media (max-width: 560px) { .wc3ct-row { grid-template-columns: 1fr; } }
+        .wc3ct-input, .wc3ct-area { width: 100%; border: 1px solid ${BORDER}; border-radius: 0; background: #fff; font-family: inherit; font-size: 15px; color: ${BLACK}; padding: 13px 14px; outline: none; transition: box-shadow .2s; }
+        .wc3ct-input:focus, .wc3ct-area:focus { box-shadow: 0 0 10px rgba(0,0,0,0.16); }
+        .wc3ct-area { min-height: 130px; resize: vertical; margin-bottom: 14px; }
+        .wc3ct-submit { border: 0; border-radius: 0; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: ${BLACK}; background: ${YELLOW}; padding: 15px 32px; transition: background .2s; }
+        .wc3ct-submit:hover { background: #e6b200; }
+        .wc3ct-done { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #3a800e; padding: 18px 20px; font-size: 15px; font-weight: 700; color: #3a800e; }
+      `}</style>
+      <div className="wc3ct-inner">
+        <div className="wc3ct-cards">
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+            "Zákaznická linka", "phoneLabel", phone, "phone", `tel:${phone.replace(/\s/g, "")}`
+          )}
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="0"/><path d="m22 7-10 6L2 7"/></svg>,
+            "E-mail", "emailLabel", email, "email", `mailto:${email}`
+          )}
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+            "Sídlo a sklad", "addressLabel", address, "address"
+          )}
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
+            "Jsme vám k dispozici", "hoursLabel", hours, "hours"
+          )}
+        </div>
+        <div className="wc3ct-form-wrap">
+          <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="h2" className="wc3ct-form-title" />
+          <GenericEditableText sectionId={sectionId} field="formText" value={formText} tag="p" className="wc3ct-form-text" />
+          {sent ? (
+            <div className="wc3ct-done" role="status">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+              Děkujeme za zprávu! Ozveme se co nejdřív.
+            </div>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+              <div className="wc3ct-row">
+                <input className="wc3ct-input" type="text" required placeholder="Vaše jméno" aria-label="Jméno" />
+                <input className="wc3ct-input" type="email" required placeholder="Váš e-mail" aria-label="E-mail" />
+              </div>
+              <textarea className="wc3ct-area" required placeholder="S čím vám můžeme pomoci?" aria-label="Zpráva" />
+              <button type="submit" className="wc3ct-submit">Odeslat zprávu</button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-04-contact ────────────────────────────────────────────────────────────
+// Samba kontakt: info karty (radius 12, periwinkle kruhová ikona) vlevo +
+// formulář na světlé kartě s periwinkle CTA vpravo. Raleway.
+// ──────────────────────────────────────────────────────────────────────────────
+function ContactEshop04({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+}) {
+  const PERI = "#6883ba";
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+
+  const phone = String(content.phone ?? "+420 731 222 333");
+  const email = String(content.email ?? "dobryden@pastelka.cz");
+  const address = String(content.address ?? "Květinová 21, 602 00 Brno");
+  const hours = String(content.hours ?? "Po–Pá 9:00–17:00");
+  const formTitle = content.formTitle === undefined ? "Napište nám" : String(content.formTitle);
+  const formText = content.formText === undefined ? "Odpovídáme do 24 hodin, obvykle mnohem dřív." : String(content.formText);
+
+  const [sent, setSent] = useState(false);
+
+  const infoCard = (icon: React.ReactNode, label: string, labelField: string, value: string, valueField: string, href?: string) => (
+    <div className="wc4ct-card">
+      <span className="wc4ct-ico" aria-hidden>{icon}</span>
+      <div>
+        <GenericEditableText sectionId={sectionId} field={labelField} value={label} tag="span" className="wc4ct-label" />
+        {href ? (
+          <a href={href} className="wc4ct-value"><GenericEditableText sectionId={sectionId} field={valueField} value={value} tag="span" /></a>
+        ) : (
+          <GenericEditableText sectionId={sectionId} field={valueField} value={value} tag="span" className="wc4ct-value" />
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="wc4ct" data-variant="eshop-04-contact" id="kontakt">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" />
+      <style>{`
+        .wc4ct { background: #fff; color: #161616; font-family: ${SANS}; }
+        .wc4ct-inner { max-width: 1280px; margin: 0 auto; padding: clamp(36px,4.5vw,64px) 20px; display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(28px,4.5vw,64px); align-items: start; }
+        @media (max-width: 900px) { .wc4ct-inner { grid-template-columns: 1fr; } }
+        .wc4ct-cards { display: flex; flex-direction: column; gap: 12px; }
+        .wc4ct-card { display: flex; align-items: center; gap: 14px; border: 1px solid #e8e8e8; border-radius: 12px; padding: 16px 18px; transition: box-shadow .25s; background: #fff; }
+        .wc4ct-card:hover { box-shadow: 0 10px 30px rgba(22,22,22,0.08); }
+        .wc4ct-ico { flex-shrink: 0; width: 46px; height: 46px; border-radius: 999px; background: ${PERI}; color: #fff; display: grid; place-items: center; }
+        .wc4ct-label { display: block; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6f6f6f; margin-bottom: 2px; }
+        .wc4ct-value { display: block; font-size: 15.5px; font-weight: 700; color: #161616; text-decoration: none; }
+        a.wc4ct-value:hover { color: ${PERI}; }
+        .wc4ct-form-wrap { background: #f9f9f9; border-radius: 12px; padding: clamp(22px,3vw,34px); }
+        .wc4ct-form-title { font-size: clamp(22px,2.4vw,28px); font-weight: 800; margin: 0 0 6px; color: #161616; }
+        .wc4ct-form-text { font-size: 14px; color: #6f6f6f; margin: 0 0 20px; }
+        .wc4ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        @media (max-width: 560px) { .wc4ct-row { grid-template-columns: 1fr; } }
+        .wc4ct-input, .wc4ct-area { width: 100%; border: 1px solid #e8e8e8; border-radius: 8px; background: #fff; font-family: inherit; font-size: 14.5px; color: #161616; padding: 13px 14px; outline: none; transition: border-color .2s, box-shadow .2s; }
+        .wc4ct-input:focus, .wc4ct-area:focus { border-color: ${PERI}; box-shadow: 0 0 0 3px rgba(104,131,186,0.14); }
+        .wc4ct-area { min-height: 130px; resize: vertical; margin-bottom: 14px; }
+        .wc4ct-submit { border: 0; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 14.5px; font-weight: 600; color: #fff; background: ${PERI}; padding: 15px 32px; transition: background .25s; }
+        .wc4ct-submit:hover { background: #566fa3; }
+        .wc4ct-done { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid ${PERI}; border-radius: 8px; padding: 18px 20px; font-size: 15px; font-weight: 600; color: ${PERI}; }
+      `}</style>
+      <div className="wc4ct-inner">
+        <div className="wc4ct-cards">
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+            "Zákaznická linka", "phoneLabel", phone, "phone", `tel:${phone.replace(/\s/g, "")}`
+          )}
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></svg>,
+            "E-mail", "emailLabel", email, "email", `mailto:${email}`
+          )}
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>,
+            "Studio & sklad", "addressLabel", address, "address"
+          )}
+          {infoCard(
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>,
+            "Jsme tu pro vás", "hoursLabel", hours, "hours"
+          )}
+        </div>
+        <div className="wc4ct-form-wrap">
+          <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="h2" className="wc4ct-form-title" />
+          <GenericEditableText sectionId={sectionId} field="formText" value={formText} tag="p" className="wc4ct-form-text" />
+          {sent ? (
+            <div className="wc4ct-done" role="status">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+              Děkujeme za zprávu! Ozveme se co nejdřív.
+            </div>
+          ) : (
+            <form onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+              <div className="wc4ct-row">
+                <input className="wc4ct-input" type="text" required placeholder="Vaše jméno" aria-label="Jméno" />
+                <input className="wc4ct-input" type="email" required placeholder="Váš e-mail" aria-label="E-mail" />
+              </div>
+              <textarea className="wc4ct-area" required placeholder="S čím vám můžeme pomoci?" aria-label="Zpráva" />
+              <button type="submit" className="wc4ct-submit">Odeslat zprávu</button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+ * eshop-05 "Hračkolandia" — Pre-footer contact strip
+ * Pompo DNA: red strip, big watermark left, two centered rows
+ * ═══════════════════════════════════════════════════════════ */
+
+function ContactEshop05Prefooter({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as { helpLabel?: string; phone?: string; phoneNote?: string; email?: string; storesCount?: string; storesLabel?: string; storesHref?: string; shippingLabel?: string; siteMode?: string };
+  const RED = "#ff3b5c";
+  const YELLOW = "#ffc233";
+  const SANS = "'Nunito Sans','Segoe UI',Arial,sans-serif";
+  const resolve = (href: string) => resolveNavHref(href, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin);
+
+  return (
+    <section data-variant="eshop-05-prefooter" style={{ fontFamily: SANS, background: `linear-gradient(100deg, #ff5570 0%, ${RED} 45%)`, position: "relative", overflow: "hidden", padding: "44px 0" }}>
+      <style>{`
+        .es05-pf-row { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; position: relative; z-index: 1; }
+        .es05-pf-cell { display: flex; align-items: center; gap: 12px; padding: 0 28px; color: #fff; text-decoration: none; }
+        .es05-pf-cell + .es05-pf-cell { border-left: 1px solid rgba(255,255,255,0.3); }
+        a.es05-pf-cell:hover .es05-pf-strong { text-decoration: underline; text-underline-offset: 3px; }
+        .es05-pf-strong { font-size: 17px; font-weight: 900; }
+        .es05-pf-note { font-size: 13px; font-weight: 600; opacity: 0.85; }
+        @media (max-width: 760px) { .es05-pf-cell { border-left: none !important; padding: 8px 14px; } }
+      `}</style>
+      {/* Watermark star mark left */}
+      <svg aria-hidden width="360" height="360" viewBox="0 0 24 24" fill="none" style={{ position: "absolute", left: -70, top: "50%", transform: "translateY(-50%) rotate(-10deg)", opacity: 0.14 }}>
+        <path d="M12 2.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 8.2l5.4-.8L12 2.5z" fill="#fff"/>
+      </svg>
+
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px" }}>
+        {/* Row 1: Poradíme vám | phone | email */}
+        <div className="es05-pf-row" style={{ marginBottom: 26 }}>
+          {c.helpLabel && (
+            <span className="es05-pf-cell">
+              <span className="es05-pf-strong">{c.helpLabel}</span>
+            </span>
+          )}
+          {c.phone && (
+            <a href={`tel:${c.phone.replace(/\s/g, "")}`} className="es05-pf-cell">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.36 1.74.7 2.56a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.82.34 1.68.57 2.56.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
+                <span className="es05-pf-strong">{c.phone}</span>
+                {c.phoneNote && <span className="es05-pf-note">{c.phoneNote}</span>}
+              </span>
+            </a>
+          )}
+          {c.email && (
+            <a href={`mailto:${c.email}`} className="es05-pf-cell">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+              <span className="es05-pf-strong" style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>{c.email}</span>
+            </a>
+          )}
+        </div>
+
+        {/* Row 2: stores badge | shipping */}
+        <div className="es05-pf-row">
+          {c.storesLabel && (
+            <a href={resolve(c.storesHref ?? "/kontakt")} className="es05-pf-cell">
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 18px",
+                background: "#fff", borderRadius: 10, transform: "rotate(-2deg)",
+                boxShadow: "0 8px 20px rgba(14,27,44,0.18)",
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="2.4" strokeLinecap="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" fill={YELLOW} stroke="none"/><circle cx="12" cy="10" r="3" fill="#fff"/></svg>
+                <span style={{ fontSize: 20, fontWeight: 1000 as unknown as number, color: "#0e1b2c" }}>{c.storesCount ?? ""}</span>
+              </span>
+              <span className="es05-pf-strong" style={{ textDecoration: "underline", textUnderlineOffset: 3 }}>{c.storesLabel}</span>
+            </a>
+          )}
+          {c.shippingLabel && (
+            <span className="es05-pf-cell">
+              <span className="es05-pf-strong">{c.shippingLabel}</span>
+            </span>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-contact ────────────────────────────────────────────────────────────
+// Kontakt (Ořeškárna): vlevo kontaktní údaje (telefon/e-mail/hodiny) + karty
+// prodejen, vpravo formulář (POST /api/demo/{slug}/contact, honeypot, zelené CTA).
+// Mobil: sloupce pod sebou.
+function ContactEshop06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const c = content as Record<string, unknown>;
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const title = String(c.title ?? "Napište nám");
+  const lead = String(c.lead ?? "");
+  const phoneVal = String(c.phone ?? "");
+  const emailVal = String(c.email ?? "");
+  const hoursVal = String(c.hours ?? "");
+  const storesLabel = String(c.storesLabel ?? "Naše prodejny");
+  const stores = (c.stores as Array<{ city: string; address: string; hours?: string }>) ?? [];
+  const submitText = String(c.submitText ?? "Odeslat zprávu");
+  const successText = String(c.successText ?? "Děkujeme za zprávu! Ozveme se do jednoho pracovního dne.");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin || honeypot || !tenantSlug) return;
+    setStatus("sending"); setErrorMsg("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, phone, message, website: honeypot }),
+      });
+      const json = await res.json() as { error?: string };
+      if (!res.ok) { setErrorMsg(json.error ?? "Nepodařilo se odeslat zprávu."); setStatus("error"); }
+      else { setStatus("success"); setName(""); setEmail(""); setPhone(""); setMessage(""); }
+    } catch { setErrorMsg("Nepodařilo se odeslat zprávu. Zkuste to znovu."); setStatus("error"); }
+  }
+
+  const CHARCOAL = "#1d1d1b";
+  const MUTED = "#7a776f";
+  const BORDER = "#eceae6";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+
+  return (
+    <section data-variant="eshop-06-contact" style={{ fontFamily: SANS, background: "#fff", padding: "26px 0 46px" }}>
+      <style>{`
+        .es06c-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 70px); align-items: start; }
+        .es06c-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; font-size: 15px; font-weight: 600; color: ${CHARCOAL}; }
+        .es06c-row a { color: ${CHARCOAL}; text-decoration: none; }
+        .es06c-row a:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .es06c-ic { width: 40px; height: 40px; border-radius: 50%; background: #f5f5f2; display: inline-flex; align-items: center; justify-content: center; color: ${CHARCOAL}; flex-shrink: 0; }
+        .es06c-store { border: 1.5px solid ${BORDER}; border-radius: 14px; padding: 16px 18px; transition: border-color 0.15s, transform 0.15s; }
+        .es06c-store:hover { border-color: ${CHARCOAL}; transform: translateY(-2px); }
+        .es06c-label { display: block; font-family: ${HEAD}; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; color: ${CHARCOAL}; margin-bottom: 7px; }
+        .es06c-input { width: 100%; height: 50px; border: 1.5px solid ${BORDER}; border-radius: 10px; background: #fff; padding: 0 16px; font-family: ${SANS}; font-size: 15px; font-weight: 500; color: ${CHARCOAL}; outline: none; transition: border-color 0.15s; }
+        .es06c-input:focus { border-color: ${CHARCOAL}; }
+        .es06c-textarea { width: 100%; min-height: 130px; border: 1.5px solid ${BORDER}; border-radius: 10px; background: #fff; padding: 13px 16px; font-family: ${SANS}; font-size: 15px; font-weight: 500; color: ${CHARCOAL}; outline: none; resize: vertical; transition: border-color 0.15s; }
+        .es06c-textarea:focus { border-color: ${CHARCOAL}; }
+        .es06c-btn { height: 52px; width: 100%; border: none; border-radius: 10px; background: linear-gradient(to bottom, #26b854, #1d9a44); color: #fff; font-family: ${HEAD}; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; cursor: pointer; box-shadow: 0 2px 10px rgba(29,154,68,0.35); transition: filter 0.15s; }
+        .es06c-btn:hover { filter: brightness(1.06); }
+        .es06c-btn:disabled { opacity: 0.6; cursor: default; }
+        @media (max-width: 860px) { .es06c-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es06c-grid">
+          <div>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" style={{ fontFamily: HEAD, fontSize: "clamp(22px, 2.4vw, 30px)", fontWeight: 800, color: CHARCOAL, letterSpacing: "-0.02em", margin: "0 0 12px" }} />
+            {lead && <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="p" style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.7, color: "#4c4a44", margin: "0 0 18px", maxWidth: 480 }} />}
+            {phoneVal && (
+              <div className="es06c-row">
+                <span className="es06c-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+                <a href={`tel:${phoneVal.replace(/\s/g, "")}`}>{phoneVal}</a>
+              </div>
+            )}
+            {emailVal && (
+              <div className="es06c-row">
+                <span className="es06c-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+                <a href={`mailto:${emailVal}`}>{emailVal}</a>
+              </div>
+            )}
+            {hoursVal && (
+              <div className="es06c-row">
+                <span className="es06c-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                <span>{hoursVal}</span>
+              </div>
+            )}
+            {stores.length > 0 && (
+              <>
+                <h3 style={{ fontFamily: HEAD, fontSize: 15, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: CHARCOAL, margin: "26px 0 12px" }}>{storesLabel}</h3>
+                <div style={{ display: "grid", gap: 12 }}>
+                  {stores.map((s, i) => (
+                    <div key={i} className="es06c-store">
+                      <div style={{ fontFamily: HEAD, fontSize: 15, fontWeight: 800, color: CHARCOAL }}>{s.city}</div>
+                      <div style={{ fontSize: 14, fontWeight: 500, color: MUTED, marginTop: 3 }}>{s.address}</div>
+                      {s.hours && <div style={{ fontSize: 13, fontWeight: 600, color: "#188a49", marginTop: 5 }}>{s.hours}</div>}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div style={{ background: "#f5f4f0", borderRadius: 16, padding: "clamp(22px, 3vw, 34px)" }}>
+            {status === "success" ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, color: "#188a49", fontSize: 15.5, fontWeight: 700, padding: "20px 0" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#21a95c"><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                {successText}
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <div>
+                    <label className="es06c-label">Jméno a příjmení</label>
+                    <input className="es06c-input" value={name} onChange={(e) => setName(e.target.value)} required />
+                  </div>
+                  <div>
+                    <label className="es06c-label">Telefon</label>
+                    <input className="es06c-input" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                  </div>
+                </div>
+                <div style={{ marginTop: 14 }}>
+                  <label className="es06c-label">E-mail</label>
+                  <input className="es06c-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div style={{ marginTop: 14 }}>
+                  <label className="es06c-label">Zpráva</label>
+                  <textarea className="es06c-textarea" value={message} onChange={(e) => setMessage(e.target.value)} required />
+                </div>
+                <input type="text" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: -9999, width: 1, height: 1, opacity: 0 }} />
+                {status === "error" && <p style={{ color: "#d0453e", fontSize: 13.5, fontWeight: 600, margin: "12px 0 0" }}>{errorMsg}</p>}
+                <button type="submit" className="es06c-btn" disabled={status === "sending"} style={{ marginTop: 18 }}>
+                  {status === "sending" ? "Odesílám…" : submitText}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── contact-bakery-01 (Kvásek & Káva — warm editorial contact) ────────────────
+function ContactBakery01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const DARK = "#393939", MUTED = "#7a7168", ACCENT = "#8b6030";
+  const SERIF = "'Josefin Sans', 'Helvetica Neue', sans-serif";
+  const SANS = "'Metropolis', 'Inter', sans-serif";
+  const c = content as Record<string, unknown>;
+
+  const eyebrowRaw = c.eyebrow, titleRaw = c.title, subtitleRaw = c.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Ozvěte se nám" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Přijďte na kávu" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Máte dotaz, přání k dortu nebo chcete rezervovat stůl? Napište nám — ozveme se ještě týž den." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const address = String(c.address ?? "Kavčí Hory 8, Praha 4");
+  const phone   = String(c.phone   ?? "+420 777 123 456");
+  const email   = String(c.email   ?? "ahoj@kvasekakava.cz");
+  const hoursTitle = String(c.hoursTitle ?? "Otevírací doba");
+  const hours: string[] = Array.isArray(c.hours) ? (c.hours as string[]) : ["Po–Pá · 7:00–19:00", "So–Ne · 8:00–17:00"];
+  const mapEmbed = String(c.mapEmbed ?? "https://www.openstreetmap.org/export/embed.html?bbox=14.40%2C50.04%2C14.44%2C50.06&layer=mapnik");
+  const formTitle = String(c.formTitle ?? "Napište nám");
+  const submitLabel = String(c.submitLabel ?? "Odeslat zprávu");
+
+  const [name, setName] = useState(""); const [em, setEm] = useState("");
+  const [ph, setPh] = useState(""); const [msg, setMsg] = useState("");
+  const [hp, setHp] = useState(""); const [status, setStatus] = useState<Status>("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin || hp || !tenantSlug) return;
+    setStatus("sending");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email: em, phone: ph, message: msg, website: hp }),
+      });
+      if (!res.ok) { setStatus("error"); return; }
+      setStatus("success"); setName(""); setEm(""); setPh(""); setMsg("");
+    } catch { setStatus("error"); }
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: "100%", padding: "13px 16px", fontFamily: SANS, fontSize: 15, color: DARK,
+    background: "#ffffff", border: "1px solid #e6dccc", borderRadius: 2, outline: "none",
+  };
+  const labelStyle: React.CSSProperties = { fontFamily: SERIF, fontSize: 11, fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: DARK, marginBottom: 8, display: "block" };
+
+  return (
+    <section data-template="bakery-01" style={{ backgroundColor: "#ffffff", fontFamily: SANS, padding: "clamp(56px, 8vw, 100px) 0" }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 clamp(24px, 5vw, 60px)" }}>
+        {showHeader && (
+          <div style={{ textAlign: "center", maxWidth: 640, margin: "0 auto clamp(44px, 6vw, 64px)" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+              <span style={{ display: "block", width: 30, height: 1, background: "#dcae7a" }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: SERIF, fontSize: "0.78rem", fontWeight: 400, letterSpacing: "0.24em", textTransform: "uppercase", color: ACCENT }} />
+              <span style={{ display: "block", width: 30, height: 1, background: "#dcae7a" }} />
+            </div>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.7rem, 3.4vw, 2.6rem)", letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, margin: "0 0 16px" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p style={{ fontSize: "clamp(0.95rem,1.3vw,1.05rem)", lineHeight: 1.8, color: MUTED, margin: 0 }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
+
+        <div className="b01-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.1fr", gap: "clamp(32px, 5vw, 64px)", alignItems: "start" }}>
+          {/* Info + map */}
+          <div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 32 }}>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="addressLabel" value={String(c.addressLabel ?? "Adresa")} tag="span" style={labelStyle} />
+                <p style={{ margin: 0, fontSize: 15, color: MUTED }}><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="phoneLabel" value={String(c.phoneLabel ?? "Telefon")} tag="span" style={labelStyle} />
+                <a className="b01-foot-link" href={`tel:${phone.replace(/\s/g,"")}`} style={{ fontSize: 15, color: MUTED, textDecoration: "none" }}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>
+              </div>
+              <div>
+                <GenericEditableText sectionId={sectionId} field="emailLabel" value={String(c.emailLabel ?? "E-mail")} tag="span" style={labelStyle} />
+                <a className="b01-foot-link" href={`mailto:${email}`} style={{ fontSize: 15, color: MUTED, textDecoration: "none" }}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>
+              </div>
+              <div>
+                <span style={labelStyle}><GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" /></span>
+                {hours.map((h, i) => (
+                  <p key={i} style={{ margin: "0 0 4px", fontSize: 15, color: MUTED }}><GenericEditableText sectionId={sectionId} field={`hours.${i}`} value={h} tag="span" /></p>
+                ))}
+              </div>
+            </div>
+            <div style={{ border: "1px solid #e6dccc", overflow: "hidden" }}>
+              <iframe src={mapEmbed} title="Mapa" style={{ width: "100%", height: 240, border: 0, display: "block", filter: "grayscale(0.3)" }} loading="lazy" />
+            </div>
+          </div>
+
+          {/* Form */}
+          <div style={{ background: "#f7f2ec", padding: "clamp(28px, 4vw, 48px)", border: "1px solid #e6dccc" }}>
+            <h3 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.2rem,2vw,1.6rem)", letterSpacing: "0.08em", textTransform: "uppercase", color: DARK, margin: "0 0 24px" }}>
+              <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
+            </h3>
+            {status === "success" ? (
+              <p style={{ fontSize: 15, color: ACCENT, lineHeight: 1.7 }}>
+                <GenericEditableText sectionId={sectionId} field="successMsg" value={String(c.successMsg ?? "Děkujeme! Vaše zpráva dorazila, ozveme se co nejdřív.")} tag="span" />
+              </p>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                <input type="text" value={hp} onChange={e=>setHp(e.target.value)} tabIndex={-1} autoComplete="off" style={{ position:"absolute", left:"-9999px" }} aria-hidden />
+                <div><GenericEditableText sectionId={sectionId} field="nameLabel" value={String(c.nameLabel ?? "Jméno")} tag="label" style={labelStyle} /><input required value={name} onChange={e=>setName(e.target.value)} style={inputStyle} className="b01-input" /></div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <div><GenericEditableText sectionId={sectionId} field="emailFieldLabel" value={String(c.emailFieldLabel ?? "E-mail")} tag="label" style={labelStyle} /><input type="email" required value={em} onChange={e=>setEm(e.target.value)} style={inputStyle} className="b01-input" /></div>
+                  <div><GenericEditableText sectionId={sectionId} field="phoneFieldLabel" value={String(c.phoneFieldLabel ?? "Telefon")} tag="label" style={labelStyle} /><input value={ph} onChange={e=>setPh(e.target.value)} style={inputStyle} className="b01-input" /></div>
+                </div>
+                <div><GenericEditableText sectionId={sectionId} field="messageLabel" value={String(c.messageLabel ?? "Zpráva")} tag="label" style={labelStyle} /><textarea required value={msg} onChange={e=>setMsg(e.target.value)} rows={5} style={{ ...inputStyle, resize: "vertical" }} className="b01-input" /></div>
+                <button type="submit" disabled={status==="sending"} className="b01-btn-primary" style={{ fontFamily: SERIF, fontSize: 13, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: "#2a1f16", background: "#e7c9a0", border: "none", padding: "16px 34px", cursor: "pointer", alignSelf: "flex-start" }}>
+                  <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />
+                </button>
+                {status === "error" && <p style={{ fontSize: 14, color: "#b23", margin: 0 }}><GenericEditableText sectionId={sectionId} field="errorMsg" value={String(c.errorMsg ?? "Něco se pokazilo, zkuste to prosím znovu.")} tag="span" /></p>}
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+      <style>{`
+        @media (max-width: 800px) { [data-template="bakery-01"] .b01-contact-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
+    </section>
+  );
+}
+
+// ── artist-01-contact (Kontakt) ──────────────────────────────────────────────────
+// Dvousloupec: kontaktní blok (management/booking/PR + social) vlevo, formulář
+// vpravo (jméno, e-mail, předmět, zpráva, souhlas, odeslat). Award-level: input
+// underline focus, garnet accents, hover na kontaktních řádcích.
+// ─────────────────────────────────────────────────────────────────────────────
+function ContactArtist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const eyebrow = eyebrowRaw === undefined ? "Kontakt" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Napište mi" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
+  const intro = String(content.intro ?? "Pro nabídky koncertů, spolupráce a média se obracejte na můj tým. Fanouškovské vzkazy čtu ráda osobně.");
+
+  const contacts = (content.contacts as Array<{ label: string; value: string; href?: string }>) ?? [
+    { label: "Management & booking", value: "management@viktorielanska.cz", href: "mailto:management@viktorielanska.cz" },
+    { label: "Média & PR", value: "media@viktorielanska.cz", href: "mailto:media@viktorielanska.cz" },
+    { label: "Telefon (kancelář)", value: "+420 777 123 456", href: "tel:+420777123456" },
+    { label: "Sídlo", value: "Dlouhá 12, 110 00 Praha 1" },
+  ];
+
+  const nameLabel    = String(content.nameLabel ?? "Jméno a příjmení");
+  const emailLabel   = String(content.emailLabel ?? "E-mail");
+  const subjectLabel = String(content.subjectLabel ?? "Předmět");
+  const messageLabel = String(content.messageLabel ?? "Zpráva");
+  const consentLabel = String(content.consentLabel ?? "Souhlasím se zpracováním osobních údajů.");
+  const submitLabel  = String(content.submitLabel ?? "Odeslat zprávu");
+
+  const facebook  = String(content.facebook ?? "https://facebook.com/demo");
+  const instagram = String(content.instagram ?? "https://instagram.com/demo");
+  const youtube   = String(content.youtube ?? "https://youtube.com/@demo");
+  const spotify   = String(content.spotify ?? "https://open.spotify.com/artist/demo");
+  const socialTitle = String(content.socialTitle ?? "Sledujte mě");
+
+  const RED = "#9b1c31";
+  const socials = [
+    { href: facebook,  label: "Facebook",  path: "M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5H17V4.6c-.3 0-1.3-.1-2.45-.1-2.4 0-4.05 1.47-4.05 4.17v2.33H7.8V14h2.7v8h3z" },
+    { href: instagram, label: "Instagram", path: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zM17.5 6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" },
+    { href: youtube,   label: "YouTube",   path: "M21.6 7.2s-.2-1.36-.8-1.96c-.76-.8-1.6-.8-2-.85C16 4.1 12 4.1 12 4.1s-4 0-6.8.24c-.4.05-1.24.05-2 .85-.6.6-.8 1.96-.8 1.96S2 8.8 2 10.4v1.5c0 1.6.2 3.2.2 3.2s.2 1.36.8 1.96c.76.8 1.76.77 2.2.86 1.6.15 6.8.2 6.8.2s4 0 6.8-.25c.4-.05 1.24-.05 2-.85.6-.6.8-1.96.8-1.96s.2-1.6.2-3.2v-1.5c0-1.6-.2-3.2-.2-3.2zM9.9 14.6V8.9l5.2 2.86-5.2 2.84z" },
+    { href: spotify,   label: "Spotify",   path: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.42a.62.62 0 0 1-.86.2c-2.35-1.44-5.3-1.76-8.79-.96a.62.62 0 1 1-.28-1.22c3.8-.87 7.08-.5 9.72 1.12.3.18.39.57.21.86zm1.23-2.74a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.5c3.63-1.09 8.15-.55 11.24 1.34.37.23.49.71.25 1.07zm.11-2.85c-3.23-1.92-8.55-2.1-11.63-1.16a.94.94 0 1 1-.54-1.8c3.54-1.07 9.42-.86 13.13 1.34a.94.94 0 0 1-.96 1.62z" },
+  ];
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Roboto:wght@300;400;500;700&display=swap" />
+      <style>{`
+        .ar01-ct { background: #fff; padding: 96px 40px; }
+        .ar01-ct-wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 72px; }
+        .ar01-ct-eyebrow { display: block; font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: .34em; text-transform: uppercase; color: ${RED}; margin-bottom: 14px; }
+        .ar01-ct-title { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: clamp(34px,4.4vw,52px); font-weight: 600; color: #14100e; margin: 0 0 18px; line-height: 1.03; }
+        .ar01-ct-intro { font-family: 'Roboto', sans-serif; font-size: 16px; line-height: 28px; color: #4b423d; margin: 0 0 34px; }
+        .ar01-ct-list { list-style: none; margin: 0 0 32px; padding: 0; }
+        .ar01-ct-item { padding: 16px 0; border-top: 1px solid #ece3d6; }
+        .ar01-ct-item:last-child { border-bottom: 1px solid #ece3d6; }
+        .ar01-ct-label { font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #9a8f84; margin-bottom: 5px; }
+        .ar01-ct-value { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 500; color: #14100e; text-decoration: none; transition: color .3s linear; }
+        a.ar01-ct-value:hover { color: ${RED}; }
+        .ar01-ct-social-t { font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #9a8f84; margin-bottom: 12px; }
+        .ar01-ct-social { display: flex; gap: 14px; }
+        .ar01-ct-social a { width: 42px; height: 42px; border-radius: 50%; background: #14100e; color: #fff; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background-color .3s cubic-bezier(.32,.72,0,1), transform .35s cubic-bezier(.32,.72,0,1); }
+        .ar01-ct-social a:hover { background: ${RED}; transform: translateY(-4px); }
+        .ar01-ct-social svg { width: 18px; height: 18px; }
+        .ar01-ct-form { background: #faf7f2; padding: 44px; border: 1px solid #ece3d6; }
+        .ar01-ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+        .ar01-ct-field { position: relative; margin-bottom: 26px; }
+        .ar01-ct-field label { display: block; font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #6b6258; margin-bottom: 8px; }
+        .ar01-ct-field input, .ar01-ct-field textarea {
+          width: 100%; box-sizing: border-box; background: transparent; border: none; border-bottom: 1.5px solid #d9cfc2;
+          font-family: 'Roboto', sans-serif; font-size: 16px; color: #14100e; padding: 8px 0; outline: none;
+          transition: border-color .35s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-ct-field textarea { resize: vertical; min-height: 110px; }
+        .ar01-ct-field input:focus, .ar01-ct-field textarea:focus { border-bottom-color: ${RED}; }
+        .ar01-ct-consent { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 26px; }
+        .ar01-ct-consent input { margin-top: 3px; accent-color: ${RED}; }
+        .ar01-ct-consent span { font-family: 'Roboto', sans-serif; font-size: 13px; line-height: 20px; color: #6b6258; }
+        .ar01-ct-submit {
+          position: relative; overflow: hidden; width: 100%;
+          font-family: 'Roboto', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #fff; background: ${RED}; border: none; cursor: pointer; padding: 16px; border-radius: 50px;
+          transition: box-shadow .4s cubic-bezier(.32,.72,0,1);
+          box-shadow: 0 12px 26px -12px rgba(155,28,49,.7);
+        }
+        .ar01-ct-submit::before { content: ""; position: absolute; inset: 0; background: #14100e; transform: translateY(101%); transition: transform .45s cubic-bezier(.32,.72,0,1); }
+        .ar01-ct-submit span { position: relative; z-index: 1; }
+        .ar01-ct-submit:hover::before { transform: translateY(0); }
+        @media (max-width: 900px) { .ar01-ct-wrap { grid-template-columns: 1fr; gap: 48px; max-width: 560px; } }
+        @media (max-width: 560px) { .ar01-ct { padding: 64px 22px; } .ar01-ct-form { padding: 28px 22px; } .ar01-ct-row { grid-template-columns: 1fr; gap: 0; } }
+      `}</style>
+
+      <section className="ar01-ct" data-template="artist-01" id="kontakt">
+        <div className="ar01-ct-wrap">
+          <div className="ar01-ct-info">
+            {showHeader && (
+              <>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="ar01-ct-eyebrow" />
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ar01-ct-title" />
+              </>
+            )}
+            <GenericEditableText sectionId={sectionId} field="intro" value={intro} tag="p" className="ar01-ct-intro" />
+            <ul className="ar01-ct-list">
+              {contacts.map((ct, i) => (
+                <li className="ar01-ct-item" key={i}>
+                  <GenericEditableText sectionId={sectionId} field={`contacts.${i}.label`} value={String(ct.label)} tag="div" className="ar01-ct-label" />
+                  {ct.href ? (
+                    <a href={ct.href} className="ar01-ct-value"><GenericEditableText sectionId={sectionId} field={`contacts.${i}.value`} value={String(ct.value)} tag="span">{ct.value}</GenericEditableText></a>
+                  ) : (
+                    <GenericEditableText sectionId={sectionId} field={`contacts.${i}.value`} value={String(ct.value)} tag="div" className="ar01-ct-value" />
+                  )}
+                </li>
+              ))}
+            </ul>
+            <div className="ar01-ct-social-t"><GenericEditableText sectionId={sectionId} field="socialTitle" value={socialTitle} tag="span">{socialTitle}</GenericEditableText></div>
+            <div className="ar01-ct-social">
+              {socials.map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noopener" aria-label={s.label}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={s.path} /></svg></a>
+              ))}
+            </div>
+          </div>
+
+          <form className="ar01-ct-form" onSubmit={(e) => e.preventDefault()}>
+            <div className="ar01-ct-row">
+              <div className="ar01-ct-field">
+                <label><GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span">{nameLabel}</GenericEditableText></label>
+                <input type="text" name="name" autoComplete="name" />
+              </div>
+              <div className="ar01-ct-field">
+                <label><GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span">{emailLabel}</GenericEditableText></label>
+                <input type="email" name="email" autoComplete="email" />
+              </div>
+            </div>
+            <div className="ar01-ct-field">
+              <label><GenericEditableText sectionId={sectionId} field="subjectLabel" value={subjectLabel} tag="span">{subjectLabel}</GenericEditableText></label>
+              <input type="text" name="subject" />
+            </div>
+            <div className="ar01-ct-field">
+              <label><GenericEditableText sectionId={sectionId} field="messageLabel" value={messageLabel} tag="span">{messageLabel}</GenericEditableText></label>
+              <textarea name="message" />
+            </div>
+            <label className="ar01-ct-consent">
+              <input type="checkbox" />
+              <GenericEditableText sectionId={sectionId} field="consentLabel" value={consentLabel} tag="span">{consentLabel}</GenericEditableText>
+            </label>
+            <button type="submit" className="ar01-ct-submit">
+              <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span">{submitLabel}</GenericEditableText>
+            </button>
           </form>
         </div>
       </section>

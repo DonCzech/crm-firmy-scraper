@@ -1,0 +1,851 @@
+{
+  "siteName": "BOTIQ",
+  "seo": {
+    "title": "BOTIQ — tenisky & streetwear, který nesmíš minout",
+    "description": "Tenisky, boty a streetwear od Nike, adidas, New Balance, Salomon a dalších. Doprava zdarma nad 2 500 Kč, vrácení do 30 dní. Každý týden nové dropy."
+  },
+  "navbar": {
+    "siteName": "BOTIQ",
+    "logoUrl": "",
+    "searchPlaceholder": "Hledej značku nebo model…",
+    "genderTabs": [
+      {
+        "label": "Vše",
+        "slug": ""
+      },
+      {
+        "label": "Muži",
+        "slug": "muzi"
+      },
+      {
+        "label": "Ženy",
+        "slug": "zeny"
+      },
+      {
+        "label": "Děti",
+        "slug": "deti"
+      }
+    ],
+    "utility": {
+      "wishlistLabel": "Oblíbené",
+      "loginLabel": "Účet",
+      "cartLabel": "Košík"
+    },
+    "categories": [
+      {
+        "label": "Novinky",
+        "slug": "novinky"
+      },
+      {
+        "label": "Boty",
+        "slug": "boty",
+        "children": [
+          {
+            "label": "Tenisky",
+            "slug": "tenisky",
+            "image": "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Běžecká obuv",
+            "slug": "bezecka-obuv",
+            "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Boots & outdoor",
+            "slug": "boots",
+            "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Sandály a pantofle",
+            "slug": "sandaly-pantofle",
+            "image": "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Skate obuv",
+            "slug": "skate-obuv",
+            "image": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Retro klasiky",
+            "slug": "retro-klasiky",
+            "image": "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Oblečení",
+        "slug": "obleceni",
+        "children": [
+          {
+            "label": "Mikiny",
+            "slug": "mikiny",
+            "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Trička",
+            "slug": "tricka",
+            "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Bundy",
+            "slug": "bundy",
+            "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Streetwear výběr",
+            "slug": "obleceni",
+            "image": "https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Doplňky",
+        "slug": "doplnky",
+        "children": [
+          {
+            "label": "Batohy a tašky",
+            "slug": "batohy",
+            "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Kšiltovky",
+            "slug": "ksiltovky",
+            "image": "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Ponožky",
+            "slug": "ponozky",
+            "image": "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Skate",
+            "slug": "skate",
+            "image": "https://images.unsplash.com/photo-1517438476312-10d79c077509?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Péče o boty",
+            "slug": "pece-o-boty",
+            "image": "https://images.unsplash.com/photo-1465479423260-c4afc24172c6?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Značky",
+        "slug": "znacky",
+        "children": [
+          {
+            "label": "Nike",
+            "slug": "nike",
+            "image": "https://images.unsplash.com/photo-1620138546344-7b2c38516edf?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "adidas Originals",
+            "slug": "adidas",
+            "image": "https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "New Balance",
+            "slug": "new-balance",
+            "image": "https://images.unsplash.com/photo-1465453869711-7e174808ace9?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Jordan",
+            "slug": "jordan",
+            "image": "https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Converse",
+            "slug": "converse",
+            "image": "https://images.unsplash.com/photo-1556048219-bb6978360b84?w=420&h=320&fit=crop&auto=format&q=80"
+          },
+          {
+            "label": "Salomon",
+            "slug": "salomon",
+            "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=420&h=320&fit=crop&auto=format&q=80"
+          }
+        ]
+      },
+      {
+        "label": "Výprodej",
+        "slug": "vyprodej",
+        "tone": "sale"
+      }
+    ],
+    "announcements": [
+      "Slevy až 60 % na vybrané modely + extra 5 % s kódem KLUB5",
+      "Doprava zdarma nad 2 500 Kč · vrácení do 30 dní",
+      "Drop týdne: Air Jordan 1 Retro High OG Royal — už v prodeji"
+    ],
+    "drawer": {
+      "addedText": "PŘIDÁNO DO KOŠÍKU",
+      "totalLabel": "Celkem s DPH",
+      "ctaText": "PŘEJÍT DO KOŠÍKU",
+      "recosHeading": "MOHLO BY SE TI HODIT",
+      "recoCta": "PŘIDAT",
+      "emptyText": "Tvůj košík je zatím prázdný.",
+      "continueText": "Zpět do obchodu",
+      "freeShippingThreshold": 250000,
+      "freeShippingLabel": "Do dopravy zdarma zbývá",
+      "freeShippingDone": "Máš dopravu zdarma"
+    }
+  },
+  "hero": {
+    "slides": [
+      {
+        "kicker": "Letní výprodej",
+        "title": "Slevy až",
+        "titleAccent": "60 procent",
+        "text": "Vybrané modely Nike, adidas i New Balance. K tomu extra 5 % s kódem KLUB5 — jen dokud je skladem tvoje velikost.",
+        "ctaText": "Nakupuj výprodej",
+        "ctaHref": "/obchod?kategorie=vyprodej",
+        "cta2Text": "Novinky",
+        "cta2Href": "/obchod?kategorie=novinky",
+        "image": "https://images.unsplash.com/photo-1514989940723-e8e51635b782?w=1900&h=1000&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Drop týdne",
+        "title": "Air Jordan 1",
+        "titleAccent": "High OG Royal",
+        "text": "OG barevnost z roku 1985 je zpátky. Limitovaný počet kusů, žádný restock.",
+        "ctaText": "Koupit drop",
+        "ctaHref": "/obchod/air-jordan-1-high-royal",
+        "cta2Text": "Všechny Jordany",
+        "cta2Href": "/obchod?kategorie=jordan",
+        "image": "https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=1900&h=1000&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Nová kolekce",
+        "title": "Streetwear od",
+        "titleAccent": "hlavy k patě",
+        "text": "Mikiny, trička a bundy, které ladí s tvými teniskami. Kurátorovaný výběr BOTIQ.",
+        "ctaText": "Prozkoumat oblečení",
+        "ctaHref": "/obchod?kategorie=obleceni",
+        "cta2Text": "Doplňky",
+        "cta2Href": "/obchod?kategorie=doplnky",
+        "image": "https://images.unsplash.com/photo-1523398002811-999ca8dec234?w=1900&h=1000&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Skate kultura",
+        "title": "Postav si",
+        "titleAccent": "svůj setup",
+        "text": "Od desek po Old Skool klasiky. Všechno, co potřebuješ do ulic i do parku.",
+        "ctaText": "Skate výběr",
+        "ctaHref": "/obchod?kategorie=skate",
+        "cta2Text": "Skate obuv",
+        "cta2Href": "/obchod?kategorie=skate-obuv",
+        "image": "https://images.unsplash.com/photo-1517438476312-10d79c077509?w=1900&h=1000&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "trio": {
+    "heading": "Tohle nesmíš minout",
+    "items": [
+      {
+        "dark": true,
+        "kicker": "Sneaker finder",
+        "title": "Nevíš, kterou vzít?",
+        "text": "Odpověz na pár otázek a najdeme tenisky přesně pro tvůj styl, velikost i rozpočet.",
+        "linkText": "Spustit finder",
+        "href": "/obchod",
+        "image": "https://images.unsplash.com/photo-1512374382149-233c42b6a83b?w=900&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Kolekce",
+        "title": "Tech & trail do města",
+        "text": "Salomon, chunky siluety a outdoorové DNA. Přilnavost do terénu, styl do ulic.",
+        "linkText": "Prozkoumat",
+        "href": "/obchod?kategorie=salomon",
+        "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=900&h=640&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Releases",
+        "title": "Kalendář dropů",
+        "text": "Sleduj, co přistane tento měsíc — Air Jordan 1 Royal už je venku, další čekají.",
+        "linkText": "Zobrazit dropy",
+        "href": "/obchod?kategorie=novinky",
+        "image": "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=900&h=640&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "categories": {
+    "heading": "Streetwear móda",
+    "tiles": [
+      {
+        "label": "Muži",
+        "slug": "muzi",
+        "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=520&h=520&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Ženy",
+        "slug": "zeny",
+        "image": "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?w=520&h=520&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Děti",
+        "slug": "deti",
+        "image": "https://images.unsplash.com/photo-1556048219-bb6978360b84?w=520&h=520&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Boty",
+        "slug": "boty",
+        "image": "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=520&h=520&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Oblečení",
+        "slug": "obleceni",
+        "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=520&h=520&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Doplňky",
+        "slug": "doplnky",
+        "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=520&h=520&fit=crop&auto=format&q=80"
+      },
+      {
+        "label": "Výprodej",
+        "slug": "vyprodej",
+        "tone": "sale"
+      }
+    ],
+    "brands": [
+      {
+        "label": "Nike",
+        "slug": "nike"
+      },
+      {
+        "label": "adidas Originals",
+        "slug": "adidas"
+      },
+      {
+        "label": "New Balance",
+        "slug": "new-balance"
+      },
+      {
+        "label": "Jordan",
+        "slug": "jordan"
+      },
+      {
+        "label": "Converse",
+        "slug": "converse"
+      },
+      {
+        "label": "Salomon",
+        "slug": "salomon"
+      },
+      {
+        "label": "Vans",
+        "slug": "skate-obuv"
+      },
+      {
+        "label": "Birkenstock",
+        "slug": "sandaly-pantofle"
+      },
+      {
+        "label": "Dr. Martens",
+        "slug": "boots"
+      }
+    ]
+  },
+  "productsSale": {
+    "heading": "Slevy pro tebe",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=vyprodej",
+    "categorySlug": "vyprodej",
+    "saleOnly": true,
+    "limit": 12,
+    "extraBadge": "Extra −5 % s kódem KLUB5"
+  },
+  "collections": {
+    "items": [
+      {
+        "kicker": "Kolekce",
+        "title": "Air Jordan Retro Pack",
+        "linkText": "Prozkoumat",
+        "href": "/obchod?kategorie=jordan",
+        "image": "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=900&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Pro ženy",
+        "title": "Letní edit",
+        "linkText": "Prozkoumat",
+        "href": "/obchod?kategorie=zeny",
+        "image": "https://images.unsplash.com/photo-1519415943484-9fa1873496d4?w=900&h=900&fit=crop&auto=format&q=80"
+      },
+      {
+        "kicker": "Novinky",
+        "title": "Neon Tech Pack",
+        "linkText": "Prozkoumat",
+        "href": "/obchod?kategorie=novinky",
+        "image": "https://images.unsplash.com/photo-1520256862855-398228c41684?w=900&h=900&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "productsNew": {
+    "heading": "Streetwear novinky",
+    "moreLabel": "Zobrazit vše",
+    "moreHref": "/obchod?kategorie=novinky",
+    "categorySlug": "novinky",
+    "limit": 12
+  },
+  "outfits": {
+    "heading": "Inspiruj se outfity",
+    "subtext": "Označ @botiq a ukaž svůj fit — nejlepší outfity sdílíme tady.",
+    "hashtag": "#botiqfits",
+    "byLabel": "Outfit by BOTIQ Club",
+    "items": [
+      {
+        "handle": "nela.fits",
+        "image": "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=560&h=746&fit=crop&auto=format&q=80"
+      },
+      {
+        "handle": "kuba.wear",
+        "image": "https://images.unsplash.com/photo-1512353087810-25dfcd100962?w=560&h=746&fit=crop&auto=format&q=80"
+      },
+      {
+        "handle": "anna.street",
+        "image": "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=560&h=746&fit=crop&auto=format&q=80"
+      },
+      {
+        "handle": "marek.ootd",
+        "image": "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=560&h=746&fit=crop&auto=format&q=80"
+      },
+      {
+        "handle": "denim.tereza",
+        "image": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=560&h=746&fit=crop&auto=format&q=80"
+      },
+      {
+        "handle": "vlna.style",
+        "image": "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=560&h=746&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "club": {
+    "badge": "BOTIQ Club",
+    "heading": "Členství, které se vyplatí",
+    "text": "Přidej se ke komunitě, která žije teniskami. Registrace je zdarma a výhody sbíráš od prvního nákupu.",
+    "benefits": [
+      {
+        "title": "Voucher 200 Kč",
+        "text": "Za registraci, hned na první nákup."
+      },
+      {
+        "title": "Narozeninový dárek",
+        "text": "Každý rok něco navíc jen pro tebe."
+      },
+      {
+        "title": "2× šance v raffle",
+        "text": "Dvojnásobná šance na limitované dropy."
+      },
+      {
+        "title": "Hlídání velikosti",
+        "text": "Dáme vědět, když se tvoje velikost vrátí."
+      }
+    ],
+    "ctaText": "Získat výhody",
+    "ctaHref": "/obchod",
+    "note": "Registrace zdarma · zrušíš kdykoli",
+    "images": [
+      "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=620&h=620&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=620&h=620&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=620&h=620&fit=crop&auto=format&q=80",
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=620&h=620&fit=crop&auto=format&q=80"
+    ]
+  },
+  "releases": {
+    "heading": "Releases",
+    "moreLabel": "Všechny dropy",
+    "moreHref": "/obchod?kategorie=novinky",
+    "items": [
+      {
+        "date": "10 / 07 / 2026",
+        "title": "Air Jordan 1 Retro High OG Royal",
+        "price": "4 699 Kč",
+        "status": "released",
+        "image": "https://images.unsplash.com/photo-1603787081207-362bcef7c144?w=620&h=620&fit=crop&auto=format&q=80",
+        "href": "/obchod/air-jordan-1-high-royal"
+      },
+      {
+        "date": "15 / 07 / 2026",
+        "title": "New Balance 990v5 Pink W",
+        "price": "4 899 Kč",
+        "status": "today",
+        "image": "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=620&h=620&fit=crop&auto=format&q=80",
+        "href": "/obchod/new-balance-990v5-pink"
+      },
+      {
+        "date": "18 / 07 / 2026",
+        "title": "Salomon XT-Wings 2 Grey",
+        "price": "4 299 Kč",
+        "status": "raffle",
+        "image": "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?w=620&h=620&fit=crop&auto=format&q=80",
+        "href": "/obchod/salomon-xt-wings-2"
+      },
+      {
+        "date": "24 / 07 / 2026",
+        "title": "Nike SuperRep Go Volt",
+        "price": "2 899 Kč",
+        "status": "soon",
+        "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=620&h=620&fit=crop&auto=format&q=80",
+        "href": "/obchod/nike-superrep-go-volt"
+      },
+      {
+        "date": "31 / 07 / 2026",
+        "title": "BOTIQ × Autry Medalist Low",
+        "price": "4 499 Kč",
+        "status": "soon",
+        "image": "https://images.unsplash.com/photo-1603808033176-9d134e6f2c74?w=620&h=620&fit=crop&auto=format&q=80",
+        "href": "/obchod/autry-medalist-low"
+      }
+    ]
+  },
+  "articles": {
+    "heading": "BOTIQ Magazín",
+    "moreLabel": "Přejít na magazín",
+    "moreHref": "/magazin",
+    "readLabel": "Přečíst článek",
+    "items": [
+      {
+        "chip": "Péče",
+        "tone": "volt",
+        "title": "Jak pečovat o tenisky, aby vydržely roky",
+        "excerpt": "Impregnace, čištění semiše i praní tkaniček. Kompletní návod od lidí, co si boty fakt hýčkají.",
+        "date": "12. 7. 2026",
+        "readTime": "6 min čtení",
+        "image": "https://images.unsplash.com/photo-1560072810-1cffb09faf0f?w=1100&h=760&fit=crop&auto=format&q=80",
+        "href": "/magazin"
+      },
+      {
+        "chip": "Story",
+        "tone": "violet",
+        "title": "Air Jordan 1: od zákazu NBA k největší ikoně",
+        "date": "8. 7. 2026",
+        "readTime": "8 min čtení",
+        "image": "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=480&h=360&fit=crop&auto=format&q=80",
+        "href": "/magazin"
+      },
+      {
+        "chip": "Styl",
+        "tone": "volt",
+        "title": "5 letních outfitů s chunky teniskami",
+        "date": "3. 7. 2026",
+        "readTime": "4 min čtení",
+        "image": "https://images.unsplash.com/photo-1491897554428-130a60dd4757?w=480&h=360&fit=crop&auto=format&q=80",
+        "href": "/magazin"
+      },
+      {
+        "chip": "Guide",
+        "tone": "sale",
+        "title": "Raffle guide: jak se férově dostat k limitkám",
+        "date": "28. 6. 2026",
+        "readTime": "5 min čtení",
+        "image": "https://images.unsplash.com/photo-1526178613552-2b45c6c302f0?w=480&h=360&fit=crop&auto=format&q=80",
+        "href": "/magazin"
+      }
+    ]
+  },
+  "trust": {
+    "heading": "Milion lidí se nemůže mýlit",
+    "text": "Sleduj nás na sítích — dropy oznamujeme jako první, sdílíme outfity komunity a jednou za čas pustíme slevu, která se neopakuje.",
+    "stats": [
+      {
+        "value": "1 200 000+",
+        "label": "sledujících napříč sítěmi"
+      },
+      {
+        "value": "250 000+",
+        "label": "členů BOTIQ Clubu"
+      },
+      {
+        "value": "4,9 / 5",
+        "label": "průměrné hodnocení nákupů"
+      }
+    ],
+    "socials": [
+      {
+        "icon": "instagram",
+        "label": "Instagram",
+        "href": "https://instagram.com"
+      },
+      {
+        "icon": "tiktok",
+        "label": "TikTok",
+        "href": "https://tiktok.com"
+      },
+      {
+        "icon": "facebook",
+        "label": "Facebook",
+        "href": "https://facebook.com"
+      },
+      {
+        "icon": "youtube",
+        "label": "YouTube",
+        "href": "https://youtube.com"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "BOTIQ",
+    "tagline": "Tenisky a streetwear, který nesmíš minout. Kurátorovaný výběr, ověřené originály a dropy, o kterých víš první.",
+    "newsletter": {
+      "heading": "Slevy a dropy do e-mailu",
+      "placeholder": "Tvůj e-mail",
+      "buttonLabel": "Odebírat",
+      "consent": "Souhlasím se zpracováním e-mailu pro zasílání novinek a dropů BOTIQ.",
+      "doneText": "Díky! První drop info ti letí do schránky."
+    },
+    "columns": [
+      {
+        "heading": "Pomoc",
+        "links": [
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava"
+          },
+          {
+            "label": "Vrácení do 30 dní",
+            "href": "/doprava"
+          },
+          {
+            "label": "Reklamace",
+            "href": "/doprava"
+          },
+          {
+            "label": "Velikostní tabulky",
+            "href": "/doprava"
+          },
+          {
+            "label": "Časté dotazy",
+            "href": "/doprava"
+          }
+        ]
+      },
+      {
+        "heading": "BOTIQ",
+        "links": [
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          },
+          {
+            "label": "BOTIQ Club",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Magazín",
+            "href": "/magazin"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchodni-podminky"
+          }
+        ]
+      },
+      {
+        "heading": "Nakupovat",
+        "links": [
+          {
+            "label": "Novinky",
+            "href": "/obchod?kategorie=novinky"
+          },
+          {
+            "label": "Boty",
+            "href": "/obchod?kategorie=boty"
+          },
+          {
+            "label": "Oblečení",
+            "href": "/obchod?kategorie=obleceni"
+          },
+          {
+            "label": "Doplňky",
+            "href": "/obchod?kategorie=doplnky"
+          },
+          {
+            "label": "Výprodej",
+            "href": "/obchod?kategorie=vyprodej"
+          }
+        ]
+      }
+    ],
+    "contact": {
+      "heading": "Kontakt",
+      "phone": "+420 777 310 310",
+      "hours": "Po–Pá 8:00–18:00",
+      "email": "ahoj@botiq.cz"
+    },
+    "socials": [
+      {
+        "icon": "instagram",
+        "label": "Instagram",
+        "href": "https://instagram.com"
+      },
+      {
+        "icon": "tiktok",
+        "label": "TikTok",
+        "href": "https://tiktok.com"
+      },
+      {
+        "icon": "facebook",
+        "label": "Facebook",
+        "href": "https://facebook.com"
+      },
+      {
+        "icon": "youtube",
+        "label": "YouTube",
+        "href": "https://youtube.com"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Obchodní podmínky",
+        "href": "/obchodni-podminky"
+      },
+      {
+        "label": "Ochrana soukromí",
+        "href": "/obchodni-podminky"
+      }
+    ],
+    "payments": [
+      "Visa",
+      "Mastercard",
+      "Apple Pay",
+      "Google Pay",
+      "Klarna"
+    ],
+    "copyright": "© 2026 BOTIQ"
+  },
+  "pageAbout": {
+    "hero": {
+      "kicker": "O nás",
+      "title": "Jsme BOTIQ",
+      "text": "Obchod, který vznikl z posedlosti teniskami. Od roku 2019 kurátorujeme výběr, za který se nemusíme stydět — žádné fejky, žádná nuda."
+    },
+    "text": {
+      "blocks": [
+        {
+          "heading": "Proč to děláme",
+          "paragraphs": [
+            "Začali jsme jako parta sběratelů, kterou štvalo, že se u nás nedají sehnat pořádné modely bez předražených resellů. Tak jsme si otevřeli vlastní obchod — nejdřív sklad v garáži, dneska showroom a e-shop, který odbaví tisíce párů měsíčně.",
+            "Každý model, který u nás najdeš, prošel rukama někoho z týmu. Když to nenosíme sami, neprodáváme to."
+          ]
+        },
+        {
+          "heading": "Na co se můžeš spolehnout",
+          "bullets": [
+            "100% ověřené originály — spolupracujeme přímo s autorizovanými distributory",
+            "Dropy a limitky oznamujeme první — sleduj Releases a #botiqfits",
+            "Vrácení do 30 dní bez řečí, výměna velikosti zdarma",
+            "BOTIQ Club: 5 % z každého nákupu zpátky"
+          ]
+        }
+      ]
+    }
+  },
+  "pageContact": {
+    "hero": {
+      "kicker": "Kontakt",
+      "title": "Ozvi se nám",
+      "text": "Objednávky, velikosti, reklamace i spolupráce — jsme na příjmu každý všední den."
+    },
+    "contact": {
+      "infoHeading": "BOTIQ Store",
+      "phone": "+420 777 310 310",
+      "hours": "Po–Pá 8:00–18:00",
+      "email": "ahoj@botiq.cz",
+      "address": "Bubenská 1477/1\n170 00 Praha 7 — Holešovice\n\nShowroom: Po–So 10:00–19:00",
+      "formHeading": "Napiš nám"
+    }
+  },
+  "pageShipping": {
+    "hero": {
+      "kicker": "Pomoc",
+      "title": "Doprava, platba a vrácení",
+      "text": "Všechno, co potřebuješ vědět, než klikneš na Doprava a platba."
+    },
+    "text": {
+      "blocks": [
+        {
+          "heading": "Doprava",
+          "paragraphs": [
+            "Odesíláme do 24 hodin ve všední dny. Nad 2 500 Kč je doprava zdarma na všechny způsoby doručení."
+          ],
+          "bullets": [
+            "Zásilkovna — výdejní místo od 79 Kč, doručení obvykle druhý den",
+            "PPL / DPD na adresu — od 99 Kč, doručení do 2 pracovních dnů",
+            "Osobní odběr v showroomu Praha 7 — zdarma, připraveno do 2 hodin"
+          ]
+        },
+        {
+          "heading": "Platba",
+          "bullets": [
+            "Kartou online (Visa, Mastercard), Apple Pay a Google Pay",
+            "Klarna — nakup teď, zaplať do 30 dnů",
+            "Dobírka +39 Kč"
+          ]
+        },
+        {
+          "heading": "Vrácení a výměna",
+          "paragraphs": [
+            "Nesedla velikost? Do 30 dnů vracíme peníze bez udání důvodu, výměnu velikosti řešíme přednostně a poštovné za novou zásilku jde za námi. Boty jen nesmí být nošené venku — vyzkoušej je doma na koberci."
+          ]
+        },
+        {
+          "heading": "Reklamace",
+          "paragraphs": [
+            "Reklamaci vyřizujeme do 30 dnů, většinou ale rychleji. Napiš na ahoj@botiq.cz číslo objednávky a přilož pár fotek — o zbytek se postaráme."
+          ]
+        }
+      ]
+    }
+  },
+  "pageMagazin": {
+    "hero": {
+      "kicker": "Magazín",
+      "title": "BOTIQ Magazín",
+      "text": "Sneaker kultura, návody a příběhy modelů, které psaly historii. Bez PR balastu."
+    }
+  },
+  "pageTerms": {
+    "hero": {
+      "kicker": "Právní informace",
+      "title": "Obchodní podmínky",
+      "text": "Stručně, česky a bez kliček. Platné od 1. 7. 2026."
+    },
+    "text": {
+      "blocks": [
+        {
+          "heading": "1. Základní ustanovení",
+          "paragraphs": [
+            "Provozovatelem obchodu BOTIQ je BOTIQ s.r.o., IČO 12345678, se sídlem Bubenská 1477/1, Praha 7. Tyto podmínky upravují vztah mezi námi a tebou jako zákazníkem při nákupu v e-shopu botiq.cz."
+          ]
+        },
+        {
+          "heading": "2. Objednávka a kupní smlouva",
+          "paragraphs": [
+            "Odesláním objednávky vzniká kupní smlouva. Potvrzení ti přijde e-mailem spolu s rekapitulací. Ceny jsou konečné, včetně DPH. Limitované dropy mohou mít omezený počet kusů na zákazníka — vždy to uvedeme u produktu."
+          ]
+        },
+        {
+          "heading": "3. Odstoupení od smlouvy",
+          "paragraphs": [
+            "Do 30 dnů od převzetí můžeš odstoupit od smlouvy bez udání důvodu. Zboží vrať nenošené, v původní krabici. Peníze vracíme do 14 dnů stejnou cestou, jakou proběhla platba."
+          ]
+        },
+        {
+          "heading": "4. Ochrana osobních údajů",
+          "paragraphs": [
+            "S osobními údaji nakládáme podle GDPR. Údaje používáme výhradně pro vyřízení objednávky a — pokud sis to zaškrtl/a — pro zasílání novinek. Odhlásit se můžeš kdykoli jedním klikem."
+          ]
+        },
+        {
+          "heading": "5. Závěrečná ustanovení",
+          "paragraphs": [
+            "Případné spory řeší česká ČOI (adr.coi.cz) nebo soudy ČR. Tyto podmínky můžeme aktualizovat; pro objednávku platí verze účinná v den nákupu."
+          ]
+        }
+      ]
+    }
+  }
+}

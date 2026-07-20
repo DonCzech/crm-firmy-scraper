@@ -15,10 +15,12 @@ function ScrollHint({
   small = false,
   iframeRef,
   scrollAmount,
+  locale = "cs",
 }: {
   small?: boolean;
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
   scrollAmount: number;
+  locale?: "cs" | "en";
 }) {
   function handleClick() {
     const iframe = iframeRef.current;
@@ -58,7 +60,7 @@ function ScrollHint({
       <button
         type="button"
         onClick={handleClick}
-        aria-label="Posunout obsah uvnitř náhledu"
+        aria-label={locale === "en" ? "Scroll the preview content" : "Posunout obsah uvnitř náhledu"}
         className={`pointer-events-auto flex cursor-pointer items-center gap-1.5 rounded-full bg-[#0a0a0a]/85 text-white backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.35)] transition hover:bg-[#0a0a0a] active:scale-[0.96] ${
           small ? "px-2.5 py-1" : "px-3.5 py-1.5"
         }`}
@@ -66,7 +68,7 @@ function ScrollHint({
         <span
           className={`font-semibold tracking-[0.02em] ${small ? "text-[10px]" : "text-[11.5px]"}`}
         >
-          Scrollujte
+          {locale === "en" ? "Scroll" : "Scrollujte"}
         </span>
         <svg
           className="scroll-hint-arrow"
@@ -101,11 +103,13 @@ export function LiveDesktopFrame({
   demoUrl,
   maxWidth = 820,
   compact = false,
+  locale = "cs",
 }: {
   demoUrl: string | null;
   maxWidth?: number;
   /** When true (used in hero), hides the aluminum stand on mobile to save vertical space. */
   compact?: boolean;
+  locale?: "cs" | "en";
 }) {
   const screenRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -223,7 +227,7 @@ export function LiveDesktopFrame({
               Demo nedostupné
             </div>
           )}
-          {demoUrl && shouldLoad && iframeLoaded && <ScrollHint iframeRef={iframeRef} scrollAmount={Math.round(DESKTOP_VH * 0.8)} />}
+          {demoUrl && shouldLoad && iframeLoaded && <ScrollHint iframeRef={iframeRef} scrollAmount={Math.round(DESKTOP_VH * 0.8)} locale={locale} />}
         </div>
       </div>
 
@@ -434,7 +438,7 @@ export function LiveMacBookFrame({ demoUrl, maxWidth = 900 }: { demoUrl: string 
 /** iPhone 14 Pro — fixed 300px width, dynamic island, native viewport scaled.
  *  Uses IntersectionObserver to load iframe only when visible in viewport.
  *  Shows skeleton while iframe is loading. */
-export function LiveMobileFrame({ demoUrl }: { demoUrl: string | null }) {
+export function LiveMobileFrame({ demoUrl, locale = "cs" }: { demoUrl: string | null; locale?: "cs" | "en" }) {
   const screenRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -561,7 +565,7 @@ export function LiveMobileFrame({ demoUrl }: { demoUrl: string | null }) {
             Demo nedostupné
           </div>
         ) : null}
-        {demoUrl && shouldLoad && iframeLoaded && <ScrollHint small iframeRef={iframeRef} scrollAmount={Math.round(MOBILE_VH * 0.8)} />}
+        {demoUrl && shouldLoad && iframeLoaded && <ScrollHint small iframeRef={iframeRef} scrollAmount={Math.round(MOBILE_VH * 0.8)} locale={locale} />}
       </div>
     </div>
   );

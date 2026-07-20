@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { COOKIE_NAME } from "@/lib/auth";
+import { COOKIE_NAME, serializeAuthCookie } from "@/lib/auth";
 import { assertSameOrigin } from "@/lib/demo-auth";
 
 export async function POST(request: NextRequest) {
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     { ok: true },
     {
       headers: {
-        "Set-Cookie": `${COOKIE_NAME}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`,
+        "Set-Cookie": serializeAuthCookie(COOKIE_NAME, "", 0),
       },
     }
   );

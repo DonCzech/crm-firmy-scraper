@@ -1,0 +1,175 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-15",
+  "name": "Apatyka",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "lekarna",
+    "zdravi",
+    "drogerie",
+    "kosmetika",
+    "pilulka-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Pilulka.cz DNA 1:1 — online lékárna Apatyka. Header přesně dle pilulka.cz: tmavě zelená headline lišta #166154 s centrovaným hodnocením (⭐ 4,9/5), bílý řádek: lowercase wordmark „apatyka“ #064740 s taglinem | šedý pill search #edf1f4 s tmavě zeleným kruhovým tlačítkem | světle zelený pill „Chci apatyka PRO“ (badge PRO) / Moje Apatyka / tmavě zelený kruhový košík. Řádek kategorií: růžový pill „Dle cíle“ #fccce6, zelený pill „Akce a slevy“ #7efd92, ostatní textové položky s chevronem a zeleným podtržením při otevření. Mega menu full-width: levý rail skupin (hover přepíná, aktivní světlé pozadí), střední béžový panel #f0efe6 se „Zobrazit vše v kategorii“ a odkazy, vpravo karta „Dnešní akční cena“ (obrázek, cena, PRO cena badge, brand, NutraRating A+). Systémový font. Pop-up košík: zelený pruh PŘIDÁNO DO KOŠÍKU, progress dopravy zdarma, tmavě zelená pill CTA.",
+  "sectionOrderNote": "Homepage dle pilulka DNA 1:1 KOMPLETNÍ: navbar, hero, PRO pás, Vybrali jsme pro vás, 3 tematické karusely, Vitala private label, pás značek, app banner, newsletter, footer.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-15-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-15-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-15-pro",
+          "contentRef": "proBar"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-15-picks",
+          "contentRef": "picks"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-15-picks",
+          "contentRef": "carouselHydration"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-15-picks",
+          "contentRef": "carouselSummer"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-15-picks",
+          "contentRef": "carouselHealth"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-15-picks",
+          "contentRef": "carouselVitala"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-15-brands",
+          "contentRef": "brandsBar"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-15-app",
+          "contentRef": "appBanner"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-15-newsletter",
+          "contentRef": "newsletter"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-15-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Pilulka.cz nemá na homepage dlaždice kategorií — kategorie řeší mega menu v navbaru."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Nahrazeno pilulka-specifickými produktovými karusely (featured-products v extraSections)."
+    },
+    {
+      "pos": 5,
+      "name": "About",
+      "reason": "Pilulka.cz homepage nemá about sekci — brand komunikuje PRO pás a private label karusel."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Lékárna eshop nemá služby na homepage — benefity nese PRO pás."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Pilulka.cz nemá recenze na homepage — hodnocení je v headline liště navbaru (⭐ 4,9/5)."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Pilulka.cz homepage nemá pobočky — kontakty jsou ve footeru."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Pilulka.cz homepage nemá FAQ — odkaz Často kladené otázky je ve footeru."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "promo",
+      "variant": "eshop-15-pro",
+      "reason": "Pilulka PRO členství pás — klíčový prvek pilulka.cz DNA hned pod hero."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-15-picks",
+      "reason": "Vybrali jsme pro vás — hlavní produktový karusel pilulka.cz (flags.featured)."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-15-picks",
+      "reason": "Tematický karusel Elektrolyty a hydratace (categorySlug=sport)."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-15-picks",
+      "reason": "Tematický karusel Léto a opalování (categorySlug=kosmetika)."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-15-picks",
+      "reason": "Tematický karusel Zdraví z lékárny (categorySlug=zdravi-a-leky)."
+    },
+    {
+      "type": "featured-products",
+      "variant": "eshop-15-picks",
+      "reason": "Private label Vitala karusel s brand dlaždicí (obdoba Daily na pilulka.cz)."
+    },
+    {
+      "type": "promo",
+      "variant": "eshop-15-brands",
+      "reason": "Pás partnerských značek — pilulka.cz homepage sekce."
+    },
+    {
+      "type": "promo",
+      "variant": "eshop-15-app",
+      "reason": "App banner s QR a telefonem — pilulka.cz homepage sekce."
+    }
+  ]
+}

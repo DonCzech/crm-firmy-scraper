@@ -5,19 +5,29 @@
     "ctaText": "Objednat online",
     "ctaHref": "#kontakt",
     "phone": "704 123 456",
-    "email": "info@demo.cz",
     "announcementText": "Vyrazte na cesty bez starostí",
     "announcementSubtext": "Kontrola vozidla před dovolenou za 99 Kč",
     "announcementCta": "Objednat kontrolu",
     "announcementCtaHref": "#kontakt",
     "links": [
-      { "label": "Domů",      "href": "/" },
-      { "label": "Služby",    "href": "/sluzby" },
-      { "label": "O nás",     "href": "/o-nas" },
-      { "label": "Kontakt",   "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
-
   "hero": {
     "title": "Prémiový autoservis\npro Vaši bezpečnou jízdu",
     "subtitle": "Vy jezdíte, my se staráme",
@@ -33,7 +43,6 @@
     ],
     "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1200&h=900&fit=crop&fm=webp&q=85"
   },
-
   "services": {
     "id": "sluzby",
     "tagline": "Naše nabídka",
@@ -62,7 +71,6 @@
       }
     ]
   },
-
   "about": {
     "id": "o-nas",
     "tagline": "Výhody členství",
@@ -78,7 +86,6 @@
     "ctaHref": "#kontakt",
     "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop&fm=webp&q=85"
   },
-
   "contact": {
     "id": "kontakt",
     "tagline": "Kde nás najdete",
@@ -91,7 +98,6 @@
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo"
   },
-
   "footer": {
     "siteName": "APEX Autoservis",
     "logoUrl": "/templates/autoservis-01/logo-light.svg",
@@ -100,20 +106,37 @@
     "phone": "704 123 456",
     "address": "Ukázková 123, 110 00 Praha 1",
     "links": [
-      { "label": "Domů",    "href": "/" },
-      { "label": "Služby",  "href": "/sluzby" },
-      { "label": "O nás",   "href": "/o-nas" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "legalLinks": [
-      { "label": "Obchodní podmínky", "href": "#" },
-      { "label": "Ochrana soukromí",  "href": "#" }
+      {
+        "label": "Obchodní podmínky",
+        "href": "#"
+      },
+      {
+        "label": "Ochrana soukromí",
+        "href": "#"
+      }
     ],
-    "facebookUrl":  "https://facebook.com/demo",
+    "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "copyright": "© 2025 APEX Autoservis s.r.o. Všechna práva vyhrazena."
   },
-
   "pages": {
     "sluzby": {
       "seoTitle": "Služby — APEX Autoservis",
@@ -140,6 +163,14 @@
     "kontakt": {
       "seoTitle": "Kontakt — APEX Autoservis",
       "seoDescription": "Kontaktujte nás nebo se objednejte online."
+    }
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte servis",
+      "subtitle": "Vyberte úkon, technika a termín. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
     }
   }
 }

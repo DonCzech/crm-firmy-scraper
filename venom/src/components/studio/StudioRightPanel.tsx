@@ -36,7 +36,7 @@ export function StudioRightPanel({
   return (
     <div className="flex h-full flex-col vs-enter">
       <header
-        className={`flex h-11 shrink-0 items-center gap-2 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.62)] px-3 backdrop-blur-xl select-none ${onStartDrag ? "cursor-grab active:cursor-grabbing" : ""}`}
+        className={`vs-panel-titlebar flex h-11 shrink-0 items-center gap-2 border-b border-[var(--vs-chrome-divider)] bg-[var(--vs-chrome-bar)] px-3 backdrop-blur-xl select-none ${onStartDrag ? "cursor-grab active:cursor-grabbing" : ""}`}
         onPointerDown={onStartDrag}
       >
         {isClonePanel && cloneSelected ? (
@@ -54,7 +54,7 @@ export function StudioRightPanel({
             <Pill tone="neutral" size="xs">#{section.id}</Pill>
           </>
         ) : (
-          <span className="text-[10.5px] font-semibold uppercase tracking-[var(--vs-tracking-wider)] text-[var(--vs-text-muted)]">
+          <span className="text-[12.5px] font-semibold tracking-tight text-[var(--vs-text)]">
             Inspektor
           </span>
         )}
@@ -83,7 +83,7 @@ export function StudioRightPanel({
           </div>
         ) : (
         <>
-          <div className="flex shrink-0 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.48)] px-1 backdrop-blur-xl">
+          <div className="vs-inspector-tabs flex shrink-0 border-b border-[var(--vs-chrome-divider)] bg-[var(--vs-chrome-subtle)] px-1 backdrop-blur-xl">
             {(["content", "style", "layout"] as Tab[]).map((t) => (
               <button
                 key={t}

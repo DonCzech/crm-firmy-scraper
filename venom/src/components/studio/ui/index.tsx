@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
+import { forwardRef, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
 import { Loader2 } from "@/components/studio/icons";
 
 /* ============================================================================
@@ -26,7 +26,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   { variant = "secondary", size = "sm", loading, iconLeft, iconRight, fullWidth, children, className, disabled, ...rest },
   ref
 ) {
-  const base = "inline-flex items-center justify-center gap-1.5 font-medium tracking-tight rounded-md vs-focus-ring transition-[background,box-shadow,transform,color] duration-100 ease-out select-none disabled:opacity-50 disabled:cursor-not-allowed";
+  const base = "vs-button inline-flex items-center justify-center gap-1.5 font-medium tracking-tight rounded-md vs-focus-ring transition-[background,box-shadow,transform,color] duration-150 ease-out select-none disabled:opacity-50 disabled:cursor-not-allowed";
 
   const sizes: Record<ButtonSize, string> = {
     xs: "h-6 px-2 text-[10.5px]",
@@ -104,8 +104,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   { label, hint, error, iconLeft, iconRight, modified, className, id, ...rest },
   ref
 ) {
-  const generatedId = useRef(`vs-input-${Math.random().toString(36).slice(2)}`);
-  const inputId = id ?? generatedId.current;
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
   return (
     <div className="block">
       {label && (
@@ -117,7 +117,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
         </label>
       )}
       <div className={clsx(
-        "relative flex items-center rounded-md border bg-[var(--vs-bg-soft)] transition-shadow duration-150",
+        "vs-input-shell relative flex items-center rounded-md border bg-[var(--vs-bg-soft)] transition-shadow duration-150",
         error
           ? "border-[var(--vs-danger)] focus-within:shadow-[0_0_0_3px_var(--vs-danger-bg)]"
           : "border-[var(--vs-border-strong)] focus-within:border-[var(--vs-accent)] focus-within:shadow-[0_0_0_3px_var(--vs-accent-bg)]"
@@ -159,8 +159,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
   { label, hint, modified, className, id, ...rest },
   ref
 ) {
-  const generatedId = useRef(`vs-textarea-${Math.random().toString(36).slice(2)}`);
-  const tid = id ?? generatedId.current;
+  const generatedId = useId();
+  const tid = id ?? generatedId;
   return (
     <div className="block">
       {label && (
@@ -173,7 +173,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
         ref={ref}
         id={tid}
         className={clsx(
-          "w-full resize-none rounded-md border border-[var(--vs-border-strong)] bg-[var(--vs-bg-soft)] px-2.5 py-2 text-[12.5px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] outline-none transition-shadow duration-150 vs-scroll",
+          "vs-input-shell w-full resize-none rounded-md border border-[var(--vs-border-strong)] bg-[var(--vs-bg-soft)] px-2.5 py-2 text-[12.5px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] outline-none transition-shadow duration-150 vs-scroll",
           "focus:border-[var(--vs-accent)] focus:shadow-[0_0_0_3px_var(--vs-accent-bg)]",
           className
         )}

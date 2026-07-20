@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "hotel-01",
-  "name": "Demo Boutique Hotel",
+  "name": "Grand Hotel Aurora",
   "industry": "hotel",
   "skeleton": "gastro",
   "version": "0.1.0",
@@ -47,7 +47,9 @@
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -55,14 +57,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",   "variant": "hotel-01-navbar",  "contentRef": "navbar"   },
-        { "type": "hero",     "variant": "hotel-01-hero",    "contentRef": "hero"     },
-        { "type": "about",    "variant": "hotel-01-about",   "contentRef": "about"    },
-        { "type": "services", "variant": "hotel-01-rooms",   "contentRef": "rooms"    },
-        { "type": "promo",    "variant": "hotel-01-gastro",  "contentRef": "gastro"   },
-        { "type": "gallery",  "variant": "hotel-01-offers",  "contentRef": "offers"   },
-        { "type": "contact",  "variant": "hotel-01-contact", "contentRef": "contact"  },
-        { "type": "footer",   "variant": "hotel-01-footer",  "contentRef": "footer"   }
+        {
+          "type": "navbar",
+          "variant": "hotel-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hotel-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "hotel-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "hotel-01-rooms",
+          "contentRef": "rooms"
+        },
+        {
+          "type": "promo",
+          "variant": "hotel-01-gastro",
+          "contentRef": "gastro"
+        },
+        {
+          "type": "gallery",
+          "variant": "hotel-01-offers",
+          "contentRef": "offers"
+        },
+        {
+          "type": "contact",
+          "variant": "hotel-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "hotel-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

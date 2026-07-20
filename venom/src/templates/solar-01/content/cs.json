@@ -7,12 +7,30 @@
     "ctaText": "Online nabídka",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Fotovoltaika",        "href": "#sluzby"  },
-      { "label": "Tepelná čerpadla",    "href": "#sluzby"  },
-      { "label": "Solární ohřev vody",  "href": "#sluzby"  },
-      { "label": "O nás",               "href": "#onas"    },
-      { "label": "Recenze",             "href": "#recenze" },
-      { "label": "Dotace",              "href": "#dotace"  }
+      {
+        "label": "Fotovoltaika",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Tepelná čerpadla",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Solární ohřev vody",
+        "href": "#sluzby"
+      },
+      {
+        "label": "O nás",
+        "href": "#onas"
+      },
+      {
+        "label": "Recenze",
+        "href": "#recenze"
+      },
+      {
+        "label": "Dotace",
+        "href": "#dotace"
+      }
     ]
   },
   "hero": {
@@ -23,21 +41,29 @@
     "ctaSecondaryText": "Naše řešení",
     "ctaSecondaryHref": "#sluzby",
     "backgroundImage": "/assets/solar-01/9a3f879ca8-benjamin-jopen-p2GuLUu79Rg-unsplash-ezgif.com-optiwebp-scaled.webp",
-    "kicker": "Fotovoltaika & tepelná čerpadla",
     "trust1": "30 let životnost systému",
     "trust2": "Instalace za 12 dní",
     "trust3": "NZÚ dotace zdarma",
-    "starsText": "4.8 · 3 800+ spokojených zákazníků",
-    "cardValue": "15 000 Kč/rok",
-    "cardLabel": "průměrná úspora",
-    "badgeText": "až 200 000 Kč\nNZÚ dotace"
+    "starsText": "4.8 · 3 800+ spokojených zákazníků"
   },
   "stats": {
     "items": [
-      { "value": "3 800+", "label": "realizovaných instalací" },
-      { "value": "12 dní", "label": "průměrná doba montáže"   },
-      { "value": "30 let", "label": "životnost systému"        },
-      { "value": "4.8 ⭐", "label": "průměrné hodnocení"       }
+      {
+        "value": "3 800+",
+        "label": "realizovaných instalací"
+      },
+      {
+        "value": "12 dní",
+        "label": "průměrná doba montáže"
+      },
+      {
+        "value": "30 let",
+        "label": "životnost systému"
+      },
+      {
+        "value": "4.8 ⭐",
+        "label": "průměrné hodnocení"
+      }
     ]
   },
   "services": {
@@ -49,19 +75,31 @@
         "icon": "☀",
         "name": "Fotovoltaika s baterií",
         "description": "Maximální energetická nezávislost díky kombinaci solárních panelů a bateriového úložiště.",
-        "bullets": ["panely 415–475 Wp", "baterie 8–30 kWh", "inteligentní řídící systém"]
+        "bullets": [
+          "panely 415–475 Wp",
+          "baterie 8–30 kWh",
+          "inteligentní řídící systém"
+        ]
       },
       {
         "icon": "⚡",
         "name": "Fotovoltaika do sítě",
         "description": "Ekonomická varianta s prodejem přebytků do distribuční sítě a virtuální baterií u dodavatele.",
-        "bullets": ["rychlá návratnost 5–7 let", "cena od 150 000 Kč", "žádná starost s údržbou"]
+        "bullets": [
+          "rychlá návratnost 5–7 let",
+          "cena od 150 000 Kč",
+          "žádná starost s údržbou"
+        ]
       },
       {
         "icon": "🔥",
         "name": "Tepelná čerpadla",
         "description": "Efektivní vytápění a příprava teplé vody v kombinaci s fotovoltaikou pro nulové náklady na energie.",
-        "bullets": ["výkon 6–20 kW", "topný faktor COP až 5", "chlazení v letních měsících"]
+        "bullets": [
+          "výkon 6–20 kW",
+          "topný faktor COP až 5",
+          "chlazení v letních měsících"
+        ]
       }
     ]
   },
@@ -70,10 +108,26 @@
     "subtitle": "Postaráme se o vše od prvního kontaktu až po předání funkčního systému do vašich rukou.",
     "eyebrow": "Postup spolupráce",
     "steps": [
-      { "number": "1", "title": "Bezplatná konzultace",  "description": "Zavolejte nám nebo vyplňte formulář — do 24 hodin vám zašleme předběžný návrh a odhad úspory." },
-      { "number": "2", "title": "Projektová dokumentace", "description": "Náš technik přijede na obhlídku, zaměří střechu a připraví kompletní projekt pro stavební povolení." },
-      { "number": "3", "title": "Zajištění dotace NZÚ",   "description": "Vyřídíme žádost o dotaci Nová zelená úsporám, smlouvy s distributorem a veškerá potřebná povolení." },
-      { "number": "4", "title": "Montáž a spuštění",      "description": "Certifikovaná instalační četa provede montáž za 1–3 dny, otestuje systém a předá vám přístup do aplikace." }
+      {
+        "number": "1",
+        "title": "Bezplatná konzultace",
+        "description": "Zavolejte nám nebo vyplňte formulář — do 24 hodin vám zašleme předběžný návrh a odhad úspory."
+      },
+      {
+        "number": "2",
+        "title": "Projektová dokumentace",
+        "description": "Náš technik přijede na obhlídku, zaměří střechu a připraví kompletní projekt pro stavební povolení."
+      },
+      {
+        "number": "3",
+        "title": "Zajištění dotace NZÚ",
+        "description": "Vyřídíme žádost o dotaci Nová zelená úsporám, smlouvy s distributorem a veškerá potřebná povolení."
+      },
+      {
+        "number": "4",
+        "title": "Montáž a spuštění",
+        "description": "Certifikovaná instalační četa provede montáž za 1–3 dny, otestuje systém a předá vám přístup do aplikace."
+      }
     ]
   },
   "cta": {
@@ -95,12 +149,23 @@
     "hours": "Po–Pá 7–16 h",
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
-    "youtube": "https://youtube.com/demo",
     "links": [
-      { "label": "Fotovoltaika s baterií",  "href": "#sluzby" },
-      { "label": "Fotovoltaika do sítě",    "href": "#sluzby" },
-      { "label": "Tepelná čerpadla",        "href": "#sluzby" },
-      { "label": "Solární ohřev vody",      "href": "#sluzby" }
+      {
+        "label": "Fotovoltaika s baterií",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Fotovoltaika do sítě",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Tepelná čerpadla",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Solární ohřev vody",
+        "href": "#sluzby"
+      }
     ]
   },
   "pages": {

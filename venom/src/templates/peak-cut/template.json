@@ -1,23 +1,47 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "peak-cut",
-  "name": "Peak Cut — Brutalist Atelier White (barber-05)",
+  "name": "Peak Cut",
   "industry": "barber",
   "skeleton": "service-personal",
   "version": "2.0.0",
   "baseTemplate": null,
   "description": "Brutalist Atelier White barbershop — ONE-PAGE: pure white, ink black, surgical red accent. Oswald display + Overpass body + Overpass Mono labels. Anchor scroll navigation. Aka barber-05 v interní řadě (sdílí key 'peak-cut' kvůli onboarding compat).",
   "sectionOrderNote": "navbar → hero → services → gallery → about → testimonials → contact → footer. Supports both one-page (anchor scroll) and multi-page (subpages) via DB site_mode toggle.",
-  "extraSections": [],
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ],
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",       "reason": "ceny jsou sloučené přímo do services sekce (variant pricing-rows) — žádná samostatná pricing sekce" },
-    { "pos": 7,  "name": "Team",          "reason": "originál nemá seznam barberů — minimalistický koncept" },
-    { "pos": 9,  "name": "Booking/CTA",   "reason": "CTA na rezervaci je integrované v hero a contact sekci; samostatný booking blok originál nemá" },
-    { "pos": 11, "name": "FAQ",           "reason": "originál nemá FAQ blok" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "ceny jsou sloučené přímo do services sekce (variant pricing-rows) — žádná samostatná pricing sekce"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "originál nemá seznam barberů — minimalistický koncept"
+    },
+    {
+      "pos": 9,
+      "name": "Booking/CTA",
+      "reason": "CTA na rezervaci je integrované v hero a contact sekci; samostatný booking blok originál nemá"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "originál nemá FAQ blok"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs", "en"]
+    "supported": [
+      "cs",
+      "en"
+    ]
   },
   "pages": [
     {
@@ -25,14 +49,57 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "peak-cut-minimal",            "contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-peak-cut-fullbleed",     "contentRef": "hero",         "anchorId": "hero"      },
-        { "type": "services",     "variant": "peak-cut-pricing",            "contentRef": "services",     "anchorId": "services"  },
-        { "type": "gallery",      "variant": "gallery-universal",           "contentRef": "gallery",      "anchorId": "gallery"   },
-        { "type": "about",        "variant": "about-peak-cut-split",        "contentRef": "about",        "anchorId": "about"     },
-        { "type": "testimonials", "variant": "testimonials-peak-cut-grid",  "contentRef": "testimonials", "anchorId": "reference" },
-        { "type": "contact",      "variant": "contact-peak-cut",            "contentRef": "contact",      "anchorId": "kontakt"   },
-        { "type": "footer",       "variant": "footer-peak-cut",             "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "peak-cut-minimal",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-peak-cut-fullbleed",
+          "contentRef": "hero",
+          "anchorId": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "peak-cut-pricing",
+          "contentRef": "services",
+          "anchorId": "services"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery",
+          "anchorId": "gallery"
+        },
+        {
+          "type": "about",
+          "variant": "about-peak-cut-split",
+          "contentRef": "about",
+          "anchorId": "about"
+        },
+        {
+          "type": "testimonials",
+          "variant": "testimonials-peak-cut-grid",
+          "contentRef": "testimonials",
+          "anchorId": "reference"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "peak-cut",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "contact-peak-cut",
+          "contentRef": "contact",
+          "anchorId": "kontakt"
+        },
+        {
+          "type": "footer",
+          "variant": "footer-peak-cut",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

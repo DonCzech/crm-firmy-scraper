@@ -3,16 +3,31 @@
     "siteName": "Klempířské práce Brno",
     "logoUrl": "/templates/klempir-01/logo.svg",
     "phone": "+420 603 987 654",
-    "email": "poptavka@klempirstvi-demo.cz",
-    "ctaText": "Kontaktovat",
-    "ctaHref": "/kontakt",
     "links": [
-      { "label": "O mně",             "href": "/#o-mne" },
-      { "label": "Služby",            "href": "/#sluzby" },
-      { "label": "Galerie",           "href": "/#galerie" },
-      { "label": "Historické opravy", "href": "/#historicke" },
-      { "label": "Recenze",           "href": "/#recenze" },
-      { "label": "Kontakt",           "href": "/kontakt" }
+      {
+        "label": "O mně",
+        "href": "/#o-mne"
+      },
+      {
+        "label": "Služby",
+        "href": "/#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "/#galerie"
+      },
+      {
+        "label": "Historické opravy",
+        "href": "/#historicke"
+      },
+      {
+        "label": "Recenze",
+        "href": "/#recenze"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ]
   },
   "hero": {
@@ -28,22 +43,31 @@
   "about": {
     "kicker": "O mně",
     "title": "Pečlivá práce s důrazem na detail",
-    "subtitle": "Každá střecha si zaslouží odbornou péči.",
     "body": "S patnácti lety praxe v klempířství, tesařství a pokrývačství nabízím spolehlivé a precizní řešení pro každou střechu. Specializuji se na rekonstrukce starších objektů, výměny oplechování i havarijní opravy. Pracuji svědomitě, s dodržením dohodnutých termínů a s důrazem na dlouhodobou funkčnost odvedené práce.",
     "stats": [
-      { "label": "Zkušenosti",    "value": "15+ let praxe" },
-      { "label": "Lokalita",      "value": "Brno a Jihomoravský kraj" },
-      { "label": "Jazyky",        "value": "CZ / SK" },
-      { "label": "Specializace",  "value": "Rekonstrukce střech" }
+      {
+        "label": "Zkušenosti",
+        "value": "15+ let praxe"
+      },
+      {
+        "label": "Lokalita",
+        "value": "Brno a Jihomoravský kraj"
+      },
+      {
+        "label": "Jazyky",
+        "value": "CZ / SK"
+      },
+      {
+        "label": "Specializace",
+        "value": "Rekonstrukce střech"
+      }
     ],
     "image": "/assets/klempir-01/8aa266e3d6-klempir-portrait.jpg",
     "phone": "+420 603 987 654",
     "phoneLabel": "Zavolejte pro nezávaznou konzultaci"
   },
   "services": {
-    "kicker": "Co nabízím",
     "title": "Nabízím",
-    "subtitle": "Kompletní klempířské, tesařské a pokrývačské práce pro domy i komerční objekty.",
     "items": [
       {
         "name": "Historické opravy",
@@ -111,9 +135,7 @@
     ]
   },
   "gallery": {
-    "kicker": "Realizace",
     "title": "Dokončené projekty",
-    "subtitle": "Ukázka vybraných zakázek z Brna a Jihomoravského kraje.",
     "images": [
       {
         "url": "/assets/klempir-01/42531f0187-cervenataskovastrecha.jpg",
@@ -136,25 +158,38 @@
     ]
   },
   "historical": {
-    "kicker": "Specialista",
     "title": "Historické opravy jsou moje vášeň",
     "subtitle": "Řemeslná tradice v moderním provedení",
     "body": "Práce na historických budovách vyžaduje trpělivost, zkušenost a znalost tradičních materiálů. Každý prvek restauruji s respektem k původnímu řemeslu a s použitím materiálů odpovídajících době vzniku stavby. Výsledkem je oprava, která vydrží dalším generacím.\n\nSpolupracuji s památkáři a architekty — váš projekt je v dobrých rukou.",
     "images": [
-      { "url": "/assets/klempir-01/dd63c96a7b-WhatsApp%20Image%202025-03-17%20at%2009.47.38_c7f4d3b8.jpg", "alt": "Restaurování historického oplechování střechy" },
-      { "url": "/assets/klempir-01/596d6d0484-WhatsApp%20Image%202025-03-17%20at%2009.48.40_c85809a4.jpg", "alt": "Oprava historické římsy a klempířských detailů" },
-      { "url": "/assets/klempir-01/9cf13e0481-WhatsApp%20Image%202025-03-17%20at%2009.49.01_4708fca9.jpg", "alt": "Detail precizní řemeslné práce na historickém prvku" },
-      { "url": "/assets/klempir-01/8f8592a546-WhatsApp%20Image%202025-03-17%20at%2016.06.12_ff7a52a3.jpg", "alt": "Oprava a výměna oplechování na historické střeše" },
-      { "url": "/assets/klempir-01/6aed0d0a4e-WhatsApp%20Image%202025-03-17%20at%2016.09.51_06fad90a.jpg", "alt": "Rekonstrukce historických okapů a svodů" },
-      { "url": "/assets/klempir-01/d4ca9e339b-WhatsApp%20Image%202025-03-17%20at%2016.13.06_105ac9ea.jpg", "alt": "Dokončená oprava historické střechy" }
-    ],
-    "ctaText": "Zjistit více",
-    "ctaHref": "/sluzby"
+      {
+        "url": "/assets/klempir-01/dd63c96a7b-WhatsApp%20Image%202025-03-17%20at%2009.47.38_c7f4d3b8.jpg",
+        "alt": "Restaurování historického oplechování střechy"
+      },
+      {
+        "url": "/assets/klempir-01/596d6d0484-WhatsApp%20Image%202025-03-17%20at%2009.48.40_c85809a4.jpg",
+        "alt": "Oprava historické římsy a klempířských detailů"
+      },
+      {
+        "url": "/assets/klempir-01/9cf13e0481-WhatsApp%20Image%202025-03-17%20at%2009.49.01_4708fca9.jpg",
+        "alt": "Detail precizní řemeslné práce na historickém prvku"
+      },
+      {
+        "url": "/assets/klempir-01/8f8592a546-WhatsApp%20Image%202025-03-17%20at%2016.06.12_ff7a52a3.jpg",
+        "alt": "Oprava a výměna oplechování na historické střeše"
+      },
+      {
+        "url": "/assets/klempir-01/6aed0d0a4e-WhatsApp%20Image%202025-03-17%20at%2016.09.51_06fad90a.jpg",
+        "alt": "Rekonstrukce historických okapů a svodů"
+      },
+      {
+        "url": "/assets/klempir-01/d4ca9e339b-WhatsApp%20Image%202025-03-17%20at%2016.13.06_105ac9ea.jpg",
+        "alt": "Dokončená oprava historické střechy"
+      }
+    ]
   },
   "testimonials": {
-    "kicker": "Recenze",
     "title": "Co říkají klienti",
-    "subtitle": "Hodnocení 4.8★ (34 recenzí)",
     "items": [
       {
         "name": "Miroslav Kratochvíl",
@@ -177,19 +212,37 @@
     ]
   },
   "contact": {
-    "kicker": "Kontakt",
     "title": "Kontakt",
-    "subtitle": "Potřebujete opravu střechy, výměnu oplechování nebo řešíte havarijní stav? Neváhejte se ozvat — poradím a rychle vyjedu.",
     "phone": "+420 603 987 654",
     "email": "poptavka@klempirstvi-demo.cz",
     "address": "Jihomoravský kraj a Brno",
     "hours": "Po–Pá 7:00–17:00, So 8:00–12:00",
     "formTitle": "Napište mi",
     "fields": [
-      { "name": "name",    "label": "Jméno",          "type": "text",     "required": true  },
-      { "name": "phone",   "label": "Telefon",         "type": "tel",      "required": true  },
-      { "name": "email",   "label": "E-mail",          "type": "email",    "required": false },
-      { "name": "message", "label": "Popis zakázky",   "type": "textarea", "required": true  }
+      {
+        "name": "name",
+        "label": "Jméno",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "label": "Telefon",
+        "type": "tel",
+        "required": true
+      },
+      {
+        "name": "email",
+        "label": "E-mail",
+        "type": "email",
+        "required": false
+      },
+      {
+        "name": "message",
+        "label": "Popis zakázky",
+        "type": "textarea",
+        "required": true
+      }
     ],
     "ctaText": "Odeslat zprávu"
   },
@@ -200,16 +253,24 @@
     "phone": "+420 603 987 654",
     "email": "poptavka@klempirstvi-demo.cz",
     "address": "Jihomoravský kraj, Brno",
-    "ico": "87654321",
-    "firmName": "Klempíř Brno s.r.o.",
-    "facebook": "https://facebook.com/demo",
-    "instagram": "https://instagram.com/demo",
     "copyright": "© 2026 Klempířské práce Brno. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Úvod",      "href": "/"          },
-      { "label": "Služby",    "href": "/sluzby"    },
-      { "label": "Reference", "href": "/reference" },
-      { "label": "Kontakt",   "href": "/kontakt"   }
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Reference",
+        "href": "/reference"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "services": [
       "Historické opravy",

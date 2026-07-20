@@ -21,7 +21,7 @@ function LInput({
       placeholder={placeholder}
       disabled={disabled}
       readOnly={!onChange}
-      className="w-full rounded-lg border border-[rgba(255,255,255,0.10)] bg-[rgba(12,12,14,0.48)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.20)] disabled:bg-[rgba(255,255,255,0.04)] disabled:opacity-60 transition-colors"
+      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-field-bg)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] shadow-[var(--vs-shadow-sm)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-accent-ring)] disabled:bg-[var(--vs-surface-2)] disabled:opacity-60 transition-colors"
     />
   );
 }
@@ -37,7 +37,7 @@ function LTextarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full rounded-lg border border-[rgba(255,255,255,0.10)] bg-[rgba(12,12,14,0.48)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.20)] transition-colors resize-none"
+      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-field-bg)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] shadow-[var(--vs-shadow-sm)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[var(--vs-accent-ring)] transition-colors resize-none"
     />
   );
 }
@@ -78,7 +78,7 @@ function LSectionTitle({ children }: { children: string }) {
 
 function LCard({ children }: { children: ReactNode }) {
   return (
-    <div className="mb-4 overflow-x-auto rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl">
+    <div className="vs-chrome-card mb-4 overflow-x-auto rounded-xl border">
       <div className="px-4 sm:px-6">{children}</div>
     </div>
   );
@@ -122,7 +122,7 @@ function PageHeader({
   title: string; onBack: () => void; status: "idle" | "saving" | "saved" | "error"; onSave: () => void;
 }) {
   return (
-    <div className="sticky top-0 z-10 flex flex-col items-stretch justify-between gap-3 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.16)] backdrop-blur-xl sm:flex-row sm:items-center sm:px-8 sm:py-4">
+    <div className="vs-chrome-header sticky top-0 z-10 flex flex-col items-stretch justify-between gap-3 border-b px-4 py-3 sm:flex-row sm:items-center sm:px-8 sm:py-4">
       <div className="flex min-w-0 items-center gap-2 sm:gap-3">
         <button
           type="button"
@@ -538,7 +538,7 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
 
   return (
     <>
-      <div className="sticky top-0 z-10 flex flex-col items-stretch justify-between gap-3 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.16)] backdrop-blur-xl sm:flex-row sm:items-center sm:px-8 sm:py-4">
+      <div className="vs-chrome-header sticky top-0 z-10 flex flex-col items-stretch justify-between gap-3 border-b px-4 py-3 sm:flex-row sm:items-center sm:px-8 sm:py-4">
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <button type="button" onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors">
             <ArrowLeft className="h-4 w-4" strokeWidth={2} />
@@ -591,7 +591,7 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
         </div>
 
         {/* Table */}
-        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl">
+        <div className="vs-chrome-card rounded-xl border">
           <div className="space-y-3 p-3 sm:hidden">
             {users.map((u) => (
               <div key={u.email} className="rounded-lg border border-[var(--vs-border)] bg-[rgba(255,255,255,0.035)] p-3">
@@ -1027,7 +1027,7 @@ function ActivityView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
     <>
       <PageHeader title="Záznam aktivity" onBack={onBack} status="idle" onSave={() => void 0} />
       <div className="max-w-3xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
-        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl">
+        <div className="vs-chrome-card rounded-xl border">
           {loading ? (
             <div className="flex items-center justify-center py-16 text-[var(--vs-text-dim)]">
               <Loader2 className="h-5 w-5 animate-spin mr-2" /> Načítám...
@@ -1149,7 +1149,7 @@ function CssView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-x-auto">
+        <div className="vs-chrome-card rounded-xl border overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
@@ -1243,7 +1243,7 @@ function HeadersView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-x-auto">
+        <div className="vs-chrome-card rounded-xl border overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
@@ -1351,7 +1351,7 @@ function RedirectsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-x-auto">
+        <div className="vs-chrome-card rounded-xl border overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (

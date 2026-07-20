@@ -117,7 +117,7 @@ function EditorMockup() {
           </div>
           {/* Canvas */}
           <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
-            <Image src="/preview-ananda-demo.jpg" alt="Webero editor náhled" fill style={{ objectFit: "cover", objectPosition: "top" }} />
+            <Image src="/preview-harmonie-demo.jpg" alt="Webero editor náhled" fill style={{ objectFit: "cover", objectPosition: "top" }} />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.42) 100%)" }} />
             <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, padding: 20 }}>
               <div style={{ color: "#fff", fontFamily: "Poppins,sans-serif", fontWeight: 700, fontSize: 18, textAlign: "center", textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>Dopřejte si čas<br/>jen pro sebe</div>
@@ -295,7 +295,7 @@ export default function HomepageBeta() {
 
   const templates = [
     { title: "Barber & Salon", desc: "Elegantní styl pro moderní salony a holiče.", img: "/preview-barber-urban.jpg", badge: "✂ Salony", cat: "Zdraví a krása" },
-    { title: "Wellness & Masáže", desc: "Klidná a harmonická šablona pro wellness a masážní služby.", img: "/preview-ananda-demo.jpg", badge: "🌿 Wellness", cat: "Zdraví a krása" },
+    { title: "Wellness & Masáže", desc: "Klidná a harmonická šablona pro wellness a masážní služby.", img: "/preview-harmonie-demo.jpg", badge: "🌿 Wellness", cat: "Zdraví a krása" },
     { title: "Advokát & Poradce", desc: "Důstojná reprezentace pro právníky a poradce.", img: "", badge: "⚖ Právo", cat: "Byznys" },
     { title: "Reality & Developer", desc: "Prezentujte nemovitosti přehledně a atraktivně.", img: "/preview-escape-demo.jpg", badge: "🏠 Reality", cat: "Reality" },
     { title: "Restaurace & Kavárna", desc: "Lákavé šablony pro restaurace, kavárny a bistro.", img: "/preview-tribo-demo.jpg", badge: "🍽 Gastronomie", cat: "Gastronomie" },

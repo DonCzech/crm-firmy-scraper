@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#4b2413",
+    "secondary": "#38190c",
+    "accent": "#f6a7d7",
+    "background": "#fdf8f0",
+    "surface": "#ffffff",
+    "text": "#3c2010",
+    "textMuted": "#8a7160",
+    "border": "#efe4d5"
+  },
+  "typography": {
+    "fontHeading": "'Baloo 2', 'Arial Rounded MT Bold', sans-serif",
+    "fontBody": "'Figtree', 'Segoe UI', Arial, sans-serif"
+  }
+}

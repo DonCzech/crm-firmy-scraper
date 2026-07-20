@@ -83,7 +83,7 @@ export function ResponsiveImage({
       <div className={className} style={wrapStyle}>
         <picture>
           {webpSrcSet && <source type="image/webp" srcSet={webpSrcSet} sizes={sizes} />}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          { }
           <img
             src={fallbackSrc}
             srcSet={jpegSrcSet}
@@ -106,7 +106,7 @@ export function ResponsiveImage({
     <div className={className} style={wrapStyle}>
       <picture>
         <source type="image/webp" srcSet={src} sizes={sizes} />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
+        { }
         <img
           src={jpegFallback ?? src}
           sizes={sizes}

@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#131417",
+    "secondary": "#0b0c0e",
+    "accent": "#ffd400",
+    "background": "#f5f5f2",
+    "surface": "#ffffff",
+    "text": "#16171a",
+    "textMuted": "#6a6e75",
+    "border": "#e4e5e0"
+  },
+  "typography": {
+    "fontHeading": "'Archivo', 'Arial Black', sans-serif",
+    "fontBody": "'Inter', 'Segoe UI', Arial, sans-serif"
+  }
+}

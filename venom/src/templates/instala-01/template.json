@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "instala-01",
-  "name": "Demo Instalatéři Praha",
+  "name": "Instalatéři Praha",
   "industry": "instala",
   "skeleton": "b2b-trade",
   "version": "0.1.0",
@@ -9,19 +9,48 @@
   "description": "Instalatérství, topenářství a plynařské práce. Žlutý #FFC527 akcent, tmavá #1e293b, Outfit font. Žlutý topbar s kontakty, sticky bílý navbar, fullbleed hero s tmavým overlayem, 5 service karet, about sekce, CTA formulář, důvěrnostní stats, kontakt, footer. Inspirováno instalateritopenari.cz.",
   "sectionOrderNote": "Navbar → Hero → About → Services → CTA → Testimonials → Contact → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",      "reason": "Ceny jsou individuální dle rozsahu zakázky" },
-    { "pos": 6,  "name": "Pricing/Estimate", "reason": "Ceník individuální — nahrazen CTA formulářem pro poptávku" },
-    { "pos": 7,  "name": "Blog",         "reason": "Živnostník/malá firma — blog není součástí homepage" },
-    { "pos": 9,  "name": "FAQ",          "reason": "Originál nemá FAQ sekci" },
-    { "pos": 10, "name": "Service area", "reason": "Firma operuje po celé Praze a okolí — mapa není potřeba" },
-    { "pos": 11, "name": "FAQ",          "reason": "Originál instalateritopenari.cz nemá FAQ sekci" }
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceny jsou individuální dle rozsahu zakázky"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceník individuální — nahrazen CTA formulářem pro poptávku"
+    },
+    {
+      "pos": 7,
+      "name": "Blog",
+      "reason": "Živnostník/malá firma — blog není součástí homepage"
+    },
+    {
+      "pos": 9,
+      "name": "FAQ",
+      "reason": "Originál nemá FAQ sekci"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Firma operuje po celé Praze a okolí — mapa není potřeba"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál instalateritopenari.cz nemá FAQ sekci"
+    }
   ],
   "extraSections": [
-    { "type": "contact", "reason": "Kontaktní formulář je součástí homepage jako finální blok a zároveň standalone /kontakt stránka" }
+    {
+      "type": "contact",
+      "reason": "Kontaktní formulář je součástí homepage jako finální blok a zároveň standalone /kontakt stránka"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,14 +58,46 @@
       "isHomepage": true,
       "title": "Úvod",
       "sections": [
-        { "type": "navbar",       "variant": "instala-01-navbar",       "contentRef": "navbar"       },
-        { "type": "hero",         "variant": "instala-01-hero",         "contentRef": "hero"         },
-        { "type": "about",        "variant": "instala-01-about",        "contentRef": "about"        },
-        { "type": "services",     "variant": "instala-01-services",     "contentRef": "services"     },
-        { "type": "cta",          "variant": "instala-01-cta",          "contentRef": "cta"          },
-        { "type": "testimonials", "variant": "instala-01-testimonials", "contentRef": "testimonials" },
-        { "type": "contact",      "variant": "instala-01-contact",      "contentRef": "contact"      },
-        { "type": "footer",       "variant": "instala-01-footer",       "contentRef": "footer"       }
+        {
+          "type": "navbar",
+          "variant": "instala-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "instala-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "instala-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "services",
+          "variant": "instala-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "instala-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "testimonials",
+          "variant": "instala-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "contact",
+          "variant": "instala-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -45,10 +106,26 @@
       "seoTitleKey": "pages.sluzby.seoTitle",
       "seoDescriptionKey": "pages.sluzby.seoDescription",
       "sections": [
-        { "type": "navbar",   "variant": "instala-01-navbar",   "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",       "contentRef": "pages.sluzby.hero" },
-        { "type": "services", "variant": "instala-01-services", "contentRef": "services" },
-        { "type": "footer",   "variant": "instala-01-footer",   "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "instala-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "instala-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-01-footer",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -57,9 +134,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar",  "variant": "instala-01-navbar",  "contentRef": "navbar"  },
-        { "type": "contact", "variant": "instala-01-contact", "contentRef": "contact" },
-        { "type": "footer",  "variant": "instala-01-footer",  "contentRef": "footer"  }
+        {
+          "type": "navbar",
+          "variant": "instala-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "instala-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "instala-01-footer",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

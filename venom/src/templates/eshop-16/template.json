@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-16",
+  "name": "Spížka",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "potraviny",
+    "supermarket",
+    "rozvoz",
+    "kosik-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Kosik.cz sortimentní DNA (online supermarket s rozvozem: ovoce a zelenina, pekárna, maso a ryby, mléčné, trvanlivé, mražené, nápoje, drogerie) s vlastní awwwards identitou Spížka — fig & apricot gourmet. Krémový podklad #fbf7f1, tmavá fíková vínová #56203d (primary, wordmark, Produkty pill), meruňková #f2a541 (akcenty, tečka logotypu), malinová #d23c55 (slevové badge), svěží zelená #3e9b4f jen pro „K pokladně“ (supermarket konvence). Bricolage Grotesque (wordmark „Spížka.“ s meruňkovou tečkou, nadpisy) + Figtree. Header: bílý řádek — wordmark + pill doručení (Praha • dnes už od 14:00) | plně zaoblený search s tmavým kruhovým tlačítkem | Přihlásit se / Registrovat se (fíková pill) → druhý řádek: fíková pill Produkty (grid ikona + šipka) s mega menu foto dlaždic, odkazy Akční týden / Zachraň jídlo / Zvýhodněné / Moje oblíbené / Inspirace, vpravo košík s badge + mezisoučet + zelená pill K pokladně → krémový USP strip (doručení dnes, minimální nákup, doprava zdarma, záruka spokojenosti). Pop-up košík: fíkový pruh PŘIDÁNO DO KOŠÍKU, progress do minimálního nákupu, fíková CTA.",
+  "sectionOrderNote": "Homepage KOMPLETNÍ (14 sekcí dle kosik DNA): navbar, hero, kategorie dlaždice, Pro váš první nákup, benefity, Akční týden, partneři, Ovoce a zelenina, Pekárna a cukrárna, app banner, Multikup, Srovnaná cena, Novinky, Recepty, footer.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-16-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-16-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-16-categories",
+          "contentRef": "favCategories"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-products",
+          "contentRef": "firstPurchase"
+        },
+        {
+          "type": "services",
+          "variant": "eshop-16-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-sale",
+          "contentRef": "saleWeek"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-16-partners",
+          "contentRef": "partners"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-products",
+          "contentRef": "catFruit"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-products",
+          "contentRef": "catBakery"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-16-app",
+          "contentRef": "appBanner"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-multibuy",
+          "contentRef": "multibuy"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-products",
+          "contentRef": "priceMatch"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-16-products",
+          "contentRef": "news"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-16-recipes",
+          "contentRef": "recipes"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-16-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "Featured products (gallery)",
+      "reason": "Produktové výběry řeší commerce sekce featured-products (Pro váš první nákup, kategorie karusely) místo statické galerie"
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Kosik.cz homepage nemá recenze — důvěru budují benefity a USP strip v headeru"
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Roli CTA plní app banner (eshop-16-app) dle kosik DNA"
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Rozvozový supermarket bez poboček — doručovací info je v headeru a footeru"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Kosik.cz homepage FAQ nemá; odkaz Časté dotazy je ve footeru"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Kosik DNA: 6× produktový karusel (první nákup, Akční týden, Ovoce a zelenina, Pekárna, Multikup, Srovnaná cena, Novinky) napojený na commerce katalog"
+    },
+    {
+      "type": "promo",
+      "reason": "Kosik DNA: partnerské bannery, app banner a recepty (Inspirace)"
+    }
+  ]
+}

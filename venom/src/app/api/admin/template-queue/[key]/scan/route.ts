@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { query, queryOne, auditLog } from "@/lib/db";
 import { verifyToken, COOKIE_NAME } from "@/lib/auth";
 import { buildAuditNotes } from "@/lib/audit-notes";
+import { assertSafeKey, resolveWithin } from "@/lib/safe-path";
 
 interface RouteParams { params: Promise<{ key: string }> }
 
@@ -68,6 +69,7 @@ export async function studioCompatibilityAudit(templateKey: string): Promise<{
   score: number;
   summary: Record<string, unknown>;
 }> {
+  assertSafeKey(templateKey, "template key");
   const issues: StudioIssue[] = [];
   const templateDir = path.join(process.cwd(), "src", "templates", templateKey);
   const publicDir = path.join(process.cwd(), "public", "templates", templateKey);
@@ -180,7 +182,7 @@ export async function studioCompatibilityAudit(templateKey: string): Promise<{
   const missingImages: string[] = [];
   const imagesDir = path.join(publicDir, "images");
   for (const imgPath of imagePaths) {
-    const abs = path.join(process.cwd(), "public", imgPath.replace(/^\//, ""));
+    const abs = resolveWithin(path.join(process.cwd(), "public"), imgPath.replace(/^\//, ""));
     if (!existsSync(abs)) {
       missingImages.push(imgPath);
     }
@@ -376,16 +378,21 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   }
 
   const { key } = await params;
+  try {
+    assertSafeKey(key, "template key");
+  } catch {
+    return Response.json({ error: "Invalid template key" }, { status: 400 });
+  }
   const tplRow = await queryOne<{ id: number }>(
     "SELECT id FROM templates WHERE key = $1", [key]
   );
   if (!tplRow) return Response.json({ error: "Template not found" }, { status: 404 });
 
   // 1. Disk-level residue scan
-  const templatesRoot = path.join(process.cwd(), "src", "templates", key);
+  const templatesRoot = resolveWithin(path.join(process.cwd(), "src", "templates"), key);
   const findings: Array<{ file: string; pattern: string; count: number; sample: string }> = [];
   for (const rel of ["content/cs.json", "skin.css"]) {
-    const full = path.join(templatesRoot, rel);
+    const full = path.join(/* turbopackIgnore: true */ templatesRoot, rel);
     if (!existsSync(full)) continue;
     const raw = await fs.readFile(full, "utf-8");
     for (const p of RESIDUE_PATTERNS) {
@@ -418,7 +425,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
 
   let perfScore: number | null = null;
   let perfReport: Record<string, unknown> | null = null;
-  let renderFindings: Array<{ pattern: string; count: number }> = [];
+  const renderFindings: Array<{ pattern: string; count: number }> = [];
 
   if (tenant) {
     const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3015";

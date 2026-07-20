@@ -38,6 +38,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "rekonstrukce-01-hero") return <HeroRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "rekonstrukce-01-page") return <HeroRekonstrukce01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-01-hero") return <HeroStavba01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-stavba-01-page") return <HeroStavba01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-02-hero") return <HeroStavba02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-stavba-02-page") return <HeroStavba02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-03-hero") return <HeroStavba03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -51,13 +52,17 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-solar-03-page")  return <HeroSolar03Page  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "instala-01-hero") return <HeroInstala01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-instala-01-page") return <HeroInstala01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-instala-02-page") return <HeroInstala02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "grooming-01-hero") return <HeroGrooming01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-grooming-01-page") return <HeroGrooming01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "vet-01-hero") return <HeroVet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-vet-01-page") return <HeroVet01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-01-hero") return <HeroClean01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-clean-01-page") return <HeroClean01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "garden-01-hero") return <HeroGarden01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-garden-01-page") return <HeroGarden01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "garden-02-hero") return <HeroGarden02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-garden-02-page") return <HeroGarden02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "arbo-01-hero")   return <HeroArbo01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-hero") return <HeroClean02 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ddd-01-hero")   return <HeroDdd01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -939,6 +944,13 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-cafe-wave") {
     const bgImage = c.backgroundImage || "/clones/costa/src/themes/template/build/COSTA_banner_2026_05_1600x640_06.webp";
     const eyebrow = String((c as Record<string, unknown>).eyebrow ?? "Novinky · Léto 2026");
+    const cc = c as Record<string, unknown>;
+    const cta2Text = String(cc.cta2Text ?? "");
+    const cta2Href = String(cc.cta2Href ?? "");
+    const chipsRaw = cc.chips;
+    const chips = Array.isArray(chipsRaw)
+      ? (chipsRaw as unknown[]).map((x) => String(x)).filter(Boolean)
+      : [];
     return (
       <section
         className="cafe01-hero relative overflow-hidden"
@@ -962,10 +974,10 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
         <div className="cafe01-hero__gradient-top pointer-events-none absolute left-0 top-0 z-10 w-full" />
 
         {/* Text overlay */}
-        <div className="absolute z-30 top-0 left-0 w-full pointer-events-none">
-          <div className="cafe01-hero__content max-w-7xl mx-auto px-6 lg:px-12 relative text-center lg:text-left lg:pl-24 pointer-events-auto">
+        <div className="absolute z-30 top-0 left-0 w-full h-full pointer-events-none flex items-center">
+          <div className="cafe01-hero__content max-w-7xl mx-auto w-full px-6 lg:px-12 relative text-center lg:text-left lg:pl-24 pointer-events-auto">
             <div className="cafe01-hero__eyebrow">
-              <span className="cafe01-hero__eyebrow-line" aria-hidden="true" />
+              <span className="cafe01-hero__eyebrow-dot" aria-hidden="true" />
               <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
             </div>
             <h1 className="cafe01-hero__title">
@@ -976,20 +988,41 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
                 <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
               </span>
             )}
-            {c.ctaHref && (
-              <a
-                href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
-                data-btn="primary"
-                className="cafe01-hero__cta group"
-              >
-                <span className="cafe01-hero__cta-shine" aria-hidden="true" />
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Zjistit více"} tag="span" />
-                <svg className="cafe01-hero__cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M5 12h14" />
-                  <path d="M13 6l6 6-6 6" />
-                </svg>
-              </a>
+            {chips.length > 0 && (
+              <ul className="cafe01-hero__chips" aria-label="Přednosti">
+                {chips.map((chip, i) => (
+                  <li key={i} className="cafe01-hero__chip">
+                    <svg className="cafe01-hero__chip-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5" /></svg>
+                    <GenericEditableText sectionId={sectionId} field={`chips.${i}`} value={chip} tag="span" />
+                  </li>
+                ))}
+              </ul>
             )}
+            <div className="cafe01-hero__actions">
+              {c.ctaHref && (
+                <a
+                  href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+                  data-btn="primary"
+                  className="cafe01-hero__cta group"
+                >
+                  <span className="cafe01-hero__cta-shine" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Zjistit více"} tag="span" />
+                  <svg className="cafe01-hero__cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              )}
+              {cta2Text && (
+                <a
+                  href={resolveDemoHref(cta2Href || "/kontakt", tenantSlug, isAdmin)}
+                  className="cafe01-hero__cta2 group"
+                >
+                  <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+                  <span className="cafe01-hero__cta2-line" aria-hidden="true" />
+                </a>
+              )}
+            </div>
           </div>
         </div>
 
@@ -1015,6 +1048,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           </GenericEditableImage>
           {/* Vignette + burgundy grade */}
           <div className="cafe01-hero__vignette" aria-hidden="true" />
+          {/* Editorial left scrim — controlled dark field for legibility */}
+          <div className="cafe01-hero__scrim" aria-hidden="true" />
         </div>
 
         {/* Secondary decorative wave — subtle cream layer behind main */}
@@ -2384,105 +2419,108 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   }
 
   // ── hero-massage-01-fullbleed ───────────────────────────────────────────────
-  // 780px, gradient overlay, centrovaný obsah, Cormorant Garamond 72px
-  // tag (gold uppercase) → H1 → subline → outline CTA — praha-masaze.cz originál
+  // Cinematic fullscreen spa hero — dark overlay, Cormorant 80px, gold accents,
+  // diamond separator, outline CTA with shimmer, scroll-down chevron
   if (variant === "hero-massage-01-fullbleed") {
-    const bg      = String(content.bgImage      ?? content.backgroundImage ?? "");
-    const tag     = String(content.tag          ?? "Rodinné studio krásy a zdraví");
-    const headline= String(content.headline     ?? "Tady se maká na úlevě");
-    const subline = String(content.subline      ?? "Odborná terapeutická masáž v intimním a příjemném prostředí.");
-    const ctaText = String(content.ctaText      ?? "Rezervovat masáž");
-    const ctaHref = String(content.ctaHref      ?? "#rezervace");
-    const GOLD    = "#C9A962";
-    const TEXT    = "#F5F0E8";
-    const SECONDARY = "#A09888";
-    const FONT    = "'Inter', sans-serif";
-    const SERIF   = "'Cormorant Garamond', serif";
+    const bg       = String(content.bgImage ?? content.backgroundImage ?? "/templates/massage-01/hero-bg.webp");
+    const tag      = String(content.tag      ?? "Terapeutické masáže v srdci Prahy");
+    const headline = String(content.headline ?? "Místo, kde tělo nalézá klid");
+    const subline  = String(content.subline  ?? "Odborná péče, terapeutický dotyk a prostředí\nstvořené pro vaše naprosté uvolnění.");
+    const ctaText  = String(content.ctaText  ?? "Objednat konzultaci");
+    const ctaHref  = String(content.ctaHref  ?? "/kontakt");
+    const scrollLabel = String((content as Record<string,unknown>).scrollLabel ?? "Objevte více");
     return (
       <section
         id="uvod"
-        style={{ position: "relative", height: 780, overflow: "hidden", display: "flex", alignItems: "flex-start", backgroundColor: "#0A0A0A" }}
+        className="m01-hero"
         data-template="massage-01"
       >
-        {/* Bg foto */}
         {bg && (
-          <GenericEditableImage sectionId={sectionId} field="bgImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
+          <GenericEditableImage sectionId={sectionId} field="bgImage" src={bg} alt="" className="m01-hero-bg" style={{ position: "absolute" }} priority>
             <Image src={bg} alt="" fill className="object-cover object-center" sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
           </GenericEditableImage>
         )}
-        {/* Gradient overlay — přesně z clone CSS */}
-        <div aria-hidden style={{
-          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
-          background: "linear-gradient(to bottom, rgba(10,10,10,0.91) 0%, rgba(10,10,10,0.69) 50%, rgba(10,10,10,0.88) 100%)"
-        }} />
-        {/* Content — centrovaný */}
-        <div style={{
-          position: "relative", zIndex: 2,
-          width: "100%", maxWidth: 1280, margin: "0 auto",
-          padding: "72px 80px 0",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 32, textAlign: "center"
-        }}>
-          {/* Ikona rukou — demo logo nad tagem, 120×120, gold SVG */}
-          <div aria-hidden style={{ width: 120, height: 120, marginBottom: -8 }}>
-            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-              {/* Kruh pozadí */}
-              <circle cx="60" cy="60" r="58" fill="#0A0A0A" stroke="#C9A962" strokeWidth="1"/>
-              {/* Ruce — stylizovaná masáž: dvě dlaně přes sebe */}
-              {/* Spodní ruka */}
-              <path d="M28 72 Q30 58 40 55 L52 54 Q56 53 58 56 L60 62" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <path d="M60 62 L62 54 Q63 50 67 50 Q71 50 71 54 L71 62" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <path d="M71 62 L71 52 Q71 48 75 48 Q79 48 79 52 L79 62" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <path d="M79 62 L79 54 Q79 50 83 50 Q87 50 87 54 L87 64" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              <path d="M87 64 Q90 70 88 76 Q85 84 76 86 L50 86 Q38 86 32 78 L28 72" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-              {/* Horní ruka — překrývá */}
-              <path d="M36 56 Q34 44 42 38 Q46 35 50 38 L52 42" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6"/>
-              <path d="M52 42 L54 34 Q55 30 59 30 Q63 30 63 34 L63 44" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6"/>
-              <path d="M63 44 L63 32 Q63 28 67 28 Q71 28 71 32 L71 44" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6"/>
-              <path d="M71 44 L71 34 Q71 30 75 30 Q79 30 79 34 L79 46" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6"/>
-              <path d="M79 46 Q84 50 84 58 Q84 66 78 70 L52 70 Q40 70 36 60 L36 56" stroke="#C9A962" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.6"/>
-            </svg>
-          </div>
+        <div className="m01-hero-overlay" aria-hidden="true" />
+        <div className="m01-hero-vignette" aria-hidden="true" />
 
-          {/* Tag — gold, 11px, uppercase, letter-spacing 2px */}
-          <p style={{
-            fontFamily: FONT, fontSize: 11, fontWeight: 500,
-            letterSpacing: 2, color: GOLD, textTransform: "uppercase",
-            margin: 0,
-          }}>
+        <div className="m01-hero-content">
+          {/* Diamond decorative mark */}
+          <span className="m01-hero-diamond" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="9" y="0.7" width="11.5" height="11.5" rx="1" transform="rotate(45 9 0.7)" stroke="#C9A962" strokeWidth="0.8"/></svg>
+          </span>
+
+          <p className="m01-hero-tag">
             <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
           </p>
-          {/* H1 — Cormorant Garamond, 72px, weight 400, cream */}
-          <h1 style={{
-            fontFamily: SERIF, fontSize: "clamp(40px, 6vw, 72px)",
-            fontWeight: 400, color: TEXT, lineHeight: 1.05,
-            maxWidth: 680, margin: 0,
-          }}>
+
+          <h1 className="m01-hero-h1">
             <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
           </h1>
-          {/* Subline — Inter 17px, weight 300, secondary */}
-          <p style={{
-            fontFamily: FONT, fontSize: 17, fontWeight: 300,
-            color: SECONDARY, lineHeight: 1.7, maxWidth: 560, margin: 0,
-          }}>
+
+          {/* Gold ornamental rule — 3 dots + line */}
+          <span className="m01-hero-rule" aria-hidden="true">
+            <span className="m01-hero-rule-line" />
+            <span className="m01-hero-rule-dot" />
+            <span className="m01-hero-rule-diamond">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="5" y="0.3" width="6.5" height="6.5" rx="0.6" transform="rotate(45 5 0.3)" fill="#C9A962"/></svg>
+            </span>
+            <span className="m01-hero-rule-dot" />
+            <span className="m01-hero-rule-line" />
+          </span>
+
+          <p className="m01-hero-sub">
             <GenericEditableText sectionId={sectionId} field="subline" value={subline} tag="span" />
           </p>
-          {/* CTA — outline gold */}
-          <a
-            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-            data-btn="primary"
-            style={{
-              display: "inline-flex", alignItems: "center",
-              border: `1px solid rgba(201,169,98,0.25)`,
-              color: GOLD, fontFamily: FONT, fontSize: 13, fontWeight: 500,
-              letterSpacing: "0.16em", textTransform: "uppercase",
-              textDecoration: "none", padding: "12px 32px",
-              transition: "border-color 0.25s, color 0.25s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(201,169,98,0.25)"; }}
-          >
+
+          <a href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)} className="m01-hero-cta" data-btn="primary">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="m01-hero-scroll">
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: "rgba(201,169,98,0.6)" }} />
+          <svg className="m01-hero-chevron" width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="#C9A962" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 1l7 7 7-7"/></svg>
+        </div>
+      </section>
+    );
+  }
+
+  // ── hero-massage-01-page — slim subpage banner ──────────────────────────────
+  if (variant === "hero-massage-01-page") {
+    const eyebrow  = String(content.eyebrow  ?? "");
+    const title    = String(content.title     ?? content.headline ?? "");
+    const subtitle = String(content.subtitle  ?? content.subline  ?? "");
+    const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+    if (!showHeader) return null;
+    return (
+      <section className="m01-page-hero" data-template="massage-01">
+        <div className="m01-page-hero-inner">
+          {eyebrow.trim() && (
+            <p className="m01-hero-tag">
+              <span className="m01-hero-tag-dot" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </p>
+          )}
+          {title.trim() && (
+            <h1 className="m01-page-hero-title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h1>
+          )}
+          {subtitle.trim() && (
+            <p className="m01-page-hero-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+          <span className="m01-hero-rule" aria-hidden="true">
+            <span className="m01-hero-rule-line" />
+            <span className="m01-hero-rule-dot" />
+            <span className="m01-hero-rule-diamond">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><rect x="5" y="0.3" width="6.5" height="6.5" rx="0.6" transform="rotate(45 5 0.3)" fill="#C9A962"/></svg>
+            </span>
+            <span className="m01-hero-rule-dot" />
+            <span className="m01-hero-rule-line" />
+          </span>
         </div>
       </section>
     );
@@ -2493,8 +2531,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     return <HeroTawan01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
-  if (variant === "tawan-02-hero") {
-    return <HeroTawan02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "thaimasaze-02-hero") {
+    return <HeroThaimasaze02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // tattoo-01: fullbleed dark hero — 100svh, foto bg + pravý dekorativní art obrázek,
@@ -2508,13 +2546,14 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
       backgroundImage?: string;
       artImage?: string;
     };
-    const bg       = c01.backgroundImage ?? "";
+    const bg       = c01.backgroundImage ?? "/templates/tattoo-01/hero-bg.webp";
     const artImage = c01.artImage ?? "/templates/tattoo-01/hero-art.webp";
+    const eyebrow  = String((content as Record<string, unknown>).eyebrow ?? "Tetovací & piercing studio — Praha");
     const ACCENT = "#ff5c4b";
 
-    const href1 = c01.cta1Href ?? "#tattoo";
-    const href2 = c01.cta2Href ?? "#piercing";
-    const href3 = c01.cta3Href ?? "#kontakt";
+    const href1 = c01.cta1Href ?? "/tattoo";
+    const href2 = c01.cta2Href ?? "/piercing";
+    const href3 = c01.cta3Href ?? "/kontakt";
 
     return (
       <>
@@ -2536,29 +2575,38 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             flexDirection: "column",
           }}
         >
-          {/* Foto pozadí */}
+          {/* Foto pozadí — Ken Burns slow zoom */}
           {bg && (
-            <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 w-full h-full">
+            <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 w-full h-full t01-kb" style={{ position: "absolute" }}>
               <Image
                 src={bg}
                 alt=""
                 fill
                 priority
                 className="object-cover"
-                style={{ objectPosition: "62% 54%" }}
+                style={{ objectPosition: "58% 45%" }}
                 sizes="100vw"
                 unoptimized={shouldSkipNextImageOptimization(bg)}
               />
             </GenericEditableImage>
           )}
 
-          {/* Gradient overlay — tmavý nahoře, průhledný dole */}
+          {/* Gradient overlay — cinematic: tmavší dole vlevo pod textem */}
           <div
             aria-hidden
             style={{
               position: "absolute", inset: 0,
-              background: "linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.15) 100%)",
+              background: "linear-gradient(120deg, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.55) 42%, rgba(0,0,0,0.18) 72%, rgba(0,0,0,0.05) 100%)",
               zIndex: 1,
+            }}
+          />
+          {/* Vignette pro cinematic grade */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute", inset: 0, zIndex: 1,
+              background: "radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(0,0,0,0.55) 100%)",
+              pointerEvents: "none",
             }}
           />
 
@@ -2585,44 +2633,63 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
                 padding: "clamp(100px, 12vw, 140px) clamp(24px, 5vw, 72px) clamp(60px, 8vw, 100px)",
               }}
             >
-              <div style={{ maxWidth: 640 }}>
-                {/* Červená dekorativní linka nad H1 */}
-                <div style={{ width: 44, height: 3, backgroundColor: ACCENT, marginBottom: "clamp(20px, 2.5vw, 28px)" }} aria-hidden />
+              <div style={{ maxWidth: 660 }}>
+                {/* Eyebrow — korálová linka + label */}
+                <div className="t01-fade t01-d1" style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: "clamp(20px, 2.5vw, 30px)" }}>
+                  <span style={{ width: 44, height: 3, backgroundColor: ACCENT, flexShrink: 0 }} aria-hidden />
+                  <GenericEditableText
+                    sectionId={sectionId}
+                    field="eyebrow"
+                    value={eyebrow}
+                    tag="span"
+                    style={{
+                      fontFamily: "Arial, Helvetica, sans-serif",
+                      fontSize: "0.72rem", fontWeight: 700,
+                      letterSpacing: "0.22em", textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.82)",
+                    }}
+                  />
+                </div>
 
                 <h1
+                  className="t01-fade t01-d2"
                   style={{
                     fontFamily: "'Arial Black', Arial, sans-serif",
-                    fontSize: "clamp(2.6rem, 5vw, 5rem)",
+                    fontSize: "clamp(2.7rem, 5.4vw, 5.4rem)",
                     fontWeight: 900,
                     color: "#ffffff",
                     textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                    lineHeight: 1.05,
+                    letterSpacing: "0.02em",
+                    lineHeight: 1.02,
                     margin: 0,
+                    textShadow: "0 2px 30px rgba(0,0,0,0.5)",
                   }}
                 >
-                  <GenericEditableText sectionId={sectionId} field="title" value={c01.title ?? "Demo Tattoo Studio"} tag="span" />
+                  <GenericEditableText sectionId={sectionId} field="title" value={c01.title ?? "Inkwell Studio"} tag="span" />
                 </h1>
 
                 <p
+                  className="t01-fade t01-d3"
                   style={{
                     fontFamily: "Arial, Helvetica, sans-serif",
-                    fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)",
+                    fontSize: "clamp(0.98rem, 1.6vw, 1.18rem)",
                     fontWeight: 300,
-                    color: "rgba(255,255,255,0.7)",
-                    letterSpacing: "0.06em",
-                    marginTop: "clamp(14px, 2vw, 22px)",
+                    color: "rgba(255,255,255,0.74)",
+                    letterSpacing: "0.04em",
+                    marginTop: "clamp(16px, 2vw, 24px)",
                     marginBottom: "clamp(32px, 4vw, 48px)",
-                    lineHeight: 1.6,
+                    lineHeight: 1.65,
+                    maxWidth: 520,
                   }}
                 >
-                  <GenericEditableText sectionId={sectionId} field="subtitle" value={c01.subtitle ?? "Tetování a piercing od roku 1996"} tag="span" />
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={c01.subtitle ?? "Autorská tvorba, precizní řemeslo a hygiena na první místě. Vaše první i další tetování ve správných rukou."} tag="span" />
                 </p>
 
                 {/* 3 CTA tlačítka — hned pod subtitlem */}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 14px", alignItems: "center" }}>
+                <div className="t01-fade t01-d4" style={{ display: "flex", flexWrap: "wrap", gap: "12px 14px", alignItems: "center" }}>
                   <a
                     href={resolveDemoHref(href1, tenantSlug, isAdmin)}
+                    className="t01-hero-ghost"
                     style={{
                       display: "inline-flex", alignItems: "center",
                       border: "1.5px solid rgba(255,255,255,0.6)",
@@ -2630,16 +2697,15 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
                       fontFamily: "Arial, Helvetica, sans-serif",
                       fontSize: "0.72rem", fontWeight: 700,
                       letterSpacing: "0.14em", textTransform: "uppercase",
-                      textDecoration: "none", padding: "12px 28px",
-                      transition: "background 0.2s, border-color 0.2s", whiteSpace: "nowrap",
+                      textDecoration: "none", padding: "13px 30px",
+                      whiteSpace: "nowrap",
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor = "#ffffff"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"; }}
                   >
                     <GenericEditableText sectionId={sectionId} field="cta1Text" value={c01.cta1Text ?? "Tattoo"} tag="span" />
                   </a>
                   <a
                     href={resolveDemoHref(href2, tenantSlug, isAdmin)}
+                    className="t01-hero-ghost"
                     style={{
                       display: "inline-flex", alignItems: "center",
                       border: "1.5px solid rgba(255,255,255,0.6)",
@@ -2647,27 +2713,24 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
                       fontFamily: "Arial, Helvetica, sans-serif",
                       fontSize: "0.72rem", fontWeight: 700,
                       letterSpacing: "0.14em", textTransform: "uppercase",
-                      textDecoration: "none", padding: "12px 28px",
-                      transition: "background 0.2s, border-color 0.2s", whiteSpace: "nowrap",
+                      textDecoration: "none", padding: "13px 30px",
+                      whiteSpace: "nowrap",
                     }}
-                    onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.12)"; e.currentTarget.style.borderColor = "#ffffff"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"; }}
                   >
                     <GenericEditableText sectionId={sectionId} field="cta2Text" value={c01.cta2Text ?? "Piercing"} tag="span" />
                   </a>
                   <a
                     href={resolveDemoHref(href3, tenantSlug, isAdmin)}
+                    className="t01-cta"
                     style={{
                       display: "inline-flex", alignItems: "center",
                       backgroundColor: ACCENT, color: "#ffffff",
                       fontFamily: "Arial, Helvetica, sans-serif",
                       fontSize: "0.72rem", fontWeight: 700,
                       letterSpacing: "0.14em", textTransform: "uppercase",
-                      textDecoration: "none", padding: "13px 30px",
-                      transition: "background 0.2s", whiteSpace: "nowrap",
+                      textDecoration: "none", padding: "14px 32px",
+                      whiteSpace: "nowrap",
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#d94a38")}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = ACCENT)}
                   >
                     <GenericEditableText sectionId={sectionId} field="cta3Text" value={c01.cta3Text ?? "Objednat se"} tag="span" />
                   </a>
@@ -2677,7 +2740,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 
             {/* Pravý panel — tattoo art obrázek */}
             <div
-              className="t01-art-panel"
+              className="t01-art-panel t01-fade t01-d3"
               aria-hidden
               style={{
                 flexShrink: 0,
@@ -2728,14 +2791,84 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
               </div>
             </div>
           </div>
+
+          {/* Scroll-down cue */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)",
+              zIndex: 3, display: "flex", justifyContent: "center", alignItems: "flex-start",
+              width: 22, height: 34, borderRadius: 12,
+              border: "1.5px solid rgba(255,255,255,0.4)",
+              paddingTop: 7,
+            }}
+          >
+            <span
+              className="t01-scrolldot"
+              style={{ display: "block", width: 3, height: 7, borderRadius: 2, backgroundColor: ACCENT }}
+            />
+          </div>
         </section>
       </>
     );
   }
 
-  // ananda-01: fullscreen image slider, fixed navbar above (spacer already injected by navbar)
-  if (variant === "ananda-01-hero-slider") {
-    return <HeroAnanda01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  // tattoo-01 slim page banner — kompaktní hero pro podstránky (breadcrumb + nadpis)
+  if (variant === "hero-tattoo-01-page") {
+    const cp = content as Record<string, unknown>;
+    const bg = String(cp.backgroundImage ?? "/templates/tattoo-01/hero-bg.webp");
+    const eyebrow = String(cp.eyebrow ?? "Inkwell Studio");
+    const title = String(cp.title ?? "Stránka");
+    const subtitle = String(cp.subtitle ?? "");
+    const ACCENT = "#ff5c4b";
+    const homeHref = resolveDemoHref("/", tenantSlug, isAdmin);
+
+    return (
+      <section
+        id="uvod"
+        data-template="tattoo-01"
+        className="t01-pagehero"
+        style={{ position: "relative", overflow: "hidden", backgroundColor: "#000" }}
+      >
+        {bg && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 w-full h-full t01-pagehero-kb" style={{ position: "absolute" }}>
+            <Image src={bg} alt="" fill priority className="object-cover" style={{ objectPosition: "58% 42%" }} sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
+          </GenericEditableImage>
+        )}
+        <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(120deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.62) 48%, rgba(0,0,0,0.32) 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none", background: "radial-gradient(ellipse at 50% 30%, transparent 45%, rgba(0,0,0,0.5) 100%)" }} />
+
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", padding: "clamp(120px, 15vw, 168px) clamp(24px, 5vw, 72px) clamp(48px, 7vw, 80px)" }}>
+          <div className="t01-pagehero-in">
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "clamp(16px, 2vw, 22px)" }}>
+              <span style={{ width: 40, height: 3, backgroundColor: ACCENT, flexShrink: 0 }} aria-hidden />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.82)" }} />
+            </div>
+            <h1 style={{ fontFamily: "'Arial Black', Arial, sans-serif", fontSize: "clamp(2.2rem, 4.6vw, 4rem)", fontWeight: 900, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1.04, margin: 0, textShadow: "0 2px 30px rgba(0,0,0,0.5)" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h1>
+            {subtitle && (
+              <p style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "clamp(0.95rem, 1.5vw, 1.12rem)", fontWeight: 300, color: "rgba(255,255,255,0.72)", letterSpacing: "0.03em", lineHeight: 1.65, margin: "clamp(16px, 2vw, 22px) 0 0", maxWidth: 560 }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+            <nav aria-label="Drobečková navigace" style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "clamp(24px, 3vw, 32px)", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.76rem", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+              <a href={homeHref} className="t01-pagehero-crumb" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>Domů</a>
+              <span aria-hidden style={{ color: ACCENT }}>/</span>
+              <span style={{ color: "#ffffff", fontWeight: 700 }}>{title}</span>
+            </nav>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // harmonie-01: fullscreen image slider, fixed navbar above (spacer already injected by navbar)
+  if (variant === "harmonie-01-hero-slider") {
+    return <HeroHarmonie01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "harmonie-01-page-banner") {
+    return <HeroHarmonie01PageBanner content={content} sectionId={sectionId} />;
   }
 
   if (variant === "hero-tattoo-02-centered") {
@@ -2800,17 +2933,32 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-fyzio-02-split") {
     return <HeroFyzio02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-fyzio-02-page") {
+    return <HeroFyzio02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "restaurant-01-hero") {
     return <HeroRestaurant01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-restaurant-01-page") {
+    return <HeroRestaurant01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "restaurant-02-hero") {
     return <HeroRestaurant02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-restaurant-02-page") {
+    return <HeroRestaurant02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "restaurant-03-hero") {
     return <HeroRestaurant03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-restaurant-03-page") {
+    return <HeroRestaurant03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "restaurant-04-hero") {
     return <HeroRestaurant04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-restaurant-04-page") {
+    return <HeroRestaurant04Page content={content} sectionId={sectionId} />;
   }
   if (variant === "cafe-02-hero") {
     return <HeroCafe02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2833,12 +2981,18 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "bakery-01-hero") {
     return <HeroBakery01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-bakery-01-page") {
+    return <HeroBakery01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "bakery-02-hero") {
     return <HeroBakery02Hero content={content} sectionId={sectionId} />;
   }
 
   if (variant === "reality-01-hero") {
     return <HeroReality01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-reality-01-page") {
+    return <HeroReality01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "reality-02-hero") {
     return <HeroReality02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2849,11 +3003,20 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-reality-03-video") {
     return <HeroReality03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-reality-03-page") {
+    return <HeroReality03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "reality-04-split-hero") {
     return <HeroReality04Split content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-reality-04-page") {
+    return <HeroReality04Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "reality-05-hero") {
     return <HeroReality05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-reality-05-page") {
+    return <HeroReality05Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "hero-reality-06-agent") {
     return <HeroReality06Agent content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2882,14 +3045,23 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "lawyer-01-hero") {
     return <HeroLawyer01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-lawyer-01-page") {
+    return <HeroLawyer01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "ortho-01-hero") {
     return <HeroOrtho01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "ortho-02-hero") {
     return <HeroOrtho02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-ortho-02-page") {
+    return <HeroOrtho02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "legal-02-hero") {
     return <HeroLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-legal-02-page" || variant === "legal-02-hero-page") {
+    return <HeroLegal02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "autoskola-01-hero") {
     return <HeroAutoskola01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2954,6 +3126,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "klima-01-hero") {
     return <HeroKlima01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-klima-01-page") {
+    return <HeroKlima01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "solar-02-hero") {
     return <HeroSolar02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -2963,12 +3138,16 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "floors-01-hero") {
     return <HeroFloors01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-floors-01-page") {
+    return <HeroFloors01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "klempir-01-hero") {
     return <HeroKlempir01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "malir-01-hero") {
     return <HeroMalir01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-malir-01-page") return <HeroMalir01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "malir-02-hero") {
     return <HeroMalir02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -2989,6 +3168,14 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   }
   if (variant === "hero-chalet-01-page") {
     return <HeroChalet01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+
+  if (variant === "artist-01-hero") {
+    return <HeroArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+
+  if (variant === "hero-artist-01-page") {
+    return <HeroArtist01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "photo-01-hero") {
@@ -3017,6 +3204,90 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 
   if (variant === "video-01-hero") {
     return <HeroVideo01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-02-hero") {
+    return <HeroEshop02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-02-page-hero") {
+    return <HeroEshop02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-03-hero") {
+    return <HeroEshop03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-03-page-hero") {
+    return <HeroEshop03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-04-hero") {
+    return <HeroEshop04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-04-page-hero") {
+    return <HeroEshop04Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-05-hero") {
+    return <HeroEshop05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-06-hero") {
+    return <HeroEshop06 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-06-page-hero") {
+    return <HeroEshop06Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-07-hero") {
+    return <HeroEshop07 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-07-page-hero") {
+    return <HeroEshop07Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-09-hero") {
+    return <HeroEshop09 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-09-page-hero") {
+    return <HeroEshop09Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-10-hero") {
+    return <HeroEshop10 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-10-page-hero") {
+    return <HeroEshop10Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-11-hero") {
+    return <HeroEshop11 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-14-hero") {
+    return <HeroEshop14 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-15-hero") {
+    return <HeroEshop15 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-16-hero") {
+    return <HeroEshop16 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-17-hero") {
+    return <HeroEshop17 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-19-hero") {
+    return <HeroEshop19 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-18-hero") {
+    return <HeroEshop18 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-20-hero") {
+    return <HeroEshop20 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-12-hero") {
+    return <HeroEshop12 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-12-page-hero") {
+    return <HeroEshop12Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-13-hero") {
+    return <HeroEshop13 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-08-hero") {
+    return <HeroEshop08 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "eshop-08-page-hero") {
+    return <HeroEshop08Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // Default: hero-centered (s bg fotkou = bílý text + overlay; bez = tmavý text)
@@ -4058,13 +4329,8 @@ function HeroTawan01({
   );
 }
 
-// ── ananda-01-hero-slider ─────────────────────────────────────────────────────
-// 100svh fullscreen, navbar (gold, fixed) leží nad ním — spacer je v navbar komponentu.
-// Slider: 4 bg obrázky, auto 6s, fade transition, dot navigátor dole.
-// Obsah: centrovaný symbol "A" (SVG) + H1 light + 2× gold-border pill CTA.
-// Ref: anandaspa.cz header — h-screen, Jost, gold border-radius pill buttons.
-// ─────────────────────────────────────────────────────────────────────────────
-function HeroAnanda01({
+// ── harmonie-01-hero-slider ─────────────────────────────────────────────────────
+function HeroHarmonie01({
   content,
   sectionId,
   tenantSlug,
@@ -4075,88 +4341,130 @@ function HeroAnanda01({
   tenantSlug?: string;
   isAdmin?: boolean;
 }) {
-  type Slide = { bgImage?: string };
-  const headline = String(content.headline ?? "Tradiční indická\nmedicína v srdci Prahy");
-  const ctaText  = String(content.ctaText  ?? "REZERVOVAT");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const cta2Text = String(content.cta2Text ?? "DÁRKOVÝ VOUCHER");
-  const cta2Href = String(content.cta2Href ?? "#voucher");
-  const videoUrl = String(content.videoUrl ?? "/templates/ananda-01/hero.mp4");
+  const headline    = String(content.headline    ?? "Tradiční indická\nmedicína v srdci Prahy");
+  const subline     = String(content.subline     ?? "Autentická ájurvéda pod vedením indických terapeutů");
+  const ctaText     = String(content.ctaText     ?? "REZERVOVAT");
+  const ctaHref     = String(content.ctaHref     ?? "/kontakt");
+  const cta2Text    = String(content.cta2Text    ?? "DÁRKOVÝ VOUCHER");
+  const cta2Href    = String(content.cta2Href    ?? "/voucher");
+  const scrollLabel = String(content.scrollLabel ?? "Objevte více");
+  const bgVideo     = String(content.bgVideo     ?? "/templates/harmonie-01/hero-video.mp4");
+  const bgImage     = String(content.bgImage     ?? "/templates/harmonie-01/hero-bg.webp");
+  const siteMode    = String((content as Record<string, unknown>).siteMode ?? "multipage");
 
   const GOLD  = "#AA813A";
   const WHITE = "#ffffff";
   const FONT  = "'Jost', sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || !href.startsWith("/")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  // Dekorativní "A" symbol — 1:1 Ananda_symbolA_HP_white.svg proporce
-  const symbolSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 90" fill="none"><path d="M40 5 L72 80 H58 L40 35 L22 80 H8 Z" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" fill="none"/><line x1="18" y1="58" x2="62" y2="58" stroke="rgba(255,255,255,0.5)" stroke-width="1"/></svg>`;
-  const symbolUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(symbolSvg)}`;
+  // Lotos mark — konzistentní s navbar logem
+  const lotusSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="2.4" fill="rgba(255,255,255,0.9)"/>${[0,60,120,180,240,300].map(a=>`<ellipse cx="22" cy="${22-10.5}" rx="2.9" ry="7.4" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1" transform="rotate(${a} 22 22)"/>`).join("")}</svg>`;
+  const lotusUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(lotusSvg)}`;
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&display=swap" />
-      <style>{`        .ananda-hero-btn {
-          font-family: ${FONT}; font-size: 11px; font-weight: 600;
-          letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
-          color: ${WHITE}; display: inline-flex; align-items: center;
-          padding: 14px 32px; border: 1.5px solid ${GOLD}; border-radius: 999px;
-          transition: background 0.25s, color 0.25s; white-space: nowrap;
-        }
-        .ananda-hero-btn:hover { background: ${GOLD}; }
-        @media(max-width: 600px) {
-          .ananda-hero-btns { flex-direction: column !important; align-items: center !important; }
-          .ananda-hero-btn { width: 220px; justify-content: center; }
-        }
-      `}</style>
-
-      <section
-        id="uvod"
-        data-template="ananda-01"
-        style={{ position: "relative", width: "100%", height: "100svh", minHeight: 580, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#1a1208" }}
+    <section
+      id="uvod"
+      data-template="harmonie-01"
+      style={{ position: "relative", width: "100%", height: "100svh", minHeight: 580, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#1a1208" }}
+    >
+      {/* Background video with image fallback */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster={bgImage}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
       >
-        {/* Video pozadí — autoPlay muted loop, 1:1 anandaspa.cz */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-        >
-          <source src={videoUrl} type="video/mp4" />
-        </video>
+        <source src={bgVideo} type="video/mp4" />
+      </video>
 
-        {/* Bez overlay — 1:1 anandaspa.cz (video hraje čisté) */}
+      {/* Gradient overlay — čitelnost textu */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(180deg, rgba(18,14,6,0.4) 0%, rgba(18,14,6,0.15) 40%, rgba(18,14,6,0.5) 100%)" }} />
 
-        {/* Centrovaný obsah */}
-        <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 24px", maxWidth: 700 }}>
-          <img loading="eager" src={symbolUrl} alt="" aria-hidden style={{ width: 56, height: 63, display: "block", margin: "0 auto 28px" }} />
-          <h1 style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(32px, 5vw, 58px)", color: WHITE, margin: "0 0 40px", lineHeight: 1.2, letterSpacing: 1, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
-          </h1>
-          <div className="ananda-hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={resolve(ctaHref)} data-btn="primary" className="ananda-hero-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
-            <a href={resolve(cta2Href)} className="ananda-hero-btn"><GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" /></a>
-          </div>
+      {/* Centrovaný obsah */}
+      <div className="harmonie-hero-content" style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 24px", maxWidth: 740 }}>
+        <img loading="eager" src={lotusUrl} alt="" aria-hidden className="harmonie-hero-lotus" style={{ width: 52, height: 52, display: "block", margin: "0 auto 24px", opacity: 0.88 }} />
+        <h1 style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(32px, 5vw, 58px)", color: WHITE, margin: "0 0 16px", lineHeight: 1.18, letterSpacing: 1, whiteSpace: "pre-line" }}>
+          <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
+        </h1>
+        <p className="harmonie-hero-sub" style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(13px, 1.6vw, 16px)", color: "rgba(255,255,255,0.72)", letterSpacing: 2.5, textTransform: "uppercase", margin: "0 0 40px" }}>
+          <GenericEditableText sectionId={sectionId} field="subline" value={subline} tag="span" />
+        </p>
+        <div className="harmonie-hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          <a href={resolve(ctaHref)} data-btn="primary" className="harmonie-hero-btn harmonie-hero-btn--primary">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={resolve(cta2Href)} className="harmonie-hero-btn">
+            <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+          </a>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Scroll hint */}
+      <div className="harmonie-hero-scroll" style={{ position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span"
+          style={{ fontFamily: FONT, fontSize: 10, fontWeight: 400, letterSpacing: 3, textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }} />
+        <span className="harmonie-hero-scroll-line" style={{ display: "block", width: 1, height: 32, background: "rgba(255,255,255,0.35)" }} />
+      </div>
+    </section>
   );
 }
 
-// ── tawan-02-hero ─────────────────────────────────────────────────────────────
+// ── harmonie-01-page-banner ──────────────────────────────────────────────────────
+function HeroHarmonie01PageBanner({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const GOLD = "#AA813A";
+  const CREAM = "#F2EDE4";
+  const FONT = "'Jost', sans-serif";
+
+  const title = String(content.title ?? "");
+  const breadcrumb = String(content.breadcrumb ?? "Úvod");
+
+  return (
+    <section data-template="harmonie-01" style={{
+      backgroundColor: CREAM,
+      paddingTop: 140,
+      paddingBottom: 56,
+      position: "relative",
+    }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", textAlign: "center" }}>
+        <p style={{
+          fontFamily: FONT, fontSize: 11, fontWeight: 500,
+          letterSpacing: 3, textTransform: "uppercase",
+          color: "rgba(170,129,58,0.6)", margin: "0 0 16px",
+        }}>
+          <a href="/" style={{ color: "inherit", textDecoration: "none" }}>{breadcrumb}</a>
+          <span style={{ margin: "0 10px", opacity: 0.5 }}>—</span>
+          <span style={{ color: GOLD }}>{title}</span>
+        </p>
+        <h1 style={{
+          fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)",
+          fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase",
+          color: GOLD, margin: "0 0 20px", lineHeight: 1.2,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {/* Decorative line */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 8, alignItems: "center" }} aria-hidden>
+          <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${GOLD}55)` }} />
+          <svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke={GOLD} strokeWidth="1.2" opacity={0.5}>
+            <path d="M10 2C8 5 5 8 2 10c3 2 6 5 8 8 2-3 5-6 8-8-3-2-6-5-8-8z"/>
+          </svg>
+          <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${GOLD}55, transparent)` }} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── thaimasaze-02-hero ─────────────────────────────────────────────────────────────
 // 100svh, bg image s tmavým overlayem, centrovaný obsah
 // H1 + subline + 2× CTA (voucher outline + rezervace filled)
 // Šipka dolů na konci, font Candara/Georgia
 // Ref: escapemassage.cz homepage hero
 // ─────────────────────────────────────────────────────────────────────────────
-function HeroTawan02({
+function HeroThaimasaze02({
   content,
   sectionId,
   tenantSlug,
@@ -4167,21 +4475,24 @@ function HeroTawan02({
   tenantSlug?: string;
   isAdmin?: boolean;
 }) {
-  const headline      = String(content.headline      ?? "Nejlepší thajské masáže v Praze");
-  const subline       = String(content.subline       ?? "Certifikované masérky · Otevřeno denně 10–22h · Online rezervace");
-  const ctaText       = String(content.ctaText       ?? "Online rezervace");
-  const ctaHref       = String(content.ctaHref       ?? "#kontakt");
-  const voucherText   = String(content.voucherText   ?? "Dárkové poukazy");
-  const voucherHref   = String(content.voucherHref   ?? "#voucher");
-  const bgVideo       = String(content.bgVideo       ?? "/clones/escape/wp-content/themes/twentyseventeen/assets/images/homepage-desktop-2.mp4");
-  const bgVideoMobile = String(content.bgVideoMobile ?? "/clones/escape/wp-content/themes/twentyseventeen/assets/images/homepage-mobile-2.mp4");
-  const bgImage       = String(content.bgImage       ?? "/clones/escape/wp-content/uploads/2024/04/Escape-14-2000x1200.jpg");
+  const eyebrow      = String(content.eyebrow       ?? "Certifikované thajské masáže v Praze");
+  const headline      = String(content.headline      ?? "Nechte tělo i mysl\noddechnout");
+  const subline       = String(content.subline       ?? "Tradiční techniky · prémiová péče · otevřeno denně 10–22 h");
+  const ctaText       = String(content.ctaText       ?? "Rezervovat termín");
+  const ctaHref       = String(content.ctaHref       ?? "/kontakt");
+  const secondaryText = String(content.secondaryText ?? "Prohlédnout nabídku");
+  const secondaryHref = String(content.secondaryHref ?? "/sluzby");
+  const scrollLabel   = String(content.scrollLabel   ?? "Objevte více");
+  const bgImage       = String(content.bgImage       ?? "/templates/thaimasaze-02/hero.webp");
+  const bgVideo       = String(content.bgVideo       ?? "/templates/thaimasaze-02/hero-video.mp4");
+  const bgVideoMobile = String(content.bgVideoMobile ?? "/templates/thaimasaze-02/hero-video-mobile.mp4");
 
   const BROWN  = "#604B3A";
   const ACCENT = "#AD8F78";
   const CREAM  = "#D8CABF";
   const WHITE  = "#ffffff";
-  const FONT   = "Candara, 'Candara Regular', Georgia, serif";
+  const FONT   = "Candara, 'Candara Regular', 'Segoe UI', sans-serif";
+  const SERIF  = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
 
   const resolve = (href: string) => {
     if (!tenantSlug || !href.startsWith("/")) return href;
@@ -4189,105 +4500,164 @@ function HeroTawan02({
     return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
   };
 
-  return (
-    <>
-      <style>{`
-        .t02-video-desktop { display: block; }
-        .t02-video-mobile  { display: none; }
-        @media(max-width: 767px) {
-          .t02-video-desktop { display: none; }
-          .t02-video-mobile  { display: block; }
-        }
-        .t02-hero-cta-btn {
-          font-family: ${FONT}; font-size: 13px; font-weight: 700;
-          letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
-          color: ${CREAM}; display: inline-block;
-          padding: 0 48px; height: 50px; line-height: 48px;
-          background: transparent; border: 1.5px solid ${CREAM}; border-radius: 8px;
-          transition: background 0.25s;
-          white-space: nowrap;
-        }
-        .t02-hero-cta-btn:hover { background: rgba(216,202,191,0.15); }
-      `}</style>
+  const isBanner = content.isBanner === true;
 
-      <section
-        id="uvod"
-        data-template="tawan-02"
-        style={{
-          position: "relative", width: "100%", height: "100svh", minHeight: 580,
-          overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center",
-          backgroundColor: BROWN,
-        }}
-      >
-        {/* Video pozadí — desktop */}
-        <video
-          autoPlay muted loop playsInline
-          className="t02-video-desktop"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-          poster={bgImage}
-        >
-          <source src={bgVideo} type="video/mp4" />
-        </video>
-        {/* Video pozadí — mobile */}
-        <video
-          autoPlay muted loop playsInline
-          className="t02-video-mobile"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-          poster={bgImage}
-        >
-          <source src={bgVideoMobile} type="video/mp4" />
-        </video>
-
-        {/* Overlay — 1:1 escapemassage.cz */}
-        <div aria-hidden style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.3) 100%)",
-        }} />
-
-        {/* Centrovaný obsah */}
-        <div style={{
-          position: "relative", zIndex: 2, width: "100%",
-          maxWidth: 820, margin: "0 auto", padding: "0 32px",
-          textAlign: "center",
-        }}>
-          <h1 style={{
-            fontFamily: "Georgia, 'Times New Roman', serif",
-            fontWeight: 400, fontSize: "clamp(32px, 5vw, 62px)",
-            color: WHITE, margin: "0 0 22px", letterSpacing: 1, lineHeight: 1.2,
-          }}>
+  if (isBanner) {
+    return (
+      <section data-template="thaimasaze-02" className="t02-hero-banner">
+        <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" className="t02-hero-banner-bg" priority>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={bgImage} alt="" className="t02-hero-banner-bg" />
+        </GenericEditableImage>
+        <div className="t02-hero-banner-overlay" aria-hidden />
+        <div className="t02-hero-banner-inner">
+          <h1 className="t02-hero-banner-title">
             <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
           </h1>
-          <p style={{
-            fontFamily: FONT, fontWeight: 300,
-            fontSize: "clamp(13px, 1.8vw, 18px)",
-            color: "rgba(217,202,191,0.9)", margin: "0 0 44px", letterSpacing: 0.5,
-          }}>
+          <p className="t02-hero-banner-sub">
             <GenericEditableText sectionId={sectionId} field="subline" value={subline} tag="span" />
           </p>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <a href={resolve(ctaHref)} data-btn="primary" className="t02-hero-cta-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
-          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      id="uvod"
+      data-template="thaimasaze-02"
+      style={{
+        position: "relative", width: "100%", height: "100svh", minHeight: 620,
+        overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center",
+        backgroundColor: BROWN,
+      }}
+    >
+      {/* Background video + poster fallback */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        poster={bgImage}
+        className="t02-hero-video"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+      >
+        <source src={bgVideo} media="(min-width: 769px)" type="video/mp4" />
+        <source src={bgVideoMobile} type="video/mp4" />
+      </video>
+      {/* Fallback poster for no-JS/slow load */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: -1 }} />
+
+      {/* Warm brown overlay — 3 layers for depth */}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: `linear-gradient(175deg, rgba(96,75,58,0.55) 0%, rgba(60,47,37,0.35) 40%, rgba(60,47,37,0.7) 100%)`,
+      }} />
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "radial-gradient(ellipse 70% 55% at 50% 45%, transparent 0%, rgba(60,47,37,0.4) 100%)",
+      }} />
+
+      {/* Decorative top hairline */}
+      <div aria-hidden style={{
+        position: "absolute", top: 0, left: 0, right: 0, zIndex: 2,
+        height: 1, background: `linear-gradient(90deg, transparent 5%, ${ACCENT}44 50%, transparent 95%)`,
+      }} />
+
+      {/* Centrovaný obsah */}
+      <div className="t02-hero-content" style={{
+        position: "relative", zIndex: 3, width: "100%",
+        maxWidth: 880, margin: "0 auto", padding: "0 32px",
+        textAlign: "center",
+      }}>
+        {/* Eyebrow — ornamental */}
+        <div className="t02-hero-eyebrow" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 28 }}>
+          <span aria-hidden style={{ display: "inline-block", width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${CREAM}88)` }} />
+          <GenericEditableText
+            sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+            style={{
+              fontFamily: FONT, fontSize: "clamp(11px, 1.2vw, 13px)", fontWeight: 600,
+              letterSpacing: 3.5, textTransform: "uppercase", color: CREAM,
+            }}
+          />
+          <span aria-hidden style={{ display: "inline-block", width: 40, height: 1, background: `linear-gradient(90deg, ${CREAM}88, transparent)` }} />
         </div>
 
-        {/* Šipka dolů */}
-        <div aria-hidden style={{
-          position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
-          zIndex: 3, color: CREAM, opacity: 0.7,
-          animation: "t02-bounce 2s ease-in-out infinite",
+        {/* Headline — editorial serif */}
+        <h1 style={{
+          fontFamily: SERIF, fontWeight: 500,
+          fontSize: "clamp(36px, 6vw, 72px)",
+          color: WHITE, margin: "0 0 26px", letterSpacing: 0.5, lineHeight: 1.12,
+          whiteSpace: "pre-line",
         }}>
-          <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
-            <path d="M2 2L14 13L26 2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
+        </h1>
+
+        {/* Lotus ornament divider */}
+        <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, margin: "0 0 26px" }}>
+          <span style={{ display: "inline-block", width: 48, height: 1, background: `linear-gradient(90deg, transparent, ${ACCENT}99)` }} />
+          <span style={{ fontSize: 14, color: ACCENT, opacity: 0.8 }}>❁</span>
+          <span style={{ display: "inline-block", width: 48, height: 1, background: `linear-gradient(90deg, ${ACCENT}99, transparent)` }} />
         </div>
-        <style>{`@keyframes t02-bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }`}</style>
-      </section>
-    </>
+
+        {/* Subline */}
+        <p style={{
+          fontFamily: FONT, fontWeight: 400,
+          fontSize: "clamp(14px, 1.6vw, 18px)",
+          color: "rgba(216,202,191,0.88)", margin: "0 0 48px", letterSpacing: 0.8,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="subline" value={subline} tag="span" />
+        </p>
+
+        {/* CTA pair — primary filled pill + secondary underline link */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 32, flexWrap: "wrap" }}>
+          <a href={resolve(ctaHref)} className="t02-hero-cta" style={{
+            fontFamily: FONT, fontSize: 12, fontWeight: 700,
+            letterSpacing: 2.2, textTransform: "uppercase", textDecoration: "none",
+            color: WHITE, display: "inline-block",
+            padding: "0 38px", height: 52, lineHeight: "52px",
+            backgroundColor: ACCENT, borderRadius: "999px",
+            whiteSpace: "nowrap",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={resolve(secondaryHref)} className="t02-hero-secondary" style={{
+            fontFamily: FONT, fontSize: 12, fontWeight: 600,
+            letterSpacing: 1.8, textTransform: "uppercase", textDecoration: "none",
+            color: CREAM, display: "inline-flex", alignItems: "center", gap: 8,
+            padding: "8px 0", whiteSpace: "nowrap",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      {/* Scroll indicator — vertical line + label */}
+      <div className="t02-scroll-hint" style={{
+        position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)",
+        zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
+      }}>
+        <GenericEditableText
+          sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span"
+          style={{ fontFamily: FONT, fontSize: 10, fontWeight: 600, letterSpacing: 2.5, textTransform: "uppercase", color: "rgba(216,202,191,0.6)" }}
+        />
+        <span aria-hidden className="t02-scroll-line" style={{
+          display: "block", width: 1, height: 32, backgroundColor: "rgba(216,202,191,0.4)",
+          animation: "t02ScrollPulse 2.2s ease-in-out infinite",
+        }} />
+      </div>
+    </section>
   );
 }
 
 // ── hero-tattoo-02-centered ───────────────────────────────────────────────────
-// Inspirace: homietattoo.cz — zlatý H1, bílý subtitle, gold CTA + šipka,
-// dark foto bg, stats bar dole.
+// "Shadow Ink" Gilded Ink — tmavý fullbleed hero centered, gold H1 Oswald,
+// staggered fade, Ken Burns bg, split CTA + ghost secondary, glass stats bar.
+// Keyframes + CSS v globals.css (t02-fade, t02-bounce, t02-kenburns, t02-hcta…).
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroTattoo02({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
@@ -4295,185 +4665,171 @@ function HeroTattoo02({ content, sectionId, tenantSlug, isAdmin }: {
   tenantSlug?: string;
   isAdmin?: boolean;
 }) {
-  const c       = content as Record<string, unknown>;
-  const title   = String(c.title   ?? "Prémiové tetovací studio Praha");
-  const subtitle= String(c.subtitle?? "Cena tetování od 1 800 Kč · Bezplatná konzultace");
-  const ctaText = String(c.cta1Text?? "Objednejte se na bezplatnou konzultaci");
-  const ctaHref = String(c.cta1Href?? "#kontakt");
-  const bgImage = String(c.backgroundImage ?? "https://homietattoo.cz/wp-content/uploads/bg1-st.jpeg");
+  const c          = content as Record<string, unknown>;
+  const isBanner   = c.isBanner === true;
+  const title      = String(c.title    ?? "Kde se umění otiskne do kůže");
+  const subtitle   = String(c.subtitle ?? "Prémiové tetování & piercing v srdci města. Bezplatná konzultace, individuální design.");
+  const ctaText    = String(c.cta1Text ?? "Rezervovat konzultaci");
+  const ctaHref    = String(c.cta1Href ?? "/kontakt");
+  const cta2Text   = String(c.cta2Text ?? "Prohlédnout portfolio");
+  const cta2Href   = String(c.cta2Href ?? "/galerie");
+  const bgImage    = String(c.backgroundImage ?? "/templates/tattoo-02/hero-bg.webp");
 
-  const GOLD = "#BF8A1D";
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const stats = [
-    { value: "500+", label: "spokojených zákazníků" },
-    { value: "15+",  label: "zkušených tatérů" },
-    { value: "8+",   label: "let zkušeností" },
-    { value: "1800 Kč", label: "cena tetování od" },
-  ];
+  const GOLD   = "#BF8A1D";
+  const OSWALD = "var(--font-oswald), 'Oswald', Impact, sans-serif";
 
-  return (
-    <>
-      <style>{`
-        @keyframes htc-fade { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
-        @keyframes htc-bounce {
-          0%,100%{transform:translateX(-50%) translateY(0)}
-          50%{transform:translateX(-50%) translateY(7px)}
-        }
-        .htc-stat { text-align:center; padding:0 32px; }
-        .htc-stat+.htc-stat { border-left:1px solid rgba(255,255,255,0.13); }
-        .htc-cta-wrap { display:inline-flex; align-items:stretch; overflow:hidden; }
-        .htc-cta-text {
-          display:flex; align-items:center; padding:0 28px;
-          background:${GOLD}; color:#fff;
-          font-family:Arial,sans-serif; font-size:0.82rem; font-weight:700;
-          letter-spacing:0.05em; text-decoration:none; height:54px;
-          transition:background 0.2s;
-        }
-        .htc-cta-text:hover { background:#a87318; }
-        .htc-cta-arrow {
-          display:flex; align-items:center; justify-content:center;
-          width:54px; height:54px; background:#fff; flex-shrink:0;
-        }
-        @media(max-width:640px){
-          .htc-stat { width:50%; padding:14px 0; }
-          .htc-stat+.htc-stat { border-left:none; }
-          .htc-stat:nth-child(odd){ border-right:1px solid rgba(255,255,255,0.13); }
-          .htc-stats-wrap { flex-wrap:wrap; }
-          .htc-cta-wrap { width:100%; max-width:340px; }
-          .htc-cta-text { flex:1; justify-content:center; }
-        }
-      `}</style>
-
-      <section
-        id="uvod"
-        data-section="hero-tattoo-02"
-        style={{
-          position: "relative", width: "100%",
-          minHeight: "100svh", overflow: "hidden",
-          display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center",
-          backgroundColor: "#1a1a1a",
-        }}
-      >
-        {/* Foto bg — editovatelná ve studiu */}
-        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Hero pozadí" className="absolute inset-0 w-full h-full" style={{ zIndex: 0 }}>
-          <div style={{
-            position: "absolute", inset: 0,
-            backgroundImage: `url(${bgImage})`,
-            backgroundSize: "cover", backgroundPosition: "center center",
-            zIndex: 0,
-          }} />
-        </GenericEditableImage>
-
-        {/* Overlay — tmavý jako originál rgba(39,39,39,0.81) */}
-        <div aria-hidden style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: "rgba(27,27,27,0.28)",
-        }} />
-        {/* Subtilní zlatý gradient dole */}
-        <div aria-hidden style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, height: "40%", zIndex: 2,
-          background: "linear-gradient(to top, rgba(15,9,0,0.55) 0%, transparent 100%)",
-        }} />
-
-        {/* Obsah — centrovaný, generózní padding jako originál */}
-        <div style={{
-          position: "relative", zIndex: 3,
-          width: "100%", maxWidth: 820,
-          margin: "0 auto",
-          padding: "10vh clamp(24px,6vw,64px) 14vh",
-          textAlign: "center",
-          animation: "htc-fade 0.85s ease both",
-        }}>
-          {/* Zlatá dekorativní linka */}
-          <div aria-hidden style={{
-            width: 56, height: 2, backgroundColor: GOLD,
-            margin: "0 auto 28px",
-          }} />
-
-          {/* H1 — zlatá, jako originál */}
-          <h1 style={{
-            fontFamily: "'Century Gothic', 'Avant Garde', Arial, sans-serif",
-            fontWeight: 700,
-            fontSize: "clamp(34px, 5vw, 58px)",
-            color: GOLD,
-            lineHeight: 1.1,
-            letterSpacing: "0.01em",
-            margin: "0 0 18px",
-            textShadow: "1px 1px 12px rgba(0,0,0,0.9)",
-          }}>
+  /* ── Slim page banner mode ── */
+  if (isBanner) {
+    return (
+      <section data-template="tattoo-02" className="t02-banner">
+        <div className="t02-banner-bg" style={{ backgroundImage: `url(${bgImage})` }} />
+        <div className="t02-banner-overlay" aria-hidden />
+        <div className="t02-banner-inner">
+          <div className="t02-banner-crumb">
+            <a href={resolve("/")} className="t02-banner-crumb-link">Domů</a>
+            <span className="t02-banner-crumb-sep">/</span>
+            <span className="t02-banner-crumb-cur">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </div>
+          <h1 className="t02-banner-title" style={{ fontFamily: OSWALD }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
-
-          {/* Subtitle — bílá, jako originál */}
-          <p style={{
-            fontFamily: "'Century Gothic', Arial, sans-serif",
-            fontWeight: 400,
-            fontSize: "clamp(18px, 2.8vw, 34px)",
-            color: "#ffffff",
-            lineHeight: 1.3,
-            margin: "0 0 48px",
-            textShadow: "-1px 1px 10px rgba(0,0,0,0.9)",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-
-          {/* CTA — zlaté tlačítko s bílou šipkou, jako originál */}
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <a href={ctaHref} data-btn="primary" className="htc-cta-wrap" style={{ textDecoration: "none" }}>
-              <span className="htc-cta-text">
-                <GenericEditableText sectionId={sectionId} field="cta1Text" value={ctaText} tag="span" />
-              </span>
-              <span className="htc-cta-arrow" aria-hidden>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M3 9h12M10 5l5 4-5 4" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-
-        {/* Stats bar — náš prémiový přídavek */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 4,
-          background: "rgba(0,0,0,0.6)",
-          backdropFilter: "blur(8px)",
-          borderTop: `1px solid ${GOLD}40`,
-        }}>
-          <div className="htc-stats-wrap" style={{
-            display: "flex", justifyContent: "center",
-            maxWidth: 900, margin: "0 auto",
-            padding: "16px 24px",
-          }}>
-            {stats.map((s, i) => (
-              <div key={i} className="htc-stat">
-                <div style={{
-                  fontFamily: "'Arial Black', Arial, sans-serif",
-                  fontWeight: 900, fontSize: "clamp(20px,2.4vw,28px)",
-                  color: GOLD, lineHeight: 1.1,
-                }}>{s.value}</div>
-                <div style={{
-                  fontFamily: "Arial, sans-serif",
-                  fontSize: "0.65rem", color: "rgba(255,255,255,0.55)",
-                  letterSpacing: "0.06em", marginTop: 3, textTransform: "uppercase",
-                }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Scroll šipka */}
-        <div aria-hidden style={{
-          position: "absolute", bottom: 80, left: "50%",
-          transform: "translateX(-50%)", zIndex: 5,
-          animation: "htc-bounce 2s ease-in-out infinite", opacity: 0.55,
-        }}>
-          <svg width="22" height="13" viewBox="0 0 22 13" fill="none">
-            <path d="M1 1L11 11L21 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          {subtitle && subtitle !== "Prémiové tetování & piercing v srdci města. Bezplatná konzultace, individuální design." && (
+            <p className="t02-banner-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
         </div>
       </section>
-    </>
+    );
+  }
+
+  const defaultStats = [
+    { value: "500+", label: "Spokojených klientů" },
+    { value: "12+",  label: "Profesionálních tatérů" },
+    { value: "8",    label: "Let zkušeností" },
+    { value: "1 800 Kč", label: "Cena od / motiv" },
+  ];
+  const stats = (Array.isArray(c.stats) ? c.stats : defaultStats) as Array<{ value: string; label: string }>;
+
+  return (
+    <section
+      id="uvod"
+      data-template="tattoo-02"
+      style={{
+        position: "relative", width: "100%",
+        minHeight: "100svh", overflow: "hidden",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        backgroundColor: "#141414",
+      }}
+    >
+      {/* Ken Burns bg */}
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0 }}>
+        <div className="t02-hero-bg" style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${bgImage})`,
+          backgroundSize: "cover", backgroundPosition: "center 30%",
+        }} />
+      </GenericEditableImage>
+
+      {/* Overlays */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 1, background: "rgba(14,14,14,0.48)" }} />
+      <div aria-hidden style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "50%", zIndex: 2, background: "linear-gradient(to top, rgba(10,6,0,0.70) 0%, transparent 100%)" }} />
+
+      {/* Content — staggered fade on inner children only (anti-flash) */}
+      <div className="t02-hero-inner" style={{
+        position: "relative", zIndex: 3,
+        width: "100%", maxWidth: 860, margin: "0 auto",
+        padding: "12vh clamp(24px,6vw,64px) 16vh",
+        textAlign: "center",
+      }}>
+        {/* Gold decorative rule */}
+        <div aria-hidden style={{ width: 52, height: 2, backgroundColor: GOLD, margin: "0 auto 30px" }} />
+
+        {/* H1 — gold Oswald */}
+        <h1 style={{
+          fontFamily: "var(--font-oswald), 'Oswald', sans-serif",
+          fontWeight: 700, fontSize: "clamp(36px, 5.2vw, 64px)",
+          color: GOLD, lineHeight: 1.05, letterSpacing: "0.02em",
+          margin: "0 0 22px", textTransform: "uppercase",
+          textShadow: "1px 2px 18px rgba(0,0,0,0.9)",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {/* Subtitle */}
+        <p style={{
+          fontFamily: "Arial, Helvetica, sans-serif",
+          fontWeight: 400, fontSize: "clamp(16px, 2.2vw, 22px)",
+          color: "rgba(255,255,255,0.82)", lineHeight: 1.55,
+          margin: "0 auto 44px", maxWidth: 640,
+          textShadow: "0 1px 8px rgba(0,0,0,0.7)",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+
+        {/* CTAs — split gold + ghost */}
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
+          <a href={resolve(ctaHref)} data-btn="primary" className="t02-hcta">
+            <span className="t02-hcta-text">
+              <GenericEditableText sectionId={sectionId} field="cta1Text" value={ctaText} tag="span" />
+            </span>
+            <span className="t02-hcta-arrow" aria-hidden>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3 9h12M10 5l5 4-5 4" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+          </a>
+          <a href={resolve(cta2Href)} className="t02-hghost">
+            <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Glass stats bar */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 4,
+        background: "rgba(0,0,0,0.55)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
+        borderTop: `1px solid ${GOLD}35`,
+      }}>
+        <div className="t02-stats-wrap" style={{ display: "flex", justifyContent: "center", maxWidth: 960, margin: "0 auto", padding: "18px 24px" }}>
+          {stats.map((s, i) => (
+            <div key={i} className="t02-stat">
+              <div style={{
+                fontFamily: "var(--font-oswald), 'Oswald', sans-serif",
+                fontWeight: 700, fontSize: "clamp(22px,2.6vw,30px)",
+                color: GOLD, lineHeight: 1.1,
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+              </div>
+              <div style={{
+                fontFamily: "Arial, Helvetica, sans-serif",
+                fontSize: "0.64rem", color: "rgba(255,255,255,0.52)",
+                letterSpacing: "0.08em", marginTop: 4, textTransform: "uppercase",
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Scroll chevron */}
+      <div aria-hidden style={{
+        position: "absolute", bottom: 86, left: "50%",
+        transform: "translateX(-50%)", zIndex: 5,
+        animation: "t02-bounce 2.2s ease-in-out infinite", opacity: 0.45,
+      }}>
+        <svg width="22" height="13" viewBox="0 0 22 13" fill="none">
+          <path d="M1 1L11 11L21 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </div>
+    </section>
   );
 }
 
@@ -4488,27 +4844,132 @@ function HeroTattoo03({ content, sectionId, tenantSlug, isAdmin }: {
   isAdmin?: boolean;
 }) {
   const c            = content as Record<string, unknown>;
-  const title        = String(c.title          ?? "Tetování Praha");
-  const subtitle     = String(c.subtitle       ?? "Nejlepší tetovací studio v Praze. Otevřeno denně 10–20h i o víkendech.");
+  const eyebrow      = String(c.eyebrow        ?? "Studio tetování · Praha");
+  const title        = String(c.title          ?? "Inkoust, který");
+  const titleAccent  = String(c.titleAccent    ?? "zůstává navždy");
+  const subtitle     = String(c.subtitle       ?? "Prémiové walk-in studio v centru Prahy. Přijďte bez objednání — naši tatéři promění váš nápad v čisté umělecké dílo. Otevřeno denně 10–20 h.");
   const cta1Text     = String(c.cta1Text       ?? "Chci tetování");
   const cta1Href     = String(c.cta1Href       ?? "#kontakt");
   const cta2Text     = String(c.cta2Text       ?? "Naše práce");
   const cta2Href     = String(c.cta2Href       ?? "#galerie");
+  const ghostWord    = String(c.ghostWord      ?? "INK");
+  const scrollLabel  = String(c.scrollLabel    ?? "Objevte studio");
   const reviewCount  = String(c.reviewCount    ?? "1612");
   const reviewScore  = String(c.reviewScore    ?? "4.9");
-  const bgImage      = String(c.backgroundImage ?? "/clones/magic/wp-content/uploads/2026/03/recepce-studia-tetovani-praha-scaled.webp");
+  const reviewLabel  = String(c.reviewLabel    ?? "recenzí");
+  const bgImage      = String(c.backgroundImage ?? "/templates/tattoo-03/hero-ink.webp");
 
   const ACCENT = "#D41515";
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  // ── Slim banner pro podstránky ──────────────────────────────────────────
+  const isBanner    = c.isBanner === true;
+  const breadcrumb  = String(c.breadcrumb ?? "Domů");
+  const breadHref   = String(c.breadcrumbHref ?? "/");
+  if (isBanner) {
+    return (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" />
+
+        <section id="uvod" data-template="tattoo-03" className="t03-banner" style={{
+          position: "relative",
+          width: "100%",
+          minHeight: "clamp(300px, 46vh, 420px)",
+          display: "flex",
+          alignItems: "flex-end",
+          overflow: "hidden",
+          backgroundColor: "#0A0A0E",
+        }}>
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" className="absolute inset-0 w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}>
+            <img loading="eager" src={bgImage} alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+          </GenericEditableImage>
+
+          <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(to top, rgba(10,10,14,0.96) 0%, rgba(10,10,14,0.66) 46%, rgba(10,10,14,0.5) 100%)" }} />
+          <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(60% 100% at 20% 100%, rgba(212,21,21,0.18), transparent 60%)", mixBlendMode: "screen" }} />
+          <div aria-hidden className="t03-hero-grain" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} />
+
+          <span aria-hidden className="t03-hero-ghost" style={{
+            position: "absolute", right: "-1vw", top: "-8vh", zIndex: 1,
+            fontFamily: "'Bebas Neue', 'Oswald', sans-serif",
+            fontSize: "clamp(140px, 24vw, 320px)", lineHeight: 0.8,
+            color: "rgba(255,255,255,0.04)", letterSpacing: "0.02em",
+            userSelect: "none", pointerEvents: "none", whiteSpace: "nowrap",
+          }}>{ghostWord}</span>
+
+          <span aria-hidden className="t03-hero-bracket t03-hero-bracket-tl" />
+
+          <div style={{
+            position: "relative", zIndex: 2,
+            width: "100%", maxWidth: 1360, margin: "0 auto",
+            padding: "clamp(40px,6vw,72px) clamp(20px,5vw,80px)",
+          }}>
+            {/* Breadcrumb */}
+            <div style={{
+              display: "flex", alignItems: "center", gap: 10, marginBottom: 18,
+              fontFamily: "'Barlow Condensed', 'Oswald', sans-serif",
+              fontSize: "0.82rem", fontWeight: 600, letterSpacing: "0.16em",
+              textTransform: "uppercase",
+            }}>
+              <a href={resolve(breadHref)} style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none" }}>
+                <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+              </a>
+              <span aria-hidden style={{ color: ACCENT }}>/</span>
+              <span style={{ color: "#ffffff" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 14 }}>
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+                <path d="M2 18L13 7" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="square" />
+                <path d="M13 7L17.5 2.5L18 5L15.5 4.5L13 7Z" fill={ACCENT} />
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                fontFamily: "'Barlow Condensed', 'Oswald', sans-serif",
+                fontSize: "0.9rem", fontWeight: 600, letterSpacing: "0.24em",
+                textTransform: "uppercase", color: "rgba(255,255,255,0.62)",
+              }} />
+            </div>
+
+            <h1 style={{
+              fontFamily: "'Bebas Neue', 'Oswald', sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(48px, 6.5vw, 92px)",
+              color: "#ffffff",
+              margin: 0,
+              lineHeight: 0.94,
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" style={{ color: ACCENT }} />
+            </h1>
+
+            {String(c.subtitle ?? "").trim() !== "" && (
+              <p style={{
+                fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif",
+                fontSize: "clamp(14px, 1.4vw, 17px)",
+                color: "rgba(255,255,255,0.72)",
+                margin: "18px 0 0",
+                lineHeight: 1.7,
+                maxWidth: 560,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
-      <style>{`
-        @keyframes t03h-fade { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
-        @keyframes t03h-fade2 { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
-      `}</style>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" />
 
-      <section style={{
+      <section id="uvod" data-template="tattoo-03" className="t03-hero" style={{
         position: "relative",
         width: "100%",
         minHeight: "100svh",
@@ -4522,44 +4983,74 @@ function HeroTattoo03({ content, sectionId, tenantSlug, isAdmin }: {
           <img loading="eager" src={bgImage} alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
         </GenericEditableImage>
 
-        {/* Tmavé overlaye — 3 vrstvy (pointerEvents: none → nekradou kliky od GenericEditableText) */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(to right, rgba(10,10,14,0.88) 0%, rgba(10,10,14,0.55) 60%, rgba(10,10,14,0.2) 100%)" }} />
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(to top, rgba(10,10,14,0.7) 0%, transparent 50%)" }} />
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(to bottom, rgba(10,10,14,0.5) 0%, transparent 30%)" }} />
+        {/* Tmavé overlaye + crimson spotlight + crosshatch grain (pointerEvents: none) */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(to right, rgba(10,10,14,0.94) 0%, rgba(10,10,14,0.72) 46%, rgba(10,10,14,0.28) 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "linear-gradient(to top, rgba(10,10,14,0.85) 0%, transparent 46%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(70% 90% at 78% 40%, rgba(212,21,21,0.20), transparent 62%)", mixBlendMode: "screen" }} />
+        <div aria-hidden className="t03-hero-grain" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} />
 
-        {/* Obsah — vlevo zarovnaný */}
-        {/* pointerEvents: none na wrapper → klik na prázdnou plochu propadne na bg image */}
+        {/* Ghost display word */}
+        <span aria-hidden className="t03-hero-ghost" style={{
+          position: "absolute", right: "-2vw", bottom: "-4vh", zIndex: 1,
+          fontFamily: "'Bebas Neue', 'Oswald', sans-serif",
+          fontSize: "clamp(180px, 32vw, 460px)", lineHeight: 0.8,
+          color: "rgba(255,255,255,0.045)", letterSpacing: "0.02em",
+          userSelect: "none", pointerEvents: "none", whiteSpace: "nowrap",
+        }}>{ghostWord}</span>
+
+        {/* Sharp corner brackets */}
+        <span aria-hidden className="t03-hero-bracket t03-hero-bracket-tl" />
+        <span aria-hidden className="t03-hero-bracket t03-hero-bracket-br" />
+
+        {/* Obsah — vlevo zarovnaný. pointerEvents: none na wrapper → klik na prázdnou plochu propadne na bg image */}
         <div style={{
           position: "relative", zIndex: 2,
           width: "100%", maxWidth: 1360, margin: "0 auto",
-          padding: "clamp(80px,12vw,160px) clamp(20px,5vw,80px)",
+          padding: "clamp(96px,12vw,168px) clamp(20px,5vw,80px)",
           pointerEvents: "none",
         }}>
-          <div style={{ maxWidth: 700 }}>
-            {/* Červená linka accent */}
-            <div style={{ width: 48, height: 3, backgroundColor: ACCENT, marginBottom: 24 }} aria-hidden />
+          <div style={{ maxWidth: 720 }}>
+            {/* Eyebrow — needle mark + hairline */}
+            <div className="t03-hero-eyebrow" style={{
+              display: "inline-flex", alignItems: "center", gap: 14,
+              marginBottom: 26, pointerEvents: "auto",
+              animation: "t03h-fade2 0.7s ease both",
+            }}>
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+                <path d="M2 18L13 7" stroke={ACCENT} strokeWidth="1.6" strokeLinecap="square" />
+                <path d="M13 7L17.5 2.5L18 5L15.5 4.5L13 7Z" fill={ACCENT} />
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{
+                fontFamily: "'Barlow Condensed', 'Oswald', sans-serif",
+                fontSize: "0.92rem", fontWeight: 600, letterSpacing: "0.28em",
+                textTransform: "uppercase", color: "rgba(255,255,255,0.72)",
+              }} />
+              <span aria-hidden style={{ width: 56, height: 1, background: "rgba(255,255,255,0.28)" }} />
+            </div>
 
             <h1 style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
-              fontWeight: 900,
-              fontSize: "clamp(40px, 6vw, 80px)",
+              fontFamily: "'Bebas Neue', 'Oswald', sans-serif",
+              fontWeight: 400,
+              fontSize: "clamp(58px, 8.5vw, 132px)",
               color: "#ffffff",
-              margin: "0 0 20px",
-              lineHeight: 1.05,
-              letterSpacing: "-0.01em",
+              margin: "0 0 22px",
+              lineHeight: 0.92,
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
               animation: "t03h-fade 0.8s ease both",
               pointerEvents: "auto",
             }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" style={{ display: "block" }} />
+              <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" style={{ display: "block", color: ACCENT }} />
             </h1>
 
             <p style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
-              fontSize: "clamp(14px, 1.8vw, 18px)",
-              color: "rgba(255,255,255,0.78)",
-              margin: "0 0 40px",
-              lineHeight: 1.65,
-              maxWidth: 560,
+              fontFamily: "'Barlow', 'Helvetica Neue', Arial, sans-serif",
+              fontSize: "clamp(15px, 1.55vw, 19px)",
+              color: "rgba(255,255,255,0.76)",
+              margin: "0 0 42px",
+              lineHeight: 1.7,
+              maxWidth: 580,
               animation: "t03h-fade2 0.9s 0.15s ease both",
               pointerEvents: "auto",
             }}>
@@ -4570,62 +5061,74 @@ function HeroTattoo03({ content, sectionId, tenantSlug, isAdmin }: {
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap", animation: "t03h-fade2 0.9s 0.25s ease both", pointerEvents: "auto" }}>
               <a
                 href={resolve(cta1Href)}
+                className="t03-hero-cta1"
                 style={{
-                  display: "inline-flex", alignItems: "center",
+                  display: "inline-flex", alignItems: "center", gap: 9,
                   backgroundColor: ACCENT, color: "#ffffff",
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  fontSize: "0.9rem", fontWeight: 700,
-                  letterSpacing: "0.06em",
-                  padding: "14px 32px",
+                  fontFamily: "'Barlow Condensed', 'Oswald', sans-serif",
+                  fontSize: "1.05rem", fontWeight: 700,
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                  padding: "15px 36px",
                   textDecoration: "none",
-                  transition: "background 0.2s",
+                  transition: "background 0.2s ease, box-shadow 0.25s ease, transform 0.2s ease",
                 }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b30000")}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = ACCENT)}
               >
                 <GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" />
+                <span className="t03-cta-arrow" aria-hidden style={{ display: "inline-block", transition: "transform 0.2s ease" }}>→</span>
               </a>
               <a
                 href={resolve(cta2Href)}
+                className="t03-hero-cta2"
                 style={{
                   display: "inline-flex", alignItems: "center",
-                  border: "1.5px solid rgba(255,255,255,0.45)",
-                  color: "rgba(255,255,255,0.88)",
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  fontSize: "0.9rem", fontWeight: 600,
-                  letterSpacing: "0.05em",
-                  padding: "13px 32px",
+                  border: "1.5px solid rgba(255,255,255,0.4)",
+                  color: "rgba(255,255,255,0.9)",
+                  fontFamily: "'Barlow Condensed', 'Oswald', sans-serif",
+                  fontSize: "1.05rem", fontWeight: 600,
+                  letterSpacing: "0.1em", textTransform: "uppercase",
+                  padding: "14px 36px",
                   textDecoration: "none",
-                  transition: "border-color 0.2s, color 0.2s",
+                  transition: "border-color 0.2s ease, color 0.2s ease, background 0.2s ease",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.9)"; e.currentTarget.style.color = "#fff"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.45)"; e.currentTarget.style.color = "rgba(255,255,255,0.88)"; }}
               >
                 <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
               </a>
             </div>
 
             {/* Review badge */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 40, animation: "t03h-fade2 0.9s 0.35s ease both", pointerEvents: "auto" }}>
-              <div style={{ display: "flex", gap: 2 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 11, marginTop: 44, animation: "t03h-fade2 0.9s 0.35s ease both", pointerEvents: "auto" }}>
+              <div style={{ display: "flex", gap: 3 }}>
                 {[0,1,2,3,4].map(i => (
-                  <svg key={i} width="16" height="16" viewBox="0 0 18 18" fill={ACCENT}>
+                  <svg key={i} width="17" height="17" viewBox="0 0 18 18" fill={ACCENT} aria-hidden>
                     <polygon points="9,1.5 11.5,6.5 17,7.3 13,11.2 14,17 9,14.2 4,17 5,11.2 1,7.3 6.5,6.5"/>
                   </svg>
                 ))}
               </div>
-              <span style={{ fontFamily: "Arial, Helvetica, sans-serif", fontSize: "0.82rem", color: "rgba(255,255,255,0.65)" }}>
-                <strong style={{ color: "#ffffff" }}>
+              <span style={{ fontFamily: "'Barlow', Arial, sans-serif", fontSize: "0.9rem", color: "rgba(255,255,255,0.62)" }}>
+                <strong style={{ color: "#ffffff", fontWeight: 700 }}>
                   <GenericEditableText sectionId={sectionId} field="reviewScore" value={reviewScore} tag="span" />
-                  /5.0
                 </strong>
-                {" — přes "}
+                {" · "}
                 <GenericEditableText sectionId={sectionId} field="reviewCount" value={reviewCount} tag="span" />
-                {" recenzí"}
+                {" "}
+                <GenericEditableText sectionId={sectionId} field="reviewLabel" value={reviewLabel} tag="span" />
               </span>
             </div>
           </div>
         </div>
+
+        {/* Scroll-down indikátor */}
+        <a href={resolve("#o-nas")} className="t03-hero-scroll" aria-label={scrollLabel} style={{
+          position: "absolute", left: "clamp(20px,5vw,80px)", bottom: 34, zIndex: 3,
+          display: "inline-flex", alignItems: "center", gap: 12,
+          fontFamily: "'Barlow Condensed', 'Oswald', sans-serif",
+          fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.24em",
+          textTransform: "uppercase", color: "rgba(255,255,255,0.55)",
+          textDecoration: "none", transition: "color 0.2s ease",
+        }}>
+          <span className="t03-hero-scroll-line" aria-hidden style={{ display: "block", width: 40, height: 1, background: "rgba(255,255,255,0.5)" }} />
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" />
+        </a>
       </section>
     </>
   );
@@ -5860,7 +6363,7 @@ function HeroNails02Page({ content, sectionId, tenantSlug, isAdmin }: {
 
 // ── clinic-03-hero ────────────────────────────────────────────────────────────
 // Fullbleed 100vh slider — 5 slides, autohraj 5s, fade-in/out, šipky + tečky
-// Styl dle yesvisage.cz: tmavý overlay, bílý serif H1, gold CTA
+// Styl dle diamond-look.cz: tmavý overlay, bílý serif H1, gold CTA
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const GOLD   = "#97855F";
@@ -6211,9 +6714,12 @@ function HeroClinic02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const ctaSecText = String((content as Record<string,unknown>).ctaSecondaryText ?? "Konzultace zdarma");
   const ctaSecHref = String((content as Record<string,unknown>).ctaSecondaryHref ?? "/kontakt");
   const bgImage    = String((content as Record<string,unknown>).bgImage   ?? "/images/clinic-02/hero.webp");
+  const ratingScore = String((content as Record<string,unknown>).ratingScore ?? "5,0");
+  const ratingLabel = String((content as Record<string,unknown>).ratingLabel ?? "Hodnocení na Google");
+  const ratingCount = String((content as Record<string,unknown>).ratingCount ?? "482 ověřených recenzí");
   const trustItems = Array.isArray((content as Record<string,unknown>).trust)
     ? ((content as Record<string,unknown>).trust as string[])
-    : ["5,0 ★ Google · 482 recenzí", "18 000+ spokojených klientek", "Certifikované preparáty Allergan"];
+    : ["18 000+ spokojených klientek", "Certifikované prémiové preparáty", "Diskrétní privátní prostředí"];
 
   function resolveDemoHref(href: string, slug?: string, admin?: boolean) {
     if (!href.startsWith("#") || !slug) return href;
@@ -6445,6 +6951,52 @@ function HeroClinic02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         </div>
       </div>
 
+      {/* Floating rating card — glass, over the photo (desktop) */}
+      <div className="c02h-ratecard" style={{
+        position: "absolute",
+        right: "clamp(28px, 5vw, 72px)",
+        bottom: "clamp(34px, 6vh, 64px)",
+        zIndex: 3,
+        display: "flex",
+        alignItems: "center",
+        gap: 16,
+        padding: "18px 24px",
+        background: "rgba(255,255,255,0.82)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+        border: "1px solid rgba(255,255,255,0.8)",
+        borderRadius: 18,
+        boxShadow: "0 24px 54px -20px rgba(15,32,62,0.42)",
+      }}>
+        <div style={{
+          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+          width: 58, height: 58, borderRadius: 14,
+          background: NAVY, color: WHITE, flexShrink: 0,
+        }}>
+          <span style={{ fontFamily: FONT_H, fontSize: "1.5rem", fontWeight: 700, lineHeight: 1 }}>
+            <GenericEditableText sectionId={sectionId} field="ratingScore" value={ratingScore} tag="span" />
+          </span>
+          <span style={{ display: "flex", gap: 1, marginTop: 3 }}>
+            {[0,1,2,3,4].map(i => (
+              <svg key={`c02star-${i}`} width="7" height="7" viewBox="0 0 24 24" fill={AMBER} aria-hidden><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+            ))}
+          </span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <span style={{ display: "flex", gap: 3, marginBottom: 1 }}>
+            {[0,1,2,3,4].map(i => (
+              <svg key={`c02bstar-${i}`} width="13" height="13" viewBox="0 0 24 24" fill={AMBER} aria-hidden><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+            ))}
+          </span>
+          <span style={{ fontFamily: FONT_H, fontSize: "0.9rem", fontWeight: 600, color: NAVY, lineHeight: 1.2 }}>
+            <GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span" />
+          </span>
+          <span style={{ fontFamily: FONT_B, fontSize: "0.76rem", color: MUTED, lineHeight: 1.2 }}>
+            <GenericEditableText sectionId={sectionId} field="ratingCount" value={ratingCount} tag="span" />
+          </span>
+        </div>
+      </div>
+
       <style>{`
         .c02h-cta-primary:hover {
           transform: translateY(-2px);
@@ -6457,8 +7009,11 @@ function HeroClinic02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           color: ${WHITE} !important;
           border-color: ${NAVY} !important;
         }
+        .c02h-ratecard { transition: transform .4s ease, box-shadow .4s ease; }
+        .c02h-ratecard:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -20px rgba(15,32,62,0.5); }
+        @media (max-width: 1100px) { .c02h-ratecard { display: none !important; } }
         @media (max-width: 900px) {
-          #uvod-clinic02 { background-position: 82% center !important; min-height: clamp(560px, 90vh, 780px) !important; }
+          #uvod-clinic02 { background-position: 74% center !important; min-height: clamp(560px, 90vh, 780px) !important; }
           #uvod-clinic02 .clinic02-hero-text { padding: 90px 22px 60px !important; }
           .c02h-hairline { display: none !important; }
           .c02h-tsep { display: none !important; }
@@ -7179,160 +7734,191 @@ function HeroFyzio01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props
 }
 
 // ── hero-fyzio-02-split ───────────────────────────────────────────────────────
-// Fullscreen hero: bg foto pokrývá 100vh, tmavý overlay, text vlevo dole
-// Navbar (fixed) floatuje nad — hero začíná od top:0, bez spaceru
-// Navy #1a2e4a + Gold #c9a84c — DM Serif Display + Plus Jakarta Sans
-// 1:1 resetclinic.cz
+// Split hero: text vlevo (světlé #f1f6f6) + foto vpravo v rounded kartě s teal
+// orbit ringem a floating rating/badge. Navy #092029 + teal #29a3a4 akcent.
+// DM Serif Display H1 + Plus Jakarta Sans. Inspirováno resetclinic.cz.
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroFyzio02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
 
-  const title      = String(c.title      ?? "Resetujeme ochranné vzorce,\nkteré stojí za bolestí.");
-  const tagline    = String(c.tagline    ?? "Fyzioterapie s funkční neurologií");
-  const body       = String(c.body       ?? "Jsme tu pro ty, kterým běžná fyzioterapie nepomohla. Pracujeme s nervovým systémem, smyslovým vnímáním a uloženými vzorci napětí.");
-  const ctaText    = String(c.ctaText    ?? "Rezervovat terapii");
-  const ctaHref    = String(c.ctaHref    ?? "#rezervace");
-  const ctaSecText = String(c.ctaSecondaryText ?? "Poznejte náš přístup");
-  const ctaSecHref = String(c.ctaSecondaryHref ?? "#o-nas");
-  const image      = String(c.image      ?? "/clones/resetclinic/67eae6b510b7940c86a01571_DSC01862.avif");
+  const tagline    = String(c.tagline    ?? "Fyzioterapie & funkční neurologie");
+  const title      = String(c.title      ?? "Vrátíme vaše tělo\ndo plného pohybu.");
+  const body       = String(c.body       ?? "V Movii spojujeme precizní manuální fyzioterapii s funkční neurologií. Najdeme příčinu obtíží — ne jen symptom — a sestavíme plán s měřitelným výsledkem.");
+  const ctaText    = String(c.ctaText    ?? "Objednat se online");
+  const ctaHref    = String(c.ctaHref    ?? "/kontakt");
+  const ctaSecText = String(c.ctaSecondaryText ?? "Jak terapie probíhá");
+  const ctaSecHref = String(c.ctaSecondaryHref ?? "/o-nas");
+  const image      = String(c.image      ?? "/templates/fyzio-02/hero.webp");
+  const statsCount = String(c.statsCount ?? "8 500+");
+  const statsLabel = String(c.statsLabel ?? "odterapovaných pacientů");
+  const badge1     = String(c.badge1     ?? "18 let praxe");
+  const badge2     = String(c.badge2     ?? "Smlouvy se ZP");
+  const rating     = String(c.rating     ?? "4,9");
+  const ratingLabel = String(c.ratingLabel ?? "Hodnocení na Google");
+  const floatBadge = String(c.floatBadge ?? "Individuální přístup");
 
-  const GOLD  = "#c9a84c";
-  const WHITE = "#ffffff";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveHeroNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const check = (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+  );
 
   return (
-    <section
-      id="uvod"
-      data-template="fyzio-02"
-      style={{ position: "relative", width: "100%", minHeight: "100vh", fontFamily: SANS, overflow: "hidden" }}
-    >
-      {/* Bg foto — plný viewport */}
-      <GenericEditableImage
-        sectionId={sectionId}
-        field="image"
-        src={image}
-        alt={tagline}
-        className="relative overflow-hidden"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-      >
-        <img
-          src={image}
-          alt={tagline}
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
-          onError={e => { (e.currentTarget as HTMLImageElement).style.backgroundColor = "#1a2e4a"; }}
-        />
-      </GenericEditableImage>
+    <section id="uvod" data-template="fyzio-02" className="fz2-hero">
+      <div className="fz2-hero-blob fz2-hero-blob-a" aria-hidden="true" />
+      <div className="fz2-hero-blob fz2-hero-blob-b" aria-hidden="true" />
 
-      {/* Tmavý overlay — gradient zdola nahoru jako na resetclinic.cz */}
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,36,0.82) 0%, rgba(10,20,36,0.45) 50%, rgba(10,20,36,0.15) 100%)" }} />
-
-      {/* Obsah — zarovnaný doleva dole, jako resetclinic.cz */}
-      <div style={{
-        position: "relative",
-        zIndex: 2,
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
-        padding: "clamp(48px, 8vw, 100px) clamp(24px, 6%, 96px) clamp(64px, 8vw, 100px)",
-        maxWidth: "min(860px, 100%)",
-      }}>
-        {/* Tagline */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-          <span style={{ width: 28, height: 2, backgroundColor: GOLD, display: "inline-block" }} />
-          <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: GOLD, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+      <div className="fz2-hero-inner">
+        {/* Levý sloupec — text */}
+        <div className="fz2-hero-left">
+          <div className="fz2-hero-eyebrow">
+            <span className="fz2-hero-eyebrow-dash" aria-hidden="true" />
             <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </span>
+          </div>
+
+          <h1 className="fz2-hero-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+
+          <p className="fz2-hero-body">
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+
+          <div className="fz2-hero-ctas">
+            <a href={resolve(ctaHref)} data-btn="primary" className="fz2-hero-cta-primary">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="fz2-hero-cta-arrow" width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 5.5h12M9 1l4 4.5L9 10" /></svg>
+            </a>
+            <a href={resolve(ctaSecHref)} className="fz2-hero-cta-ghost">
+              <span className="fz2-hero-cta-ghost-ico" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </span>
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            </a>
+          </div>
+
+          <div className="fz2-hero-trust">
+            <div className="fz2-hero-stat">
+              <GenericEditableText sectionId={sectionId} field="statsCount" value={statsCount} tag="strong" />
+              <GenericEditableText sectionId={sectionId} field="statsLabel" value={statsLabel} tag="span" />
+            </div>
+            <span className="fz2-hero-trust-div" aria-hidden="true" />
+            <div className="fz2-hero-badges">
+              <span className="fz2-hero-badge"><span className="fz2-hero-badge-ico" aria-hidden="true">{check}</span><GenericEditableText sectionId={sectionId} field="badge1" value={badge1} tag="span" /></span>
+              <span className="fz2-hero-badge"><span className="fz2-hero-badge-ico" aria-hidden="true">{check}</span><GenericEditableText sectionId={sectionId} field="badge2" value={badge2} tag="span" /></span>
+            </div>
+          </div>
         </div>
 
-        {/* H1 */}
-        <h1 style={{ fontFamily: SERIF, fontSize: "clamp(2.2rem, 4.5vw, 4rem)", fontWeight: 400, color: WHITE, lineHeight: 1.15, marginBottom: 24, whiteSpace: "pre-line" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h1>
+        {/* Pravý sloupec — foto */}
+        <div className="fz2-hero-right">
+          <div className="fz2-hero-orbit" aria-hidden="true" />
+          <div className="fz2-hero-dots" aria-hidden="true" />
+          <div className="fz2-hero-photo-wrap">
+            <GenericEditableImage
+              sectionId={sectionId}
+              field="image"
+              src={image}
+              alt="Fyzioterapeutické ošetření v Movii"
+              className="relative overflow-hidden"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+            >
+              <img src={image} alt="Fyzioterapeutické ošetření v Movii" className="fz2-hero-photo" />
+            </GenericEditableImage>
 
-        {/* Perex */}
-        <p style={{ fontFamily: SANS, fontSize: "clamp(0.95rem, 1.3vw, 1.05rem)", color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: 40, maxWidth: 560 }}>
-          <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-        </p>
+            <div className="fz2-hero-float-badge">
+              <span className="fz2-hero-float-badge-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="floatBadge" value={floatBadge} tag="span" />
+            </div>
+          </div>
 
-        {/* CTA tlačítka */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{
-              display: "inline-flex", alignItems: "center",
-              backgroundColor: GOLD, color: WHITE,
-              fontFamily: SANS, fontSize: "0.95rem", fontWeight: 600,
-              padding: "0.9rem 2rem", borderRadius: "8px",
-              textDecoration: "none", transition: "background 0.15s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b8943d")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-          <a
-            href={resolve(ctaSecHref)}
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              color: WHITE, fontFamily: SANS, fontSize: "0.95rem", fontWeight: 500,
-              textDecoration: "none", padding: "0.9rem 0",
-              borderBottom: `2px solid rgba(255,255,255,0.4)`,
-              transition: "border-color 0.15s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.borderBottomColor = GOLD)}
-            onMouseLeave={e => (e.currentTarget.style.borderBottomColor = "rgba(255,255,255,0.4)")}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
-            </svg>
-          </a>
+          <div className="fz2-hero-rating">
+            <div className="fz2-hero-rating-stars" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map(i => (
+                <svg key={i} width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.8 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
+              ))}
+            </div>
+            <div className="fz2-hero-rating-txt">
+              <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="strong" />
+              <GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span" />
+            </div>
+          </div>
         </div>
       </div>
+    </section>
+  );
+}
 
-      {/* Zlatá svislá čára — dekorativní levý okraj jako na resetclinic.cz */}
-      <div style={{ position: "absolute", left: 0, top: "20%", bottom: "20%", width: 3, backgroundColor: GOLD, zIndex: 2 }} />
+// ── hero-fyzio-02-page (slim banner) ─────────────────────────────────────────
+// Podstránkový slim banner ~340px: navy #092029 + teal glow + orbit, breadcrumb
+// Domů / X + DM Serif H1 + teal rule. Editable title/breadcrumb/subtitle/image.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroFyzio02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title         = String(c.title         ?? "Stránka");
+  const breadcrumb    = String(c.breadcrumb    ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const subtitle      = String(c.subtitle      ?? "");
+  const image         = String(c.image         ?? "");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveHeroNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section id="uvod" data-template="fyzio-02" className="fz2-hpage">
+      {image && (
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="" className="fz2-hpage-imgwrap" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          <img src={image} alt="" aria-hidden className="fz2-hpage-img" />
+        </GenericEditableImage>
+      )}
+      <div className="fz2-hpage-glow" aria-hidden="true" />
+      <div className="fz2-hpage-orbit" aria-hidden="true" />
+
+      <div className="fz2-hpage-inner">
+        <nav className="fz2-hpage-crumb" aria-label="Drobečková navigace">
+          <a href={resolve(breadcrumbHref)}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="fz2-hpage-crumb-sep" aria-hidden="true">/</span>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </nav>
+        <span className="fz2-hpage-rule" aria-hidden="true" />
+        <h1 className="fz2-hpage-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle.trim() && (
+          <p className="fz2-hpage-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
     </section>
   );
 }
 
 // ── restaurant-01-hero ────────────────────────────────────────────────────────
-// Fullscreen crossfade slider s Ken Burns zoom efektem — stejný styl jako ambi.cz
-// 4 prémiové Unsplash food/restaurant fotky; auto-play 7s; amber dot nav dole
-// Gradient overlay vlevo; cream serif H1 + amber linka + subtitle + červené CTA
-// Navbar je fixed overlay — žádný spacer
+// Fullscreen crossfade slider + Ken Burns zoom — dark-luxe Ambiente DNA.
+// 4 lokální WebP fotky, auto-play 7s, amber progress bar + slide counter.
+// Gradient overlays (levý + spodní), cream serif H1 + amber eyebrow + subtitle
+// + duální CTA (červené filled + cream outline). Scroll-down indicator dole uprostřed.
+// resolveNavHref → one-page/multi-page kompatibilní.
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const title    = String(content.title    ?? "Místo, kde jídlo\nse stává zážitkem.");
-  const subtitle = String(content.subtitle ?? "Měníme jídlo v zážitek a věříme, že tou nejlepší\ningrediencí naší práce je radost.");
+  const eyebrow  = String(content.eyebrow  ?? "Prémiová restaurace · Praha");
+  const title    = String(content.title    ?? "Kde každý pokrm\nvypráví příběh.");
+  const subtitle = String(content.subtitle ?? "Spojujeme tradici české kuchyně s moderními\nsvětovými trendy — od roku 1995.");
   const ctaText  = String(content.ctaText  ?? "Rezervovat stůl");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
   const ctaSecondaryText = String(content.ctaSecondaryText ?? "Prohlédnout menu");
   const ctaSecondaryHref = String(content.ctaSecondaryHref ?? "/menu");
+  const scrollLabel = String(content.scrollLabel ?? "Objevte více");
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  // 4 thematické Unsplash fotky — prémiová restaurace, maso, plating, interiér
   const DEFAULT_SLIDES = [
-    {
-      url: "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop&fm=webp&q=85",
-      pos: "center 40%",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85",
-      pos: "center center",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&h=1080&fit=crop&fm=webp&q=85",
-      pos: "center 60%",
-    },
-    {
-      url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85",
-      pos: "center center",
-    },
+    { url: "/templates/restaurant-01/hero-1.webp", pos: "center 40%" },
+    { url: "/templates/restaurant-01/hero-2.webp", pos: "center center" },
+    { url: "/templates/restaurant-01/hero-3.webp", pos: "center 60%" },
+    { url: "/templates/restaurant-01/hero-4.webp", pos: "center center" },
   ];
 
   type Slide = { url: string; pos?: string };
@@ -7356,10 +7942,10 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
     return () => clearInterval(t);
   }, [count]);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section style={{ position: "relative", width: "100%", height: "100svh", minHeight: 600, overflow: "hidden", backgroundColor: DARK }}>
+    <section data-template="restaurant-01" style={{ position: "relative", width: "100%", height: "100svh", minHeight: 600, overflow: "hidden", backgroundColor: DARK }}>
       {/* Ken Burns CSS */}
       <style>{`
         @keyframes r01-kb {
@@ -7372,6 +7958,14 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         }
         .r01-slide-active img { animation: r01-kb ${INTERVAL}ms ease-out forwards; }
         .r01-slide-active:nth-child(even) img { animation-name: r01-kb-rev; }
+        @keyframes r01-scroll-bounce {
+          0%, 100% { transform: translateY(0); }
+          50%      { transform: translateY(6px); }
+        }
+        @keyframes r01-progress {
+          0%   { transform: scaleX(0); }
+          100% { transform: scaleX(1); }
+        }
         @media(max-width:480px){
           .r01-hero-subtitle { white-space: normal !important; }
           .r01-hero-ctas { flex-direction: column !important; }
@@ -7411,11 +8005,11 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
       {/* Gradient overlay: tmavé vlevo + tmavé dole */}
       <div style={{
         position: "absolute", inset: 0, zIndex: 2,
-        background: "linear-gradient(90deg, rgba(26,14,10,0.85) 0%, rgba(26,14,10,0.5) 55%, rgba(26,14,10,0.1) 100%)",
+        background: "linear-gradient(90deg, rgba(26,14,10,0.88) 0%, rgba(26,14,10,0.5) 50%, rgba(26,14,10,0.08) 100%)",
       }} />
       <div style={{
         position: "absolute", inset: 0, zIndex: 2,
-        background: "linear-gradient(0deg, rgba(26,14,10,0.65) 0%, transparent 45%)",
+        background: "linear-gradient(0deg, rgba(26,14,10,0.7) 0%, transparent 40%)",
       }} />
 
       {/* Obsah — vlevo, vertikálně centrovaný */}
@@ -7425,49 +8019,64 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         padding: "0 clamp(32px, 7vw, 100px)",
         paddingTop: 92,
       }}>
-        <div style={{ maxWidth: 620 }}>
+        <div style={{ maxWidth: 640 }}>
+          {/* Eyebrow */}
+          <p style={{
+            fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.2em",
+            textTransform: "uppercase", color: AMBER, margin: "0 0 18px",
+            display: "flex", alignItems: "center", gap: 14,
+          }}>
+            <span aria-hidden style={{ width: 32, height: 1, background: AMBER, flexShrink: 0 }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+
           <h1 style={{
             fontFamily: FONT,
-            fontSize: "clamp(34px, 4.5vw, 66px)",
+            fontSize: "clamp(36px, 4.8vw, 68px)",
             fontWeight: 400,
-            lineHeight: 1.15,
+            lineHeight: 1.12,
             color: CREAM,
-            margin: "0 0 20px",
+            margin: "0 0 24px",
             whiteSpace: "pre-line",
-            textShadow: "0 2px 20px rgba(0,0,0,0.3)",
+            textShadow: "0 2px 28px rgba(0,0,0,0.35)",
           }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
 
-          {/* Amber linka */}
-          <div style={{ width: 48, height: 1.5, backgroundColor: AMBER, marginBottom: 20 }} />
+          {/* Amber decorative rule */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 22 }}>
+            <div style={{ width: 48, height: 1.5, backgroundColor: AMBER }} />
+            <span aria-hidden style={{ width: 6, height: 6, transform: "rotate(45deg)", backgroundColor: AMBER }} />
+          </div>
 
-          {/* Subtitle */}
           <p className="r01-hero-subtitle" style={{
             fontFamily: SANS,
-            fontSize: "clamp(13px, 1.5vw, 16px)",
+            fontSize: "clamp(14px, 1.5vw, 17px)",
             fontWeight: 300,
             lineHeight: 1.75,
             color: `${CREAM}cc`,
-            margin: "0 0 36px",
+            margin: "0 0 40px",
             whiteSpace: "pre-line",
+            maxWidth: 520,
           }}>
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
 
           {/* CTA */}
-          <div className="r01-hero-ctas" style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
+          <div className="r01-hero-ctas" style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
             <a
               href={resolve(ctaHref)}
               data-btn="primary"
+              className="r01-hero-btn-primary"
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em",
                 textTransform: "uppercase", color: "#fff", textDecoration: "none",
-                padding: "14px 32px", backgroundColor: RED, borderRadius: 3,
-                transition: "background-color 0.2s", display: "inline-block",
+                padding: "15px 36px", backgroundColor: RED, borderRadius: 3,
+                transition: "background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease",
+                display: "inline-block",
               }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#a93226")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#a93226"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 24px rgba(192,57,43,0.4)"; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = RED; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -7476,11 +8085,12 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.12em",
                 textTransform: "uppercase", color: CREAM, textDecoration: "none",
-                padding: "13px 32px", border: `1px solid ${CREAM}55`, borderRadius: 3,
-                transition: "border-color 0.2s, color 0.2s", display: "inline-block",
+                padding: "14px 36px", border: `1px solid ${CREAM}55`, borderRadius: 3,
+                transition: "border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease",
+                display: "inline-block",
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.color = "#fff"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = `${CREAM}55`; e.currentTarget.style.color = CREAM; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.color = DARK; e.currentTarget.style.backgroundColor = `${CREAM}ee`; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = `${CREAM}55`; e.currentTarget.style.color = CREAM; e.currentTarget.style.backgroundColor = "transparent"; }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
             </a>
@@ -7488,109 +8098,312 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         </div>
       </div>
 
-      {/* Dot navigace — amber, dole uprostřed */}
+      {/* Progress bar — amber, dole */}
       {count > 1 && (
-        <div style={{
-          position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
-          zIndex: 4, display: "flex", gap: 10, alignItems: "center",
-        }}>
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIdx(i)}
-              aria-label={`Slide ${i + 1}`}
-              style={{
-                width: i === idx ? 28 : 8,
-                height: 2,
-                backgroundColor: i === idx ? AMBER : `${CREAM}60`,
-                border: "none", cursor: "pointer", padding: 0,
-                transition: "width 0.4s ease, background-color 0.3s",
-                borderRadius: 2,
-              }}
-            />
-          ))}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 5, height: 2, backgroundColor: `${AMBER}25` }}>
+          <div
+            key={idx}
+            style={{
+              height: "100%", backgroundColor: AMBER,
+              transformOrigin: "left", animation: `r01-progress ${INTERVAL}ms linear forwards`,
+            }}
+          />
         </div>
       )}
 
-      {/* Číslo slidu — pravý dolní roh */}
+      {/* Slide counter — pravý dolní roh */}
       <div style={{
         position: "absolute", bottom: 28, right: "clamp(28px, 5vw, 60px)",
-        zIndex: 4, display: "flex", alignItems: "center", gap: 10,
+        zIndex: 4, display: "flex", alignItems: "center", gap: 14,
       }}>
-        <span style={{ fontFamily: SANS, fontSize: 11, color: `${CREAM}80`, letterSpacing: "0.1em" }}>
+        {count > 1 && slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIdx(i)}
+            aria-label={`Slide ${i + 1}`}
+            style={{
+              width: i === idx ? 28 : 8,
+              height: 2,
+              backgroundColor: i === idx ? AMBER : `${CREAM}50`,
+              border: "none", cursor: "pointer", padding: 0,
+              transition: "width 0.4s ease, background-color 0.3s",
+              borderRadius: 2,
+            }}
+          />
+        ))}
+        <span style={{ fontFamily: SANS, fontSize: 11, color: `${CREAM}70`, letterSpacing: "0.12em", marginLeft: 6 }}>
           {String(idx + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
         </span>
+      </div>
+
+      {/* Scroll-down indicator — centrovaný dole */}
+      <div style={{
+        position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)",
+        zIndex: 4, display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+        animation: "r01-scroll-bounce 2.4s ease-in-out infinite",
+      }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" style={{
+          fontFamily: SANS, fontSize: 10, fontWeight: 500, letterSpacing: "0.18em",
+          textTransform: "uppercase", color: `${CREAM}60`,
+        }} />
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={`${CREAM}60`} strokeWidth="1.5" strokeLinecap="round" aria-hidden>
+          <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
       </div>
     </section>
   );
 }
 
-// ── restaurant-02-hero ────────────────────────────────────────────────────────
-// Fullscreen statický hero — jeden obrázek, tmavý overlay, jen REZERVACE button
-// Navbar se překrývá přes tento hero (position: fixed overlay, bez spaceru)
-// Ref: restauracehybernska.cz — hpslider s .book tlačítkem
-// ─────────────────────────────────────────────────────────────────────────────
-function HeroRestaurant02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const ctaText = String(content.ctaText ?? "Rezervovat stůl");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
+// ── hero-restaurant-01-page ──────────────────────────────────────────────────
+function HeroRestaurant01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  type Slide = { url: string; pos?: string };
-  const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop&fm=webp&q=85";
-  const rawSlides = content.slides as Slide[] | undefined;
-  const imgUrl = rawSlides?.[0]?.url ?? DEFAULT_IMAGE;
-  const imgPos = rawSlides?.[0]?.pos ?? "center 40%";
+  const title      = String(c.title      ?? "Stránka");
+  const subtitle   = String(c.subtitle   ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
 
-  const WHITE   = "#ffffff";
-  const RED     = "#c0392b";
-  const POPPINS = "'Poppins', sans-serif";
-
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const DARK  = "#1a0e0a";
+  const AMBER = "#c8943f";
+  const CREAM = "#f5ede0";
+  const FONT  = "Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
   return (
-    <section style={{ position: "relative", width: "100%", height: "100svh", minHeight: 580, overflow: "hidden", backgroundColor: "#111" }}>
-      {/* Pozadí — statický obrázek */}
-      <GenericEditableImage sectionId={sectionId} field="slides.0.url" src={imgUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-        <img
-          src={imgUrl}
-          alt=""
-          aria-hidden
-          style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: imgPos, display: "block" }}
-        />
-      </GenericEditableImage>
+    <section
+      data-template="restaurant-01"
+      style={{
+        backgroundColor: DARK,
+        minHeight: "clamp(260px, 36vh, 360px)",
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        textAlign: "center", position: "relative", overflow: "hidden",
+        paddingTop: 120, paddingBottom: 56, paddingInline: "clamp(20px, 6vw, 80px)",
+      }}
+    >
+      {/* subtle radial glow */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at center top, rgba(200,148,63,0.06) 0%, transparent 60%)`, pointerEvents: "none" }} />
 
-      {/* Tmavý overlay */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.52)" }} />
-
-      {/* REZERVACE tlačítko — centrované */}
-      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      {/* breadcrumb */}
+      <nav aria-label="Breadcrumb" style={{
+        position: "relative", zIndex: 2,
+        display: "flex", alignItems: "center", gap: 10,
+        fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase",
+        color: `${CREAM}80`, marginBottom: 20,
+      }}>
         <a
-          href={resolve(ctaHref)}
-          data-btn="inverse"
-          style={{
-            fontFamily: POPPINS,
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: WHITE,
-            textDecoration: "none",
-            padding: "15px 44px",
-            border: "1px solid rgba(255,255,255,0.7)",
-            backgroundColor: "transparent",
-            transition: "background-color 0.25s, border-color 0.25s",
-            display: "inline-block",
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLAnchorElement).style.backgroundColor = RED;
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = RED;
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.7)";
-          }}
+          href={resolve(breadcrumbHref)}
+          style={{ color: `${CREAM}aa`, textDecoration: "none", transition: "color 0.3s" }}
+          onMouseEnter={e => { e.currentTarget.style.color = AMBER; }}
+          onMouseLeave={e => { e.currentTarget.style.color = `${CREAM}aa`; }}
         >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
         </a>
+        <span aria-hidden style={{ color: AMBER, fontSize: 5 }}>◆</span>
+        <span style={{ color: AMBER }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </span>
+      </nav>
+
+      {/* diamond ornament */}
+      <div aria-hidden style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24, position: "relative", zIndex: 2 }}>
+        <div style={{ width: 40, height: 1, backgroundColor: `${AMBER}55` }} />
+        <div style={{ width: 7, height: 7, backgroundColor: AMBER, transform: "rotate(45deg)", opacity: 0.7 }} />
+        <div style={{ width: 40, height: 1, backgroundColor: `${AMBER}55` }} />
+      </div>
+
+      {/* title */}
+      <h1 style={{
+        fontFamily: FONT, fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 400,
+        color: CREAM, margin: "0 0 12px", lineHeight: 1.15, position: "relative", zIndex: 2,
+      }}>
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+      </h1>
+
+      {subtitle && (
+        <p style={{
+          fontFamily: SANS, fontSize: "clamp(14px, 1.6vw, 17px)", fontWeight: 300,
+          color: `${CREAM}88`, margin: 0, lineHeight: 1.6, maxWidth: 560, position: "relative", zIndex: 2,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+      )}
+
+      {/* bottom amber hairline */}
+      <div aria-hidden style={{ position: "absolute", bottom: 0, left: "10%", right: "10%", height: 1, background: `linear-gradient(90deg, transparent, ${AMBER}44, transparent)` }} />
+    </section>
+  );
+}
+
+// ── restaurant-02-hero ────────────────────────────────────────────────────────
+// Fullscreen crossfade slider + Ken Burns slow zoom, centrovaný titulek + duální CTA
+// Navbar se překrývá přes tento hero (position: fixed overlay, bez spaceru)
+// Ref: restauracehybernska.cz — hpslider s .book tlačítkem, povýšeno na luxe
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroRestaurant02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const eyebrow  = String(c.eyebrow  ?? "Restaurace · Praha · od roku 1998");
+  const title    = String(c.title    ?? "Chuť domova\nna talíři každý den.");
+  const subtitle = String(c.subtitle ?? "Konfitovaná žebra, svíčková a poctivé polední menu — vařené ráno z čerstvých surovin, podávané s vůní tradice.");
+  const ctaText  = String(c.ctaText  ?? "Rezervovat stůl");
+  const ctaHref  = String(c.ctaHref  ?? "#kontakt");
+  const ctaSecondaryText = String(c.ctaSecondaryText ?? "Jídelní lístek");
+  const ctaSecondaryHref = String(c.ctaSecondaryHref ?? "/menu");
+  const siteMode = String(c.siteMode ?? "multipage");
+
+  type Slide = { url: string; pos?: string };
+  const defaultSlides: Slide[] = [
+    { url: "/templates/restaurant-02/hero-1.webp", pos: "center 45%" },
+    { url: "/templates/restaurant-02/hero-2.webp", pos: "center center" },
+    { url: "/templates/restaurant-02/hero-3.webp", pos: "center 55%" },
+    { url: "/templates/restaurant-02/hero-4.webp", pos: "center center" },
+  ];
+  const slides: Slide[] = Array.isArray(c.slides) && (c.slides as Slide[]).length > 0
+    ? (c.slides as Slide[])
+    : defaultSlides;
+
+  const WHITE   = "#ffffff";
+  const POPPINS = "'Poppins', sans-serif";
+
+  const [idx, setIdx] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const count = slides.length;
+
+  useEffect(() => {
+    setMounted(true);
+    if (count <= 1) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % count), 6500);
+    return () => clearInterval(t);
+  }, [count]);
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const titleLines = title.split("\n");
+
+  return (
+    <section
+      data-template="restaurant-02"
+      className="r02-hero"
+      style={{ position: "relative", width: "100%", height: "100svh", minHeight: 600, overflow: "hidden", backgroundColor: "#0d0d0d" }}
+      aria-label="Úvodní sekce"
+    >
+      {/* Crossfade slides + Ken Burns */}
+      <div style={{ position: "absolute", inset: 0 }} aria-hidden>
+        {slides.map((slide, i) => (
+          <div
+            key={i}
+            className="r02-hero-slide"
+            data-active={i === idx ? "y" : "n"}
+            style={{ position: "absolute", inset: 0, opacity: i === idx ? 1 : 0, transition: "opacity 1.3s ease" }}
+          >
+            <GenericEditableImage sectionId={sectionId} field={`slides.${i}.url`} src={slide.url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+              <img
+                src={slide.url}
+                alt=""
+                aria-hidden
+                loading={i === 0 ? "eager" : "lazy"}
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: slide.pos ?? "center center", display: "block" }}
+              />
+            </GenericEditableImage>
+          </div>
+        ))}
+      </div>
+
+      {/* Tmavý gradient overlay — čitelnost */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.32) 42%, rgba(0,0,0,0.72) 100%)" }} />
+      {/* Vignette — jemné ztmavení okrajů */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, boxShadow: "inset 0 0 160px 40px rgba(0,0,0,0.35)", pointerEvents: "none" }} />
+
+      {/* Obsah — centrovaný */}
+      <div className="r02-hero-inner" style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 24px" }}>
+        <GenericEditableText
+          sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+          className={mounted ? "r02-hero-reveal" : ""}
+          style={{ fontFamily: POPPINS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,0.75)", marginBottom: 18, animationDelay: "0.05s" }}
+        />
+        {/* Červená dekorativní lišta */}
+        <span className={mounted ? "r02-hero-reveal" : ""} aria-hidden style={{ display: "block", width: 48, height: 3, backgroundColor: "#c0392b", marginBottom: 24, borderRadius: 2, animationDelay: "0.1s" }} />
+        <GenericEditableText
+          sectionId={sectionId} field="title" value={title} tag="h1"
+          className={mounted ? "r02-hero-reveal" : ""}
+          style={{ fontFamily: POPPINS, fontSize: "clamp(38px, 6vw, 76px)", fontWeight: 700, lineHeight: 1.06, color: WHITE, margin: 0, letterSpacing: "-0.01em", textShadow: "0 2px 24px rgba(0,0,0,0.35)", animationDelay: "0.15s" }}
+        >
+          {titleLines.map((ln, i) => <span key={i} style={{ display: "block" }}>{ln}</span>)}
+        </GenericEditableText>
+        <GenericEditableText
+          sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+          className={mounted ? "r02-hero-reveal" : ""}
+          style={{ fontFamily: POPPINS, fontSize: "clamp(16px, 1.5vw, 19px)", fontWeight: 400, lineHeight: 1.6, color: "rgba(255,255,255,0.90)", maxWidth: 620, margin: "24px 0 0", animationDelay: "0.28s" }}
+        />
+        <div className={`r02-hero-cta ${mounted ? "r02-hero-reveal" : ""}`} style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center", marginTop: 40, animationDelay: "0.42s" }}>
+          <a href={resolve(ctaHref)} className="r02-hero-btn r02-hero-btn--primary" style={{ fontFamily: POPPINS, fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "16px 40px", backgroundColor: "#c0392b", borderRadius: 3, display: "inline-block", position: "relative", overflow: "hidden" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={resolve(ctaSecondaryHref)} className="r02-hero-btn r02-hero-btn--ghost" style={{ fontFamily: POPPINS, fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "16px 40px", border: "1px solid rgba(255,255,255,0.6)", borderRadius: 3, display: "inline-block" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Dot navigace + scroll hint */}
+      <div style={{ position: "absolute", bottom: 28, left: 0, right: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 16, zIndex: 3 }}>
+        {count > 1 && (
+          <div style={{ display: "flex", gap: 10 }}>
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                aria-label={`Snímek ${i + 1}`}
+                className="r02-hero-dot"
+                data-active={i === idx ? "y" : "n"}
+                style={{ width: i === idx ? 28 : 8, height: 8, borderRadius: 20, border: "none", cursor: "pointer", padding: 0, backgroundColor: i === idx ? "#c0392b" : "rgba(255,255,255,0.50)" }}
+              />
+            ))}
+          </div>
+        )}
+        <a href="#about" className="r02-scroll-hint" aria-label="Scroll dolů" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, textDecoration: "none", color: "rgba(255,255,255,0.55)" }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-restaurant-02-page ──────────────────────────────────────────────────
+// Slim banner for subpages: 340px, dark bg + subtle Ken Burns, breadcrumb, H1, red rule
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroRestaurant02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const cc = content as Record<string, unknown>;
+  const breadcrumb = String(cc.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(cc.breadcrumbHref ?? "/");
+  const title = String(cc.title ?? "Podstránka");
+  const subtitle = String(cc.subtitle ?? "");
+  const bgImage = String(cc.backgroundImage ?? "/templates/restaurant-02/hero-1.webp");
+  const resolvedHref = tenantSlug && breadcrumbHref.startsWith("/")
+    ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref}` : breadcrumbHref;
+  return (
+    <section className="r02-page-hero" data-template="restaurant-02">
+      <div className="r02-page-hero__bg" style={{ backgroundImage: `url(${bgImage})` }} aria-hidden="true" />
+      <div className="r02-page-hero__overlay" aria-hidden="true" />
+      <div className="r02-page-hero__content">
+        <nav aria-label="Drobečková navigace" className="r02-page-hero__crumbs">
+          <a href={resolvedHref} className="r02-page-hero__crumb-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" className="r02-page-hero__crumb-sep">/</span>
+          <span className="r02-page-hero__crumb-current">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 className="r02-page-hero__title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span aria-hidden="true" className="r02-page-hero__rule" />
+        {subtitle && (
+          <p className="r02-page-hero__subtitle">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
     </section>
   );
@@ -7762,117 +8575,259 @@ function HeroCafe02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 // Video: autoplay/muted/loop/playsInline + fallback poster obrázek
 // Tmavý overlay 55% přes video pro čitelnost textu
 // Centrum: uppercase serif H1 bílý + zlatý kicker "subtitle" + outline CTA bílé
-// Ref: lacasalatina.cz — celostránkové video s "Rezervovat" tlačítkem
+// Ref: casadorada-restaurace.cz — celostránkové video s "Rezervovat" tlačítkem
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroRestaurant03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const title      = String(content.title      ?? "Chutě Latinské Ameriky\nv srdci Prahy.");
-  const subtitle   = String(content.subtitle   ?? "MEXICO · BRAZIL · ARGENTINA · PERU");
+  const title      = String(content.title      ?? "Oheň, zlato a chutě\nLatinské Ameriky");
+  const subtitle   = String(content.subtitle   ?? "MÉXICO · PERÚ · ARGENTINA · BRASIL");
+  const lead       = String(content.lead       ?? "Otevřená kuchyně · ohnivý gril · ručně míchané koktejly");
   const ctaText    = String(content.ctaText    ?? "Rezervovat stůl");
-  const ctaHref    = String(content.ctaHref    ?? "#kontakt");
+  const ctaHref    = String(content.ctaHref    ?? "/kontakt");
+  const secondaryText = String(content.secondaryText ?? "Prohlédnout menu");
+  const secondaryHref = String(content.secondaryHref ?? "/menu");
+  const scrollLabel   = String(content.scrollLabel   ?? "Objevte");
+  const siteMode   = String(content.siteMode   ?? "multipage");
   const videoUrl   = String(content.videoUrl   ?? "");
   const posterUrl  = String(content.posterUrl  ?? (
     (content.slides as Array<{url:string}>)?.[0]?.url ??
-    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85"
+    "/templates/restaurant-03/hero.webp"
   ));
 
-  const GOLD  = "#e05e3f";
-  const WHITE = "#ffffff";
+  const GREEN   = "#0c351a";
+  const GOLD    = "#b97d26";
+  const GOLD_LT = "#d4a24c";
+  const WHITE   = "#ffffff";
   const FONT  = "Georgia, 'Times New Roman', serif";
   const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", background: "#0d1b2a" }}>
-      {/* Video / fallback poster */}
-      <GenericEditableImage sectionId={sectionId} field="posterUrl" src={posterUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-        {videoUrl ? (
-          <video
-            autoPlay muted loop playsInline
-            poster={posterUrl}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
-          >
-            <source src={videoUrl} type="video/mp4" />
-          </video>
-        ) : (
-          <img
-            src={posterUrl}
-            alt=""
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
-          />
-        )}
-      </GenericEditableImage>
+    <section
+      data-template="restaurant-03"
+      data-variant="restaurant-03-hero"
+      style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", background: GREEN }}
+    >
+      {/* Video / fallback poster — Ken Burns slow zoom */}
+      <div className="r03-hero-media" style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+        <GenericEditableImage sectionId={sectionId} field="posterUrl" src={posterUrl} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          {videoUrl ? (
+            <video
+              autoPlay muted loop playsInline
+              poster={posterUrl}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+            >
+              <source src={videoUrl} type="video/mp4" />
+            </video>
+          ) : (
+            <img
+              src={posterUrl}
+              alt=""
+              className="r03-hero-img"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+            />
+          )}
+        </GenericEditableImage>
+      </div>
 
-      {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
+      {/* Cinematic green-tinted overlay: vignette + bottom gradient */}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0,
+        background: "radial-gradient(120% 90% at 50% 34%, rgba(8,32,18,0.28) 0%, rgba(8,32,18,0.6) 62%, rgba(6,24,14,0.86) 100%)",
+      }} />
+      <div aria-hidden style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(to bottom, rgba(8,32,18,0.55) 0%, rgba(8,32,18,0) 30%, rgba(8,32,18,0) 60%, rgba(6,24,14,0.9) 100%)",
+      }} />
 
       {/* Obsah — centrovaný */}
       <div style={{
         position: "relative", zIndex: 10,
         height: "100%", display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        textAlign: "center", padding: "0 clamp(24px, 6vw, 80px)",
+        textAlign: "center", padding: "92px clamp(24px, 6vw, 80px) 0",
       }}>
-        {/* Kicker */}
-        <p style={{
-          fontFamily: SANS, fontSize: "clamp(11px, 3.2vw, 13px)", fontWeight: 500,
-          letterSpacing: "0.22em", textTransform: "uppercase",
-          color: GOLD, margin: "0 0 20px", lineHeight: 1,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
+        {/* Kicker — gold s ornamentem */}
+        <div className="r03-hero-rise" style={{ display: "flex", alignItems: "center", gap: 16, margin: "0 0 26px", animationDelay: "0.05s" }}>
+          <span aria-hidden style={{ width: "clamp(24px,6vw,52px)", height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD})` }} />
+          <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)", flexShrink: 0 }} />
+          <p style={{
+            fontFamily: SANS, fontSize: "clamp(10.5px, 3vw, 13px)", fontWeight: 500,
+            letterSpacing: "0.28em", textTransform: "uppercase",
+            color: GOLD_LT, margin: 0, lineHeight: 1,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+          <span aria-hidden style={{ width: 6, height: 6, background: GOLD, transform: "rotate(45deg)", flexShrink: 0 }} />
+          <span aria-hidden style={{ width: "clamp(24px,6vw,52px)", height: 1, background: `linear-gradient(to left, ${GOLD}00, ${GOLD})` }} />
+        </div>
 
         {/* H1 */}
-        <h1 style={{
-          fontFamily: FONT, fontSize: "clamp(36px, 6vw, 82px)", fontWeight: 400,
-          color: WHITE, margin: "0 0 40px", lineHeight: 1.12,
-          textTransform: "uppercase", letterSpacing: "0.04em",
-          whiteSpace: "pre-line",
+        <h1 className="r03-hero-rise" style={{
+          fontFamily: FONT, fontSize: "clamp(38px, 6.4vw, 88px)", fontWeight: 400,
+          color: WHITE, margin: "0 0 24px", lineHeight: 1.1,
+          textTransform: "uppercase", letterSpacing: "0.03em",
+          whiteSpace: "pre-line", textShadow: "0 2px 30px rgba(0,0,0,0.45)",
+          animationDelay: "0.16s",
         }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
-        {/* CTA */}
-        <a
-          href={resolve(ctaHref)}
-          data-btn="primary"
-          style={{
-            fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.16em",
-            textTransform: "uppercase", color: WHITE, textDecoration: "none",
-            padding: "15px 36px",
-            border: `1px solid ${WHITE}`,
-            transition: "background-color 0.22s, border-color 0.22s",
-            display: "inline-block",
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = GOLD;
-            e.currentTarget.style.borderColor = GOLD;
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = "transparent";
-            e.currentTarget.style.borderColor = WHITE;
-          }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
+        {/* Lead */}
+        <p className="r03-hero-rise" style={{
+          fontFamily: SANS, fontSize: "clamp(13px, 2.4vw, 16px)", fontWeight: 400,
+          letterSpacing: "0.04em", color: `${WHITE}d0`, margin: "0 0 40px",
+          maxWidth: 560, lineHeight: 1.7, animationDelay: "0.26s",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+        </p>
+
+        {/* CTA row */}
+        <div className="r03-hero-rise" style={{ display: "flex", alignItems: "center", gap: "clamp(16px,3vw,28px)", flexWrap: "wrap", justifyContent: "center", animationDelay: "0.36s" }}>
+          <a
+            href={resolve(ctaHref)}
+            data-btn="primary"
+            style={{
+              fontFamily: SANS, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.18em",
+              textTransform: "uppercase", color: GREEN, textDecoration: "none",
+              padding: "16px 40px", background: GOLD, borderRadius: 2,
+              display: "inline-flex", alignItems: "center", gap: 10,
+              boxShadow: "0 10px 30px rgba(0,0,0,0.35)",
+              transition: "background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.backgroundColor = GOLD_LT;
+              e.currentTarget.style.transform = "translateY(-3px)";
+              e.currentTarget.style.boxShadow = "0 16px 40px rgba(0,0,0,0.45)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.backgroundColor = GOLD;
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+
+          <a
+            href={resolve(secondaryHref)}
+            className="r03-hero-ghost"
+            style={{
+              fontFamily: SANS, fontSize: 12.5, fontWeight: 500, letterSpacing: "0.16em",
+              textTransform: "uppercase", color: WHITE, textDecoration: "none",
+              display: "inline-flex", alignItems: "center", gap: 9,
+              paddingBottom: 4, borderBottom: `1px solid ${GOLD}`,
+              transition: "color 0.3s ease, gap 0.3s ease",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = GOLD_LT; e.currentTarget.style.gap = "14px"; }}
+            onMouseLeave={e => { e.currentTarget.style.color = WHITE; e.currentTarget.style.gap = "9px"; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+            <span aria-hidden style={{ color: GOLD_LT }}>→</span>
+          </a>
+        </div>
       </div>
 
       {/* Scroll indicator */}
       <div style={{
-        position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
-        zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+        position: "absolute", bottom: 30, left: "50%", transform: "translateX(-50%)",
+        zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
       }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span"
+          style={{ fontFamily: SANS, fontSize: 10, fontWeight: 500, letterSpacing: "0.3em", textTransform: "uppercase", color: `${WHITE}99` }} />
         <div style={{
-          width: 1, height: 48, background: `linear-gradient(to bottom, ${WHITE}00, ${WHITE}80)`,
+          width: 1, height: 46, background: `linear-gradient(to bottom, ${GOLD}00, ${GOLD})`,
           animation: "r03-scroll-fade 2s ease-in-out infinite",
         }} />
       </div>
-      <style>{`
-        @keyframes r03-scroll-fade {
-          0%,100% { opacity:0.3; transform: scaleY(0.6); }
-          50% { opacity:1; transform: scaleY(1); }
-        }
-      `}</style>
+    </section>
+  );
+}
+
+// ── hero-restaurant-03-page ───────────────────────────────────────────────────
+// La Casa Dorada — slim banner pro podstránky (~340px). Deep-green bg foto se
+// silným zeleným overlay + zlatý ornament eyebrow rule + Georgia H1 + breadcrumb
+// + gold diamond rule. Rohové gold brackets. Editable title/breadcrumb/bg.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroRestaurant03Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const eyebrow        = String(c.eyebrow ?? "");
+  const title          = String(c.title ?? "Podstránka");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bgImage        = String(c.backgroundImage ?? c.image ?? c.posterUrl ?? "/templates/restaurant-03/hero.webp");
+
+  const GREEN   = "#0c351a";
+  const GOLD    = "#b97d26";
+  const GOLD_LT = "#d4a24c";
+  const WHITE   = "#ffffff";
+  const FONT  = "Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+  const resolvedHref = tenantSlug && breadcrumbHref.startsWith("/")
+    ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref === "/" ? "" : breadcrumbHref}`
+    : breadcrumbHref;
+
+  return (
+    <section
+      data-template="restaurant-03"
+      data-variant="hero-restaurant-03-page"
+      aria-label={title}
+      style={{ position: "relative", minHeight: "clamp(280px,44vw,380px)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: GREEN, paddingTop: 92 }}
+    >
+      {/* Bg foto */}
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+        <img loading="eager" src={bgImage} alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+      </GenericEditableImage>
+      {/* Zelený overlay */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(8,32,18,0.82), rgba(6,24,14,0.9))" }} />
+
+      {/* Rohové gold brackets */}
+      {(["tl","br"] as const).map(p => (
+        <span key={p} aria-hidden style={{
+          position: "absolute", width: 26, height: 26,
+          borderTop: p === "tl" ? `1px solid ${GOLD}` : "none",
+          borderLeft: p === "tl" ? `1px solid ${GOLD}` : "none",
+          borderBottom: p === "br" ? `1px solid ${GOLD}` : "none",
+          borderRight: p === "br" ? `1px solid ${GOLD}` : "none",
+          top: p === "tl" ? 24 : undefined, left: p === "tl" ? 24 : undefined,
+          bottom: p === "br" ? 24 : undefined, right: p === "br" ? 24 : undefined,
+          opacity: 0.6,
+        }} />
+      ))}
+
+      {/* Obsah */}
+      <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 clamp(20px,5vw,60px)" }}>
+        {/* Breadcrumb */}
+        <nav aria-label="Drobečková navigace" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 18, fontFamily: SANS, fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+          <a href={resolvedHref} style={{ color: GOLD_LT, textDecoration: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ width: 4, height: 4, background: GOLD, transform: "rotate(45deg)" }} />
+          <span style={{ color: `${WHITE}99` }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+
+        {eyebrow && (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 14 }}>
+            <span aria-hidden style={{ width: 30, height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD})` }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT }} />
+            <span aria-hidden style={{ width: 30, height: 1, background: `linear-gradient(to left, ${GOLD}00, ${GOLD})` }} />
+          </div>
+        )}
+
+        <h1 style={{ fontFamily: FONT, fontSize: "clamp(30px,5vw,56px)", fontWeight: 400, color: WHITE, margin: 0, lineHeight: 1.12, textTransform: "uppercase", letterSpacing: "0.03em" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {/* Gold diamond rule */}
+        <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginTop: 20 }}>
+          <span style={{ width: 44, height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD})` }} />
+          <span style={{ width: 7, height: 7, background: GOLD, transform: "rotate(45deg)" }} />
+          <span style={{ width: 44, height: 1, background: `linear-gradient(to left, ${GOLD}00, ${GOLD})` }} />
+        </div>
+      </div>
     </section>
   );
 }
@@ -8410,29 +9365,45 @@ function HeroCafe04Page({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ── bakery-01-hero ────────────────────────────────────────────────────────────
-function HeroBakery01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const c = content as { heading?: string; backgroundImage?: string };
-  const heading = c.heading ?? "PEČEME S LÁSKOU OD ROKU 2016";
-  const bgImage = c.backgroundImage ?? "https://images.unsplash.com/photo-1549931319-a545dcf3bc7e?w=1920&q=85";
+function HeroBakery01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const c = content as Record<string, unknown>;
+  const eyebrow    = String(c.eyebrow    ?? "Řemeslná pekárna & kavárna");
+  const heading    = String(c.heading    ?? "PEČEME S LÁSKOU OD ROKU 2016");
+  const subheading = String(c.subheading ?? "Každé ráno mísíme, kyneme a pečeme z poctivé mouky, přírodního kvásku a času. Přijďte na křupavou kůrku a vůni čerstvého chleba.");
+  const bgImage    = String(c.backgroundImage ?? "/templates/bakery-01/hero.webp");
+  const ctaLabel   = String(c.ctaLabel   ?? "Objevte naši pekárnu");
+  const ctaHref    = String(c.ctaHref    ?? "/pekarna");
+  const cta2Label  = String(c.cta2Label  ?? "Kde nás najdete");
+  const cta2Href   = String(c.cta2Href   ?? "/kontakt");
+  const scrollLabel = String(c.scrollLabel ?? "Prozkoumat");
+
+  const SERIF  = "'Josefin Sans', 'Helvetica Neue', sans-serif";
+  const SANS   = "'Metropolis', 'Inter', sans-serif";
+  const ACCENT = "#c69a5f";
+
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
     <section
       id={String(sectionId)}
+      className="b01hero"
+      data-template="bakery-01"
       style={{
         position: "relative",
         width: "100%",
-        height: "50vh",
-        minHeight: 320,
+        height: "90vh",
+        minHeight: 560,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
-        backgroundColor: "#1a1a1a",
+        backgroundColor: "#1a1512",
       }}
     >
-      {/* Background image — editable */}
+      {/* Background image — editable, Ken Burns */}
       <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt={heading} style={{ position: "absolute", inset: 0, zIndex: 1, display: "block" }}>
         <div
+          className="b01hero-bg"
           style={{
             position: "absolute",
             inset: 0,
@@ -8442,37 +9413,90 @@ function HeroBakery01({ content, sectionId }: { content: Record<string, unknown>
           }}
         />
       </GenericEditableImage>
-      {/* Dark overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0,0,0,0.38)",
-          zIndex: 2,
-        }}
-      />
-      {/* Heading */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 3,
-          textAlign: "center",
-          padding: "0 clamp(24px, 6vw, 80px)",
-        }}
-      >
-        <h1
-          style={{
-            fontFamily: "'Josefin Sans', 'Helvetica Neue', sans-serif",
-            fontWeight: 300,
-            fontSize: "clamp(0.85rem, 2.4vw, 2rem)",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "#ffffff",
-            margin: 0,
-            lineHeight: 1.1,
-          }}
-        >
+      {/* Warm gradient overlay */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 2, background: "linear-gradient(180deg, rgba(26,21,18,0.34) 0%, rgba(26,21,18,0.28) 42%, rgba(26,21,18,0.62) 100%)" }} />
+
+      {/* Content */}
+      <div className="b01hero-inner" style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "0 clamp(24px, 6vw, 80px)", maxWidth: 900 }}>
+        {/* Eyebrow with wheat hairlines */}
+        <div className="b01hero-eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: 16, marginBottom: 26 }}>
+          <span style={{ display: "block", width: "clamp(28px,6vw,56px)", height: 1, background: "rgba(255,255,255,0.5)" }} />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><path d="M12 3v18M12 6c-2 0-3 1-3 3M12 6c2 0 3 1 3 3M12 11c-2 0-3 1-3 3M12 11c2 0 3 1 3 3M12 16c-2 0-3 1-3 3M12 16c2 0 3 1 3 3"/></svg>
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+            style={{ fontFamily: SERIF, fontSize: "clamp(0.7rem,1.4vw,0.85rem)", fontWeight: 400, letterSpacing: "0.28em", textTransform: "uppercase", color: "#f3ead9" }} />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><path d="M12 3v18M12 6c-2 0-3 1-3 3M12 6c2 0 3 1 3 3M12 11c-2 0-3 1-3 3M12 11c2 0 3 1 3 3M12 16c-2 0-3 1-3 3M12 16c2 0 3 1 3 3"/></svg>
+          <span style={{ display: "block", width: "clamp(28px,6vw,56px)", height: 1, background: "rgba(255,255,255,0.5)" }} />
+        </div>
+
+        <h1 className="b01hero-title" style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.9rem, 5vw, 4.4rem)", letterSpacing: "0.14em", textTransform: "uppercase", color: "#ffffff", margin: "0 0 24px", lineHeight: 1.12 }}>
           <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+        </h1>
+
+        <p className="b01hero-sub" style={{ fontFamily: SANS, fontSize: "clamp(0.95rem, 1.5vw, 1.12rem)", lineHeight: 1.85, color: "rgba(255,255,255,0.9)", margin: "0 auto 38px", maxWidth: 560, fontWeight: 300 }}>
+          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+        </p>
+
+        <div className="b01hero-cta" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          <a className="b01-btn-primary" href={resolve(ctaHref)} style={{ fontFamily: SERIF, fontSize: 13, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: "#2a1f16", background: "#f3ead9", padding: "16px 34px", textDecoration: "none", display: "inline-block" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span" />
+          </a>
+          <a className="b01-btn-ghost" href={resolve(cta2Href)} style={{ fontFamily: SERIF, fontSize: 13, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: "#ffffff", border: "1px solid rgba(255,255,255,0.55)", padding: "16px 34px", textDecoration: "none", display: "inline-block" }}>
+            <GenericEditableText sectionId={sectionId} field="cta2Label" value={cta2Label} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="b01hero-scroll" style={{ position: "absolute", left: "50%", bottom: 26, transform: "translateX(-50%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span"
+          style={{ fontFamily: SERIF, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)" }} />
+        <span className="b01hero-scroll-line" style={{ display: "block", width: 1, height: 40, background: "linear-gradient(180deg, rgba(255,255,255,0.7), transparent)" }} />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-bakery-01-page (slim banner pro podstránky) ──────────────────────────
+function HeroBakery01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const c = content as Record<string, unknown>;
+  const title          = String(c.title          ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bgImage        = String(c.backgroundImage ?? "/templates/bakery-01/about-banner.webp");
+
+  const SERIF  = "'Josefin Sans', 'Helvetica Neue', sans-serif";
+  const SANS   = "'Metropolis', 'Inter', sans-serif";
+  const ACCENT = "#c69a5f";
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section
+      id={String(sectionId)}
+      data-template="bakery-01"
+      style={{ position: "relative", width: "100%", height: "clamp(300px, 40vw, 400px)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", backgroundColor: "#1a1512" }}
+    >
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt={title} style={{ position: "absolute", inset: 0, zIndex: 1, display: "block" }}>
+        <div className="b01hero-bg" style={{ position: "absolute", inset: 0, backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center", filter: "grayscale(0.15) brightness(0.92)" }} />
+      </GenericEditableImage>
+      <div style={{ position: "absolute", inset: 0, zIndex: 2, background: "linear-gradient(180deg, rgba(26,21,18,0.45), rgba(26,21,18,0.62))" }} />
+
+      <div className="b01hero-inner" style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "0 clamp(24px, 6vw, 80px)" }}>
+        {/* Breadcrumb */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 18, fontFamily: SANS, fontSize: 12, letterSpacing: "0.1em", color: "rgba(243,234,217,0.85)" }}>
+          <a href={resolve(breadcrumbHref)} className="b01-crumb" style={{ color: "inherit", textDecoration: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span style={{ color: ACCENT }}>/</span>
+          <span style={{ color: "#ffffff" }}>{title}</span>
+        </div>
+        {/* Decorative wheat rule */}
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <span style={{ display: "block", width: "clamp(24px,5vw,44px)", height: 1, background: "rgba(255,255,255,0.5)" }} />
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><path d="M12 3v18M12 6c-2 0-3 1-3 3M12 6c2 0 3 1 3 3M12 11c-2 0-3 1-3 3M12 11c2 0 3 1 3 3M12 16c-2 0-3 1-3 3M12 16c2 0 3 1 3 3"/></svg>
+          <span style={{ display: "block", width: "clamp(24px,5vw,44px)", height: 1, background: "rgba(255,255,255,0.5)" }} />
+        </div>
+        <h1 style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(1.7rem, 4vw, 3.2rem)", letterSpacing: "0.14em", textTransform: "uppercase", color: "#ffffff", margin: 0, lineHeight: 1.14 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
       </div>
     </section>
@@ -8480,7 +9504,7 @@ function HeroBakery01({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── reality-02-hero ───────────────────────────────────────────────────────────
-// Ref: fermakleri.cz homepage hero funnel
+// Ref: realitni-pruvodce.cz homepage hero funnel
 // Light-green gradient bg (#dbf7e7 → #eafbf1), výška auto
 // H1: Montserrat uppercase dark-teal, zvýrazněné slovo v green #3DCE78
 // 4 property-type karty: Byt / Dům / Pozemek / Jiné — zelené CTA
@@ -8733,85 +9757,177 @@ function HeroReality02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Pro
 // btn-success: bg #21b276 pill, padding 6px 20px, font-size 14px, černý text
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroReality04Split({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const panel1Title    = String(content.panel1Title    ?? "Nabízíte nemovitost?");
-  const panel1Subtitle = String(content.panel1Subtitle ?? "Prodej a pronájem nemovitosti, odhad ceny zdarma");
-  const panel1CtaText  = String(content.panel1CtaText  ?? "Chci více informací");
-  const panel1CtaHref  = String(content.panel1CtaHref  ?? "#kontakt");
-  const panel1Image    = String(content.panel1Image    ?? "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&h=500&fit=crop&q=80");
+  const siteMode = String(content.siteMode ?? "multipage");
 
+  const panel1Eyebrow  = String(content.panel1Eyebrow  ?? "Prodej & pronájem");
+  const panel1Title    = String(content.panel1Title    ?? "Nabízíte nemovitost?");
+  const panel1Subtitle = String(content.panel1Subtitle ?? "Prodej a pronájem s odhadem ceny zdarma — postaráme se o celý proces od focení po předání klíčů.");
+  const panel1CtaText  = String(content.panel1CtaText  ?? "Chci ocenit nemovitost");
+  const panel1CtaHref  = String(content.panel1CtaHref  ?? "/kontakt");
+  const panel1Image    = String(content.panel1Image    ?? "/templates/reality-04/img/hero-sell.webp");
+
+  const panel2Eyebrow  = String(content.panel2Eyebrow  ?? "Koupě & investice");
   const panel2Title    = String(content.panel2Title    ?? "Hledáte nemovitost?");
-  const panel2Subtitle = String(content.panel2Subtitle ?? "Koupě a pronájem nemovitosti, finanční služby");
-  const panel2CtaText  = String(content.panel2CtaText  ?? "Chci více informací");
-  const panel2CtaHref  = String(content.panel2CtaHref  ?? "#nabidka");
-  const panel2Image    = String(content.panel2Image    ?? "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=700&h=500&fit=crop&q=80");
+  const panel2Subtitle = String(content.panel2Subtitle ?? "Vyberte si z aktuální nabídky bytů, domů a pozemků. Pomůžeme i s financováním a hypotékou.");
+  const panel2CtaText  = String(content.panel2CtaText  ?? "Prohlédnout nabídku");
+  const panel2CtaHref  = String(content.panel2CtaHref  ?? "/nabidka");
+  const panel2Image    = String(content.panel2Image    ?? "/templates/reality-04/img/hero-buy.webp");
 
   const PRIMARY = "#1032CF";
   const GREEN   = "#21b276";
-  const DARK    = "#241f0c";
+  const DARK    = "#141414";
+  const MUTED   = "#5b6070";
   const WHITE   = "#ffffff";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const IconHouse = (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 11L12 4.5l8 6.5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6 10v9h12v-9" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 19v-5h-4v5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  const IconSearch = (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="6.5" stroke="#fff" strokeWidth="1.8" />
+      <path d="M16 16l4 4" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
 
   const Panel = ({
-    title, subtitle, ctaText, ctaHref, image,
-    titleField, subtitleField, ctaTextField, ctaHrefField, imageField,
+    accent, icon, eyebrow, title, subtitle, ctaText, ctaHref, image,
+    eyebrowField, titleField, subtitleField, ctaTextField, imageField,
   }: {
-    title: string; subtitle: string; ctaText: string; ctaHref: string; image: string;
-    titleField: string; subtitleField: string; ctaTextField: string; ctaHrefField: string; imageField: string;
+    accent: string; icon: React.ReactNode; eyebrow: string; title: string; subtitle: string; ctaText: string; ctaHref: string; image: string;
+    eyebrowField: string; titleField: string; subtitleField: string; ctaTextField: string; imageField: string;
   }) => (
-    <div style={{ flex: "1 1 0", minWidth: 0 }}>
+    <div className="r04-hpanel">
       {/* Foto */}
-      <div style={{ marginBottom: 24 }}>
-        <GenericEditableImage sectionId={sectionId} field={imageField} src={image} alt={title} style={{ display: "block", borderRadius: 4, overflow: "hidden" }}>
-          <img loading="eager" src={image} alt={title} style={{ width: "100%", height: "auto", display: "block", borderRadius: 4 }} />
+      <div className="r04-hpanel-img">
+        <GenericEditableImage sectionId={sectionId} field={imageField} src={image} alt={title} style={{ display: "block", width: "100%", height: "100%" }}>
+          <img loading="eager" src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         </GenericEditableImage>
+        <span className="r04-hpanel-overlay" aria-hidden="true" />
+        <span className="r04-hpanel-chip" style={{ backgroundColor: accent }}>{icon}</span>
       </div>
-      {/* H2 */}
-      <h2 style={{ fontFamily: SANS, fontSize: "clamp(22px, 2.2vw, 30px)", fontWeight: 700, color: PRIMARY, marginBottom: 10, marginTop: 0, lineHeight: 1.2 }}>
-        <GenericEditableText sectionId={sectionId} field={titleField} value={title} tag="span" />
-      </h2>
-      {/* Claim subtitle */}
-      <p style={{ fontFamily: SANS, fontSize: 20, color: DARK, margin: "0 0 20px", lineHeight: 1.4 }}>
-        <GenericEditableText sectionId={sectionId} field={subtitleField} value={subtitle} tag="span" />
-      </p>
-      {/* btn-success */}
-      <a
-        href={resolve(ctaHref)}
-        data-btn="primary"
-        style={{ display: "inline-block", padding: "6px 20px", backgroundColor: GREEN, color: "#000", fontFamily: SANS, fontSize: 14, fontWeight: 400, textDecoration: "none", borderRadius: 50, boxShadow: `inset 0px 0px 0px 2px ${GREEN}`, transition: "all 350ms ease" }}
-        onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = GREEN; }}
-        onMouseLeave={e => { e.currentTarget.style.backgroundColor = GREEN; e.currentTarget.style.color = "#000"; }}
-      >
-        <GenericEditableText sectionId={sectionId} field={ctaTextField} value={ctaText} tag="span" />
-      </a>
+      {/* Text */}
+      <div style={{ paddingTop: 24 }}>
+        <GenericEditableText sectionId={sectionId} field={eyebrowField} value={eyebrow} tag="p"
+          style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: accent, margin: "0 0 10px" }} />
+        <h2 style={{ fontFamily: SANS, fontSize: "clamp(24px, 2.6vw, 34px)", fontWeight: 700, color: DARK, marginBottom: 12, marginTop: 0, lineHeight: 1.15, letterSpacing: "-0.01em" }}>
+          <GenericEditableText sectionId={sectionId} field={titleField} value={title} tag="span" />
+        </h2>
+        <p style={{ fontFamily: SANS, fontSize: 17, color: MUTED, margin: "0 0 24px", lineHeight: 1.6, maxWidth: 460 }}>
+          <GenericEditableText sectionId={sectionId} field={subtitleField} value={subtitle} tag="span" />
+        </p>
+        <a
+          href={resolve(ctaHref)}
+          data-btn="primary"
+          className="r04-hero-cta"
+          style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "13px 28px", backgroundColor: GREEN, color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", borderRadius: 50, transition: "background-color 300ms ease" }}
+        >
+          <GenericEditableText sectionId={sectionId} field={ctaTextField} value={ctaText} tag="span" />
+          <svg className="r04-hero-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ transition: "transform 300ms ease" }}>
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </a>
+      </div>
     </div>
   );
 
   return (
-    <section style={{ backgroundColor: WHITE, padding: "clamp(40px, 5vw, 80px) 0" }}>
-      <div style={{ maxWidth: 1434, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
+    <section style={{ backgroundColor: WHITE, padding: "clamp(44px, 5vw, 88px) 0" }} data-template="reality-04">
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
         <div className="r04-hero-grid">
           <Panel
-            title={panel1Title} subtitle={panel1Subtitle} ctaText={panel1CtaText} ctaHref={panel1CtaHref} image={panel1Image}
-            titleField="panel1Title" subtitleField="panel1Subtitle" ctaTextField="panel1CtaText" ctaHrefField="panel1CtaHref" imageField="panel1Image"
+            accent={PRIMARY} icon={IconHouse}
+            eyebrow={panel1Eyebrow} title={panel1Title} subtitle={panel1Subtitle} ctaText={panel1CtaText} ctaHref={panel1CtaHref} image={panel1Image}
+            eyebrowField="panel1Eyebrow" titleField="panel1Title" subtitleField="panel1Subtitle" ctaTextField="panel1CtaText" imageField="panel1Image"
           />
           <Panel
-            title={panel2Title} subtitle={panel2Subtitle} ctaText={panel2CtaText} ctaHref={panel2CtaHref} image={panel2Image}
-            titleField="panel2Title" subtitleField="panel2Subtitle" ctaTextField="panel2CtaText" ctaHrefField="panel2CtaHref" imageField="panel2Image"
+            accent={GREEN} icon={IconSearch}
+            eyebrow={panel2Eyebrow} title={panel2Title} subtitle={panel2Subtitle} ctaText={panel2CtaText} ctaHref={panel2CtaHref} image={panel2Image}
+            eyebrowField="panel2Eyebrow" titleField="panel2Title" subtitleField="panel2Subtitle" ctaTextField="panel2CtaText" imageField="panel2Image"
           />
         </div>
       </div>
       <style>{`
-        .r04-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 60px); }
-        @media (max-width: 640px) { .r04-hero-grid { grid-template-columns: 1fr; } }
+        .r04-hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 64px); }
+        @media (max-width: 760px) { .r04-hero-grid { grid-template-columns: 1fr; gap: 48px; } }
       `}</style>
     </section>
   );
 }
 
+// ── hero-reality-04-page ──────────────────────────────────────────────────────
+// Slim banner pro podstránky: modrý gradient + breadcrumb + H1 + zelený accent rule
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroReality04Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode       = String(content.siteMode ?? "multipage");
+  const title          = String(content.title          ?? "Stránka");
+  const breadcrumb     = String(content.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const subtitle       = String(content.subtitle ?? "");
+
+  const WHITE = "#ffffff";
+  const GREEN = "#21b276";
+  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      data-template="reality-04"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        background: "linear-gradient(120deg, #1032CF 0%, #0b23a0 100%)",
+        padding: "clamp(48px, 7vw, 84px) 0 clamp(40px, 6vw, 68px)",
+      }}
+    >
+      {/* decorative house watermark */}
+      <svg style={{ position: "absolute", right: "-20px", bottom: "-70px", opacity: 0.12, pointerEvents: "none" }} width="280" height="280" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 11L12 4.5l8 6.5" stroke="#fff" strokeWidth="0.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M6 10v9h12v-9" stroke="#fff" strokeWidth="0.6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)" }}>
+        {/* Breadcrumb */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, fontFamily: SANS, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+          <a href={resolve(breadcrumbHref)} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", transition: "color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
+            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
+          >
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ opacity: 0.6 }}>/</span>
+          <span style={{ color: "#fff" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+
+        {/* Green accent rule */}
+        <div style={{ width: 44, height: 3, backgroundColor: GREEN, borderRadius: 2, marginBottom: 18 }} />
+
+        {/* H1 */}
+        <h1 style={{ fontFamily: SANS, fontSize: "clamp(28px, 4vw, 46px)", fontWeight: 800, color: WHITE, margin: 0, lineHeight: 1.1, letterSpacing: "-0.015em" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {subtitle.trim() && (
+          <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 17px)", color: "rgba(255,255,255,0.82)", margin: "14px 0 0", lineHeight: 1.6, maxWidth: 560 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ── reality-01-hero ───────────────────────────────────────────────────────────
-// Video hero — ref: lexxusnorton.cz
+// Video hero — ref: domus-reality.cz
 // Video s horizontálním odsazením (container margins); search panel uvnitř dole
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroReality01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
@@ -8840,7 +9956,7 @@ function HeroReality01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 
   return (
     <section style={{ backgroundColor: WHITE }}>
-      {/* Outer wrapper — same horizontal padding as lexxusnorton.cz container */}
+      {/* Outer wrapper — same horizontal padding as domus-reality.cz container */}
       <div data-r01-hero-outer style={{ padding: "0 clamp(32px, 6vw, 100px)" }}>
         {/* Video container — rounded, overflow hidden */}
         <div data-r01-hero-video style={{
@@ -8975,15 +10091,20 @@ function HeroReality01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 
 // ── hero-reality-03-video ─────────────────────────────────────────────────────
 function HeroReality03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const title       = String(content.title        ?? "Rodinná realitka,\nkde se budete cítit jako doma");
-  const titleAccent = String(content.titleAccent  ?? "Rodinná realitka,");
+  const eyebrow     = String(content.eyebrow      ?? "Rodinná realitní kancelář · Praha");
+  const title       = String(content.title        ?? "Váš domov najdeme.\nVáš prodej dotáhneme.");
+  const titleAccent = String(content.titleAccent  ?? "Váš domov najdeme.");
   const body        = String(content.body         ?? "");
-  const bgImage     = String(content.image        ?? "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&h=900&fit=crop&q=80");
-  const agentImage  = String(content.agentImage   ?? "");
-  const ctaText     = String(content.ctaText      ?? "Naše služby");
-  const ctaHref     = String(content.ctaHref      ?? "#sluzby");
+  const bgImage     = String(content.image        ?? "/templates/reality-03/hero-bg.webp");
+  const agentImage  = String(content.agentImage   ?? "/templates/reality-03/agent.webp");
+  const agentName   = String(content.agentName    ?? "Tereza & Martin Dvořákovi");
+  const agentRole   = String(content.agentRole    ?? "Vaši rodinní makléři");
+  const ctaText     = String(content.ctaText      ?? "Naše nabídka");
+  const ctaHref     = String(content.ctaHref      ?? "/nabidka");
   const ctaSecText  = String(content.ctaSecondaryText ?? "O nás");
-  const ctaSecHref  = String(content.ctaSecondaryHref ?? "#o-nas");
+  const ctaSecHref  = String(content.ctaSecondaryHref ?? "/o-nas");
+  const scrollLabel = String(content.scrollLabel  ?? "Objevte nabídku");
+  const siteMode    = String(content.siteMode     ?? "multipage");
   const stats = (content.stats as Array<{ number: string; label: string }>) ?? [];
 
   const DARK  = "#132538";
@@ -8991,12 +10112,7 @@ function HeroReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const WHITE = "#ffffff";
   const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    if (href.startsWith("#")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const renderTitle = () => {
     if (!titleAccent || !title.includes(titleAccent)) {
@@ -9014,82 +10130,202 @@ function HeroReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
   };
 
   return (
-    <section id="hero" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", fontFamily: SANS }}>
-      <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center top", zIndex: 0 }} />
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(19,37,56,0.62)", zIndex: 1 }} />
-      <div data-r03-hero-grid style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1320, margin: "0 auto", padding: "100px clamp(20px, 4vw, 64px) 80px", display: "grid", gridTemplateColumns: "55fr 45fr", alignItems: "center", gap: "clamp(32px, 5vw, 80px)" }}>
+    <section id="hero" data-template="reality-03" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", fontFamily: SANS, backgroundColor: DARK }}>
+      {/* Ken Burns background */}
+      <div className="r03-hero-kb" style={{ position: "absolute", inset: 0, backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center", zIndex: 0 }} />
+      {/* Directional gradient overlay */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(19,37,56,0.86) 0%, rgba(19,37,56,0.60) 46%, rgba(19,37,56,0.30) 100%)", zIndex: 1 }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(0deg, rgba(19,37,56,0.55) 0%, rgba(19,37,56,0) 32%)", zIndex: 1 }} />
+
+      <div data-r03-hero-grid style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1320, margin: "0 auto", padding: "110px clamp(20px, 4vw, 64px) 96px", display: "grid", gridTemplateColumns: "56fr 44fr", alignItems: "center", gap: "clamp(32px, 5vw, 80px)" }}>
         <div>
-          <h1 style={{ fontFamily: SANS, fontSize: "clamp(2rem, 4.5vw, 3.4rem)", fontWeight: 700, lineHeight: 1.15, margin: "0 0 24px", letterSpacing: "-0.02em" }}>
+          {/* Eyebrow */}
+          <div className="r03-hero-anim" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22, animationDelay: "0.05s" }}>
+            <span aria-hidden style={{ width: 40, height: 2, background: OCHRE, flexShrink: 0 }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: OCHRE, letterSpacing: "3px", textTransform: "uppercase" }} />
+          </div>
+
+          <h1 className="r03-hero-anim" style={{ fontFamily: SANS, fontSize: "clamp(2.1rem, 4.6vw, 3.5rem)", fontWeight: 700, lineHeight: 1.13, margin: "0 0 24px", letterSpacing: "-0.025em", animationDelay: "0.14s" }}>
             {renderTitle()}
           </h1>
-          <p style={{ fontSize: "clamp(15px, 1.5vw, 18px)", color: "rgba(255,255,255,0.80)", lineHeight: 1.65, margin: "0 0 36px", maxWidth: 520 }}>
+          <p className="r03-hero-anim" style={{ fontSize: "clamp(15px, 1.5vw, 18px)", color: "rgba(255,255,255,0.82)", lineHeight: 1.68, margin: "0 0 38px", maxWidth: 540, animationDelay: "0.24s" }}>
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
+
           {stats.length > 0 && (
-            <div style={{ display: "flex", gap: "clamp(20px, 4vw, 48px)", marginBottom: 40, flexWrap: "wrap" }}>
+            <div className="r03-hero-anim r03-hero-stats" style={{ display: "flex", gap: "clamp(18px, 3vw, 40px)", marginBottom: 42, flexWrap: "wrap", animationDelay: "0.34s" }}>
               {stats.map((s, i) => (
-                <div key={`r03-stat-${i}`} style={{ display: "flex", flexDirection: "column" }}>
-                  <span style={{ fontFamily: SANS, fontSize: "clamp(2rem, 3.5vw, 2.8rem)", fontWeight: 700, color: WHITE, lineHeight: 1, letterSpacing: "-0.02em" }}>{s.number}</span>
-                  <span style={{ fontSize: 12, fontWeight: 500, color: OCHRE, textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 6, whiteSpace: "pre-line", lineHeight: 1.4 }}>{s.label}</span>
+                <div key={`r03-stat-${i}`} className="r03-hero-stat" style={{ display: "flex", flexDirection: "column", position: "relative", paddingRight: "clamp(18px, 3vw, 40px)" }}>
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" style={{ fontFamily: SANS, fontSize: "clamp(2rem, 3.6vw, 2.9rem)", fontWeight: 700, color: WHITE, lineHeight: 1, letterSpacing: "-0.025em" }} />
+                  <span aria-hidden style={{ display: "block", width: 26, height: 2, background: OCHRE, margin: "12px 0 8px" }} />
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" style={{ fontSize: 11.5, fontWeight: 600, color: "rgba(255,255,255,0.72)", textTransform: "uppercase", letterSpacing: "1.5px", whiteSpace: "pre-line", lineHeight: 1.45 }} />
                 </div>
               ))}
             </div>
           )}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
-            <a href={resolve(ctaHref)} data-btn="primary" style={{ display: "inline-flex", alignItems: "center", padding: "14px 34px", backgroundColor: WHITE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", transition: "all 0.2s", border: `2px solid ${WHITE}` }} onMouseEnter={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }} onMouseLeave={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = DARK; }}>
-              {ctaText}
+
+          <div className="r03-hero-anim" style={{ display: "flex", flexWrap: "wrap", gap: 14, animationDelay: "0.44s" }}>
+            <a href={resolve(ctaHref)} data-btn="primary" className="r03-hero-cta-primary" style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "15px 34px", backgroundColor: WHITE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", transition: "all 0.25s cubic-bezier(.4,0,.2,1)", border: `2px solid ${WHITE}` }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-            <a href={resolve(ctaSecHref)} style={{ display: "inline-flex", alignItems: "center", padding: "14px 34px", backgroundColor: "transparent", color: WHITE, fontFamily: SANS, fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", border: "2px solid rgba(255,255,255,0.55)", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.borderColor = WHITE; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.10)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.55)"; e.currentTarget.style.backgroundColor = "transparent"; }}>
-              {ctaSecText}
+            <a href={resolve(ctaSecHref)} className="r03-hero-cta-ghost" style={{ display: "inline-flex", alignItems: "center", padding: "15px 34px", backgroundColor: "transparent", color: WHITE, fontFamily: SANS, fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", border: "2px solid rgba(255,255,255,0.55)", transition: "all 0.25s cubic-bezier(.4,0,.2,1)" }}>
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
             </a>
           </div>
         </div>
+
         {agentImage && (
-          <div data-r03-portrait style={{ display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "clamp(260px, 32vw, 420px)", aspectRatio: "3/4", borderRadius: 12, overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,0.45)", border: "3px solid rgba(227,138,106,0.35)" }}>
-              <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt="Realitní makléř" style={{ width: "100%", height: "100%" }}>
-                <img loading="eager" src={agentImage} alt="Realitní makléř" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
-              </GenericEditableImage>
+          <div data-r03-portrait className="r03-hero-anim" style={{ display: "flex", justifyContent: "center", animationDelay: "0.3s" }}>
+            <div style={{ position: "relative", width: "clamp(280px, 33vw, 430px)" }}>
+              {/* Ochre corner accent */}
+              <span aria-hidden style={{ position: "absolute", top: -14, right: -14, width: 74, height: 74, borderTop: `2px solid ${OCHRE}`, borderRight: `2px solid ${OCHRE}`, borderTopRightRadius: 14, zIndex: 3 }} />
+              <div style={{ position: "relative", aspectRatio: "3/4", borderRadius: 14, overflow: "hidden", boxShadow: "0 30px 70px rgba(0,0,0,0.5)" }}>
+                <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={agentName} style={{ width: "100%", height: "100%" }}>
+                  <img loading="eager" src={agentImage} alt={agentName} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
+                </GenericEditableImage>
+                {/* Floating glass name badge */}
+                <div style={{ position: "absolute", left: 16, right: 16, bottom: 16, background: "rgba(19,37,56,0.62)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 12, padding: "13px 16px", display: "flex", alignItems: "center", gap: 12 }}>
+                  <span aria-hidden style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: "50%", background: OCHRE, flexShrink: 0 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#132538" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v0M9 12v0M9 15v0"/></svg>
+                  </span>
+                  <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.25 }}>
+                    <GenericEditableText sectionId={sectionId} field="agentName" value={agentName} tag="span" style={{ fontFamily: SANS, fontSize: 14, fontWeight: 700, color: WHITE, letterSpacing: "0.01em" }} />
+                    <GenericEditableText sectionId={sectionId} field="agentRole" value={agentRole} tag="span" style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, color: OCHRE, letterSpacing: "0.06em" }} />
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Scroll indicator */}
+      <a href="#sluzby" className="r03-hero-scroll" aria-label={scrollLabel} style={{ position: "absolute", left: "50%", bottom: 26, transform: "translateX(-50%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, textDecoration: "none" }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, color: "rgba(255,255,255,0.7)", letterSpacing: "2.5px", textTransform: "uppercase" }} />
+        <span aria-hidden className="r03-hero-scroll-line" style={{ display: "block", width: 1, height: 34, background: "rgba(255,255,255,0.5)" }} />
+      </a>
+
       <style>{`
         @media (max-width: 767px) {
-          [data-r03-hero-grid] { grid-template-columns: 1fr !important; padding-top: 72px !important; padding-bottom: 56px !important; }
+          [data-r03-hero-grid] { grid-template-columns: 1fr !important; padding-top: 96px !important; padding-bottom: 64px !important; }
           [data-r03-portrait]  { display: none !important; }
+          .r03-hero-scroll { display: none !important; }
         }
         @media (max-width: 480px) {
-          [data-r03-hero-grid] { padding-top: 60px !important; padding-bottom: 44px !important; }
+          [data-r03-hero-grid] { padding-top: 84px !important; padding-bottom: 48px !important; }
         }
       `}</style>
     </section>
   );
 }
 
+
+// ── hero-reality-03-page (slim subpage banner) ──────────────────────────────
+function HeroReality03Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title      = String(content.title ?? content.headline ?? "Stránka");
+  const subtitle   = String(content.subtitle ?? "");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const bg         = String(content.backgroundImage ?? content.image ?? "/templates/reality-03/hero-bg.webp");
+  const siteMode   = String(content.siteMode ?? "multipage");
+
+  const DARK  = "#132538";
+  const OCHRE = "#e38a6a";
+  const WHITE = "#ffffff";
+  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin ?? false);
+
+  return (
+    <section data-template="reality-03" style={{ position: "relative", minHeight: 320, display: "flex", alignItems: "center", overflow: "hidden", backgroundColor: DARK, fontFamily: SANS }}>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} style={{ width: "100%", height: "100%" }}>
+          <img src={bg} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }} />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(19,37,56,0.90) 0%, rgba(19,37,56,0.72) 55%, rgba(19,37,56,0.55) 100%)" }} aria-hidden />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: 1240, margin: "0 auto", padding: "clamp(96px,12vw,120px) clamp(20px,4vw,48px) clamp(40px,5vw,52px)" }}>
+        {/* Breadcrumb */}
+        <div className="r03-page-banner-crumb" style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          <a href={resolve(breadcrumbHref)} style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ color: OCHRE }}>/</span>
+          <span style={{ color: WHITE }}>{title}</span>
+        </div>
+        {/* Ochre rule */}
+        <span aria-hidden style={{ display: "block", width: 44, height: 3, background: OCHRE, marginBottom: 18 }} />
+        <h1 style={{ fontSize: "clamp(1.9rem,4vw,3rem)", fontWeight: 700, color: WHITE, margin: 0, letterSpacing: "-0.025em", lineHeight: 1.12 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle && (
+          <p style={{ fontSize: "clamp(15px,1.5vw,17px)", color: "rgba(255,255,255,0.78)", lineHeight: 1.6, margin: "14px 0 0", maxWidth: 560 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── hero-reality-01-page (slim subpage banner) ──────────────────────────────
+function HeroReality01Page({ content, sectionId }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const DARK = "#1a3640";
+  const GOLD = "#d4a96e";
+  const FONT = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  const title    = String(c.title ?? c.headline ?? "Stránka");
+  const subtitle = String(c.subtitle ?? "");
+  const bg       = String(c.backgroundImage ?? "/templates/reality-01/hero-bg.webp");
+
+  return (
+    <section data-template="reality-01" style={{ position: "relative", minHeight: 340, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", textAlign: "center" }}>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(180deg, ${DARK}e0 0%, ${DARK}b3 100%)` }} aria-hidden="true" />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 800, width: "100%", margin: "0 auto", padding: "120px 32px 60px" }}>
+        <span aria-hidden="true" style={{ display: "block", width: 48, height: 2, background: GOLD, margin: "0 auto 20px" }} />
+        <h1 style={{ fontFamily: FONT, color: "#ffffff", fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.15, margin: 0, textShadow: "0 2px 16px rgba(0,0,0,0.25)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle && (
+          <p style={{ fontFamily: BODY, fontSize: 16, color: "rgba(255,255,255,0.6)", lineHeight: 1.6, margin: "14px auto 0", maxWidth: 540 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ── reality-05-hero ───────────────────────────────────────────────────────────
-// Ref: ondrejkucera.com (okucera.cz)
-// 100vh fullscreen foto slider; dark rgba(0,0,0,0.55) overlay
-// Text pravostranně zarovnaný (text-md-right originál), bílý H2, zlatý (#CFA968) CTA button
-// 2 slidy s auto-advance 5s; prev/next šipky; bez tečkové navigace
-// ─────────────────────────────────────────────────────────────────────────────
 function HeroReality05({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  type Slide = { bgImage: string; bgPosition: string; title: string; ctaText: string; ctaHref: string };
+  type Slide = { bgImage: string; bgPosition: string; title: string; subtitle: string; ctaText: string; ctaHref: string };
   const rawSlides = content.slides as Slide[] | undefined;
   const slides: Slide[] = rawSlides && rawSlides.length > 0 ? rawSlides : [
     {
-      bgImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&h=900&fit=crop&q=80",
-      bgPosition: "center top",
-      title: "Více jak\npatnáct let zkušeností.\nJsem tu pro Vás.",
-      ctaText: "Co o mně řekli klienti",
-      ctaHref: "#reference",
+      bgImage: "/templates/reality-05/hero-slide1.webp",
+      bgPosition: "center center",
+      title: "Zkušenosti, které\nprodávají nemovitosti.",
+      subtitle: "Více než 15 let zkušeností s prodejem a pronájmem nemovitostí v Praze a Středočeském kraji.",
+      ctaText: "Reference klientů",
+      ctaHref: "/reference",
     },
     {
-      bgImage: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1600&h=900&fit=crop&q=80",
-      bgPosition: "center top",
-      title: "Váš příběh,\nmoje péče.",
-      ctaText: "Kontaktujte mě",
-      ctaHref: "#kontakt",
+      bgImage: "/templates/reality-05/hero-slide2.webp",
+      bgPosition: "center center",
+      title: "Váš nový domov\nzačíná zde.",
+      subtitle: "Osobní přístup, transparentní jednání a profesionální servis od první konzultace až po předání klíčů.",
+      ctaText: "Domluvit konzultaci",
+      ctaHref: "/kontakt",
     },
   ];
 
@@ -9099,24 +10335,24 @@ function HeroReality05({ content, sectionId, tenantSlug, isAdmin }: { content: R
 
   const [current, setCurrent] = useState(0);
   const total = slides.length;
-
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    if (href.startsWith("#")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const siteMode = String((content as Record<string,unknown>).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   useEffect(() => {
-    const t = setInterval(() => setCurrent(c => (c + 1) % total), 5000);
+    const t = setInterval(() => setCurrent(c => (c + 1) % total), 6000);
     return () => clearInterval(t);
   }, [total]);
 
   const slide = slides[current];
+  const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <section style={{ position: "relative", width: "100%", height: "100vh", minHeight: 500, overflow: "hidden", backgroundColor: "#111" }} data-r05-hero>
-      {/* Slides — each as GenericEditableImage so bgImage is editable */}
+    <section
+      id="hero"
+      data-template="reality-05"
+      style={{ position: "relative", width: "100%", height: "100vh", minHeight: 540, overflow: "hidden", backgroundColor: "#0a0a0a" }}
+    >
+      {/* Slides with Ken Burns */}
       {slides.map((s, i) => (
         <GenericEditableImage
           key={i}
@@ -9124,200 +10360,361 @@ function HeroReality05({ content, sectionId, tenantSlug, isAdmin }: { content: R
           field={`slides.${i}.bgImage`}
           src={s.bgImage}
           alt=""
-          className="absolute inset-0 z-0"
-          style={{ position: "absolute", transition: "opacity 0.8s ease", opacity: i === current ? 1 : 0 }}
+          style={{
+            position: "absolute", inset: 0,
+            transition: "opacity 1s cubic-bezier(0.4,0,0.2,1)",
+            opacity: i === current ? 1 : 0,
+          }}
         >
           <img
             src={s.bgImage}
             alt=""
             aria-hidden={i !== current}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: s.bgPosition || "center" }}
+            className={i === current ? "r05-hero-ken-burns" : ""}
+            style={{
+              position: "absolute", inset: 0, width: "100%", height: "100%",
+              objectFit: "cover", objectPosition: s.bgPosition || "center",
+              transform: "scale(1.08)",
+            }}
           />
         </GenericEditableImage>
       ))}
 
-      {/* Dark overlay — pointerEvents none so clicks reach GenericEditableImage */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", zIndex: 1, pointerEvents: "none" }} />
+      {/* Gradient overlay */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+        background: "linear-gradient(135deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.55) 100%)",
+      }} />
 
-      {/* Content — pravostranně zarovnáno, center na mobilu */}
-      <div className="r05-hero-cnt" style={{ position: "absolute", inset: 0, zIndex: 2, display: "flex", alignItems: "center", justifyContent: "flex-end", padding: "0 clamp(24px, 6vw, 100px)" }}>
-        <div className="r05-hero-txt" style={{ maxWidth: 600, textAlign: "right" }}>
+      {/* Content — centered */}
+      <div className="r05-hero-cnt" style={{
+        position: "absolute", inset: 0, zIndex: 2,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "0 clamp(32px, 7vw, 120px)",
+      }}>
+        <div className="r05-hero-txt" style={{ maxWidth: 700, textAlign: "center" }}>
           {slide.title && (
             <GenericEditableText
               sectionId={sectionId}
               field={`slides.${current}.title`}
               value={slide.title}
-              tag="h2"
-              style={{ fontFamily: SANS, fontSize: "clamp(22px,3.2vw,42px)", fontWeight: 700, lineHeight: 1.25, color: WHITE, margin: "0 0 32px", whiteSpace: "pre-line" }}
+              tag="h1"
+              style={{
+                fontFamily: SANS, fontSize: "clamp(28px,4vw,52px)", fontWeight: 700,
+                lineHeight: 1.15, color: WHITE, margin: "0 0 16px", whiteSpace: "pre-line",
+                letterSpacing: "-0.01em",
+              }}
             />
           )}
+
+          {/* Gold decorative rule */}
+          <div style={{ width: 48, height: 2, backgroundColor: GOLD, margin: "0 auto 20px", opacity: 0.7 }} />
+
+          {slide.subtitle && (
+            <GenericEditableText
+              sectionId={sectionId}
+              field={`slides.${current}.subtitle`}
+              value={slide.subtitle}
+              tag="p"
+              style={{
+                fontFamily: SANS, fontSize: "clamp(14px,1.2vw,17px)", color: "rgba(255,255,255,0.7)",
+                lineHeight: 1.65, margin: "0 auto 32px", maxWidth: 560,
+              }}
+            />
+          )}
+
           <a
             href={resolve(slide.ctaHref)}
-            data-btn="primary"
-            style={{ display: "inline-block", padding: "14px 32px", backgroundColor: GOLD, color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", letterSpacing: "0.02em", transition: "opacity 0.2s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
+            className="r05-hero-cta"
+            style={{
+              display: "inline-block", padding: "14px 36px",
+              backgroundColor: GOLD, color: "#111",
+              fontFamily: SANS, fontSize: 13, fontWeight: 700,
+              textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase" as const,
+              transition: "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
+            }}
           >
             <GenericEditableText sectionId={sectionId} field={`slides.${current}.ctaText`} value={slide.ctaText} tag="span" />
           </a>
         </div>
       </div>
 
-      {/* Prev / Next šipky */}
+      {/* Prev / Next arrows */}
       {total > 1 && (
         <>
           <button
             onClick={() => setCurrent(c => (c - 1 + total) % total)}
             aria-label="Předchozí slide"
-            style={{ position: "absolute", left: 20, top: "50%", transform: "translateY(-50%)", zIndex: 3, background: "rgba(0,0,0,0.35)", border: "none", cursor: "pointer", color: WHITE, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.18s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(207,169,104,0.7)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.35)"; }}
+            className="r05-hero-arrow"
+            style={{
+              position: "absolute", left: "clamp(16px,3vw,40px)", top: "50%", transform: "translateY(-50%)", zIndex: 3,
+              background: "rgba(255,255,255,0.08)", border: `1px solid rgba(207,169,104,0.25)`,
+              cursor: "pointer", color: WHITE, width: 48, height: 48,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+              transition: "background 0.25s, border-color 0.25s",
+            }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
           <button
             onClick={() => setCurrent(c => (c + 1) % total)}
             aria-label="Následující slide"
-            style={{ position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)", zIndex: 3, background: "rgba(0,0,0,0.35)", border: "none", cursor: "pointer", color: WHITE, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.18s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(207,169,104,0.7)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.35)"; }}
+            className="r05-hero-arrow"
+            style={{
+              position: "absolute", right: "clamp(16px,3vw,40px)", top: "50%", transform: "translateY(-50%)", zIndex: 3,
+              background: "rgba(255,255,255,0.08)", border: `1px solid rgba(207,169,104,0.25)`,
+              cursor: "pointer", color: WHITE, width: 48, height: 48,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+              transition: "background 0.25s, border-color 0.25s",
+            }}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
         </>
       )}
 
-      {/* Scroll-down arrow */}
-      <a
-        href="#o-mne"
-        aria-label="Přejít níže"
-        style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 3, color: WHITE, opacity: 0.7, textDecoration: "none" }}
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </a>
+      {/* Slide counter — bottom center */}
+      {total > 1 && (
+        <div style={{
+          position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)", zIndex: 3,
+          fontFamily: SANS, fontSize: 13, fontWeight: 600, letterSpacing: "0.1em",
+          color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: 8,
+        }}>
+          <span style={{ color: GOLD, fontSize: 18, fontWeight: 700 }}>{pad(current + 1)}</span>
+          <span style={{ width: 24, height: 1, backgroundColor: "rgba(255,255,255,0.3)", display: "inline-block" }} />
+          <span>{pad(total)}</span>
+        </div>
+      )}
 
-      <style>{`
-        @media (max-width: 600px) {
-          [data-r05-hero] .r05-hero-cnt { justify-content: center !important; padding: 0 20px !important; }
-          [data-r05-hero] .r05-hero-txt { text-align: center !important; max-width: 100% !important; }
-        }
-      `}</style>
+      {/* Scroll indicator — bottom center */}
+      <div className="r05-hero-scroll" style={{
+        position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", zIndex: 3,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 6, opacity: 0.5,
+      }}>
+        <div style={{ width: 1, height: 28, backgroundColor: WHITE, opacity: 0.6 }} />
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
     </section>
   );
 }
 
-// ── hero-reality-06-agent ──────────────────────────────────────────────────────
-// Ref: srubar.cz — celostránkový hero, foto pozadí opacity 80%, foto makléře vlevo-dole,
-// H1 vpravo (#263A82, 48px bold), bílá blur lišta dole přesahující -50% se 4 CTA.
-// Přesné hodnoty: section max-h 650px (lg), bg object-cover object-left opacity-80,
-// h1 bottom ~40% right 11%, lišta bg-white/90 backdrop-blur rounded-lg shadow-lg p-4
-// ─────────────────────────────────────────────────────────────────────────────
-function HeroReality06Agent({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const agentName   = String(content.agentName   ?? "Dominik Krejčí");
-  const heading     = String(content.heading     ?? "Váš osobní realitní makléř");
-  const bgImage     = String(content.bgImage     ?? "/clones/srubar/images/hero-image-03.jpg");
-  const agentImage  = String(content.agentImage  ?? "/clones/srubar/images/jan.png");
-  const phone       = String(content.phone       ?? "704 123 456");
-  const email       = String(content.email       ?? "email@demo.cz");
-  const whatsapp    = String(content.whatsapp    ?? "https://wa.me/420704123456");
-  const googleUrl   = String(content.googleUrl   ?? "#");
-  const googleRating = String(content.googleRating ?? "5,0");
-  const stats = (content.stats as Array<{ number: string; label: string }>) ?? [];
 
-  const PRIMARY = "#263A82";
-  const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+// ── hero-reality-05-page (slim subpage banner) ──────────────────────────────
+function HeroReality05Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const title        = String(content.title        ?? "Stránka");
+  const subtitle     = String(content.subtitle     ?? "");
+  const breadcrumb   = String(content.breadcrumb   ?? "Úvod");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const currentLabel = String(content.currentLabel ?? title);
+  const siteMode     = String(content.siteMode     ?? "multipage");
+
+  const GOLD  = "#CFA968";
+  const DARK  = "#1c1c1c";
+  const WHITE = "#ffffff";
+  const MUTED = "rgba(255,255,255,0.55)";
+  const FONT  = "'Open Sans', sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    // position:relative z-index:40 — hero leží NAD about sekcí (z-index:10),
-    // žádný overflow:hidden aby CTA bar mohl přetéct dolů
-    <section style={{ position: "relative", width: "100%", height: "100vh", maxHeight: 650, zIndex: 40 }} data-template="reality-06-hero">
-      {/* Background image — vlastní overflow:hidden wrapper aby bg nepřetékalo */}
-      <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-        <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-          <img loading="eager" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "left center", opacity: 0.8, pointerEvents: "none" }} />
-        </GenericEditableImage>
+    <section data-template="reality-05" style={{ background: DARK, fontFamily: FONT, position: "relative", overflow: "hidden", paddingTop: 80 }}>
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: GOLD, opacity: 0.4 }} />
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px clamp(20px,3vw,40px) 24px", textAlign: "center", position: "relative", zIndex: 1 }}>
+        {/* Breadcrumb */}
+        <nav style={{ display: "inline-flex", alignItems: "center", gap: 10, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>
+          <a href={resolve(breadcrumbHref)} className="r05-page-crumb" style={{ color: MUTED, textDecoration: "none", transition: "color 0.2s" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span style={{ color: GOLD }}>/</span>
+          <span style={{ color: GOLD }}>
+            <GenericEditableText sectionId={sectionId} field="currentLabel" value={currentLabel} tag="span" />
+          </span>
+        </nav>
+        {/* Title */}
+        <h1 style={{ fontSize: "clamp(22px,3vw,32px)", fontWeight: 700, color: WHITE, margin: "0 0 4px", letterSpacing: "0.02em", lineHeight: 1.2 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle && (
+          <p style={{ fontSize: 14, color: MUTED, margin: 0, maxWidth: 560, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
+    </section>
+  );
+}
 
+// ── hero-reality-06-agent (editorial split) ────────────────────────────
+// Left: eyebrow keyline + editorial H1 + lead + duo CTA + count-up staty.
+// Right: portrét v keyline frame (navy duotone overlay) + DK monogram watermark
+//        + plovoucí glass Google-credential karta. Žádný fullscreen bg / overflow lišta.
+// Anti-flash: reveal jen na inner elementech, section vždy opacity:1.
+// ───────────────────────────────────────────────────
+function HeroReality06Stat({ value, run, isAdmin, sectionId, idx }: {
+  value: string; run: boolean; isAdmin: boolean; sectionId: number; idx: number;
+}) {
+  const m = String(value).match(/^(\d+)(.*)$/);
+  const end = m ? parseInt(m[1], 10) : 0;
+  const suffix = m ? m[2] : "";
+  const [val, setVal] = useState(isAdmin ? end : 0);
+  useEffect(() => {
+    if (isAdmin || !run) { setVal(end); return; }
+    const dur = 1600; const startT = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - startT) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(Math.round(eased * end));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    const r = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(r);
+  }, [run, end, isAdmin]);
+  return <GenericEditableText sectionId={sectionId} field={`stats.${idx}.number`} value={`${val}${suffix}`} tag="span" />;
+}
+
+function HeroReality06Agent({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const agentName    = String(content.agentName    ?? "Dominik Krejčí");
+  const eyebrow      = String(content.eyebrow      ?? "Realitní makléř · Praha");
+  const heading      = String(content.heading      ?? "Najdu vám domov,\nne jen nemovitost.");
+  const lead         = String(content.lead         ?? "Provedu vás prodejem i koupí od první schůzky až po předání klíčů — osobně, férově a bez zbytečného stresu.");
+  const agentImage   = String(content.agentImage   ?? "/templates/reality-06/agent.webp");
+  const googleRating = String(content.googleRating ?? "5,0");
+  const reviewCount  = String(content.reviewCount  ?? "48");
+  const ctaText      = String(content.ctaText      ?? "Domluvit schůzku");
+  const ctaHref      = String(content.ctaHref      ?? "/kontakt");
+  const ctaSecText   = String((content.ctaSecondaryText as string | undefined) ?? "Prohlédnout nabídku");
+  const ctaSecHref   = String((content.ctaSecondaryHref as string | undefined) ?? "/nabidka");
+  const monogram     = String(content.monogram     ?? "DK");
+  const stats = (content.stats as Array<{ number: string; label: string }>) ?? [
+    { number: "120+", label: "Prodaných nemovitostí" },
+    { number: "10",   label: "Let na trhu" },
+    { number: "4,9",  label: "Průměrné hodnocení" },
+  ];
+
+  const PRIMARY = "#263A82";
+  const NAVY    = "#1C2B6B";
+  const ACCENT  = "#6f83c8";
+  const SURFACE = "#F0F0F8";
+  const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [run, setRun] = useState(false);
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setRun(true); obs.disconnect(); } }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section style={{ position: "relative", width: "100%", backgroundColor: "#fff", overflow: "hidden", zIndex: 40 }} data-template="reality-06-hero">
       <style>{`
-        .r06h-content { position: absolute; bottom: 0; left: 0; right: 0; display: flex; align-items: flex-end; }
-        .r06h-photo { position: relative; z-index: 2; max-height: 100%; max-width: 340px; object-fit: contain; object-position: bottom; pointer-events: none; }
-        .r06h-right { position: absolute; right: clamp(16px,11%,140px); bottom: 0; z-index: 3; display: flex; flex-direction: column; gap: 16px; align-items: flex-start; padding-bottom: 80px; max-width: 46%; }
-        .r06h-stats { display: flex; gap: 24px; flex-wrap: wrap; }
-        .r06h-stat { display: flex; flex-direction: column; gap: 2px; }
-        @media (max-width: 640px) {
-          .r06h-content { flex-direction: column; align-items: center; justify-content: flex-end; }
-          .r06h-photo { max-width: 200px; max-height: 260px; }
-          .r06h-right { position: relative; right: auto; bottom: auto; padding-bottom: 24px; max-width: 90%; align-items: center; text-align: center; }
-          .r06h-stats { justify-content: center; gap: 16px; }
+        .r06h-wrap { max-width: 1240px; margin: 0 auto; padding: clamp(96px,13vh,150px) clamp(16px,4vw,48px) clamp(56px,7vh,88px); display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px,5vw,72px); align-items: center; }
+        .r06h-eyebrow { display: inline-flex; align-items: center; gap: 12px; margin: 0 0 22px; }
+        .r06h-eyebrow .line { width: 34px; height: 2px; background: ${PRIMARY}; flex-shrink: 0; }
+        .r06h-eyebrow .txt, .r06h-eyebrow span:not(.line) { font-family: ${SANS}; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: ${PRIMARY}; }
+        .r06h-h1 { font-family: ${SANS}; font-size: clamp(38px,5vw,66px); font-weight: 700; line-height: 1.04; letter-spacing: -0.025em; color: ${PRIMARY}; margin: 0 0 22px; white-space: pre-line; }
+        .r06h-lead { font-family: ${SANS}; font-size: clamp(15px,1.25vw,18px); line-height: 1.65; color: #4a4f66; max-width: 30em; margin: 0 0 34px; }
+        .r06h-cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 46px; }
+        .r06h-btn { display: inline-flex; align-items: center; gap: 9px; padding: 15px 28px; border-radius: 8px; font-family: ${SANS}; font-size: 15px; font-weight: 600; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; }
+        .r06h-btn-primary { background: ${PRIMARY}; color: #fff; box-shadow: 0 10px 26px rgba(38,58,130,0.22); }
+        .r06h-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(38,58,130,0.30); background: ${NAVY}; }
+        .r06h-btn-primary svg { transition: transform .2s ease; }
+        .r06h-btn-primary:hover svg { transform: translateX(4px); }
+        .r06h-btn-ghost { background: transparent; color: ${PRIMARY}; border: 1.5px solid rgba(38,58,130,0.28); }
+        .r06h-btn-ghost:hover { border-color: ${PRIMARY}; background: ${SURFACE}; transform: translateY(-2px); }
+        .r06h-stats { display: flex; gap: clamp(20px,3vw,40px); }
+        .r06h-stat { position: relative; padding-left: 18px; }
+        .r06h-stat::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 6px; width: 2px; background: linear-gradient(${PRIMARY},${ACCENT}); border-radius: 2px; }
+        .r06h-stat-num { font-family: ${SANS}; font-size: clamp(26px,2.6vw,36px); font-weight: 700; color: ${PRIMARY}; line-height: 1; letter-spacing: -0.01em; }
+        .r06h-stat-lbl { font-family: ${SANS}; font-size: 12px; font-weight: 500; color: #6b7088; margin-top: 7px; line-height: 1.3; max-width: 11em; }
+        .r06h-media { position: relative; }
+        .r06h-mono { position: absolute; top: -7%; right: -1%; font-family: ${SANS}; font-size: clamp(120px,15vw,210px); font-weight: 800; color: ${SURFACE}; letter-spacing: -0.04em; line-height: 1; z-index: 0; user-select: none; pointer-events: none; }
+        .r06h-frame { position: relative; z-index: 1; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 30px 70px rgba(38,58,130,0.20); }
+        .r06h-frame::after { content: ""; position: absolute; inset: 0; border-radius: 20px; box-shadow: inset 0 0 0 1px rgba(38,58,130,0.10); pointer-events: none; }
+        .r06h-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+        .r06h-duotone { position: absolute; inset: 0; background: linear-gradient(150deg, rgba(38,58,130,0.30), rgba(28,43,107,0.08) 55%, transparent); mix-blend-mode: multiply; pointer-events: none; }
+        .r06h-cred { position: absolute; left: -20px; bottom: 26px; z-index: 2; background: rgba(255,255,255,0.88); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.7); border-radius: 14px; box-shadow: 0 16px 40px rgba(38,58,130,0.18); padding: 13px 17px; display: flex; align-items: center; gap: 12px; }
+        .r06h-cred-num { font-family: ${SANS}; font-size: 25px; font-weight: 700; color: ${PRIMARY}; line-height: 1; }
+        .r06h-rv { opacity: 0; transform: translateY(18px); animation: r06hRise .8s cubic-bezier(.22,.61,.36,1) forwards; }
+        @keyframes r06hRise { to { opacity: 1; transform: none; } }
+        @keyframes r06hFrame { from { opacity: 0; transform: translateY(24px) scale(.98); } to { opacity: 1; transform: none; } }
+        .r06h-frame-rv { animation: r06hFrame 1s cubic-bezier(.22,.61,.36,1) both; animation-delay: .1s; }
+        @media (max-width: 860px) {
+          .r06h-wrap { grid-template-columns: 1fr; gap: 44px; padding-top: clamp(88px,12vh,120px); }
+          .r06h-media { max-width: 400px; margin: 0 auto; width: 100%; }
+          .r06h-mono { display: none; }
+        }
+        @media (max-width: 480px) {
+          .r06h-stats { flex-direction: column; gap: 16px; }
+          .r06h-cred { left: 8px; }
         }
       `}</style>
 
-      {/* Agent photo + H1 + stats */}
-      <div className="r06h-content">
-        <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={agentName} style={{ position: "relative", zIndex: 2, flexShrink: 0 }}>
-          <img loading="eager" src={agentImage} alt={agentName} className="r06h-photo" />
-        </GenericEditableImage>
-
-        <div className="r06h-right">
-          {/* H1 */}
-          <h1 style={{ fontFamily: SANS, fontSize: "clamp(24px, 3.5vw, 42px)", fontWeight: 700, lineHeight: 1.2, letterSpacing: "-0.01em", color: PRIMARY, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
-            <GenericEditableText sectionId={sectionId} field="agentName" value={agentName} tag="span" />
+      <div className="r06h-wrap">
+        {/* Left — editorial copy */}
+        <div>
+          <p className="r06h-eyebrow r06h-rv" style={{ animationDelay: ".05s" }}>
+            <span className="line" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+          <h1 className="r06h-h1 r06h-rv" style={{ animationDelay: ".12s" }}>
             <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
           </h1>
-
-          {/* Stats */}
-          {stats.length > 0 && (
-            <div className="r06h-stats">
-              {stats.map((s, i) => (
-                <div key={i} className="r06h-stat">
-                  <span style={{ fontFamily: SANS, fontSize: "clamp(22px,2.5vw,32px)", fontWeight: 700, color: PRIMARY, lineHeight: 1 }}>
-                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" />
-                  </span>
-                  <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, color: PRIMARY, opacity: 0.65, whiteSpace: "pre-line", lineHeight: 1.35 }}>
-                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
-                  </span>
+          <p className="r06h-lead r06h-rv" style={{ animationDelay: ".2s" }}>
+            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+          </p>
+          <div className="r06h-cta-row r06h-rv" style={{ animationDelay: ".28s" }}>
+            <a href={resolve(ctaHref)} className="r06h-btn r06h-btn-primary">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href={resolve(ctaSecHref)} className="r06h-btn r06h-btn-ghost">
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            </a>
+          </div>
+          <div className="r06h-stats r06h-rv" ref={statsRef} style={{ animationDelay: ".36s" }}>
+            {stats.map((s, i) => (
+              <div key={i} className="r06h-stat">
+                <div className="r06h-stat-num">
+                  <HeroReality06Stat value={s.number} run={run} isAdmin={isAdmin} sectionId={sectionId} idx={i} />
                 </div>
-              ))}
-            </div>
-          )}
+                <div className="r06h-stat-lbl">
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* CTA bar — z-index:50, přetéká 50% dolů přes about sekci */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 50, display: "flex", justifyContent: "center", transform: "translateY(50%)" }}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", borderRadius: 12, boxShadow: "0 8px 32px rgba(38,58,130,0.13)", padding: "16px 20px", maxWidth: "calc(100% - 32px)" }}>
-          <a href={`tel:+420${phone.replace(/\s/g,"")}`}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 99, background: "#F8F8F0", color: PRIMARY, fontFamily: SANS, fontSize: 14, fontWeight: 500, textDecoration: "none", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", whiteSpace: "nowrap" }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><line x1="11" y1="4" x2="13" y2="4"/><line x1="12" y1="17" x2="12" y2="17.01"/></svg>
-            Zavolat
-          </a>
-          <a href={`mailto:${email}`}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 99, background: "#F0F0F8", color: PRIMARY, fontFamily: SANS, fontSize: 14, fontWeight: 500, textDecoration: "none", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", whiteSpace: "nowrap" }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
-            Napsat e-mail
-          </a>
-          <a href={whatsapp} target="_blank" rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 99, background: "#F0F8F0", color: PRIMARY, fontFamily: SANS, fontSize: 14, fontWeight: 500, textDecoration: "none", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", whiteSpace: "nowrap" }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0v-1a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></svg>
-            WhatsApp
-          </a>
-          <a href={googleUrl} target="_blank" rel="noopener noreferrer"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 99, background: "#F8F0F0", color: PRIMARY, fontFamily: SANS, fontSize: 14, fontWeight: 500, textDecoration: "none", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", whiteSpace: "nowrap" }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M17.788 5.108a9 9 0 1 0 3.212 6.892h-8"/></svg>
-            Google
-            <span style={{ color: "#92400e", fontWeight: 700 }}>
-              <GenericEditableText sectionId={sectionId} field="googleRating" value={googleRating} tag="span" />
-            </span>
-            <span style={{ display: "inline-flex", gap: 1 }}>
-              {[1,2,3,4,5].map(i => (
-                <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="#FBBF24" stroke="#FBBF24" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              ))}
-            </span>
-          </a>
+        {/* Right — portrait + credential */}
+        <div className="r06h-media">
+          <span className="r06h-mono" aria-hidden="true">{monogram}</span>
+          <div className="r06h-frame r06h-frame-rv">
+            <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={agentName} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+              <img loading="eager" src={agentImage} alt={agentName} />
+            </GenericEditableImage>
+            <span className="r06h-duotone" aria-hidden="true" />
+          </div>
+          <div className="r06h-cred r06h-rv" style={{ animationDelay: ".5s" }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22 12.06c0-.7-.06-1.36-.18-2H12v3.79h5.62a4.8 4.8 0 0 1-2.08 3.15v2.62h3.36C20.86 17.97 22 15.3 22 12.06z"/><path fill="#34A853" d="M12 22c2.7 0 4.96-.9 6.62-2.42l-3.36-2.62c-.93.62-2.12.99-3.26.99-2.5 0-4.62-1.69-5.38-3.96H3.15v2.69A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.62 13.99a5.9 5.9 0 0 1 0-3.98V7.32H3.15a10 10 0 0 0 0 9.36l3.47-2.69z"/><path fill="#EA4335" d="M12 6.05c1.47 0 2.78.5 3.82 1.5l2.85-2.85A9.98 9.98 0 0 0 12 2 10 10 0 0 0 3.15 7.32l3.47 2.69C7.38 7.74 9.5 6.05 12 6.05z"/></svg>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span className="r06h-cred-num"><GenericEditableText sectionId={sectionId} field="googleRating" value={googleRating} tag="span" /></span>
+                <span style={{ display: "inline-flex", gap: 1 }}>
+                  {[1,2,3,4,5].map(i => (<svg key={i} width="12" height="12" viewBox="0 0 24 24" fill="#FBBF24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>))}
+                </span>
+              </div>
+              <span style={{ fontFamily: SANS, fontSize: 11.5, color: "#6b7088", fontWeight: 500 }}>
+                Google · <GenericEditableText sectionId={sectionId} field="reviewCount" value={reviewCount} tag="span" /> recenzí
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -9327,7 +10724,7 @@ function HeroReality06Agent({ content, sectionId, tenantSlug, isAdmin }: { conte
 // ── autoservis-01-hero ─────────────────────────────────────────────────────
 // 2-col split: text vlevo (50%) + fullbleed foto vpravo (50%), 100svh
 // H1 dark + oranžový (#FFA500) italic subtitle + tělo + 4 bullet body + 2 CTA
-// 1:1 reference: bestdrive.cz — stage sekce s customercentricity.jpg
+// 1:1 reference: apex-autoservis.cz — stage sekce s customercentricity.jpg
 // ──────────────────────────────────────────────────────────────────────────
 function HeroAutoservis01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const eyebrow  = String((content.eyebrow as string | undefined) ?? "Autoservis · Pneuservis · Klimatizace");
@@ -9814,7 +11211,7 @@ function HeroAutoservis03Page({ content, sectionId, tenantSlug, isAdmin }: Omit<
 // ── autoservis-02-hero ───────────────────────────────────────────────────────
 // Cinematic fullbleed bg + gradient overlay (two-tone) + eyebrow badge + H1 +
 // subtitle + 4 USP bullets (red chevrons) + red CTA + outline CTA.
-// Open Sans, #d82a2a red, garant DNA luxe upgrade. Reveal animations on inner
+// Open Sans, #d82a2a red, autoservis DNA luxe upgrade. Reveal animations on inner
 // elements only (anti-flash). resolveNavHref for one-page/multi-page.
 // ────────────────────────────────────────────────────────────────────────────
 function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
@@ -9834,22 +11231,32 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
   const bgImage  = String(content.backgroundImage ?? "/templates/autoservis-02/hero-servis.webp");
   const siteMode = String(content.siteMode ?? "multipage");
 
+  // Floating trust card — editovatelné hodnoty
+  const ratingValue = String(content.ratingValue ?? "4,9");
+  const ratingCount = String(content.ratingCount ?? "312 hodnocení");
+  const trustNumber = String(content.trustNumber ?? "15+");
+  const trustLabel  = String(content.trustLabel  ?? "let na trhu");
+
   const RED  = "#d82a2a";
   const SANS = "'Open Sans', Arial, sans-serif";
 
   const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section id="hero" style={{ position: "relative", width: "100%", minHeight: 620, display: "flex", alignItems: "center", overflow: "hidden" }} data-template="autoservis-02">
-      {/* Background image — cinematic */}
+    <section id="hero" className="a02h-section" style={{ position: "relative", width: "100%", minHeight: 660, display: "flex", alignItems: "center", overflow: "hidden" }} data-template="autoservis-02">
+      {/* Background image — cinematic Ken Burns */}
       <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: "0" as unknown as number }}>
         <img loading="eager" src={bgImage} alt="" className="a02h-bg" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
       </GenericEditableImage>
 
       {/* Gradient overlay — two-tone: left dark → right transparent red tint */}
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.68) 50%, rgba(216,42,42,0.18) 100%)" }} aria-hidden="true" />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg, rgba(8,8,10,0.88) 0%, rgba(10,10,12,0.7) 46%, rgba(216,42,42,0.16) 100%)" }} aria-hidden="true" />
+      {/* Grain / texture — jemný filmový šum */}
+      <div className="a02h-grain" aria-hidden="true" />
       {/* Bottom vignette */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 160, background: "linear-gradient(to top, rgba(0,0,0,0.5), transparent)" }} aria-hidden="true" />
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 180, background: "linear-gradient(to top, rgba(0,0,0,0.55), transparent)" }} aria-hidden="true" />
+      {/* Diagonal red slash — industry accent bottom-left */}
+      <div aria-hidden="true" style={{ position: "absolute", left: -60, bottom: -40, width: 320, height: 6, background: `linear-gradient(90deg, transparent, ${RED})`, transform: "rotate(-38deg)", opacity: .5, filter: "blur(.3px)" }} />
 
       {/* Red accent line — top edge */}
       <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 4, background: `linear-gradient(90deg, ${RED} 0%, ${RED} 35%, transparent 100%)` }} aria-hidden="true" />
@@ -9858,24 +11265,24 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
       <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, width: "100%", margin: "0 auto", padding: "clamp(80px,12vw,140px) clamp(20px,5vw,56px) clamp(60px,8vw,100px)" }}>
 
         {/* Eyebrow badge */}
-        <div className="a02h-reveal" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-          <span style={{ width: 36, height: 2, background: RED, display: "inline-block", borderRadius: 1 }} aria-hidden="true" />
+        <div className="a02h-reveal" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 20, animationDelay: "0.05s" }}>
+          <span className="a02h-eyebrow-bar" style={{ width: 36, height: 2, background: RED, display: "inline-block", borderRadius: 1 }} aria-hidden="true" />
           <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: RED, textTransform: "uppercase", letterSpacing: "2.5px" }} />
         </div>
 
         {/* H1 — large bold */}
-        <h1 className="a02h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(34px,5.5vw,62px)", fontWeight: 900, color: "#ffffff", lineHeight: 1.1, whiteSpace: "pre-line", margin: "0 0 20px", letterSpacing: "-0.6px", maxWidth: 680 }}>
+        <h1 className="a02h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(34px,5.5vw,62px)", fontWeight: 900, color: "#ffffff", lineHeight: 1.1, whiteSpace: "pre-line", margin: "0 0 20px", letterSpacing: "-0.6px", maxWidth: 680, animationDelay: "0.15s" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
         {/* Subtitle */}
-        <p className="a02h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "rgba(255,255,255,0.88)", margin: "0 0 32px", maxWidth: 560, lineHeight: 1.65 }}>
+        <p className="a02h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "rgba(255,255,255,0.88)", margin: "0 0 32px", maxWidth: 560, lineHeight: 1.65, animationDelay: "0.27s" }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
         {/* Bullet USP — red chevrons */}
         {bullets.length > 0 && (
-          <ul className="a02h-reveal" style={{ listStyle: "none", margin: "0 0 40px", padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "10px 32px", maxWidth: 600 }}>
+          <ul className="a02h-reveal" style={{ listStyle: "none", margin: "0 0 40px", padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "10px 32px", maxWidth: 600, animationDelay: "0.38s" }}>
             {bullets.map((b, i) => (
               <li key={i} style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: SANS, fontSize: "clamp(13px,1.5vw,15px)", fontWeight: 600, color: "#fff" }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
@@ -9888,7 +11295,7 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
         )}
 
         {/* CTAs */}
-        <div className="a02h-reveal" style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
+        <div className="a02h-reveal" style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center", animationDelay: "0.5s" }}>
           <a href={resolve(ctaHref)} className="a02h-cta-primary"
             style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "16px 32px", backgroundColor: RED, color: "#ffffff", fontFamily: SANS, fontSize: 15, fontWeight: 800, textDecoration: "none", borderRadius: 8, whiteSpace: "nowrap", boxShadow: "0 8px 24px rgba(216,42,42,0.35)", letterSpacing: ".2px" }}
           >
@@ -9902,6 +11309,28 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
           >
             <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
           </a>
+        </div>
+      </div>
+
+      {/* Floating trust card — glass panel bottom-right (depth + credibility) */}
+      <div className="a02h-trust" style={{ animationDelay: "0.62s" }} aria-hidden="false">
+        <div className="a02h-trust-row">
+          <div className="a02h-trust-stars" aria-hidden="true">
+            {[0, 1, 2, 3, 4].map((s) => (
+              <svg key={s} width="15" height="15" viewBox="0 0 24 24" fill={RED} aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            ))}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+            <GenericEditableText sectionId={sectionId} field="ratingValue" value={ratingValue} tag="span" style={{ fontFamily: SANS, fontSize: 19, fontWeight: 900, color: "#fff" }} />
+            <GenericEditableText sectionId={sectionId} field="ratingCount" value={ratingCount} tag="span" style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.62)" }} />
+          </div>
+        </div>
+        <span className="a02h-trust-div" aria-hidden="true" />
+        <div className="a02h-trust-row">
+          <GenericEditableText sectionId={sectionId} field="trustNumber" value={trustNumber} tag="span" style={{ fontFamily: SANS, fontSize: 26, fontWeight: 900, color: RED, letterSpacing: "-0.5px" }} />
+          <GenericEditableText sectionId={sectionId} field="trustLabel" value={trustLabel} tag="span" style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.82)", maxWidth: 74, lineHeight: 1.25 }} />
         </div>
       </div>
     </section>
@@ -10065,122 +11494,250 @@ function HeroDental01({ content, sectionId }: Omit<Props, "variant">) {
 }
 
 // ── ortho-02-hero ─────────────────────────────────────────────────────────────
-// Fullscreen foto hero (100vh) — navbar plynule nadhore (marginBottom: -80px)
-// Velká serif typografie, žádný text pod heading, žádné CTA tlačítko
-// Foto: dental/ortodontic konzultace, neutrální tóny
-// Reference: perfect-smile.cz
-// ─────────────────────────────────────────────────────────────────────────────
-interface HeroOrtho02Props {
-  content: Record<string, unknown>;
-  sectionId: number;
-  tenantSlug?: string;
-  isAdmin?: boolean;
-}
-function HeroOrtho02({ content, sectionId }: HeroOrtho02Props) {
-  const videoSrc  = String(content.videoSrc ?? "/templates/ortho-02/hero-video.mp4");
-  const posterSrc = String(content.bgImage  ?? "/templates/ortho-02/hero-bg.webp");
+function HeroOrtho02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const FONT_H = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
+  const GOLD   = "#b39f6b";
+  const WHITE  = "#ffffff";
+
+  const heading    = String(c.heading    ?? "Krásný úsměv\nzačíná důvěrou");
+  const subheading = String(c.subheading ?? "Špičková ortodoncie pro děti, dospívající i dospělé");
+  const ctaText    = String(c.ctaText    ?? "Bezplatná konzultace");
+  const ctaHref    = String(c.ctaHref    ?? "/kontakt");
+  const bgImage    = String(c.bgImage    ?? "/templates/ortho-02/hero-bg.webp");
+  const videoSrc   = String(c.videoSrc   ?? "");
+
+  const resolve = (href: string) => resolveNavHref(href, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin);
 
   return (
     <section
       id="uvod"
+      data-template="ortho-02"
       style={{
         position: "relative",
         width: "100%",
         height: "100vh",
-        minHeight: 560,
+        minHeight: 600,
         overflow: "hidden",
-        backgroundColor: "#b8b0a8",
+        backgroundColor: "#c8bfb4",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      {/* Hidden editable handles for video/poster */}
-      <span style={{ display: "none" }}>
-        <GenericEditableText sectionId={sectionId} field="videoSrc" value={videoSrc} tag="span" />
-        <GenericEditableText sectionId={sectionId} field="bgImage"  value={posterSrc} tag="span" />
-      </span>
+      {videoSrc ? (
+        <>
+          <span style={{ display: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="videoSrc" value={videoSrc} tag="span" />
+            <GenericEditableText sectionId={sectionId} field="bgImage" value={bgImage} tag="span" />
+          </span>
+          <video
+            autoPlay muted loop playsInline
+            poster={bgImage}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        </>
+      ) : (
+        <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="Hero" style={{ position: "absolute", inset: 0 }}>
+          <Image
+            src={bgImage}
+            alt="Orthodontic clinic"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+            unoptimized={shouldSkipNextImageOptimization(bgImage)}
+            style={{ objectPosition: "center 30%" }}
+          />
+        </GenericEditableImage>
+      )}
 
-      {/* Fullscreen autoplay video */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster={posterSrc}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center 20%",
-        }}
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
+      {/* Gradient overlay */}
+      <div aria-hidden style={{
+        position: "absolute",
+        inset: 0,
+        background: "linear-gradient(160deg, rgba(0,0,0,0.50) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.35) 100%)",
+        pointerEvents: "none",
+        zIndex: 1,
+      }} />
 
-      {/* Gradient overlay — top for navbar readability + subtle bottom */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.0) 35%, rgba(0,0,0,0.15) 100%)",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Content */}
+      <div style={{
+        position: "relative",
+        zIndex: 2,
+        maxWidth: 860,
+        padding: "120px 40px 80px",
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 24,
+      }}>
+        <div aria-hidden style={{ width: 48, height: 1.5, backgroundColor: GOLD, marginBottom: 8, opacity: 0.7 }} />
+
+        <GenericEditableText
+          sectionId={sectionId}
+          field="heading"
+          value={heading}
+          tag="h1"
+          style={{
+            fontFamily: FONT_H,
+            fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+            fontWeight: 300,
+            lineHeight: 1.15,
+            color: WHITE,
+            letterSpacing: "-0.01em",
+            margin: 0,
+            whiteSpace: "pre-line",
+          }}
+        />
+
+        <GenericEditableText
+          sectionId={sectionId}
+          field="subheading"
+          value={subheading}
+          tag="p"
+          style={{
+            fontFamily: FONT_B,
+            fontSize: "clamp(1rem, 1.6vw, 1.15rem)",
+            fontWeight: 400,
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.85)",
+            maxWidth: 560,
+            margin: 0,
+            letterSpacing: "0.01em",
+          }}
+        />
+
+        <a
+          href={resolve(ctaHref)}
+          data-btn="primary"
+          className="o02-hero-cta"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            marginTop: 16,
+            fontFamily: FONT_H,
+            fontSize: "0.82rem",
+            fontWeight: 600,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase" as const,
+            color: WHITE,
+            backgroundColor: GOLD,
+            padding: "14px 36px",
+            borderRadius: 999,
+            textDecoration: "none",
+            transition: "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
+          }}
+        >
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
 
       {/* Scroll cue */}
       <div
         aria-hidden
+        className="o02-scroll-cue"
         style={{
           position: "absolute",
-          bottom: 36,
+          bottom: 32,
           left: "50%",
           transform: "translateX(-50%)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 6,
-          color: "rgba(255,255,255,0.7)",
+          gap: 8,
         }}
       >
-        <svg width="14" height="22" viewBox="0 0 14 22" fill="none" style={{ animation: "o02hero-scroll 1.6s ease-in-out infinite" }}>
-          <path d="M7 1v20M1 14l6 7 6-7" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <span style={{ fontFamily: FONT_B, fontSize: "0.7rem", fontWeight: 500, letterSpacing: "0.15em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.5)" }}>
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value="Více" tag="span" />
+        </span>
+        <svg width="14" height="22" viewBox="0 0 14 22" fill="none" className="o02-scroll-arrow">
+          <path d="M7 1v20M1 14l6 7 6-7" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
-
-      <style>{`
-        @keyframes o02hero-scroll { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
-      `}</style>
     </section>
   );
 }
 
-function HeroLegal02({ content, sectionId: _s, tenantSlug, isAdmin: _a }: Omit<Props, "variant">) {
+function Legal02Stat({ value, label, run, isAdmin, sectionId, idx, FONT, ORANGE }: {
+  value: string; label: string; run: boolean; isAdmin: boolean;
+  sectionId: number; idx: number; FONT: string; ORANGE: string;
+}) {
+  const m = String(value).match(/^(\d+)(.*)$/);
+  const end = m ? parseInt(m[1], 10) : 0;
+  const suffix = m ? m[2] : "";
+  const [val, setVal] = useState(isAdmin ? end : 0);
+  useEffect(() => {
+    if (isAdmin || !run) { setVal(end); return; }
+    const dur = 1800; const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(Math.round(eased * end));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    const r = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(r);
+  }, [run, end, isAdmin]);
+  return (
+    <div className="l02h-stat">
+      <span className="l02h-stat-rule" aria-hidden="true" />
+      <GenericEditableText
+        sectionId={sectionId} field={`stats.${idx}.value`} value={`${val}${suffix}`} tag="strong"
+        style={{ fontFamily: FONT, fontSize: "clamp(46px,4.6vw,66px)", lineHeight: 1, color: ORANGE, display: "block", letterSpacing: "-0.01em" }}
+      />
+      <GenericEditableText
+        sectionId={sectionId} field={`stats.${idx}.label`} value={label} tag="span"
+        style={{ fontFamily: FONT, fontSize: "clamp(15px,1.3vw,19px)", color: "#1a1a1a", marginTop: 10, display: "block", letterSpacing: "0.01em" }}
+      />
+    </div>
+  );
+}
+
+function HeroLegal02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
 
   const NAVY   = "#143171";
   const ORANGE = "#EB5C2E";
   const FONT   = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
   const NAV_H  = 152;
+  const siteMode = String(c.siteMode ?? "multipage");
 
-  const tagline       = (c.tagline        as string) ?? "Advokátní kancelář · Praha";
-  const title         = (c.title          as string) ?? "Rozumíme právu\ni vašemu podnikání";
-  const subtitle      = (c.subtitle       as string) ?? "Naším cílem je, abyste jinou advokátní kancelář už nepotřebovali.";
-  const ctaText       = (c.ctaText        as string) ?? "Kontaktujte nás";
-  const ctaHref       = (c.ctaHref        as string) ?? "/kontakt";
-  const videoId       = (c.videoId        as string) ?? "76mKfaR1064";
-  const numberTitle   = (c.numberTitle    as string) ?? "Přes 35 let se podílíme\nna rozvoji české společnosti";
-  const numberBody    = (c.numberBody     as string) ?? "";
-  const numberCtaText = (c.numberCtaText  as string) ?? "Více o nás";
-  const numberCtaHref = (c.numberCtaHref  as string) ?? "/o-nas";
+  const tagline       = String(c.tagline        ?? "Advokátní kancelář · Praha");
+  const title         = String(c.title          ?? "Vaše právo\nnaše priorita");
+  const subtitle      = String(c.subtitle       ?? "Chráníme zájmy firem i jednotlivců s přesností, důsledností a osobním přístupem.");
+  const ctaText       = String(c.ctaText        ?? "Konzultace zdarma");
+  const ctaHref       = String(c.ctaHref        ?? "/kontakt");
+  const videoId       = String(c.videoId        ?? "");
+  const videoImage    = String(c.videoImage     ?? "/templates/legal-02/hero-office.webp");
+  const numberTitle   = String(c.numberTitle    ?? "Přes 28 let budujeme\ndůvěru a výsledky");
+  const numberBody    = String(c.numberBody     ?? "");
+  const numberCtaText = String(c.numberCtaText  ?? "Více o nás");
+  const numberCtaHref = String(c.numberCtaHref  ?? "/o-nas");
   const stats = Array.isArray(c.stats) ? (c.stats as { value: string; label: string }[]) : [
-    { value: "100+", label: "právníků" },
-    { value: "60+",  label: "zaměstnanců" },
-    { value: "35+",  label: "let na trhu" },
-    { value: "14",   label: "partnerů" },
+    { value: "80+", label: "právníků" },
+    { value: "45+", label: "zaměstnanců" },
+    { value: "28+", label: "let na trhu" },
+    { value: "11",  label: "partnerů" },
   ];
 
-  const resolve = (href: string) => tenantSlug ? `/demo/${tenantSlug}${href}` : href;
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [statsRun, setStatsRun] = useState(false);
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStatsRun(true); obs.disconnect(); } }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <>
@@ -10192,37 +11749,60 @@ function HeroLegal02({ content, sectionId: _s, tenantSlug, isAdmin: _a }: Omit<P
         }
         /* ── hero top ── */
         .l02h-wrap {
+          position: relative; z-index: 1;
           max-width: 1440px; margin: 0 auto;
-          padding: ${NAV_H + 64}px 80px 0;
+          padding: ${NAV_H + 72}px 80px 0;
           display: flex; align-items: flex-start;
         }
         .l02h-txt {
           width: 520px; flex-shrink: 0;
           margin-right: 100px; padding-bottom: 110px;
         }
+        .l02h-eyebrow {
+          display: inline-flex; align-items: center; gap: 14px;
+          font-family: 'bw_gradualbold','Montserrat',sans-serif;
+          font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #EB5C2E; margin: 0 0 24px;
+        }
+        .l02h-eyebrow::before { content:''; width: 40px; height: 2px; background: #EB5C2E; display: inline-block; }
         .l02h-vid {
-          flex: 1; max-width: 600px; padding-top: 34px;
+          flex: 1; max-width: 600px; padding-top: 34px; position: relative; z-index: 1;
         }
-        .l02h-vid-ratio {
-          position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden;
+        .l02h-media {
+          position: relative; width: 100%; padding-bottom: 66%; height: 0; overflow: hidden;
+          border-radius: 4px;
         }
-        .l02h-vid-ratio iframe {
-          position: absolute; top: 0; left: 0;
-          width: 100%; height: 100%; border: 0;
+        .l02h-media iframe,
+        .l02h-media > div,
+        .l02h-media > span,
+        .l02h-media img {
+          position: absolute !important; top: 0; left: 0;
+          width: 100% !important; height: 100% !important; border: 0; object-fit: cover;
         }
+        /* orange corner frame */
+        .l02h-vid::before, .l02h-vid::after {
+          content:''; position: absolute; width: 54px; height: 54px; z-index: 2; pointer-events: none;
+          border-color: #EB5C2E; border-style: solid;
+        }
+        .l02h-vid::before { top: 20px; left: -16px; border-width: 2px 0 0 2px; }
+        .l02h-vid::after  { bottom: -16px; right: -16px; border-width: 0 2px 2px 0; }
         .l02h-cta {
-          display: inline-flex; align-items: center;
-          border: 2px solid #EB5C2E; border-radius: 30px;
-          color: #fff; padding: 14px 40px;
+          display: inline-flex; align-items: center; position: relative; overflow: hidden;
+          border: 2px solid #EB5C2E; border-radius: 40px;
+          color: #fff; padding: 15px 42px; z-index: 0;
           font-family: 'bw_gradualbold', 'Montserrat', sans-serif;
-          font-size: 18px;
-          text-decoration: none; transition: border-color .2s;
+          font-size: 17px;
+          text-decoration: none; transition: color .35s ease, box-shadow .4s ease, transform .35s ease;
         }
-        .l02h-cta:hover { border-color: #fff; }
+        .l02h-cta::after {
+          content:''; position: absolute; inset: 0; z-index: -1; background: #EB5C2E;
+          transform: scaleX(0); transform-origin: left; transition: transform .4s cubic-bezier(.2,.7,.2,1);
+        }
+        .l02h-cta:hover::after { transform: scaleX(1); }
         /* ── hero bottom ── */
         .l02h-nums-wrap {
           max-width: 1440px; margin: 0 auto;
-          padding: 0 80px 80px;
+          padding: 0 80px 88px;
           display: flex; align-items: flex-start;
         }
         .l02h-stats {
@@ -10230,116 +11810,125 @@ function HeroLegal02({ content, sectionId: _s, tenantSlug, isAdmin: _a }: Omit<P
           flex-shrink: 0;
         }
         .l02h-stat {
+          position: relative; overflow: hidden;
           background: #FEF2EE; padding: 44px 32px;
           aspect-ratio: 1 / 1; min-width: 200px;
           display: flex; flex-direction: column; justify-content: flex-end;
+        }
+        .l02h-stat-rule {
+          position: absolute; top: 0; left: 0; height: 3px; width: 38px; background: #EB5C2E;
+          transition: width .5s cubic-bezier(.2,.7,.2,1);
         }
         .l02h-article {
           margin-left: 95px; padding-top: 50px; flex: 1;
         }
         .l02h-ncta {
           display: inline-flex; align-items: center; gap: 10px;
-          border: 2px solid #143171; border-radius: 30px;
-          color: #143171; padding: 14px 40px;
+          border: 2px solid #143171; border-radius: 40px;
+          color: #143171; padding: 15px 42px;
           font-family: 'bw_gradualbold', 'Montserrat', sans-serif;
-          font-size: 18px;
-          text-decoration: none; transition: background .2s, color .2s;
+          font-size: 17px;
+          text-decoration: none; transition: background .3s, color .3s;
         }
         .l02h-ncta:hover { background: #143171; color: #fff; }
+        .l02h-watermark {
+          position: absolute; top: 40px; right: 40px; z-index: 0; opacity: 0.06;
+          pointer-events: none; color: #fff;
+        }
         @media (max-width: 1024px) {
-          .l02h-wrap  { flex-direction: column; padding-bottom: 0; }
+          .l02h-wrap  { flex-direction: column; padding-bottom: 0; padding-left: 24px; padding-right: 24px; }
           .l02h-txt   { width: 100%; margin-right: 0; padding-bottom: 40px; }
           .l02h-vid   { max-width: 100%; width: 100%; }
-          .l02h-nums-wrap { flex-direction: column; }
+          .l02h-vid::before, .l02h-vid::after { display: none; }
+          .l02h-nums-wrap { flex-direction: column; padding-left: 24px; padding-right: 24px; }
           .l02h-article   { margin-left: 0; padding-top: 32px; }
+          .l02h-watermark { display: none; }
+        }
+        @media (max-width: 560px) {
+          .l02h-stats { grid-template-columns: 1fr; }
+          .l02h-stat  { aspect-ratio: auto; min-height: 160px; }
         }
       `}</style>
 
       {/* ── TOP: navy section ── */}
-      <section style={{ backgroundColor: NAVY }}>
-        <div className="l02h-wrap">
+      <section id="uvod" data-template="legal-02" style={{ backgroundColor: NAVY, position: "relative", overflow: "hidden" }}>
+        {/* decorative scales watermark */}
+        <svg className="l02h-watermark" width="360" height="360" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M24 12v28" /><path d="M15 40h18" /><circle cx="24" cy="9" r="2.4" fill="currentColor" stroke="none" />
+          <path d="M9 14h30" /><path d="M9 14 4 26a5 5 0 0 0 10 0z" /><path d="M39 14 34 26a5 5 0 0 0 10 0z" />
+        </svg>
 
+        <div className="l02h-wrap">
           {/* Left: text */}
           <div className="l02h-txt">
-            <p style={{
-              fontFamily: FONT, fontSize: 14, letterSpacing: "0.14em",
-              textTransform: "uppercase", color: ORANGE, margin: "0 0 20px",
-            }}>
-              {tagline}
-            </p>
-            <h1 style={{
-              fontFamily: FONT, fontSize: 64, lineHeight: "72px",
-              color: "#fff", margin: "0 0 24px", whiteSpace: "pre-line",
-            }}>
-              {title}
-            </h1>
-            <p style={{
-              fontSize: 24, lineHeight: "32px",
-              color: "#fff", margin: "0 0 40px",
-            }}>
-              {subtitle}
-            </p>
-            <a href={resolve(ctaHref)} data-btn="primary" className="l02h-cta">{ctaText}</a>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p" className="l02h-eyebrow" />
+            <GenericEditableText
+              sectionId={sectionId} field="title" value={title} tag="h1"
+              style={{ fontFamily: FONT, fontSize: "clamp(40px,5vw,64px)", lineHeight: 1.08, color: "#fff", margin: "0 0 24px", whiteSpace: "pre-line", letterSpacing: "-0.01em" }}
+            />
+            <GenericEditableText
+              sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+              style={{ fontFamily: "'Open Sans',sans-serif", fontSize: "clamp(17px,1.5vw,22px)", lineHeight: 1.55, color: "rgba(255,255,255,0.86)", margin: "0 0 40px" }}
+            />
+            <a href={resolve(ctaHref)} data-btn="primary" className="l02h-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
           </div>
 
-          {/* Right: YouTube video flush to bottom */}
+          {/* Right: media (video nebo still) */}
           <div className="l02h-vid">
-            <div className="l02h-vid-ratio">
-              <iframe
-                src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&rel=0`}
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-                title="Představení kanceláře"
-              />
+            <div className="l02h-media">
+              {videoId ? (
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&rel=0`}
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                  title="Představení kanceláře"
+                />
+              ) : (
+                <GenericEditableImage sectionId={sectionId} field="videoImage" src={videoImage} alt="Advokátní kancelář DOLEŽAL & PARTNEŘI">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={videoImage} alt="Advokátní kancelář DOLEŽAL & PARTNEŘI" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                </GenericEditableImage>
+              )}
             </div>
           </div>
-
         </div>
 
         {/* White strip — transition to numbers */}
-        <div style={{ height: 51, backgroundColor: "#fff" }} />
+        <div style={{ height: 51, backgroundColor: "#fff", position: "relative", zIndex: 1 }} />
       </section>
 
       {/* ── BOTTOM: white stats + article ── */}
-      <section style={{ backgroundColor: "#fff" }}>
+      <section data-template="legal-02" style={{ backgroundColor: "#fff" }}>
         <div className="l02h-nums-wrap">
 
-          {/* 2×2 stat cards */}
-          <div className="l02h-stats">
+          {/* 2×2 stat cards s count-up */}
+          <div className="l02h-stats" ref={statsRef}>
             {stats.map((s, i) => (
-              <div key={i} className="l02h-stat">
-                <strong style={{
-                  fontFamily: FONT, fontSize: 64, lineHeight: 1,
-                  color: ORANGE, display: "block",
-                }}>
-                  {s.value}
-                </strong>
-                <span style={{
-                  fontFamily: FONT, fontSize: 20, color: "#1a1a1a",
-                  marginTop: 10, display: "block",
-                }}>
-                  {s.label}
-                </span>
-              </div>
+              <Legal02Stat
+                key={i} idx={i} value={s.value} label={s.label}
+                run={statsRun} isAdmin={isAdmin ?? false}
+                sectionId={sectionId} FONT={FONT} ORANGE={ORANGE}
+              />
             ))}
           </div>
 
           {/* Article */}
           <div className="l02h-article">
-            <h2 style={{
-              fontFamily: FONT, fontSize: 48, lineHeight: "52px",
-              color: "#1a1a1a", margin: "0 0 28px", whiteSpace: "pre-line",
-            }}>
-              {numberTitle}
-            </h2>
+            <GenericEditableText
+              sectionId={sectionId} field="numberTitle" value={numberTitle} tag="h2"
+              style={{ fontFamily: FONT, fontSize: "clamp(34px,3.6vw,48px)", lineHeight: 1.08, color: "#1a1a1a", margin: "0 0 28px", whiteSpace: "pre-line", letterSpacing: "-0.01em" }}
+            />
             {numberBody && (
-              <p style={{ fontSize: 18, lineHeight: 1.7, color: "#6b7280", margin: "0 0 44px" }}>
-                {numberBody}
-              </p>
+              <GenericEditableText
+                sectionId={sectionId} field="numberBody" value={numberBody} tag="p"
+                style={{ fontFamily: "'Open Sans',sans-serif", fontSize: 18, lineHeight: 1.75, color: "#6b7280", margin: "0 0 44px" }}
+              />
             )}
             <a href={resolve(numberCtaHref)} className="l02h-ncta">
-              {numberCtaText}
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <GenericEditableText sectionId={sectionId} field="numberCtaText" value={numberCtaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </a>
@@ -10351,56 +11940,230 @@ function HeroLegal02({ content, sectionId: _s, tenantSlug, isAdmin: _a }: Omit<P
   );
 }
 
-// ── lawyer-01-hero ─────────────────────────────────────────────────────────────
-function HeroLawyer01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
-  const NAVY    = "#141760";
-  const CRIMSON = "#a70336";
-  const WHITE   = "#ffffff";
-  const FONT    = "'Source Sans 3','Source Sans Pro','Raleway','Helvetica Neue',Arial,sans-serif";
+// ── hero-legal-02-page ── slim navy banner pro podstránky (breadcrumb + H1) ──────
+function HeroLegal02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const NAVY   = "#143171";
+  const ORANGE = "#EB5C2E";
+  const FONT   = "'bw_gradualbold', 'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const NAV_H  = 152;
+  const siteMode = String(c.siteMode ?? "multipage");
 
-  const title    = String(content.title    ?? "Největší česko-slovenská advokátní kancelář s mezinárodním dosahem");
-  const subtitle = String(content.subtitle ?? "Poskytujeme právní a daňové poradenství ve všech oblastech práva pro přední české, slovenské i mezinárodní klienty.");
-  const ctaText  = String(content.ctaText  ?? "Zjistit více");
-  const ctaHref  = String(content.ctaHref  ?? "#sluzby");
-  const VIDEO    = String(content.videoUrl ?? "/templates/lawyer-01/hp-final.webm");
-
-  void tenantSlug; void isAdmin;
+  const title         = String(c.title         ?? "Stránka");
+  const breadcrumb    = String(c.breadcrumb    ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const subtitle      = String(c.subtitle ?? "");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section style={{ position:"relative", width:"100%", minHeight:"75vh", maxHeight:"800px", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden", backgroundColor:NAVY }}>
-      {/* Video bg */}
-      <video autoPlay loop muted playsInline style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top", zIndex:0, opacity:0.5 }}>
-        <source src={VIDEO} type="video/webm" />
-      </video>
+    <section id="uvod" data-template="legal-02" style={{ backgroundColor: NAVY, position: "relative", overflow: "hidden" }}>
+      <style>{`
+        @font-face { font-family:'bw_gradualbold'; src:url('/templates/legal-02/bwgradual-bold-webfont.woff2') format('woff2'); font-display:swap; }
+      `}</style>
+      {/* decorative scales watermark */}
+      <svg style={{ position: "absolute", top: "50%", right: 48, transform: "translateY(-50%)", opacity: 0.06, color: "#fff", pointerEvents: "none" }} width="260" height="260" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M24 12v28" /><path d="M15 40h18" /><circle cx="24" cy="9" r="2.4" fill="currentColor" stroke="none" />
+        <path d="M9 14h30" /><path d="M9 14 4 26a5 5 0 0 0 10 0z" /><path d="M39 14 34 26a5 5 0 0 0 10 0z" />
+      </svg>
 
-      {/* Navy gradient overlay */}
-      <div style={{ position:"absolute", inset:0, zIndex:1, background:"linear-gradient(170deg,rgba(20,23,96,0.30) 0%,rgba(20,23,96,0.12) 50%,rgba(20,23,96,0.28) 100%)" }} />
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: `${NAV_H + 56}px 80px 64px`, position: "relative", zIndex: 1 }}>
+        {/* breadcrumb */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18, fontFamily: "'Open Sans',sans-serif", fontSize: 13, letterSpacing: "0.04em", color: "rgba(255,255,255,0.7)" }}>
+          <a href={resolve(breadcrumbHref)} style={{ color: ORANGE, textDecoration: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ opacity: 0.5 }}>/</span>
+          <span style={{ color: "rgba(255,255,255,0.85)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        {/* orange rule */}
+        <span style={{ display: "block", width: 48, height: 3, background: ORANGE, marginBottom: 22 }} aria-hidden="true" />
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1"
+          style={{ fontFamily: FONT, fontSize: "clamp(36px,4.4vw,56px)", lineHeight: 1.08, color: "#fff", margin: 0, letterSpacing: "-0.01em" }} />
+        {subtitle.trim() && (
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p"
+            style={{ fontFamily: "'Open Sans',sans-serif", fontSize: "clamp(16px,1.4vw,19px)", lineHeight: 1.55, color: "rgba(255,255,255,0.82)", margin: "18px 0 0", maxWidth: 620 }} />
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── lawyer-01-hero ─────────────────────────────────────────────────────────────
+// Fullscreen navy hero: Ken Burns WebP poster za brand videem, hluboký navy gradient
+// + vignette, editorial rámeček s crimson rohy. Eyebrow (crimson hairline) → sentence
+// -case claim → subtitle → dual CTA (crimson fill-slide + ghost). Reveal jen na inner
+// elementech (section vždy opacity:1 → anti-flash).
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroLawyer01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
+  const NAVY     = "#141760";
+  const CRIMSON  = "#a70336";
+  const WHITE    = "#ffffff";
+  const WORDFONT = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
+  const BODYFONT = "'Open Sans','Source Sans 3','Helvetica Neue',Arial,sans-serif";
+
+  const c = content as Record<string, unknown>;
+  const eyebrow  = String(c.eyebrow  ?? "Právní a daňové poradenství");
+  const title    = String(c.title    ?? "Největší česko-slovenská advokátní kancelář s mezinárodním dosahem");
+  const subtitle = String(c.subtitle ?? "Poskytujeme právní a daňové poradenství ve všech oblastech práva pro přední české, slovenské i mezinárodní klienty.");
+  const ctaText  = String(c.ctaText  ?? "Naše specializace");
+  const ctaHref  = String(c.ctaHref  ?? "/sluzby");
+  const ctaSecText = String(c.ctaSecondaryText ?? "Poznejte kancelář");
+  const ctaSecHref = String(c.ctaSecondaryHref ?? "/o-nas");
+  const poster   = String(c.backgroundImage ?? c.bgImage ?? "/templates/lawyer-01/hero-poster.webp");
+  const VIDEO    = String(c.videoUrl ?? "/templates/lawyer-01/hp-final.webm");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      id="uvod"
+      data-template="lawyer-01"
+      style={{ position:"relative", width:"100%", minHeight:"clamp(600px,92svh,940px)", display:"flex", alignItems:"center", justifyContent:"center", overflow:"hidden", backgroundColor:NAVY, opacity:1 }}
+    >
+      <style>{`
+        @keyframes l01heroZoom{from{transform:scale(1.09);}to{transform:scale(1);}}
+        @keyframes l01heroUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes l01heroLine{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+        @keyframes l01hero-scroll{0%,100%{opacity:.35;transform:translateX(-50%) translateY(0);}50%{opacity:.75;transform:translateX(-50%) translateY(7px);}}
+        .l01hero-media{animation:l01heroZoom 11s cubic-bezier(.2,0,.2,1) both;}
+        .l01hero-rise{opacity:0;animation:l01heroUp .85s cubic-bezier(.2,.7,.2,1) both;}
+        .l01hero-rule{transform-origin:center;animation:l01heroLine .8s cubic-bezier(.4,0,.2,1) .1s both;}
+        .l01hero-cta{position:relative;display:inline-flex;align-items:center;gap:10px;overflow:hidden;background:${CRIMSON};color:${WHITE};font-family:${BODYFONT};font-weight:700;font-size:.82rem;letter-spacing:.11em;text-transform:uppercase;padding:16px 38px;text-decoration:none;box-shadow:0 10px 30px rgba(167,3,54,.34);transition:transform .24s ease,box-shadow .28s ease;}
+        .l01hero-cta::before{content:"";position:absolute;inset:0;background:${NAVY};transform:translateX(-101%);transition:transform .38s cubic-bezier(.4,0,.2,1);z-index:0;}
+        .l01hero-cta > *{position:relative;z-index:1;}
+        .l01hero-cta:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(20,23,96,.5);}
+        .l01hero-cta:hover::before{transform:translateX(0);}
+        .l01hero-cta svg{transition:transform .3s ease;}
+        .l01hero-cta:hover svg{transform:translateX(4px);}
+        .l01hero-ghost{display:inline-flex;align-items:center;gap:9px;color:rgba(255,255,255,.88);font-family:${BODYFONT};font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;padding:15px 26px;text-decoration:none;border:1px solid rgba(255,255,255,.28);transition:background .22s ease,border-color .22s ease,transform .22s ease;}
+        .l01hero-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.6);transform:translateY(-2px);}
+        .l01hero-ghost svg{transition:transform .28s ease;}
+        .l01hero-ghost:hover svg{transform:translateX(4px);}
+        .l01hero-frame{position:absolute;inset:clamp(16px,2.2vw,34px);z-index:2;pointer-events:none;border:1px solid rgba(255,255,255,.14);}
+        .l01hero-corner{position:absolute;width:20px;height:20px;border-color:${CRIMSON};}
+        @media(max-width:600px){.l01hero-frame{inset:12px;}}
+      `}</style>
+
+      {/* Poster (Ken Burns) + brand video */}
+      <div style={{ position:"absolute", inset:0, zIndex:0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={poster} alt="Advokátní kancelář" className="absolute inset-0 w-full h-full" style={{ height:"100%" }}>
+          <Image src={poster} alt="Advokátní kancelář" fill className="object-cover l01hero-media" sizes="100vw" style={{ objectPosition:"center top" }} unoptimized={shouldSkipNextImageOptimization(poster)} priority />
+        </GenericEditableImage>
+        <video autoPlay loop muted playsInline poster={poster} style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top", opacity:0.45 }}>
+          <source src={VIDEO} type="video/webm" />
+        </video>
+      </div>
+
+      {/* Deep navy gradient + vignette */}
+      <div style={{ position:"absolute", inset:0, zIndex:1, background:"linear-gradient(175deg,rgba(20,23,96,0.72) 0%,rgba(15,17,72,0.60) 46%,rgba(20,23,96,0.82) 100%)" }} />
+      <div style={{ position:"absolute", inset:0, zIndex:1, background:"radial-gradient(120% 90% at 50% 40%, transparent 48%, rgba(10,12,52,0.55) 100%)" }} />
+
+      {/* Editorial frame */}
+      <div className="l01hero-frame">
+        <span className="l01hero-corner" style={{ top:-1, left:-1, borderTop:`2px solid ${CRIMSON}`, borderLeft:`2px solid ${CRIMSON}` }} />
+        <span className="l01hero-corner" style={{ top:-1, right:-1, borderTop:`2px solid ${CRIMSON}`, borderRight:`2px solid ${CRIMSON}` }} />
+        <span className="l01hero-corner" style={{ bottom:-1, left:-1, borderBottom:`2px solid ${CRIMSON}`, borderLeft:`2px solid ${CRIMSON}` }} />
+        <span className="l01hero-corner" style={{ bottom:-1, right:-1, borderBottom:`2px solid ${CRIMSON}`, borderRight:`2px solid ${CRIMSON}` }} />
+      </div>
 
       {/* Content */}
-      <div style={{ position:"relative", zIndex:2, maxWidth:860, margin:"0 auto", padding:"0 32px", textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center" }}>
-        <div style={{ width:48, height:3, backgroundColor:CRIMSON, marginBottom:28, borderRadius:2 }} />
-        <h1 style={{ fontFamily:FONT, fontWeight:700, fontSize:"clamp(1.9rem,4.2vw,3.4rem)", lineHeight:1.15, color:WHITE, letterSpacing:"0.01em", textTransform:"uppercase", margin:"0 0 24px" }}>
+      <div style={{ position:"relative", zIndex:3, maxWidth:900, margin:"0 auto", padding:"96px 40px", textAlign:"center", display:"flex", flexDirection:"column", alignItems:"center" }}>
+        <div className="l01hero-rise" style={{ display:"inline-flex", alignItems:"center", gap:16, marginBottom:26, animationDelay:".05s" }}>
+          <span className="l01hero-rule" style={{ display:"block", width:34, height:2, background:CRIMSON }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+            style={{ fontFamily:BODYFONT, fontWeight:600, fontSize:"clamp(.72rem,.9vw,.82rem)", letterSpacing:"0.28em", textTransform:"uppercase", color:"#f4b8cb" }} />
+          <span className="l01hero-rule" style={{ display:"block", width:34, height:2, background:CRIMSON }} />
+        </div>
+
+        <h1 className="l01hero-rise" style={{ fontFamily:WORDFONT, fontWeight:700, fontSize:"clamp(2rem,4.4vw,3.6rem)", lineHeight:1.14, color:WHITE, letterSpacing:"-0.01em", margin:"0 0 26px", animationDelay:".15s" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
-        <p style={{ fontFamily:FONT, fontWeight:300, fontSize:"clamp(1rem,1.4vw,1.2rem)", lineHeight:1.7, color:"rgba(255,255,255,0.82)", margin:"0 0 44px", maxWidth:640 }}>
+
+        <p className="l01hero-rise" style={{ fontFamily:BODYFONT, fontWeight:400, fontSize:"clamp(1rem,1.35vw,1.2rem)", lineHeight:1.7, color:"rgba(255,255,255,0.84)", margin:"0 0 42px", maxWidth:640, animationDelay:".25s" }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
-        <a href={ctaHref} data-btn="primary"
-          style={{ display:"inline-flex", alignItems:"center", gap:10, backgroundColor:CRIMSON, color:WHITE, fontFamily:FONT, fontWeight:700, fontSize:"0.82rem", letterSpacing:"0.12em", textTransform:"uppercase", padding:"14px 36px", textDecoration:"none", transition:"background-color 0.2s" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#870229"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = CRIMSON; }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+
+        <div className="l01hero-rise" style={{ display:"flex", gap:14, flexWrap:"wrap", justifyContent:"center", alignItems:"center", animationDelay:".35s" }}>
+          <a href={resolve(ctaHref)} data-btn="primary" className="l01hero-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href={resolve(ctaSecHref)} className="l01hero-ghost">
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
       </div>
 
       {/* Scroll cue */}
-      <div aria-hidden style={{ position:"absolute", bottom:32, left:"50%", transform:"translateX(-50%)", zIndex:2, color:"rgba(255,255,255,0.45)", animation:"l01hero-scroll 2s ease-in-out infinite" }}>
+      <div aria-hidden style={{ position:"absolute", bottom:34, left:"50%", transform:"translateX(-50%)", zIndex:3, color:"rgba(255,255,255,0.5)", animation:"l01hero-scroll 2s ease-in-out infinite" }}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       </div>
+    </section>
+  );
+}
 
-      <style>{`@keyframes l01hero-scroll{0%,100%{opacity:.4;transform:translateX(-50%) translateY(0)}50%{opacity:.8;transform:translateX(-50%) translateY(6px)}}`}</style>
+// ── hero-lawyer-01-page (slim banner pro podstránky) ──────────────────────────
+// ~340px navy banner: ztmavelý poster + navy gradient, breadcrumb + crimson rule + H1.
+// data-template + editor fields: title, breadcrumb, breadcrumbHref, backgroundImage.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroLawyer01Page({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
+  const NAVY     = "#141760";
+  const CRIMSON  = "#a70336";
+  const WHITE    = "#ffffff";
+  const WORDFONT = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
+  const BODYFONT = "'Open Sans','Source Sans 3','Helvetica Neue',Arial,sans-serif";
+
+  const c = content as Record<string, unknown>;
+  const title      = String(c.title ?? "Stránka");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const bcHref     = String(c.breadcrumbHref ?? "/");
+  const subtitle   = c.subtitle === undefined ? "" : String(c.subtitle);
+  const image      = String(c.backgroundImage ?? c.bgImage ?? "/templates/lawyer-01/hero-poster.webp");
+  const siteMode   = String(c.siteMode ?? "multipage");
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      data-template="lawyer-01"
+      style={{ position: "relative", fontFamily: BODYFONT, minHeight: "clamp(280px,34vw,380px)", display: "flex", alignItems: "flex-end", overflow: "hidden", backgroundColor: NAVY, opacity: 1 }}
+    >
+      {/* Background image */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+          <Image src={image} alt={title} fill className="object-cover" sizes="100vw" style={{ objectPosition: "center 35%", filter: "brightness(0.5) saturate(0.9)" }} unoptimized={shouldSkipNextImageOptimization(image)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(20,23,96,0.78) 0%, rgba(15,17,72,0.66) 45%, rgba(20,23,96,0.88) 100%)" }} />
+      </div>
+
+      {/* Top & bottom hairlines */}
+      <span aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, ${CRIMSON} 0%, rgba(167,3,54,0) 60%)`, zIndex: 2 }} />
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1180, margin: "0 auto", padding: "0 32px clamp(34px,4vw,52px)", width: "100%" }}>
+        {/* Breadcrumb */}
+        <nav style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 16, fontSize: "0.85rem", fontWeight: 500 }} aria-label="Drobečková navigace">
+          <a href={resolve(bcHref)} style={{ color: "rgba(255,255,255,0.62)", textDecoration: "none", transition: "color .2s ease" }}
+             onMouseEnter={e => (e.currentTarget.style.color = WHITE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.62)")}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span style={{ color: CRIMSON }} aria-hidden="true">/</span>
+          <span style={{ color: "rgba(255,255,255,0.9)" }}>{title}</span>
+        </nav>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <span style={{ display: "block", width: 38, height: 3, background: CRIMSON, flexShrink: 0 }} />
+          <h1 style={{ fontFamily: WORDFONT, color: WHITE, fontSize: "clamp(1.9rem,4vw,3rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+        </div>
+        {subtitle.trim() && (
+          <p style={{ color: "rgba(255,255,255,0.75)", fontSize: "1.02rem", lineHeight: 1.6, margin: "16px 0 0", maxWidth: 620, paddingLeft: 54 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
     </section>
   );
 }
@@ -10576,6 +12339,57 @@ function HeroRekonstrukce01Page({ content, sectionId, tenantSlug, isAdmin }: Omi
   );
 }
 
+// ── hero-stavba-01-page (slim banner pro podstránky) ──────────────────────────
+// ~340px banner: ztlumené foto + tmavý gradient, breadcrumb + H1 + oranžový rule.
+// data-template="stavba-01"; editor fields: title, breadcrumb, breadcrumbHref, backgroundImage.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroStavba01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const ORANGE = "#FF6F0D";
+  const WHITE  = "#ffffff";
+  const FONT   = "'Inter', sans-serif";
+
+  const title      = String(c.title ?? "Stránka");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const bcHref     = String(c.breadcrumbHref ?? "/");
+  const subtitle   = c.subtitle === undefined ? "" : String(c.subtitle);
+  const image      = String(c.backgroundImage ?? c.image ?? "/templates/stavba-01/hero.webp");
+  const siteMode   = String(c.siteMode ?? "multipage");
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section style={{ position: "relative", fontFamily: FONT, minHeight: "clamp(300px, 40vw, 380px)", display: "flex", alignItems: "flex-end", overflow: "hidden", opacity: 1 }} data-template="stavba-01">
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+          <Image src={image} alt={title} fill className="object-cover" sizes="100vw" style={{ filter: "brightness(0.5) saturate(0.92)" }} unoptimized={shouldSkipNextImageOptimization(image)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(14,14,14,0.72) 0%, rgba(14,14,14,0.52) 42%, rgba(14,14,14,0.82) 100%)" }} />
+      </div>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, margin: "0 auto", padding: "0 32px clamp(34px,5vw,54px)", width: "100%" }}>
+        <nav style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 16, fontSize: "0.86rem", fontWeight: 500 }} aria-label="Drobečková navigace">
+          <a href={resolve(bcHref)} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", transition: "color .2s ease" }}
+             onMouseEnter={e => (e.currentTarget.style.color = WHITE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span style={{ color: ORANGE }} aria-hidden="true">/</span>
+          <span style={{ color: "rgba(255,255,255,0.92)" }}>{title}</span>
+        </nav>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <span style={{ display: "block", width: 34, height: 3, background: ORANGE, borderRadius: 2, flexShrink: 0 }} />
+          <h1 style={{ color: WHITE, fontSize: "clamp(30px,5vw,52px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+        </div>
+        {subtitle.trim() && (
+          <p style={{ color: "rgba(255,255,255,0.74)", fontSize: "1.02rem", lineHeight: 1.6, margin: "16px 0 0", maxWidth: 580, paddingLeft: 48 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
 
@@ -10587,10 +12401,11 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const title      = String(c.title      ?? "Rekonstrukce bytů\na stavby rodinných domů");
   const subtitle   = String(c.subtitle   ?? "Stavíme tak, abychom tam sami chtěli bydlet.");
   const ctaText    = String(c.ctaText    ?? "Nezávazná konzultace");
-  const ctaHref    = String(c.ctaHref    ?? "#kontakt");
+  const ctaHref    = String(c.ctaHref    ?? "/kontakt");
   const ctaSecText = String(c.ctaSecondaryText ?? "Naše reference");
   const ctaSecHref = String(c.ctaSecondaryHref ?? "/reference");
-  const image      = String(c.image ?? "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1800&h=1000&fit=crop&fm=webp&q=90");
+  const image      = String(c.image ?? "/templates/stavba-01/hero.webp");
+  const siteMode   = String(c.siteMode ?? "multipage");
 
   const heroServices = (c.heroServices as Array<{ name: string; icon: string }>) ?? [
     { name: "Rekonstrukce bytů a domů",    icon: "house" },
@@ -10599,14 +12414,7 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
     { name: "Stavební práce & development", icon: "builder" },
   ];
 
-  function resolveDemoHref(href: string) {
-    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
-    if (tenantSlug) {
-      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-      return base + (href.startsWith("/") ? href : "/" + href);
-    }
-    return href;
-  }
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const ServiceIcon = ({ icon }: { icon: string }) => {
     if (icon === "house") return (
@@ -10634,25 +12442,25 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   return (
     <section
       id="uvod"
-      style={{ position: "relative", minHeight: "100svh", fontFamily: FONT, display: "flex", flexDirection: "column" }}
+      style={{ position: "relative", minHeight: "100svh", fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden", opacity: 1 }}
       data-template="stavba-01"
     >
       {/* Background image */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Stavební firma" className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-          <Image src={image} alt="Stavební firma" fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(image)} priority />
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Rekonstrukce a stavba na klíč" className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+          <Image src={image} alt="Rekonstrukce a stavba na klíč" fill className="object-cover s01-hero-img" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(image)} priority />
         </GenericEditableImage>
-        {/* Gradient: heavy left+bottom, lighter right */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg, rgba(15,15,15,0.88) 0%, rgba(15,15,15,0.60) 50%, rgba(15,15,15,0.30) 100%)" }} />
-        {/* Top fade for navbar readability */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 30%)" }} />
+        {/* Gradient: heavy left, lighter right */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(103deg, rgba(14,14,14,0.90) 0%, rgba(14,14,14,0.62) 48%, rgba(14,14,14,0.28) 100%)" }} />
+        {/* Top + bottom fades for navbar + strip readability */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.40) 0%, transparent 26%, transparent 68%, rgba(8,8,8,0.55) 100%)" }} />
       </div>
 
       {/* Content area */}
       <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", maxWidth: 1200, margin: "0 auto", padding: "140px 32px 60px", width: "100%" }}>
 
         {/* Orange badge */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 24, width: "fit-content" }}>
+        <div className="s01-hero-rise" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 24, width: "fit-content", animationDelay: ".05s" }}>
           <span style={{ display: "block", width: 32, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
           <span style={{ color: ORANGE, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>
             <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" />
@@ -10660,31 +12468,29 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         </div>
 
         {/* H1 */}
-        <h1 style={{ color: WHITE, fontSize: "clamp(38px, 6vw, 80px)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em", margin: "0 0 20px", maxWidth: 760, whiteSpace: "pre-line" }}>
+        <h1 className="s01-hero-rise" style={{ color: WHITE, fontSize: "clamp(38px, 6vw, 80px)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em", margin: "0 0 20px", maxWidth: 780, whiteSpace: "pre-line", animationDelay: ".15s" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
         {/* Subtitle */}
-        <p style={{ color: "rgba(255,255,255,0.70)", fontSize: "clamp(16px, 1.6vw, 20px)", fontWeight: 400, lineHeight: 1.65, margin: "0 0 44px", maxWidth: 520 }}>
+        <p className="s01-hero-rise" style={{ color: "rgba(255,255,255,0.74)", fontSize: "clamp(16px, 1.6vw, 20px)", fontWeight: 400, lineHeight: 1.65, margin: "0 0 44px", maxWidth: 540, animationDelay: ".25s" }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
         {/* CTAs */}
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+        <div className="s01-hero-rise" style={{ display: "flex", gap: 14, flexWrap: "wrap", animationDelay: ".35s" }}>
           <a
-            href={resolveDemoHref(ctaHref)}
+            href={resolve(ctaHref)}
             data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, padding: "16px 36px", borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em", boxShadow: "0 4px 20px rgba(255,111,13,0.40)", transition: "opacity 0.18s, transform 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+            className="s01-cta"
+            style={{ display: "inline-flex", alignItems: "center", backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, padding: "16px 36px", borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em", boxShadow: "0 4px 20px rgba(255,111,13,0.40)" }}
           >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
           </a>
           <a
-            href={resolveDemoHref(ctaSecHref)}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.88)", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, padding: "16px 24px", borderRadius: 8, textDecoration: "none", border: "1px solid rgba(255,255,255,0.28)", transition: "background-color 0.18s, border-color 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.10)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.50)"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.28)"; }}
+            href={resolve(ctaSecHref)}
+            className="s01-hero-ghost"
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,0.88)", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, padding: "16px 24px", borderRadius: 8, textDecoration: "none", border: "1px solid rgba(255,255,255,0.28)" }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -10700,12 +12506,13 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           {heroServices.map((svc, i) => (
             <div
               key={i}
-              style={{ display: "flex", alignItems: "center", gap: 14, padding: "22px 0", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.10)" : "none", paddingRight: i < 3 ? 24 : 0, paddingLeft: i > 0 ? 24 : 0 }}
+              className="s01-hero-svc"
+              style={{ display: "flex", alignItems: "center", gap: 14, padding: "22px 20px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.10)" : "none" }}
             >
-              <span style={{ color: ORANGE, flexShrink: 0 }}>
+              <span style={{ color: ORANGE, flexShrink: 0, display: "inline-flex" }}>
                 <ServiceIcon icon={svc.icon} />
               </span>
-              <span style={{ fontFamily: FONT, fontSize: "0.875rem", fontWeight: 600, color: "rgba(255,255,255,0.88)", lineHeight: 1.3 }}>
+              <span className="s01-svc-name" style={{ fontFamily: FONT, fontSize: "0.875rem", fontWeight: 600, color: "rgba(255,255,255,0.88)", lineHeight: 1.3 }}>
                 <GenericEditableText sectionId={sectionId} field={`heroServices.${i}.name`} value={svc.name} tag="span" />
               </span>
             </div>
@@ -12046,6 +13853,52 @@ function HeroInstala01Page({ content, sectionId }: Omit<Props, "variant">) {
   );
 }
 
+// ── hero-instala-02-page ──────────────────────────────────────────────────────
+// Slim banner pro podstránky: fullbleed foto + left-heavy dark gradient,
+// červená accent hrana vlevo, kicker pill, H1 Montserrat 800 s červeným barem.
+// CSS v globals.css ([data-template="instala-02-page"]).
+function HeroInstala02Page({ content, sectionId }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+
+  const kicker   = String(c.kicker ?? "");
+  const title    = String(c.title ?? c.headline ?? "Stránka");
+  const subtitle = String(c.subtitle ?? "");
+  const bg       = String(c.backgroundImage ?? "/assets/instala-02/hero-bg.webp");
+
+  return (
+    <section data-template="instala-02-page">
+      <div className="i2pg-bgwrap">
+        <GenericEditableImage
+          sectionId={sectionId} field="backgroundImage" src={bg} alt={title}
+          className="i2pg-bgimg" style={{ position: "absolute", inset: 0 }}
+        >
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div className="i2pg-overlay" aria-hidden="true" />
+      </div>
+
+      <span className="i2pg-edge" aria-hidden="true" />
+
+      <div className="i2pg-content">
+        {kicker && (
+          <span className="i2pg-kicker">
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </span>
+        )}
+        <h1 className="i2pg-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span className="i2pg-bar" aria-hidden="true" />
+        {subtitle && (
+          <p className="i2pg-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ── florist-01-hero ───────────────────────────────────────────────────────────
 // Botanical Atelier Editorial luxe:
 // - Warm ivory outer frame (24px margin) wrapping cinematic 88vh Ken-Burns slider
@@ -12454,7 +14307,7 @@ function HeroSweet01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   };
 
   return (
-    <section data-template="sweet-01" style={{ position: "relative", width: "100%", height: "calc(100vh - 80px)", height: "calc(100svh - 80px)" as any, minHeight: 560, overflow: "hidden", backgroundColor: COCOA }}>
+    <section data-template="sweet-01" style={{ position: "relative", width: "100%", height: "calc(100svh - 80px)", minHeight: 560, overflow: "hidden", backgroundColor: COCOA }}>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,900&family=Inter:wght@300;400;500;600;700&display=swap" />
       <style>{`
         @keyframes sw01HeroKen { 0% { transform: scale(1.02); } 100% { transform: scale(1.12); } }
@@ -12743,6 +14596,18 @@ function HeroBakery02Hero({ content, sectionId }: { content: Record<string, unkn
           0%   { opacity: 0; transform: translateY(30px); }
           100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes b02HeroKen {
+          0%   { transform: scale(1.06); }
+          100% { transform: scale(1.16); }
+        }
+        [data-template="bakery-02"] .b02h-slide.is-active .b02h-ken {
+          animation: b02HeroKen 7s ease-out both;
+        }
+        [data-template="bakery-02"] .b02h-eyebrow-rule {
+          display: block; width: 46px; height: 1px; margin: 0 auto 22px;
+          background: rgba(255,255,255,0.5);
+          animation: b02HeroFadeUp .9s cubic-bezier(.22,.61,.36,1) 0s both;
+        }
         [data-template="bakery-02"] .b02h-line1 { animation: b02HeroFadeUp .9s cubic-bezier(.22,.61,.36,1) .1s both; }
         [data-template="bakery-02"] .b02h-line2 { animation: b02HeroFadeUp .9s cubic-bezier(.22,.61,.36,1) .3s both; }
         [data-template="bakery-02"] .b02h-cta   { animation: b02HeroFadeUp .9s cubic-bezier(.22,.61,.36,1) .5s both; }
@@ -12783,6 +14648,7 @@ function HeroBakery02Hero({ content, sectionId }: { content: Record<string, unkn
       {slides.map((s, i) => (
         <div
           key={`b02-slide-${i}`}
+          className={`b02h-slide${i === idx ? " is-active" : ""}`}
           style={{
             position: "absolute", inset: 0,
             opacity: i === idx ? 1 : 0,
@@ -12793,15 +14659,17 @@ function HeroBakery02Hero({ content, sectionId }: { content: Record<string, unkn
         >
           {s.backgroundImage ? (
             <GenericEditableImage sectionId={sectionId} field={`slides.${i}.backgroundImage`} src={String(s.backgroundImage)} alt="" style={{ position: "absolute", inset: 0 }}>
-              <Image
-                src={String(s.backgroundImage)}
-                alt=""
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                style={{ objectFit: "cover", objectPosition: "center" }}
-                unoptimized={shouldSkipNextImageOptimization(String(s.backgroundImage))}
-              />
+              <div className="b02h-ken" style={{ position: "absolute", inset: 0, transform: "scale(1.06)" }}>
+                <Image
+                  src={String(s.backgroundImage)}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  style={{ objectFit: "cover", objectPosition: "center" }}
+                  unoptimized={shouldSkipNextImageOptimization(String(s.backgroundImage))}
+                />
+              </div>
             </GenericEditableImage>
           ) : (
             <div style={{ position: "absolute", inset: 0, backgroundColor: "#222" }} />
@@ -12829,6 +14697,7 @@ function HeroBakery02Hero({ content, sectionId }: { content: Record<string, unkn
         }}
       >
         <div key={`b02-content-${idx}`} style={{ maxWidth: 760 }}>
+          <span className="b02h-eyebrow-rule" aria-hidden />
           <p
             className="b02h-line1"
             style={{ fontFamily: FONT, fontSize: "clamp(0.75rem, 1.4vw, 0.95rem)", fontWeight: 400, letterSpacing: "5px", textTransform: "uppercase", color: "rgba(255,255,255,0.75)", margin: "0 0 18px" }}
@@ -13695,48 +15564,25 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const kicker  = String(content.subheading ?? "Prémiový psí salón");
-  const heading = String(content.heading    ?? "Rozmazlujte své miláčky");
-  const body    = String(content.body       ?? "Prémiová péče o Vaše domácí mazlíčky v centru Prahy.");
-  const ctaText = String(content.ctaText    ?? "Více o nás");
-  const ctaHref = String(content.ctaHref    ?? "#salon");
+  const kicker   = String(content.subheading ?? "Grooming salon pro psy i kočky");
+  const heading  = String(content.heading    ?? "Péče, po které se každá tlapka zaskví");
+  const body     = String(content.body       ?? "Prémiová péče o srst vašeho čtyřnohého přítele v srdci města.");
+  const ctaText  = String(content.ctaText    ?? "Objevte náš salon");
+  const ctaHref  = String(content.ctaHref    ?? "/salon");
+  const offerImg  = String(content.offerImage ?? "/templates/grooming-01/offer.webp");
+  const offerText = String(content.offerText  ?? "Aktuální akce pro členy klubu");
 
   const resolve = (href: string) => {
-    if (!tenantSlug || !href.startsWith("#")) return href;
-    return isAdmin ? `/demo/${tenantSlug}/admin${href}` : `/demo/${tenantSlug}${href}`;
+    if (!tenantSlug || href.startsWith("http")) return href;
+    const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
+    if (href.startsWith("#")) return `${base}${href}`;
+    if (href === "/") return base;
+    if (href.startsWith("/")) return `${base}${href}`;
+    return href;
   };
-
-  const offerImg = "/clones/cutedogs/img/offer_img01.jpg";
 
   return (
     <>
-      <style>{`
-        .gr01hero{position:relative;min-height:100vh;background:#222529;overflow:hidden;}
-        .gr01hero-track{position:absolute;inset:0;display:flex;will-change:transform;}
-        .gr01hero-slide{flex-shrink:0;background-size:cover;background-position:center top;}
-        .gr01hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,0.62) 0%,rgba(0,0,0,0.18) 55%,transparent 100%);z-index:1;}
-        .gr01hero-inner{position:relative;z-index:2;max-width:1424px;margin:0 auto;padding:0 40px;min-height:100vh;display:flex;align-items:center;}
-        .gr01hero-col{text-align:left;max-width:540px;padding:160px 0 120px;}
-        .gr01hero-kicker{display:block;font-size:16px;color:${GOLD};font-weight:700;text-transform:uppercase;letter-spacing:1.6px;margin-bottom:24px;padding-left:40px;position:relative;font-family:${FONT};}
-        .gr01hero-kicker::before{content:'✂';position:absolute;left:0;top:-1px;font-size:18px;color:${GOLD};}
-        .gr01hero-h1{font-size:clamp(48px,7vw,94px);color:${WHITE};line-height:1;font-weight:700;margin:0 0 24px;font-family:${FONT};}
-        .gr01hero-body{font-size:22px;line-height:1.55;max-width:360px;color:rgba(255,255,255,0.88);margin-bottom:40px;font-family:${FONT};}
-        .gr01hero-btn{display:inline-block;background:${WHITE};color:#1e2024;border-radius:4px;padding:14px 32px;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;text-decoration:none;font-family:${FONT};transition:background 0.2s,color 0.2s;}
-        .gr01hero-btn:hover{background:${GOLD};color:${WHITE};text-decoration:none;}
-        .gr01hero-dots{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:10px;}
-        .gr01hero-dot{width:12px;height:12px;border-radius:50%;border:2px solid ${GOLD};background:transparent;cursor:pointer;transition:background 0.3s,border-color 0.3s;padding:0;}
-        .gr01hero-dot.active{background:${WHITE};border-color:${WHITE};}
-        .gr01hero-offer{position:fixed;right:0;bottom:0;width:450px;z-index:50;background:#26282b;transition:transform 0.4s ease,opacity 0.4s;}
-        .gr01hero-offer.hidden{transform:translateY(100%);opacity:0;pointer-events:none;}
-        .gr01hero-offer-img{width:100%;height:220px;object-fit:cover;display:block;}
-        .gr01hero-offer-close{position:absolute;top:10px;right:12px;background:rgba(0,0,0,0.55);border:none;color:${WHITE};font-size:22px;line-height:1;width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-        @media(max-width:600px){
-          .gr01hero-col{padding:140px 0 80px;}
-          .gr01hero-body{font-size:18px;}
-          .gr01hero-offer{width:100%;}
-        }
-      `}</style>
-
       <section id="uvod" className="gr01hero" data-template="grooming-01-hero">
         {/* sliding track — width = extN × 100% of section */}
         <div
@@ -13762,13 +15608,13 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
                   sectionId={sectionId}
                   field={`slides.${realIdx}.imageUrl`}
                   src={s.imageUrl}
-                  style={{ width: `${100 / extN}%`, flexShrink: 0, height: "100%" }}
+                  style={{ width: `${100 / extN}%`, flexShrink: 0, height: "100%", overflow: "hidden" }}
                 >
                   {inner}
                 </GenericEditableImage>
               );
             }
-            return <div key={i} style={{ width: `${100 / extN}%`, flexShrink: 0, height: "100%" }}>{inner}</div>;
+            return <div key={i} style={{ width: `${100 / extN}%`, flexShrink: 0, height: "100%", overflow: "hidden" }}>{inner}</div>;
           })}
         </div>
 
@@ -13787,6 +15633,7 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
             </p>
             <a href={resolve(ctaHref)} data-btn="primary" className="gr01hero-btn">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="gr01hero-btn-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
             </a>
           </div>
         </div>
@@ -13815,13 +15662,61 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
       {!offerDismissed && (
         <div className={`gr01hero-offer${offerHidden ? " hidden" : ""}`} role="complementary" aria-label="Nabídka">
           <div style={{ position: "relative" }}>
-            <img loading="eager" src={offerImg} alt="Aktuální nabídka" className="gr01hero-offer-img" />
+            <GenericEditableImage sectionId={sectionId} field="offerImage" src={offerImg} alt={offerText}>
+              <img loading="lazy" src={offerImg} alt={offerText} className="gr01hero-offer-img" />
+            </GenericEditableImage>
             <button className="gr01hero-offer-close" onClick={() => setOfferDismissed(true)} aria-label="Zavřít nabídku">×</button>
           </div>
-          <div style={{ padding: "16px 24px", color: "rgba(255,255,255,0.65)", fontSize: 13, fontFamily: FONT }}>Aktuální akce pro členy klubu</div>
+          <div className="gr01hero-offer-text" style={{ fontFamily: FONT }}>
+            <GenericEditableText sectionId={sectionId} field="offerText" value={offerText} tag="span" />
+          </div>
         </div>
       )}
     </>
+  );
+}
+
+// ── hero-grooming-01-page ─────────────────────────────────────────────────────
+// Slim dark banner pro podstránky: bg foto (ztmavená) + breadcrumb + H1 + zlatá tlapka rule
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroGrooming01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const title       = String(content.title ?? content.heading ?? "Stránka");
+  const breadcrumb  = String(content.breadcrumb ?? "Domů");
+  const breadHref   = String(content.breadcrumbHref ?? "/");
+  const bgUrl       = String(content.backgroundImage ?? content.bgImage ?? "/templates/grooming-01/banner-bg.webp");
+
+  const resolve = (href: string) => {
+    if (!tenantSlug || href.startsWith("http")) return href;
+    const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
+    if (href === "/") return base;
+    if (href.startsWith("/")) return `${base}${href}`;
+    return href;
+  };
+
+  return (
+    <section className="gr01hp" data-template="grooming-01-hero-page">
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgUrl} style={{ position: "absolute", inset: 0 }}>
+        <div className="gr01hp-bg" style={{ backgroundImage: `url(${bgUrl})` }} aria-hidden="true" />
+      </GenericEditableImage>
+      <div className="gr01hp-overlay" aria-hidden="true" />
+      <div className="gr01hp-inner">
+        <nav className="gr01hp-crumb" aria-label="Drobečková navigace">
+          <a href={resolve(breadHref)}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="gr01hp-crumb-sep" aria-hidden="true">/</span>
+          <span className="gr01hp-crumb-cur">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 className="gr01hp-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span className="gr01hp-rule" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="#d0aa57" width="22" height="22"><ellipse cx="16" cy="21" rx="8.5" ry="6.5"/><ellipse cx="8.5" cy="14" rx="3.2" ry="4.2"/><ellipse cx="23.5" cy="14" rx="3.2" ry="4.2"/><ellipse cx="12.5" cy="11" rx="2.3" ry="3"/><ellipse cx="19.5" cy="11" rx="2.3" ry="3"/></svg>
+        </span>
+      </div>
+    </section>
   );
 }
 
@@ -14010,96 +15905,281 @@ function HeroPethotel01Page({
   );
 }
 
-// - 3 slides: teal+psi.jpg / blue+cat.jpg / purple+savci.jpg
-// - Žádný text overlay na slidech — čisté fullbleed fotky
-// - Šipky vlevo/vpravo (bílé) + tečky dole uprostřed
+// Luxe povýšení (vychází z původního multi-species slideru):
+// - Cinematic výška, Ken Burns zoom na aktivním slidu, teal gradient scrim
+// - Fixní obsahový blok vlevo (eyebrow + Forum H1 + subheading + CTA + trust chips)
+// - Bottom slide-caption (druh pacienta) + progress dots + šipky
+// - Unsplash WebP (pes/kočka/králík), editable slide bg přes GenericEditableBackground
 // ─────────────────────────────────────────────────────────────────────────────
-function HeroVet01({ content }: { content: Record<string, unknown>; sectionId?: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const DEFAULT_SLIDES = [
-    { backgroundUrl: "/clones/veterinafenix/img/main-psi.jpg",  overlayColor: "#1abc9c" },
-    { backgroundUrl: "/clones/veterinafenix/img/main-cat.jpg",  overlayColor: "#4054b2" },
-    { backgroundUrl: "/clones/veterinafenix/img/main-savci.jpg",overlayColor: "#833ca3" },
+function HeroVet01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type VetSlide = { title?: string; subtitle?: string; backgroundUrl?: string };
+  const DEFAULT_SLIDES: VetSlide[] = [
+    { title: "Psí pacienti",   subtitle: "Komplexní péče od štěněte až po seniora", backgroundUrl: "/templates/vet-01/hero-dog.webp" },
+    { title: "Kočičí pacienti", subtitle: "Klidné, cat-friendly prostředí bez stresu", backgroundUrl: "/templates/vet-01/hero-cat.webp" },
+    { title: "Drobní savci",    subtitle: "Specializovaná péče o králíky a hlodavce", backgroundUrl: "/templates/vet-01/hero-rabbit.webp" },
   ];
 
-  const rawSlides = content.slides as typeof DEFAULT_SLIDES | undefined;
+  const rawSlides = content.slides as VetSlide[] | undefined;
   const slides = (Array.isArray(rawSlides) && rawSlides.length > 0) ? rawSlides : DEFAULT_SLIDES;
 
+  const eyebrow    = String(content.eyebrow    ?? "Veterinární klinika · Brno");
+  const heading    = String(content.heading    ?? content.title ?? "Zdraví vašich mazlíčků je naší prioritou");
+  const subheading = String(content.subheading ?? content.subtitle ?? "Moderní veterinární péče s laskavým přístupem ke každému zvířeti.");
+  const ctaText    = String(content.ctaText    ?? "Objednat se online");
+  const ctaHref    = String(content.ctaHref    ?? "/kontakt");
+  const secText    = String(content.secondaryText ?? "Naše služby");
+  const secHref    = String(content.secondaryHref ?? "/sluzby");
+  const badge1     = String(content.badge1 ?? "Rabbit-friendly klinika");
+  const badge2     = String(content.badge2 ?? "Cat-friendly Gold (ISFM)");
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => {
+    if (!href) return href;
+    if (href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) return href;
+    if (!tenantSlug || !href.startsWith("/")) return href;
+    if (siteMode === "onepage" && href !== "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}/#${href.replace(/^\//, "")}`;
+    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href === "/" ? "" : href}`;
+  };
+
   const [current, setCurrent] = useState(0);
-  const [animating, setAnimating] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const goTo = useCallback((idx: number) => {
-    if (animating) return;
-    setAnimating(true);
-    setCurrent(idx);
-    setTimeout(() => setAnimating(false), 700);
-  }, [animating]);
-
-  const next = useCallback(() => goTo((current + 1) % slides.length), [current, slides.length, goTo]);
-  const prev = useCallback(() => goTo((current - 1 + slides.length) % slides.length), [current, slides.length, goTo]);
+  const goTo = useCallback((idx: number) => setCurrent(idx), []);
+  const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), [slides.length]);
+  const prev = useCallback(() => setCurrent((c) => (c - 1 + slides.length) % slides.length), [slides.length]);
 
   useEffect(() => {
-    timerRef.current = setTimeout(next, 4000);
+    timerRef.current = setTimeout(next, 5500);
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [current, next]);
 
-  const slide = slides[current];
+  const DEEP = "#0d7486", PRIMARY = "#286C7E", ACCENT = "#42aaba";
+  const FONT_H = "'Forum', 'Georgia', serif";
+  const FONT_B = "'Roboto Condensed', 'Roboto', sans-serif";
 
   return (
-    <section className="vet01hero" data-template="vet-01-hero" aria-label="Hero slider">
+    <section id="uvod" className="vet01hero" data-template="vet-01-hero" aria-label="Úvodní slider">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
       <style>{`
-        .vet01hero{position:relative;width:100%;height:499px;overflow:hidden;background:#1a1a1a;}
-        @media(max-width:767px){.vet01hero{height:294px;}}
-        @media(max-width:480px){.vet01hero{height:200px;}}
-        /* Slide */
-        .vet01hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 0.7s ease;opacity:0;}
-        .vet01hero-slide.active{opacity:1;}
-        /* Color overlay */
-        .vet01hero-overlay{position:absolute;inset:0;opacity:0.32;}
-        /* Arrows */
-        .vet01hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,0.18);border:none;cursor:pointer;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
-        .vet01hero-arrow:hover{background:rgba(255,255,255,0.38);}
-        .vet01hero-arrow.prev{left:20px;}
-        .vet01hero-arrow.next{right:20px;}
-        /* Dots */
-        .vet01hero-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:10;}
-        .vet01hero-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.5);border:none;cursor:pointer;padding:0;transition:background 0.25s,transform 0.25s;}
-        .vet01hero-dot.active{background:#ffffff;transform:scale(1.25);}
+        .vet01hero{position:relative;width:100%;height:clamp(560px,84vh,748px);overflow:hidden;background:#08323a;font-family:${FONT_B};isolation:isolate;}
+        @media(max-width:767px){.vet01hero{height:auto;min-height:600px;}}
+        /* Slides */
+        .vet01hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;z-index:0;}
+        .vet01hero-slide.active{opacity:1;z-index:1;}
+        .vet01hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.08);}
+        .vet01hero-slide.active .vet01hero-bg{animation:vet01KenBurns 7s ease-out forwards;}
+        @keyframes vet01KenBurns{from{transform:scale(1.08)}to{transform:scale(1.17)}}
+        .vet01hero-scrim{position:absolute;inset:0;background:linear-gradient(102deg,rgba(6,40,47,0.9) 0%,rgba(10,74,86,0.62) 42%,rgba(13,116,134,0.12) 78%,rgba(13,116,134,0) 100%);}
+        .vet01hero-scrim::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,40,47,0.55) 0%,transparent 34%);}
+        /* Content */
+        .vet01hero-inner{position:relative;z-index:5;max-width:1220px;margin:0 auto;padding:0 40px;height:100%;display:flex;flex-direction:column;justify-content:center;}
+        .vet01hero-content{max-width:640px;}
+        @media(max-width:767px){.vet01hero-inner{padding:96px 24px 150px;}}
+        .vet01hero-eyebrow{display:inline-flex;align-items:center;gap:9px;color:#bfe6ec;font-size:15px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;margin:0 0 20px;}
+        .vet01hero-eyebrow svg{opacity:0.9;}
+        .vet01hero-h1{font-family:${FONT_H};color:#fff;font-size:clamp(2.4rem,5vw,4rem);line-height:1.08;font-weight:400;margin:0 0 20px;letter-spacing:0.005em;text-shadow:0 2px 30px rgba(0,0,0,0.25);}
+        .vet01hero-sub{color:rgba(255,255,255,0.9);font-size:clamp(1.05rem,1.7vw,1.32rem);line-height:1.6;font-weight:400;margin:0 0 34px;max-width:540px;}
+        .vet01hero-btns{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+        .vet01hero-cta{display:inline-flex;align-items:center;gap:10px;background:#fff;color:${DEEP};font-family:${FONT_B};font-size:17px;font-weight:600;letter-spacing:0.01em;text-decoration:none;padding:16px 30px;border-radius:50px;box-shadow:0 12px 34px rgba(0,0,0,0.22);transition:transform 0.28s cubic-bezier(.4,0,.2,1),box-shadow 0.28s,background 0.28s,color 0.28s;}
+        .vet01hero-cta svg{transition:transform 0.28s ease;}
+        .vet01hero-cta:hover{transform:translateY(-3px);background:${ACCENT};color:#fff;box-shadow:0 18px 40px rgba(66,170,186,0.42);}
+        .vet01hero-cta:hover svg{transform:translateX(4px);}
+        .vet01hero-cta:hover svg *{stroke:#fff;}
+        .vet01hero-sec{display:inline-flex;align-items:center;gap:9px;color:#fff;font-family:${FONT_B};font-size:16.5px;font-weight:500;text-decoration:none;padding:15px 26px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.5);transition:background 0.26s,border-color 0.26s,transform 0.26s;}
+        .vet01hero-sec:hover{background:rgba(255,255,255,0.14);border-color:#fff;transform:translateY(-2px);}
+        /* Trust chips */
+        .vet01hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px;}
+        .vet01hero-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.12);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.22);color:#eafafc;font-size:13.5px;font-weight:500;letter-spacing:0.02em;padding:8px 15px;border-radius:50px;transition:background 0.25s,transform 0.25s;}
+        .vet01hero-chip:hover{background:rgba(255,255,255,0.2);transform:translateY(-2px);}
+        .vet01hero-chip svg{color:#7fe0c4;}
+        /* Slide caption */
+        .vet01hero-cap{position:absolute;right:40px;bottom:42px;z-index:6;text-align:right;max-width:320px;}
+        @media(max-width:767px){.vet01hero-cap{right:24px;left:24px;bottom:74px;text-align:left;max-width:none;}}
+        .vet01hero-cap-kicker{display:inline-flex;align-items:center;gap:8px;color:#8fdcc5;font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 6px;}
+        @media(max-width:767px){.vet01hero-cap-kicker{justify-content:flex-start;}}
+        .vet01hero-cap-title{font-family:${FONT_H};color:#fff;font-size:1.5rem;line-height:1.2;margin:0 0 4px;}
+        .vet01hero-cap-sub{color:rgba(255,255,255,0.82);font-size:14.5px;line-height:1.45;margin:0;}
+        /* Controls */
+        .vet01hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:7;background:rgba(255,255,255,0.14);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.28);cursor:pointer;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.24s,transform 0.24s;}
+        .vet01hero-arrow:hover{background:rgba(255,255,255,0.32);}
+        .vet01hero-arrow.prev{left:26px;}.vet01hero-arrow.prev:hover{transform:translateY(-50%) translateX(-3px);}
+        .vet01hero-arrow.next{right:26px;}.vet01hero-arrow.next:hover{transform:translateY(-50%) translateX(3px);}
+        @media(max-width:900px){.vet01hero-arrow{display:none;}}
+        .vet01hero-dots{position:absolute;bottom:42px;left:40px;display:flex;gap:10px;z-index:7;}
+        @media(max-width:767px){.vet01hero-dots{left:24px;bottom:34px;}}
+        .vet01hero-dot{width:34px;height:4px;border-radius:4px;background:rgba(255,255,255,0.32);border:none;cursor:pointer;padding:0;overflow:hidden;transition:background 0.25s;}
+        .vet01hero-dot::after{content:'';display:block;height:100%;width:0;background:#fff;}
+        .vet01hero-dot.active{background:rgba(255,255,255,0.32);}
+        .vet01hero-dot.active::after{animation:vet01DotFill 5.5s linear forwards;}
+        @keyframes vet01DotFill{from{width:0}to{width:100%}}
+        /* Decorative paw */
+        .vet01hero-paw{position:absolute;z-index:2;opacity:0.07;pointer-events:none;fill:#fff;}
+        .vet01hero-paw--1{top:8%;right:12%;width:110px;height:110px;transform:rotate(18deg);}
+        .vet01hero-paw--2{bottom:16%;right:38%;width:58px;height:58px;transform:rotate(-12deg);}
+        @media(max-width:900px){.vet01hero-paw{display:none;}}
+        @media(prefers-reduced-motion:reduce){.vet01hero-slide.active .vet01hero-bg{animation:none;transform:scale(1.05);}.vet01hero-dot.active::after{animation:none;width:100%;}}
       `}</style>
 
       {slides.map((s, i) => (
-        <div
-          key={i}
-          className={`vet01hero-slide${i === current ? " active" : ""}`}
-          style={{ backgroundImage: `url(${s.backgroundUrl})` }}
-          aria-hidden={i !== current}
-        >
-          <div className="vet01hero-overlay" style={{ background: s.overlayColor }} />
+        <div key={i} className={`vet01hero-slide${i === current ? " active" : ""}`} aria-hidden={i !== current}>
+          {i === current ? (
+            <GenericEditableBackground sectionId={sectionId} field={`slides.${i}.backgroundUrl`} value={s.backgroundUrl || ""}>
+              <div className="vet01hero-bg" style={{ backgroundImage: `url(${s.backgroundUrl})` }} />
+            </GenericEditableBackground>
+          ) : (
+            <div className="vet01hero-bg" style={{ backgroundImage: `url(${s.backgroundUrl})` }} />
+          )}
+          <div className="vet01hero-scrim" />
         </div>
       ))}
 
+      <svg className="vet01hero-paw vet01hero-paw--1" viewBox="0 0 60 60" aria-hidden="true">
+        <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+        <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/>
+      </svg>
+      <svg className="vet01hero-paw vet01hero-paw--2" viewBox="0 0 60 60" aria-hidden="true">
+        <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+        <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/>
+      </svg>
+
+      <div className="vet01hero-inner">
+        <div className="vet01hero-content">
+          <p className="vet01hero-eyebrow">
+            <svg width="16" height="16" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true">
+              <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+              <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/>
+            </svg>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+          <h1 className="vet01hero-h1">
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h1>
+          <p className="vet01hero-sub">
+            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+          </p>
+          <div className="vet01hero-btns">
+            <a className="vet01hero-cta" href={resolve(ctaHref)}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={DEEP} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a className="vet01hero-sec" href={resolve(secHref)}>
+              <GenericEditableText sectionId={sectionId} field="secondaryText" value={secText} tag="span" />
+            </a>
+          </div>
+          <div className="vet01hero-chips">
+            <span className="vet01hero-chip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <GenericEditableText sectionId={sectionId} field="badge1" value={badge1} tag="span" />
+            </span>
+            <span className="vet01hero-chip">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              <GenericEditableText sectionId={sectionId} field="badge2" value={badge2} tag="span" />
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="vet01hero-cap" key={current}>
+        <p className="vet01hero-cap-kicker">
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#8fdcc5", display: "inline-block" }} />
+          Koho léčíme
+        </p>
+        <h2 className="vet01hero-cap-title">
+          <GenericEditableText sectionId={sectionId} field={`slides.${current}.title`} value={String(slides[current]?.title ?? "")} tag="span" />
+        </h2>
+        <p className="vet01hero-cap-sub">
+          <GenericEditableText sectionId={sectionId} field={`slides.${current}.subtitle`} value={String(slides[current]?.subtitle ?? "")} tag="span" />
+        </p>
+      </div>
+
       <button className="vet01hero-arrow prev" onClick={prev} aria-label="Předchozí slide">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <button className="vet01hero-arrow next" onClick={next} aria-label="Další slide">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
 
       <div className="vet01hero-dots" role="tablist" aria-label="Výběr slidu">
         {slides.map((_, i) => (
-          <button
-            key={i}
-            className={`vet01hero-dot${i === current ? " active" : ""}`}
-            onClick={() => goTo(i)}
-            role="tab"
-            aria-selected={i === current}
-            aria-label={`Slide ${i + 1}`}
-          />
+          <button key={i} className={`vet01hero-dot${i === current ? " active" : ""}`} onClick={() => goTo(i)} role="tab" aria-selected={i === current} aria-label={`Slide ${i + 1}`} />
         ))}
+      </div>
+    </section>
+  );
+}
+
+// ── hero-vet-01-page ──────────────────────────────────────────────────────────
+// Slim banner (~340px) pro podstránky: teal gradient + tlapkový vzor,
+// breadcrumb + Forum H1 + gradient rule. Volitelný darkened bg image.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroVet01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title          = String(content.title ?? content.heading ?? "Stránka");
+  const subtitle       = String(content.subtitle ?? "");
+  const breadcrumb     = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const bgImage        = String(content.backgroundImage ?? content.bgImage ?? "");
+
+  const DEEP = "#0d7486", PRIMARY = "#286C7E", ACCENT = "#42aaba";
+  const FONT_H = "'Forum', 'Georgia', serif";
+  const FONT_B = "'Roboto Condensed', 'Roboto', sans-serif";
+
+  const resolve = (href: string) => {
+    if (!href || href.startsWith("#") || href.startsWith("http")) return href;
+    if (!tenantSlug || !href.startsWith("/")) return href;
+    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href === "/" ? "" : href}`;
+  };
+
+  return (
+    <section className="vet01pg" data-template="hero-vet-01-page" aria-label={title}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
+      <style>{`
+        .vet01pg { position:relative; overflow:hidden; background:linear-gradient(120deg,#0a5f6e,${DEEP} 55%,${PRIMARY}); font-family:${FONT_B}; }
+        .vet01pg-bg { position:absolute; inset:0; background-size:cover; background-position:center; opacity:0.22; filter:grayscale(0.2); }
+        .vet01pg-scrim { position:absolute; inset:0; background:linear-gradient(120deg,rgba(6,40,47,0.7),rgba(13,116,134,0.35)); }
+        .vet01pg-paw { position:absolute; fill:#fff; opacity:0.06; pointer-events:none; }
+        .vet01pg-paw--1 { top:-10px; right:8%; width:120px; height:120px; transform:rotate(16deg); }
+        .vet01pg-paw--2 { bottom:-20px; right:26%; width:64px; height:64px; transform:rotate(-14deg); }
+        .vet01pg-inner { position:relative; z-index:2; max-width:1160px; margin:0 auto; padding:clamp(64px,9vw,96px) clamp(20px,5vw,40px) clamp(52px,7vw,74px); }
+        .vet01pg-crumb { display:flex; align-items:center; gap:8px; font-size:13.5px; color:rgba(255,255,255,0.75); margin:0 0 14px; }
+        .vet01pg-crumb a { color:rgba(255,255,255,0.75); text-decoration:none; transition:color 0.2s; }
+        .vet01pg-crumb a:hover { color:#fff; }
+        .vet01pg-crumb svg { color:${ACCENT}; }
+        .vet01pg-crumb .cur { color:#fff; font-weight:500; }
+        .vet01pg-h1 { font-family:${FONT_H}; font-weight:400; font-size:clamp(2rem,4.4vw,3.2rem); color:#fff; margin:0; line-height:1.1; text-shadow:0 2px 24px rgba(0,0,0,0.2); }
+        .vet01pg-rule { width:64px; height:3px; background:linear-gradient(90deg,#fff,${ACCENT}); border-radius:2px; margin:18px 0 0; }
+        .vet01pg-sub { font-size:clamp(1rem,1.5vw,1.15rem); color:rgba(255,255,255,0.85); line-height:1.6; margin:16px 0 0; max-width:600px; }
+      `}</style>
+
+      {bgImage && (
+        <GenericEditableBackground sectionId={sectionId} field="backgroundImage" value={bgImage}>
+          <div className="vet01pg-bg" style={{ backgroundImage: `url(${bgImage})` }} aria-hidden="true" />
+        </GenericEditableBackground>
+      )}
+      <div className="vet01pg-scrim" aria-hidden="true" />
+      <svg className="vet01pg-paw vet01pg-paw--1" viewBox="0 0 60 60" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
+      <svg className="vet01pg-paw vet01pg-paw--2" viewBox="0 0 60 60" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
+
+      <div className="vet01pg-inner">
+        <nav className="vet01pg-crumb" aria-label="Drobečková navigace">
+          <a href={resolve(breadcrumbHref)}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          <span className="cur">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 className="vet01pg-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <div className="vet01pg-rule" />
+        {subtitle && (
+          <p className="vet01pg-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
     </section>
   );
@@ -15915,7 +17995,7 @@ function HeroArch01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props,
       z-index: 2;
       max-width: 1440px;
       margin: 0 auto;
-      padding: clamp(150px, 20vh, 200px) clamp(24px, 5vw, 80px) clamp(56px, 8vh, 80px);
+      padding: clamp(112px, 13vh, 148px) clamp(24px, 5vw, 80px) clamp(40px, 5vh, 56px);
     }
     .a01pg-crumb {
       display: inline-flex;
@@ -16685,30 +18765,31 @@ function HeroInstala02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
   const WHITE = "#ffffff";
   const FONT  = "'Montserrat', sans-serif";
 
-  const label      = String(c.label       ?? "Praha a okolí • Zásah do 60 minut");
-  const title      = String(c.title       ?? "Topenářství\na instalatérství\nnaplno");
-  const subtitle   = String(c.subtitle    ?? "Komplexní servis vytápění a instalatérské práce. 20 let zkušeností, záruky 24 měsíců.");
-  const ctaText    = String(c.ctaText     ?? "Kontakt a poptávka");
+  const siteMode   = String(c.siteMode ?? "multipage");
+  const label      = String(c.label       ?? "Praha a Středočeský kraj · Zásah do 60 minut");
+  const title      = String(c.title       ?? "Topení a voda\nv rukou profesionálů");
+  const subtitle   = String(c.subtitle    ?? "Kompletní topenářské, instalatérské a plynařské práce pro domácnosti i firmy. Montáže, servis i havarijní zásahy — vždy s garancí odvedené práce.");
+  const ctaText    = String(c.ctaText     ?? "Nezávazná poptávka");
   const ctaHref    = String(c.ctaHref     ?? "/kontakt");
-  const ctaSecText = String(c.ctaSecondaryText ?? "Nabídka služeb");
+  const ctaSecText = String(c.ctaSecondaryText ?? "Naše služby");
   const ctaSecHref = String(c.ctaSecondaryHref ?? "/sluzby");
-  const statsValue = String(c.statsValue  ?? "20+");
-  const statsLabel = String(c.statsLabel  ?? "let na trhu");
-  const bgImage    = String(c.backgroundImage ?? "/clones/vestop/wp-content/uploads/2026/01/Vestop-topenarstvi-a-instalaterstvi.png");
+  const bgImage    = String(c.backgroundImage ?? "/assets/instala-02/hero-bg.webp");
 
-  function resolveHref(href: string) {
-    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
-    if (tenantSlug) {
-      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-      return base + (href.startsWith("/") ? href : "/" + href);
-    }
-    return href;
-  }
+  type Trust = { value: string; label: string };
+  const trust: Trust[] = Array.isArray(c.trust) && (c.trust as unknown[]).length > 0
+    ? (c.trust as Trust[])
+    : [
+        { value: "20+",     label: "let praxe v oboru" },
+        { value: "< 60 min", label: "reakce na havárii" },
+        { value: "24 měs.", label: "záruka na práci" },
+      ];
+
+  const resolveHref = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <section
       id="uvod"
-      style={{ position: "relative", minHeight: "100vh", fontFamily: FONT, display: "flex", flexDirection: "column", justifyContent: "center" }}
+      style={{ position: "relative", minHeight: "100vh", fontFamily: FONT, display: "flex", flexDirection: "column", justifyContent: "center", overflow: "hidden" }}
       data-template="instala-02-hero"
     >
       {/* BG image + left-heavy dark gradient */}
@@ -16716,109 +18797,92 @@ function HeroInstala02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Hero" className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
           <Image src={bgImage} alt="Topenářství a instalatérství" fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bgImage)} priority />
         </GenericEditableImage>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.70) 40%, rgba(0,0,0,0.35) 75%, rgba(0,0,0,0.20) 100%)" }} aria-hidden />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(10,10,12,0.90) 0%, rgba(10,10,12,0.80) 38%, rgba(10,10,12,0.45) 72%, rgba(10,10,12,0.28) 100%)" }} aria-hidden />
+        {/* red accent edge */}
+        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, backgroundColor: RED }} aria-hidden />
       </div>
 
       {/* Content */}
-      <div className="i02-hero-content" style={{ position: "relative", zIndex: 1, maxWidth: 1280, width: "100%", margin: "0 auto", padding: "100px 40px 80px" }}>
+      <div className="i2-hero-content" style={{ position: "relative", zIndex: 1, maxWidth: 1280, width: "100%", margin: "0 auto", padding: "140px 40px 60px" }}>
 
         {/* Kicker */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-          <span style={{ display: "block", width: 32, height: 2, backgroundColor: RED, borderRadius: 2, flexShrink: 0 }} aria-hidden />
-          <span style={{ color: RED, fontSize: "13px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase" }}>
+        <div className="i2-hero-kicker" style={{ display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 24, padding: "8px 16px 8px 12px", border: "1px solid rgba(255,255,255,0.20)", borderRadius: 50, backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(6px)" }}>
+          <span className="i2-hero-dot" aria-hidden />
+          <span style={{ color: WHITE, fontSize: "12.5px", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>
             <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" />
           </span>
         </div>
 
         {/* H1 */}
-        <h1 style={{ color: WHITE, fontFamily: FONT, fontSize: "clamp(38px, 5.5vw, 72px)", fontWeight: 700, lineHeight: 1.08, letterSpacing: "-0.01em", margin: "0 0 24px", maxWidth: 700, whiteSpace: "pre-line" }}>
+        <h1 style={{ color: WHITE, fontFamily: FONT, fontSize: "clamp(40px, 6vw, 78px)", fontWeight: 800, lineHeight: 1.04, letterSpacing: "-0.02em", margin: "0 0 10px", maxWidth: 760, whiteSpace: "pre-line" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
+        <span style={{ display: "block", width: 72, height: 4, backgroundColor: RED, borderRadius: 2, margin: "0 0 26px" }} aria-hidden />
 
         {/* Subtitle */}
-        <p style={{ color: "rgba(255,255,255,0.88)", fontSize: "clamp(16px,2vw,20px)", fontWeight: 400, lineHeight: 1.6, margin: "0 0 40px", maxWidth: 560 }}>
+        <p style={{ color: "rgba(255,255,255,0.86)", fontFamily: "'Roboto', sans-serif", fontSize: "clamp(16px,1.5vw,19px)", fontWeight: 400, lineHeight: 1.65, margin: "0 0 40px", maxWidth: 580 }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
         {/* CTAs */}
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <a
-            href={resolveHref(ctaHref)}
-            data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", backgroundColor: RED, color: WHITE, fontFamily: FONT, fontSize: "15px", fontWeight: 600, padding: "14px 32px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.2px", whiteSpace: "nowrap", transition: "background-color 0.18s, transform 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#c42d2d"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = RED; e.currentTarget.style.transform = "translateY(0)"; }}
-          >
+          <a href={resolveHref(ctaHref)} data-btn="primary" className="i2-hero-cta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 9, backgroundColor: RED, color: WHITE, fontFamily: FONT, fontSize: "14px", fontWeight: 700, padding: "16px 32px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.5px", textTransform: "uppercase", whiteSpace: "nowrap" }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="i2-hero-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
-          <a
-            href={resolveHref(ctaSecHref)}
-            style={{ display: "inline-flex", alignItems: "center", backgroundColor: "transparent", color: WHITE, border: "2px solid rgba(255,255,255,0.70)", fontFamily: FONT, fontSize: "15px", fontWeight: 600, padding: "12px 28px", borderRadius: 4, textDecoration: "none", whiteSpace: "nowrap", transition: "border-color 0.2s, background-color 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = WHITE; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.10)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.70)"; e.currentTarget.style.backgroundColor = "transparent"; }}
-          >
+          <a href={resolveHref(ctaSecHref)} className="i2-hero-ghost"
+            style={{ display: "inline-flex", alignItems: "center", backgroundColor: "transparent", color: WHITE, border: "1.5px solid rgba(255,255,255,0.55)", fontFamily: FONT, fontSize: "14px", fontWeight: 700, padding: "14.5px 28px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.5px", textTransform: "uppercase", whiteSpace: "nowrap" }}>
             <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
           </a>
         </div>
 
-        {/* Stats badge */}
-        <div style={{ marginTop: 56, display: "inline-flex", alignItems: "center", gap: 12, backgroundColor: "rgba(0,0,0,0.40)", backdropFilter: "blur(4px)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 6, padding: "12px 20px" }}>
-          <span style={{ color: RED, fontSize: "clamp(22px,3vw,32px)", fontWeight: 800, lineHeight: 1 }}>
-            <GenericEditableText sectionId={sectionId} field="statsValue" value={statsValue} tag="span" />
-          </span>
-          <span style={{ color: "rgba(255,255,255,0.80)", fontSize: "14px", fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-            <GenericEditableText sectionId={sectionId} field="statsLabel" value={statsLabel} tag="span" />
-          </span>
+        {/* Trust strip */}
+        <div className="i2-hero-trust" style={{ marginTop: 56, display: "inline-flex", alignItems: "stretch", backgroundColor: "rgba(255,255,255,0.06)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 8, overflow: "hidden" }}>
+          {trust.map((t, i) => (
+            <div key={i} style={{ display: "flex", flexDirection: "column", gap: 4, padding: "16px 26px", borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.14)" }}>
+              <span style={{ color: RED, fontFamily: FONT, fontSize: "clamp(20px,2.4vw,28px)", fontWeight: 800, lineHeight: 1 }}>
+                <GenericEditableText sectionId={sectionId} field={`trust.${i}.value`} value={t.value} tag="span" />
+              </span>
+              <span style={{ color: "rgba(255,255,255,0.72)", fontFamily: "'Roboto',sans-serif", fontSize: "12.5px", fontWeight: 500, letterSpacing: "0.02em" }}>
+                <GenericEditableText sectionId={sectionId} field={`trust.${i}.label`} value={t.label} tag="span" />
+              </span>
+            </div>
+          ))}
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .i02-hero-content { padding: 90px 24px 60px !important; }
-        }
-        @media (max-width: 480px) {
-          .i02-hero-content { padding: 80px 20px 48px !important; }
-        }
-      `}</style>
     </section>
   );
 }
 
 // ── klima-01-hero ─────────────────────────────────────────────────────────────
-// 1:1 pragoclima.cz hero: horizontální slider s translateX
-// - 3 slidy, horizontální přechod 700ms cubic-bezier, auto-play 6s
-// - Dvouvrstvý gradient: top protection (navbar) + navy dole
-// - Šipky vlevo/vpravo, tečky dole, text vlevo
-// ─────────────────────────────────────────────────────────────────────────────
 function HeroKlima01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
   const [current, setCurrent] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
-
-  const RED  = "#e30016";
-  const FONT = "'Outfit', -apple-system, sans-serif";
+  const [prev, setPrev] = useState(-1);
+  const siteMode = String(c.siteMode ?? "multipage");
 
   const defaultSlides = [
     {
-      backgroundImage: "/clones/pragoclima/cdn/660bbe9341456f4ce30c9e29/66e32818d6ddddd24e43bbd5_bg_hero_2.jpg",
-      title: "O správné klima se pro vás\nstaráme už od roku 1990",
-      subtitle: "Postaráme se o vás v celém procesu návrhu i montáže. Díky našim službám i postavení na trhu garantujeme dodání na klíč včetně záruky.",
+      backgroundImage: "/assets/klima-01/hero-slide1.webp",
+      title: "Dokonalé klima\npro váš prostor",
+      subtitle: "Navrhujeme, instalujeme a servisujeme klimatizace i tepelná čerpadla pro byty, kanceláře a průmyslové objekty. Spolehlivost a kvalita na prvním místě.",
       ctaText: "Naše služby",
       ctaHref: "/sluzby",
     },
     {
-      backgroundImage: "/clones/pragoclima/cdn/660bbe9341456f4ce30c9e29/664c97eae9de77d93cd34efb_bg_carousel2.jpg",
-      title: "Profesionální montáž\nklimatizací a tepelných čerpadel",
-      subtitle: "Zajišťujeme komplexní řešení od návrhu po montáž pro bytové i komerční objekty. Záruční i pozáruční servis.",
-      ctaText: "Kontaktujte nás",
-      ctaHref: "/kontakt",
+      backgroundImage: "/assets/klima-01/hero-slide2.webp",
+      title: "Tepelná čerpadla\ns garancí úspory",
+      subtitle: "Moderní tepelná čerpadla vzduch–voda pro vytápění i chlazení. Snižte náklady na energie až o 60 % s prověřenou technologií.",
+      ctaText: "Zjistit více",
+      ctaHref: "/sluzby",
     },
     {
-      backgroundImage: "/clones/pragoclima/cdn/660bbe9341456f4ce30c9e29/664cd12f7049cec2d60c71a6_bg_redbox.jpg",
-      title: "Více jak 3 000 realizací\ntepelných čerpadel a klimatizací",
-      subtitle: "Stabilní partner na trhu od roku 1990 s vlastním týmem odborníků. Kompletní servis na klíč.",
-      ctaText: "Naše reference",
-      ctaHref: "/reference",
+      backgroundImage: "/assets/klima-01/hero-slide3.webp",
+      title: "Servis do 24 hodin\npo celém regionu",
+      subtitle: "Pravidelná údržba prodlužuje životnost vašeho zařízení a snižuje provozní náklady. Certifikovaní technici jsou vám k dispozici.",
+      ctaText: "Objednat servis",
+      ctaHref: "/kontakt",
     },
   ];
 
@@ -16829,166 +18893,117 @@ function HeroKlima01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
   const count = slides.length;
 
   const goTo = (idx: number) => {
-    if (transitioning) return;
-    setTransitioning(true);
-    setCurrent((idx + count) % count);
-    setTimeout(() => setTransitioning(false), 700);
+    const next = ((idx % count) + count) % count;
+    if (next === current) return;
+    setPrev(current);
+    setCurrent(next);
   };
 
   useEffect(() => {
     if (count < 2) return;
-    const id = setInterval(() => goTo(current + 1), 6000);
+    const id = setInterval(() => goTo(current + 1), 7000);
     return () => clearInterval(id);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current, count]);
 
-  function resolve(href: string) {
-    if (!tenantSlug) return href;
-    const base = `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href === "/" || href === "") return base;
-    if (href.startsWith("http") || href.startsWith("#")) return href;
-    return `${base}${href.startsWith("/") ? href : "/" + href}`;
-  }
-
-  /* Gradient: tmavé nahoře (ochrana navbar) + navy dole */
-  const GRADIENT = "linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 38%, rgba(24,37,69,0.80) 68%, #182545 100%)";
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <>
-    <style>{`
-      @media (max-width: 768px) {
-        .klima-hero-section { height: 520px !important; }
-        .klima-hero-text { padding: 0 20px 60px !important; }
-        .klima-hero-arrow { width: 36px !important; height: 36px !important; font-size: 20px !important; }
-        .klima-hero-arrow-prev { left: 10px !important; }
-        .klima-hero-arrow-next { right: 10px !important; }
-      }
-      @media (max-width: 480px) {
-        .klima-hero-section { height: 420px !important; }
-      }
-    `}</style>
-    <section className="klima-hero-section" style={{ position: "relative", height: 780, overflow: "hidden", fontFamily: FONT }}>
+    <section className="kl01-hero" data-template="klima-01">
+      {slides.map((slide, i) => (
+        <div key={i} className={`kl01-hero-slide${i === current ? " kl01-hero-slide--active" : ""}${i === prev ? " kl01-hero-slide--prev" : ""}`}>
+          <Image
+            src={slide.backgroundImage}
+            alt=""
+            fill
+            priority={i === 0}
+            sizes="100vw"
+            className="kl01-hero-img"
+            style={{ objectFit: "cover" }}
+            unoptimized={shouldSkipNextImageOptimization(slide.backgroundImage)}
+          />
+        </div>
+      ))}
 
-      {/* Horizontal slide track — width = count × 100% section */}
-      <div
-        style={{
-          display: "flex",
-          width: `${count * 100}%`,
-          height: "100%",
-          transform: `translateX(-${current * (100 / count)}%)`,
-          transition: "transform 0.70s cubic-bezier(0.45, 0.05, 0.55, 0.95)",
-          willChange: "transform",
-        }}
-      >
-        {slides.map((slide, i) => (
-          <div
-            key={i}
-            style={{ position: "relative", width: `${100 / count}%`, flexShrink: 0, height: "100%" }}
-          >
-            <Image
-              src={slide.backgroundImage}
-              alt=""
-              fill
-              priority={i === 0}
-              sizes="100vw"
-              className="object-cover"
-              unoptimized={shouldSkipNextImageOptimization(slide.backgroundImage)}
-            />
-            {/* Gradient overlay */}
-            <div aria-hidden style={{ position: "absolute", inset: 0, background: GRADIENT }} />
+      <div className="kl01-hero-gradient" aria-hidden="true" />
 
-            {/* Slide text */}
-            <div className="klima-hero-text" style={{ position: "absolute", bottom: 0, left: 0, width: "100%", padding: "0 48px 90px" }}>
-              <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-                <div style={{ maxWidth: 700 }}>
-                  <h1 style={{ fontWeight: 700, fontSize: "clamp(1.9rem, 3.6vw, 2.9rem)", lineHeight: 1.22, color: "#fff", margin: "0 0 22px", whiteSpace: "pre-line" }}>
-                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.title`} value={slide.title} tag="span" />
-                  </h1>
-                  <p style={{ fontSize: "clamp(1rem, 1.35vw, 1.1rem)", lineHeight: 1.7, color: "rgba(255,255,255,0.88)", margin: "0 0 32px", maxWidth: 560 }}>
-                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.subtitle`} value={slide.subtitle} tag="span" />
-                  </p>
-                  <a
-                    href={resolve(slide.ctaHref)}
-                    data-btn="primary"
-                    style={{ display: "inline-block", backgroundColor: RED, color: "#fff", textDecoration: "none", fontWeight: 600, fontSize: 15, padding: "13px 32px", borderRadius: 5, transition: "background-color 0.2s" }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b50012")}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-                  >
-                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={slide.ctaText} tag="span" />
-                  </a>
-                </div>
+      <div className="kl01-hero-content">
+        <div className="kl01-hero-inner">
+          {slides.map((slide, i) => (
+            <div key={i} className={`kl01-hero-text${i === current ? " kl01-hero-text--active" : ""}`}>
+              <div className="kl01-hero-eyebrow">
+                <span className="kl01-hero-line" aria-hidden="true" />
+                <span>Slide {i + 1} / {count}</span>
               </div>
+              <h1 className="kl01-hero-title">
+                <GenericEditableText sectionId={sectionId} field={`slides.${i}.title`} value={slide.title} tag="span" />
+              </h1>
+              <p className="kl01-hero-sub">
+                <GenericEditableText sectionId={sectionId} field={`slides.${i}.subtitle`} value={slide.subtitle} tag="span" />
+              </p>
+              <a href={resolve(slide.ctaHref)} className="kl01-hero-cta">
+                <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={slide.ctaText} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </a>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Arrow prev */}
-      <button
-        className="klima-hero-arrow klima-hero-arrow-prev"
-        onClick={() => goTo(current - 1)}
-        aria-label="Předchozí"
-        style={{
-          position: "absolute", left: 20, top: "50%", transform: "translateY(-50%)",
-          zIndex: 10,
-          width: 48, height: 48, borderRadius: "50%",
-          background: "rgba(0,0,0,0.30)",
-          border: "2px solid rgba(255,255,255,0.50)",
-          color: "#fff", fontSize: 26, lineHeight: 1,
-          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-          transition: "background 0.2s",
-        }}
-        onMouseEnter={e => (e.currentTarget.style.background = "rgba(227,0,22,0.85)")}
-        onMouseLeave={e => (e.currentTarget.style.background = "rgba(0,0,0,0.30)")}
-      >
-        ‹
+      {/* Navigation arrows */}
+      <button className="kl01-hero-arrow kl01-hero-arrow--prev" onClick={() => goTo(current - 1)} aria-label="Předchozí">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <button className="kl01-hero-arrow kl01-hero-arrow--next" onClick={() => goTo(current + 1)} aria-label="Další">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
       </button>
 
-      {/* Arrow next */}
-      <button
-        className="klima-hero-arrow klima-hero-arrow-next"
-        onClick={() => goTo(current + 1)}
-        aria-label="Další"
-        style={{
-          position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)",
-          zIndex: 10,
-          width: 48, height: 48, borderRadius: "50%",
-          background: "rgba(0,0,0,0.30)",
-          border: "2px solid rgba(255,255,255,0.50)",
-          color: "#fff", fontSize: 26, lineHeight: 1,
-          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-          transition: "background 0.2s",
-        }}
-        onMouseEnter={e => (e.currentTarget.style.background = "rgba(227,0,22,0.85)")}
-        onMouseLeave={e => (e.currentTarget.style.background = "rgba(0,0,0,0.30)")}
-      >
-        ›
-      </button>
-
-      {/* Dots */}
-      <div
-        style={{
-          position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)",
-          zIndex: 10, display: "flex", gap: 8, alignItems: "center",
-        }}
-      >
+      {/* Progress dots */}
+      <div className="kl01-hero-dots">
         {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => goTo(i)}
-            aria-label={`Snímek ${i + 1}`}
-            style={{
-              width: i === current ? 28 : 9, height: 9,
-              borderRadius: 5, border: "2px solid rgba(255,255,255,0.7)",
-              cursor: "pointer", padding: 0,
-              backgroundColor: i === current ? RED : "transparent",
-              transition: "all 0.3s ease",
-            }}
-          />
+          <button key={i} className={`kl01-hero-dot${i === current ? " kl01-hero-dot--active" : ""}`} onClick={() => goTo(i)} aria-label={`Snímek ${i + 1}`}>
+            {i === current && <span className="kl01-hero-dot-fill" />}
+          </button>
         ))}
       </div>
     </section>
-    </>
+  );
+}
+
+// ── hero-klima-01-page (slim subpage banner) ─────────────────────────────────
+function HeroKlima01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title          = String(c.title ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bg             = String(c.backgroundImage ?? "/assets/klima-01/hero-slide1.webp");
+  const siteMode       = String(c.siteMode ?? "multipage");
+  const resolve        = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section className="kl01-page-hero" data-template="klima-01">
+      <div className="kl01-page-hero-bg">
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div className="kl01-page-hero-overlay" aria-hidden="true" />
+      </div>
+      <div className="kl01-page-hero-content">
+        <div className="kl01-page-hero-crumb">
+          <a href={resolve(breadcrumbHref)} className="kl01-page-hero-crumb-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="kl01-page-hero-crumb-sep" aria-hidden="true">/</span>
+          <span className="kl01-page-hero-crumb-current">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        <h1 className="kl01-page-hero-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span className="kl01-page-hero-rule" aria-hidden="true" />
+      </div>
+    </section>
   );
 }
 
@@ -17774,111 +19789,141 @@ function HeroSolar03Page({ content, sectionId, tenantSlug, isAdmin }: {
 }
 
 // ── floors-01-hero ────────────────────────────────────────────────────────────
-// 1:1 supellex.cz hero: slider vlevo + pravý panel s 2 náhledy
+// 1:1 parketo-podlahy.cz hero: slider vlevo + pravý panel s 2 náhledy
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroFloors01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
   const [current, setCurrent] = useState(0);
 
-  const GREEN = "#007d47";
   const WHITE = "#ffffff";
   const FONT  = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const siteMode = String(c.siteMode ?? "multipage");
 
-  type Slide    = { image: string; alt: string; text: string; ctaText: string; ctaHref: string };
+  type Slide    = { image: string; alt: string; eyebrow?: string; text: string; ctaText: string; ctaHref: string };
   type SidePost = { image: string; alt: string; label: string; href: string };
 
   const defaultSlides: Slide[] = [
-    { image: "/clones/supellex/user/www-supellex-cz/banners/juglans-50-lvre-3088-naturals.jpg", alt: "Prémiové vinylové podlahy", text: "Vinylové dílce s prémiovým designem a dokonalou odolností", ctaText: "Vybrat", ctaHref: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/banners/aspecta.jpg", alt: "Nová kolekce podlah", text: "Nová kolekce ve třech řadách — pro každý interiér ta pravá", ctaText: "Prohlédnout", ctaHref: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/banners/merit-slider-3.jpg", alt: "SPC podlahy", text: "SPC podlahy s korkovou podložkou — pohodlí a pevnost v jednom", ctaText: "Skladem", ctaHref: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/banners/family.jpg", alt: "Dřevěné podlahy", text: "Evropský dub jako stabilní základ vaší rodiny a domova", ctaText: "Vybrat", ctaHref: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/banners/stauf-chemie-pro-jistou-pokladku.jpg", alt: "Stavební chemie", text: "Profesionální stavební chemie pro dokonalou pokládku podlah", ctaText: "Vybrat", ctaHref: "/sluzby" },
+    { image: "/templates/floors-01/hero-1.webp", alt: "Prémiové vinylové podlahy", eyebrow: "Nová sezóna", text: "Vinylové dílce s prémiovým designem a dokonalou odolností", ctaText: "Vybrat kolekci", ctaHref: "/sluzby" },
+    { image: "/templates/floors-01/hero-2.webp", alt: "Designové podlahy", eyebrow: "Kolekce 2026", text: "Designové podlahy pro moderní interiéry — trvanlivost i elegance", ctaText: "Prohlédnout", ctaHref: "/sluzby" },
+    { image: "/templates/floors-01/hero-3.webp", alt: "SPC podlahy", eyebrow: "Skladem", text: "SPC podlahy s akustickou podložkou — pohodlí a pevnost v jednom", ctaText: "Zobrazit skladem", ctaHref: "/sluzby" },
+    { image: "/templates/floors-01/hero-4.webp", alt: "Dřevěné podlahy", eyebrow: "Masiv & třívrstvé", text: "Evropský dub — přírodní krása, která zraje s každým rokem", ctaText: "Vybrat dřevo", ctaHref: "/sluzby" },
+    { image: "/templates/floors-01/hero-5.webp", alt: "Terasy a exteriér", eyebrow: "Exteriér", text: "Terasová prkna a dlažba — vaše zahrada s dokonalým povrchem", ctaText: "Terasy", ctaHref: "/sluzby" },
   ];
   const defaultSidePosts: SidePost[] = [
-    { image: "/clones/supellex/user/www-supellex-cz/blog/skladweb-1000x500-383x292.jpg",             alt: "Showroom podlah",    label: "Showroom podlah v Praze",                    href: "/sluzby" },
-    { image: "/clones/supellex/user/www-supellex-cz/blog/pxl-20260225-120606422-10-383x292.jpg",    alt: "Vinylové podlahy",  label: "Kompletní portfolio vinylových podlah",      href: "/sluzby" },
+    { image: "/templates/floors-01/side-1.webp", alt: "Vzorkový showroom", label: "Prohlédněte si náš nový vzorkový showroom", href: "/sluzby" },
+    { image: "/templates/floors-01/side-2.webp", alt: "Průvodce výběrem", label: "Jak vybrat podlahu na 20 let — praktický průvodce", href: "/sluzby" },
   ];
 
   const slides: Slide[]       = Array.isArray(c.slides)    && (c.slides    as unknown[]).length ? (c.slides    as Slide[])    : defaultSlides;
   const sidePosts: SidePost[] = Array.isArray(c.sidePosts) && (c.sidePosts as unknown[]).length ? (c.sidePosts as SidePost[]) : defaultSidePosts;
   const count = slides.length;
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    const base = `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href === "/" || href === "") return base;
-    if (href.startsWith("http") || href.startsWith("#")) return href;
-    return `${base}${href.startsWith("/") ? href : "/" + href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   useEffect(() => {
     if (count < 2) return;
-    const id = setInterval(() => setCurrent((p) => (p + 1) % count), 5000);
+    const id = setInterval(() => setCurrent((p) => (p + 1) % count), 5500);
     return () => clearInterval(id);
-  }, [count]);
+  }, [count, current]);
 
-  const H = 480;
+  const ArrowSvg = ({ dir }: { dir: "l" | "r" }) => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {dir === "l" ? <polyline points="15 18 9 12 15 6" /> : <polyline points="9 18 15 12 9 6" />}
+    </svg>
+  );
 
   return (
-    <>
-      <style>{`
-        .f01h-slide { position: absolute; inset: 0; transition: opacity 0.65s ease; }
-        .f01h-side-post { overflow: hidden; position: relative; flex: 1; display: block; }
-        .f01h-side-post img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-        .f01h-side-post:hover img { transform: scale(1.05); }
-        .f01h-side-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 14px; background: linear-gradient(transparent, rgba(0,0,0,0.72)); color: #fff; font-size: 13px; font-weight: 600; line-height: 1.35; font-family: ${FONT}; }
-        .f01h-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.55); color: #fff; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; z-index: 10; transition: background 0.2s; line-height: 1; }
-        .f01h-arrow:hover { background: rgba(255,255,255,0.4); }
-        .f01h-dot { width: 8px; height: 8px; border-radius: 50%; border: none; cursor: pointer; padding: 0; transition: background 0.2s; }
-        @media (max-width: 768px) { .f01h-side { display: none !important; } .f01h-slider { height: 300px !important; } }
-      `}</style>
-
-      <section style={{ fontFamily: FONT }}>
-        <div style={{ display: "flex", height: H, overflow: "hidden", background: "#111" }}>
-
-          {/* ── Slider ── */}
-          <div className="f01h-slider" style={{ position: "relative", flex: "1 1 0", minWidth: 0, height: H }}>
-            {slides.map((slide, i) => (
-              <div key={i} className="f01h-slide" style={{ opacity: i === current ? 1 : 0, pointerEvents: i === current ? "auto" : "none" }}>
-                <GenericEditableImage sectionId={sectionId} field={`slides.${i}.image`} src={slide.image} alt={slide.alt} style={{ position: "absolute", inset: 0 }}>
-                  <img src={slide.image} alt={slide.alt} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                </GenericEditableImage>
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.08) 55%, transparent 100%)" }} />
-                <div style={{ position: "absolute", bottom: 56, left: 40, right: 40 }}>
-                  <p style={{ color: WHITE, fontSize: 22, fontWeight: 700, margin: "0 0 18px", lineHeight: 1.35, textShadow: "0 1px 4px rgba(0,0,0,0.5)", maxWidth: 520 }}>
-                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.text`} value={slide.text} tag="span">{slide.text}</GenericEditableText>
-                  </p>
-                  <a href={resolve(slide.ctaHref)} data-btn="primary" style={{ display: "inline-block", padding: "11px 30px", background: GREEN, color: WHITE, borderRadius: 3, fontWeight: 700, fontSize: 13, textDecoration: "none", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={slide.ctaText} tag="span">{slide.ctaText}</GenericEditableText>
-                  </a>
-                </div>
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
+      <div className="f01h-wrap">
+        {/* ── Slider ── */}
+        <div className="f01h-slider">
+          {slides.map((slide, i) => (
+            <div key={i} className={`f01h-slide${i === current ? " is-active" : ""}`} style={{ opacity: i === current ? 1 : 0, pointerEvents: i === current ? "auto" : "none" }}>
+              <GenericEditableImage sectionId={sectionId} field={`slides.${i}.image`} src={slide.image} alt={slide.alt} style={{ position: "absolute", inset: 0 }}>
+                <img className="f01h-slide-img" src={slide.image} alt={slide.alt} loading={i === 0 ? "eager" : "lazy"} />
+              </GenericEditableImage>
+              <div className="f01h-shade" />
+              <div className="f01h-cap">
+                {slide.eyebrow !== undefined && (
+                  <span className="f01h-eyebrow">
+                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.eyebrow`} value={String(slide.eyebrow ?? "")} tag="span" />
+                  </span>
+                )}
+                <p className="f01h-cap-text">
+                  <GenericEditableText sectionId={sectionId} field={`slides.${i}.text`} value={slide.text} tag="span">{slide.text}</GenericEditableText>
+                </p>
+                <a href={resolve(slide.ctaHref)} data-btn="primary" className="f01h-cta">
+                  <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={slide.ctaText} tag="span">{slide.ctaText}</GenericEditableText>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
+                </a>
               </div>
-            ))}
-            <button className="f01h-arrow" style={{ left: 14 }} onClick={() => setCurrent((p) => (p - 1 + count) % count)} aria-label="Předchozí">‹</button>
-            <button className="f01h-arrow" style={{ right: 14 }} onClick={() => setCurrent((p) => (p + 1) % count)} aria-label="Další">›</button>
-            <div style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 7, zIndex: 5 }}>
-              {slides.map((_, i) => (
-                <button key={i} className="f01h-dot" onClick={() => setCurrent(i)} aria-label={`Snímek ${i + 1}`}
-                  style={{ background: i === current ? WHITE : "rgba(255,255,255,0.45)" }} />
-              ))}
             </div>
-          </div>
-
-          {/* ── Right panel: 2 side posts ── */}
-          <div className="f01h-side" style={{ width: 240, flexShrink: 0, display: "flex", flexDirection: "column", height: H }}>
-            {sidePosts.slice(0, 2).map((post, i) => (
-              <a key={i} href={resolve(post.href)} className="f01h-side-post" style={{ textDecoration: "none", borderTop: i === 1 ? "2px solid #fff" : undefined }}>
-                <GenericEditableImage sectionId={sectionId} field={`sidePosts.${i}.image`} src={post.image} alt={post.alt} style={{ position: "absolute", inset: 0 }}>
-                  <img src={post.image} alt={post.alt} loading="lazy" />
-                </GenericEditableImage>
-                <div className="f01h-side-label"><GenericEditableText sectionId={sectionId} field={`sidePosts.${i}.label`} value={post.label} tag="span">{post.label}</GenericEditableText></div>
-              </a>
+          ))}
+          <button className="f01h-arrow" style={{ left: 16 }} onClick={() => setCurrent((p) => (p - 1 + count) % count)} aria-label="Předchozí"><ArrowSvg dir="l" /></button>
+          <button className="f01h-arrow" style={{ right: 16 }} onClick={() => setCurrent((p) => (p + 1) % count)} aria-label="Další"><ArrowSvg dir="r" /></button>
+          <div className="f01h-dots">
+            {slides.map((_, i) => (
+              <button key={i} className={`f01h-dot${i === current ? " is-active" : ""}`} onClick={() => setCurrent(i)} aria-label={`Snímek ${i + 1}`} />
             ))}
           </div>
-
+          <span key={current} className="f01h-progress" style={{ animation: count > 1 ? "f01hProgress 5.5s linear forwards" : "none" }} aria-hidden="true" />
         </div>
-      </section>
-    </>
+
+        {/* ── Right panel: 2 side posts ── */}
+        <div className="f01h-side">
+          {sidePosts.slice(0, 2).map((post, i) => (
+            <a key={i} href={resolve(post.href)} className="f01h-side-post">
+              <GenericEditableImage sectionId={sectionId} field={`sidePosts.${i}.image`} src={post.image} alt={post.alt} style={{ position: "absolute", inset: 0 }}>
+                <img src={post.image} alt={post.alt} loading="lazy" />
+              </GenericEditableImage>
+              <div className="f01h-side-label">
+                <GenericEditableText sectionId={sectionId} field={`sidePosts.${i}.label`} value={post.label} tag="span">{post.label}</GenericEditableText>
+                <span className="f01h-side-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-floors-01-page (slim subpage banner) ─────────────────────────────────
+function HeroFloors01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const siteMode = String(c.siteMode ?? "multipage");
+
+  const title          = String(c.title ?? "Podstránka");
+  const subtitle       = String(c.subtitle ?? "");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const current        = String(c.current ?? title);
+  const bgImage        = String(c.backgroundImage ?? "/templates/floors-01/showroom.webp");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
+      <div className="f01pg-banner">
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0 }}>
+          <img className="f01pg-bgimg" src={bgImage} alt="" loading="eager" />
+        </GenericEditableImage>
+        <div className="f01pg-shade" aria-hidden="true" />
+        <div className="f01pg-glow" aria-hidden="true" />
+        <div className="f01pg-inner">
+          <nav className="f01pg-crumbs" aria-label="Breadcrumb">
+            <a href={resolve(breadcrumbHref)} className="f01pg-crumb-link">
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="f01pg-crumb-sep" aria-hidden="true">/</span>
+            <span className="f01pg-crumb-cur"><GenericEditableText sectionId={sectionId} field="current" value={current} tag="span" /></span>
+          </nav>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="f01pg-title" />
+          {subtitle.trim() && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="f01pg-sub" />}
+          <span className="f01pg-rule" aria-hidden="true" />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -18059,37 +20104,111 @@ function HeroKlempir01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
   );
 }
 
+
+// ── hero-malir-01-page (slim banner) ─────────────────────────────────────────
+function HeroMalir01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const AMBER  = "#E79B0E";
+  const NAVY   = "#0F297B";
+  const DARK   = "#0a0a0a";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Playfair Display', Georgia, serif";
+  const FONT_B = "'Raleway', sans-serif";
+
+  const title         = String(content.title ?? "");
+  const subtitle      = String(content.subtitle ?? "");
+  const breadcrumb    = String(content.breadcrumb ?? "Úvod");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const currentLabel  = String(content.currentLabel ?? title);
+
+  const resolve = (href: string) => {
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel") || href.startsWith("#")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
+  };
+
+  return (
+    <section data-template="malir-01" style={{
+      background: `linear-gradient(135deg, ${DARK} 0%, #141414 60%, ${NAVY}22 100%)`,
+      fontFamily: FONT_B, position: "relative", overflow: "hidden",
+      padding: "clamp(100px, 14vw, 140px) 24px clamp(48px, 6vw, 64px)",
+    }}>
+      {/* Amber vignette */}
+      <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 30% 100%, ${AMBER}08, transparent 60%)`, pointerEvents: "none" }} />
+      {/* Bottom amber hairline */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, ${AMBER}, transparent)` }} />
+
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+        {/* Breadcrumb */}
+        <nav className="m01bp-crumb" style={{
+          display: "inline-flex", alignItems: "center", gap: 10,
+          fontFamily: FONT_B, fontWeight: 500, fontSize: 11, letterSpacing: "0.2em",
+          textTransform: "uppercase" as const, color: `${WHITE}88`, marginBottom: 20,
+        }}>
+          <a href={resolve(breadcrumbHref)} style={{ color: `${WHITE}88`, textDecoration: "none", transition: "color 0.3s" }}>
+            {breadcrumb}
+          </a>
+          <span style={{ color: AMBER, fontSize: 10 }}>›</span>
+          <span style={{ color: AMBER, fontWeight: 600 }}>{currentLabel}</span>
+        </nav>
+
+        {/* Title */}
+        {title && (
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" style={{
+            fontFamily: FONT_H, fontWeight: 700, fontSize: "clamp(30px, 4.5vw, 52px)",
+            lineHeight: 1.1, color: WHITE, margin: "0 0 16px", letterSpacing: "-0.01em",
+          }} />
+        )}
+
+        {/* Amber rule */}
+        <div style={{ width: 56, height: 3, background: AMBER, borderRadius: 2, margin: "0 auto 16px" }} />
+
+        {/* Subtitle */}
+        {subtitle && (
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{
+            fontFamily: FONT_B, fontWeight: 300, fontSize: 15, lineHeight: 1.7,
+            color: `${WHITE}bb`, margin: 0, maxWidth: 520, marginLeft: "auto", marginRight: "auto",
+          }} />
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ── malir-01-hero ─────────────────────────────────────────────────────────────
-// 1:1 petrovomalovani.cz hero:
-// - 700px výška, 4 fotky crossfade (opacity transition 3s)
-// - Tmavý overlay pro čitelnost textu
-// - Centrovaný amber (#E79B0E) Playfair Display 800 title, 50px, max-width 770px
-// - White Raleway subtitle
-// - 2 navy (#0F297B) CTA buttony s gradient, hover color #F5AA23
-// - Bílý pill toggler u dna se 4 barevnými tečkami (klikatelné)
+// VYLEPŠENO (luxe malíř, petrovomalovani.cz DNA):
+// - Ken Burns zoom+pan na 4 fotkách (scale 1.08→1.16 + translateX drift)
+// - Cinematic dark overlay gradient + amber vignette glow
+// - Playfair Display 800 amber title, clamp(36px,5vw,56px)
+// - Amber decorative rule pod title
+// - 2 navy CTA s shimmer sweep hover
+// - Pill toggler s amber active ring
+// - Plně editovatelné (title, subtitle, ctaText, ctaSecondaryText, images)
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroMalir01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
   const [current, setCurrent] = useState(0);
 
   const AMBER    = "#E79B0E";
-  const AMBER2   = "#F5AA23";
   const NAVY     = "#0F297B";
   const WHITE    = "#ffffff";
-  const PLAYFAIR = "'Playfair Display', 'Times New Roman', serif";
-  const RALEWAY  = "'Raleway', sans-serif";
+  const FONT_H   = "'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Raleway', sans-serif";
 
-  const title        = String(c.title        ?? "Dodržujeme termín a cenu,\núklid je samozřejmostí");
-  const subtitle     = String(c.subtitle     ?? "Malování interiérů a lakování oken a dveří od roku 2001.");
-  const ctaText      = String(c.ctaText      ?? "Chci vymalovat");
-  const ctaHref      = String(c.ctaHref      ?? "#sluzby");
-  const ctaSecText   = String(c.ctaSecondaryText ?? "Chci nalakovat");
-  const ctaSecHref   = String(c.ctaSecondaryHref ?? "#sluzby");
+  const title      = String(c.title ?? "Proměníme váš interiér\nk nepoznání");
+  const subtitle   = String(c.subtitle ?? "Profesionální malířské práce a lakování dřevěných prvků. Praha a Středočeský kraj.");
+  const ctaText    = String(c.ctaText ?? "Nezávazná poptávka");
+  const ctaHref    = String(c.ctaHref ?? "/kontakt");
+  const ctaSecText = String(c.ctaSecondaryText ?? "Prohlédnout reference");
+  const ctaSecHref = String(c.ctaSecondaryHref ?? "/reference");
+  const siteMode   = String(c.siteMode ?? "multipage");
+
   const defaultImages = [
-    "/templates/malir-01/malir-top.jpg",
-    "/templates/malir-01/malir-top-2.jpg",
-    "/templates/malir-01/malir-top-3.jpg",
-    "/templates/malir-01/malir-top-4.jpg",
+    "/templates/malir-01/hero-1.webp",
+    "/templates/malir-01/hero-2.webp",
+    "/templates/malir-01/hero-3.webp",
+    "/templates/malir-01/hero-4.webp",
   ];
   const images: string[] = Array.isArray(c.images) && (c.images as unknown[]).length
     ? (c.images as string[])
@@ -18100,89 +20219,141 @@ function HeroMalir01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 
   useEffect(() => {
     if (count < 2) return;
-    const id = setInterval(() => setCurrent((p) => (p + 1) % count), 5000);
+    const id = setInterval(() => setCurrent((p) => (p + 1) % count), 6000);
     return () => clearInterval(id);
   }, [count]);
 
-  // Dot colors matching original petrovomalovani.cz toggler
-  const dotColors = ["#E67B19", "#5F5F5F", "#02768F", "#AA8E67"];
-
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600&display=swap" />
-      <style>{`        .m01h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 3s ease; }
-        .m01h-slide.active { opacity: 1; }
-        .m01h-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-        .m01h-btn {
-          display: inline-block; padding: 12px 40px; line-height: 35px;
-          background: linear-gradient(270deg, transparent 0%, rgba(0,0,0,0.3) 100%), linear-gradient(0deg, ${NAVY}, ${NAVY});
-          text-decoration: none; text-transform: uppercase;
-          color: ${WHITE}; font-size: 14px; font-weight: 600;
-          border-radius: 4px; font-family: ${RALEWAY};
-          transition: color 0.3s ease, background 0.3s ease; border: none; cursor: pointer; margin: 0 10px 10px;
-        }
-        .m01h-btn:hover { color: ${AMBER2}; background: linear-gradient(9deg, transparent 0%, rgba(0,0,0,0.3) 100%), linear-gradient(180deg, ${NAVY}, ${NAVY}); }
-        .m01h-dot { width: 20px; height: 20px; border-radius: 50%; border: none; cursor: pointer; padding: 0; transition: all 0.2s; flex-shrink: 0; }
-        .m01h-dot:hover { width: 25px; height: 25px; }
-        .m01h-dot.active { width: 30px; height: 30px; }
-        @media (max-width: 767px) {
-          .m01h-inner { height: 450px !important; padding-top: 80px !important; }
-          .m01h-title { font-size: 30px !important; line-height: 40px !important; }
-        }
-      `}</style>
-
-      <section style={{ position: "relative", textAlign: "center", background: "#8c7975", overflow: "hidden" }} data-template="malir-01">
-        {/* Slides */}
-        {images.map((src, i) => (
-          <div key={i} className={`m01h-slide${i === current ? " active" : ""}`}>
-            <GenericEditableImage sectionId={sectionId} field={`images.${i}`} src={src} alt={`Slide ${i + 1}`}>
-              <img loading="eager" src={src} alt={`Slide ${i + 1}`} />
-            </GenericEditableImage>
-          </div>
-        ))}
-
-        {/* Overlay */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.28) 100%)" }} />
-
-        {/* Content */}
-        <div className="m01h-inner" style={{ position: "relative", zIndex: 2, height: 700, paddingTop: 180, boxSizing: "border-box" }}>
-          <p className="m01h-title" style={{ fontFamily: PLAYFAIR, fontSize: 50, fontWeight: 800, lineHeight: "60px", color: AMBER, maxWidth: 770, margin: "0 auto 12px", whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">{title}</GenericEditableText>
-          </p>
-          <p style={{ fontFamily: RALEWAY, fontSize: 16, color: WHITE, margin: "0 auto 28px", maxWidth: 560, opacity: 0.92 }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
-          </p>
-          <div>
-            <a href={resolve(ctaHref)} data-btn="primary" className="m01h-btn">
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span">{ctaText}</GenericEditableText>
-            </a>
-            <a href={resolve(ctaSecHref)} className="m01h-btn">
-              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span">{ctaSecText}</GenericEditableText>
-            </a>
-          </div>
-        </div>
-
-        {/* Pill toggler */}
-        <div style={{
-          position: "absolute", bottom: 20, left: "50%", transform: "translateX(-50%)",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          width: 140, height: 50, padding: "0 10px", borderRadius: 25,
-          background: WHITE, zIndex: 3, boxSizing: "border-box",
+    <section style={{ position: "relative", overflow: "hidden", background: "#1a1a1a" }} data-template="malir-01" id="hero">
+      {/* Ken Burns slides */}
+      {images.map((src, i) => (
+        <div key={i} className={`m01h-slide${i === current ? " m01h-active" : ""}`} style={{
+          position: "absolute", inset: 0, opacity: i === current ? 1 : 0,
+          transition: "opacity 1.8s cubic-bezier(.4,0,.2,1)",
         }}>
-          {Array.from({ length: Math.min(count, 4) }).map((_, i) => (
-            <button
-              key={i}
-              className={`m01h-dot${i === current ? " active" : ""}`}
-              style={{ background: dotColors[i % dotColors.length] }}
-              onClick={() => setCurrent(i)}
-              aria-label={`Slide ${i + 1}`}
+          <GenericEditableImage sectionId={sectionId} field={`images.${i}`} src={src} alt={`Slide ${i + 1}`}>
+            <img loading={i === 0 ? "eager" : "lazy"} src={src} alt={`Slide ${i + 1}`}
+              className="m01h-ken-burns"
+              style={{
+                width: "100%", height: "100%", objectFit: "cover", objectPosition: "center",
+                display: "block", willChange: "transform",
+              }}
             />
-          ))}
+          </GenericEditableImage>
         </div>
-      </section>
-    </>
+      ))}
+
+      {/* Cinematic overlay */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.18) 40%, rgba(0,0,0,0.45) 80%, rgba(0,0,0,0.7) 100%)",
+      }} />
+      {/* Amber vignette */}
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 1,
+        background: `radial-gradient(ellipse at 50% 120%, ${AMBER}12 0%, transparent 60%)`,
+      }} />
+
+      {/* Content */}
+      <div style={{
+        position: "relative", zIndex: 2,
+        minHeight: "clamp(520px, 85vh, 780px)",
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        padding: "100px 24px 80px", boxSizing: "border-box", textAlign: "center",
+      }}>
+        {/* Eyebrow */}
+        <div className="m01h-reveal" style={{ marginBottom: 18, display: "flex", alignItems: "center", gap: 14 }}>
+          <span style={{ width: 40, height: 1, background: `${AMBER}80` }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={String(c.eyebrow ?? "Malířství & lakování")} tag="span" style={{
+            fontFamily: FONT_B, fontWeight: 500, fontSize: 12, color: AMBER,
+            letterSpacing: "0.18em", textTransform: "uppercase",
+          }} />
+          <span style={{ width: 40, height: 1, background: `${AMBER}80` }} />
+        </div>
+
+        {/* Title */}
+        <div className="m01h-reveal" style={{ animationDelay: "0.15s" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" style={{
+            fontFamily: FONT_H, fontWeight: 800,
+            fontSize: "clamp(32px, 5vw, 56px)", lineHeight: 1.12,
+            color: AMBER, maxWidth: 800, margin: "0 auto",
+            whiteSpace: "pre-line", letterSpacing: "-0.01em",
+          }} />
+        </div>
+
+        {/* Amber rule */}
+        <div className="m01h-reveal" style={{ animationDelay: "0.3s" }}>
+          <div style={{
+            width: 60, height: 3, background: `linear-gradient(90deg, transparent, ${AMBER}, transparent)`,
+            margin: "20px auto 18px", borderRadius: 2,
+          }} />
+        </div>
+
+        {/* Subtitle */}
+        <div className="m01h-reveal" style={{ animationDelay: "0.4s" }}>
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" style={{
+            fontFamily: FONT_B, fontSize: "clamp(15px, 1.8vw, 18px)", fontWeight: 400,
+            color: `${WHITE}dd`, maxWidth: 600, margin: "0 auto 32px",
+            lineHeight: 1.65, letterSpacing: "0.01em",
+          }} />
+        </div>
+
+        {/* CTAs */}
+        <div className="m01h-reveal" style={{ animationDelay: "0.55s", display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
+          <a href={resolve(ctaHref)} className="m01h-cta-primary" style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            padding: "14px 36px",
+            background: NAVY, color: WHITE, textDecoration: "none",
+            fontFamily: FONT_B, fontWeight: 700, fontSize: 14,
+            letterSpacing: "0.05em", textTransform: "uppercase",
+            borderRadius: 4, position: "relative", overflow: "hidden",
+            transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href={resolve(ctaSecHref)} className="m01h-cta-secondary" style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            padding: "14px 36px",
+            background: "transparent", color: WHITE, textDecoration: "none",
+            fontFamily: FONT_B, fontWeight: 600, fontSize: 14,
+            letterSpacing: "0.05em", textTransform: "uppercase",
+            borderRadius: 4, border: `1px solid ${WHITE}50`,
+            transition: "all 0.3s cubic-bezier(.4,0,.2,1)",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Slide indicators */}
+      <div style={{
+        position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)",
+        display: "flex", alignItems: "center", gap: 10, zIndex: 3,
+      }}>
+        {Array.from({ length: count }).map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)} aria-label={`Slide ${i + 1}`} style={{
+            width: i === current ? 32 : 10, height: 4,
+            borderRadius: 2, border: "none", cursor: "pointer", padding: 0,
+            background: i === current ? AMBER : `${WHITE}50`,
+            transition: "all 0.4s cubic-bezier(.4,0,.2,1)",
+          }} />
+        ))}
+      </div>
+
+      {/* Scroll hint */}
+      <div className="m01h-scroll-hint" style={{
+        position: "absolute", bottom: 28, right: 36, zIndex: 3,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+      }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={String(c.scrollLabel ?? "Scroll")} tag="span" style={{
+          fontFamily: FONT_B, fontSize: 10, color: `${WHITE}70`,
+          letterSpacing: "0.14em", textTransform: "uppercase",
+          writingMode: "vertical-rl",
+        }} />
+        <div style={{ width: 1, height: 30, background: `linear-gradient(to bottom, ${AMBER}80, transparent)` }} />
+      </div>
+    </section>
   );
 }
 
@@ -18635,8 +20806,8 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   const badgeText   = String(c.badgeText   ?? "Pro firmy a bytové domy SVJ");
   const reviewCount = String(c.reviewCount ?? "70+");
 
-  const BLEND_L = "/clones/modryzralok/cdn/681cb883f075d3dfa070d327_hero_blend_1.webp";
-  const BLEND_R = "/clones/modryzralok/cdn/681cb882589f8948a612943b_hero_blend_2.webp";
+  const BLEND_L = String(c.backgroundImage  ?? "/clones/modryzralok/cdn/681cb883f075d3dfa070d327_hero_blend_1.webp");
+  const BLEND_R = String(c.backgroundImage2 ?? "/clones/modryzralok/cdn/681cb882589f8948a612943b_hero_blend_2.webp");
   const GOOGLE  = "/clones/modryzralok/cdn/681ca92793f51e4291431db0_google-review.webp";
   const STAR    = "/clones/modryzralok/cdn/681ca97988683ab4a1bbc7ed_star.svg";
   const H_PIC   = "/clones/modryzralok/cdn/681ca46265a00932ff8ac77f_heading-pic.webp";
@@ -18882,12 +21053,13 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
 }
 
 // ── garden-02-hero ────────────────────────────────────────────────────────────
-// 1:1 polgarden.cz:
-// - 100vh fullbleed bg foto (hero-poster.jpg), object-cover
-// - rgba(0,0,0,0.45) overlay
-// - Centrovaný bílý Inter H1 + subtitle
-// - 2 CTA pill tlačítka: zelené (#95c11f) filled + outline bílé
-// - Scroll indicator šipka dole
+// LUXE REDESIGN (polgarden.cz DNA):
+// - 100vh fullscreen, video bg s poster fallback, dual gradient overlay
+// - Eyebrow uppercase tracking + zelený accent dot
+// - Inter 800 tight title, refined subtitle
+// - Dual pill CTA (zelený filled + frosted glass outline) + phone callout
+// - Animated scroll indicator
+// - resolveNavHref (one-page/multi-page ready)
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroGarden02({
   content,
@@ -18903,176 +21075,203 @@ function HeroGarden02({
   const c = content as {
     title?: string;
     subtitle?: string;
+    eyebrow?: string;
     ctaText?: string;
     ctaHref?: string;
     cta2Text?: string;
     cta2Href?: string;
     backgroundImage?: string;
     videoUrl?: string;
+    phone?: string;
+    phoneLabel?: string;
+    scrollLabel?: string;
+    siteMode?: string;
   };
 
-  const bgImage  = c.backgroundImage ?? "/clones/polgarden/img/hero-poster.jpg";
-  const videoUrl = c.videoUrl ?? "";
-  const title    = c.title    ?? "Návrhy a realizace zahrad Praha a okolí";
-  const subtitle = c.subtitle ?? "Zahradní architektura, profesionální realizace a kompletní údržba zahrad v Praze a okolí";
-  const ctaText  = c.ctaText  ?? "Zjistit více";
-  const ctaHref  = c.ctaHref  ?? "#nabizime";
-  const cta2Text = c.cta2Text ?? "Kontaktujte nás";
-  const cta2Href = c.cta2Href ?? "/kontakt";
+  const bgImage    = c.backgroundImage ?? "/assets/garden-02/hero-bg.webp";
+  const videoUrl   = c.videoUrl ?? "";
+  const eyebrow    = c.eyebrow    ?? "Zahrady na míru · Praha a okolí";
+  const title      = c.title      ?? "Vytváříme zahrady, ve kterých chcete žít";
+  const subtitle   = c.subtitle   ?? "Od prvního návrhu po poslední výsadbu — kompletní zahradní realizace s péčí o každý detail.";
+  const ctaText    = c.ctaText    ?? "Prohlédnout realizace";
+  const ctaHref    = c.ctaHref    ?? "/sluzby";
+  const cta2Text   = c.cta2Text   ?? "Nezávazná poptávka";
+  const cta2Href   = c.cta2Href   ?? "/kontakt";
+  const phone      = c.phone      ?? "+420 608 345 789";
+  const phoneLabel = c.phoneLabel ?? "nebo rovnou zavolejte";
+  const scrollLabel= c.scrollLabel?? "Více níže";
+  const siteMode   = String(c.siteMode ?? "multipage");
 
   const PRIMARY = "#95c11f";
+  const PRIM_H  = "#7fa318";
+  const DARK    = "#1a2a0a";
   const WHITE   = "#ffffff";
+  const FONT    = "'Inter', Arial, sans-serif";
 
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <>
       <style>{`
         .g02h-section {
-          position: relative;
-          width: 100%;
-          min-height: 100vh;
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          position: relative; width: 100%; min-height: 100vh;
+          overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
         .g02h-bg {
-          position: absolute;
-          inset: 0;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
-          z-index: 0;
+          position: absolute; inset: 0;
+          background-size: cover; background-position: center;
+          background-repeat: no-repeat; z-index: 0;
         }
         .g02h-video {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          z-index: 0;
+          position: absolute; inset: 0;
+          width: 100%; height: 100%; object-fit: cover; z-index: 0;
         }
         .g02h-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.45);
-          z-index: 1;
+          position: absolute; inset: 0; z-index: 1;
+          background: linear-gradient(175deg,
+            rgba(26,42,10,0.72) 0%,
+            rgba(26,42,10,0.50) 40%,
+            rgba(0,0,0,0.55) 100%);
+        }
+        .g02h-overlay::after {
+          content: ""; position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 30% 80%, rgba(149,193,31,0.08) 0%, transparent 60%);
         }
         .g02h-content {
-          position: relative;
-          z-index: 2;
-          text-align: center;
-          padding: 0 1.25rem;
-          max-width: 900px;
-          width: 100%;
+          position: relative; z-index: 2; text-align: center;
+          padding: 0 1.5rem; max-width: 880px; width: 100%;
+        }
+        .g02h-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-family: ${FONT}; font-size: 0.72rem; font-weight: 600;
+          color: rgba(255,255,255,0.75);
+          text-transform: uppercase; letter-spacing: 0.18em;
+          margin-bottom: 1.2rem;
+        }
+        .g02h-eyebrow-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: ${PRIMARY};
+          box-shadow: 0 0 8px rgba(149,193,31,0.5);
         }
         .g02h-title {
           color: ${WHITE};
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: clamp(2rem, 5vw, 3.5rem);
-          font-weight: 700;
-          line-height: 1.15;
-          margin: 0 0 1.25rem 0;
-          text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+          font-family: ${FONT};
+          font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+          font-weight: 800; line-height: 1.08;
+          letter-spacing: -0.03em;
+          margin: 0 0 1.2rem 0;
         }
         .g02h-subtitle {
-          color: rgba(255,255,255,0.92);
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: clamp(1rem, 2vw, 1.35rem);
-          font-weight: 400;
-          line-height: 1.6;
-          margin: 0 auto 2rem auto;
-          max-width: 680px;
-          text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+          color: rgba(255,255,255,0.88);
+          font-family: ${FONT};
+          font-size: clamp(1rem, 2vw, 1.2rem);
+          font-weight: 400; line-height: 1.7;
+          margin: 0 auto 2.2rem auto; max-width: 640px;
         }
         .g02h-ctas {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-          justify-content: center;
+          display: flex; flex-wrap: wrap; gap: 0.9rem;
+          justify-content: center; margin-bottom: 1.4rem;
         }
         .g02h-btn-primary {
-          display: inline-block;
-          background: ${PRIMARY};
-          color: ${WHITE};
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: 1rem;
-          font-weight: 600;
-          text-decoration: none;
-          padding: 0.8rem 2rem;
-          border-radius: 9999px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-          transition: opacity 0.2s, transform 0.2s;
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          background: ${PRIMARY}; color: ${WHITE};
+          font-family: ${FONT}; font-size: 0.92rem; font-weight: 600;
+          text-decoration: none; padding: 0.85rem 2rem;
+          border-radius: 9999px; letter-spacing: 0.02em;
+          box-shadow: 0 6px 22px rgba(149,193,31,0.35);
+          transition: background 0.3s ease, transform 0.3s cubic-bezier(.22,.68,0,1.1),
+                      box-shadow 0.3s ease;
         }
-        .g02h-btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+        .g02h-btn-primary:hover {
+          background: ${PRIM_H}; transform: translateY(-3px);
+          box-shadow: 0 10px 30px rgba(149,193,31,0.50);
+        }
         .g02h-btn-outline {
-          display: inline-block;
-          background: rgba(255,255,255,0.12);
-          color: ${WHITE};
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: 1rem;
-          font-weight: 600;
-          text-decoration: none;
-          padding: 0.8rem 2rem;
-          border-radius: 9999px;
-          border: 2px solid rgba(255,255,255,0.85);
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-          transition: background 0.2s, transform 0.2s;
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          background: rgba(255,255,255,0.08); color: ${WHITE};
+          font-family: ${FONT}; font-size: 0.92rem; font-weight: 600;
+          text-decoration: none; padding: 0.85rem 2rem;
+          border-radius: 9999px; letter-spacing: 0.02em;
+          border: 1.5px solid rgba(255,255,255,0.35);
+          backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+          transition: background 0.3s ease, transform 0.3s cubic-bezier(.22,.68,0,1.1),
+                      border-color 0.3s ease;
         }
-        .g02h-btn-outline:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+        .g02h-btn-outline:hover {
+          background: rgba(255,255,255,0.16); transform: translateY(-3px);
+          border-color: rgba(255,255,255,0.6);
+        }
+        .g02h-phone-callout {
+          display: flex; align-items: center; justify-content: center;
+          gap: 0.5rem; margin-top: 0.2rem;
+        }
+        .g02h-phone-label {
+          font-family: ${FONT}; font-size: 0.8rem; font-weight: 400;
+          color: rgba(255,255,255,0.55);
+        }
+        .g02h-phone-link {
+          font-family: ${FONT}; font-size: 0.85rem; font-weight: 600;
+          color: ${PRIMARY}; text-decoration: none;
+          transition: color 0.2s;
+        }
+        .g02h-phone-link:hover { color: #b5e030; }
         .g02h-scroll {
-          position: absolute;
-          bottom: 1.5rem;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 3;
-          color: rgba(255,255,255,0.75);
-          font-size: 2rem;
-          line-height: 1;
+          position: absolute; bottom: 2rem; left: 50%;
+          transform: translateX(-50%); z-index: 3;
+          display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
           text-decoration: none;
-          animation: g02h-bounce 2s infinite;
         }
-        @keyframes g02h-bounce {
-          0%,100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(8px); }
+        .g02h-scroll-label {
+          font-family: ${FONT}; font-size: 0.62rem; font-weight: 500;
+          color: rgba(255,255,255,0.45);
+          text-transform: uppercase; letter-spacing: 0.2em;
+        }
+        .g02h-scroll-line {
+          width: 1px; height: 36px;
+          background: linear-gradient(180deg, rgba(149,193,31,0.7) 0%, transparent 100%);
+          animation: g02h-pulse 2.2s ease-in-out infinite;
+        }
+        @keyframes g02h-pulse {
+          0%,100% { opacity: 0.4; transform: scaleY(0.7); }
+          50% { opacity: 1; transform: scaleY(1); }
         }
         @media (max-width: 48rem) {
           .g02h-title { font-size: 2rem; }
-          .g02h-subtitle { font-size: 1rem; }
-          .g02h-btn-primary, .g02h-btn-outline { font-size: 0.9rem; padding: 0.7rem 1.5rem; }
+          .g02h-subtitle { font-size: 0.95rem; }
+          .g02h-btn-primary, .g02h-btn-outline { font-size: 0.85rem; padding: 0.75rem 1.5rem; }
+          .g02h-scroll { display: none; }
         }
       `}</style>
 
-      <section className="g02h-section">
+      <section className="g02h-section" data-template="garden-02" id="hero">
         {videoUrl ? (
           <video
             ref={videoRef}
             className="g02h-video"
             src={videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
+            autoPlay loop muted playsInline
             poster={bgImage}
           />
         ) : (
-          <div
+          <GenericEditableImage
+            sectionId={sectionId}
+            field="backgroundImage"
+            src={bgImage}
+            alt={title}
             className="g02h-bg"
-            style={{ backgroundImage: `url(${bgImage})` }}
-            role="img"
-            aria-label={title}
-          />
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          >
+            <img src={bgImage} alt={title} className="g02h-bg" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+          </GenericEditableImage>
         )}
         <div className="g02h-overlay" />
 
         <div className="g02h-content">
+          <div className="g02h-eyebrow">
+            <span className="g02h-eyebrow-dot" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </div>
           <h1 className="g02h-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
@@ -19080,21 +21279,113 @@ function HeroGarden02({
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
           <div className="g02h-ctas">
-            <a href={resolve(ctaHref)} data-btn="primary" className="g02h-btn-primary">
+            <a href={resolve(ctaHref)} className="g02h-btn-primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={resolve(cta2Href)} className="g02h-btn-outline">
               <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
             </a>
           </div>
+          <div className="g02h-phone-callout">
+            <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" className="g02h-phone-label" />
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="g02h-phone-link">
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          </div>
         </div>
 
-        <a href="#nabizime" className="g02h-scroll" aria-label="Scrollovat dolů">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="8 12 12 16 16 12"/>
-          </svg>
-        </a>
+        <div className="g02h-scroll" aria-hidden="true">
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" className="g02h-scroll-label" />
+          <span className="g02h-scroll-line" />
+        </div>
+      </section>
+    </>
+  );
+}
+
+
+
+// ── hero-garden-02-page ─────────────────────────────────────────────────────
+// Slim subpage banner: white bg, green accent, Inter 800, breadcrumb
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroGarden02Page({
+  content, sectionId, tenantSlug, isAdmin,
+}: {
+  content: Record<string, unknown>; sectionId: number;
+  tenantSlug?: string; isAdmin: boolean;
+}) {
+  const breadcrumb     = String(content.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const title          = String(content.title          ?? "");
+  const siteMode       = String((content as Record<string,unknown>).siteMode ?? "multipage");
+  const resolve        = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const PRIMARY = "#95c11f";
+  const DARK    = "#1a2e05";
+  const FONT    = "'Inter', Arial, sans-serif";
+
+  return (
+    <>
+      <style>{`
+        .g02hp-section {
+          background: ${DARK};
+          position: relative; overflow: hidden;
+          padding: 10rem 2rem 4rem;
+          font-family: ${FONT};
+          min-height: 220px;
+        }
+        .g02hp-section::before {
+          content: ""; position: absolute; inset: 0;
+          background: url("/assets/garden-02/hero-bg.webp") center/cover no-repeat;
+          opacity: 0.18; pointer-events: none;
+        }
+        .g02hp-section::after {
+          content: ""; position: absolute;
+          bottom: 0; left: 0; right: 0; height: 3px;
+          background: linear-gradient(90deg, transparent 10%, ${PRIMARY} 50%, transparent 90%);
+        }
+        .g02hp-inner {
+          max-width: 1200px; margin: 0 auto;
+          position: relative; z-index: 1;
+        }
+        .g02hp-breadcrumb {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem;
+        }
+        .g02hp-breadcrumb a {
+          color: ${PRIMARY}; text-decoration: none;
+          transition: color 0.2s;
+        }
+        .g02hp-breadcrumb a:hover { color: #b5e040; }
+        .g02hp-breadcrumb-sep { color: rgba(255,255,255,0.25); }
+        .g02hp-title {
+          font-size: clamp(2rem, 4.5vw, 3.2rem);
+          font-weight: 800; color: #ffffff;
+          margin: 0; line-height: 1.1;
+          letter-spacing: -0.025em;
+        }
+        .g02hp-rule {
+          width: 56px; height: 3px; background: ${PRIMARY};
+          border-radius: 2px; margin-top: 1.2rem;
+        }
+        @media (max-width: 639px) {
+          .g02hp-section { padding: 8rem 1.25rem 3rem; }
+        }
+      `}</style>
+      <section className="g02hp-section" data-template="garden-02">
+        <div className="g02hp-inner">
+          <div className="g02hp-breadcrumb">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="g02hp-breadcrumb-sep" aria-hidden="true">/</span>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </div>
+          <h1 className="g02hp-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          <div className="g02hp-rule" aria-hidden="true" />
+        </div>
       </section>
     </>
   );
@@ -19112,6 +21403,13 @@ function HeroGarden02({
 function HeroArbo01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const title    = String(content.title    ?? "Kompletní péče o stromy s vlastní technikou");
   const subtitle = String(content.subtitle ?? "Rizikové kácení, odborné ořezy a úpravy pozemků v Praze, Středočeském a Jihočeském kraji");
+  const ctaText  = String(content.ctaText  ?? "");
+  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolveHref = (href: string) => {
+    if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("tel:") || href.startsWith("mailto:")) return href;
+    return resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  };
 
   const rawSlides = (content.slides as Array<{ url: string; alt?: string }>) ?? [];
   const heroImg = rawSlides[0] ?? { url: "/clones/lesarb/site/img-01-desktop.jpg", alt: "Arboristické práce" };
@@ -19177,6 +21475,24 @@ function HeroArbo01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
           font-weight: 500;
           max-width: 36ch;
         }
+        .arbo01-hero-cta {
+          display: inline-flex; align-items: center; gap: 10px;
+          align-self: flex-start; width: fit-content;
+          margin-top: 2rem; padding: 0.95rem 1.9rem;
+          background: #009739; color: #ffffff;
+          font-size: 0.95rem; font-weight: 700; letter-spacing: 0.01em;
+          text-decoration: none; border-radius: 6px;
+          transition: background 0.25s ease, transform 0.25s ease;
+        }
+        .arbo01-hero-cta:hover { background: #15472a; transform: translateY(-2px); }
+        .arbo01-hero-cta-arrow {
+          width: 16px; height: 2px; background: currentColor; position: relative; flex-shrink: 0;
+        }
+        .arbo01-hero-cta-arrow::after {
+          content: ''; position: absolute; right: 0; top: -3px;
+          width: 8px; height: 8px; border-top: 2px solid currentColor; border-right: 2px solid currentColor;
+          transform: rotate(45deg);
+        }
 
         /* Right: single image */
         .arbo01-hero-right {
@@ -19206,6 +21522,12 @@ function HeroArbo01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
             <p className="arbo01-hero-sub">
               <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
             </p>
+            {ctaText && (
+              <a href={resolveHref(ctaHref)} className="arbo01-hero-cta" data-btn="primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span className="arbo01-hero-cta-arrow" aria-hidden="true" />
+              </a>
+            )}
           </div>
 
           {/* Right: single image */}
@@ -19245,6 +21567,133 @@ function HeroDdd01({ content, sectionId }: Omit<Props, "variant">) {
       data-template="ddd-01"
       style={{ "--ddd01h-bg": `url('${bgImage}')` } as React.CSSProperties}
     >
+      <style>{`        .ddd01h-wrap {
+          position: relative;
+          width: 100%;
+          min-height: 100svh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          background-color: #064e86;
+          font-family: 'Figtree', system-ui, sans-serif;
+        }
+        .ddd01h-bg {
+          position: absolute;
+          inset: 0;
+          background-image: var(--ddd01h-bg);
+          background-size: cover;
+          background-position: center 50%;
+          background-repeat: no-repeat;
+        }
+        .ddd01h-overlay {
+          position: absolute;
+          inset: 0;
+          background-image: linear-gradient(180deg, #07294aed, #064e8696 48%, #07294aab);
+        }
+        .ddd01h-inner {
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          padding: 6rem 1.5rem 5rem;
+          max-width: 100ch;
+          width: 100%;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .ddd01h-h1 {
+          font-family: 'Figtree', system-ui, sans-serif;
+          font-size: clamp(2rem, 2.14vw + 1.5714rem, 3.5rem);
+          font-weight: 700;
+          color: #ffffff;
+          text-shadow: 0 0 2px rgba(0,0,0,0.33);
+          line-height: 1.27;
+          margin: 0 0 1.75rem;
+        }
+        .ddd01h-text {
+          font-size: clamp(1rem, 1.5vw, 1.15rem);
+          color: rgba(255,255,255,0.92);
+          line-height: 1.65;
+          max-width: 640px;
+          margin: 0 0 2.5rem;
+        }
+        .ddd01h-btns {
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin-bottom: 3rem;
+        }
+        .ddd01h-cta {
+          display: inline-block;
+          background: #0c93eb;
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1rem;
+          padding: 0.85rem 2.4rem;
+          border-radius: 4px;
+          transition: background 0.18s;
+        }
+        .ddd01h-cta:hover { background: #015ba3; }
+        .ddd01h-cta-secondary {
+          display: inline-block;
+          background: transparent;
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 1rem;
+          padding: 0.85rem 2.4rem;
+          border-radius: 4px;
+          border: 2px solid rgba(255,255,255,0.55);
+          transition: border-color 0.18s, background 0.18s;
+        }
+        .ddd01h-cta-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+        /* Editable bg image trigger */
+        .ddd01h-bg-edit {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+        }
+        .ddd01h-bg-edit img { width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+        @media (max-width: 640px) {
+          .ddd01h-inner { padding: 4rem 1.25rem 3.5rem; }
+          .ddd01h-btns { flex-direction: column; align-items: center; }
+          .ddd01h-cta, .ddd01h-cta-secondary { width: 100%; max-width: 300px; text-align: center; }
+        }
+        /* Animated scroll-down pill */
+        @keyframes ddd01h-scroll {
+          0%   { transform: translateY(0); opacity: 1; }
+          80%  { transform: translateY(16px); opacity: 0; }
+          100% { transform: translateY(0); opacity: 0; }
+        }
+        .ddd01h-arrow {
+          display: block;
+          width: 3px;
+          height: 35px;
+          border: 2px solid #ffffff;
+          border-radius: 25px;
+          padding: 10px 15px;
+          box-sizing: content-box;
+          opacity: 0.75;
+          text-decoration: none;
+          position: relative;
+        }
+        .ddd01h-arrow::before {
+          content: "";
+          display: block;
+          width: 3px;
+          height: 10px;
+          background: #ffffff;
+          border-radius: 25%;
+          animation: ddd01h-scroll 2s cubic-bezier(.15,.41,.69,.94) infinite;
+        }
+      
+        .ddd01h-trust { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.28); color: #ffffff; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.04em; padding: 0.45rem 1rem; border-radius: 999px; margin-bottom: 1.5rem; backdrop-filter: blur(4px); }
+      `}</style>
       <div className="ddd01h-bg" aria-hidden="true" />
       <div className="ddd01h-overlay" aria-hidden="true" />
 
@@ -20326,6 +22775,7 @@ function HeroChalet01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const cta2Text = String(c.cta2Text ?? "Rezervovat pobyt");
   const cta2Href = String(c.cta2Href ?? "/rezervace");
   const scrollLabel = String(c.scrollLabel ?? "Poznejte nás");
+  const heroPhone   = String(c.phone ?? "");
   const slides: { url: string; alt: string }[] = Array.isArray(c.slides) && c.slides.length > 0
     ? c.slides
     : [
@@ -20444,6 +22894,16 @@ function HeroChalet01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           justify-content: center; opacity: 0;
         }
         .ch01hero-ctas.ch01-vis { animation: ch01FadeUp 0.9s 0.85s ease both; }
+        .ch01hero-phone {
+          display: inline-flex; align-items: center; gap: 9px;
+          margin-top: 1.6rem; color: rgba(255,255,255,0.88);
+          font-family: ${FONT_H}; font-size: 0.95rem; font-weight: 600;
+          letter-spacing: 0.05em; text-decoration: none; opacity: 0;
+          transition: color 0.25s ease;
+        }
+        .ch01hero-phone.ch01-vis { animation: ch01FadeUp 0.9s 1s ease both; }
+        .ch01hero-phone:hover { color: #fff; }
+        .ch01hero-phone svg { flex-shrink: 0; opacity: 0.85; }
         .ch01hero-cta {
           display: inline-block; padding: 0.82rem 2.4rem;
           font-family: ${FONT_H}; font-size: 0.7rem; font-weight: 600;
@@ -20560,6 +23020,14 @@ function HeroChalet01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
               <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
             </a>
           </div>
+          {heroPhone && (
+            <a href={`tel:${heroPhone.replace(/\s/g, "")}`} className={`ch01hero-phone${ready ? " ch01-vis" : ""}`}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={heroPhone} tag="span" />
+            </a>
+          )}
         </div>
 
         <a href="#o-nas" className={`ch01hero-scroll${ready ? " ch01-vis" : ""}`} aria-label="Scroll">
@@ -20817,6 +23285,7 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
   const titleLine2    = String(content.titleLine2   ?? "Perfect Events");
   const subtitle      = String(content.subtitle     ?? "");
   const imageUrl      = String(content.imageUrl     ?? "/clones/amdenevents/wp-content/uploads/2018/08/showcase-1920x1000.jpg");
+  const imageAlt = String(content.imageAlt ?? "");
   const videoUrl      = String(content.videoUrl     ?? "");
   const videoText     = String(content.videoText    ?? "Video");
   const ctaLabel      = String(content.ctaLabel     ?? "Prozkoumat portfolio");
@@ -21822,36 +24291,44 @@ function HeroPhoto01Page({ content, sectionId, tenantSlug, isAdmin }: { content:
 // - Fraunces italic H1 cream (whiteSpace: pre-line)
 // - subtitle (PIZZA · TĚSTOVINY · ...)
 // - červené filled CTA + outline CTA
-// Ref: corleone.cz homepage hero
+// Ref: bellavista-restaurace.cz homepage hero
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const title    = String(content.title    ?? "V restauraci\nnebo v pohodlí\ndomova?");
-  const subtitle = String(content.subtitle ?? "PIZZA · TĚSTOVINY · DOMÁCÍ SPECIALITY · ROZVOZ");
+  const kicker   = String((content as any).kicker ?? "Pravá italská trattoria · Praha");
+  const title    = String(content.title    ?? "Kus Itálie\nv srdci Prahy.");
+  const subtitle = String(content.subtitle ?? "Pizza z pece na dřevo · Domácí těstoviny · Vína z Apulie");
   const ctaText  = String(content.ctaText  ?? "Rezervovat stůl");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const cta2Text = String((content as any).cta2Text ?? "Objednat si");
-  const cta2Href = String((content as any).cta2Href ?? "#objednat");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
+  const cta2Text = String((content as any).cta2Text ?? "Jídelní lístek");
+  const cta2Href = String((content as any).cta2Href ?? "/menu");
+  const scrollLabel = String((content as any).scrollLabel ?? "Prohlédnout");
   const rawSlides = ((content.slides as Array<{ url: string; pos?: string }>) ?? []).filter(s => s?.url);
 
   const DARK   = "#0d1f0a";
   const RED    = "#c41c1c";
-  const RED_DK = "#a01515";
   const CREAM  = "#f5f0e8";
   const SERIF  = "'Fraunces', Georgia, 'Times New Roman', serif";
   const SANS   = "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const fallback = "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85";
-  const allSlides = rawSlides.length > 0 ? rawSlides : [{ url: fallback, pos: "center center" }];
+  const defaults = [
+    { url: "/templates/restaurant-04/hero/hero-5.webp", pos: "center center" },
+    { url: "/templates/restaurant-04/hero/hero-2.webp", pos: "center 45%" },
+    { url: "/templates/restaurant-04/hero/hero-3.webp", pos: "center 50%" },
+    { url: "/templates/restaurant-04/hero/hero-4.webp", pos: "center 55%" },
+    { url: "/templates/restaurant-04/hero/hero-1.webp", pos: "center center" },
+  ];
+  const allSlides = rawSlides.length > 0 ? rawSlides : defaults;
 
   const [activeIdx, setActiveIdx] = useState(0);
   const [arrowHov, setArrowHov] = useState<"prev"|"next"|null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String((content as any).siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const resetTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     if (allSlides.length < 2) return;
-    timerRef.current = setInterval(() => setActiveIdx(i => (i + 1) % allSlides.length), 5500);
+    timerRef.current = setInterval(() => setActiveIdx(i => (i + 1) % allSlides.length), 5800);
   };
 
   useEffect(() => {
@@ -21865,41 +24342,36 @@ function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
     resetTimer();
   };
 
-  const kbKf = `@keyframes r04-kb { from { transform: scale(1); } to { transform: scale(1.09); } }`;
-
   return (
-    <section style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", background: DARK }}>
-      <style>{kbKf}</style>
+    <section data-template="restaurant-04" style={{ position: "relative", width: "100%", height: "100vh", minHeight: 560, overflow: "hidden", background: DARK }}>
 
       {/* Slides s Ken Burns zoom */}
       {allSlides.map((slide, i) => (
         <div key={i} style={{
           position: "absolute", inset: 0, overflow: "hidden",
           opacity: i === activeIdx ? 1 : 0,
-          transition: "opacity 1.1s ease-in-out",
+          transition: "opacity 1.2s ease-in-out",
           zIndex: i === activeIdx ? 1 : 0,
         }}>
           <img
             src={slide.url}
             alt=""
+            aria-hidden="true"
             style={{
               width: "100%", height: "100%", objectFit: "cover",
               objectPosition: slide.pos ?? "center center",
               display: "block",
-              animation: i === activeIdx ? "r04-kb 8s ease-out forwards" : "none",
+              animation: i === activeIdx ? "r04-kb 9s ease-out forwards" : "none",
             }}
           />
         </div>
       ))}
 
-      {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.58)", zIndex: 2 }} />
-
-      {/* Červená dekorativní linka vlevo */}
-      <div style={{
-        position: "absolute", left: "clamp(30px, 5vw, 80px)", top: "50%", transform: "translateY(-50%)",
-        width: 3, height: "clamp(60px, 12vh, 120px)", backgroundColor: RED, opacity: 0.7, zIndex: 3,
-      }} />
+      {/* Cinematic overlay — teplý gradient + zelený tint dole + vinětace */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 2,
+        background: "linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.35) 42%, rgba(13,31,10,0.55) 82%, rgba(13,31,10,0.9) 100%)" }} />
+      <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none",
+        boxShadow: "inset 0 0 240px 60px rgba(0,0,0,0.55)" }} />
 
       {/* Šipka vlevo */}
       {allSlides.length > 1 && (
@@ -21908,17 +24380,18 @@ function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
           onMouseEnter={() => setArrowHov("prev")}
           onMouseLeave={() => setArrowHov(null)}
           aria-label="Předchozí snímek"
+          className="r04-hero-arrow"
           style={{
-            position: "absolute", left: "clamp(16px, 3vw, 48px)", top: "50%", transform: "translateY(-50%)",
-            zIndex: 10, width: 48, height: 48, borderRadius: "50%",
+            position: "absolute", left: "clamp(14px, 3vw, 44px)", top: "50%", transform: "translateY(-50%)",
+            zIndex: 10, width: 50, height: 50, borderRadius: "50%",
             border: `1px solid ${CREAM}55`,
-            background: arrowHov === "prev" ? RED : "rgba(0,0,0,0.38)",
+            background: arrowHov === "prev" ? RED : "rgba(0,0,0,0.32)",
             cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-            transition: "background 0.22s", outline: "none",
+            transition: "background 0.25s, border-color 0.25s", outline: "none",
           }}
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M11 4L6 9L11 14" stroke={CREAM} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M11 4L6 9L11 14" stroke={CREAM} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       )}
@@ -21930,92 +24403,103 @@ function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
           onMouseEnter={() => setArrowHov("next")}
           onMouseLeave={() => setArrowHov(null)}
           aria-label="Další snímek"
+          className="r04-hero-arrow"
           style={{
-            position: "absolute", right: "clamp(16px, 3vw, 48px)", top: "50%", transform: "translateY(-50%)",
-            zIndex: 10, width: 48, height: 48, borderRadius: "50%",
+            position: "absolute", right: "clamp(14px, 3vw, 44px)", top: "50%", transform: "translateY(-50%)",
+            zIndex: 10, width: 50, height: 50, borderRadius: "50%",
             border: `1px solid ${CREAM}55`,
-            background: arrowHov === "next" ? RED : "rgba(0,0,0,0.38)",
+            background: arrowHov === "next" ? RED : "rgba(0,0,0,0.32)",
             cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-            transition: "background 0.22s", outline: "none",
+            transition: "background 0.25s, border-color 0.25s", outline: "none",
           }}
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M7 4L12 9L7 14" stroke={CREAM} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M7 4L12 9L7 14" stroke={CREAM} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </button>
       )}
 
       {/* Obsah — centrovaný */}
-      <div style={{
+      <div className="r04-hero-inner" style={{
         position: "relative", zIndex: 5,
         height: "100%", display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "center",
-        textAlign: "center", padding: "0 clamp(80px, 12vw, 160px)",
+        textAlign: "center", padding: "0 clamp(28px, 10vw, 160px)",
       }}>
-        {/* Kicker */}
-        <p style={{
-          fontFamily: SANS, fontSize: "clamp(10px, 1.8vw, 12px)", fontWeight: 700,
-          letterSpacing: "0.25em", textTransform: "uppercase",
-          color: CREAM, margin: "0 0 24px", lineHeight: 1,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="kicker" value="ITALSKÁ RESTAURACE PRAHA" tag="span" />
-        </p>
+        {/* Kicker s dekorativními linkami */}
+        <div className="r04-hero-el" style={{ display: "flex", alignItems: "center", gap: 16, margin: "0 0 26px", animationDelay: "0.1s" }}>
+          <span aria-hidden="true" style={{ width: "clamp(24px, 5vw, 54px)", height: 1, background: `${CREAM}66` }} />
+          <span aria-hidden="true" style={{ width: 6, height: 6, borderRadius: "50%", background: RED, boxShadow: `0 0 12px ${RED}` }} />
+          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span"
+            style={{ fontFamily: SANS, fontSize: "clamp(10px, 1.5vw, 12px)", fontWeight: 800,
+              letterSpacing: "0.24em", textTransform: "uppercase", color: CREAM, lineHeight: 1 }} />
+          <span aria-hidden="true" style={{ width: 6, height: 6, borderRadius: "50%", background: RED, boxShadow: `0 0 12px ${RED}` }} />
+          <span aria-hidden="true" style={{ width: "clamp(24px, 5vw, 54px)", height: 1, background: `${CREAM}66` }} />
+        </div>
 
         {/* H1 */}
-        <h1 style={{
-          fontFamily: SERIF, fontSize: "clamp(36px, 6.5vw, 88px)", fontWeight: 400,
-          fontStyle: "italic", color: CREAM, margin: "0 0 28px", lineHeight: 1.08,
-          whiteSpace: "pre-line", letterSpacing: "0.01em",
-          textShadow: "0 2px 24px rgba(0,0,0,0.5)",
+        <h1 className="r04-hero-el" style={{
+          fontFamily: SERIF, fontSize: "clamp(40px, 7.2vw, 100px)", fontWeight: 400,
+          fontStyle: "italic", color: CREAM, margin: "0 0 30px", lineHeight: 1.04,
+          whiteSpace: "pre-line", letterSpacing: "0.005em",
+          textShadow: "0 4px 30px rgba(0,0,0,0.55)", animationDelay: "0.22s",
         }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
         {/* Subtitle */}
-        <p style={{
-          fontFamily: SANS, fontSize: "clamp(10px, 1.6vw, 12px)", fontWeight: 500,
-          letterSpacing: "0.2em", textTransform: "uppercase",
-          color: `${CREAM}99`, margin: "0 0 44px", lineHeight: 1,
+        <p className="r04-hero-el" style={{
+          fontFamily: SANS, fontSize: "clamp(11px, 1.5vw, 13px)", fontWeight: 600,
+          letterSpacing: "0.18em", textTransform: "uppercase",
+          color: `${CREAM}b0`, margin: "0 0 46px", lineHeight: 1.6, maxWidth: 620,
+          animationDelay: "0.34s",
         }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
         {/* CTA tlačítka */}
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
+        <div className="r04-hero-el" style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", animationDelay: "0.46s" }}>
+          <a href={resolve(ctaHref)} data-btn="primary" className="r04-cta1"
             style={{
-              fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
+              fontFamily: SANS, fontSize: 11.5, fontWeight: 800, letterSpacing: "0.14em",
               textTransform: "uppercase", color: CREAM, textDecoration: "none",
-              padding: "15px 36px", backgroundColor: RED, borderRadius: 2,
-              transition: "background-color 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = RED_DK)}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
-          >
+              padding: "16px 38px", backgroundColor: RED, borderRadius: 2,
+              position: "relative", overflow: "hidden",
+            }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
-          <a
-            href={resolve(cta2Href)}
+          <a href={resolve(cta2Href)} className="r04-cta2"
             style={{
-              fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
+              fontFamily: SANS, fontSize: 11.5, fontWeight: 800, letterSpacing: "0.14em",
               textTransform: "uppercase", color: CREAM, textDecoration: "none",
-              padding: "15px 36px", border: `1px solid ${CREAM}77`, borderRadius: 2,
-              transition: "border-color 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = CREAM)}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = `${CREAM}77`)}
-          >
+              padding: "16px 38px", border: `1px solid ${CREAM}77`, borderRadius: 2,
+            }}>
             <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
           </a>
         </div>
       </div>
 
+      {/* Scroll indikátor */}
+      <a href={resolve("/#o-nas")} className="r04-hero-scroll" aria-label="Posunout dolů" style={{
+        position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)",
+        zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+        textDecoration: "none",
+      }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span"
+          style={{ fontFamily: SANS, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.22em",
+            textTransform: "uppercase", color: `${CREAM}99` }} />
+        <span className="r04-scroll-mouse" aria-hidden="true" style={{
+          width: 20, height: 32, borderRadius: 12, border: `1px solid ${CREAM}66`,
+          display: "flex", justifyContent: "center", paddingTop: 6,
+        }}>
+          <span className="r04-scroll-dot" style={{ width: 3, height: 6, borderRadius: 2, background: RED }} />
+        </span>
+      </a>
+
       {/* Slide navigace — tečky */}
       {allSlides.length > 1 && (
         <div style={{
-          position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
+          position: "absolute", bottom: 30, right: "clamp(20px, 4vw, 56px)",
           display: "flex", gap: 8, zIndex: 10,
         }}>
           {allSlides.map((_, i) => (
@@ -22033,6 +24517,62 @@ function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
           ))}
         </div>
       )}
+    </section>
+  );
+}
+
+// ── hero-restaurant-04-page ──────────────────────────────────────────────────
+// Slim subpage banner: dark forest #0d1f0a bg, red kicker line, Fraunces italic H1,
+// optional subtitle, no CTA. Compact height for inner pages.
+function HeroRestaurant04Page({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const title    = String(content.title    ?? "");
+  const subtitle = String(content.subtitle ?? "");
+
+  const DARK  = "#0d1f0a";
+  const SURF  = "#152d11";
+  const RED   = "#c41c1c";
+  const CREAM = "#f5f0e8";
+  const MUTED = "#8fa889";
+  const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif";
+
+  return (
+    <section
+      data-template="restaurant-04"
+      style={{
+        background: `linear-gradient(180deg, ${SURF} 0%, ${DARK} 100%)`,
+        padding: "clamp(100px, 14vw, 160px) clamp(24px, 8vw, 120px) clamp(48px, 6vw, 72px)",
+        textAlign: "center", position: "relative", overflow: "hidden",
+      }}
+    >
+      {/* Subtle radial glow */}
+      <div style={{
+        position: "absolute", top: "30%", left: "50%", transform: "translate(-50%, -50%)",
+        width: "60%", height: "80%",
+        background: `radial-gradient(ellipse, ${RED}0a 0%, transparent 70%)`,
+        pointerEvents: "none",
+      }} />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 700, margin: "0 auto" }}>
+        {/* Red decorative line */}
+        <div style={{ width: 36, height: 2, background: RED, margin: "0 auto 28px" }} />
+        {title && (
+          <h1 style={{
+            fontFamily: SERIF, fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 400,
+            fontStyle: "italic", color: CREAM, margin: 0, lineHeight: 1.1,
+            whiteSpace: "pre-line",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+        )}
+        {subtitle && (
+          <p style={{
+            fontFamily: SANS, fontSize: "clamp(13px, 1.3vw, 16px)", fontWeight: 400,
+            color: MUTED, lineHeight: 1.7, margin: "20px auto 0", maxWidth: 500,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
     </section>
   );
 }
@@ -22055,6 +24595,7 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
   const title    = String(content.title    ?? "Půlnoc patří\nzvuku, který si pamatuješ.");
   const subtitle = String(content.subtitle ?? "Rezidentní DJ tým pro svatby, corporate večery a klubové noci — od prvního beatu do posledního tónu.");
   const ctaHref  = String(content.ctaHref  ?? "#sluzby");
+  const ctaText  = String(content.ctaText  ?? "Scroll");
   const bgImage  = String(content.bgImage  ?? "/templates/dj-01/hero-nocturne.webp");
 
   const resolve = (href: string) => {
@@ -22273,11 +24814,13 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
           </GenericEditableText>
         </div>
 
-        <a href={resolve(ctaHref)} className="dj01-hero-scroll" aria-label="Přehled setů">
+        <a href={resolve(ctaHref)} className="dj01-hero-scroll" aria-label={ctaText || "Přehled setů"}>
           <span className="dj01-hero-wave" aria-hidden>
             <span /><span /><span /><span /><span />
           </span>
-          <span className="dj01-hero-scroll-label">Scroll</span>
+          <span className="dj01-hero-scroll-label">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </span>
         </a>
       </section>
     </>
@@ -22630,5 +25173,3853 @@ function HeroVideo01({ content, sectionId, isAdmin }: {
         </a>
       </div>
     </section>
+  );
+}
+
+// ── hero-ortho-02-page (slim subpage banner) ────────────────────────────────
+function HeroOrtho02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const FONT_H = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
+  const GOLD   = "#b39f6b";
+  const WHITE  = "#ffffff";
+  const WHITE70 = "rgba(255,255,255,0.7)";
+
+  const title         = String(c.title         ?? "Stránka");
+  const subtitle      = String(c.subtitle      ?? "");
+  const breadcrumb    = String(c.breadcrumb    ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const currentLabel  = String(c.currentLabel  ?? title);
+  const bgImage       = String(c.bgImage       ?? "/templates/ortho-02/hero-bg.webp");
+
+  const resolve = (href: string) => resolveNavHref(href, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin);
+
+  return (
+    <section
+      data-template="ortho-02"
+      data-section="hero-ortho-02-page"
+      className="o02pg"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        fontFamily: FONT_B,
+      }}
+    >
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt={title}>
+          <Image
+            src={bgImage}
+            alt={title}
+            fill
+            sizes="100vw"
+            priority
+            style={{ objectFit: "cover", objectPosition: "center 30%" }}
+          />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(18,18,18,0.72) 0%, rgba(18,18,18,0.58) 100%)" }} aria-hidden />
+      </div>
+
+      <style>{`
+        .o02pg { padding: 130px 24px 68px; min-height: 320px; display: flex; align-items: center; justify-content: center; }
+        .o02pg::before { content: ""; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 2px; background: ${GOLD}; z-index: 2; }
+        .o02pg-inner { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .o02pg-crumb { display: inline-flex; align-items: center; gap: 10px; font-family: ${FONT_B}; font-weight: 600; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: ${WHITE70}; }
+        .o02pg-crumb a { color: ${WHITE70}; text-decoration: none; transition: color 0.3s ease; }
+        .o02pg-crumb a:hover { color: ${GOLD}; }
+        .o02pg-crumb em { color: ${GOLD}; font-style: normal; font-size: 7px; }
+        .o02pg-crumb b { color: ${WHITE}; font-weight: 600; }
+        .o02pg-h { font-family: ${FONT_H}; font-weight: 700; font-size: clamp(32px, 5vw, 52px); line-height: 1.1; color: ${WHITE}; margin: 4px 0 0; letter-spacing: -0.02em; }
+        .o02pg-rule { display: inline-flex; align-items: center; gap: 12px; margin-top: 4px; }
+        .o02pg-rule i { width: 36px; height: 1px; background: ${GOLD}; display: inline-block; }
+        .o02pg-rule em { color: ${GOLD}; font-style: normal; font-size: 11px; }
+        .o02pg-sub { font-family: ${FONT_B}; font-weight: 400; font-size: 15px; line-height: 1.7; color: ${WHITE70}; margin: 2px 0 0; max-width: 520px; }
+        @media(max-width:640px){
+          .o02pg { padding: 110px 20px 52px; min-height: 260px; }
+        }
+      `}</style>
+
+      <div className="o02pg-inner">
+        <div className="o02pg-crumb">
+          <a href={resolve(breadcrumbHref)}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <em>●</em>
+          <b>
+            <GenericEditableText sectionId={sectionId} field="currentLabel" value={currentLabel} tag="span" />
+          </b>
+        </div>
+
+        <h1 className="o02pg-h">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        <div className="o02pg-rule" aria-hidden>
+          <i /><em>✦</em><i />
+        </div>
+
+        {subtitle && (
+          <p className="o02pg-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-02-hero ───────────────────────────────────────────────────────────────
+// Shoptet Classic promo banner, povýšeno: split hero (badge + headline + CTA vlevo,
+// velká promo fotka s plovoucí slevovou bublinou vpravo) + řada 4 benefit calloutů
+// (doprava zdarma, doručení do druhého dne, výdejní místa, vrácení) v bílých kartách.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop02({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    badge?: string; heading?: string; subheading?: string;
+    ctaText?: string; ctaHref?: string; secondaryText?: string; secondaryHref?: string;
+    image?: string; imageAlt?: string; promoLabel?: string; promoValue?: string;
+    benefits?: Array<{ icon?: string; title?: string; text?: string }>;
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const BLUE = "#1266cc";
+  const BLUE_DARK = "#0e51a3";
+  const DARK = "#142b45";
+  const ACCENT = "#f0803c";
+  const MUTED = "#64748b";
+  const BORDER = "#e3e9f0";
+  const SURFACE = "#f5f8fb";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const badge = c.badge ?? "";
+  const heading = c.heading ?? "";
+  const subheading = c.subheading ?? "";
+  const ctaText = c.ctaText ?? "Nakupovat";
+  const ctaHref = c.ctaHref ?? "/obchod";
+  const secondaryText = c.secondaryText ?? "";
+  const secondaryHref = c.secondaryHref ?? "/obchod?kategorie=akce";
+  const image = c.image ?? "";
+  const promoLabel = c.promoLabel ?? "";
+  const promoValue = c.promoValue ?? "";
+  const benefits = c.benefits ?? [];
+
+  const benefitIcon = (key?: string) => {
+    switch (key) {
+      case "clock":
+        return <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 1.8"/></svg>;
+      case "pin":
+        return <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/></svg>;
+      case "refresh":
+        return <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/></svg>;
+      default: // truck
+        return <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="1.5"/><circle cx="17.5" cy="19" r="1.5"/></svg>;
+    }
+  };
+
+  return (
+    <section style={{ background: SURFACE, fontFamily: SANS, borderBottom: `1px solid ${BORDER}` }}>
+      <style>{`
+        .es02-hero-grid { display: grid; grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); gap: clamp(28px, 4vw, 56px); align-items: center; }
+        .es02-benefits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        @media (max-width: 900px) {
+          .es02-hero-grid { grid-template-columns: 1fr; }
+          .es02-benefits { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 520px) { .es02-benefits { grid-template-columns: 1fr; } }
+        @keyframes es02PromoPop { 0% { transform: scale(0.85) rotate(-6deg); opacity: 0; } 100% { transform: scale(1) rotate(-6deg); opacity: 1; } }
+        .es02-promo-bubble { animation: es02PromoPop 0.45s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; }
+        .es02-hero-cta { transition: background 0.15s, transform 0.15s; }
+        .es02-hero-cta:hover { transform: translateY(-1px); }
+        .es02-benefit-card { transition: box-shadow 0.2s, transform 0.2s; }
+        .es02-benefit-card:hover { box-shadow: 0 10px 28px rgba(20,43,69,0.09); transform: translateY(-2px); }
+      `}</style>
+
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(36px, 5vw, 64px) 20px 0" }}>
+        <div className="es02-hero-grid">
+          {/* Text */}
+          <div>
+            {badge && (
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: 7,
+                height: 30, padding: "0 14px", borderRadius: 15, marginBottom: 18,
+                background: `${ACCENT}18`, color: "#c25a1a",
+                fontSize: 12.5, fontWeight: 700, letterSpacing: "0.02em",
+              }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
+              </span>
+            )}
+            <GenericEditableText
+              sectionId={sectionId} field="heading" value={heading} tag="h1"
+              style={{ fontSize: "clamp(30px, 3.6vw, 46px)", fontWeight: 800, color: DARK, lineHeight: 1.14, letterSpacing: "-0.02em", margin: 0 }}
+            />
+            {subheading && (
+              <GenericEditableText
+                sectionId={sectionId} field="subheading" value={subheading} tag="p"
+                style={{ fontSize: "clamp(15px, 1.4vw, 17px)", color: MUTED, lineHeight: 1.65, margin: "16px 0 0", maxWidth: 480 }}
+              />
+            )}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 }}>
+              <a href={resolve(ctaHref)} className="es02-hero-cta" style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                height: 50, padding: "0 26px", borderRadius: 8,
+                background: BLUE, color: "#fff", textDecoration: "none",
+                fontSize: 15, fontWeight: 700,
+                boxShadow: "0 8px 20px rgba(18,102,204,0.28)",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = BLUE_DARK)}
+              onMouseLeave={(e) => (e.currentTarget.style.background = BLUE)}
+              >
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              {secondaryText && (
+                <a href={resolve(secondaryHref)} className="es02-hero-cta" style={{
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  height: 50, padding: "0 24px", borderRadius: 8,
+                  background: "#fff", color: DARK, textDecoration: "none",
+                  border: `1.5px solid ${BORDER}`, fontSize: 15, fontWeight: 700,
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.color = "#c25a1a"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.color = DARK; }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill={ACCENT} stroke="none"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z"/></svg>
+                  <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Image + promo bubble */}
+          <div style={{ position: "relative" }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={String(c.imageAlt ?? heading)} className="w-full">
+              <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", aspectRatio: "4 / 3", boxShadow: "0 24px 60px rgba(20,43,69,0.14)" }}>
+                {image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={image} alt={String(c.imageAlt ?? heading)} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                ) : (
+                  <div style={{ width: "100%", height: "100%", background: `${BLUE}14` }} />
+                )}
+              </div>
+            </GenericEditableImage>
+            {promoValue && (
+              <div className="es02-promo-bubble" style={{
+                position: "absolute", top: -18, right: -6,
+                width: 108, height: 108, borderRadius: "50%",
+                background: ACCENT, color: "#fff",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                boxShadow: "0 14px 32px rgba(240,128,60,0.4)", border: "4px solid #fff",
+              }}>
+                {promoLabel && <GenericEditableText sectionId={sectionId} field="promoLabel" value={promoLabel} tag="span" style={{ fontSize: 11.5, fontWeight: 700, opacity: 0.92 }} />}
+                <GenericEditableText sectionId={sectionId} field="promoValue" value={promoValue} tag="span" style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.1 }} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Benefit callouty */}
+        {benefits.length > 0 && (
+          <div className="es02-benefits" style={{ padding: "clamp(32px, 4vw, 52px) 0 clamp(28px, 3.5vw, 44px)" }}>
+            {benefits.map((b, i) => (
+              <div key={i} className="es02-benefit-card" style={{
+                display: "flex", alignItems: "center", gap: 13,
+                background: "#fff", border: `1px solid ${BORDER}`, borderRadius: 12,
+                padding: "16px 18px",
+              }}>
+                <span style={{
+                  width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+                  background: `${BLUE}10`, color: BLUE,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  {benefitIcon(b.icon)}
+                </span>
+                <span style={{ minWidth: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field={`benefits.${i}.title`} value={b.title ?? ""} tag="span" style={{ display: "block", fontSize: 14, fontWeight: 700, color: DARK, lineHeight: 1.3 }} />
+                  <GenericEditableText sectionId={sectionId} field={`benefits.${i}.text`} value={b.text ?? ""} tag="span" style={{ display: "block", fontSize: 12.5, color: MUTED, lineHeight: 1.4, marginTop: 2 }} />
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — slim banner pro podstránky.
+ * Navy strip s breadcrumb (Domů / titulek) + nadpis + perex.
+ * ============================================================ */
+
+function HeroEshop02Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const ACCENT = "#f0803c";
+  const DARK = "#142b45";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const heading = content.heading === undefined ? "" : String(content.heading);
+  const subheading = content.subheading === undefined ? "" : String(content.subheading);
+  const homeHref = isAdmin ? "#" : (tenantSlug ? `/demo/${tenantSlug}` : "/");
+
+  return (
+    <section className="wc2ph" data-variant="eshop-02-page-hero">
+      <style>{`
+        .wc2ph { background: linear-gradient(120deg, ${DARK} 0%, #1d3d63 100%); color: #fff; font-family: ${SANS}; position: relative; overflow: hidden; }
+        .wc2ph::after { content: ""; position: absolute; right: -100px; top: -140px; width: 340px; height: 340px; border-radius: 999px; background: rgba(255,255,255,0.05); }
+        .wc2ph-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: clamp(36px,5vw,64px) 24px; }
+        .wc2ph-crumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.6); margin: 0 0 12px; }
+        .wc2ph-crumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        .wc2ph-crumb a:hover { color: #fff; }
+        .wc2ph-crumb-sep { color: ${ACCENT}; }
+        .wc2ph-title { font-size: clamp(28px,3.6vw,44px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+        .wc2ph-sub { font-size: 15.5px; line-height: 1.65; color: rgba(255,255,255,0.78); margin: 12px 0 0; max-width: 640px; }
+      `}</style>
+      <div className="wc2ph-inner">
+        <p className="wc2ph-crumb">
+          <a href={homeHref}>Domů</a>
+          <span className="wc2ph-crumb-sep" aria-hidden>/</span>
+          <span>{heading}</span>
+        </p>
+        <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h1" className="wc2ph-title" />
+        {subheading.trim() !== "" && (
+          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="p" className="wc2ph-sub" />
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-03-hero ───────────────────────────────────────────────────────────────
+// Shoptet Disco carousel, povýšeno: full-width slider (auto-rotate 6 s) s foto
+// pozadím, bílým textovým panelem vlevo (badge, headline Nunito 900, perex)
+// a žlutým hranatým uppercase CTA. Šipky + tečky, radius 0, flat Disco look.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop03({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    slides?: Array<{ image?: string; imageAlt?: string; badge?: string; heading?: string; text?: string; ctaText?: string; ctaHref?: string }>;
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const slides = (c.slides ?? []).filter(s => s.heading || s.image);
+  const [active, setActive] = useState(0);
+  const count = slides.length;
+
+  useEffect(() => {
+    if (count < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % count), 6000);
+    return () => clearInterval(t);
+  }, [count]);
+
+  const YELLOW = "#FFC500";
+  const BLACK = "#000000";
+  const TEXT = "#1f1f1f";
+  const MUTED = "#767676";
+  const SANS = "'Nunito', 'Segoe UI', Arial, sans-serif";
+
+  if (!count) return null;
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS }} data-variant="eshop-03-hero">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+      <style>{`
+        .es03-hero { position: relative; max-width: 1280px; margin: 0 auto; padding: 20px 20px 0; }
+        .es03-hero-frame { position: relative; overflow: hidden; height: clamp(340px, 38vw, 480px); background: #f6f6f6; }
+        .es03-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.7s ease; }
+        .es03-slide.is-active { opacity: 1; z-index: 1; }
+        .es03-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .es03-slide-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.82) 34%, rgba(255,255,255,0) 62%); }
+        .es03-slide-panel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: clamp(24px, 5vw, 72px); max-width: 620px; }
+        .es03-hero-cta { display: inline-flex; align-items: center; gap: 9px; height: 52px; padding: 0 28px; background: #FFC500; color: #000; text-decoration: none; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; transition: background 0.2s; }
+        .es03-hero-cta:hover { background: #e6b200; }
+        .es03-hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 46px; height: 46px; border: none; cursor: pointer; background: rgba(255,255,255,0.88); color: #000; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .es03-hero-arrow:hover { background: #FFC500; }
+        .es03-hero-dots { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 8px; }
+        .es03-hero-dot { width: 10px; height: 10px; border-radius: 100%; border: none; cursor: pointer; background: rgba(0,0,0,0.22); transition: background 0.2s, transform 0.2s; padding: 0; }
+        .es03-hero-dot.is-active { background: #000; transform: scale(1.2); }
+        @media (max-width: 720px) {
+          .es03-hero { padding: 0; }
+          .es03-slide-shade { background: linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.75) 60%, rgba(255,255,255,0.4) 100%); }
+          .es03-hero-arrow { display: none; }
+        }
+      `}</style>
+
+      <div className="es03-hero">
+        <div className="es03-hero-frame">
+          {slides.map((s, i) => (
+            <div key={i} className={`es03-slide${i === active ? " is-active" : ""}`} aria-hidden={i !== active}>
+              {s.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={s.image} alt={String(s.imageAlt ?? s.heading ?? "")} loading={i === 0 ? "eager" : "lazy"} />
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: "#f6f6f6" }} />
+              )}
+              <div className="es03-slide-shade" />
+              <div className="es03-slide-panel">
+                {s.badge && (
+                  <span style={{ display: "inline-flex", alignSelf: "flex-start", padding: "5px 12px", marginBottom: 14, background: BLACK, color: "#fff", fontSize: 12.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.badge`} value={s.badge} tag="span" />
+                  </span>
+                )}
+                <GenericEditableText
+                  sectionId={sectionId} field={`slides.${i}.heading`} value={s.heading ?? ""} tag="h2"
+                  style={{ fontSize: "clamp(28px, 3.6vw, 46px)", fontWeight: 900, color: BLACK, lineHeight: 1.1, letterSpacing: "-0.01em", margin: 0 }}
+                />
+                {s.text && (
+                  <GenericEditableText
+                    sectionId={sectionId} field={`slides.${i}.text`} value={s.text} tag="p"
+                    style={{ fontSize: "clamp(14px, 1.4vw, 17px)", color: TEXT, lineHeight: 1.6, margin: "14px 0 0", maxWidth: 440 }}
+                  />
+                )}
+                {(s.ctaText ?? "") !== "" && (
+                  <div style={{ marginTop: 26 }}>
+                    <a href={resolve(s.ctaHref ?? "/obchod")} className="es03-hero-cta">
+                      <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={s.ctaText ?? "Nakupovat"} tag="span" />
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {count > 1 && (
+            <>
+              <button className="es03-hero-arrow" style={{ left: 0 }} aria-label="Předchozí"
+                onClick={() => setActive(a => (a - 1 + count) % count)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+              <button className="es03-hero-arrow" style={{ right: 0 }} aria-label="Další"
+                onClick={() => setActive(a => (a + 1) % count)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+              <div className="es03-hero-dots">
+                {slides.map((_, i) => (
+                  <button key={i} className={`es03-hero-dot${i === active ? " is-active" : ""}`} aria-label={`Slide ${i + 1}`} onClick={() => setActive(i)} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      <span style={{ display: "none" }} data-muted={MUTED} />
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-03 "Pohodář" — slim banner pro podstránky (Disco).
+ * Bílý pás s breadcrumb (Domů / titulek) + Nunito 900 nadpis + perex.
+ * ============================================================ */
+
+function HeroEshop03Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; text?: string; siteMode?: string };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const homeHref = resolveNavHref("/", siteMode, tenantSlug, isAdmin);
+  const SANS = "'Nunito', 'Segoe UI', Arial, sans-serif";
+
+  return (
+    <section data-variant="eshop-03-page-hero" style={{ background: "#f6f6f6", borderBottom: "1px solid #e6e6e6", fontFamily: SANS }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(28px,4vw,48px) 20px" }}>
+        <nav aria-label="Drobečková navigace" style={{ fontSize: 13, fontWeight: 600, color: "#767676", marginBottom: 10 }}>
+          <a href={homeHref} style={{ color: "#767676", textDecoration: "none" }}>Domů</a>
+          <span style={{ margin: "0 7px" }}>/</span>
+          <span style={{ color: "#000" }}>{String(c.heading ?? "")}</span>
+        </nav>
+        <GenericEditableText
+          sectionId={sectionId} field="heading" value={String(c.heading ?? "")} tag="h1"
+          style={{ fontSize: "clamp(26px,3vw,40px)", fontWeight: 900, color: "#000", letterSpacing: "-0.01em", lineHeight: 1.12, margin: 0 }}
+        />
+        {c.text ? (
+          <GenericEditableText
+            sectionId={sectionId} field="text" value={String(c.text)} tag="p"
+            style={{ fontSize: "clamp(14px,1.3vw,16.5px)", color: "#1f1f1f", lineHeight: 1.6, margin: "12px 0 0", maxWidth: 640 }}
+          />
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-04-hero ───────────────────────────────────────────────────────────────
+// Shoptet Samba 1:1: full-bleed carousel se SLIDE přechodem (translateX,
+// 0.6 s ease-in-out) a bílým caption panelem ukotveným k levému spodnímu okraji
+// (zaoblené jen horní rohy, titulek až 48 px, „Přejít do nabídky" link).
+// Pod sliderem řada 2 bannerů se stejným caption stylem (next-to-carousel-banners).
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop04({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    slides?: Array<{ image?: string; imageAlt?: string; heading?: string; text?: string; ctaText?: string; ctaHref?: string }>;
+    bottomBanners?: Array<{ image?: string; imageAlt?: string; heading?: string; text?: string; linkText?: string; href?: string }>;
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const slides = (c.slides ?? []).filter(s => s.heading || s.image);
+  const banners = (c.bottomBanners ?? []).slice(0, 2);
+  const [active, setActive] = useState(0);
+  const count = slides.length;
+
+  useEffect(() => {
+    if (count < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % count), 6500);
+    return () => clearInterval(t);
+  }, [count]);
+
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+
+  if (!count && !banners.length) return null;
+
+  const captionInner = (heading: string, headingField: string, text: string | undefined, textField: string, linkText: string, linkField: string, href: string, big: boolean) => (
+    <>
+      <GenericEditableText
+        sectionId={sectionId} field={headingField} value={heading} tag="span"
+        style={{ display: "block", fontSize: big ? "clamp(26px, 3.2vw, 48px)" : "clamp(20px, 2vw, 32px)", fontWeight: 700, color: "#161616", lineHeight: 1.18, marginBottom: text ? 12 : 18 }}
+      />
+      {text && (
+        <GenericEditableText
+          sectionId={sectionId} field={textField} value={text} tag="span"
+          style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden", fontSize: big ? "clamp(14px, 1.2vw, 16px)" : 14, color: "#161616", lineHeight: 1.5, letterSpacing: "0.8px", marginBottom: big ? 26 : 20 }}
+        />
+      )}
+      <span className="es04-cap-link">
+        <GenericEditableText sectionId={sectionId} field={linkField} value={linkText} tag="span" />
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" style={{ marginLeft: "1em" }}><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </>
+  );
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS }} data-variant="eshop-04-hero">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" />
+      <style>{`
+        .es04-hero-frame { position: relative; overflow: hidden; height: clamp(360px, 40vw, 540px); background: #f9f9f9; }
+        .es04-track { display: flex; height: 100%; transition: transform 0.6s ease-in-out; will-change: transform; }
+        .es04-slide { position: relative; height: 100%; overflow: hidden; }
+        .es04-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .es04-caption {
+          position: absolute; left: clamp(24px, 4.5vw, 64px); bottom: 0;
+          max-width: min(520px, calc(100% - 48px)); max-height: 90%;
+          background: #fff; border-radius: 8px 8px 0 0;
+          padding: clamp(22px, 2.8vw, 40px);
+          display: flex; flex-flow: column; justify-content: center; align-items: flex-start;
+        }
+        .es04-cap-link { display: inline-flex; align-items: center; font-size: 14px; font-weight: 600; color: #6883ba; transition: color 0.3s; cursor: pointer; }
+        .es04-slide a:hover .es04-cap-link, .es04-banner2 a:hover .es04-cap-link { color: #7999d9; }
+        .es04-hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 46px; height: 46px; border: none; border-radius: 999px; cursor: pointer; background: rgba(255,255,255,0.85); color: #161616; display: flex; align-items: center; justify-content: center; transition: background 0.2s, opacity 0.2s; opacity: 0; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+        .es04-hero-frame:hover .es04-hero-arrow { opacity: 1; }
+        .es04-hero-arrow:hover { background: #fff; }
+        .es04-hero-dots { position: absolute; bottom: 18px; right: clamp(20px, 4vw, 48px); z-index: 3; display: flex; gap: 8px; }
+        .es04-hero-dot { width: 10px; height: 10px; border-radius: 100%; border: none; cursor: pointer; background: rgba(255,255,255,0.55); transition: background 0.2s, transform 0.2s; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+        .es04-hero-dot.is-active { background: #fff; transform: scale(1.25); }
+        @media (max-width: 720px) {
+          .es04-hero-frame { height: 400px; }
+          .es04-caption { left: 12px; max-width: calc(100% - 24px); padding: 16px 18px; }
+          .es04-caption span:first-child { font-size: 20px !important; }
+          .es04-hero-arrow { display: none; }
+          .es04-hero-dots { top: 14px; bottom: auto; right: 14px; }
+          .es04-banners2 { grid-template-columns: 1fr; }
+          .es04-banner2 .es04-caption { padding: 14px 16px; }
+        }
+        /* 2 bannery pod sliderem (next-to-carousel-banners) */
+        .es04-banners2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0; width: 100%; }
+        @media (max-width: 860px) { .es04-banners2 { grid-template-columns: 1fr; } }
+        .es04-banner2 { position: relative; display: block; overflow: hidden; background: #f9f9f9; text-decoration: none; }
+        .es04-banner2 .es04-b2-img { aspect-ratio: 960/560; }
+        .es04-banner2 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .es04-banner2 .es04-caption { left: clamp(18px, 2.5vw, 32px); max-width: min(420px, calc(100% - 36px)); padding: clamp(18px, 2vw, 28px); }
+      `}</style>
+
+      {count > 0 && (
+        <div className="es04-hero-frame">
+          <div className="es04-track" style={{ width: `${count * 100}%`, transform: `translateX(-${active * (100 / count)}%)` }}>
+          {slides.map((s, i) => {
+            return (
+              <div key={i} className="es04-slide" style={{ width: `${100 / count}%`, flex: "0 0 auto" }} aria-hidden={i !== active}>
+                <a href={isAdmin ? undefined : resolve(s.ctaHref ?? "/obchod")} style={{ display: "block", height: "100%", textDecoration: "none" }}>
+                  {s.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={s.image} alt={String(s.imageAlt ?? s.heading ?? "")} loading={i === 0 ? "eager" : "lazy"} />
+                  ) : (
+                    <div style={{ width: "100%", height: "100%", background: "#f9f9f9" }} />
+                  )}
+                  <span className="es04-caption">
+                    {captionInner(s.heading ?? "", `slides.${i}.heading`, s.text, `slides.${i}.text`, s.ctaText ?? "Přejít do nabídky", `slides.${i}.ctaText`, s.ctaHref ?? "/obchod", true)}
+                  </span>
+                </a>
+              </div>
+            );
+          })}
+          </div>
+
+          {count > 1 && (
+            <>
+              <button className="es04-hero-arrow" style={{ left: 16 }} aria-label="Předchozí"
+                onClick={() => setActive(a => (a - 1 + count) % count)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+              <button className="es04-hero-arrow" style={{ right: 16 }} aria-label="Další"
+                onClick={() => setActive(a => (a + 1) % count)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+              <div className="es04-hero-dots">
+                {slides.map((_, i) => (
+                  <button key={i} className={`es04-hero-dot${i === active ? " is-active" : ""}`} aria-label={`Slide ${i + 1}`} onClick={() => setActive(i)} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {banners.length > 0 && (
+        <div className="es04-banners2">
+          {banners.map((b, i) => (
+            <a key={i} href={isAdmin ? "#" : resolve(b.href ?? "/obchod")} className="es04-banner2">
+              <span className="es04-b2-img" style={{ display: "block" }}>
+                {b.image && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={b.image} alt={String(b.imageAlt ?? b.heading ?? "")} loading="lazy" />
+                )}
+              </span>
+              <span className="es04-caption">
+                {captionInner(b.heading ?? "", `bottomBanners.${i}.heading`, b.text, `bottomBanners.${i}.text`, b.linkText ?? "Přejít do nabídky", `bottomBanners.${i}.linkText`, b.href ?? "/obchod", false)}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-04 "Pastelka" — slim banner pro podstránky (Samba).
+ * Světlý pás s breadcrumb + Raleway 800 nadpis + perex.
+ * ============================================================ */
+
+function HeroEshop04Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { heading?: string; text?: string; siteMode?: string };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const homeHref = resolveNavHref("/", siteMode, tenantSlug, isAdmin);
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+
+  return (
+    <section data-variant="eshop-04-page-hero" style={{ background: "#f9f9f9", fontFamily: SANS }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" />
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(28px,4vw,48px) 20px", textAlign: "center" }}>
+        <nav aria-label="Drobečková navigace" style={{ fontSize: 13, fontWeight: 500, color: "#6f6f6f", marginBottom: 10 }}>
+          <a href={homeHref} style={{ color: "#6f6f6f", textDecoration: "none" }}>Domů</a>
+          <span style={{ margin: "0 7px" }}>/</span>
+          <span style={{ color: "#6883ba", fontWeight: 600 }}>{String(c.heading ?? "")}</span>
+        </nav>
+        <GenericEditableText
+          sectionId={sectionId} field="heading" value={String(c.heading ?? "")} tag="h1"
+          style={{ fontSize: "clamp(26px,3vw,40px)", fontWeight: 800, color: "#161616", lineHeight: 1.12, margin: 0 }}
+        />
+        {c.text ? (
+          <GenericEditableText
+            sectionId={sectionId} field="text" value={String(c.text)} tag="p"
+            style={{ fontSize: "clamp(14px,1.3vw,16.5px)", color: "#6f6f6f", lineHeight: 1.6, margin: "12px auto 0", maxWidth: 640 }}
+          />
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+ * eshop-05 "Hračkolandia" — Infinite hero carousel (pompo DNA).
+ * Horizontal slide, seamless infinite loop, autoplay 5.5s.
+ * ============================================================ */
+
+function HeroEshop05({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    autoplayMs?: number;
+    slides?: Array<{
+      image?: string;
+      badge?: string;
+      title?: string;
+      subtitle?: string;
+      ctaText?: string;
+      ctaHref?: string;
+      secondaryText?: string;
+      secondaryHref?: string;
+    }>;
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const slides = (c.slides ?? []).filter(s => s.title || s.image);
+  const count = slides.length;
+  const autoplay = c.autoplayMs ?? 5500;
+
+  const [pos, setPos] = useState(1);
+  const [anim, setAnim] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const resettingRef = useRef(false);
+  const busyRef = useRef(false);
+
+  const total = count + 2;
+  const extSlides = count > 0 ? [slides[count - 1], ...slides, slides[0]] : [];
+
+  const resetTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (count < 2) return;
+    timerRef.current = setInterval(() => {
+      if (busyRef.current) return;
+      busyRef.current = true;
+      setAnim(true);
+      setPos(p => p + 1);
+    }, autoplay);
+  };
+
+  useEffect(() => {
+    resetTimer();
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [count, autoplay]);
+
+  useEffect(() => {
+    if (resettingRef.current) {
+      resettingRef.current = false;
+    }
+  });
+
+  const handleTransitionEnd = () => {
+    if (pos >= count + 1) {
+      resettingRef.current = true;
+      setAnim(false);
+      setPos(1);
+      requestAnimationFrame(() => { busyRef.current = false; });
+    } else if (pos <= 0) {
+      resettingRef.current = true;
+      setAnim(false);
+      setPos(count);
+      requestAnimationFrame(() => { busyRef.current = false; });
+    } else {
+      busyRef.current = false;
+    }
+  };
+
+  const realIndex = pos <= 0 ? count - 1 : pos > count ? 0 : pos - 1;
+
+  const goTo = (idx: number) => {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setAnim(true);
+    setPos(idx + 1);
+    resetTimer();
+  };
+  const goPrev = () => {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setAnim(true);
+    setPos(p => p - 1);
+    resetTimer();
+  };
+  const goNext = () => {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setAnim(true);
+    setPos(p => p + 1);
+    resetTimer();
+  };
+
+  const MELON = "#ff3b5c";
+  const NAVY = "#0e1b2c";
+  const SANS = "'Nunito Sans', 'Segoe UI', Arial, sans-serif";
+
+  if (!count) return null;
+
+  const slideW = 100 / total;
+  const trackX = -(pos * slideW);
+  const isResetting = resettingRef.current;
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS }} data-variant="eshop-05-hero">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" />
+      <style>{`
+        .es05-hero { position: relative; width: 100%; overflow: hidden; height: clamp(320px, 25vw, 480px); }
+        .es05-track { display: flex; height: 100%; }
+        .es05-slide { position: relative; height: 100%; overflow: hidden; flex-shrink: 0; }
+        .es05-slide-img {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 6s ease-out;
+        }
+        .es05-slide.is-active .es05-slide-img { transform: scale(1.06); }
+        .es05-slide-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,27,44,0.78) 0%, rgba(14,27,44,0.48) 38%, rgba(14,27,44,0.05) 68%, transparent 100%); }
+        .es05-slide-content {
+          position: absolute; inset: 0; z-index: 2;
+          display: flex; flex-direction: column; justify-content: center;
+          padding: clamp(28px, 5vw, 80px); max-width: 620px;
+          opacity: 0; transform: translateY(20px);
+        }
+        .es05-slide.is-active .es05-slide-content.es05-entry {
+          animation: es05SlideIn 0.55s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+        }
+        .es05-slide.is-active .es05-slide-content.es05-no-entry {
+          opacity: 1; transform: translateY(0);
+        }
+        @keyframes es05SlideIn {
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .es05-badge { display: inline-flex; align-self: flex-start; padding: 5px 14px; margin-bottom: 14px; background: ${MELON}; color: #fff; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 3px; }
+        .es05-title { font-size: clamp(26px, 3.4vw, 48px); font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -0.02em; margin: 0; text-shadow: 0 2px 16px rgba(0,0,0,0.22); }
+        .es05-subtitle { font-size: clamp(13px, 1.2vw, 16.5px); color: rgba(255,255,255,0.86); line-height: 1.55; margin: 12px 0 0; max-width: 480px; text-shadow: 0 1px 6px rgba(0,0,0,0.12); }
+        .es05-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+        .es05-cta-primary {
+          display: inline-flex; align-items: center; gap: 9px; height: 50px; padding: 0 28px;
+          background: ${MELON}; color: #fff; text-decoration: none; font-size: 14.5px; font-weight: 800;
+          border-radius: 4px; letter-spacing: 0.02em; transition: background 0.2s, transform 0.15s;
+          box-shadow: 0 4px 14px rgba(255,59,92,0.3);
+        }
+        .es05-cta-primary:hover { background: #e6334f; transform: translateY(-1px); }
+        .es05-cta-secondary {
+          display: inline-flex; align-items: center; gap: 8px; height: 50px; padding: 0 24px;
+          background: rgba(255,255,255,0.12); color: #fff; text-decoration: none; font-size: 14.5px; font-weight: 700;
+          border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.35); backdrop-filter: blur(6px);
+          transition: background 0.2s, border-color 0.2s;
+        }
+        .es05-cta-secondary:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.6); }
+        .es05-arrow {
+          position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+          width: 48px; height: 48px; border: none; cursor: pointer;
+          background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+          color: #fff; display: flex; align-items: center; justify-content: center;
+          border-radius: 50%; transition: background 0.2s, transform 0.15s;
+        }
+        .es05-arrow:hover { background: ${MELON}; transform: translateY(-50%) scale(1.08); }
+        .es05-arrow--left { left: clamp(10px, 1.5vw, 24px); }
+        .es05-arrow--right { right: clamp(10px, 1.5vw, 24px); }
+        .es05-dots {
+          position: absolute; bottom: clamp(14px, 2vw, 24px); left: clamp(28px, 5vw, 80px); z-index: 5;
+          display: flex; gap: 9px;
+        }
+        .es05-dot {
+          width: 11px; height: 11px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.55);
+          background: transparent; cursor: pointer; padding: 0; transition: all 0.3s;
+        }
+        .es05-dot.is-active { background: ${MELON}; border-color: ${MELON}; transform: scale(1.2); box-shadow: 0 0 8px rgba(255,59,92,0.45); }
+        @media (max-width: 768px) {
+          .es05-hero { height: 560px; }
+          .es05-slide-overlay { background: linear-gradient(0deg, rgba(14,27,44,0.92) 0%, rgba(14,27,44,0.55) 45%, rgba(14,27,44,0.2) 100%); }
+          .es05-slide-content { justify-content: flex-end; padding: 20px 22px 76px; max-width: 100%; }
+          .es05-arrow { display: none; }
+          .es05-badge { align-self: center; margin-bottom: 12px; }
+          .es05-title { text-align: center; font-size: 27px; line-height: 1.15; }
+          .es05-subtitle { text-align: center; max-width: 100%; font-size: 14px; margin-top: 10px; }
+          .es05-ctas { flex-direction: column; align-items: stretch; margin-top: 20px; gap: 10px; }
+          .es05-cta-primary, .es05-cta-secondary { justify-content: center; height: 52px; }
+          .es05-dots { left: 50%; transform: translateX(-50%); bottom: 22px; }
+        }
+      `}</style>
+
+      <div className="es05-hero">
+        <div className="es05-track"
+          style={{
+            width: `${total * 100}%`,
+            transform: `translateX(${trackX}%)`,
+            transition: anim ? "transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94)" : "none",
+          }}
+          onTransitionEnd={handleTransitionEnd}
+        >
+          {extSlides.map((s, i) => {
+            const isReal = i === pos;
+            const origIdx = i === 0 ? count - 1 : i > count ? 0 : i - 1;
+            return (
+              <div key={i} className={`es05-slide${isReal ? " is-active" : ""}`} style={{ width: `${slideW}%` }} aria-hidden={!isReal}>
+                {s.image && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img className="es05-slide-img" src={s.image} alt={String(s.title ?? "")} loading={i <= 1 ? "eager" : "lazy"} />
+                )}
+                <div className="es05-slide-overlay" />
+                <div className={`es05-slide-content ${isReal && isResetting ? "es05-no-entry" : "es05-entry"}`}>
+                  {s.badge && (
+                    <span className="es05-badge">
+                      <GenericEditableText sectionId={sectionId} field={`slides.${origIdx}.badge`} value={s.badge} tag="span" />
+                    </span>
+                  )}
+                  <GenericEditableText
+                    sectionId={sectionId} field={`slides.${origIdx}.title`} value={s.title ?? ""} tag="h2"
+                    className="es05-title"
+                  />
+                  {s.subtitle && (
+                    <GenericEditableText
+                      sectionId={sectionId} field={`slides.${origIdx}.subtitle`} value={s.subtitle} tag="p"
+                      className="es05-subtitle"
+                    />
+                  )}
+                  <div className="es05-ctas">
+                    {s.ctaText && (
+                      <a href={resolve(s.ctaHref ?? "/obchod")} className="es05-cta-primary">
+                        <GenericEditableText sectionId={sectionId} field={`slides.${origIdx}.ctaText`} value={s.ctaText} tag="span" />
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </a>
+                    )}
+                    {s.secondaryText && (
+                      <a href={resolve(s.secondaryHref ?? "/obchod")} className="es05-cta-secondary">
+                        <GenericEditableText sectionId={sectionId} field={`slides.${origIdx}.secondaryText`} value={s.secondaryText} tag="span" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {count > 1 && (
+          <>
+            <button className="es05-arrow es05-arrow--left" aria-label="Předchozí" onClick={goPrev}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+            </button>
+            <button className="es05-arrow es05-arrow--right" aria-label="Další" onClick={goNext}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+            <div className="es05-dots">
+              {slides.map((_, i) => (
+                <button key={i} className={`es05-dot${i === realIndex ? " is-active" : ""}`} aria-label={`Slide ${i + 1}`} onClick={() => goTo(i)} />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-hero ───────────────────────────────────────────────────────────────
+// Svetplodu.cz DNA hero (Ořeškárna): v kontejneru s odsazením (ne full-bleed).
+// Nahoře 2 promo karty (foto + gradient overlay + Archivo headline + outline CTA
+// + žlutá kruhová badge bublina s rotací), pod tím široký crossfade slider
+// (barevný blob s uppercase titulkem, doprovodný text, charcoal CTA, badge
+// kruh, tečky dole). Autoplay 6s, pauza na hover.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es06Promo = { image?: string; title?: string; ctaText?: string; ctaHref?: string; badge?: string };
+type Es06Slide = { image?: string; bubble?: string; bubbleColor?: string; text?: string; ctaText?: string; ctaHref?: string; badge?: string };
+
+function HeroEshop06({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as {
+    promos?: Es06Promo[];
+    slides?: Es06Slide[];
+    autoplayMs?: number;
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const promos = (c.promos ?? []).slice(0, 2);
+  const slides = (c.slides ?? []).filter(s => s.image || s.bubble);
+  const autoplay = c.autoplayMs ?? 6000;
+
+  const [idx, setIdx] = useState(0);
+  const [hover, setHover] = useState(false);
+  useEffect(() => {
+    if (slides.length < 2 || hover) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % slides.length), autoplay);
+    return () => clearInterval(t);
+  }, [slides.length, hover, autoplay]);
+
+  const CHARCOAL = "#1d1d1b";
+  const YELLOW = "#f6c500";
+  const SANS = "'Figtree', 'Segoe UI', Arial, sans-serif";
+  const HEAD = "'Archivo', 'Helvetica Neue', Arial, sans-serif";
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, paddingTop: 6 }} data-variant="eshop-06-hero">
+      <style>{`
+        .es06h-promo { transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s; }
+        .es06h-promo:hover { transform: translateY(-3px); box-shadow: 0 22px 44px rgba(29,29,27,0.16); }
+        .es06h-promo:hover .es06h-promo-cta { background: #fff; color: ${CHARCOAL}; }
+        .es06h-promo:hover .es06h-img { transform: scale(1.05); }
+        .es06h-img { transition: transform 4.5s cubic-bezier(0.16,1,0.3,1); }
+        .es06h-cta { transition: background 0.18s, transform 0.18s; }
+        .es06h-cta:hover { background: #000 !important; transform: translateY(-1px); }
+        @keyframes es06hFloat { 0%,100% { transform: rotate(7deg) translateY(0); } 50% { transform: rotate(7deg) translateY(-6px); } }
+        .es06h-badge { animation: es06hFloat 4s ease-in-out infinite; }
+        .es06h-dot { transition: width 0.25s, background 0.25s; cursor: pointer; border: none; padding: 0; }
+        @media (max-width: 860px) {
+          .es06h-grid { grid-template-columns: 1fr !important; }
+          .es06h-slide-inner { padding: 28px 24px !important; }
+          .es06h-bubble { font-size: clamp(22px, 6.4vw, 30px) !important; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        {/* ═══ 2 PROMO KARTY ═══ */}
+        {promos.length > 0 && (
+          <div className="es06h-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 18 }}>
+            {promos.map((p, i) => (
+              <a key={i} href={resolve(p.ctaHref ?? "/obchod")} className="es06h-promo" style={{
+                position: "relative", display: "block", borderRadius: 16, overflow: "hidden",
+                minHeight: 305, textDecoration: "none", background: "#f5f5f2",
+              }}>
+                {p.image && (
+                  <img src={p.image} alt="" className="es06h-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} loading={i === 0 ? "eager" : "lazy"} />
+                )}
+                <span style={{ position: "absolute", inset: 0, background: "linear-gradient(78deg, rgba(29,29,27,0.62) 0%, rgba(29,29,27,0.28) 52%, rgba(29,29,27,0.05) 100%)" }} />
+                <span style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", gap: 16, minHeight: 305, padding: "30px 150px 30px 34px" }}>
+                  <span style={{ fontFamily: HEAD, fontSize: "clamp(22px, 2.1vw, 29px)", fontWeight: 800, lineHeight: 1.14, color: "#fff", letterSpacing: "-0.01em", maxWidth: 330 }}>{p.title}</span>
+                  {p.ctaText && (
+                    <span className="es06h-promo-cta" style={{
+                      display: "inline-flex", alignItems: "center", height: 42, padding: "0 22px",
+                      border: "2px solid #fff", borderRadius: 10, color: "#fff",
+                      fontFamily: HEAD, fontSize: 12.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.07em",
+                      transition: "background 0.18s, color 0.18s",
+                    }}>{p.ctaText}</span>
+                  )}
+                </span>
+                {p.badge && (
+                  <span className="es06h-badge" style={{
+                    position: "absolute", top: 20, right: 22, zIndex: 3,
+                    width: 92, height: 92, borderRadius: "50%", background: YELLOW, color: CHARCOAL,
+                    display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center",
+                    fontFamily: HEAD, fontSize: 12.5, fontWeight: 800, textTransform: "uppercase", lineHeight: 1.25,
+                    padding: 10, boxShadow: "0 10px 24px rgba(29,29,27,0.22)", whiteSpace: "pre-line",
+                  }}>{p.badge}</span>
+                )}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {/* ═══ ŠIROKÝ SLIDER ═══ */}
+        {slides.length > 0 && (
+          <div
+            onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+            style={{ position: "relative", borderRadius: 16, overflow: "hidden", height: "clamp(340px, 34vw, 470px)", background: "#f5f5f2" }}
+          >
+            {slides.map((s, i) => (
+              <div key={i} aria-hidden={i !== idx} style={{
+                position: "absolute", inset: 0, opacity: i === idx ? 1 : 0,
+                transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1)", pointerEvents: i === idx ? "auto" : "none",
+              }}>
+                {s.image && (
+                  <img src={s.image} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} loading={i === 0 ? "eager" : "lazy"} />
+                )}
+                <span style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(29,29,27,0.42) 0%, rgba(29,29,27,0.12) 55%, rgba(29,29,27,0) 100%)" }} />
+                <div className="es06h-slide-inner" style={{
+                  position: "relative", zIndex: 2, height: "100%", display: "flex", flexDirection: "column",
+                  alignItems: "flex-start", justifyContent: "center", gap: 18, padding: "40px 64px", maxWidth: 640,
+                }}>
+                  {s.bubble && (
+                    <span className="es06h-bubble" style={{
+                      display: "inline-block", padding: "16px 26px", borderRadius: 18,
+                      background: s.bubbleColor || "#e04f70", color: "#fff",
+                      fontFamily: HEAD, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 800,
+                      textTransform: "uppercase", lineHeight: 1.08, letterSpacing: "-0.01em",
+                      transform: "rotate(-2deg)", boxShadow: "0 14px 34px rgba(29,29,27,0.24)",
+                    }}>{s.bubble}</span>
+                  )}
+                  {s.text && (
+                    <span style={{ fontSize: "clamp(14.5px, 1.3vw, 17px)", fontWeight: 600, lineHeight: 1.5, color: "#fff", textShadow: "0 1px 10px rgba(29,29,27,0.4)", maxWidth: 420 }}>{s.text}</span>
+                  )}
+                  {s.ctaText && (
+                    <a href={resolve(s.ctaHref ?? "/obchod")} className="es06h-cta" style={{
+                      display: "inline-flex", alignItems: "center", height: 50, padding: "0 30px",
+                      background: CHARCOAL, color: "#fff", borderRadius: 10, textDecoration: "none",
+                      fontFamily: HEAD, fontSize: 13.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.07em",
+                      boxShadow: "0 12px 28px rgba(29,29,27,0.3)",
+                    }}>{s.ctaText}</a>
+                  )}
+                </div>
+                {s.badge && (
+                  <span className="es06h-badge" style={{
+                    position: "absolute", top: 26, right: 34, zIndex: 3,
+                    width: 104, height: 104, borderRadius: "50%", background: YELLOW, color: CHARCOAL,
+                    display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center",
+                    fontFamily: HEAD, fontSize: 17, fontWeight: 900, textTransform: "uppercase", lineHeight: 1.15,
+                    padding: 12, boxShadow: "0 12px 28px rgba(29,29,27,0.26)", whiteSpace: "pre-line",
+                  }}>{s.badge}</span>
+                )}
+              </div>
+            ))}
+
+            {slides.length > 1 && (
+              <div style={{ position: "absolute", bottom: 18, left: 0, right: 0, zIndex: 4, display: "flex", justifyContent: "center", gap: 8 }}>
+                {slides.map((_, i) => (
+                  <button key={i} type="button" aria-label={`Slide ${i + 1}`} onClick={() => setIdx(i)} className="es06h-dot" style={{
+                    width: i === idx ? 26 : 9, height: 9, borderRadius: 5,
+                    background: i === idx ? "#fff" : "rgba(255,255,255,0.55)",
+                  }} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-hero ───────────────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): velký lifestyle banner vlevo s bílou info kartou
+// (title + text + zelené Prozkoumat →) + 2 menší bannery vpravo nad sebou.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop08({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const MUTED = "#8a8a86";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const main = content.main as { image?: string; title?: string; text?: string; ctaText?: string; ctaHref?: string } | undefined;
+  const side = (content.side as Array<{ image?: string; badge?: string; title?: string; text?: string; href?: string }>) ?? [];
+
+  const InfoChip = ({ title, text, cta }: { title?: string; text?: string; cta?: string }) => (
+    <span style={{
+      position: "absolute", left: 18, bottom: 18, right: "auto", maxWidth: "calc(100% - 36px)",
+      background: "#fff", borderRadius: 12, padding: "13px 18px", display: "block",
+      boxShadow: "0 10px 30px rgba(43,43,43,0.16)",
+    }}>
+      <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <span style={{ fontSize: 16.5, fontWeight: 800, color: INK, lineHeight: 1.25 }}>{title}</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+      {text && <span style={{ display: "block", marginTop: 3, fontSize: 13, fontWeight: 500, color: MUTED }}>{text}</span>}
+      {cta && <span style={{ display: "inline-block", marginTop: 8, fontSize: 13, fontWeight: 700, color: GREEN }}>{cta} →</span>}
+    </span>
+  );
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, padding: "6px 0 10px" }} data-variant="eshop-08-hero">
+      <style>{`
+        .es08h-banner { position: relative; display: block; border-radius: 16px; overflow: hidden; text-decoration: none; }
+        .es08h-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es08h-banner:hover img { transform: scale(1.035); }
+        .es08h-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; }
+        .es08h-side { display: grid; grid-template-rows: 1fr 1fr; gap: 16px; }
+        @media (max-width: 900px) {
+          .es08h-grid { grid-template-columns: 1fr; }
+          .es08h-side { grid-template-rows: none; grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 560px) { .es08h-side { grid-template-columns: 1fr; } }
+        .es08h-badge { position: absolute; top: 16px; right: 16px; background: #d64541; color: #fff; border-radius: 999px; padding: 8px 14px; font-size: 14px; font-weight: 800; box-shadow: 0 6px 18px rgba(43,43,43,0.2); }
+      `}</style>
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es08h-grid">
+          {main && (
+            <a href={resolve(main.ctaHref ?? "/obchod")} className="es08h-banner" style={{ minHeight: "min(62vw, 460px)" }}>
+              {main.image && <img src={main.image} alt="" loading="eager" />}
+              <InfoChip title={main.title} text={main.text} cta={main.ctaText} />
+            </a>
+          )}
+          <div className="es08h-side">
+            {side.slice(0, 2).map((b, i) => (
+              <a key={i} href={resolve(b.href ?? "/obchod")} className="es08h-banner" style={{ minHeight: 180 }}>
+                {b.image && <img src={b.image} alt="" loading={i === 0 ? "eager" : "lazy"} />}
+                {b.badge && <span className="es08h-badge">{b.badge}</span>}
+                <InfoChip title={b.title} text={b.text} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-08-page-hero (slim subpage banner) ────────────────────────────────
+function HeroEshop08Page({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const MUTED = "#8a8a86";
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  return (
+    <section style={{ background: "#f4f4f2", fontFamily: SANS, padding: "44px 0 38px", borderBottom: "1px solid #e6e6e3" }} data-variant="eshop-08-page-hero">
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <h1 style={{ fontSize: 34, fontWeight: 800, color: INK, margin: 0, letterSpacing: "-0.02em" }}>{title}</h1>
+        {subtitle && <p style={{ fontSize: 15.5, fontWeight: 500, color: MUTED, margin: "10px 0 0", maxWidth: 640 }}>{subtitle}</p>}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-hero ───────────────────────────────────────────────────────────────
+// Kosmetika-zdravi.cz DNA hero (Néroli parfumerie): široký slider v kontejneru
+// se zaoblením a HORIZONTÁLNÍM slide efektem (track translateX, nekonečná
+// smyčka dopředu přes klon prvního slidu). Foto přes celý slide, vpravo textový
+// blok na jemném bílém scrimu — uppercase část titulku + věta, odstavec, ink
+// CTA; text nastupuje rise animací při každém přejezdu. Tečky dole uprostřed,
+// autoplay 6s s pauzou na hover.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07Slide = { image?: string; headingCaps?: string; heading?: string; text?: string; ctaText?: string; ctaHref?: string };
+
+function HeroEshop07({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  void sectionId;
+  const c = content as {
+    slides?: Es07Slide[];
+    autoplayMs?: number;
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const slides = (c.slides ?? []).filter(s => s.image);
+  const autoplay = c.autoplayMs ?? 6000;
+  const count = slides.length;
+
+  // Track pozice: 0..count (count = klon prvního slidu → po dojezdu tichý skok na 0)
+  const [pos, setPos] = useState(0);
+  const [anim, setAnim] = useState(true);
+  const [hover, setHover] = useState(false);
+  const busyRef = useRef(false);
+
+  useEffect(() => {
+    if (count < 2 || hover) return;
+    const t = setInterval(() => {
+      if (!busyRef.current) { busyRef.current = true; setPos(p => p + 1); }
+    }, autoplay);
+    return () => clearInterval(t);
+  }, [count, hover, autoplay]);
+
+  const onTrackEnd = () => {
+    busyRef.current = false;
+    setPos(p => {
+      if (p >= count) {
+        setAnim(false);
+        requestAnimationFrame(() => requestAnimationFrame(() => setAnim(true)));
+        return 0;
+      }
+      return p;
+    });
+  };
+
+  const goTo = (i: number) => {
+    if (busyRef.current) return;
+    busyRef.current = true;
+    setPos(i);
+  };
+
+  const active = count ? pos % count : 0;
+
+  const INK = "#16161d";
+  const MUTED = "#3d3f4a";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+
+  if (!count) return null;
+  const trackSlides = [...slides, slides[0]];
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, paddingTop: 10 }} data-variant="eshop-07-hero">
+      <style>{`
+        .es07h-cta { transition: background 0.18s, transform 0.18s; }
+        .es07h-cta:hover { background: #000 !important; transform: translateY(-1px); }
+        .es07h-dot { transition: width 0.25s, background 0.25s; cursor: pointer; border: none; padding: 0; }
+        .es07h-copy { opacity: 0; }
+        .es07h-copy-on { animation: es07hRise 0.75s cubic-bezier(0.16,1,0.3,1) 0.25s forwards; }
+        @keyframes es07hRise { from { opacity: 0; transform: translateY(-50%) translateX(46px); } to { opacity: 1; transform: translateY(-50%) translateX(0); } }
+        @media (max-width: 860px) {
+          .es07h-frame { height: 560px !important; border-radius: 14px !important; }
+          .es07h-copy { left: 24px !important; right: 24px !important; max-width: none !important; top: auto !important; bottom: 56px !important; transform: none !important; }
+          @keyframes es07hRise { from { opacity: 0; transform: translateX(46px); } to { opacity: 1; transform: translateX(0); } }
+          .es07h-scrim { background: linear-gradient(to top, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.78) 46%, rgba(255,255,255,0.1) 100%) !important; }
+          .es07h-heading { font-size: clamp(24px, 6.8vw, 32px) !important; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es07h-frame" style={{ position: "relative", height: "clamp(430px, 36vw, 520px)", borderRadius: 18, overflow: "hidden" }}
+          onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+          {/* Track — horizontální slide */}
+          <div onTransitionEnd={onTrackEnd} style={{
+            display: "flex", height: "100%", width: "100%",
+            transform: `translateX(-${pos * 100}%)`,
+            transition: anim ? "transform 0.8s cubic-bezier(0.65,0,0.35,1)" : "none",
+            willChange: "transform",
+          }}>
+            {trackSlides.map((s, i) => {
+              const isActive = (i % count) === active && !(pos === count && i < count);
+              return (
+                <div key={i} style={{ position: "relative", flex: "0 0 100%", minWidth: 0, height: "100%", overflow: "hidden" }} aria-hidden={!isActive}>
+                  <img src={s.image} alt="" loading={i === 0 ? "eager" : "lazy"} style={{
+                    position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block",
+                  }} />
+                  <span className="es07h-scrim" style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to left, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.62) 34%, rgba(255,255,255,0) 62%)",
+                  }} />
+                  <div className={`es07h-copy${isActive ? " es07h-copy-on" : ""}`} style={{
+                    position: "absolute", top: "50%", transform: "translateY(-50%)", right: "6.5%",
+                    maxWidth: 520, display: "flex", flexDirection: "column", alignItems: "flex-start",
+                  }}>
+                    <h2 className="es07h-heading" style={{
+                      margin: 0, fontFamily: SANS, fontWeight: 800, fontSize: "clamp(28px, 3.1vw, 42px)",
+                      lineHeight: 1.14, color: INK, letterSpacing: "-0.01em",
+                    }}>
+                      {s.headingCaps && <span style={{ textTransform: "uppercase" }}>{s.headingCaps}</span>}
+                      {s.headingCaps && s.heading ? " – " : ""}
+                      {s.heading}
+                    </h2>
+                    {s.text && (
+                      <p style={{ margin: "16px 0 0", fontSize: 16, fontWeight: 500, lineHeight: 1.6, color: MUTED, maxWidth: 460 }}>{s.text}</p>
+                    )}
+                    {s.ctaText && (
+                      <a href={resolve(s.ctaHref ?? "/obchod")} className="es07h-cta" style={{
+                        marginTop: 26, display: "inline-flex", alignItems: "center", justifyContent: "center",
+                        padding: "16px 34px", background: INK, color: "#fff", textDecoration: "none",
+                        fontSize: 12.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.12em",
+                      }}>{s.ctaText}</a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Tečky */}
+          {count > 1 && (
+            <div style={{ position: "absolute", bottom: 20, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 8, zIndex: 5 }}>
+              {slides.map((_, i) => (
+                <button key={i} className="es07h-dot" aria-label={`Slide ${i + 1}`} onClick={() => goTo(i)} style={{
+                  width: i === active ? 26 : 8, height: 8, borderRadius: 4,
+                  background: i === active ? INK : "rgba(22,22,29,0.28)",
+                }} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-06-page-hero ──────────────────────────────────────────────────────────
+// Slim banner podstránek (Ořeškárna): pastelový zaoblený pruh v kontejneru,
+// breadcrumb Úvod / stránka, Archivo H1 + subtitle. Mobil: menší padding.
+function HeroEshop06Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { title?: string; subtitle?: string; bg?: string };
+  const CHARCOAL = "#1d1d1b";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  return (
+    <section data-variant="eshop-06-page-hero" style={{ fontFamily: SANS, background: "#fff", padding: "6px 0 10px" }}>
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <nav aria-label="Drobečková navigace" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: "#7a776f", padding: "10px 0 14px" }}>
+          <a href={homeHref} style={{ color: CHARCOAL, textDecoration: "underline", textUnderlineOffset: 3 }}>Úvod</a>
+          <span aria-hidden>/</span>
+          <span>{c.title}</span>
+        </nav>
+        <div style={{ background: c.bg ?? "#eef7e6", borderRadius: 16, padding: "clamp(26px, 4vw, 44px) clamp(22px, 4vw, 50px)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? ""} tag="h1" style={{
+            fontFamily: HEAD, fontSize: "clamp(26px, 3.2vw, 40px)", fontWeight: 800, letterSpacing: "-0.02em", color: CHARCOAL, margin: 0,
+          }} />
+          {c.subtitle && (
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="p" style={{
+              fontSize: 15, fontWeight: 500, lineHeight: 1.65, color: "#4c4a44", maxWidth: 620, margin: "10px 0 0",
+            }} />
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-07-page-hero ──────────────────────────────────────────────────────────
+// Slim banner podstránek (Néroli parfumerie): kicker + uppercase H1 + volitelný
+// perex na bílém podkladu s hairline spodní linkou. Sticky navbar → bez offsetu.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop07Page({ content, sectionId }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const c = content as { kicker?: string; heading?: string; text?: string };
+  const INK = "#16161d";
+  const MUTED = "#8b8f9c";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+
+  return (
+    <section style={{ background: "#fff", fontFamily: SANS, borderBottom: "1px solid #e8e9ed" }} data-variant="eshop-07-page-hero">
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "clamp(40px, 5vw, 64px) 24px clamp(34px, 4vw, 52px)" }}>
+        {c.kicker && (
+          <GenericEditableText sectionId={sectionId} field="kicker" value={String(c.kicker)} tag="div" style={{
+            fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.22em", color: MUTED, marginBottom: 14,
+          }} />
+        )}
+        {c.heading && (
+          <GenericEditableText sectionId={sectionId} field="heading" value={String(c.heading)} tag="h1" style={{
+            margin: 0, fontFamily: SANS, fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800,
+            textTransform: "uppercase", letterSpacing: "0.03em", lineHeight: 1.1, color: INK,
+          }} />
+        )}
+        {c.text && (
+          <GenericEditableText sectionId={sectionId} field="text" value={String(c.text)} tag="p" style={{
+            margin: "16px 0 0", maxWidth: 760, fontSize: 16, fontWeight: 500, lineHeight: 1.65, color: MUTED,
+          }} />
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-09-hero ───────────────────────────────────────────────────────────────
+// Mobil Expres (mp.cz DNA, vlastní identita): full-width hero slider — per-slide
+// pastelový gradient, vlevo kicker + velký titulek + price pill + mint CTA,
+// vpravo produktové foto v zaobleném blobu s jemným Ken Burns + plovoucí
+// benefit bubliny (coral/cyan/mint/violet/amber, mp „droplet" tvar). Šipky po
+// stranách, autoplay 6,5 s s pauzou na hover. Dole mp signature: tab strip
+// s názvy slidů, aktivní tab s mint progress barem; na mobilu tečky.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es09Bubble = { text: string; tone?: "coral" | "cyan" | "mint" | "violet" | "amber" };
+type Es09Slide = {
+  tabLabel?: string; kicker?: string; title?: string; text?: string;
+  pricePill?: string; ctaText?: string; ctaHref?: string;
+  image?: string; bg?: string; bubbles?: Es09Bubble[];
+};
+
+function HeroEshop09({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Archivo', 'Segoe UI', Arial, sans-serif";
+  const NAVY = "#1d2433";
+  const MINT = "#3ce0a6";
+  const MINT_DARK = "#0f9d70";
+  const ON_MINT = "#06281c";
+  const MUTED = "#5b6a7e";
+  const BORDER = "#e8e9eb";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es09Slide[]) ?? []).slice(0, 9);
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [cycle, setCycle] = useState(0); // restartuje progress bar i po kliku na stejný tab
+
+  const go = useCallback((n: number) => {
+    setIdx(((n % slides.length) + slides.length) % slides.length);
+    setCycle(c => c + 1);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setTimeout(() => go(idx + 1), AUTOPLAY_MS);
+    return () => clearTimeout(t);
+  }, [idx, paused, cycle, slides.length, go]);
+
+  if (slides.length === 0) return null;
+  const s = slides[idx];
+
+  const bubbleBg = (tone?: string) =>
+    tone === "cyan" ? "#53c8ff" : tone === "mint" ? MINT : tone === "violet" ? "#8b7cf6" : tone === "amber" ? "#ffb02e" : "#ff7a59";
+  const bubbleFg = (tone?: string) => (tone === "mint" || tone === "amber" ? ON_MINT : "#fff");
+
+  return (
+    <section style={{ fontFamily: SANS, background: "#fff" }} data-variant="eshop-09-hero">
+      <style>{`
+        @keyframes es09hUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes es09hKen { from { transform: scale(1); } to { transform: scale(1.09); } }
+        @keyframes es09hFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+        @keyframes es09hProgress { from { width: 0; } to { width: 100%; } }
+
+        .es09h-stage { position: relative; overflow: hidden; height: clamp(440px, 40vw, 560px); }
+        .es09h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1); pointer-events: none; }
+        .es09h-slide.es09h-active { opacity: 1; pointer-events: auto; }
+
+        .es09h-inner { max-width: 1420px; margin: 0 auto; padding: 0 84px; height: 100%; display: grid; grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); align-items: center; gap: 30px; }
+
+        .es09h-up { animation: es09hUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+        .es09h-cta { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 30px; border-radius: 999px; background: ${MINT}; color: ${ON_MINT}; font-size: 15px; font-weight: 800; text-decoration: none; letter-spacing: 0.01em; box-shadow: 0 14px 30px rgba(34,201,147,0.35); transition: transform 0.18s, box-shadow 0.18s, background 0.18s; }
+        .es09h-cta:hover { background: #63eabb; transform: translateY(-2px); box-shadow: 0 18px 36px rgba(34,201,147,0.42); }
+        .es09h-cta svg { transition: transform 0.18s; }
+        .es09h-cta:hover svg { transform: translateX(3px); }
+
+        .es09h-media { position: relative; height: 76%; min-height: 300px; }
+        .es09h-photo { position: absolute; inset: 0; border-radius: 34px 34px 34px 8px; overflow: hidden; box-shadow: 0 34px 70px rgba(14,20,25,0.22); }
+        .es09h-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .es09h-active .es09h-photo img { animation: es09hKen 7.5s linear both; }
+
+        .es09h-bubble { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; border-radius: 50% 50% 50% 10px; padding: 16px; font-weight: 800; line-height: 1.25; box-shadow: 0 16px 36px rgba(14,20,25,0.2); animation: es09hFloat 5.2s ease-in-out infinite; }
+
+        .es09h-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 6; width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.82); color: ${NAVY}; box-shadow: 0 10px 26px rgba(14,20,25,0.16); backdrop-filter: blur(4px); transition: background 0.15s, transform 0.15s; }
+        .es09h-arrow:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+
+        .es09h-tabs { max-width: 1420px; margin: -30px auto 0; padding: 0 24px; position: relative; z-index: 7; }
+        .es09h-tabs-card { display: flex; background: #fff; border: 1px solid ${BORDER}; border-radius: 16px; box-shadow: 0 20px 44px rgba(14,20,25,0.1); overflow: hidden; }
+        .es09h-tab { position: relative; flex: 1; min-width: 0; border: none; background: none; cursor: pointer; padding: 17px 14px 15px; font-family: ${SANS}; font-size: 13.5px; font-weight: 600; color: ${MUTED}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.14s, background 0.14s; border-right: 1px solid ${BORDER}; }
+        .es09h-tab:last-child { border-right: none; }
+        .es09h-tab:hover { background: #f5f6f7; color: ${NAVY}; }
+        .es09h-tab.es09h-tab-active { color: ${NAVY}; font-weight: 800; }
+        .es09h-tab-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(34,201,147,0.16); }
+        .es09h-tab-bar > span { display: block; height: 100%; background: ${MINT}; }
+
+        .es09h-dots { display: none; }
+
+        @media (max-width: 1023px) {
+          .es09h-inner { padding: 0 24px; }
+          .es09h-tabs-card { display: none; }
+          .es09h-dots { display: flex; justify-content: center; gap: 8px; padding: 14px 0 2px; }
+          .es09h-dot { width: 8px; height: 8px; border-radius: 999px; border: none; cursor: pointer; background: #ccd4dc; padding: 0; transition: background 0.15s, width 0.15s; }
+          .es09h-dot.es09h-dot-active { background: ${MINT_DARK}; width: 22px; }
+        }
+        @media (max-width: 767px) {
+          .es09h-stage { height: auto; }
+          .es09h-inner { grid-template-columns: 1fr; gap: 0; padding: 44px 24px 40px; }
+          .es09h-slide { position: relative; display: none; }
+          .es09h-slide.es09h-active { display: block; }
+          .es09h-media { display: none; }
+          .es09h-arrow { display: none; }
+        }
+      `}</style>
+
+      <div className="es09h-stage" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        {slides.map((sl, i) => (
+          <div key={i} className={`es09h-slide${i === idx ? " es09h-active" : ""}`} style={{ background: sl.bg ?? "linear-gradient(105deg,#eafaf3 0%,#d7f4e8 55%,#c2ecdc 100%)" }} aria-hidden={i !== idx}>
+            <div className="es09h-inner">
+              {/* Text */}
+              <div>
+                {i === idx && (
+                  <div key={`c-${idx}-${cycle}`}>
+                    {sl.kicker && (
+                      <div className="es09h-up" style={{ fontSize: 13.5, fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase", color: MINT_DARK, marginBottom: 14 }}>
+                        {sl.kicker}
+                      </div>
+                    )}
+                    <h2 className="es09h-up" style={{ margin: 0, fontFamily: SANS, fontSize: "clamp(32px, 3.6vw, 52px)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.025em", color: NAVY, animationDelay: "0.06s" }}>
+                      {sl.title}
+                    </h2>
+                    {sl.text && (
+                      <p className="es09h-up" style={{ margin: "16px 0 0", fontSize: 16.5, fontWeight: 500, lineHeight: 1.55, color: MUTED, maxWidth: 460, animationDelay: "0.12s" }}>
+                        {sl.text}
+                      </p>
+                    )}
+                    <div className="es09h-up" style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 14, marginTop: 26, animationDelay: "0.18s" }}>
+                      <a href={resolve(sl.ctaHref ?? "/obchod")} className="es09h-cta">
+                        {sl.ctaText ?? "Prozkoumat nabídku"}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </a>
+                      {sl.pricePill && (
+                        <span style={{ display: "inline-flex", alignItems: "center", height: 52, padding: "0 22px", borderRadius: 999, background: NAVY, color: "#fff", fontSize: 14.5, fontWeight: 800, letterSpacing: "0.01em" }}>
+                          {sl.pricePill}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Foto + bubliny */}
+              <div className="es09h-media">
+                <span className="es09h-photo">
+                  {sl.image && <img src={sl.image} alt="" loading={i === 0 ? "eager" : "lazy"} />}
+                </span>
+                {(sl.bubbles ?? []).slice(0, 3).map((b, bi) => (
+                  <span key={bi} className="es09h-bubble" style={{
+                    background: bubbleBg(b.tone), color: bubbleFg(b.tone),
+                    fontSize: bi === 0 ? 15.5 : 13.5,
+                    width: bi === 0 ? 148 : 122, height: bi === 0 ? 148 : 122,
+                    ...(bi === 0 ? { top: -24, right: 18 } : bi === 1 ? { bottom: -18, right: 118, animationDelay: "1.3s" } : { top: "38%", left: -30, animationDelay: "2.4s" }),
+                  }}>
+                    {b.text}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {slides.length > 1 && (
+          <>
+            <button type="button" className="es09h-arrow" style={{ left: 18 }} aria-label="Předchozí" onClick={() => go(idx - 1)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" className="es09h-arrow" style={{ right: 18 }} aria-label="Další" onClick={() => go(idx + 1)}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Tab strip (mp signature) + mobilní tečky */}
+      {slides.length > 1 && (
+        <div className="es09h-tabs">
+          <div className="es09h-tabs-card">
+            {slides.map((sl, i) => (
+              <button key={i} type="button" className={`es09h-tab${i === idx ? " es09h-tab-active" : ""}`} onClick={() => go(i)}>
+                {sl.tabLabel ?? sl.title}
+                {i === idx && (
+                  <span className="es09h-tab-bar">
+                    <span key={`p-${idx}-${cycle}`} style={{ animation: paused ? "none" : `es09hProgress ${AUTOPLAY_MS}ms linear both` }} />
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+          <div className="es09h-dots">
+            {slides.map((_, i) => (
+              <button key={i} type="button" aria-label={`Slide ${i + 1}`} className={`es09h-dot${i === idx ? " es09h-dot-active" : ""}`} onClick={() => go(i)} />
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ── eshop-09-page-hero (Mobil Expres — navy strip podstránek) ───────────────
+// mp.cz DNA: tmavý pás navazující na header — mint kicker, bílý titulek,
+// muted podtitulek, tenká mint linka dole.
+function HeroEshop09Page({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  void sectionId;
+  const SANS = "'Archivo', 'Helvetica Neue', Arial, sans-serif";
+  const kicker = String(content.kicker ?? "");
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  return (
+    <section data-variant="eshop-09-page-hero" style={{ background: "linear-gradient(135deg, #1d2433 0%, #151b28 100%)", fontFamily: SANS, padding: "clamp(40px, 5vw, 64px) 0 clamp(34px, 4.5vw, 56px)", borderBottom: "3px solid #3ce0a6", position: "relative", overflow: "hidden" }}>
+      <span aria-hidden style={{ position: "absolute", right: "-120px", top: "-140px", width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(60,224,166,0.14) 0%, rgba(60,224,166,0) 68%)" }} />
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px", position: "relative" }}>
+        {kicker && <p style={{ margin: "0 0 12px", fontSize: 12, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#3ce0a6" }}>{kicker}</p>}
+        <h1 style={{ margin: 0, fontFamily: SANS, fontSize: "clamp(30px, 4vw, 44px)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.08, color: "#ffffff" }}>{title}</h1>
+        {subtitle && <p style={{ margin: "14px 0 0", fontSize: 15.5, fontWeight: 500, lineHeight: 1.65, color: "#8b949c", maxWidth: 620 }}>{subtitle}</p>}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-hero ───────────────────────────────────────────────────────────────
+// BOTIQ (footshop DNA, vlastní identita): full-bleed hero slider — celoplošné
+// lifestyle foto s Ken Burns (scale 1.08→1), tmavý gradient zleva, vlevo volt
+// „sticker" kicker (echo loga), obří Barlow Condensed titulek s volt akcentním
+// řádkem, volt CTA + ghost sekundární. Vpravo dole obří outline číslo slidu,
+// vlevo dole volt progress bary (autoplay 6,5 s s pauzou na hover), vpravo
+// hranaté šipky. Přechod slidů: crossfade + jemný posun obsahu zdola.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es10Slide = {
+  kicker?: string; title?: string; titleAccent?: string; text?: string;
+  ctaText?: string; ctaHref?: string; cta2Text?: string; cta2Href?: string;
+  image?: string;
+};
+
+function HeroEshop10({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const VOLT_HOVER = "#d9ff55";
+  const ON_VOLT = "#111603";
+  const VIOLET = "#7a5cff";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es10Slide[]) ?? []).slice(0, 8);
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [cycle, setCycle] = useState(0);
+
+  const go = useCallback((n: number) => {
+    setIdx(((n % slides.length) + slides.length) % slides.length);
+    setCycle(c => c + 1);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setTimeout(() => go(idx + 1), AUTOPLAY_MS);
+    return () => clearTimeout(t);
+  }, [idx, paused, cycle, slides.length, go]);
+
+  if (slides.length === 0) return null;
+
+  return (
+    <section
+      data-variant="eshop-10-hero"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      style={{ fontFamily: SANS, background: "#0a0a0b", position: "relative", overflow: "hidden" }}
+    >
+      <style>{`
+        @keyframes es10hKb { from { transform: scale(1.08); } to { transform: scale(1); } }
+        @keyframes es10hUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes es10hFade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes es10hBar { from { width: 0; } to { width: 100%; } }
+        .es10h-cta { transition: background 0.16s, letter-spacing 0.2s, transform 0.16s; }
+        .es10h-cta:hover { background: ${VOLT_HOVER} !important; letter-spacing: 0.17em !important; }
+        .es10h-cta:active { transform: scale(0.98); }
+        .es10h-ghost { transition: background 0.16s, color 0.16s, border-color 0.16s; }
+        .es10h-ghost:hover { background: #fff !important; color: #0a0a0b !important; border-color: #fff !important; }
+        .es10h-arrow { transition: background 0.15s, color 0.15s, border-color 0.15s; }
+        .es10h-arrow:hover { background: ${VOLT} !important; color: ${ON_VOLT} !important; border-color: ${VOLT} !important; }
+        .es10h-dot { cursor: pointer; }
+        .es10h-dot:hover .es10h-dot-track { background: rgba(255,255,255,0.5); }
+        @media (max-width: 767px) {
+          .es10h-num { display: none !important; }
+          .es10h-arrows { display: none !important; }
+        }
+      `}</style>
+
+      <div style={{ position: "relative", minHeight: "min(78vh, 640px)", height: "clamp(460px, 66vh, 640px)" }}>
+        {/* ═══ SLIDY — celoplošné foto s Ken Burns + gradient ═══ */}
+        {slides.map((s, si) => (
+          <div key={si} aria-hidden={si !== idx} style={{
+            position: "absolute", inset: 0, opacity: si === idx ? 1 : 0,
+            transition: "opacity 0.65s cubic-bezier(0.16,1,0.3,1)", pointerEvents: si === idx ? "auto" : "none",
+          }}>
+            <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+              {s.image && (
+                <img
+                  key={si === idx ? `kb-${cycle}` : `s-${si}`}
+                  src={s.image} alt="" loading={si === 0 ? "eager" : "lazy"}
+                  style={{
+                    width: "100%", height: "100%", objectFit: "cover", display: "block",
+                    animation: si === idx ? "es10hKb 8s ease-out forwards" : "none",
+                  }}
+                />
+              )}
+              {/* gradient overlay — čitelnost vlevo + ukotvení dole */}
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(78deg, rgba(10,10,11,0.86) 8%, rgba(10,10,11,0.55) 38%, rgba(10,10,11,0.12) 68%, rgba(10,10,11,0.05) 100%)" }} />
+              <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 130, background: "linear-gradient(180deg, transparent, rgba(10,10,11,0.55))" }} />
+            </div>
+          </div>
+        ))}
+
+        {/* ═══ OBSAH aktivního slidu ═══ */}
+        <div style={{ position: "relative", zIndex: 3, maxWidth: 1460, margin: "0 auto", padding: "0 24px", height: "100%", display: "flex", alignItems: "center" }}>
+          <div key={`c-${idx}-${cycle}`} style={{ maxWidth: 660, paddingBottom: 30 }}>
+            {/* volt sticker kicker — echo loga */}
+            {slides[idx].kicker && (
+              <span style={{ display: "inline-block", marginBottom: 20, animation: "es10hUp 0.5s cubic-bezier(0.16,1,0.3,1) both" }}>
+                <span style={{ position: "relative", display: "inline-block" }}>
+                  <span aria-hidden style={{ position: "absolute", inset: 0, transform: "skewX(-12deg) translate(4px, 3px)", background: VIOLET, borderRadius: 2 }} />
+                  <span style={{
+                    position: "relative", display: "inline-block", background: VOLT, transform: "skewX(-12deg)",
+                    borderRadius: 2, padding: "5px 13px",
+                  }}>
+                    <span style={{
+                      display: "inline-block", transform: "skewX(12deg)", fontFamily: COND, fontSize: 15.5,
+                      fontWeight: 800, fontStyle: "italic", letterSpacing: "0.12em", textTransform: "uppercase", color: ON_VOLT, lineHeight: 1.1,
+                    }}>{slides[idx].kicker}</span>
+                  </span>
+                </span>
+              </span>
+            )}
+
+            <h1 style={{
+              margin: 0, fontFamily: COND, fontWeight: 800, textTransform: "uppercase", color: "#fff",
+              fontSize: "clamp(44px, 6.6vw, 88px)", lineHeight: 0.94, letterSpacing: "0.015em",
+              animation: "es10hUp 0.55s 0.06s cubic-bezier(0.16,1,0.3,1) both",
+            }}>
+              {slides[idx].title}
+              {slides[idx].titleAccent && (
+                <span style={{ display: "block", color: VOLT }}>{slides[idx].titleAccent}</span>
+              )}
+            </h1>
+
+            {slides[idx].text && (
+              <p style={{
+                margin: "18px 0 0", maxWidth: 480, fontSize: "clamp(14.5px, 1.2vw, 16.5px)", fontWeight: 500,
+                lineHeight: 1.55, color: "rgba(255,255,255,0.82)",
+                animation: "es10hUp 0.55s 0.12s cubic-bezier(0.16,1,0.3,1) both",
+              }}>{slides[idx].text}</p>
+            )}
+
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28, animation: "es10hUp 0.55s 0.18s cubic-bezier(0.16,1,0.3,1) both" }}>
+              {slides[idx].ctaText && (
+                <a href={resolve(slides[idx].ctaHref ?? "/obchod")} className="es10h-cta" style={{
+                  display: "inline-flex", alignItems: "center", gap: 10, height: 52, padding: "0 28px",
+                  background: VOLT, color: ON_VOLT, borderRadius: 2, textDecoration: "none",
+                  fontFamily: COND, fontSize: 17, fontWeight: 800, letterSpacing: "0.13em", textTransform: "uppercase",
+                }}>
+                  {slides[idx].ctaText}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              )}
+              {slides[idx].cta2Text && (
+                <a href={resolve(slides[idx].cta2Href ?? "/obchod")} className="es10h-ghost" style={{
+                  display: "inline-flex", alignItems: "center", height: 52, padding: "0 26px",
+                  background: "transparent", color: "#fff", border: "2px solid rgba(255,255,255,0.55)",
+                  borderRadius: 2, textDecoration: "none",
+                  fontFamily: COND, fontSize: 17, fontWeight: 700, letterSpacing: "0.13em", textTransform: "uppercase",
+                }}>{slides[idx].cta2Text}</a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ═══ Obří outline číslo slidu ═══ */}
+        <div className="es10h-num" aria-hidden style={{
+          position: "absolute", right: 18, bottom: -26, zIndex: 2, pointerEvents: "none",
+          fontFamily: COND, fontWeight: 800, fontStyle: "italic", fontSize: "clamp(120px, 15vw, 210px)", lineHeight: 1,
+          color: "transparent", WebkitTextStroke: `1.5px ${VOLT}`, opacity: 0.5, userSelect: "none",
+        }}>
+          <span key={`n-${idx}`} style={{ display: "inline-block", animation: "es10hFade 0.5s both" }}>
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+        </div>
+
+        {/* ═══ Spodní lišta — progress bary + šipky ═══ */}
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4 }}>
+          <div style={{ maxWidth: 1460, margin: "0 auto", padding: "0 24px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20 }}>
+            {slides.length > 1 && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                {slides.map((_, di) => (
+                  <button key={di} type="button" className="es10h-dot" aria-label={`Slide ${di + 1}`} onClick={() => go(di)} style={{
+                    border: "none", background: "none", padding: "8px 0", cursor: "pointer", display: "block",
+                  }}>
+                    <span className="es10h-dot-track" style={{
+                      display: "block", width: di === idx ? 46 : 22, height: 3, borderRadius: 2,
+                      background: "rgba(255,255,255,0.32)", overflow: "hidden",
+                      transition: "width 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s",
+                    }}>
+                      {di === idx && (
+                        <span key={`p-${idx}-${cycle}-${paused ? 1 : 0}`} style={{
+                          display: "block", height: "100%", background: VOLT,
+                          animation: paused ? "none" : `es10hBar ${AUTOPLAY_MS}ms linear forwards`,
+                          width: paused ? "100%" : undefined,
+                        }} />
+                      )}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+            {slides.length > 1 && (
+              <div className="es10h-arrows" style={{ display: "flex", gap: 8 }}>
+                <button type="button" className="es10h-arrow" aria-label="Předchozí" onClick={() => go(idx - 1)} style={{
+                  width: 44, height: 44, borderRadius: 2, border: "2px solid rgba(255,255,255,0.45)",
+                  background: "rgba(10,10,11,0.25)", color: "#fff", cursor: "pointer",
+                  display: "inline-flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(3px)",
+                }}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+                </button>
+                <button type="button" className="es10h-arrow" aria-label="Další" onClick={() => go(idx + 1)} style={{
+                  width: 44, height: 44, borderRadius: 2, border: "2px solid rgba(255,255,255,0.45)",
+                  background: "rgba(10,10,11,0.25)", color: "#fff", cursor: "pointer",
+                  display: "inline-flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(3px)",
+                }}>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-11-hero ───────────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno nad předlohu): promo grid — vlevo velký slider
+// s Ken Burns (scale 1.07→1), tmavý gradient, zelený chip kicker, obří Fira Sans
+// titulek, CTA se šipkou; dole glassy tab strip s animovaným zeleným progress
+// barem autoplaye (7 s, pauza na hover) + šipky. Uprostřed dlaždice NOVINKA,
+// vpravo banner + karta „Rady & Tipy" s topo vrstevnicemi, kruhovými thumby
+// a hover posunem. Mobil: slider 16/10, dlaždice 2 sloupce, tipy pod.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es11Slide = {
+  tab?: string; kicker?: string; title?: string; text?: string;
+  ctaText?: string; ctaHref?: string; image?: string;
+};
+type Es11PromoTile = { kicker?: string; title?: string; text?: string; ctaText?: string; href?: string; image?: string };
+type Es11Tip = { label: string; href?: string; image?: string };
+
+function HeroEshop11({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#131313";
+  const GREEN = "#0f7d4e";
+  const GREEN_HOVER = "#0b613c";
+  const HAIR = "#e4e3df";
+  const MUTED = "#6b6b66";
+
+  const AUTOPLAY_MS = 7000;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es11Slide[]) ?? []).slice(0, 6);
+  const middle = (content.middle as Es11PromoTile) ?? {};
+  const side = (content.side as Es11PromoTile) ?? {};
+  const tips = (content.tips as { heading?: string; moreLabel?: string; moreHref?: string; items?: Es11Tip[] }) ?? {};
+  const tipItems = (tips.items ?? []).slice(0, 4);
+
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [cycle, setCycle] = useState(0);
+
+  const go = useCallback((n: number) => {
+    setIdx(((n % slides.length) + slides.length) % slides.length);
+    setCycle(c => c + 1);
+  }, [slides.length]);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setTimeout(() => go(idx + 1), AUTOPLAY_MS);
+    return () => clearTimeout(t);
+  }, [idx, paused, cycle, slides.length, go]);
+
+  if (slides.length === 0) return null;
+  const s = slides[idx];
+
+  const promoTile = (t: Es11PromoTile, big: boolean, key: string) => (
+    <a key={key} href={resolve(t.href ?? "/obchod")} className="es11h-tile" style={{ position: "relative", display: "block", overflow: "hidden", background: INK, minHeight: big ? 430 : 288, flex: big ? 1 : undefined }}>
+      {t.image && <img src={t.image} alt="" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+      <span aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(198deg, rgba(19,19,19,0.06) 30%, rgba(19,19,19,0.68) 100%)" }} />
+      <span style={{ position: "absolute", left: 22, right: 22, top: 20, bottom: 20, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "space-between" }}>
+        <span style={{ background: GREEN, color: "#fff", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "6px 10px", lineHeight: 1 }}>{t.kicker}</span>
+        <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 8 }}>
+          <span style={{ fontSize: big ? 30 : 26, fontWeight: 800, color: "#fff", lineHeight: 1.12, textTransform: "uppercase", letterSpacing: "0.01em" }}>{t.title}</span>
+          {t.text && <span style={{ fontSize: 14.5, fontWeight: 400, color: "rgba(255,255,255,0.88)", lineHeight: 1.45, maxWidth: 340 }}>{t.text}</span>}
+          <span className="es11h-cta" style={{
+            marginTop: 6, display: "inline-flex", alignItems: "center", gap: 9, height: 46, padding: "0 22px",
+            background: GREEN, color: "#fff", fontSize: 14.5, fontWeight: 600,
+          }}>
+            {t.ctaText ?? "Nakoupit"}
+            <svg className="es11h-cta-arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+          </span>
+        </span>
+      </span>
+    </a>
+  );
+
+  return (
+    <section data-variant="eshop-11-hero" style={{ fontFamily: SANS, background: "#fff" }}>
+      <style>{`
+        @keyframes es11hKb { from { transform: scale(1.07); } to { transform: scale(1); } }
+        @keyframes es11hUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes es11hFade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes es11hBar { from { width: 0; } to { width: 100%; } }
+
+        .es11h-cta { transition: background 0.16s; }
+        .es11h-cta .es11h-cta-arr { transition: transform 0.18s; }
+        .es11h-tile:hover .es11h-cta, a.es11h-slide-cta:hover { background: ${GREEN_HOVER} !important; }
+        .es11h-tile:hover .es11h-cta-arr, a.es11h-slide-cta:hover .es11h-cta-arr { transform: translateX(4px); }
+        .es11h-tile img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .es11h-tile:hover img { transform: scale(1.05); }
+
+        .es11h-tab { position: relative; transition: color 0.15s; }
+        .es11h-tab:hover { color: #fff !important; }
+        .es11h-tab .es11h-tab-track { position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px; background: rgba(255,255,255,0.22); opacity: 0; transition: opacity 0.2s; }
+        .es11h-tab.es11h-tab-active .es11h-tab-track { opacity: 1; }
+        .es11h-tab .es11h-tab-fill { display: block; height: 100%; width: 0; background: #37b981; }
+        .es11h-tab.es11h-tab-active .es11h-tab-fill { animation: es11hBar ${AUTOPLAY_MS}ms linear forwards; }
+        .es11h-tab.es11h-tab-active.es11h-paused .es11h-tab-fill { animation-play-state: paused; }
+
+        .es11h-arrow { transition: background 0.15s, color 0.15s; }
+        .es11h-arrow:hover { background: #fff !important; color: ${INK} !important; }
+
+        .es11h-tip { transition: background 0.15s, transform 0.18s; }
+        .es11h-tip:hover { background: #fff; transform: translateX(4px); }
+        .es11h-tip:hover .es11h-tip-label { color: ${GREEN}; }
+        .es11h-tip .es11h-tip-arr { opacity: 0; transform: translateX(-4px); transition: opacity 0.16s, transform 0.16s; }
+        .es11h-tip:hover .es11h-tip-arr { opacity: 1; transform: translateX(0); }
+        .es11h-tips-more { transition: color 0.15s, gap 0.18s; display: inline-flex; align-items: center; gap: 8px; }
+        .es11h-tips-more:hover { color: ${GREEN_HOVER} !important; gap: 12px; }
+
+        .es11h-grid { display: grid; grid-template-columns: minmax(0, 1.86fr) minmax(0, 0.96fr) minmax(0, 1.04fr); gap: 14px; }
+        @media (max-width: 1100px) {
+          .es11h-grid { grid-template-columns: 1fr 1fr; }
+          .es11h-slider { grid-column: 1 / -1; aspect-ratio: 16 / 9; height: auto !important; }
+          .es11h-right { display: grid !important; grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) {
+          .es11h-grid { grid-template-columns: 1fr; }
+          .es11h-slider { aspect-ratio: 4 / 5; }
+          .es11h-slide-title { font-size: 34px !important; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "16px 24px 10px" }}>
+        <div className="es11h-grid">
+          {/* ═══ SLIDER ═══ */}
+          <div className="es11h-slider" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+            style={{ position: "relative", overflow: "hidden", background: INK, height: 618 }}>
+            {s.image && (
+              <img key={`img-${idx}-${cycle}`} src={s.image} alt="" style={{
+                position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover",
+                animation: `es11hKb ${AUTOPLAY_MS + 1500}ms ease-out forwards`,
+              }} />
+            )}
+            <span aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(76deg, rgba(19,19,19,0.72) 0%, rgba(19,19,19,0.28) 52%, rgba(19,19,19,0.05) 100%)" }} />
+            <span aria-hidden style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 130, background: "linear-gradient(180deg, rgba(19,19,19,0) 0%, rgba(19,19,19,0.6) 100%)" }} />
+
+            <div key={`txt-${idx}-${cycle}`} style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 54, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 46px" }}>
+              {s.kicker && (
+                <span style={{ animation: "es11hUp 0.5s cubic-bezier(0.16,1,0.3,1) both 0.05s", alignSelf: "flex-start", background: GREEN, color: "#fff", fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", padding: "7px 11px", lineHeight: 1, marginBottom: 18 }}>
+                  {s.kicker}
+                </span>
+              )}
+              <h1 className="es11h-slide-title" style={{ animation: "es11hUp 0.55s cubic-bezier(0.16,1,0.3,1) both 0.12s", margin: 0, fontFamily: SANS, fontSize: 52, fontWeight: 800, lineHeight: 1.05, color: "#fff", textTransform: "uppercase", letterSpacing: "0.005em", maxWidth: 560 }}>
+                {s.title}
+              </h1>
+              {s.text && (
+                <p style={{ animation: "es11hUp 0.55s cubic-bezier(0.16,1,0.3,1) both 0.2s", margin: "16px 0 0", fontSize: 17, fontWeight: 400, lineHeight: 1.5, color: "rgba(255,255,255,0.92)", maxWidth: 470 }}>
+                  {s.text}
+                </p>
+              )}
+              {s.ctaText && (
+                <a href={resolve(s.ctaHref ?? "/obchod")} className="es11h-slide-cta" style={{
+                  animation: "es11hUp 0.55s cubic-bezier(0.16,1,0.3,1) both 0.28s",
+                  marginTop: 26, alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 10,
+                  height: 54, padding: "0 30px", background: GREEN, color: "#fff",
+                  fontSize: 15.5, fontWeight: 600, textDecoration: "none",
+                }}>
+                  {s.ctaText}
+                  <svg className="es11h-cta-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+                </a>
+              )}
+            </div>
+
+            {/* Tab strip s progress barem */}
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, display: "flex", alignItems: "stretch", background: "rgba(19,19,19,0.42)", backdropFilter: "blur(6px)", borderTop: "1px solid rgba(255,255,255,0.14)" }}>
+              <button type="button" aria-label="Předchozí" onClick={() => go(idx - 1)} className="es11h-arrow" style={{ width: 52, border: "none", borderRight: "1px solid rgba(255,255,255,0.12)", background: "transparent", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div className="hidden md:flex" style={{ flex: 1, alignItems: "stretch" }}>
+                {slides.map((sl, si) => (
+                  <button key={si} type="button" onClick={() => go(si)}
+                    className={`es11h-tab${si === idx ? " es11h-tab-active" : ""}${paused ? " es11h-paused" : ""}`} style={{
+                    flex: 1, border: "none", borderRight: si < slides.length - 1 ? "1px solid rgba(255,255,255,0.12)" : "none",
+                    background: "transparent", cursor: "pointer", padding: "17px 14px 16px",
+                    fontFamily: SANS, fontSize: 12.5, fontWeight: si === idx ? 700 : 500, letterSpacing: "0.09em", textTransform: "uppercase",
+                    color: si === idx ? "#fff" : "rgba(255,255,255,0.66)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                  }}>
+                    {sl.tab ?? sl.kicker ?? `0${si + 1}`}
+                    <span className="es11h-tab-track"><span key={`${idx}-${cycle}`} className="es11h-tab-fill" /></span>
+                  </button>
+                ))}
+              </div>
+              <div className="md:hidden flex" style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 7 }}>
+                {slides.map((_, si) => (
+                  <button key={si} type="button" aria-label={`Slide ${si + 1}`} onClick={() => go(si)} style={{ width: si === idx ? 22 : 7, height: 7, borderRadius: 4, border: "none", cursor: "pointer", background: si === idx ? "#37b981" : "rgba(255,255,255,0.45)", transition: "width 0.25s, background 0.25s", padding: 0 }} />
+                ))}
+              </div>
+              <button type="button" aria-label="Další" onClick={() => go(idx + 1)} className="es11h-arrow" style={{ width: 52, border: "none", borderLeft: "1px solid rgba(255,255,255,0.12)", background: "transparent", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* ═══ STŘEDNÍ DLAŽDICE ═══ */}
+          {promoTile(middle, true, "middle")}
+
+          {/* ═══ PRAVÝ SLOUPEC ═══ */}
+          <div className="es11h-right" style={{ display: "flex", flexDirection: "column", gap: 14, minWidth: 0 }}>
+            {promoTile(side, false, "side")}
+
+            {/* Rady & Tipy */}
+            <div style={{ flex: 1, position: "relative", overflow: "hidden", background: "#f5f5f4", border: `1px solid ${HAIR}`, padding: "22px 22px 18px", display: "flex", flexDirection: "column" }}>
+              <svg aria-hidden width="260" height="200" viewBox="0 0 260 200" fill="none" style={{ position: "absolute", right: -30, bottom: -30, opacity: 0.5, pointerEvents: "none" }}>
+                <path d="M20 180 C 60 120, 90 150, 130 96 C 165 50, 210 70, 250 24" stroke="#dddcd6" strokeWidth="1.6" fill="none"/>
+                <path d="M0 190 C 55 140, 100 165, 140 116 C 178 72, 220 92, 258 52" stroke="#dddcd6" strokeWidth="1.6" fill="none"/>
+                <path d="M40 196 C 80 158, 118 178, 152 136 C 190 92, 232 110, 260 80" stroke="#dddcd6" strokeWidth="1.6" fill="none"/>
+                <circle cx="205" cy="52" r="3" fill="#0f7d4e"/>
+              </svg>
+              <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12, position: "relative" }}>
+                <span style={{ fontSize: 21, fontWeight: 800, color: INK }}>{tips.heading ?? "Rady & Tipy"}</span>
+                <span aria-hidden style={{ width: 34, height: 3, background: GREEN, alignSelf: "center" }} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", position: "relative", flex: 1, justifyContent: "space-evenly" }}>
+                {tipItems.map((t, ti) => (
+                  <a key={ti} href={resolve(t.href ?? "/poradna")} className="es11h-tip" style={{ display: "flex", alignItems: "center", gap: 13, padding: "8px 10px", margin: "0 -10px", textDecoration: "none" }}>
+                    {t.image ? (
+                      <img src={t.image} alt="" loading="lazy" style={{ width: 46, height: 46, borderRadius: 23, objectFit: "cover", flexShrink: 0, border: "2px solid #fff", boxShadow: "0 2px 8px rgba(19,19,19,0.14)" }} />
+                    ) : (
+                      <span style={{ width: 46, height: 46, borderRadius: 23, background: HAIR, flexShrink: 0 }} />
+                    )}
+                    <span className="es11h-tip-label" style={{ flex: 1, fontSize: 14.5, fontWeight: 600, color: INK, lineHeight: 1.3, transition: "color 0.15s" }}>{t.label}</span>
+                    <svg className="es11h-tip-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+                  </a>
+                ))}
+              </div>
+              <a href={resolve(tips.moreHref ?? "/blog")} className="es11h-tips-more" style={{ marginTop: 10, fontSize: 13.5, fontWeight: 700, color: GREEN, textDecoration: "none", position: "relative" }}>
+                {tips.moreLabel ?? "Všechny rady a tipy"}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-10-page-hero ──────────────────────────────────────────────────────────
+// BOTIQ podstránkový hero: černý pás — breadcrumb, volt sticker kicker,
+// obří condensed titulek, volnější subtext. Vpravo jemný volt grid vzor.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop10Page({ content, tenantSlug, isAdmin, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const VIOLET = "#7a5cff";
+
+  const kicker = String(content.kicker ?? "");
+  const title = String(content.title ?? "");
+  const text = String(content.text ?? "");
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  return (
+    <section data-variant="eshop-10-page-hero" style={{ fontFamily: SANS, background: "#0a0a0b", position: "relative", overflow: "hidden" }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700;800&display=swap" />
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, opacity: 0.05, pointerEvents: "none",
+        backgroundImage: `linear-gradient(${VOLT} 1px, transparent 1px), linear-gradient(90deg, ${VOLT} 1px, transparent 1px)`,
+        backgroundSize: "56px 56px",
+      }} />
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "42px 24px 46px", position: "relative" }}>
+        <a href={homeHref} style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>← Zpět na úvod</a>
+        {kicker && (
+          <div style={{ marginTop: 18 }}>
+            <span style={{ position: "relative", display: "inline-block" }}>
+              <span aria-hidden style={{ position: "absolute", inset: 0, transform: "skewX(-12deg) translate(4px, 3px)", background: VIOLET, borderRadius: 2 }} />
+              <span style={{ position: "relative", display: "inline-block", background: VOLT, transform: "skewX(-12deg)", borderRadius: 2, padding: "4px 12px" }}>
+                <span style={{ display: "inline-block", transform: "skewX(12deg)", fontFamily: COND, fontSize: 14.5, fontWeight: 800, fontStyle: "italic", letterSpacing: "0.12em", textTransform: "uppercase", color: ON_VOLT, lineHeight: 1.1 }}>{kicker}</span>
+              </span>
+            </span>
+          </div>
+        )}
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" style={{
+          margin: "14px 0 0", fontFamily: COND, fontWeight: 800, textTransform: "uppercase", color: "#fff",
+          fontSize: "clamp(38px, 5vw, 64px)", lineHeight: 0.95, letterSpacing: "0.015em",
+        }} />
+        {text && (
+          <GenericEditableText sectionId={sectionId} field="text" value={text} tag="p" style={{
+            margin: "14px 0 0", maxWidth: 560, fontSize: 15.5, fontWeight: 500, lineHeight: 1.55, color: "rgba(255,255,255,0.75)", fontFamily: SANS,
+          }} />
+        )}
+      </div>
+    </section>
+  );
+}
+// ── eshop-12-hero ───────────────────────────────────────────────────────────────
+// PACKA — petcenter layout 1:1: velký krémový PROFI SLIDER (full-bleed foto vpravo
+// až k okrajům banneru s Ken Burns, krémový fade zleva pod textem, čmárané křivky
+// PŘES fotku jako petcenter, obří „2+1" + mango sticker „ZDARMA", burst) → pod ním
+// 3 malé promo dlaždice (tone mango/purple/green) → USP pás.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es12Slide = {
+  badge?: string; titleTop?: string; titleBottom?: string; subtitle?: string; text?: string;
+  ctaText?: string; ctaHref?: string; ctaSecondary?: string; burst?: string;
+  image?: string; imagePos?: string;
+};
+type Es12Tile = { kicker?: string; title?: string; pill?: string; href?: string; image?: string; tone?: string };
+type Es12Usp = { icon?: string; title?: string; text?: string };
+
+function Es12UspIcon({ name }: { name?: string }) {
+  const c = { width: 20, height: 20, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.9, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (name === "truck") return (<svg {...c}><path d="M1.5 6h13v11h-13z"/><path d="M14.5 10h4l3 3.5V17h-7"/><circle cx="6" cy="17.5" r="1.9"/><circle cx="18" cy="17.5" r="1.9"/></svg>);
+  if (name === "pin") return (<svg {...c}><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>);
+  if (name === "bolt") return (<svg {...c}><path d="M13 2 4.1 12.6a1 1 0 0 0 .8 1.6H11l-1 8 8.9-10.6a1 1 0 0 0-.8-1.6H13l1-8Z"/></svg>);
+  return (<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/><path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/></svg>);
+}
+
+function HeroEshop12({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const PURPLE = "#6f45d1", PURPLE_DEEP = "#5836ad";
+  const MANGO = "#ff8a3d", MANGO_DEEP = "#f06e1e";
+  const NAVY = "#14224a", GREEN = "#16a06a", MUTED = "#5b6478", CREAM = "#fffbf6";
+  const DISPLAY = "'Baloo 2', 'Segoe UI', system-ui, sans-serif";
+  const SANS = "'Nunito', 'Segoe UI', system-ui, sans-serif";
+
+  const slides = ((content.slides as Es12Slide[]) ?? []).filter(s => s && (s.titleTop || s.image));
+  const tiles = ((content.tiles as Es12Tile[]) ?? []).filter(t => t && t.kicker);
+  const usps = ((content.usps as Es12Usp[]) ?? []).filter(u => u && u.title);
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const catHref = (slug?: string) => resolve(slug ? `/obchod?kategorie=${slug}` : "/obchod");
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % slides.length), 6500);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (slides.length === 0) return null;
+  const go = (n: number) => setIdx((n + slides.length) % slides.length);
+
+  const TONE: Record<string, { c: string; soft: string }> = {
+    mango: { c: MANGO_DEEP, soft: "#fff1e3" },
+    purple: { c: PURPLE, soft: "#f3eeff" },
+    green: { c: GREEN, soft: "#e7f6ef" },
+  };
+
+  return (
+    <section style={{ background: CREAM, padding: "20px 0 8px", fontFamily: SANS }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" />
+      <style>{`
+        @keyframes es12hUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes es12hKen { from { transform: scale(1.07); } to { transform: scale(1); } }
+        @keyframes es12hPop { 0% { transform: scale(0.4) rotate(18deg); opacity: 0; } 65% { transform: scale(1.12) rotate(9deg); } 100% { transform: scale(1) rotate(9deg); opacity: 1; } }
+        .es12h-slide { opacity: 0; pointer-events: none; transition: opacity 0.55s ease; }
+        .es12h-slide.is-active { opacity: 1; pointer-events: auto; }
+        .es12h-slide.is-active .es12h-bg { animation: es12hKen 7.5s ease-out both; }
+        .es12h-slide.is-active .es12h-anim { animation: es12hUp 0.65s cubic-bezier(0.16,1,0.3,1) both; }
+        .es12h-slide.is-active .es12h-a2 { animation-delay: 0.08s; }
+        .es12h-slide.is-active .es12h-a3 { animation-delay: 0.16s; }
+        .es12h-slide.is-active .es12h-a4 { animation-delay: 0.24s; }
+        .es12h-burst { animation: es12hPop 0.55s cubic-bezier(0.34,1.56,0.64,1) 0.35s both; }
+        .es12h-cta { transition: transform 0.16s, box-shadow 0.16s, background 0.16s; }
+        .es12h-cta:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 16px 34px rgba(240,110,30,0.42); background: ${MANGO_DEEP}; }
+        .es12h-ghost { transition: background 0.16s, color 0.16s; }
+        .es12h-ghost:hover { background: ${PURPLE}; color: #fff !important; }
+        .es12h-arrow { transition: background 0.15s, color 0.15s, transform 0.15s; }
+        .es12h-arrow:hover { background: ${MANGO}; color: #fff; transform: scale(1.1); }
+        .es12h-dot { transition: width 0.25s, background 0.25s; cursor: pointer; }
+        .es12h-tile { transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s; }
+        .es12h-tile:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(20,34,74,0.12); }
+        .es12h-tile-img img { transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); }
+        .es12h-tile:hover .es12h-tile-img img { transform: scale(1.09) rotate(2deg); }
+        .es12h-tile-pill { transition: background 0.15s, transform 0.15s; }
+        .es12h-tile:hover .es12h-tile-pill { transform: translateX(3px); }
+        @media (max-width: 940px) {
+          .es12h-fade { background: linear-gradient(90deg, rgba(255,246,236,0.97) 0%, rgba(255,246,236,0.92) 55%, rgba(255,246,236,0.72) 100%) !important; }
+          .es12h-left { align-items: center !important; text-align: center; margin: 0 auto; }
+          .es12h-ctarow { justify-content: center; }
+          .es12h-burst { display: none !important; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {/* ═══ VELKÝ SLIDER ═══ */}
+        <div
+          onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+          style={{
+            position: "relative", borderRadius: 30, overflow: "hidden", minHeight: 480,
+            background: "linear-gradient(112deg, #fff6ec 0%, #ffedd9 100%)",
+            border: "1px solid #f6e5d0", boxShadow: "0 22px 55px rgba(111,69,209,0.10)",
+          }}>
+          {slides.map((s, i) => (
+            <div key={i} className={`es12h-slide${i === idx ? " is-active" : ""}`} style={{ position: i === idx ? "relative" : "absolute", inset: 0, overflow: "hidden" }}>
+              {/* full-bleed foto až k okrajům banneru */}
+              {s.image && (
+                <img src={s.image} alt="" className="es12h-bg" style={{
+                  position: "absolute", inset: 0, width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: s.imagePos ?? "72% 50%",
+                }} loading={i === 0 ? "eager" : "lazy"} />
+              )}
+              {/* krémový fade zleva pod text */}
+              <span aria-hidden className="es12h-fade" style={{
+                position: "absolute", inset: 0,
+                background: "linear-gradient(90deg, #fff6ec 0%, #fff6ec 34%, rgba(255,246,236,0.86) 50%, rgba(255,246,236,0.25) 68%, rgba(255,246,236,0) 82%)",
+              }} />
+
+              {/* obsah vlevo */}
+              <div className="es12h-left" style={{ position: "relative", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", maxWidth: 620, minHeight: 480, padding: "44px 54px 52px" }}>
+                {s.badge && (
+                  <span className="es12h-anim" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 999, background: "#fff", boxShadow: "0 6px 18px rgba(20,34,74,0.08)", color: PURPLE_DEEP, fontFamily: DISPLAY, fontSize: 14, fontWeight: 700 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: 999, background: MANGO }} />
+                    {s.badge}
+                  </span>
+                )}
+                <h1 className="es12h-anim es12h-a2" style={{ margin: "14px 0 0", fontFamily: DISPLAY, fontWeight: 800, lineHeight: 0.88, letterSpacing: "-0.015em" }}>
+                  <span style={{ display: "block", color: PURPLE_DEEP, fontSize: "clamp(60px, 7vw, 112px)", textShadow: "0 4px 0 rgba(111,69,209,0.12)" }}>{s.titleTop}</span>
+                  {s.titleBottom && (
+                    <span style={{
+                      display: "inline-block", marginTop: 10, transform: "rotate(-2.5deg)",
+                      background: `linear-gradient(135deg, ${MANGO}, ${MANGO_DEEP})`, color: "#fff",
+                      fontSize: "clamp(32px, 3.5vw, 54px)", lineHeight: 1, padding: "8px 24px 12px",
+                      borderRadius: 18, boxShadow: "0 16px 34px rgba(240,110,30,0.35), inset 0 -3px 0 rgba(0,0,0,0.08)",
+                    }}>{s.titleBottom}</span>
+                  )}
+                </h1>
+                {s.subtitle && <p className="es12h-anim es12h-a3" style={{ margin: "18px 0 0", fontFamily: DISPLAY, fontSize: "clamp(19px, 1.8vw, 24px)", fontWeight: 700, color: NAVY, lineHeight: 1.2 }}>{s.subtitle}</p>}
+                {s.text && <p className="es12h-anim es12h-a3" style={{ margin: "10px 0 0", maxWidth: 440, fontSize: 15.5, fontWeight: 500, lineHeight: 1.6, color: MUTED }}>{s.text}</p>}
+                <div className="es12h-anim es12h-a4 es12h-ctarow" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, marginTop: 26 }}>
+                  <a href={catHref(s.ctaHref)} className="es12h-cta" style={{ display: "inline-flex", alignItems: "center", gap: 10, height: 56, padding: "0 30px", borderRadius: 999, background: MANGO, color: "#fff", fontFamily: DISPLAY, fontSize: 17.5, fontWeight: 800, letterSpacing: "0.03em", textTransform: "uppercase", textDecoration: "none", boxShadow: "0 12px 26px rgba(240,110,30,0.35)" }}>
+                    {s.ctaText ?? "To chci"}
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </a>
+                  {s.ctaSecondary && (
+                    <a href={catHref(s.ctaHref)} className="es12h-ghost" style={{ display: "inline-flex", alignItems: "center", height: 56, padding: "0 24px", borderRadius: 999, border: `2.5px solid ${PURPLE}`, color: PURPLE, fontFamily: DISPLAY, fontSize: 15.5, fontWeight: 700, textDecoration: "none", background: "rgba(255,251,246,0.72)" }}>
+                      {s.ctaSecondary}
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* burst nad fotkou */}
+              {s.burst && (
+                <span className="es12h-burst" style={{ position: "absolute", top: 26, right: 42, zIndex: 3, display: "inline-flex", alignItems: "center", justifyContent: "center", width: 94, height: 94, borderRadius: "50%", background: `linear-gradient(135deg, ${PURPLE}, ${PURPLE_DEEP})`, color: "#fff", border: "3.5px solid #fff", boxShadow: "0 14px 30px rgba(111,69,209,0.4)", fontFamily: DISPLAY, fontSize: 13.5, fontWeight: 800, letterSpacing: "0.05em", textTransform: "uppercase", textAlign: "center", lineHeight: 1.15 }}>{s.burst}</span>
+              )}
+            </div>
+          ))}
+
+          {/* čmárané křivky PŘES fotku (petcenter DNA) */}
+          <svg aria-hidden viewBox="0 0 1400 500" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 2, pointerEvents: "none" }}>
+            <path d="M-60 390 C 300 170, 520 460, 820 320 C 1080 200, 1240 120, 1480 230" fill="none" stroke={MANGO} strokeWidth="42" strokeLinecap="round" opacity="0.13" />
+            <path d="M-40 140 C 260 30, 430 250, 760 140 C 1040 50, 1220 300, 1460 180" fill="none" stroke={PURPLE} strokeWidth="22" strokeLinecap="round" opacity="0.07" />
+          </svg>
+
+          {slides.length > 1 && (
+            <>
+              <button onClick={() => go(idx - 1)} aria-label="Předchozí" className="es12h-arrow" style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", zIndex: 4, width: 46, height: 46, borderRadius: "50%", border: "none", background: "#fff", color: NAVY, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 20px rgba(20,34,74,0.14)" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+              <button onClick={() => go(idx + 1)} aria-label="Další" className="es12h-arrow" style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", zIndex: 4, width: 46, height: 46, borderRadius: "50%", border: "none", background: "#fff", color: NAVY, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 20px rgba(20,34,74,0.14)" }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+              <div style={{ position: "absolute", left: 54, bottom: 22, zIndex: 4, display: "flex", gap: 8, alignItems: "center" }}>
+                {slides.map((_, i) => (
+                  <span key={i} onClick={() => go(i)} className="es12h-dot" style={{ height: 9, width: i === idx ? 30 : 9, borderRadius: 999, background: i === idx ? MANGO : "rgba(111,69,209,0.25)" }} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* ═══ 3 MALÉ DLAŽDICE ═══ */}
+        {tiles.length > 0 && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: 16, marginTop: 16 }}>
+            {tiles.map((t, ti) => {
+              const tone = TONE[t.tone ?? "mango"] ?? TONE.mango;
+              return (
+                <a key={ti} href={catHref(t.href)} className="es12h-tile" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, minHeight: 172, padding: "26px 24px 26px 30px", borderRadius: 24, overflow: "hidden", background: "#fff", border: "1px solid #f3e8da", boxShadow: "0 10px 26px rgba(20,34,74,0.06)", textDecoration: "none" }}>
+                  <span aria-hidden style={{ position: "absolute", right: -46, top: "50%", transform: "translateY(-50%)", width: 210, height: 210, borderRadius: "47% 53% 44% 56% / 52% 43% 57% 48%", background: tone.soft }} />
+                  <svg aria-hidden width="38" height="38" viewBox="0 0 24 24" fill={tone.c} opacity="0.1" style={{ position: "absolute", left: 12, bottom: 10, transform: "rotate(-14deg)" }}><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
+                  <span style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
+                    <span style={{ fontFamily: DISPLAY, fontSize: 25, fontWeight: 800, color: tone.c, lineHeight: 1.05 }}>{t.kicker}</span>
+                    {t.title && <span style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 700, color: NAVY, lineHeight: 1.1 }}>{t.title}</span>}
+                    {t.pill && (
+                      <span className="es12h-tile-pill" style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, padding: "8px 16px", borderRadius: 999, background: tone.c, color: "#fff", fontFamily: DISPLAY, fontSize: 13.5, fontWeight: 800, letterSpacing: "0.04em", textTransform: "uppercase", boxShadow: `0 8px 18px ${tone.c}44` }}>
+                        {t.pill}
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </span>
+                    )}
+                  </span>
+                  <span className="es12h-tile-img" style={{ position: "relative", flexShrink: 0, width: 118, height: 118, borderRadius: "50%", overflow: "hidden", border: "5px solid #fff", boxShadow: "0 12px 26px rgba(20,34,74,0.14)" }}>
+                    {t.image && <img src={t.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} loading="lazy" />}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ═══ USP PÁS ═══ */}
+        {usps.length > 0 && (
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "14px 44px", padding: "24px 8px 10px" }}>
+            {usps.map((u, ui) => (
+              <span key={ui} style={{ display: "inline-flex", alignItems: "center", gap: 11 }}>
+                <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: 14, background: ui % 2 === 0 ? "#fff1e3" : "#f3eeff", color: ui % 2 === 0 ? MANGO_DEEP : PURPLE, flexShrink: 0 }}>
+                  <Es12UspIcon name={u.icon} />
+                </span>
+                <span style={{ display: "inline-flex", flexDirection: "column", lineHeight: 1.25 }}>
+                  <span style={{ fontFamily: DISPLAY, fontSize: 15, fontWeight: 700, color: NAVY }}>{u.title}</span>
+                  {u.text && <span style={{ fontSize: 12.5, fontWeight: 600, color: "#8a94a8" }}>{u.text}</span>}
+                </span>
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-14-hero ───────────────────────────────────────────────────────────────
+// Zahradia botanical luxe: full-width promo slider v krémovém rámu — zaoblený
+// 28px obraz s Ken Burns (scale 1.08→1), lesní gradient zleva, terakotový
+// serif italic kicker, obří Fraunces titulek, podtext, terakotová pill CTA
+// + ghost sekundární. Dots jako pilulky vlevo dole, kruhové krémové šipky
+// vpravo dole, autoplay 6,5 s s pauzou na hover. Mobil: 4/5 poměr, text dole.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14Slide = {
+  kicker?: string; title?: string; text?: string;
+  ctaText?: string; ctaHref?: string; cta2Text?: string; cta2Href?: string; image?: string;
+};
+
+function HeroEshop14({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const FOREST = "#14352a";
+  const CREAM = "#faf7f0";
+  const TERRA = "#d96f32";
+  const TERRA_DK = "#b8571f";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es14Slide[]) ?? []).slice(0, 6);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % slides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (!slides.length) return null;
+
+  return (
+    <section data-variant="eshop-14-hero" style={{ fontFamily: SANS, background: CREAM, padding: "22px 0 10px" }}>
+      <style>{`
+        @keyframes es14hKen { from { transform: scale(1.08); } to { transform: scale(1); } }
+        .es14h-img-active { animation: es14hKen 7s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes es14hText { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .es14h-copy > * { animation: es14hText 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+        .es14h-copy > *:nth-child(2) { animation-delay: 0.08s; }
+        .es14h-copy > *:nth-child(3) { animation-delay: 0.16s; }
+        .es14h-copy > *:nth-child(4) { animation-delay: 0.24s; }
+
+        .es14h-cta { display: inline-flex; align-items: center; gap: 9px; background: ${TERRA}; color: #fff; text-decoration: none;
+          font-size: 15px; font-weight: 700; padding: 15px 28px; border-radius: 999px; box-shadow: 0 12px 28px rgba(217,111,50,0.4);
+          transition: background 0.16s, transform 0.15s, gap 0.18s; }
+        .es14h-cta:hover { background: ${TERRA_DK}; transform: translateY(-2px); gap: 13px; }
+        .es14h-cta2 { display: inline-flex; align-items: center; gap: 8px; color: ${CREAM}; text-decoration: none; font-size: 14.5px; font-weight: 600;
+          padding: 14px 24px; border-radius: 999px; border: 1.5px solid rgba(250,247,240,0.5); transition: border-color 0.16s, background 0.16s; }
+        .es14h-cta2:hover { border-color: ${CREAM}; background: rgba(250,247,240,0.1); }
+
+        .es14h-dot { width: 26px; height: 5px; border-radius: 999px; background: rgba(250,247,240,0.38); border: none; cursor: pointer; padding: 0; transition: background 0.2s, width 0.25s; }
+        .es14h-dot.on { width: 44px; background: ${TERRA}; }
+        .es14h-arrow { width: 46px; height: 46px; border-radius: 999px; background: rgba(250,247,240,0.92); color: ${FOREST}; border: none; cursor: pointer;
+          display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, transform 0.14s; }
+        .es14h-arrow:hover { background: #fff; transform: translateY(-2px); }
+
+        .es14h-frame { position: relative; border-radius: 28px; overflow: hidden; aspect-ratio: 16/6; min-height: 380px; }
+        @media (max-width: 900px) { .es14h-frame { aspect-ratio: 4/5; min-height: 0; } }
+      `}</style>
+
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es14h-frame" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+          {slides.map((s, i) => (
+            <div key={i} style={{ position: "absolute", inset: 0, opacity: active === i ? 1 : 0, transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1)", pointerEvents: active === i ? "auto" : "none" }}>
+              {s.image && (
+                <img src={s.image} alt="" className={active === i ? "es14h-img-active" : undefined} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+              )}
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(78deg, rgba(13,36,28,0.82) 0%, rgba(13,36,28,0.55) 38%, rgba(13,36,28,0.08) 68%)" }} />
+              {active === i && (
+                <div className="es14h-copy" style={{ position: "absolute", left: "clamp(24px, 5vw, 70px)", right: 24, top: "50%", transform: "translateY(-50%)", maxWidth: 560 }}>
+                  {s.kicker && <div style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(15px, 1.5vw, 19px)", color: TERRA, marginBottom: 12 }}>{s.kicker}</div>}
+                  {s.title && <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(30px, 4.2vw, 56px)", lineHeight: 1.04, letterSpacing: "-0.015em", color: CREAM, margin: 0 }}>{s.title}</h2>}
+                  {s.text && <p style={{ fontSize: "clamp(14px, 1.3vw, 16.5px)", lineHeight: 1.55, color: "rgba(250,247,240,0.85)", margin: "16px 0 0", maxWidth: 460 }}>{s.text}</p>}
+                  <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 28, flexWrap: "wrap" }}>
+                    {s.ctaText && (
+                      <a href={resolve(s.ctaHref ?? "/obchod")} className="es14h-cta">
+                        {s.ctaText}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                      </a>
+                    )}
+                    {s.cta2Text && <a href={resolve(s.cta2Href ?? "/obchod")} className="es14h-cta2">{s.cta2Text}</a>}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Dots */}
+          {slides.length > 1 && (
+            <div style={{ position: "absolute", left: "clamp(24px, 5vw, 70px)", bottom: 26, display: "flex", gap: 7, zIndex: 5 }}>
+              {slides.map((_, i) => (
+                <button key={i} className={`es14h-dot${active === i ? " on" : ""}`} onClick={() => setActive(i)} aria-label={`Slide ${i + 1}`} />
+              ))}
+            </div>
+          )}
+
+          {/* Šipky */}
+          {slides.length > 1 && (
+            <div style={{ position: "absolute", right: 26, bottom: 22, display: "flex", gap: 10, zIndex: 5 }}>
+              <button className="es14h-arrow" onClick={() => setActive((active - 1 + slides.length) % slides.length)} aria-label="Předchozí">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+              </button>
+              <button className="es14h-arrow" onClick={() => setActive((active + 1) % slides.length)} aria-label="Další">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-13-hero ───────────────────────────────────────────────────────────────
+// LUNELA (milagro.cz DNA) — editorial šperkařský hero v containeru 1140/15.
+// Vlevo velký banner (foto ~350px + bílý caption pruh: „NOVÁ KOLEKCE" Hanken
+// + brand Playfair | černé CTA OBJEVIT s rostoucím letter-spacingem). Vpravo
+// 2×2 koláž (gap 4): foto | tmavě zelený brand panel PALMERA (monogram, NOVÁ
+// KOLEKCE) / portrét | šperk closeup. Hover: jemný scale fotek. Mobil: banner
+// 4/3 + koláž 2 sloupce pod ním. Geometrie 1:1 dle živého webu (725+32+353,
+// výška 445).
+// ──────────────────────────────────────────────────────────────────────────────
+type Es13HeroMain = { image?: string; kicker?: string; brand?: string; ctaText?: string; href?: string };
+type Es13HeroTile = { type?: "image" | "brand"; image?: string; brand?: string; label?: string; href?: string };
+
+function HeroEshop13({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const main = (content.main as Es13HeroMain) ?? {};
+  const tiles = ((content.tiles as Es13HeroTile[]) ?? []).slice(0, 4);
+
+  const brandTile = (t: Es13HeroTile, key: string) => (
+    <a key={key} href={resolve(t.href ?? "/obchod")} className="es13h-tile es13h-brand" style={{
+      position: "relative", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      gap: 14, overflow: "hidden", textDecoration: "none", padding: "18px 12px",
+      background: "radial-gradient(120% 90% at 20% 10%, #2f7a5c 0%, #23644a 42%, #174d38 100%)",
+    }}>
+      <span aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(60% 40% at 75% 80%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 60%), radial-gradient(45% 30% at 30% 65%, rgba(0,0,0,0.16) 0%, rgba(0,0,0,0) 70%)" }} />
+      <span style={{ position: "relative", fontFamily: SANS, fontSize: 23, fontWeight: 800, letterSpacing: "0.08em", color: "#101510", textTransform: "uppercase" }}>{t.brand ?? "PALMERA"}</span>
+      <svg aria-hidden width="46" height="40" viewBox="0 0 46 40" fill="none" stroke="#101510" strokeWidth="1.7" strokeLinecap="round" style={{ position: "relative" }}>
+        <path d="M23 36C13 30 8 22.5 8 15.5 8 9 12.5 4 18 4c3 0 5 1.6 5 1.6S25 4 28 4c5.5 0 10 5 10 11.5 0 7-5 14.5-15 20.5Z" />
+        <path d="M23 5.6V30" strokeDasharray="0.1 5" />
+      </svg>
+      <span style={{ position: "relative", fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.22em", color: "#f3efe6", textTransform: "uppercase" }}>{t.label ?? "NOVÁ KOLEKCE"}</span>
+    </a>
+  );
+
+  const imageTile = (t: Es13HeroTile, key: string) => (
+    <a key={key} href={resolve(t.href ?? "/obchod")} className="es13h-tile" style={{ position: "relative", display: "block", overflow: "hidden", background: "#EBECE9" }}>
+      {t.image && <img src={t.image} alt="" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+    </a>
+  );
+
+  return (
+    <section data-variant="eshop-13-hero" style={{ fontFamily: SANS, background: "#fff" }}>
+      <style>{`
+        .es13h-container { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13h-grid { display: grid; grid-template-columns: minmax(0, 725fr) minmax(0, 353fr); gap: 32px; margin: 30px 0 26px; }
+        .es13h-collage { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4px; height: 445px; }
+
+        .es13h-tile img, .es13h-main-media img { transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+        .es13h-tile:hover img { transform: scale(1.05); }
+        .es13h-main:hover .es13h-main-media img { transform: scale(1.035); }
+
+        .es13h-main { display: flex; flex-direction: column; height: 445px; text-decoration: none; }
+        .es13h-main-media { position: relative; flex: 1; overflow: hidden; background: #EBECE9; }
+        .es13h-main-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+        .es13h-cta { transition: background 0.18s, letter-spacing 0.25s; }
+        .es13h-main:hover .es13h-cta { background: #000; letter-spacing: 0.24em; }
+
+        @media (max-width: 1024px) {
+          .es13h-grid { grid-template-columns: 1fr; gap: 20px; margin: 20px 0; }
+          .es13h-main { height: auto; }
+          .es13h-main-media { aspect-ratio: 4 / 3; flex: none; }
+          .es13h-collage { height: auto; aspect-ratio: 353 / 222; }
+        }
+        @media (max-width: 640px) {
+          .es13h-caption { flex-direction: column; align-items: flex-start !important; gap: 14px; padding: 18px 0 !important; }
+          .es13h-collage { aspect-ratio: auto; grid-template-rows: repeat(2, minmax(150px, 44vw)); }
+        }
+      `}</style>
+
+      <div className="es13h-container">
+        <div className="es13h-grid">
+          {/* Levý banner */}
+          <a href={resolve(main.href ?? "/obchod")} className="es13h-main">
+            <span className="es13h-main-media">
+              {main.image && <img src={main.image} alt={`${main.kicker ?? ""} ${main.brand ?? ""}`.trim()} loading="eager" fetchPriority="high" />}
+            </span>
+            <span className="es13h-caption" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, padding: "24px 0 6px", background: "#fff" }}>
+              <span style={{ display: "inline-flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: SANS, fontSize: 30, fontWeight: 800, color: INK, letterSpacing: "0.01em", lineHeight: 1, textTransform: "uppercase" }}>{main.kicker ?? "NOVÁ KOLEKCE"}</span>
+                <span style={{ fontFamily: SERIF, fontSize: 31, fontWeight: 600, color: INK, letterSpacing: "0.08em", lineHeight: 1, textTransform: "uppercase" }}>{main.brand ?? "AURELLE"}</span>
+              </span>
+              <span className="es13h-cta" style={{
+                flexShrink: 0, background: INK, color: "#fff", fontFamily: SANS, fontSize: 12, fontWeight: 700,
+                letterSpacing: "0.2em", textTransform: "uppercase", padding: "15px 27px", lineHeight: 1,
+              }}>{main.ctaText ?? "OBJEVIT"}</span>
+            </span>
+          </a>
+
+          {/* Pravá koláž 2×2 */}
+          <div className="es13h-collage">
+            {tiles.map((t, i) => (t.type === "brand" ? brandTile(t, `t${i}`) : imageTile(t, `t${i}`)))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-16-hero ───────────────────────────────────────────────────────────────
+// Spížka (kosik.cz DNA) — dvoubannerový supermarket hero na krémovém podkladu:
+// vlevo velký promo slider (radius 24, foto s fíkovým gradientem zleva, kicker,
+// Bricolage titulek, podtext, meruňková pill CTA; dots vlevo dole, autoplay
+// 6,5 s s pauzou na hover), vpravo fíkový slevový panel („VELKÉ slevy %" s
+// obřím meruňkovým %, plovoucí malinové slevové chipy s cenami + kruhové foto
+// bubliny, pill CTA). Mobil: slider 4/3, panel pod ním.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es16Slide = { kicker?: string; title?: string; text?: string; ctaText?: string; ctaHref?: string; image?: string };
+type Es16Deal = { value?: string; price?: string; image?: string };
+type Es16Side = { title?: string; titleAccent?: string; ctaText?: string; ctaHref?: string; deals?: Es16Deal[] };
+
+function HeroEshop16({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Bricolage Grotesque', 'Segoe UI', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const FIG = "#56203d";
+  const FIG_DK = "#3f152c";
+  const APRICOT = "#f2a541";
+  const APRICOT_DK = "#d9882a";
+  const RASP = "#d23c55";
+  const CREAM = "#fbf7f1";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es16Slide[]) ?? []).slice(0, 5);
+  const side = (content.side as Es16Side) ?? {};
+  const deals = (side.deals ?? []).slice(0, 3);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % slides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (!slides.length && !side.title) return null;
+
+  return (
+    <section data-variant="eshop-16-hero" style={{ fontFamily: SANS, background: CREAM, padding: "22px 0 8px" }}>
+      <style>{`
+        @keyframes es16hKen { from { transform: scale(1.07); } to { transform: scale(1); } }
+        .es16h-img-active { animation: es16hKen 7s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes es16hText { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .es16h-copy > * { animation: es16hText 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+        .es16h-copy > *:nth-child(2) { animation-delay: 0.08s; }
+        .es16h-copy > *:nth-child(3) { animation-delay: 0.16s; }
+        .es16h-copy > *:nth-child(4) { animation-delay: 0.24s; }
+        @keyframes es16hFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        .es16h-deal { animation: es16hFloat 4.2s ease-in-out infinite; }
+        .es16h-deal:nth-child(2) { animation-delay: 1.3s; }
+        .es16h-deal:nth-child(3) { animation-delay: 2.6s; }
+
+        .es16h-cta { display: inline-flex; align-items: center; gap: 9px; background: ${APRICOT}; color: ${FIG_DK}; text-decoration: none;
+          font-size: 15px; font-weight: 800; padding: 15px 28px; border-radius: 999px; box-shadow: 0 12px 28px rgba(242,165,65,0.42);
+          transition: background 0.16s, transform 0.15s, gap 0.18s; }
+        .es16h-cta:hover { background: #ffb95c; transform: translateY(-2px); gap: 13px; }
+
+        .es16h-side-cta { display: inline-flex; align-items: center; gap: 9px; background: rgba(251,247,241,0.14); color: ${CREAM}; text-decoration: none;
+          font-size: 14px; font-weight: 700; padding: 13px 24px; border-radius: 999px; border: 1.5px solid rgba(251,247,241,0.4);
+          transition: background 0.16s, border-color 0.16s, gap 0.18s; }
+        .es16h-side-cta:hover { background: rgba(251,247,241,0.22); border-color: ${CREAM}; gap: 13px; }
+
+        .es16h-dot { width: 26px; height: 5px; border-radius: 999px; background: rgba(251,247,241,0.4); border: none; cursor: pointer; padding: 0; transition: background 0.2s, width 0.25s; }
+        .es16h-dot.on { width: 44px; background: ${APRICOT}; }
+
+        .es16h-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; }
+        .es16h-frame { position: relative; border-radius: 24px; overflow: hidden; min-height: 400px; }
+        .es16h-side { position: relative; border-radius: 24px; overflow: hidden; min-height: 400px;
+          background: radial-gradient(130% 110% at 82% 12%, #7a3458 0%, ${FIG} 46%, ${FIG_DK} 100%); }
+        @media (max-width: 980px) {
+          .es16h-grid { grid-template-columns: 1fr; }
+          .es16h-frame { aspect-ratio: 4/3; min-height: 0; }
+          .es16h-side { min-height: 340px; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es16h-grid">
+          {/* ═══ LEVÝ PROMO SLIDER ═══ */}
+          <div className="es16h-frame" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+            {slides.map((s, i) => (
+              <div key={i} style={{ position: "absolute", inset: 0, opacity: active === i ? 1 : 0, transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1)", pointerEvents: active === i ? "auto" : "none" }}>
+                {s.image && (
+                  <img src={s.image} alt="" className={active === i ? "es16h-img-active" : undefined} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                )}
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(78deg, rgba(46,15,33,0.86) 0%, rgba(46,15,33,0.6) 40%, rgba(46,15,33,0.06) 72%)" }} />
+                {active === i && (
+                  <div className="es16h-copy" style={{ position: "absolute", left: "clamp(24px, 4.5vw, 60px)", right: 24, top: "50%", transform: "translateY(-50%)", maxWidth: 540 }}>
+                    {s.kicker && (
+                      <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(242,165,65,0.16)", border: "1px solid rgba(242,165,65,0.45)", color: APRICOT, borderRadius: 999, padding: "7px 15px", fontSize: 13, fontWeight: 700, letterSpacing: "0.04em", marginBottom: 16 }}>
+                        {s.kicker}
+                      </div>
+                    )}
+                    {s.title && <h2 style={{ fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(28px, 3.8vw, 52px)", lineHeight: 1.05, letterSpacing: "-0.02em", color: CREAM, margin: 0 }}>{s.title}</h2>}
+                    {s.text && <p style={{ fontSize: "clamp(14px, 1.3vw, 16.5px)", lineHeight: 1.55, color: "rgba(251,247,241,0.88)", margin: "14px 0 0", maxWidth: 440 }}>{s.text}</p>}
+                    {s.ctaText && (
+                      <div style={{ marginTop: 26 }}>
+                        <a href={resolve(s.ctaHref ?? "/obchod")} className="es16h-cta">
+                          {s.ctaText}
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Dots */}
+            {slides.length > 1 && (
+              <div style={{ position: "absolute", left: "clamp(24px, 4.5vw, 60px)", bottom: 24, display: "flex", gap: 7, zIndex: 5 }}>
+                {slides.map((_, i) => (
+                  <button key={i} className={`es16h-dot${active === i ? " on" : ""}`} onClick={() => setActive(i)} aria-label={`Slide ${i + 1}`} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ═══ PRAVÝ SLEVOVÝ PANEL ═══ */}
+          {side.title && (
+            <a href={resolve(side.ctaHref ?? "/obchod")} className="es16h-side" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "clamp(24px, 2.4vw, 34px)", textDecoration: "none" }}>
+              <span aria-hidden style={{ position: "absolute", right: -60, bottom: -70, fontFamily: HEAD, fontWeight: 800, fontSize: 250, lineHeight: 1, color: "rgba(242,165,65,0.14)", pointerEvents: "none", userSelect: "none" }}>%</span>
+
+              <span style={{ position: "relative" }}>
+                <span style={{ display: "block", fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(30px, 2.6vw, 40px)", lineHeight: 1.02, letterSpacing: "-0.02em", color: CREAM }}>
+                  {side.title}
+                  {side.titleAccent && <span style={{ color: APRICOT }}> {side.titleAccent}</span>}
+                </span>
+              </span>
+
+              {/* Plovoucí slevové bubliny */}
+              {deals.length > 0 && (
+                <span style={{ position: "relative", display: "flex", justifyContent: "center", gap: "clamp(10px, 1.2vw, 20px)", padding: "10px 0" }}>
+                  {deals.map((d, di) => (
+                    <span key={di} className="es16h-deal" style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 9 }}>
+                      <span style={{ width: "clamp(66px, 5.6vw, 86px)", height: "clamp(66px, 5.6vw, 86px)", borderRadius: "50%", overflow: "hidden", border: "3px solid rgba(251,247,241,0.85)", boxShadow: "0 12px 26px rgba(0,0,0,0.28)", background: CREAM }}>
+                        {d.image && <img src={d.image} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />}
+                      </span>
+                      <span style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                        <span style={{ background: RASP, color: "#fff", fontFamily: HEAD, fontWeight: 800, fontSize: 14.5, borderRadius: 999, padding: "4px 12px", boxShadow: "0 6px 14px rgba(210,60,85,0.4)" }}>{d.value}</span>
+                        {d.price && <span style={{ color: "rgba(251,247,241,0.85)", fontSize: 12.5, fontWeight: 700 }}>{d.price}</span>}
+                      </span>
+                    </span>
+                  ))}
+                </span>
+              )}
+
+              <span style={{ position: "relative", display: "flex" }}>
+                <span className="es16h-side-cta">
+                  {side.ctaText ?? "Objevit všechny"}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </span>
+              </span>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-15-hero ───────────────────────────────────────────────────────────────
+// Apatyka — pilulka.cz 1:1 promo bannery: horizontální karusel karet 330×440
+// (radius 12, gap 8), fotka na celou kartu, text overlay dole vlevo (bold
+// titulek, podtext, bílé pill CTA). Tón „dark" = tmavý gradient zdola + bílý
+// text + bílé CTA s tmavě zeleným textem; tón „mint" = světle zelený panel
+// dole (#cdeed9) s tmavě zeleným textem a tmavě zelenou CTA. Kruhové šipky
+// (bílé, zelený border) vpravo/vlevo uprostřed, scroll po kartách se snapem.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es15Banner = {
+  title?: string; text?: string; ctaText?: string; ctaHref?: string; image?: string; tone?: string;
+};
+
+function HeroEshop15({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const GREEN = "#064740";
+  const BAR = "#166154";
+  const MINT = "#cdeed9";
+  const SYS = "-apple-system, 'system-ui', 'Segoe UI', Roboto, Arial, sans-serif";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const banners = ((content.banners as Es15Banner[]) ?? []).slice(0, 8);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(true);
+
+  const updateArrows = () => {
+    const el = railRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  useEffect(() => {
+    updateArrows();
+    window.addEventListener("resize", updateArrows);
+    return () => window.removeEventListener("resize", updateArrows);
+     
+  }, []);
+
+  const scrollBy = (dir: 1 | -1) => {
+    railRef.current?.scrollBy({ left: dir * 690, behavior: "smooth" });
+  };
+
+  const onRailKey = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); scrollBy(1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); scrollBy(-1); }
+  };
+
+  if (!banners.length) return null;
+
+  return (
+    <section data-variant="eshop-15-hero" style={{ fontFamily: SYS, background: "#fff", padding: "16px 0 8px" }}>
+      <style>{`
+        .es15h-rail { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; outline: none; }
+        .es15h-rail::-webkit-scrollbar { display: none; }
+        .es15h-card { position: relative; flex: 0 0 330px; width: 330px; height: 440px; border-radius: 12px; overflow: hidden; scroll-snap-align: start; text-decoration: none; display: block;
+          transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1); }
+        .es15h-card:hover { transform: translateY(-4px); box-shadow: 0 18px 34px rgba(6,71,64,0.16); }
+        .es15h-card:focus-visible { outline: 3px solid ${GREEN}; outline-offset: 3px; }
+        @media (max-width: 640px) { .es15h-card { flex-basis: 300px; width: 300px; height: 400px; } .es15h-card:hover { transform: none; box-shadow: none; } }
+        .es15h-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .es15h-card:hover img { transform: scale(1.04); }
+
+        .es15h-cta-light { display: inline-flex; align-items: center; gap: 7px; background: #fff; color: ${GREEN}; text-decoration: none;
+          font-size: 14.5px; font-weight: 600; padding: 10px 17px; border-radius: 10px; transition: filter 0.15s, gap 0.18s; }
+        .es15h-card:hover .es15h-cta-light { filter: brightness(0.94); }
+        .es15h-cta-dark { display: inline-flex; align-items: center; gap: 7px; background: ${BAR}; color: #fff; text-decoration: none;
+          font-size: 14.5px; font-weight: 600; padding: 10px 17px; border-radius: 10px; transition: background 0.15s, gap 0.18s; }
+        .es15h-card:hover .es15h-cta-dark { background: ${GREEN}; }
+        .es15h-cta-light svg, .es15h-cta-dark svg { transition: transform 0.2s cubic-bezier(0.16,1,0.3,1); }
+        .es15h-card:hover .es15h-cta-light svg, .es15h-card:hover .es15h-cta-dark svg { transform: translateX(3px); }
+
+        .es15h-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 999px;
+          background: #fff; color: ${GREEN}; border: 1px solid #bfe3c8; cursor: pointer; z-index: 5;
+          display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.12); transition: background 0.14s, transform 0.14s, opacity 0.15s;
+          animation: es15hArrowIn 0.2s ease-out; }
+        .es15h-arrow:hover { background: ${MINT}; transform: translateY(-50%) scale(1.08); }
+        .es15h-arrow:active { transform: translateY(-50%) scale(0.96); }
+        @keyframes es15hArrowIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (prefers-reduced-motion: reduce) {
+          .es15h-card, .es15h-card img, .es15h-arrow, .es15h-cta-light svg, .es15h-cta-dark svg { transition: none !important; animation: none !important; }
+          .es15h-card:hover { transform: none; }
+          .es15h-card:hover img { transform: none; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px", position: "relative" }}>
+        <div className="es15h-rail" ref={railRef} onScroll={updateArrows} onKeyDown={onRailKey} role="region" aria-label="Akční bannery" tabIndex={-1}>
+          {banners.map((bn, i) => {
+            const mint = bn.tone === "mint";
+            return (
+              <a key={i} className="es15h-card" href={resolve(bn.ctaHref ?? "/obchod")}>
+                {bn.image && <img src={bn.image} alt={bn.title ?? ""} loading={i < 4 ? "eager" : "lazy"} />}
+                {!mint && <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(6,40,34,0) 38%, rgba(6,40,34,0.72) 100%)" }} />}
+                {mint ? (
+                  <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: MINT, padding: "18px 20px 20px" }}>
+                    {bn.title && <div style={{ fontSize: 25, fontWeight: 800, lineHeight: 1.12, letterSpacing: "-0.01em", color: GREEN }}>{bn.title}</div>}
+                    {bn.text && <div style={{ fontSize: 15, color: GREEN, marginTop: 6, opacity: 0.85 }}>{bn.text}</div>}
+                    {bn.ctaText && <span className="es15h-cta-dark" style={{ marginTop: 14 }}>{bn.ctaText}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>}
+                  </div>
+                ) : (
+                  <div style={{ position: "absolute", left: 20, right: 20, bottom: 20 }}>
+                    {bn.title && <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.12, letterSpacing: "-0.01em", color: "#fff" }}>{bn.title}</div>}
+                    {bn.text && <div style={{ fontSize: 15, color: "rgba(255,255,255,0.92)", marginTop: 6 }}>{bn.text}</div>}
+                    {bn.ctaText && <span className="es15h-cta-light" style={{ marginTop: 14 }}>{bn.ctaText}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>}
+                  </div>
+                )}
+              </a>
+            );
+          })}
+        </div>
+
+        {canLeft && (
+          <button className="es15h-arrow" style={{ left: 12 }} onClick={() => scrollBy(-1)} aria-label="Předchozí bannery">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+        )}
+        {canRight && (
+          <button className="es15h-arrow" style={{ right: 12 }} onClick={() => scrollBy(1)} aria-label="Další bannery">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-12-page-hero ──────────────────────────────────────────────────────────
+// PACKA podstránkový hero: krémový zaoblený pás s čmáranými křivkami a tlapkami,
+// kicker mango + Baloo titulek + subtitle. Stejná DNA jako homepage banner.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroEshop12Page({ content }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const PURPLE = "#6f45d1", PURPLE_DEEP = "#5836ad", MANGO = "#ff8a3d", MANGO_DEEP = "#f06e1e", NAVY = "#14224a", MUTED = "#5b6478", CREAM = "#fffbf6";
+  const DISPLAY = "'Baloo 2','Segoe UI',system-ui,sans-serif";
+  const SANS = "'Nunito','Segoe UI',system-ui,sans-serif";
+  const kicker = String(content.kicker ?? "");
+  const title = String(content.title ?? "");
+  const text = String(content.text ?? "");
+  return (
+    <section style={{ background: CREAM, padding: "20px 0 10px", fontFamily: SANS }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" />
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        <div style={{ position: "relative", borderRadius: 28, overflow: "hidden", padding: "52px 54px 56px", textAlign: "center", background: "linear-gradient(112deg, #fff6ec 0%, #ffedd9 100%)", border: "1px solid #f6e5d0" }}>
+          <svg aria-hidden viewBox="0 0 1400 300" preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+            <path d="M-60 240 C 300 100, 520 280, 820 190 C 1080 120, 1240 70, 1480 140" fill="none" stroke={MANGO} strokeWidth="36" strokeLinecap="round" opacity="0.13" />
+            <path d="M-40 90 C 260 10, 430 150, 760 80 C 1040 20, 1220 180, 1460 110" fill="none" stroke={PURPLE} strokeWidth="18" strokeLinecap="round" opacity="0.07" />
+          </svg>
+          <svg aria-hidden width="46" height="46" viewBox="0 0 24 24" fill={MANGO} opacity="0.2" style={{ position: "absolute", right: 60, top: 30, transform: "rotate(16deg)" }}><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
+          <div style={{ position: "relative" }}>
+            {kicker && <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 999, background: "#fff", boxShadow: "0 6px 18px rgba(20,34,74,0.08)", color: PURPLE_DEEP, fontFamily: DISPLAY, fontSize: 14, fontWeight: 700 }}><span style={{ width: 8, height: 8, borderRadius: 999, background: MANGO }} />{kicker}</span>}
+            <h1 style={{ margin: "14px 0 0", fontFamily: DISPLAY, fontWeight: 800, color: NAVY, fontSize: "clamp(34px, 4vw, 52px)", lineHeight: 1.05 }}>{title}</h1>
+            {text && <p style={{ margin: "14px auto 0", maxWidth: 620, fontSize: 16, fontWeight: 500, lineHeight: 1.6, color: MUTED }}>{text}</p>}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-17-hero ───────────────────────────────────────────────────────────────
+// Rozkvět (florea.cz DNA) — hero na bílém podkladu: vlevo velký promo slider
+// (radius 22, tmavé foto s bordó gradientem zleva, kicker chip, Fraunces
+// titulek s kurzívovým akcentem, podtext, bílé outline pill CTA → hover zlaté,
+// award badge chipy vpravo dole; dots vlevo dole, autoplay 6,5 s s pauzou na
+// hover). Vpravo krémový kurýrní panel (florea signatura): Fraunces heading
+// „doručujeme vlastními chlazenými vozy", text, bordó odkaz „Kde je váš
+// kurýr?", stylizovaná SVG mapa ČR se šalvějovou plochou, gridem, pulzujícími
+// bordó kurýrními piny a popisky měst. Mobil: slider 4/3, panel pod ním.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es17Slide = { kicker?: string; title?: string; titleAccent?: string; text?: string; ctaText?: string; ctaHref?: string; image?: string };
+type Es17Badge = { title?: string; sub?: string };
+type Es17City = { label: string; x: number; y: number };
+type Es17Courier = { heading?: string; text?: string; linkText?: string; linkHref?: string; cities?: Es17City[]; pins?: Array<{ x: number; y: number }> };
+
+function Es17hFlower({ size = 15, color = "#c9a24b" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true">
+      <circle cx="12" cy="12" r="2.6" fill="#8f1d3d" />
+      <ellipse cx="12" cy="5.4" rx="3" ry="4.1" />
+      <ellipse cx="12" cy="18.6" rx="3" ry="4.1" />
+      <ellipse cx="5.4" cy="12" rx="4.1" ry="3" />
+      <ellipse cx="18.6" cy="12" rx="4.1" ry="3" />
+    </svg>
+  );
+}
+
+function HeroEshop17({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const BORDO = "#8f1d3d";
+  const BORDO_DK = "#611028";
+  const GOLD = "#c9a24b";
+  const INK = "#241a1d";
+  const MUTED = "#7d6d72";
+  const CREAM = "#f7f1e8";
+  const LINE = "#eadfd6";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es17Slide[]) ?? []).slice(0, 5);
+  const badges = ((content.badges as Es17Badge[]) ?? []).slice(0, 2);
+  const courier = (content.courier as Es17Courier) ?? {};
+  const cities = courier.cities ?? [
+    { label: "Praha", x: 63, y: 33 },
+    { label: "Plzeň", x: 38, y: 48 },
+    { label: "Brno", x: 121, y: 60 },
+    { label: "Ostrava", x: 152, y: 34 },
+  ];
+  const pins = courier.pins ?? [
+    { x: 55, y: 27 }, { x: 74, y: 42 }, { x: 30, y: 40 }, { x: 96, y: 30 },
+    { x: 112, y: 52 }, { x: 133, y: 42 }, { x: 148, y: 27 }, { x: 88, y: 62 },
+  ];
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % slides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (!slides.length && !courier.heading) return null;
+
+  return (
+    <section data-variant="eshop-17-hero" style={{ fontFamily: SANS, background: "#fff", padding: "22px 0 10px" }}>
+      <style>{`
+        @keyframes es17hKen { from { transform: scale(1.07); } to { transform: scale(1); } }
+        .es17h-img-active { animation: es17hKen 7s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes es17hText { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .es17h-copy > * { animation: es17hText 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+        .es17h-copy > *:nth-child(2) { animation-delay: 0.08s; }
+        .es17h-copy > *:nth-child(3) { animation-delay: 0.16s; }
+        .es17h-copy > *:nth-child(4) { animation-delay: 0.24s; }
+        @keyframes es17hPulse { 0% { transform: scale(0.55); opacity: 0.85; } 70% { transform: scale(1.9); opacity: 0; } 100% { transform: scale(1.9); opacity: 0; } }
+        .es17h-pin-ring { transform-origin: center; transform-box: fill-box; animation: es17hPulse 2.6s ease-out infinite; }
+
+        .es17h-cta { display: inline-flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.08); color: #fff; text-decoration: none;
+          font-size: 14.5px; font-weight: 700; letter-spacing: 0.05em; padding: 14px 27px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,0.55);
+          backdrop-filter: blur(4px); transition: background 0.18s, border-color 0.18s, color 0.18s, gap 0.18s, transform 0.15s; }
+        .es17h-cta:hover { background: ${GOLD}; border-color: ${GOLD}; color: ${BORDO_DK}; gap: 14px; transform: translateY(-2px); }
+
+        .es17h-dot { width: 26px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.4); border: none; cursor: pointer; padding: 0; transition: background 0.2s, width 0.25s; }
+        .es17h-dot.on { width: 44px; background: ${GOLD}; }
+
+        .es17h-courier-link { display: inline-flex; align-items: center; gap: 8px; color: ${BORDO}; font-size: 14.5px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s, gap 0.18s; }
+        .es17h-courier-link:hover { color: ${BORDO_DK}; gap: 12px; }
+
+        .es17h-grid { display: grid; grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr); gap: 16px; }
+        .es17h-frame { position: relative; border-radius: 22px; overflow: hidden; min-height: 390px; background: ${BORDO_DK}; }
+        .es17h-side { border-radius: 22px; background: ${CREAM}; border: 1px solid ${LINE}; padding: clamp(22px, 1.9vw, 28px); display: flex; flex-direction: column; gap: 12px; min-height: 390px; }
+        @media (max-width: 980px) {
+          .es17h-grid { grid-template-columns: 1fr; }
+          .es17h-frame { aspect-ratio: 4/3; min-height: 0; }
+          .es17h-side { min-height: 0; }
+        }
+        @media (max-width: 640px) {
+          .es17h-frame { aspect-ratio: 3/4; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es17h-grid">
+          {/* ═══ LEVÝ PROMO SLIDER ═══ */}
+          <div className="es17h-frame" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+            {slides.map((s, i) => (
+              <div key={i} style={{ position: "absolute", inset: 0, opacity: active === i ? 1 : 0, transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1)", pointerEvents: active === i ? "auto" : "none" }}>
+                {s.image && (
+                  <img src={s.image} alt="" className={active === i ? "es17h-img-active" : undefined} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                )}
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(78deg, rgba(46,8,22,0.88) 0%, rgba(46,8,22,0.62) 42%, rgba(46,8,22,0.08) 74%)" }} />
+                {active === i && (
+                  <div className="es17h-copy" style={{ position: "absolute", left: "clamp(24px, 4.5vw, 58px)", right: 24, top: "50%", transform: "translateY(-50%)", maxWidth: 560 }}>
+                    {s.kicker && (
+                      <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(201,162,75,0.14)", border: "1px solid rgba(201,162,75,0.5)", color: "#e7c886", borderRadius: 999, padding: "7px 15px", fontSize: 12.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", marginBottom: 16 }}>
+                        <Es17hFlower size={12} color="#e7c886" />
+                        {s.kicker}
+                      </div>
+                    )}
+                    {s.title && (
+                      <h2 style={{ fontFamily: HEAD, fontWeight: 600, fontSize: "clamp(28px, 3.7vw, 50px)", lineHeight: 1.06, letterSpacing: "-0.01em", color: "#fff", margin: 0 }}>
+                        {s.title}
+                        {s.titleAccent && <em style={{ fontStyle: "italic", fontWeight: 500, color: "#e7c886" }}> {s.titleAccent}</em>}
+                      </h2>
+                    )}
+                    {s.text && <p style={{ fontSize: "clamp(14px, 1.3vw, 16.5px)", lineHeight: 1.55, color: "rgba(255,251,245,0.88)", margin: "14px 0 0", maxWidth: 460 }}>{s.text}</p>}
+                    {s.ctaText && (
+                      <div style={{ marginTop: 26 }}>
+                        <a href={resolve(s.ctaHref ?? "/obchod")} className="es17h-cta">
+                          {s.ctaText}
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            {/* Award badge chipy (florea signatura vpravo dole) */}
+            {badges.length > 0 && (
+              <div className="hidden md:flex" style={{ position: "absolute", right: 22, bottom: 20, gap: 10, zIndex: 5 }}>
+                {badges.map((b, bi) => (
+                  <div key={bi} style={{ background: "rgba(255,251,245,0.94)", borderRadius: 12, padding: "9px 15px", display: "flex", alignItems: "center", gap: 9, boxShadow: "0 10px 24px rgba(0,0,0,0.24)" }}>
+                    {bi === 0 ? (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill={GOLD} aria-hidden="true"><path d="M12 2.5l2.5 5.4 5.9.6-4.4 4 1.2 5.8-5.2-3-5.2 3 1.2-5.8-4.4-4 5.9-.6L12 2.5z"/></svg>
+                    ) : (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={BORDO} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 21s-8-5.2-8-11.2A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8 3.2C20 15.8 12 21 12 21Z"/></svg>
+                    )}
+                    <span style={{ lineHeight: 1.25 }}>
+                      <span style={{ display: "block", fontSize: 12.5, fontWeight: 700, color: INK }}>{b.title}</span>
+                      <span style={{ display: "block", fontSize: 11, color: MUTED }}>{b.sub}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Dots */}
+            {slides.length > 1 && (
+              <div style={{ position: "absolute", left: "clamp(24px, 4.5vw, 58px)", bottom: 22, display: "flex", gap: 7, zIndex: 5 }}>
+                {slides.map((_, i) => (
+                  <button key={i} className={`es17h-dot${active === i ? " on" : ""}`} onClick={() => setActive(i)} aria-label={`Slide ${i + 1}`} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ═══ PRAVÝ KURÝRNÍ PANEL ═══ */}
+          {courier.heading && (
+            <div className="es17h-side">
+              <h3 style={{ fontFamily: HEAD, fontWeight: 600, fontSize: "clamp(19px, 1.6vw, 23px)", lineHeight: 1.25, letterSpacing: "-0.005em", color: BORDO, margin: 0 }}>{courier.heading}</h3>
+              {courier.text && <p style={{ fontSize: 14, lineHeight: 1.55, color: INK, margin: 0 }}>{courier.text}</p>}
+              {courier.linkText && (
+                <a href={resolve(courier.linkHref ?? "/obchod")} className="es17h-courier-link">
+                  {courier.linkText}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                </a>
+              )}
+
+              {/* Stylizovaná mapa ČR s pulzujícími kurýry */}
+              <div style={{ marginTop: "auto", borderRadius: 14, overflow: "hidden", border: `1px solid ${LINE}`, background: "#fdfbf8" }}>
+                <svg viewBox="0 0 180 90" style={{ display: "block", width: "100%", height: "auto" }} role="img" aria-label="Mapa rozvozu po celé ČR">
+                  <defs>
+                    <pattern id="es17hGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#eee7db" strokeWidth="0.5" />
+                    </pattern>
+                  </defs>
+                  <rect width="180" height="90" fill="url(#es17hGrid)" />
+                  <path
+                    d="M 18 38 C 14 28 22 18 34 16 C 44 10 58 8 70 12 C 84 8 104 10 116 16 C 130 14 146 20 152 30 C 162 34 166 44 160 52 C 156 62 144 66 132 64 C 124 72 108 76 96 70 C 84 76 66 74 56 66 C 42 68 28 62 24 52 C 18 48 16 44 18 38 Z"
+                    fill="#e4ecdf" stroke="#c4d4bb" strokeWidth="1"
+                  />
+                  {cities.map((ct) => (
+                    <g key={ct.label}>
+                      <circle cx={ct.x} cy={ct.y} r="1.6" fill="#7a8a72" />
+                      <text x={ct.x + 3.5} y={ct.y + 1.5} fontSize="5.5" fontFamily={SANS} fontWeight="600" fill="#6d7a66">{ct.label}</text>
+                    </g>
+                  ))}
+                  {pins.map((p, pi) => (
+                    <g key={pi}>
+                      <circle className="es17h-pin-ring" cx={p.x} cy={p.y} r="4.5" fill="none" stroke={BORDO} strokeWidth="0.9" style={{ animationDelay: `${(pi % 5) * 0.5}s` }} />
+                      <circle cx={p.x} cy={p.y} r="3.4" fill={BORDO} />
+                      <path transform={`translate(${p.x - 2.1}, ${p.y - 1.9}) scale(0.18)`} d="M1 13h-1v-9a1 1 0 0 1 1-1h13v10m-6 0h9m3 0h2v-5h-7m0-4h4l3 4" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" />
+                      <circle cx={p.x - 0.9} cy={p.y + 1.4} r="0.55" fill="#fff" />
+                      <circle cx={p.x + 1.3} cy={p.y + 1.4} r="0.55" fill="#fff" />
+                    </g>
+                  ))}
+                </svg>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-18-hero ───────────────────────────────────────────────────────────────
+// Oktan (autokelly.cz DNA) — hero na papírovém podkladu: vlevo karbonový promo
+// slider (radius 18, foto s karbonovým gradientem zleva, žlutý kicker chip
+// s bleskem, Archivo 900 italic uppercase titulek se žlutým akcentem, podtext,
+// přeškrtnutá cena + žlutý skosený cenový tag, žlutá CTA + ghost odkaz, dots,
+// autoplay 6,5 s s pauzou na hover, Ken Burns). Vpravo sloupec: žlutá dlaždice
+// Aktuální leták (skosené pruhy, % watermark) + karbonová dlaždice Kanál Oktan
+// (blesk watermark, žlutý odkaz). Dole rail rychlých odkazů — 8 chipů (první
+// žlutý „hot"), uppercase, šipka na hover. Mobil: slider 16/10, dlaždice vedle
+// sebe → pod 640 px pod sebou, chipy horizontální scroll.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es18Slide = { kicker?: string; title?: string; titleAccent?: string; text?: string; compare?: string; price?: string; ctaText?: string; ctaHref?: string; moreText?: string; moreHref?: string; image?: string };
+type Es18HeroTile = { kicker?: string; title?: string; text?: string; linkText?: string; href?: string };
+type Es18QuickLink = { label: string; href: string; hot?: boolean };
+
+function Es18hMark({ height = 20, bolt = "#131417", bg = "#ffd400" }: { height?: number; bolt?: string; bg?: string }) {
+  const w = Math.round(height * 0.86);
+  return (
+    <svg width={w} height={height} viewBox="0 0 26 30" aria-hidden="true" style={{ display: "block", flexShrink: 0 }}>
+      <path d="M7 0h19l-7 30H0L7 0Z" fill={bg} />
+      <path d="M15.4 4.5 9 16.6h4.2l-2.4 8.9 7.6-12.7h-4.3l3.3-8.3h-2Z" fill={bolt} />
+    </svg>
+  );
+}
+
+function HeroEshop18({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Archivo', 'Arial Black', sans-serif";
+  const SANS = "'Inter', 'Segoe UI', system-ui, sans-serif";
+  const CARBON = "#131417";
+  const CARBON_DK = "#0b0c0e";
+  const YELLOW = "#ffd400";
+  const YELLOW_DK = "#eec500";
+  const INK = "#16171a";
+  const MUTED = "#6a6e75";
+  const PAPER = "#f5f5f2";
+  const LINE = "#e4e5e0";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es18Slide[]) ?? []).slice(0, 5);
+  const flyer = (content.flyer as Es18HeroTile) ?? {};
+  const channel = (content.channel as Es18HeroTile) ?? {};
+  const quickLinks = ((content.quickLinks as Es18QuickLink[]) ?? []).slice(0, 8);
+
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % slides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (!slides.length && !quickLinks.length) return null;
+
+  return (
+    <section data-variant="eshop-18-hero" style={{ fontFamily: SANS, background: PAPER, padding: "22px 0 12px" }}>
+      <style>{`
+        @keyframes es18hKen { from { transform: scale(1.08); } to { transform: scale(1); } }
+        .es18h-img-active { animation: es18hKen 7s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes es18hText { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .es18h-copy > * { animation: es18hText 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+        .es18h-copy > *:nth-child(2) { animation-delay: 0.07s; }
+        .es18h-copy > *:nth-child(3) { animation-delay: 0.14s; }
+        .es18h-copy > *:nth-child(4) { animation-delay: 0.21s; }
+        .es18h-copy > *:nth-child(5) { animation-delay: 0.28s; }
+
+        .es18h-cta { display: inline-flex; align-items: center; gap: 10px; background: ${YELLOW}; color: ${CARBON}; text-decoration: none;
+          font-size: 13.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 26px; border-radius: 11px;
+          transition: background 0.16s, gap 0.18s, transform 0.15s; }
+        .es18h-cta:hover { background: ${YELLOW_DK}; gap: 14px; transform: translateY(-2px); }
+        .es18h-more { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.82); text-decoration: underline; text-underline-offset: 4px;
+          font-size: 13.5px; font-weight: 600; transition: color 0.15s, gap 0.18s; }
+        .es18h-more:hover { color: ${YELLOW}; gap: 11px; }
+
+        .es18h-dot { width: 26px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.35); border: none; cursor: pointer; padding: 0; transition: background 0.2s, width 0.25s; }
+        .es18h-dot.on { width: 44px; background: ${YELLOW}; }
+
+        .es18h-tile { position: relative; overflow: hidden; border-radius: 18px; display: flex; flex-direction: column; text-decoration: none; padding: clamp(18px, 1.6vw, 24px); transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s; }
+        .es18h-tile:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(11,12,14,0.16); }
+        .es18h-tile-link { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; transition: gap 0.18s; }
+        .es18h-tile:hover .es18h-tile-link { gap: 12px; }
+
+        .es18h-chip { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #fff; border: 1.5px solid ${LINE}; color: ${INK};
+          text-decoration: none; font-size: 12.5px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 13px 18px; border-radius: 11px;
+          white-space: nowrap; transition: border-color 0.15s, background 0.15s, transform 0.14s; }
+        .es18h-chip:hover { border-color: ${CARBON}; transform: translateY(-2px); }
+        .es18h-chip.es18h-hot { background: ${YELLOW}; border-color: ${YELLOW}; }
+        .es18h-chip.es18h-hot:hover { background: ${YELLOW_DK}; border-color: ${YELLOW_DK}; }
+        .es18h-chip svg { opacity: 0; width: 0; transition: opacity 0.16s, width 0.16s; }
+        .es18h-chip:hover svg { opacity: 1; width: 12px; }
+
+        .es18h-grid { display: grid; grid-template-columns: minmax(0, 2.35fr) minmax(0, 1fr); gap: 14px; }
+        .es18h-frame { position: relative; border-radius: 18px; overflow: hidden; min-height: 430px; background: ${CARBON_DK}; }
+        .es18h-side { display: grid; grid-template-rows: 1fr 1fr; gap: 14px; min-height: 430px; }
+        .es18h-rail { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+        @media (max-width: 1160px) {
+          .es18h-rail { display: flex; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+          .es18h-rail::-webkit-scrollbar { display: none; }
+        }
+        @media (max-width: 980px) {
+          .es18h-grid { grid-template-columns: 1fr; }
+          .es18h-frame { aspect-ratio: 16/10; min-height: 0; }
+          .es18h-side { grid-template-rows: none; grid-template-columns: 1fr 1fr; min-height: 0; }
+          .es18h-side .es18h-tile { min-height: 190px; }
+        }
+        @media (max-width: 640px) {
+          .es18h-frame { aspect-ratio: 4/5; }
+          .es18h-side { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es18h-grid">
+          {/* ═══ LEVÝ PROMO SLIDER ═══ */}
+          <div className="es18h-frame" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+            {slides.map((s, i) => (
+              <div key={i} style={{ position: "absolute", inset: 0, opacity: active === i ? 1 : 0, transition: "opacity 0.7s cubic-bezier(0.4,0,0.2,1)", pointerEvents: active === i ? "auto" : "none" }}>
+                {s.image && (
+                  <img src={s.image} alt="" className={active === i ? "es18h-img-active" : undefined} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                )}
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(80deg, rgba(11,12,14,0.92) 0%, rgba(11,12,14,0.66) 44%, rgba(11,12,14,0.1) 76%)" }} />
+                {active === i && (
+                  <div className="es18h-copy" style={{ position: "absolute", left: "clamp(24px, 4vw, 54px)", right: 24, top: "50%", transform: "translateY(-50%)", maxWidth: 580 }}>
+                    {s.kicker && (
+                      <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: YELLOW, color: CARBON, padding: "7px 14px", fontSize: 12, fontWeight: 800, letterSpacing: "0.09em", textTransform: "uppercase", marginBottom: 18, clipPath: "polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)" }}>
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2 4.5 13.5h6L10 22l8.5-11.5h-6L13 2Z"/></svg>
+                        {s.kicker}
+                      </div>
+                    )}
+                    <h2 style={{ margin: 0, fontFamily: HEAD, fontWeight: 900, fontStyle: "italic", fontStretch: "115%", fontSize: "clamp(30px, 3.6vw, 52px)", lineHeight: 1.02, letterSpacing: "0.005em", textTransform: "uppercase", color: "#fff" }}>
+                      {s.title}
+                      {s.titleAccent && <><br /><span style={{ color: YELLOW }}>{s.titleAccent}</span></>}
+                    </h2>
+                    {s.text && <p style={{ margin: "14px 0 0", fontSize: "clamp(14px, 1.1vw, 15.5px)", lineHeight: 1.55, color: "rgba(255,255,255,0.78)", maxWidth: 420 }}>{s.text}</p>}
+                    {(s.price || s.compare) && (
+                      <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginTop: 16 }}>
+                        {s.compare && <span style={{ fontSize: 16, fontWeight: 600, color: "rgba(255,255,255,0.55)", textDecoration: "line-through" }}>{s.compare}</span>}
+                        {s.price && (
+                          <span style={{ display: "inline-block", background: YELLOW, color: CARBON, fontFamily: HEAD, fontWeight: 900, fontStretch: "112%", fontSize: "clamp(22px, 2vw, 30px)", lineHeight: 1, padding: "9px 18px", clipPath: "polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%)" }}>{s.price}</span>
+                        )}
+                      </div>
+                    )}
+                    <div style={{ display: "flex", alignItems: "center", gap: 22, marginTop: 22, flexWrap: "wrap" }}>
+                      {s.ctaText && (
+                        <a href={resolve(s.ctaHref ?? "/obchod")} className="es18h-cta">
+                          {s.ctaText}
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </a>
+                      )}
+                      {s.moreText && <a href={resolve(s.moreHref ?? "/obchod")} className="es18h-more">{s.moreText}</a>}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+            {slides.length > 1 && (
+              <div style={{ position: "absolute", left: "clamp(24px, 4vw, 54px)", bottom: 22, display: "flex", gap: 7, zIndex: 5 }}>
+                {slides.map((_, i) => (
+                  <button key={i} className={`es18h-dot${active === i ? " on" : ""}`} onClick={() => setActive(i)} aria-label={`Slide ${i + 1}`} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ═══ PRAVÝ SLOUPEC — leták + kanál ═══ */}
+          <div className="es18h-side">
+            <a href={resolve(flyer.href ?? "/obchod")} className="es18h-tile" style={{ background: YELLOW }}>
+              <span aria-hidden="true" style={{ position: "absolute", right: -34, top: -46, fontFamily: HEAD, fontWeight: 900, fontStyle: "italic", fontStretch: "115%", fontSize: 190, lineHeight: 1, color: "rgba(19,20,23,0.07)", pointerEvents: "none", userSelect: "none" }}>%</span>
+              <span aria-hidden="true" style={{ position: "absolute", left: -26, bottom: -60, width: 130, height: 200, background: "repeating-linear-gradient(115deg, rgba(19,20,23,0.06) 0 14px, transparent 14px 34px)", pointerEvents: "none" }} />
+              {flyer.kicker && <span style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(19,20,23,0.62)" }}>{flyer.kicker}</span>}
+              <span style={{ marginTop: 9, fontFamily: HEAD, fontWeight: 900, fontStyle: "italic", fontStretch: "112%", fontSize: "clamp(21px, 1.7vw, 26px)", lineHeight: 1.06, textTransform: "uppercase", color: CARBON, maxWidth: 260 }}>{flyer.title}</span>
+              {flyer.text && <span style={{ marginTop: 9, fontSize: 13.5, lineHeight: 1.5, color: "rgba(19,20,23,0.72)", maxWidth: 270 }}>{flyer.text}</span>}
+              <span className="es18h-tile-link" style={{ marginTop: "auto", color: CARBON }}>
+                {flyer.linkText ?? "Ukázat nabídku"}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+
+            <a href={resolve(channel.href ?? "/obchod")} className="es18h-tile" style={{ background: CARBON }}>
+              <span aria-hidden="true" style={{ position: "absolute", right: -18, bottom: -34, opacity: 0.1, pointerEvents: "none", transform: "rotate(10deg)" }}>
+                <Es18hMark height={200} bolt={CARBON} bg="#ffffff" />
+              </span>
+              {channel.kicker && (
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 11.5, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", color: YELLOW }}>
+                  <span style={{ width: 7, height: 7, borderRadius: 999, background: YELLOW, boxShadow: "0 0 0 3px rgba(255,212,0,0.22)" }} />
+                  {channel.kicker}
+                </span>
+              )}
+              <span style={{ marginTop: 9, fontFamily: HEAD, fontWeight: 900, fontStyle: "italic", fontStretch: "112%", fontSize: "clamp(21px, 1.7vw, 26px)", lineHeight: 1.06, textTransform: "uppercase", color: "#fff", maxWidth: 280 }}>{channel.title}</span>
+              {channel.text && <span style={{ marginTop: 9, fontSize: 13.5, lineHeight: 1.5, color: "rgba(255,255,255,0.66)", maxWidth: 280 }}>{channel.text}</span>}
+              <span className="es18h-tile-link" style={{ marginTop: "auto", color: YELLOW }}>
+                {channel.linkText ?? "Připojit se"}
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        {/* ═══ RYCHLÉ ODKAZY ═══ */}
+        {quickLinks.length > 0 && (
+          <div className="es18h-rail">
+            {quickLinks.map((q) => (
+              <a key={q.label} href={resolve(q.href)} className={`es18h-chip${q.hot ? " es18h-hot" : ""}`}>
+                {q.label}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-19-hero ───────────────────────────────────────────────────────────────
+// Grunt (dek.cz DNA) — velký promo banner s lištou tabů pod ním (DEK vzor:
+// 4 taby přepínají slidy, autoplay 7 s s pauzou na hover). Banner radius 10:
+// foto s Ken Burns, přes něj diagonální barevný panel vlevo (theme red /
+// graphite / paper) s kickerem, Space Grotesk uppercase titulkem, highlight
+// chipem (grafitový skosený štítek à la „BEZ KAUCE A BEZ RIZIKA") a outline
+// CTA. Tab lišta: aktivní tab bílý s červeným top-barem, ostatní papírové.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es19Slide = { tab?: string; kicker?: string; title?: string; highlight?: string; text?: string; ctaText?: string; ctaHref?: string; image?: string; theme?: string };
+
+function HeroEshop19({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Space Grotesk', 'Arial', sans-serif";
+  const SANS = "'Inter', 'Segoe UI', system-ui, sans-serif";
+  const RED = "#d5232c";
+  const RED_DK = "#b31b23";
+  const GRAPHITE = "#212428";
+  const GRAPHITE_DK = "#17191c";
+  const INK = "#1d1f23";
+  const MUTED = "#6b6f76";
+  const PAPER = "#f4f3ef";
+  const LINE = "#e6e5e0";
+
+  const AUTOPLAY_MS = 7000;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es19Slide[]) ?? []).slice(0, 5);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % slides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (!slides.length) return null;
+  const s = slides[Math.min(active, slides.length - 1)];
+
+  const panel = s.theme === "graphite"
+    ? { bg: `linear-gradient(118deg, ${GRAPHITE_DK} 0%, ${GRAPHITE} 100%)`, fg: "#fff", sub: "rgba(255,255,255,0.78)", chipBg: RED, chipFg: "#fff" }
+    : s.theme === "paper"
+    ? { bg: "linear-gradient(118deg, #fbfaf7 0%, #f0eee8 100%)", fg: INK, sub: MUTED, chipBg: GRAPHITE, chipFg: "#fff" }
+    : { bg: `linear-gradient(118deg, ${RED_DK} 0%, ${RED} 100%)`, fg: "#fff", sub: "rgba(255,255,255,0.86)", chipBg: GRAPHITE_DK, chipFg: "#fff" };
+
+  return (
+    <section data-variant="eshop-19-hero" style={{ fontFamily: SANS, background: "#fff", padding: "18px 0 0" }}>
+      <style>{`
+        @keyframes es19hKen { from { transform: scale(1.08); } to { transform: scale(1); } }
+        .es19h-img-active { animation: es19hKen 7.5s cubic-bezier(0.16,1,0.3,1) forwards; }
+        @keyframes es19hText { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .es19h-copy > * { animation: es19hText 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+        .es19h-copy > *:nth-child(2) { animation-delay: 0.07s; }
+        .es19h-copy > *:nth-child(3) { animation-delay: 0.14s; }
+        .es19h-copy > *:nth-child(4) { animation-delay: 0.21s; }
+        .es19h-copy > *:nth-child(5) { animation-delay: 0.28s; }
+
+        .es19h-cta { display: inline-flex; align-items: center; gap: 9px; background: transparent; text-decoration: none;
+          font-size: 13.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 13px 26px; border-radius: 6px;
+          border: 1.8px solid currentColor; transition: background 0.16s, transform 0.15s, gap 0.18s; }
+        .es19h-cta:hover { transform: translateY(-2px); gap: 13px; background: rgba(255,255,255,0.12); }
+
+        .es19h-tab { position: relative; border: 1px solid ${LINE}; border-top-width: 3px; border-top-color: transparent; background: ${PAPER};
+          cursor: pointer; padding: 14px 18px; font-family: ${SANS}; font-size: 13px; font-weight: 600; color: ${MUTED};
+          text-align: center; transition: background 0.15s, color 0.15s, border-top-color 0.15s; line-height: 1.35; }
+        .es19h-tab:hover { color: ${INK}; background: #fff; }
+        .es19h-tab.es19h-on { background: #fff; color: ${INK}; border-top-color: ${RED}; font-weight: 700; }
+
+        @media (max-width: 900px) {
+          .es19h-panel { clip-path: none !important; width: 100% !important; position: relative !important; }
+          .es19h-photo { position: relative !important; height: 240px !important; }
+          .es19h-banner { display: flex; flex-direction: column-reverse; height: auto !important; }
+          .es19h-tabs { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div
+          className="es19h-banner"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          style={{ position: "relative", height: 420, borderRadius: 10, overflow: "hidden", background: GRAPHITE_DK }}
+        >
+          {/* Foto vpravo */}
+          <div className="es19h-photo" style={{ position: "absolute", inset: 0 }}>
+            {slides.map((sl, i) => (
+              sl.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={sl.image}
+                  alt={sl.title ?? ""}
+                  className={i === active ? "es19h-img-active" : undefined}
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: i === active ? 1 : 0, transition: "opacity 0.5s" }}
+                />
+              ) : null
+            ))}
+          </div>
+
+          {/* Diagonální panel vlevo */}
+          <div className="es19h-panel" key={active} style={{
+            position: "absolute", top: 0, bottom: 0, left: 0, width: "52%",
+            background: panel.bg, clipPath: "polygon(0 0, 100% 0, 86% 100%, 0 100%)",
+            display: "flex", alignItems: "center",
+          }}>
+            <div className="es19h-copy" style={{ padding: "36px 96px 36px 44px", maxWidth: 620 }}>
+              {s.kicker && <div style={{ fontSize: 12.5, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: panel.sub, marginBottom: 14 }}>{s.kicker}</div>}
+              {s.title && <h1 style={{ fontFamily: HEAD, fontWeight: 700, fontSize: "clamp(28px, 3.1vw, 46px)", lineHeight: 1.04, letterSpacing: "0.005em", textTransform: "uppercase", color: panel.fg, margin: 0 }}>{s.title}</h1>}
+              {s.highlight && (
+                <div style={{ marginTop: 16 }}>
+                  <span style={{ display: "inline-block", background: panel.chipBg, color: panel.chipFg, fontFamily: HEAD, fontWeight: 700, fontSize: "clamp(15px, 1.4vw, 20px)", letterSpacing: "0.04em", textTransform: "uppercase", padding: "9px 18px", transform: "skewX(-8deg)" }}>
+                    <span style={{ display: "inline-block", transform: "skewX(8deg)" }}>{s.highlight}</span>
+                  </span>
+                </div>
+              )}
+              {s.text && <p style={{ marginTop: 16, fontSize: 15, lineHeight: 1.55, color: panel.sub, maxWidth: 400 }}>{s.text}</p>}
+              {s.ctaText && (
+                <div style={{ marginTop: 22 }}>
+                  <a href={resolve(s.ctaHref ?? "/obchod")} className="es19h-cta" style={{ color: panel.fg }}>
+                    {s.ctaText}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Tab lišta — DEK vzor */}
+        {slides.length > 1 && (
+          <div className="es19h-tabs" style={{ display: "grid", gridTemplateColumns: `repeat(${slides.length}, 1fr)`, gap: 0, marginTop: 0 }}>
+            {slides.map((sl, i) => (
+              <button key={i} className={`es19h-tab${i === active ? " es19h-on" : ""}`} onClick={() => setActive(i)} aria-pressed={i === active}>
+                {sl.tab ?? sl.title ?? `Slide ${i + 1}`}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── eshop-20-hero ───────────────────────────────────────────────────────────────
+// Vykuk — dedoles.cz DNA: full-bleed foto slider (léto/bazén), centrovaný chunky
+// Baloo titulek bílý uppercase s limetkovým sticker kickerem (rotace −3°),
+// akcentní slovo s růžovým vlnitým podtrhem, růžová pill CTA „Chci −20 %!“,
+// dash-doty dole uprostřed (aktivní růžový delší), šipky v bílých kruzích,
+// autoplay 6,5 s + pauza na hover, Ken Burns, maskot vykukuje zpoza spodního
+// okraje slideru. Mobil: poměr 4/5.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es20hSlide = {
+  kicker?: string; title?: string; accent?: string; sub?: string;
+  ctaText?: string; ctaHref?: string; img?: string;
+};
+
+function Es20hMark({ height = 30, bar = "#f6a7d7", face = "#4b2413" }: { height?: number; bar?: string; face?: string }) {
+  const w = Math.round(height * 1.2);
+  return (
+    <svg width={w} height={height} viewBox="0 0 36 30" aria-hidden="true" style={{ display: "block", flexShrink: 0 }}>
+      <circle cx="9.5" cy="9" r="3.6" fill={face} />
+      <circle cx="26.5" cy="9" r="3.6" fill={face} />
+      <path d="M5.5 22a12.5 11.5 0 0 1 25 0Z" fill={face} />
+      <rect x="0" y="21" width="36" height="9" rx="4.5" fill={bar} />
+      <rect x="6.5" y="18.6" width="5" height="4.8" rx="2.4" fill={face} />
+      <rect x="24.5" y="18.6" width="5" height="4.8" rx="2.4" fill={face} />
+      <circle cx="13" cy="15.6" r="3.1" fill="#fff" />
+      <circle cx="23" cy="15.6" r="3.1" fill="#fff" />
+      <circle cx="13.7" cy="16.2" r="1.4" fill={face} />
+      <circle cx="22.3" cy="16.2" r="1.4" fill={face} />
+    </svg>
+  );
+}
+
+function HeroEshop20({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Baloo 2', 'Arial Rounded MT Bold', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const COCOA = "#4b2413";
+  const PINK = "#f6a7d7";
+  const PINK_DK = "#f18cc8";
+  const LIME = "#d6e84a";
+  const CREAM = "#fdf8f0";
+
+  const AUTOPLAY_MS = 6500;
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const slides = ((content.slides as Es20hSlide[]) ?? []).slice(0, 5);
+
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused || slides.length < 2) return;
+    const t = setInterval(() => setActive(a => (a + 1) % slides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused, slides.length]);
+
+  if (!slides.length) return null;
+
+  const go = (d: number) => setActive(a => (a + d + slides.length) % slides.length);
+
+  return (
+    <section data-variant="eshop-20-hero" style={{ fontFamily: SANS, background: CREAM }}>
+      <style>{`
+        @keyframes es20hKen { from { transform: scale(1); } to { transform: scale(1.07); } }
+        .es20h-img-active { animation: es20hKen 7.5s ease-out forwards; }
+        @keyframes es20hUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .es20h-in-1 { animation: es20hUp 0.55s cubic-bezier(0.16,1,0.3,1) 0.05s both; }
+        .es20h-in-2 { animation: es20hUp 0.55s cubic-bezier(0.16,1,0.3,1) 0.16s both; }
+        .es20h-in-3 { animation: es20hUp 0.55s cubic-bezier(0.16,1,0.3,1) 0.27s both; }
+        @keyframes es20hPeek { 0%, 100% { transform: translateY(12%); } 50% { transform: translateY(2%); } }
+        .es20h-mascot { animation: es20hPeek 5s ease-in-out infinite; }
+
+        .es20h-cta { display: inline-flex; align-items: center; gap: 9px; background: ${PINK}; color: ${COCOA}; text-decoration: none;
+          font-family: ${SANS}; font-size: clamp(15px, 1.3vw, 16.5px); font-weight: 800; padding: 15px 34px; border-radius: 999px;
+          box-shadow: 0 10px 26px rgba(56,25,12,0.28); transition: background 0.16s, transform 0.14s, box-shadow 0.16s; }
+        .es20h-cta:hover { background: ${PINK_DK}; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(56,25,12,0.34); }
+
+        .es20h-arrow { width: 46px; height: 46px; border-radius: 999px; background: rgba(255,255,255,0.92); border: none; cursor: pointer;
+          display: inline-flex; align-items: center; justify-content: center; color: ${COCOA}; transition: background 0.15s, transform 0.13s; }
+        .es20h-arrow:hover { background: ${PINK}; transform: translateY(-1px); }
+
+        .es20h-dash { height: 5px; border-radius: 999px; border: none; cursor: pointer; background: rgba(255,255,255,0.55); width: 26px; padding: 0; transition: background 0.18s, width 0.24s cubic-bezier(0.16,1,0.3,1); }
+        .es20h-dash.es20h-on { background: ${PINK}; width: 44px; }
+        .es20h-dash:hover { background: #fff; }
+      `}</style>
+
+      <div
+        style={{ position: "relative", overflow: "hidden" }}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {/* Slidy */}
+        <div className="aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto" style={{ position: "relative", width: "100%" }}>
+          <div className="hidden lg:block" style={{ height: "min(58vh, 560px)", minHeight: 420 }} />
+          {slides.map((s, i) => (
+            <div key={i} aria-hidden={i !== active} style={{ position: "absolute", inset: 0, opacity: i === active ? 1 : 0, transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1)", pointerEvents: i === active ? "auto" : "none" }}>
+              <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+                {s.img && (
+                  <img
+                    src={s.img}
+                    alt=""
+                    className={i === active ? "es20h-img-active" : undefined}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                )}
+                {/* kakaový overlay pro čitelnost */}
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(56,25,12,0.18) 0%, rgba(56,25,12,0.34) 62%, rgba(56,25,12,0.52) 100%)" }} />
+              </div>
+
+              {/* Obsah slidu — centrovaný */}
+              {i === active && (
+                <div style={{ position: "relative", height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "38px 20px 64px" }}>
+                  {s.kicker && (
+                    <span className="es20h-in-1" style={{ display: "inline-block", background: LIME, color: COCOA, fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(12px, 1.1vw, 14px)", letterSpacing: "0.09em", textTransform: "uppercase", padding: "7px 16px", borderRadius: 10, transform: "rotate(-3deg)", boxShadow: "0 8px 20px rgba(56,25,12,0.25)", marginBottom: 18 }}>{s.kicker}</span>
+                  )}
+                  <h1 className="es20h-in-2" style={{ margin: 0, fontFamily: HEAD, fontWeight: 800, fontSize: "clamp(32px, 5.2vw, 66px)", lineHeight: 1.04, letterSpacing: "0.015em", textTransform: "uppercase", color: "#fff", textShadow: "0 4px 26px rgba(56,25,12,0.45)", maxWidth: 900 }}>
+                    {s.title}
+                    {s.accent && (
+                      <>
+                        {" "}
+                        <span style={{ position: "relative", display: "inline-block", whiteSpace: "nowrap" }}>
+                          {s.accent}
+                          <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: -6, width: "100%", height: 12 }}>
+                            <path d="M2 8c12 0 12-5 25-5s13 5 25 5 13-5 25-5 13 5 25 5 13-5 25-5 13 5 25 5 13-5 25-5 12 5 21 5" fill="none" stroke={PINK} strokeWidth="5" strokeLinecap="round" />
+                          </svg>
+                        </span>
+                      </>
+                    )}
+                  </h1>
+                  {s.sub && (
+                    <p className="es20h-in-2" style={{ margin: "16px 0 0", fontSize: "clamp(14.5px, 1.4vw, 17px)", fontWeight: 600, color: "rgba(255,255,255,0.94)", textShadow: "0 2px 14px rgba(56,25,12,0.4)", maxWidth: 560 }}>{s.sub}</p>
+                  )}
+                  {s.ctaText && (
+                    <a href={resolve(s.ctaHref ?? "/obchod")} className="es20h-cta es20h-in-3" style={{ marginTop: 26 }}>
+                      {s.ctaText}
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Maskot vykukuje zpoza spodního okraje */}
+          <div className="es20h-mascot hidden md:block" style={{ position: "absolute", left: 44, bottom: -4, zIndex: 3, filter: "drop-shadow(0 -4px 14px rgba(56,25,12,0.25))" }} aria-hidden="true">
+            <Es20hMark height={56} bar={CREAM} face={COCOA} />
+          </div>
+
+          {/* Dash-doty */}
+          {slides.length > 1 && (
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 22, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, zIndex: 3 }}>
+              {slides.map((_, i) => (
+                <button key={i} className={`es20h-dash${i === active ? " es20h-on" : ""}`} onClick={() => setActive(i)} aria-label={`Slide ${i + 1}`} aria-current={i === active} />
+              ))}
+            </div>
+          )}
+
+          {/* Šipky */}
+          {slides.length > 1 && (
+            <div className="hidden sm:flex" style={{ position: "absolute", right: 26, bottom: 16, gap: 9, zIndex: 3 }}>
+              <button className="es20h-arrow" onClick={() => go(-1)} aria-label="Předchozí slide">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m15 5-7 7 7 7"/></svg>
+              </button>
+              <button className="es20h-arrow" onClick={() => go(1)} aria-label="Další slide">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="m9 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── artist-01-hero ──────────────────────────────────────────────────────────────
+// 1:1 luciebila.com DNA: full-width edge-to-edge hero fotka, žádný overlay text,
+// photographer credit bottom-right (#promo .author pattern). Elevace: jemný
+// Ken Burns slow zoom na obrázku, credit fade-in.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroArtist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const bgImage = String(content.backgroundImage ?? "/templates/artist-01/hero.webp");
+  const photoCredit = String(content.photoCredit ?? "");
+
+  return (
+    <>
+      <style>{`
+        .ar01-hero {
+          position: relative;
+          width: 100%;
+          height: calc(100vh - 114px);
+          min-height: 520px;
+          overflow: hidden;
+          line-height: 0;
+          background: #000;
+        }
+        .ar01-hero-wrap {
+          position: absolute;
+          inset: 0;
+        }
+        .ar01-hero-img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center 28%;
+          animation: ar01KenBurns 22s ease-in-out infinite alternate;
+        }
+        @media (max-width: 1200px) {
+          .ar01-hero { height: calc(100vh - 96px); margin-top: 96px; }
+        }
+        @keyframes ar01KenBurns {
+          0% { transform: scale(1); }
+          100% { transform: scale(1.04); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ar01-hero-img { animation: none; }
+        }
+        .ar01-hero-credit {
+          position: absolute;
+          bottom: 8px;
+          right: 14px;
+          font-family: 'Roboto', Helvetica, Arial, sans-serif;
+          font-size: 10px;
+          font-style: italic;
+          color: rgba(255,255,255,0.7);
+          z-index: 3;
+          letter-spacing: 0.02em;
+        }
+      `}</style>
+
+      <section className="ar01-hero" data-template="artist-01">
+        <GenericEditableImage
+          sectionId={sectionId}
+          field="backgroundImage"
+          src={bgImage}
+          alt={String(content.heroAlt ?? "Hlavní foto")}
+          className="ar01-hero-wrap"
+          priority
+        >
+          <img src={bgImage} alt={String(content.heroAlt ?? "Hlavní foto")} className="ar01-hero-img" />
+        </GenericEditableImage>
+        {photoCredit && (
+          <span className="ar01-hero-credit">
+            <GenericEditableText sectionId={sectionId} field="photoCredit" value={photoCredit} tag="span">{photoCredit}</GenericEditableText>
+          </span>
+        )}
+      </section>
+    </>
+  );
+}
+
+// ── hero-artist-01-page (slim banner podstránek) ─────────────────────────────────
+// ~360px slim banner: subdued ztmavená fotka, breadcrumb (Domů / Stránka) +
+// serif H1 + granátové decorative pravítko. Konzistentní s homepage hero.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroArtist01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const title      = String(content.title ?? "Stránka");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadHref  = String(content.breadcrumbHref ?? "/");
+  const bg         = String(content.backgroundImage ?? "/templates/artist-01/hero.webp");
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Roboto:wght@400;500&display=swap" />
+      <style>{`
+        .ar01-pageban {
+          position: relative; overflow: hidden;
+          min-height: 360px; box-sizing: border-box;
+          text-align: center; padding: 152px 40px 64px; background: #14100e;
+        }
+        .ar01-pageban-bg { position: absolute; inset: 0; z-index: 0; display: block; }
+        .ar01-pageban-bg img {
+          width: 100%; height: 100%; object-fit: cover; object-position: center 30%;
+          filter: brightness(.4) saturate(.9) grayscale(.15);
+          transform: scale(1.03);
+        }
+        .ar01-pageban::after {
+          content: ""; position: absolute; inset: 0; z-index: 1;
+          background: linear-gradient(to bottom, rgba(20,16,14,.5), rgba(20,16,14,.7));
+        }
+        .ar01-pageban-inner { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+        .ar01-pageban-crumb {
+          display: inline-flex; align-items: center; gap: 10px;
+          font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500;
+          letter-spacing: .22em; text-transform: uppercase; color: rgba(250,247,242,.72);
+          margin-bottom: 18px;
+        }
+        .ar01-pageban-crumb a { color: rgba(250,247,242,.72); text-decoration: none; transition: color .3s linear; }
+        .ar01-pageban-crumb a:hover { color: #d98c9a; }
+        .ar01-pageban-crumb .sep { color: #9b1c31; }
+        .ar01-pageban-crumb .cur { color: #fff; }
+        .ar01-pageban-title {
+          font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;
+          font-size: clamp(40px, 6vw, 68px); font-weight: 600; color: #fff; margin: 0;
+          line-height: 1.02; text-shadow: 0 4px 30px rgba(0,0,0,.4);
+        }
+        .ar01-pageban-rule { width: 64px; height: 2px; background: #9b1c31; margin: 22px auto 0; }
+        @media (max-width: 560px) { .ar01-pageban { min-height: 280px; padding: 100px 22px 44px; } }
+      `}</style>
+
+      <section className="ar01-pageban" data-template="artist-01">
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="ar01-pageban-bg" style={{ position: "absolute", inset: 0 }}>
+          <img src={bg} alt={title} />
+        </GenericEditableImage>
+        <div className="ar01-pageban-inner">
+          <div className="ar01-pageban-crumb">
+            <a href={resolve(breadHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span">{breadcrumb}</GenericEditableText>
+            </a>
+            <span className="sep" aria-hidden="true">/</span>
+            <span className="cur">{title}</span>
+          </div>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="ar01-pageban-title" />
+          <div className="ar01-pageban-rule" aria-hidden="true" />
+        </div>
+      </section>
+    </>
   );
 }

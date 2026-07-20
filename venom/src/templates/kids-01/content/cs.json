@@ -1,29 +1,51 @@
 {
   "siteName": "Lesní Smečka",
   "siteDescription": "Outdoorové kroužky a příměstské tábory pro děti 5–14 let v přírodě.",
-
   "navbar": {
     "siteName": "Lesní Smečka",
     "logoUrl": "",
-    "phone": "775 388 210",
-    "email": "ahoj@lesni-smecka.cz",
     "ctaText": "Zapsat dítě",
     "ctaHref": "/kontakt",
     "links": [
-      { "label": "Náš tým",            "href": "/nas-tym" },
-      { "label": "Místa & rozvrhy",     "href": "/#mista" },
-      { "label": "Letní tábory",        "href": "/#tabory" },
-      { "label": "Angličtina v lese",   "href": "/#anglictina" },
-      { "label": "MiniSmečka",          "href": "/#minismecka" },
-      { "label": "Kalendář",            "href": "/#kalendar" },
-      { "label": "Novinky",             "href": "/#novinky" },
-      { "label": "Kontakt",             "href": "/kontakt" },
-      { "label": "Více ▾",             "href": "/#vice" }
+      {
+        "label": "Náš tým",
+        "href": "/nas-tym"
+      },
+      {
+        "label": "Místa & rozvrhy",
+        "href": "/#mista"
+      },
+      {
+        "label": "Letní tábory",
+        "href": "/#tabory"
+      },
+      {
+        "label": "Angličtina v lese",
+        "href": "/#anglictina"
+      },
+      {
+        "label": "MiniSmečka",
+        "href": "/#minismecka"
+      },
+      {
+        "label": "Kalendář",
+        "href": "/#kalendar"
+      },
+      {
+        "label": "Novinky",
+        "href": "/#novinky"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Více ▾",
+        "href": "/#vice"
+      }
     ]
   },
-
   "hero": {
-    "title": "Lesní Smečka",
     "tagline": "pro děti 5 až 14 let",
     "heading": "Lesní Smečka",
     "subheading": "Venkovní kroužky plné dobrodružství — kde příroda je největší hřiště",
@@ -32,7 +54,6 @@
     "imageUrl": "/assets/kids-01/36b3126a5b-web-homepage-1.png",
     "imageAlt": "Děti v lese na kroužku Lesní Smečka"
   },
-
   "pillars": {
     "heading": "Co tě u nás čeká?",
     "items": [
@@ -62,10 +83,7 @@
       }
     ]
   },
-
   "about": {
-    "title": "Pro koho je Lesní Smečka?",
-    "body": "Lesní Smečka jsou outdoorové kroužky pro děti 5–14 let, které baví příroda, pohyb a život naplno.",
     "heading": "Pro koho je Lesní Smečka?",
     "imageUrl": "/assets/kids-01/3ab44d207e-db56d7b4-1cc2-47bf-857b-c2ac1a72e8ec_1_105_c.jpeg",
     "imageAlt": "Děti při outdoorových aktivitách v lese",
@@ -77,11 +95,8 @@
       "Pro kluky a holky, které lákají výzvy a nová kamarádství",
       "Pro rodiče, kteří chtějí dětem dát víc než tablet a gauč"
     ],
-    "quote": "Pravé dobrodružství nečeká za obrazovkou. Přijď ho najít s námi.",
-    "ctaText": "Zjistit více o kroužcích",
-    "ctaHref": "/aktivity"
+    "quote": "Pravé dobrodružství nečeká za obrazovkou. Přijď ho najít s námi."
   },
-
   "services": {
     "heading": "Co spolu zažijeme?",
     "subheading": "Každý týden přinášíme nové výzvy. Rozvíjíme odvahu, týmového ducha a lásku k přírodě.",
@@ -131,7 +146,6 @@
       }
     ]
   },
-
   "team": {
     "heading": "Kdo vás provede lesem?",
     "subheading": "Naši vedoucí jsou zkušení outdooristi a srdcaři. Děti je milují.",
@@ -158,16 +172,13 @@
       }
     ]
   },
-
   "cta": {
-    "title": "Zapište dítě do Lesní Smečky",
     "heading": "Zapište dítě do Lesní Smečky",
     "subheading": "Místa jsou omezená — smečka čítá nejvýše 12 dětí. Neotálejte!",
     "ctaText": "NEZÁVAZNÁ PŘIHLÁŠKA",
     "ctaHref": "/kontakt",
     "note": "Odpovídáme do 24 hodin."
   },
-
   "testimonials": {
     "heading": "Co říkají rodiče",
     "label": "RODIČE O LESNÍ SMEČCE",
@@ -197,7 +208,6 @@
       }
     ]
   },
-
   "stats": {
     "heading": "Jak to u nás chodí",
     "items": [
@@ -233,7 +243,6 @@
       }
     ]
   },
-
   "benefits": {
     "heading": "Co Lesní Smečka přinese vašemu dítěti",
     "imageUrl": "/assets/kids-01/04e685188e-5.jpg",
@@ -256,7 +265,6 @@
       "Zameškanou hodinu lze nahradit v jiné skupině."
     ]
   },
-
   "contact": {
     "heading": "Zaujalo vás to?",
     "subheading": "Napište nám nebo zavolejte — rádi odpovíme na všechny otázky.",
@@ -265,8 +273,14 @@
     "contactLabel": "Kontakt",
     "pricingHeading": "Cena kroužku",
     "pricingItems": [
-      { "location": "Praha", "price": "3 490 Kč za pololetí" },
-      { "location": "Středočeský kraj", "price": "2 990 Kč za pololetí" }
+      {
+        "location": "Praha",
+        "price": "3 490 Kč za pololetí"
+      },
+      {
+        "location": "Středočeský kraj",
+        "price": "2 990 Kč za pololetí"
+      }
     ],
     "locationsHeading": "Kde nás najdete",
     "locationsSubheading": "Všechna místa srazu jsou u lesa, max. 10 minut od MHD.",
@@ -281,7 +295,6 @@
     "phone": "775 388 210",
     "address": "Přírodní 7, 150 00 Praha 5 — Smíchov"
   },
-
   "footer": {
     "siteName": "Lesní Smečka",
     "logoUrl": "/templates/kids-01/logo.svg",
@@ -290,20 +303,47 @@
       {
         "title": "Kroužky",
         "links": [
-          { "label": "Co děláme",       "href": "/aktivity" },
-          { "label": "Letní tábory",    "href": "/#tabory" },
-          { "label": "Víkendové výpravy","href": "/#vypravy" },
-          { "label": "Místa srazu",     "href": "/#mista" },
-          { "label": "Ceník",           "href": "/#cenik" }
+          {
+            "label": "Co děláme",
+            "href": "/aktivity"
+          },
+          {
+            "label": "Letní tábory",
+            "href": "/#tabory"
+          },
+          {
+            "label": "Víkendové výpravy",
+            "href": "/#vypravy"
+          },
+          {
+            "label": "Místa srazu",
+            "href": "/#mista"
+          },
+          {
+            "label": "Ceník",
+            "href": "/#cenik"
+          }
         ]
       },
       {
         "title": "O nás",
         "links": [
-          { "label": "Náš tým",         "href": "/nas-tym" },
-          { "label": "Co říkají rodiče","href": "/recenze" },
-          { "label": "Kontakt",         "href": "/kontakt" },
-          { "label": "Časté otázky",    "href": "/faq" }
+          {
+            "label": "Náš tým",
+            "href": "/nas-tym"
+          },
+          {
+            "label": "Co říkají rodiče",
+            "href": "/recenze"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Časté otázky",
+            "href": "/faq"
+          }
         ]
       }
     ],
@@ -319,7 +359,6 @@
     "privacyHref": "/ochrana-udaju",
     "cookiesHref": "/cookies"
   },
-
   "pages": {
     "aktivity": {
       "seoTitle": "Co děláme | Lesní Smečka",

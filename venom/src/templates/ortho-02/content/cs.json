@@ -5,16 +5,35 @@
     "phone": "+420 704 123 456",
     "ctaText": "Objednat se",
     "ctaHref": "#kontakt",
-    "igHref": "https://instagram.com/demo",
-    "fbHref": "https://facebook.com/demo",
     "links": [
-      { "label": "Rovnátka",        "href": "#sluzby" },
-      { "label": "Ostatní služby",  "href": "#sluzby" },
-      { "label": "Reference",       "href": "#reference" },
-      { "label": "Průvodce léčbou", "href": "#proces" },
-      { "label": "Ceník",           "href": "#kontakt" },
-      { "label": "O nás",           "href": "#about" },
-      { "label": "Kontakt",         "href": "#kontakt" }
+      {
+        "label": "Rovnátka",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Ostatní služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Reference",
+        "href": "#reference"
+      },
+      {
+        "label": "Průvodce léčbou",
+        "href": "#proces"
+      },
+      {
+        "label": "Ceník",
+        "href": "#kontakt"
+      },
+      {
+        "label": "O nás",
+        "href": "#about"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ]
   },
   "hero": {
@@ -144,12 +163,35 @@
     "igHref": "https://instagram.com/demo",
     "fbHref": "https://facebook.com/demo",
     "links": [
-      { "label": "Rovnátka",        "href": "#sluzby" },
-      { "label": "Ostatní služby",  "href": "#sluzby" },
-      { "label": "Průvodce léčbou","href": "#proces" },
-      { "label": "O nás",           "href": "#about" },
-      { "label": "Kontakt",         "href": "#kontakt" }
+      {
+        "label": "Rovnátka",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Ostatní služby",
+        "href": "#sluzby"
+      },
+      {
+        "label": "Průvodce léčbou",
+        "href": "#proces"
+      },
+      {
+        "label": "O nás",
+        "href": "#about"
+      },
+      {
+        "label": "Kontakt",
+        "href": "#kontakt"
+      }
     ],
     "copyright": "© 2025 Premium Care s.r.o. Všechna práva vyhrazena."
+  },
+  "home": {
+    "rezervace": {
+      "title": "Objednejte se na vyšetření",
+      "subtitle": "Vyberte vyšetření, lékaře a čas. Potvrzení dorazí e-mailem.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
+    }
   }
 }

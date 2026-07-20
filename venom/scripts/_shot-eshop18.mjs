@@ -1,0 +1,18 @@
+import { chromium } from "playwright-core";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV-CRM/5288c3b6-b166-461c-ae3c-dcd33b7e2c5d/scratchpad";
+const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const ctx = await browser.newContext({ viewport: { width: 1600, height: 900 } });
+const page = await ctx.newPage();
+await page.goto("http://localhost:3015/demo/eshop-18-v2?ts=" + Date.now(), { waitUntil: "networkidle", timeout: 90000 });
+await page.screenshot({ path: `${OUT}/es18-navbar.png` });
+await page.hover(`button.es18-catalogbtn`);
+await page.waitForTimeout(2000);
+await page.screenshot({ path: `${OUT}/es18-mega.png` });
+const mob = await browser.newContext({ viewport: { width: 390, height: 844 } });
+const mp = await mob.newPage();
+await mp.goto("http://localhost:3015/demo/eshop-18-v2?ts=" + Date.now(), { waitUntil: "networkidle", timeout: 90000 });
+await mp.screenshot({ path: `${OUT}/es18-mobile.png` });
+await mp.click(`button[aria-label="Otevřít menu"]`);
+await mp.waitForTimeout(1200);
+await mp.screenshot({ path: `${OUT}/es18-mobile-menu.png` });
+await browser.close(); console.log("done");

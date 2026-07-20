@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#ffc500",
+    "secondary":  "#000000",
+    "accent":     "#d00000",
+    "background": "#ffffff",
+    "surface":    "#f6f6f6",
+    "text":       "#1f1f1f",
+    "textMuted":  "#767676",
+    "border":     "#e6e6e6"
+  },
+  "typography": {
+    "fontHeading": "'Nunito', 'Segoe UI', Arial, sans-serif",
+    "fontBody":    "'Nunito', 'Segoe UI', Arial, sans-serif"
+  }
+}

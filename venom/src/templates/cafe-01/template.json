@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "cafe-01",
-  "name": "Cafe — Vlna kávy",
+  "name": "Vlna Kávy",
   "industry": "cafe",
   "skeleton": "gastro",
   "version": "1.0.0",
@@ -9,19 +9,50 @@
   "description": "Kavárenský řetězec — vlna pozadí v hero, nakloněný card o nás, magazín CTA, filled blog karty. Inspirováno costa-coffee.cz.",
   "sectionOrderNote": "Originál costa-coffee.cz má homepage zjednodušenou (hero → about → blog karuselový blok → magazine CTA → footer); menu, gallery, locations, testimonials, events, FAQ jsou na podstránkách nebo úplně chybí. Standard 2026-05-27 vyžadoval skip + extra metadata — doplněno retroaktivně 2026-05-29.",
   "extraSections": [
-    { "name": "Blog preview", "type": "blog-preview", "variant": "cafe-filled-cards", "reason": "originál má 3 filled karuselové karty s novinkami místo gastro Menu sekce — zachováno pro paritu" }
+    {
+      "name": "Blog preview",
+      "type": "blog-preview",
+      "variant": "cafe-filled-cards",
+      "reason": "originál má 3 filled karuselové karty s novinkami místo gastro Menu sekce — zachováno pro paritu"
+    }
   ],
   "skippedSections": [
-    { "pos": 4,  "name": "Menu",          "reason": "menu (Nabídka) je na samostatné podstránce /nabidka; homepage nemá menu blok" },
-    { "pos": 5,  "name": "Gallery",       "reason": "originál nemá galerii na homepage — vizuál nese blog-preview karty" },
-    { "pos": 7,  "name": "Locations",     "reason": "lokace (Provozovny) jsou na samostatné podstránce /kavarny" },
-    { "pos": 8,  "name": "Testimonials",  "reason": "originál nemá recenze v homepage flow" },
-    { "pos": 9,  "name": "Events",        "reason": "originál nemá samostatnou events sekci" },
-    { "pos": 10, "name": "FAQ",           "reason": "originál nemá FAQ" }
+    {
+      "pos": 4,
+      "name": "Menu",
+      "reason": "menu (Nabídka) je na samostatné podstránce /nabidka; homepage nemá menu blok"
+    },
+    {
+      "pos": 5,
+      "name": "Gallery",
+      "reason": "originál nemá galerii na homepage — vizuál nese blog-preview karty"
+    },
+    {
+      "pos": 7,
+      "name": "Locations",
+      "reason": "lokace (Provozovny) jsou na samostatné podstránce /kavarny"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "originál nemá recenze v homepage flow"
+    },
+    {
+      "pos": 9,
+      "name": "Events",
+      "reason": "originál nemá samostatnou events sekci"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "originál nemá FAQ"
+    }
   ],
   "i18n": {
     "default": "cs",
-    "supported": ["cs"]
+    "supported": [
+      "cs"
+    ]
   },
   "pages": [
     {
@@ -29,12 +60,36 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar", "variant": "default", "contentRef": "navbar" },
-        { "type": "hero", "variant": "hero-cafe-wave", "contentRef": "hero" },
-        { "type": "about", "variant": "cafe-loyalty-tilted", "contentRef": "about" },
-        { "type": "blog-preview", "variant": "cafe-filled-cards", "contentRef": "blog-preview" },
-        { "type": "cta", "variant": "cafe-magazine", "contentRef": "cta" },
-        { "type": "footer", "variant": "default", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "default",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-cafe-wave",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "cafe-loyalty-tilted",
+          "contentRef": "about"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "cafe-filled-cards",
+          "contentRef": "blog-preview"
+        },
+        {
+          "type": "cta",
+          "variant": "cafe-magazine",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "default",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -43,10 +98,26 @@
       "seoTitleKey": "pages.kavarny.seoTitle",
       "seoDescriptionKey": "pages.kavarny.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "default", "contentRef": "navbar" },
-        { "type": "hero", "variant": "hero-centered", "contentRef": "pages.kavarny.hero" },
-        { "type": "contact", "variant": "split", "contentRef": "pages.kavarny.contact" },
-        { "type": "footer", "variant": "default", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "default",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.kavarny.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "split",
+          "contentRef": "pages.kavarny.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "default",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -55,11 +126,31 @@
       "seoTitleKey": "pages.nabidka.seoTitle",
       "seoDescriptionKey": "pages.nabidka.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "default", "contentRef": "navbar" },
-        { "type": "hero", "variant": "hero-centered", "contentRef": "pages.nabidka.hero" },
-        { "type": "services", "variant": "grid", "contentRef": "pages.nabidka.services" },
-        { "type": "cta", "variant": "cafe-magazine", "contentRef": "pages.nabidka.cta" },
-        { "type": "footer", "variant": "default", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "default",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.nabidka.hero"
+        },
+        {
+          "type": "services",
+          "variant": "grid",
+          "contentRef": "pages.nabidka.services"
+        },
+        {
+          "type": "cta",
+          "variant": "cafe-magazine",
+          "contentRef": "pages.nabidka.cta"
+        },
+        {
+          "type": "footer",
+          "variant": "default",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -68,11 +159,31 @@
       "seoTitleKey": "pages.o-nas.seoTitle",
       "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "default", "contentRef": "navbar" },
-        { "type": "hero", "variant": "hero-centered", "contentRef": "pages.o-nas.hero" },
-        { "type": "about", "variant": "two-col", "contentRef": "pages.o-nas.about" },
-        { "type": "cta", "variant": "cafe-magazine", "contentRef": "pages.o-nas.cta" },
-        { "type": "footer", "variant": "default", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "default",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-centered",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "two-col",
+          "contentRef": "pages.o-nas.about"
+        },
+        {
+          "type": "cta",
+          "variant": "cafe-magazine",
+          "contentRef": "pages.o-nas.cta"
+        },
+        {
+          "type": "footer",
+          "variant": "default",
+          "contentRef": "footer"
+        }
       ]
     },
     {
@@ -81,9 +192,21 @@
       "seoTitleKey": "pages.kontakt.seoTitle",
       "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
-        { "type": "navbar", "variant": "default", "contentRef": "navbar" },
-        { "type": "contact", "variant": "split", "contentRef": "pages.kontakt.contact" },
-        { "type": "footer", "variant": "default", "contentRef": "footer" }
+        {
+          "type": "navbar",
+          "variant": "default",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "contact",
+          "variant": "split",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "default",
+          "contentRef": "footer"
+        }
       ]
     }
   ],

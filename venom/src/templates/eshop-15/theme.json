@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary": "#064740",
+    "secondary": "#166154",
+    "accent": "#7efd92",
+    "background": "#ffffff",
+    "surface": "#f0efe6",
+    "text": "#333333",
+    "textMuted": "#6f7d72",
+    "border": "#e8e8e6"
+  },
+  "typography": {
+    "fontHeading": "-apple-system, 'system-ui', 'Segoe UI', Roboto, Arial, sans-serif",
+    "fontBody": "-apple-system, 'system-ui', 'Segoe UI', Roboto, Arial, sans-serif"
+  }
+}

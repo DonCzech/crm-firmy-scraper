@@ -4,6 +4,7 @@ import { query, queryOne, auditLog, type Section } from "@/lib/db";
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
 import { computeOverridesForSubmit } from "@/lib/section-resolver";
 import { revalidatePath } from "next/cache";
+import { sanitizeRichContent } from "@/lib/sanitize-content";
 
 const BodySchema = z.object({
   settings: z.record(z.unknown()).optional(),
@@ -65,18 +66,19 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   const values: unknown[] = [];
 
   if (parsed.data.settings !== undefined) {
+    const safeSettings = sanitizeRichContent(parsed.data.settings);
     // F1: For v2 sections, the studio submits fully-merged content. We compute the
     // sparse diff vs (template_default + slots) and store ONLY the diff in
     // content_overrides. settings.content stays empty so template propagation works.
     if (sectionRow.content_source === "v2") {
-      const incoming = (parsed.data.settings as { content?: Record<string, unknown> }).content ?? {};
+      const incoming = (safeSettings as { content?: Record<string, unknown> }).content ?? {};
       const overrides = await computeOverridesForSubmit(
         { ...sectionRow, content_source: (sectionRow.content_source ?? "legacy") as "v2" | "legacy" },
         tenant,
         incoming
       );
       // Preserve non-content settings keys (e.g. anchorId, designTokens) but strip content
-      const settingsWithoutContent = { ...(parsed.data.settings as Record<string, unknown>) };
+      const settingsWithoutContent = { ...(safeSettings as Record<string, unknown>) };
       delete settingsWithoutContent.content;
       updates.push(`settings = $${values.length + 1}`);
       values.push(JSON.stringify(settingsWithoutContent));
@@ -84,7 +86,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
       values.push(JSON.stringify(overrides));
     } else {
       updates.push(`settings = $${values.length + 1}`);
-      values.push(JSON.stringify(parsed.data.settings));
+      values.push(JSON.stringify(safeSettings));
     }
   }
   if (parsed.data.is_visible !== undefined) {

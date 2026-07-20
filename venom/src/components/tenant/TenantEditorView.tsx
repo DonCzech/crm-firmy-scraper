@@ -796,7 +796,7 @@ export function TenantEditorView({ tenant, page, sections: initialSections, over
           {/* Navbar — wrapped so PageBuilder jump + pulse can target it */}
           {navbarSections.length > 0 && (
             <SectionFrame
-              key={navbarSections[0].id}
+              key={`${navbarSections[0].id}-${navbarSections[0].section_variant}`}
               sectionId={navbarSections[0].id}
               selected={selectedSectionId === navbarSections[0].id}
               hover={hoverSectionId === navbarSections[0].id}
@@ -830,8 +830,11 @@ export function TenantEditorView({ tenant, page, sections: initialSections, over
                 dragOverId === section.id && dragOverEdge === "before" ? "drop-before" :
                 dragOverId === section.id && dragOverEdge === "after" ? "drop-after" :
                 "idle";
+              // Varianta je součástí key: sekční komponenty volají hooks uvnitř
+              // `if (variant === ...)` bloků, takže změna varianty za běhu mění
+              // počet hooks. Remount při přepnutí varianty tomu předchází.
               return (
-                <Fragment key={section.id}>
+                <Fragment key={`${section.id}-${section.section_variant}`}>
                   <SectionFrame
                     sectionId={section.id}
                     selected={selectedSectionId === section.id}
@@ -863,7 +866,7 @@ export function TenantEditorView({ tenant, page, sections: initialSections, over
           {/* Footer — wrapped so PageBuilder jump + pulse can target it */}
           {footerSections.length > 0 && (
             <SectionFrame
-              key={footerSections[0].id}
+              key={`${footerSections[0].id}-${footerSections[0].section_variant}`}
               sectionId={footerSections[0].id}
               selected={selectedSectionId === footerSections[0].id}
               hover={hoverSectionId === footerSections[0].id}
