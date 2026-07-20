@@ -8,6 +8,7 @@ import { applyOverrides } from "@/lib/overrides";
 import { DesignOverrides } from "@/components/studio/design/DesignOverrides";
 import { GenericInlineEditorProvider, type GenericHighlightChange, type GenericTextStyle } from "./GenericInlineEditorContext";
 import { buildLocalBusiness, buildFAQPage } from "@/lib/schema-org";
+import { withBlogNavLink } from "@/lib/blog/nav-link";
 import { assertHeadingHierarchy } from "@/lib/seo-guards";
 
 interface Props {
@@ -156,6 +157,18 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
   // Validate — navbar/footer must never appear inside section stream
   const navbarSections = visibleSections.filter((s) => s.section_type === "navbar");
   const footerSections = visibleSections.filter((s) => s.section_type === "footer");
+
+  // Inject the Blog nav entry into navbar + footer when the blog module is on.
+  // Public render only — in the editor the link is virtual (no backing data at
+  // that index) and would corrupt inline-edit field paths.
+  const hasBlogModule = (tenant.active_modules ?? []).includes("blog");
+  const injectBlog = hasBlogModule && !genericEditorEnabled;
+  const navbarToRender = injectBlog && navbarSections[0]
+    ? withBlogNavLink(navbarSections[0], true)
+    : navbarSections[0];
+  const footerToRender = injectBlog && footerSections[0]
+    ? withBlogNavLink(footerSections[0], true)
+    : footerSections[0];
   const mainSections = visibleSections.filter(
     (s) => s.section_type !== "navbar" && s.section_type !== "footer"
   );
@@ -399,10 +412,10 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
       />
 
       {/* Navbar — singleton, never rendered through section loop */}
-      {navbarSections.length > 0 && (
+      {navbarToRender && (
         <div data-design-scope="header">
           <SectionRenderer
-            section={navbarSections[0]}
+            section={navbarToRender}
             tenantId={tenant.id}
             tenantSlug={tenant.slug}
             isAdmin={genericEditorEnabled}
@@ -449,10 +462,10 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
       </main>
 
       {/* Footer — singleton, never rendered through section loop */}
-      {footerSections.length > 0 && (
+      {footerToRender && (
         <div data-design-scope="footer">
           <SectionRenderer
-            section={footerSections[0]}
+            section={footerToRender}
             tenantId={tenant.id}
             tenantSlug={tenant.slug}
             isAdmin={genericEditorEnabled}

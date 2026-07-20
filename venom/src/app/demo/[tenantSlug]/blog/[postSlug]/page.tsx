@@ -1,33 +1,29 @@
 import { notFound } from "next/navigation";
-import { getTenantBySlug, queryOne, getTenantPage, getPageSections, query } from "@/lib/db";
+import { getTenantBySlug, getTenantPage, getPageSections } from "@/lib/db";
+import { TenantCustomCode } from "@/components/tenant/TenantCustomCode";
+import { TenantChrome } from "@/components/tenant/TenantChrome";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { getBlogTheme, blogCssVars } from "@/lib/blog/theme";
+import { getPublishedPost, getRelatedPosts, getAdjacentPosts } from "@/lib/blog/queries";
+import { extractToc, readingTimeMinutes, type BlogBlock } from "@/lib/blog/content";
+import { BlogContentRenderer } from "@/components/blog/BlogContentRenderer";
+import { PostCard, formatDate } from "@/components/blog/PostCard";
+import { BlogStyles } from "@/components/blog/BlogStyles";
+import { ReadingProgress } from "@/components/blog/ReadingProgress";
+import { ShareBar } from "@/components/blog/ShareBar";
+import { TableOfContents } from "@/components/blog/TableOfContents";
+import { LightboxProvider } from "@/components/blog/Lightbox";
 
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
 
 interface Props {
   params: Promise<{ tenantSlug: string; postSlug: string }>;
 }
 
-interface BlogPost {
-  id: number;
-  slug: string;
-  title: string;
-  excerpt: string | null;
-  content: unknown[];
-  featured_image: string | null;
-  author: string | null;
-  category: string | null;
-  tags: string[];
-  published_at: string | null;
-  updated_at: string | null;
-  seo_title: string | null;
-  seo_description: string | null;
-}
-
-function hasBlogModule(tenant: { active_modules: string[] }): boolean {
-  return tenant.active_modules.includes("blog");
+function hasBlogModule(tenant: { active_modules: string[] | null }): boolean {
+  return (tenant.active_modules ?? []).includes("blog");
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -35,24 +31,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant) return {};
 
-  const post = await queryOne<Pick<BlogPost, "seo_title" | "seo_description" | "title" | "excerpt" | "featured_image">>(
-    "SELECT seo_title, seo_description, title, excerpt, featured_image FROM blog_posts WHERE tenant_id = $1 AND slug = $2 AND status = 'published'",
-    [tenant.id, postSlug]
-  );
+  const post = await getPublishedPost(tenant.id, postSlug);
   if (!post) return {};
 
   const title = post.seo_title ?? post.title;
   const description = post.seo_description ?? post.excerpt ?? undefined;
+  const url = `${BASE_URL}/demo/${tenantSlug}/blog/${post.slug}`;
+  const image = post.og_image ?? post.featured_image ?? undefined;
+  const indexable = hasBlogModule(tenant) && !post.noindex;
 
   return {
     title,
     description,
-    robots: hasBlogModule(tenant) ? { index: true, follow: true } : { index: false, follow: false },
+    robots: indexable ? { index: true, follow: true } : { index: false, follow: false },
+    alternates: { canonical: url },
     openGraph: {
       title,
       description,
-      images: post.featured_image ? [{ url: post.featured_image }] : undefined,
+      url,
       type: "article",
+      publishedTime: post.published_at ?? undefined,
+      modifiedTime: post.updated_at ?? undefined,
+      authors: post.author ? [post.author] : undefined,
+      tags: post.tags?.length ? post.tags : undefined,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: image ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: image ? [image] : undefined,
     },
   };
 }
@@ -63,34 +71,28 @@ export default async function BlogPostPage({ params }: Props) {
   if (!tenant) return notFound();
   if (!hasBlogModule(tenant)) return notFound();
 
-  const post = await queryOne<BlogPost>(
-    "SELECT * FROM blog_posts WHERE tenant_id = $1 AND slug = $2 AND status = 'published'",
-    [tenant.id, postSlug]
-  );
+  const post = await getPublishedPost(tenant.id, postSlug);
   if (!post) return notFound();
 
-  // Design tokens + contact info from homepage
+  const blocks: BlogBlock[] = Array.isArray(post.content) ? post.content : [];
+  const toc = extractToc(blocks);
+  const readingTime = post.reading_time_min ?? readingTimeMinutes(blocks);
+
+  const [theme, related, adjacent] = await Promise.all([
+    getBlogTheme(tenant),
+    getRelatedPosts(tenant.id, post),
+    getAdjacentPosts(tenant.id, post.published_at, post.id),
+  ]);
+
+  // Contact info for the closing CTA
   const homepage = await getTenantPage(tenant.id, "home");
   const homeSections = homepage ? await getPageSections(tenant.id, homepage.id) : [];
-  const designTokens = (homeSections[0]?.settings?.designTokens ?? {}) as Record<string, string>;
-
   const contactSection = homeSections.find((s) => s.section_type === "contact");
   const contactContent = (contactSection?.settings?.content ?? {}) as { phone?: string; email?: string };
 
-  // Related posts (same category or tags, exclude current)
-  interface RelatedPost { id: number; slug: string; title: string; excerpt: string | null; featured_image: string | null; published_at: string | null; }
-  const relatedPosts = await query<RelatedPost>(
-    `SELECT id, slug, title, excerpt, featured_image, published_at
-     FROM blog_posts
-     WHERE tenant_id = $1 AND status = 'published' AND id != $2
-       AND (category = $3 OR tags && $4)
-     ORDER BY published_at DESC LIMIT 3`,
-    [tenant.id, post.id, post.category ?? "", post.tags ?? []]
-  );
-
   const base = `/demo/${tenantSlug}`;
+  const url = `${BASE_URL}${base}/blog/${post.slug}`;
 
-  // Schema.org Article + Breadcrumb
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -100,237 +102,272 @@ export default async function BlogPostPage({ params }: Props) {
     author: post.author ? { "@type": "Person", name: post.author } : undefined,
     datePublished: post.published_at ?? undefined,
     dateModified: post.updated_at ?? undefined,
-    publisher: {
-      "@type": "Organization",
-      name: tenantSlug,
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://webero.co${base}/blog/${post.slug}`,
-    },
+    wordCount: undefined,
+    timeRequired: `PT${readingTime}M`,
+    keywords: post.tags?.length ? post.tags.join(", ") : undefined,
+    articleSection: post.category ?? undefined,
+    publisher: { "@type": "Organization", name: theme.businessName },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Domů", item: `https://webero.co${base}` },
-      { "@type": "ListItem", position: 2, name: "Blog", item: `https://webero.co${base}/blog` },
+      { "@type": "ListItem", position: 1, name: "Domů", item: `${BASE_URL}${base}` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `${BASE_URL}${base}/blog` },
       { "@type": "ListItem", position: 3, name: post.title },
     ],
   };
 
-  const renderContent = (blocks: unknown[]) =>
-    blocks.map((block, i) => {
-      if (typeof block === "string") return <p key={i} className="mb-5 leading-relaxed">{block}</p>;
-      const b = block as Record<string, unknown>;
-      if (b.type === "heading") return (
-        <h2 key={i} className="text-xl font-bold mt-8 mb-3" style={{ fontFamily: designTokens.fontHeading || "inherit" }}>
-          {String(b.text ?? "")}
-        </h2>
-      );
-      if (b.type === "quote") return (
-        <blockquote
-          key={i}
-          className="pl-4 py-1 my-5 italic text-base"
-          style={{ borderLeft: `3px solid ${designTokens.colorPrimary || "#6366f1"}`, color: designTokens.colorTextMuted || "#6b7280" }}
-        >
-          {String(b.text ?? "")}
-        </blockquote>
-      );
-      if (b.type === "image") return (
-        <figure key={i} className="my-6">
-          <div className="relative w-full h-64 rounded-xl overflow-hidden">
-            <Image
-              src={String(b.url ?? "")}
-              alt={String(b.alt ?? "")}
-              fill
-              className="object-cover"
-              sizes="(max-width: 672px) 100vw, 672px"
-            />
-          </div>
-          {b.alt ? <figcaption className="text-xs text-center mt-2" style={{ color: designTokens.colorTextMuted || "#6b7280" }}>{String(b.alt)}</figcaption> : null}
-        </figure>
-      );
-      if (b.type === "list") {
-        const items = Array.isArray(b.items) ? (b.items as string[]) : [];
-        return (
-          <ul key={i} className="mb-5 pl-5 space-y-1 list-disc" style={{ color: designTokens.colorText || "#111" }}>
-            {items.map((item, j) => <li key={j} className="leading-relaxed">{item}</li>)}
-          </ul>
-        );
-      }
-      if (b.type === "cta") return (
-        <div key={i} className="my-8 text-center">
-          <a
-            href={String(b.ctaHref ?? "#")}
-            className="inline-block px-6 py-3 rounded-xl font-semibold text-sm text-white"
-            style={{ backgroundColor: designTokens.colorPrimary || "#6366f1", borderRadius: "var(--radius, 8px)" }}
-          >
-            {String(b.ctaText ?? "Kontaktujte nás")}
-          </a>
-        </div>
-      );
-      return <p key={i} className="mb-5 leading-relaxed">{String(b.text ?? "")}</p>;
-    });
-
   return (
+    <TenantChrome tenant={tenant}>
     <div
-      className="min-h-screen"
+      className="blog-root"
       style={{
-        backgroundColor: designTokens.colorBackground || "#fff",
-        color: designTokens.colorText || "#111827",
-        fontFamily: designTokens.fontBody || "Inter, sans-serif",
+        ...blogCssVars(theme),
+        backgroundColor: "var(--blog-bg)",
+        color: "var(--blog-text)",
+        fontFamily: "var(--blog-font-body)",
       }}
     >
+      <LightboxProvider>
+      <BlogStyles />
+      <TenantCustomCode tenantId={tenant.id} placement="head" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      <article className="max-w-2xl mx-auto px-4 py-10">
-        {/* Breadcrumb */}
-        <nav className="text-xs mb-6" style={{ color: designTokens.colorTextMuted || "#6b7280" }}>
-          <Link href={base} className="hover:underline">{tenantSlug}</Link>
-          <span className="mx-1">/</span>
+      <ReadingProgress targetId="blog-article-body" />
+
+      {/* ── Article header ──────────────────────────────────────────── */}
+      <header className="max-w-3xl mx-auto px-4 md:px-6 pt-10 md:pt-16">
+        <nav className="text-xs mb-8" style={{ color: "var(--blog-muted)" }} aria-label="Drobečková navigace">
+          <Link href={base} className="hover:underline">{theme.businessName}</Link>
+          <span className="mx-1.5" aria-hidden>/</span>
           <Link href={`${base}/blog`} className="hover:underline">Blog</Link>
-          <span className="mx-1">/</span>
-          <span className="truncate">{post.title}</span>
+          {post.category && (
+            <>
+              <span className="mx-1.5" aria-hidden>/</span>
+              <Link href={`${base}/blog?category=${encodeURIComponent(post.category)}`} className="hover:underline">
+                {post.category}
+              </Link>
+            </>
+          )}
         </nav>
 
         {post.category && (
-          <span className="text-xs font-semibold uppercase tracking-wide block mb-2" style={{ color: designTokens.colorPrimary || "#6366f1" }}>
+          <Link
+            href={`${base}/blog?category=${encodeURIComponent(post.category)}`}
+            className="inline-block px-3 py-1 mb-4 text-[11px] font-bold uppercase tracking-wide transition-transform hover:scale-105"
+            style={{ backgroundColor: "var(--blog-primary)", color: "var(--blog-on-primary)", borderRadius: "999px" }}
+          >
             {post.category}
-          </span>
+          </Link>
         )}
 
         <h1
-          className="text-3xl font-bold mb-4 leading-tight"
-          style={{ fontFamily: designTokens.fontHeading || "inherit" }}
+          className="text-3xl md:text-5xl font-bold leading-[1.1] tracking-tight mb-6"
+          style={{ fontFamily: "var(--blog-font-heading)" }}
         >
           {post.title}
         </h1>
 
-        <p className="text-sm mb-6" style={{ color: designTokens.colorTextMuted || "#6b7280" }}>
-          {post.author && <span>{post.author} · </span>}
-          {post.published_at && new Date(post.published_at).toLocaleDateString("cs-CZ", { year: "numeric", month: "long", day: "numeric" })}
-        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm mb-8" style={{ color: "var(--blog-muted)" }}>
+          {post.author && (
+            <span className="flex items-center gap-2">
+              <span
+                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                style={{ backgroundColor: "var(--blog-primary)", color: "var(--blog-on-primary)" }}
+                aria-hidden
+              >
+                {post.author.charAt(0).toUpperCase()}
+              </span>
+              <span className="font-medium" style={{ color: "var(--blog-text)" }}>{post.author}</span>
+            </span>
+          )}
+          {post.published_at && <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>}
+          <span className="flex items-center gap-1">
+            <span aria-hidden>◷</span> {readingTime} min čtení
+          </span>
+        </div>
+      </header>
 
-        {post.featured_image && (
-          <div className="relative w-full h-64 rounded-2xl overflow-hidden mb-8">
+      {/* ── Featured image ─────────────────────────────────────────── */}
+      {post.featured_image && (
+        <div className="max-w-4xl mx-auto px-4 md:px-6 mb-10 md:mb-14">
+          <div
+            className="relative w-full overflow-hidden"
+            style={{ aspectRatio: "21/10", borderRadius: "var(--blog-radius-lg)" }}
+          >
             <Image
               src={post.featured_image}
               alt={post.title}
               fill
-              className="object-cover"
               priority
-              sizes="(max-width: 672px) 100vw, 672px"
+              className="object-cover"
+              sizes="(max-width: 896px) 100vw, 896px"
             />
           </div>
-        )}
-
-        {post.excerpt && (
-          <p
-            className="text-lg leading-relaxed mb-8 pl-4"
-            style={{ borderLeft: `3px solid ${designTokens.colorPrimary || "#6366f1"}`, color: designTokens.colorTextMuted || "#6b7280" }}
-          >
-            {post.excerpt}
-          </p>
-        )}
-
-        <div className="text-base">
-          {renderContent(Array.isArray(post.content) ? post.content : [])}
         </div>
+      )}
 
-        {/* Author box */}
-        {post.author && (
-          <div
-            className="mt-10 p-5 rounded-2xl flex items-center gap-4"
-            style={{ backgroundColor: designTokens.colorSurface || "#f9fafb", border: `1px solid ${designTokens.colorBorder || "#e5e7eb"}` }}
-          >
-            <div
-              className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0"
-              style={{ backgroundColor: designTokens.colorPrimary || "#6366f1" }}
+      {/* ── Body with TOC rail ─────────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 md:px-6 lg:grid lg:grid-cols-[1fr_minmax(0,44rem)_1fr] lg:gap-8">
+        <aside className="hidden lg:block">
+          <div className="sticky top-24">
+            <TableOfContents items={toc} />
+          </div>
+        </aside>
+
+        <article id="blog-article-body" className="blog-prose min-w-0">
+          {post.excerpt && (
+            <p
+              className="text-lg md:text-xl leading-relaxed mb-10 pl-5"
+              style={{ borderLeft: "3px solid var(--blog-primary)", color: "var(--blog-muted)" }}
             >
-              {post.author.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <p className="font-semibold text-sm" style={{ color: designTokens.colorText || "#111" }}>{post.author}</p>
-              <p className="text-xs mt-0.5" style={{ color: designTokens.colorTextMuted || "#6b7280" }}>Autor článku</p>
-            </div>
+              {post.excerpt}
+            </p>
+          )}
+
+          <div className="text-[1.05rem]">
+            <BlogContentRenderer blocks={blocks} skin={theme.skin} />
           </div>
-        )}
 
-        {post.tags?.length > 0 && (
-          <div className="mt-8 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-3 py-1 rounded-full text-xs font-medium"
-                style={{ backgroundColor: designTokens.colorSurface || "#f9fafb", color: designTokens.colorTextMuted || "#6b7280" }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+          {/* Tags */}
+          {post.tags?.length > 0 && (
+            <div className="mt-12 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`${base}/blog?tag=${encodeURIComponent(tag)}`}
+                  className="px-3 py-1 text-xs font-medium border transition-colors hover:[border-color:var(--blog-primary)] hover:[color:var(--blog-primary)]"
+                  style={{ borderColor: "var(--blog-border)", color: "var(--blog-muted)", borderRadius: "999px" }}
+                >
+                  #{tag}
+                </Link>
+              ))}
+            </div>
+          )}
 
-        <div className="mt-10 pt-6 border-t" style={{ borderColor: designTokens.colorBorder || "#e5e7eb" }}>
-          <Link href={`${base}/blog`} className="text-sm font-medium hover:underline" style={{ color: designTokens.colorPrimary || "#6366f1" }}>
-            ← Zpět na blog
-          </Link>
-        </div>
-      </article>
-
-      {/* Related articles */}
-      {relatedPosts.length > 0 && (
-        <section className="max-w-2xl mx-auto px-4 pb-16">
-          <h2 className="text-xl font-bold mb-6" style={{ fontFamily: designTokens.fontHeading || "inherit", color: designTokens.colorText || "#111" }}>
-            Související články
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {relatedPosts.map((rp) => (
-              <Link key={rp.id} href={`${base}/blog/${rp.slug}`} className="group block rounded-xl overflow-hidden border hover:shadow-md transition-shadow" style={{ borderColor: designTokens.colorBorder || "#e5e7eb", backgroundColor: designTokens.colorSurface || "#f9fafb" }}>
-                {rp.featured_image && (
-                  <div className="relative w-full h-28 overflow-hidden">
-                    <Image src={rp.featured_image} alt={rp.title} fill className="object-cover" sizes="33vw" />
-                  </div>
-                )}
-                <div className="p-3">
-                  <p className="text-sm font-semibold group-hover:underline line-clamp-2" style={{ color: designTokens.colorText || "#111" }}>{rp.title}</p>
-                  {rp.published_at && (
-                    <p className="text-xs mt-1" style={{ color: designTokens.colorTextMuted || "#6b7280" }}>
-                      {new Date(rp.published_at).toLocaleDateString("cs-CZ")}
-                    </p>
-                  )}
+          {/* Share + author */}
+          <div
+            className="mt-12 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 border-t"
+            style={{ borderColor: "var(--blog-border)" }}
+          >
+            {post.author ? (
+              <div className="flex items-center gap-4">
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0"
+                  style={{ backgroundColor: "var(--blog-primary)", color: "var(--blog-on-primary)" }}
+                  aria-hidden
+                >
+                  {post.author.charAt(0).toUpperCase()}
                 </div>
-              </Link>
+                <div>
+                  <p className="font-semibold text-sm">{post.author}</p>
+                  <p className="text-xs mt-0.5" style={{ color: "var(--blog-muted)" }}>
+                    Autor článku · {theme.businessName}
+                  </p>
+                </div>
+              </div>
+            ) : <span />}
+            <ShareBar title={post.title} url={url} />
+          </div>
+
+          {/* Prev / next */}
+          {(adjacent.prev || adjacent.next) && (
+            <nav className="mt-10 grid sm:grid-cols-2 gap-4" aria-label="Další články">
+              {adjacent.prev ? (
+                <Link
+                  href={`${base}/blog/${adjacent.prev.slug}`}
+                  className="group p-5 border transition-colors hover:[border-color:var(--blog-primary)]"
+                  style={{ borderColor: "var(--blog-border)", borderRadius: "var(--blog-radius-lg)" }}
+                >
+                  <p className="text-xs mb-2" style={{ color: "var(--blog-muted)" }}>← Starší článek</p>
+                  <p className="text-sm font-semibold leading-snug line-clamp-2 transition-colors group-hover:[color:var(--blog-primary)]">
+                    {adjacent.prev.title}
+                  </p>
+                </Link>
+              ) : <span className="hidden sm:block" />}
+              {adjacent.next && (
+                <Link
+                  href={`${base}/blog/${adjacent.next.slug}`}
+                  className="group p-5 border text-right transition-colors hover:[border-color:var(--blog-primary)]"
+                  style={{ borderColor: "var(--blog-border)", borderRadius: "var(--blog-radius-lg)" }}
+                >
+                  <p className="text-xs mb-2" style={{ color: "var(--blog-muted)" }}>Novější článek →</p>
+                  <p className="text-sm font-semibold leading-snug line-clamp-2 transition-colors group-hover:[color:var(--blog-primary)]">
+                    {adjacent.next.title}
+                  </p>
+                </Link>
+              )}
+            </nav>
+          )}
+        </article>
+
+        <div className="hidden lg:block" />
+      </div>
+
+      {/* ── Related ─────────────────────────────────────────────────── */}
+      {related.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 md:px-6 mt-20 pb-10">
+          <div className="flex items-end justify-between mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: "var(--blog-font-heading)" }}>
+              Mohlo by vás zajímat
+            </h2>
+            <Link href={`${base}/blog`} className="text-sm font-semibold hover:underline" style={{ color: "var(--blog-primary)" }}>
+              Všechny články →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {related.map((rp) => (
+              <PostCard key={rp.id} post={rp} base={base} skin={theme.skin} />
             ))}
           </div>
         </section>
       )}
 
-      {/* Sticky CTA */}
+      {/* ── Closing CTA ─────────────────────────────────────────────── */}
       {(contactContent.phone || contactContent.email) && (
-        <div
-          className="fixed bottom-0 left-0 right-0 z-40 py-3 px-4"
-          style={{ backgroundColor: designTokens.colorPrimary || "#6366f1" }}
-        >
-          <div className="max-w-2xl mx-auto flex items-center justify-between gap-4">
-            <p className="text-white text-sm font-medium">Máte zájem? Kontaktujte nás.</p>
-            <div className="flex gap-2 flex-shrink-0">
+        <section className="max-w-3xl mx-auto px-4 md:px-6 pb-20">
+          <div
+            className="px-8 py-10 text-center text-white relative overflow-hidden"
+            style={{ backgroundColor: "var(--blog-primary)", borderRadius: "var(--blog-radius-lg)" }}
+          >
+            <div
+              aria-hidden
+              className="absolute inset-0 opacity-15"
+              style={{ background: "radial-gradient(circle at 80% 20%, #fff, transparent 55%)" }}
+            />
+            <h2 className="relative text-xl md:text-2xl font-bold mb-2" style={{ fontFamily: "var(--blog-font-heading)" }}>
+              Máte zájem o naše služby?
+            </h2>
+            <p className="relative text-sm opacity-90 mb-6">Ozvěte se nám — rádi vám poradíme.</p>
+            <div className="relative flex flex-wrap justify-center gap-3">
               {contactContent.phone && (
-                <a href={`tel:${contactContent.phone}`} className="px-4 py-1.5 bg-white rounded-lg text-xs font-semibold" style={{ color: designTokens.colorPrimary || "#6366f1" }}>
-                  📞 Zavolat
+                <a
+                  href={`tel:${contactContent.phone}`}
+                  className="px-6 py-3 bg-white text-sm font-bold transition-transform hover:scale-105"
+                  style={{ color: "var(--blog-primary)", borderRadius: "var(--blog-radius-md)" }}
+                >
+                  Zavolat: {contactContent.phone}
                 </a>
               )}
               {contactContent.email && (
-                <a href={`mailto:${contactContent.email}`} className="px-4 py-1.5 bg-white rounded-lg text-xs font-semibold" style={{ color: designTokens.colorPrimary || "#6366f1" }}>
-                  ✉️ E-mail
+                <a
+                  href={`mailto:${contactContent.email}`}
+                  className="px-6 py-3 border border-white/50 text-white text-sm font-bold transition-colors hover:bg-white/10"
+                  style={{ borderRadius: "var(--blog-radius-md)" }}
+                >
+                  Napsat e-mail
                 </a>
               )}
             </div>
           </div>
-        </div>
+        </section>
       )}
+    </LightboxProvider>
     </div>
+    </TenantChrome>
   );
 }

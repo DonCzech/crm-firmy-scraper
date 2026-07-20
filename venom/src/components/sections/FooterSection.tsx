@@ -1,12 +1,13 @@
 "use client";
 
 import type React from "react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 import { OptimizedPicture } from "@/components/OptimizedPicture";
 import { WeberoCredit } from "@/components/WeberoCredit";
 import { CateringSaveurLogo } from "@/components/sections/NavbarSection";
+import { Es06SocialIcon } from "@/components/sections/AboutSection";
 
 interface Props {
   content: Record<string, unknown>;
@@ -16,6 +17,62 @@ interface Props {
   sectionId: number;
 }
 
+type NavLink = { label: string; href: string };
+
+/**
+ * Appends a "Blog" entry to a footer variant's own link list when the blog
+ * module is active (signalled by the `__withBlog` flag that the render layer
+ * sets — see src/lib/blog/nav-link.ts). Used by variants that build their nav
+ * column from a hardcoded fallback or a bespoke key instead of `content.links`.
+ * Idempotent: never adds a second Blog entry.
+ */
+function appendBlogLink<T extends { label?: string; href?: string }>(
+  list: T[],
+  content: Record<string, unknown>,
+  label = "Blog"
+): T[] {
+  if (!content.__withBlog) return list;
+  const has = list.some((l) => {
+    const href = (l?.href ?? "").toLowerCase();
+    return href === "/blog" || href.endsWith("/blog") || (l?.label ?? "").toLowerCase() === "blog";
+  });
+  return has ? list : [...list, { label, href: "/blog" } as unknown as T];
+}
+
+/**
+ * Column-shaped footers (`columns: [{ title, links }]`) — the most common shape
+ * across e-shop templates. Appends Blog to the first column that reads as site
+ * navigation, so the entry never lands in a "Zákaznický servis" or "Doprava"
+ * column when a better one exists. Falls back to the first column with links.
+ */
+const NAV_COLUMN_HINTS = ["informace", "o nás", "o nas", "web", "navigace", "menu", "společnost", "spolecnost", "firma"];
+
+function appendBlogToColumns<
+  T extends { title?: string; heading?: string; name?: string; links?: Array<{ label?: string; href?: string }> }
+>(
+  columns: T[],
+  content: Record<string, unknown>,
+  label = "Blog"
+): T[] {
+  if (!content.__withBlog || !columns.length) return columns;
+  const already = columns.some((c) =>
+    (c.links ?? []).some((l) => {
+      const href = (l?.href ?? "").toLowerCase();
+      return href === "/blog" || href.endsWith("/blog") || (l?.label ?? "").toLowerCase() === "blog";
+    })
+  );
+  if (already) return columns;
+
+  const titleOf = (c: T) => (c.title ?? c.heading ?? c.name ?? "").toLowerCase();
+  let idx = columns.findIndex((c) => c.links?.length && NAV_COLUMN_HINTS.some((h) => titleOf(c).includes(h)));
+  if (idx === -1) idx = columns.findIndex((c) => c.links?.length);
+  if (idx === -1) return columns;
+
+  return columns.map((c, i) =>
+    i === idx ? { ...c, links: [...(c.links ?? []), { label, href: "/blog" }] } : c
+  );
+}
+
 function demoLogoDataUrl(name: string): string {
   const initials = encodeURIComponent(name.slice(0, 2).toUpperCase());
   return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23111'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='white' font-family='sans-serif'%3E${initials}%3C/text%3E%3C/svg%3E`;
@@ -23,13 +80,31 @@ function demoLogoDataUrl(name: string): string {
 
 export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
 
+  if (variant === "artist-01-footer") return <FooterArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-05-footer") return <FooterEshop05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-06-footer") return <FooterEshop06 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-07-footer") return <FooterEshop07 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-10-footer") return <FooterEshop10 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-09-footer") return <FooterEshop09 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-14-footer") return <FooterEshop14 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-16-footer") return <FooterEshop16 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-18-footer") return <FooterEshop18 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-19-footer") return <FooterEshop19 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-20-footer") return <FooterEshop20 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-11-footer") return <FooterEshop11 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-12-footer") return <FooterEshop12 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-13-footer") return <FooterEshop13 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-08-footer") return <FooterEshop08 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-02-footer") return <FooterEshop02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-03-footer") return <FooterEshop03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-04-footer") return <FooterEshop04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "elektro-01-footer") return <FooterElektro01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "nails-01-footer") return <FooterNails01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "nails-02-footer") return <FooterNails02 content={content} sectionId={sectionId} />;
   if (variant === "nails-03-footer")  return <FooterNails03 content={content} sectionId={sectionId} />;
   if (variant === "clinic-02-footer") return <FooterClinic02 content={content} sectionId={sectionId} />;
   if (variant === "clinic-03-footer")    return <FooterClinic03 content={content} sectionId={sectionId} />;
-  if (variant === "restaurant-01-footer") return <FooterRestaurant01 content={content} sectionId={sectionId} />;
+  if (variant === "restaurant-01-footer") return <FooterRestaurant01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "restaurant-02-footer") return <FooterRestaurant02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "restaurant-03-footer") return <FooterRestaurant03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "cafe-02-footer")       return <FooterCafe02 content={content} sectionId={sectionId} />;
@@ -48,11 +123,11 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   if (variant === "fyzio-02-footer")   return <FooterFyzio02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "dental-01-footer")  return <FooterDental01 content={content} sectionId={sectionId} />;
 
-  if (variant === "ananda-01-footer") {
-    return <FooterAnanda01 content={content} sectionId={sectionId} />;
+  if (variant === "harmonie-01-footer") {
+    return <FooterHarmonie01 content={content} sectionId={sectionId} />;
   }
-  if (variant === "tawan-02-footer") {
-    return <FooterTawan02 content={content} sectionId={sectionId} />;
+  if (variant === "thaimasaze-02-footer") {
+    return <FooterThaimasaze02 content={content} sectionId={sectionId} />;
   }
   if (variant === "tawan-01-footer") {
     return <FooterTawan01 content={content} sectionId={sectionId} />;
@@ -64,7 +139,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     return <FooterTattoo01 content={content} sectionId={sectionId} />;
   }
   if (variant === "tattoo-02-footer") {
-    return <FooterTattoo02 content={content} sectionId={sectionId} />;
+    return <FooterTattoo02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "tattoo-03-footer") {
     return <FooterTattoo03 content={content} sectionId={sectionId} />;
@@ -172,7 +247,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   const email = String(content.email ?? "");
   const address = String(content.address ?? "");
   const year = new Date().getFullYear();
-  const columns = (content.columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [];
+  const columns = appendBlogToColumns((content.columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [], content);
   const socials = (content.socials as Array<{ label?: string; href?: string; icon?: string }>) ?? [];
   const logoUrl = String(content.logoUrl ?? "");
   const logoSrc = logoUrl || demoLogoDataUrl(siteName);
@@ -192,6 +267,9 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     const socialTitle   = String(cc.socialTitle   ?? "Sledujte");
     const copyright     = String(cc.copyright     ?? "© 2026 Atelier Lumina s.r.o.");
     const legalText     = String(cc.legalText     ?? "Všechna práva vyhrazena");
+    const ctaText     = String(cc.ctaText     ?? "");
+    const ctaHref     = String(cc.ctaHref     ?? "");
+    const web         = String(cc.web         ?? "");
 
     const BG     = "#1F1F1F";
     const BORDER = "rgba(224,190,154,0.18)";
@@ -243,6 +321,16 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
             }}>
               <GenericEditableText sectionId={sectionId} field="brandTag" value={brandTag} tag="span" />
             </p>
+            {ctaText && (
+              <a href={ctaHref || "#"} style={{
+                display: "inline-flex", alignItems: "center", marginTop: 26,
+                padding: "14px 30px", border: `1px solid ${SAND}`, color: SAND,
+                fontFamily: SANS, fontSize: 12, fontWeight: 500, letterSpacing: "0.18em",
+                textTransform: "uppercase", textDecoration: "none",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+            )}
           </div>
 
           {/* 4-col grid */}
@@ -311,6 +399,13 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
                   }}>
                     <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
                   </span>
+                )}
+                {web && (
+                  <a href={web} target="_blank" rel="noopener noreferrer" style={{
+                    fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" />
+                  </a>
                 )}
               </div>
             </div>
@@ -1280,13 +1375,13 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     const tagline = String(content.tagline ?? "");
     const legal = String(content.legal ?? "");
     // Fallback navigation links so 3-col grid always fills properly
-    const effectiveLinks = links.length > 0 ? links : [
+    const effectiveLinks = appendBlogLink(links.length > 0 ? links : [
       { label: "Domů",    href: "/" },
       { label: "O nás",   href: "/o-nas" },
       { label: "Služby",  href: "#cenik" },
       { label: "Galerie", href: "#galerie" },
       { label: "Kontakt", href: "#kontakt" },
-    ];
+    ], content);
     // Dynamic grid columns based on which content columns are filled
     const hasContact = !!(address || phone || email);
     const hasNav     = effectiveLinks.length > 0;
@@ -1644,7 +1739,11 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
           <div className="pt-6 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-4" style={{ borderColor: "rgba(201,168,76,0.18)" }}>
             <p className="text-xs" style={{ color: "rgba(245,245,245,0.5)" }}>
-              © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
+              {content.copyright ? (
+                <GenericEditableText sectionId={sectionId} field="copyright" value={String(content.copyright)} tag="span" />
+              ) : (
+                <>© {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" /></>
+              )}
             </p>
             <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:gap-6 gap-3">
               {socials.length > 0 && (
@@ -1794,7 +1893,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   }
 
   if (variant === "ortho-01-footer")      return <FooterOrtho01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "ortho-02-footer")      return <FooterOrtho02 content={content} sectionId={sectionId} />;
+  if (variant === "ortho-02-footer")      return <FooterOrtho02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "autoservis-01-footer") return <FooterAutoservis01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "autoservis-02-footer") return <FooterAutoservis02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "autoservis-03-footer") return <FooterAutoservis03 content={content} sectionId={sectionId} />;
@@ -1806,8 +1905,8 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   if (variant === "catering-01-footer")  return <FooterCatering01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "bakery-02-footer")    return <FooterBakery02 content={content} sectionId={sectionId} />;
   if (variant === "stavba-02-footer")     return <FooterStavba02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "lawyer-01-footer")     return <FooterLawyer01 content={content} sectionId={sectionId} />;
-  if (variant === "legal-02-footer")      return <FooterLegal02 content={content} sectionId={sectionId} />;
+  if (variant === "lawyer-01-footer")     return <FooterLawyer01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "legal-02-footer")      return <FooterLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "sweet-01-footer")      return <FooterSweet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "autoskola-01-footer")  return <FooterAutoskola01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "lang-01-footer")       return <FooterLang01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -1839,10 +1938,12 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   if (variant === "arbo-01-footer")     return <FooterArbo01    content={content} sectionId={sectionId} />;
   if (variant === "ddd-01-footer")     return <FooterDdd01     content={content} sectionId={sectionId} />;
   if (variant === "chalet-01-footer")  return <FooterChalet01  content={content} sectionId={sectionId} />;
+  if (variant === "eshop-15-footer")   return <FooterEshop15   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "eshop-17-footer")   return <FooterEshop17   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "photo-01-footer")   return <FooterPhoto01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "events-01-footer")  return <FooterEvents01  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "dj-01-footer")      return <FooterDj01      content={content} sectionId={sectionId} />;
-  if (variant === "restaurant-04-footer") return <FooterRestaurant04 content={content} sectionId={sectionId} />;
+  if (variant === "restaurant-04-footer") return <FooterRestaurant04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "video-01-footer")      return <FooterVideo01      content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "light") {
     // Jednořádkový minimální footer: logo vlevo | nav linky uprostřed | kontakt+social vpravo
@@ -2038,96 +2139,62 @@ function FooterHair03({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── massage-01-footer ────────────────────────────────────────────────────────
-// Surface #141414 bg, footer-top: logo vlevo + sociální ikony vpravo
-// Divider, footer-bottom: copyright vlevo + legal links vpravo
-// Logo: gold mark 28×28 + name + tagline
-// ─────────────────────────────────────────────────────────────────────────────
 function FooterMassage01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName    = String(content.siteName    ?? "Demo Masáže");
+  const siteName    = String(content.siteName    ?? "Harmonie Masáže");
   const siteTagline = String(content.siteTagline ?? "Masážní studio Praha");
   const copyright   = String(content.copyright   ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
   const facebookUrl = String(content.facebookUrl ?? "#");
   const instagramUrl = String(content.instagramUrl ?? "#");
   const legalLinks  = (content.legalLinks as Array<{ label: string; href: string }>) ?? [];
 
-  const SURFACE = "#141414";
-  const BORDER  = "#2A2520";
-  const GOLD    = "#C9A962";
-  const TEXT    = "#F5F0E8";
-  const MUTED   = "rgba(255,255,255,0.35)";
-  const SECONDARY = "#A09888";
-  const FONT    = "'Inter', sans-serif";
-
-  const SocialIcon = ({ href, label, children }: { href: string; label: string; children: React.ReactNode }) => (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      style={{ color: SECONDARY, textDecoration: "none", display: "flex", alignItems: "center", transition: "color 0.2s" }}
-      onMouseEnter={e => (e.currentTarget.style.color = TEXT)}
-      onMouseLeave={e => (e.currentTarget.style.color = SECONDARY)}
-    >
-      {children}
-    </a>
-  );
-
   return (
-    <footer style={{ backgroundColor: SURFACE, fontFamily: FONT }} data-template="massage-01">
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "48px 80px", display: "flex", flexDirection: "column", gap: 40 }}>
-
+    <footer className="m01-footer" data-template="massage-01">
+      <div className="m01-footer-inner">
         {/* Top: logo + social */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href="#" style={{ display: "flex", alignItems: "center", gap: 12, textDecoration: "none" }} aria-label={siteName}>
-            <div style={{ width: 28, height: 28, border: `1px solid ${GOLD}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke={GOLD} strokeWidth="1.2">
+        <div className="m01-footer-top">
+          <a href="#" className="m01-footer-brand" aria-label={siteName}>
+            <div className="m01-footer-mark">
+              <svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.2">
                 <path d="M7 1c1.5 1.5 4 2.5 4 5.5a4 4 0 0 1-8 0C3 3.5 5.5 2.5 7 1z"/>
               </svg>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <span style={{ fontSize: 14, fontWeight: 500, letterSpacing: 3, color: TEXT, textTransform: "uppercase" }}>
+            <div className="m01-footer-brand-text">
+              <span className="m01-footer-name">
                 <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
               </span>
-              <span style={{ fontSize: 9, fontWeight: 400, letterSpacing: 2, color: MUTED, textTransform: "uppercase" }}>
+              <span className="m01-footer-tagline">
                 <GenericEditableText sectionId={sectionId} field="siteTagline" value={siteTagline} tag="span" />
               </span>
             </div>
           </a>
 
-          <div style={{ display: "flex", gap: 20 }}>
-            <SocialIcon href={instagramUrl} label="Instagram">
+          <div className="m01-footer-social">
+            <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="m01-footer-social-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
               </svg>
-            </SocialIcon>
-            <SocialIcon href={facebookUrl} label="Facebook">
+            </a>
+            <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="m01-footer-social-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
               </svg>
-            </SocialIcon>
+            </a>
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{ height: 1, backgroundColor: BORDER }} />
+        <div className="m01-footer-divider" />
 
-        {/* Bottom: copyright + legal */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>
+        {/* Bottom: copyright + legal + webero */}
+        <div className="m01-footer-bottom">
+          <p className="m01-footer-copy">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
-          {legalLinks.length > 0 && (
-            <div style={{ display: "flex", gap: 24 }}>
-              {legalLinks.map((link, i) => (
-                <a key={i} href={link.href} style={{ fontSize: 12, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = SECONDARY)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED as string)}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="m01-footer-legal">
+            {legalLinks.map((link, i) => (
+              <a key={i} href={link.href} className="m01-footer-legal-link">{link.label}</a>
+            ))}
+            <WeberoCredit />
+          </div>
         </div>
       </div>
     </footer>
@@ -2165,7 +2232,7 @@ function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isA
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterTawan01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Link = { label: string; href: string };
-  const siteName    = String(content.siteName    ?? "Demo TAWAN");
+  const siteName    = String(content.siteName    ?? "Demo Thajské Centrum");
   const siteTagline = String(content.siteTagline ?? "Thajské masáže");
   const description = String(content.description ?? "Přinášíme autentické thajské masáže do srdce Prahy a dalších měst České republiky.");
   const address     = String(content.address     ?? "");
@@ -2306,18 +2373,18 @@ function FooterTawan01({ content, sectionId }: { content: Record<string, unknown
   );
 }
 
-// ── ananda-01-footer ──────────────────────────────────────────────────────────
-function FooterAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// ── harmonie-01-footer ──────────────────────────────────────────────────────────
+function FooterHarmonie01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD  = "#AA813A";
   const CREAM = "#F2EDE4";
   const DARK  = "#12100a";
 
-  const siteName = String(content.siteName ?? "Demo Ananda SPA");
+  const siteName = String(content.siteName ?? "Harmonie SPA");
   const tagline  = String(content.tagline  ?? "Tradiční indická medicína v srdci Prahy");
   const phone    = String(content.phone    ?? "704 123 456");
-  const email    = String(content.email    ?? "email@demo.cz");
+  const email    = String(content.email    ?? "info@demo.cz");
   const address  = String(content.address  ?? "Náměstí Míru 12, Praha 2");
-  const copy     = String(content.copy     ?? `© ${new Date().getFullYear()} Demo Ananda SPA. Všechna práva vyhrazena.`);
+  const copy     = String(content.copy     ?? `© ${new Date().getFullYear()} Harmonie SPA. Všechna práva vyhrazena.`);
 
   type LinkItem = { label?: string; href?: string };
   const links: LinkItem[] = Array.isArray(content.links)
@@ -2327,65 +2394,13 @@ function FooterAnanda01({ content, sectionId }: { content: Record<string, unknow
         { label: "Nabídka procedur", href: "#sluzby" },
         { label: "O ájurvédě",      href: "#o-ayurvede" },
         { label: "Kontakt",          href: "#kontakt" },
-        { label: "ANANDA KLUB",      href: "#klub" },
+        { label: "HARMONIE KLUB",      href: "#klub" },
         { label: "Dárkový voucher",  href: "#voucher" },
       ];
 
   return (
-    <footer style={{ backgroundColor: DARK, padding: "64px 0 0" }}>
-      <style>{`
-        .ana-ftr-wrap {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 32px 56px;
-          display: grid;
-          grid-template-columns: 1.6fr 1fr 1fr;
-          gap: 48px;
-        }
-        @media (max-width: 800px) {
-          .ana-ftr-wrap { grid-template-columns: 1fr; gap: 32px; }
-        }
-        .ana-ftr-link {
-          display: block;
-          font-family: 'Jost', sans-serif;
-          font-size: 13px;
-          letter-spacing: 1.5px;
-          text-transform: uppercase;
-          color: rgba(242,237,228,0.65);
-          text-decoration: none;
-          margin-bottom: 12px;
-          transition: color 0.2s ease;
-        }
-        .ana-ftr-link:hover { color: ${CREAM}; }
-        .ana-ftr-col-title {
-          font-family: 'Jost', sans-serif;
-          font-size: 10px;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          color: ${GOLD};
-          margin: 0 0 20px;
-        }
-        .ana-ftr-bar {
-          border-top: 1px solid rgba(242,237,228,0.12);
-          padding: 20px 32px;
-          max-width: 1200px;
-          margin: 0 auto;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          flex-wrap: wrap;
-        }
-        .ana-ftr-copy {
-          font-family: 'Jost', sans-serif;
-          font-size: 12px;
-          color: rgba(242,237,228,0.4);
-          margin: 0;
-          letter-spacing: 0.5px;
-        }
-      `}</style>
-
-      <div className="ana-ftr-wrap">
+    <footer data-template="harmonie-01" className="harmonie-ftr">
+      <div className="harmonie-ftr-wrap">
         {/* Col 1 — brand */}
         <div>
           <p style={{
@@ -2415,14 +2430,7 @@ function FooterAnanda01({ content, sectionId }: { content: Record<string, unknow
               { label: "Facebook", d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
               { label: "Instagram", d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2z" },
             ].map(s => (
-              <a key={s.label} href="#" aria-label={s.label} style={{
-                width: 36, height: 36,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                border: `1px solid rgba(170,129,58,0.4)`,
-                borderRadius: 2,
-                color: GOLD,
-                transition: "border-color 0.2s, color 0.2s",
-              }}>
+              <a key={s.label} href="#" aria-label={s.label} className="harmonie-ftr-social">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
                   <path d={s.d}/>
                 </svg>
@@ -2433,9 +2441,9 @@ function FooterAnanda01({ content, sectionId }: { content: Record<string, unknow
 
         {/* Col 2 — navigace */}
         <div>
-          <p className="ana-ftr-col-title">Navigace</p>
+          <p className="harmonie-ftr-col-title">Navigace</p>
           {links.map((l, i) => (
-            <a key={i} href={l.href ?? "#"} className="ana-ftr-link">
+            <a key={i} href={l.href ?? "#"} className="harmonie-ftr-link">
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label ?? ""} tag="span" />
             </a>
           ))}
@@ -2443,7 +2451,7 @@ function FooterAnanda01({ content, sectionId }: { content: Record<string, unknow
 
         {/* Col 3 — kontakt */}
         <div>
-          <p className="ana-ftr-col-title">Kontakt</p>
+          <p className="harmonie-ftr-col-title">Kontakt</p>
           <p style={{ fontFamily: "'Jost', sans-serif", fontSize: 13, color: "rgba(242,237,228,0.65)", margin: "0 0 10px", lineHeight: 1.6 }}>
             <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
           </p>
@@ -2459,190 +2467,118 @@ function FooterAnanda01({ content, sectionId }: { content: Record<string, unknow
       {/* Copyright bar */}
       <div style={{ borderTop: "1px solid rgba(242,237,228,0.1)", padding: "20px 32px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <p className="ana-ftr-copy">{copy}</p>
-          <p className="ana-ftr-copy">Vytvořeno s <span style={{ color: GOLD }}>Webero</span></p>
+          <p className="harmonie-ftr-copy">{copy}</p>
+          <WeberoCredit />
         </div>
       </div>
     </footer>
   );
 }
 
-// ── tawan-02-footer ───────────────────────────────────────────────────────────
-function FooterTawan02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName  = String(content.siteName  ?? "Demo Escape Massage");
+// ── thaimasaze-02-footer ───────────────────────────────────────────────────────────
+function FooterThaimasaze02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const siteName  = String(content.siteName  ?? "Harmony Spa");
+  const tagline   = String(content.tagline   ?? "Luxusní thajské masáže v srdci Prahy");
   const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
   const phone     = String(content.phone     ?? "+420 704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const hours     = String(content.hours     ?? "Po–Ne: 10:00–22:00");
+  const email     = String(content.email     ?? "info@demo-wellness.cz");
+  const hours     = String(content.hours     ?? "Po–Ne  10:00–22:00");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
   const social    = (content.social as Record<string, string>) ?? {};
-  const navGroups = (content.navGroups as Record<string, Array<{ label: string; href: string }>>) ?? {};
-  const servicesLinks = navGroups.services ?? [];
-  const infoLinks     = navGroups.info     ?? [];
 
-  const BG     = "#604B3A";
-  const CREAM  = "#EAE3DE";
-  const TEXT   = "#D8CABF";
-  const FONT   = "'Candara', 'Calibri', sans-serif";
-  const FLOWER = "/clones/escape/wp-content/themes/twentyseventeen/assets/images/footer-flower.png";
+  const navGroups = (content.navGroups as Record<string, Array<{ label: string; href: string }>>) ?? {};
+  const servicesLinks = navGroups.services ?? [
+    { label: "Tradiční thajská masáž", href: "#sluzby" },
+    { label: "Lávové kameny", href: "#sluzby" },
+    { label: "Aromaterapie", href: "#sluzby" },
+    { label: "Masáž hlavy a šíje", href: "#sluzby" },
+  ];
+  const infoLinks = navGroups.info ?? [
+    { label: "O nás", href: "#proc-my" },
+    { label: "Dárkové poukazy", href: "#voucher" },
+    { label: "Ceník", href: "#cenik" },
+    { label: "Kontakt", href: "#kontakt" },
+  ];
 
   return (
-    <footer data-template="tawan-02" style={{
-      background: `${BG} url(${FLOWER}) no-repeat top right`,
-      color: TEXT,
-      fontFamily: FONT,
-      fontSize: 16,
-      lineHeight: "25px",
-      padding: "100px 0 0",
-      marginTop: 0,
-      borderTop: "none",
-    }}>
-      <style>{`
-        .t02-ftr-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 clamp(24px,5vw,80px);
-          display: flex;
-          flex-wrap: wrap;
-          column-gap: 115px;
-          row-gap: 60px;
-        }
-        .t02-ftr-col-contact { max-width: 224px; }
-        .t02-ftr-h4 {
-          font-size: 24px;
-          font-weight: 700;
-          line-height: 35px;
-          color: ${CREAM};
-          margin: 0 0 15px;
-          font-family: ${FONT};
-        }
-        .t02-icon-row {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
-          margin-bottom: 10px;
-          color: ${TEXT};
-          font-family: ${FONT};
-          font-size: 15px;
-          line-height: 22px;
-        }
-        .t02-icon-row .t02-ftr-icon { width: 30px; flex-shrink: 0; padding-top: 3px; }
-        .t02-ftr-link {
-          display: block;
-          color: ${TEXT};
-          text-decoration: none;
-          font-family: ${FONT};
-          font-size: 15px;
-          line-height: 28px;
-          transition: color 0.2s;
-        }
-        .t02-ftr-link:hover { color: ${CREAM}; }
-        .t02-ftr-social { display: flex; gap: 14px; margin-top: 20px; }
-        .t02-ftr-social a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 38px;
-          height: 38px;
-          border: 1px solid rgba(234,227,222,0.35);
-          border-radius: 50%;
-          color: ${CREAM};
-          transition: border-color 0.2s, background 0.2s;
-        }
-        .t02-ftr-social a:hover { background: rgba(234,227,222,0.12); border-color: ${CREAM}; }
-        @media (max-width: 767px) {
-          .t02-ftr-container { column-gap: 0; }
-          .t02-ftr-col-contact { max-width: 100%; }
-        }
-      `}</style>
-
-      <div className="t02-ftr-container">
-        {/* Col 1 — Kontakt */}
-        <div className="t02-ftr-col-contact">
-          <h4 className="t02-ftr-h4">Kontakt</h4>
-
-          <div className="t02-icon-row">
-            <span className="t02-ftr-icon">
-              <svg width="13" height="17" viewBox="0 0 13 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6.5 0C2.90643 0 0 2.6605 0 5.95C0 10.4125 6.5 17 6.5 17C6.5 17 13 10.4125 13 5.95C13 2.6605 10.0936 0 6.5 0ZM1.85714 5.95C1.85714 3.604 3.93714 1.7 6.5 1.7C9.06286 1.7 11.1429 3.604 11.1429 5.95C11.1429 8.398 8.46857 12.0615 6.5 14.348C4.56857 12.0785 1.85714 8.3725 1.85714 5.95Z" fill="#EAE3DE"/>
-                <path d="M6.50002 8.07495C7.78211 8.07495 8.82145 7.12356 8.82145 5.94995C8.82145 4.77635 7.78211 3.82495 6.50002 3.82495C5.21793 3.82495 4.17859 4.77635 4.17859 5.94995C4.17859 7.12356 5.21793 8.07495 6.50002 8.07495Z" fill="#EAE3DE"/>
-              </svg>
-            </span>
-            <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p" style={{ margin: 0, color: TEXT, fontFamily: FONT, fontSize: 15, lineHeight: "22px" }} />
+    <footer data-template="thaimasaze-02" className="t02-ftr">
+      <div className="t02-ftr-top">
+        <div className="t02-ftr-brand">
+          <h3 className="t02-ftr-name">
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+          </h3>
+          <p className="t02-ftr-tagline">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </p>
+          <div className="t02-ftr-social">
+            {(social.instagram || social.facebook) ? (
+              <>
+                {social.instagram && (
+                  <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  </a>
+                )}
+                {social.facebook && (
+                  <a href={social.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                )}
+              </>
+            ) : (
+              <>
+                <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+              </>
+            )}
           </div>
-
-          <div className="t02-icon-row">
-            <span className="t02-ftr-icon">
-              <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3.23333 1.66667C3.28814 2.40833 3.42514 3.13333 3.64435 3.825L2.54831 4.825C2.17382 3.825 1.93635 2.76667 1.85414 1.66667H3.23333ZM12.2392 11.6833C13.0155 11.8833 13.8102 12.0083 14.6139 12.0583V13.3C13.4083 13.225 12.2483 13.0083 11.1431 12.675L12.2392 11.6833ZM4.11017 0H0.913371C0.411017 0 0 0.375 0 0.833333C0 8.65833 6.95075 15 15.5273 15C16.0297 15 16.4407 14.625 16.4407 14.1667V11.2583C16.4407 10.8 16.0297 10.425 15.5273 10.425C14.3947 10.425 13.2895 10.2583 12.2666 9.95C12.1752 9.91667 12.0748 9.90833 11.9834 9.90833C11.746 9.90833 11.5176 9.99167 11.3349 10.15L9.32552 11.9833C6.74068 10.775 4.62166 8.85 3.3064 6.49167L5.31582 4.65833C5.57156 4.425 5.64463 4.1 5.54416 3.80833C5.20621 2.875 5.02354 1.875 5.02354 0.833333C5.02354 0.375 4.61252 0 4.11017 0Z" fill="#EAE3DE"/>
-              </svg>
-            </span>
-            <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: TEXT, textDecoration: "none", fontSize: 15 }}>
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-            </a>
-          </div>
-
-          <div className="t02-icon-row">
-            <span className="t02-ftr-icon">
-              <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17 1.625C17 0.73125 16.235 0 15.3 0H1.7C0.765 0 0 0.73125 0 1.625V11.375C0 12.2688 0.765 13 1.7 13H15.3C16.235 13 17 12.2688 17 11.375V1.625ZM15.3 1.625L8.5 5.6875L1.7 1.625H15.3ZM15.3 11.375H1.7V3.25L8.5 7.3125L15.3 3.25V11.375Z" fill="#EAE3DE"/>
-              </svg>
-            </span>
-            <a href={`mailto:${email}`} style={{ color: TEXT, textDecoration: "none", fontSize: 15 }}>
-              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-            </a>
-          </div>
-
-          <h4 className="t02-ftr-h4" style={{ marginTop: 24 }}>Otevírací doba</h4>
-          <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="p" style={{ margin: 0, color: TEXT, fontFamily: FONT, fontSize: 15, lineHeight: "22px" }} />
-
-          {social.instagram && (
-            <div className="t02-ftr-social">
-              <a href={social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                </svg>
-              </a>
-            </div>
-          )}
         </div>
 
-        {/* Col 2 — Služby */}
-        {servicesLinks.length > 0 && (
-          <div>
-            <h4 className="t02-ftr-h4">Služby</h4>
-            {servicesLinks.map((l, i) => (
-              <a key={i} href={l.href ?? "#"} className="t02-ftr-link">
-                <GenericEditableText sectionId={sectionId} field={`navGroups.services.${i}.label`} value={l.label ?? ""} tag="span" />
-              </a>
-            ))}
-          </div>
-        )}
+        <div className="t02-ftr-col">
+          <h4 className="t02-ftr-h4">Služby</h4>
+          {servicesLinks.map((l, i) => (
+            <a key={i} href={l.href ?? "#"} className="t02-ftr-link">
+              <GenericEditableText sectionId={sectionId} field={`navGroups.services.${i}.label`} value={l.label ?? ""} tag="span" />
+            </a>
+          ))}
+        </div>
 
-        {/* Col 3 — Základní informace */}
-        {infoLinks.length > 0 && (
-          <div>
-            <h4 className="t02-ftr-h4">Základní informace</h4>
-            {infoLinks.map((l, i) => (
-              <a key={i} href={l.href ?? "#"} className="t02-ftr-link">
-                <GenericEditableText sectionId={sectionId} field={`navGroups.info.${i}.label`} value={l.label ?? ""} tag="span" />
-              </a>
-            ))}
+        <div className="t02-ftr-col">
+          <h4 className="t02-ftr-h4">Informace</h4>
+          {infoLinks.map((l, i) => (
+            <a key={i} href={l.href ?? "#"} className="t02-ftr-link">
+              <GenericEditableText sectionId={sectionId} field={`navGroups.info.${i}.label`} value={l.label ?? ""} tag="span" />
+            </a>
+          ))}
+        </div>
+
+        <div className="t02-ftr-col">
+          <h4 className="t02-ftr-h4">Kontakt</h4>
+          <div className="t02-ftr-contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
           </div>
-        )}
+          <div className="t02-ftr-contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <a href={`tel:${phone.replace(/\s/g,"")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>
+          </div>
+          <div className="t02-ftr-contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>
+          </div>
+          <div className="t02-ftr-contact-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+          </div>
+        </div>
       </div>
 
-      {/* Bottom bar */}
-      <div style={{ marginTop: 60, borderTop: "1px solid rgba(234,227,222,0.15)", padding: "22px clamp(24px,5vw,80px)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontSize: 13, color: "rgba(216,202,191,0.6)", fontFamily: FONT }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p" style={{ margin: 0, color: "rgba(216,202,191,0.6)", fontFamily: FONT, fontSize: 13 }} />
-          <div style={{ display: "flex", gap: 20 }}>
-            <a href="/gdpr" style={{ color: "rgba(216,202,191,0.6)", textDecoration: "none", fontSize: 13, fontFamily: FONT }}>Zásady osobních údajů</a>
-            <a href="/vop" style={{ color: "rgba(216,202,191,0.6)", textDecoration: "none", fontSize: 13, fontFamily: FONT }}>Obchodní podmínky</a>
-          </div>
+      <div className="t02-ftr-bottom">
+        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p" className="t02-ftr-copy" />
+        <div className="t02-ftr-legal">
+          <a href="/gdpr">Ochrana osobních údajů</a>
+          <a href="/vop">Obchodní podmínky</a>
         </div>
+        <WeberoCredit />
       </div>
     </footer>
   );
@@ -2775,7 +2711,10 @@ function FooterTattoo01({ content, sectionId }: { content: Record<string, unknow
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", padding: "18px clamp(24px, 5vw, 80px)" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p" style={{ margin: 0, fontFamily: SANS, fontSize: "0.78rem", color: "rgba(255,255,255,0.22)" }} />
-          <a href="/gdpr" style={{ fontFamily: SANS, fontSize: "0.78rem", color: "rgba(255,255,255,0.22)", textDecoration: "none" }}>Ochrana osobních údajů</a>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
+            <a href="/gdpr" style={{ fontFamily: SANS, fontSize: "0.78rem", color: "rgba(255,255,255,0.22)", textDecoration: "none" }}>Ochrana osobních údajů</a>
+            <WeberoCredit />
+          </div>
         </div>
       </div>
 
@@ -2788,310 +2727,256 @@ function FooterTattoo01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── tattoo-02-footer ──────────────────────────────────────────────────────────
-// Tmavý (#0f0f0f), 3 sloupce: logo+tagline | navigace | kontakt+sociální sítě
-// Zlatá top linka, copyright bar dole.
+// Dark #0f0f0f, 3-col: brand+tagline | navigace | kontakt+social.
+// Oswald headings, gold top accent, copyright + WeberoCredit. Luxe tier.
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterTattoo02({ content, sectionId }: {
+function FooterTattoo02({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
   sectionId: number;
+  tenantSlug?: string;
+  isAdmin?: boolean;
 }) {
-  const c        = content as Record<string, unknown>;
-  const siteName = String(c.siteName  ?? "Demo Homie Tattoo");
-  const logoUrl  = String(c.logoUrl   ?? "/templates/tattoo-02/logo-white.svg");
-  const tagline  = String(c.tagline   ?? "Prémiové tetovací & piercing studio v srdci Prahy.");
-  const address  = String(c.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const phone    = String(c.phone     ?? "+420 704 123 456");
-  const email    = String(c.email     ?? "email@demo.cz");
-  const copyright= String(c.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
-  const instagram= String(c.instagram ?? "");
-  const facebook = String(c.facebook  ?? "");
-  const links    = (c.links as Array<{ label: string; href: string }>) ?? [];
+  const c         = content as Record<string, unknown>;
+  const siteMode  = String(c.siteMode  ?? "multipage");
+  const siteName  = String(c.siteName  ?? "Shadow Ink");
+  const tagline   = String(c.tagline   ?? "Prémiové tetovací & piercing studio v srdci Prahy.");
+  const address   = String(c.address   ?? "Vinohradská 42, 120 00 Praha 2");
+  const phone     = String(c.phone     ?? "+420 704 555 321");
+  const email     = String(c.email     ?? "studio@shadowink.cz");
+  const hours     = String(c.hours     ?? "Po–Pá 10:00–19:00 · So 10:00–15:00");
+  const copyright = String(c.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const instagram = String(c.instagram ?? "");
+  const facebook  = String(c.facebook  ?? "");
+  const links     = (c.links as Array<{ label: string; href: string }>) ?? [
+    { label: "Domů", href: "/" },
+    { label: "O nás", href: "/o-nas" },
+    { label: "Galerie", href: "/galerie" },
+    { label: "Recenze", href: "/recenze" },
+    { label: "Kontakt", href: "/kontakt" },
+  ];
 
-  const GOLD = "#BF8A1D";
-  const BG   = "#0f0f0f";
-
-  const IGIcon = () => (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-    </svg>
-  );
-  const FBIcon = () => (
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-    </svg>
-  );
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const OSWALD  = "var(--font-oswald), 'Oswald', Impact, sans-serif";
 
   return (
-    <>
-      <style>{`
-        .tf02-grid {
-          display: grid;
-          grid-template-columns: 1.4fr 1fr 1fr;
-          gap: 48px;
-          max-width: 1100px;
-          margin: 0 auto;
-          padding: 64px clamp(20px,4vw,48px) 56px;
-        }
-        @media (max-width: 860px) { .tf02-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 520px) { .tf02-grid { grid-template-columns: 1fr; gap: 32px; } }
-        .tf02-nav-link {
-          display: block;
-          font-family: Arial, sans-serif; font-size: 0.85rem;
-          color: rgba(255,255,255,0.55);
-          text-decoration: none; padding: 5px 0;
-          transition: color 0.2s;
-        }
-        .tf02-nav-link:hover { color: ${GOLD}; }
-        .tf02-social a {
-          display: inline-flex; align-items: center; justify-content: center;
-          width: 36px; height: 36px;
-          border: 1px solid rgba(255,255,255,0.15);
-          color: rgba(255,255,255,0.5);
-          text-decoration: none;
-          transition: border-color 0.2s, color 0.2s;
-        }
-        .tf02-social a:hover { border-color: ${GOLD}; color: ${GOLD}; }
-      `}</style>
+    <footer data-template="tattoo-02" className="t02-ft">
+      <div className="t02-ft-grid">
 
-      <footer data-section="footer-tattoo-02" style={{ backgroundColor: BG, borderTop: `3px solid ${GOLD}` }}>
-        <div className="tf02-grid">
-
-          {/* Sloupec 1 — Logo + tagline */}
-          <div>
-            <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 50, width: "auto", marginBottom: 20 }} />
-            <p style={{
-              fontFamily: "Arial, sans-serif", fontSize: "0.85rem",
-              color: "rgba(255,255,255,0.45)", lineHeight: 1.7,
-              margin: "0 0 24px", maxWidth: 260,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            {/* Sociální sítě */}
-            <div className="tf02-social" style={{ display: "flex", gap: 8 }}>
-              {instagram && <a href={instagram} target="_blank" rel="noopener" aria-label="Instagram"><IGIcon /></a>}
-              {facebook  && <a href={facebook}  target="_blank" rel="noopener" aria-label="Facebook"><FBIcon /></a>}
-            </div>
-          </div>
-
-          {/* Sloupec 2 — Navigace */}
-          <div>
-            <h3 style={{
-              fontFamily: "'Arial Black', Arial, sans-serif",
-              fontWeight: 900, fontSize: "0.72rem",
-              color: GOLD, letterSpacing: "0.22em",
-              textTransform: "uppercase", margin: "0 0 20px",
-            }}>Navigace</h3>
-            <nav>
-              {links.map((l, i) => (
-                <a key={i} href={l.href} className="tf02-nav-link">
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* Sloupec 3 — Kontakt */}
-          <div>
-            <h3 style={{
-              fontFamily: "'Arial Black', Arial, sans-serif",
-              fontWeight: 900, fontSize: "0.72rem",
-              color: GOLD, letterSpacing: "0.22em",
-              textTransform: "uppercase", margin: "0 0 20px",
-            }}>Kontakt</h3>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ fontFamily: "Arial, sans-serif", fontSize: "0.85rem", color: "rgba(255,255,255,0.55)", textDecoration: "none", lineHeight: 1.6, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}>
-                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-              </a>
-              <a href={`mailto:${email}`} style={{ fontFamily: "Arial, sans-serif", fontSize: "0.85rem", color: "rgba(255,255,255,0.55)", textDecoration: "none", lineHeight: 1.6, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}>
-                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-              </a>
-              <span style={{ fontFamily: "Arial, sans-serif", fontSize: "0.85rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
-                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-              </span>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Copyright bar */}
-        <div style={{
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-          padding: "16px clamp(20px,4vw,48px)",
-          textAlign: "center",
-        }}>
-          <p style={{
-            fontFamily: "Arial, sans-serif", fontSize: "0.72rem",
-            color: "rgba(255,255,255,0.3)", margin: 0,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+        {/* Col 1 — Brand + tagline */}
+        <div>
+          <h3 className="t02-ft-wordmark" style={{ fontFamily: OSWALD }}>
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+          </h3>
+          <p className="t02-ft-tagline">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
           </p>
+          <div className="t02-ft-social">
+            {instagram && (
+              <a href={instagram} target="_blank" rel="noopener" aria-label="Instagram">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                </svg>
+              </a>
+            )}
+            {facebook && (
+              <a href={facebook} target="_blank" rel="noopener" aria-label="Facebook">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                </svg>
+              </a>
+            )}
+          </div>
         </div>
-      </footer>
-    </>
+
+        {/* Col 2 — Navigace */}
+        <div>
+          <h4 className="t02-ft-col-title" style={{ fontFamily: OSWALD }}>Navigace</h4>
+          <nav>
+            {links.map((l, i) => (
+              <a key={i} href={resolve(l.href)} className="t02-ft-link">
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        {/* Col 3 — Kontakt */}
+        <div>
+          <h4 className="t02-ft-col-title" style={{ fontFamily: OSWALD }}>Kontakt</h4>
+          <div className="t02-ft-contact">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="t02-ft-link">
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={`mailto:${email}`} className="t02-ft-link">
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+            <span className="t02-ft-muted">
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </span>
+            <span className="t02-ft-muted">
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Copyright + WeberoCredit */}
+      <div className="t02-ft-bottom">
+        <p className="t02-ft-copy">
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+        </p>
+        <WeberoCredit />
+      </div>
+    </footer>
   );
 }
 
 // ── tattoo-03-footer ──────────────────────────────────────────────────────────
-// Tmavý footer — magictattoo.cz inspired
-// #0A0A0E bg, červená top linka, 2-col: logo+tagline vlevo / kontakt+social+nav vpravo
-// Copyright bar dole
+// Dark footer: crimson top accent, Bebas Neue wordmark, 3-col (brand/kontakt/nav),
+// bottom copyright + WeberoCredit
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterTattoo03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c         = content as Record<string, unknown>;
-  const siteName  = String(c.siteName  ?? "Demo Magic Tattoo Studio");
-  const tagline   = String(c.tagline   ?? "Profesionální tetovací studio v centru Prahy. Walk-in i rezervace.");
-  const logoUrl   = String(c.logoUrl   ?? "/templates/tattoo-03/logo.svg");
+  const siteName  = String(c.siteName  ?? "Crimson Needle");
+  const tagline   = String(c.tagline   ?? "Profesionální tetovací studio v centru Prahy. Walk-in i rezervace na míru.");
   const address   = String(c.address   ?? "Ukázková 123, 110 00 Praha 1");
   const phone     = String(c.phone     ?? "704 123 456");
-  const email     = String(c.email     ?? "email@demo.cz");
-  const hours     = String(c.hours     ?? "Po–Ne 10:00–20:00");
+  const email     = String(c.email     ?? "studio@crimsonneedle.cz");
+  const hours     = String(c.hours     ?? "Po–Pá 10:00–20:00 · So 10:00–16:00");
   const facebook  = String(c.facebook  ?? "https://facebook.com/demo");
   const instagram = String(c.instagram ?? "https://instagram.com/demo");
-  const copyright = String(c.copyright ?? `© Demo Magic Tattoo Studio ${new Date().getFullYear()}`);
+  const copyright = String(c.copyright ?? `© Crimson Needle ${new Date().getFullYear()}. Všechna práva vyhrazena.`);
   const navLinks  = (c.navLinks as Array<{ label: string; href: string }>) ?? [];
 
-  const BG     = "#0A0A0E";
   const ACCENT = "#D41515";
 
   return (
     <>
-      <footer style={{ backgroundColor: BG, borderTop: `3px solid ${ACCENT}` }}>
-        {/* Hlavní část */}
-        <div style={{
-          maxWidth: 1360, margin: "0 auto",
-          display: "grid", gridTemplateColumns: "1fr 1.5fr",
-          gap: 48,
-          padding: "clamp(48px,6vw,80px) clamp(20px,4vw,60px)",
-        }} className="t03-footer-grid">
-          <style>{`
-            @media (max-width: 768px) { .t03-footer-grid { grid-template-columns: 1fr !important; } }
-          `}</style>
+      <footer data-template="tattoo-03" style={{ backgroundColor: "#060606" }}>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600&family=Barlow:wght@400&display=swap" rel="stylesheet" />
 
-          {/* Logo + tagline */}
+        {/* Crimson top accent */}
+        <div style={{ height: 2, background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)` }} />
+
+        <div className="t03-footer-grid" style={{
+          maxWidth: 1280, margin: "0 auto",
+          display: "grid", gridTemplateColumns: "1.2fr 1fr 0.8fr",
+          gap: 48,
+          padding: "clamp(52px,7vw,88px) clamp(20px,4vw,60px)",
+        }}>
+          {/* Brand column */}
           <div>
-            <img
-              src={logoUrl}
-              alt={siteName}
-              style={{ height: 44, width: "auto", marginBottom: 20 }}
-            />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth="1.4" aria-hidden>
+                <line x1="12" y1="2" x2="12" y2="22"/><line x1="8" y1="6" x2="16" y2="6" strokeWidth="0.8"/>
+              </svg>
+              <span style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: "clamp(22px, 2vw, 28px)",
+                color: "#ffffff",
+                letterSpacing: "0.08em",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
+            </div>
             <p style={{
-              fontFamily: "Arial, Helvetica, sans-serif",
+              fontFamily: "'Barlow', sans-serif",
               fontSize: "0.84rem",
-              color: "rgba(255,255,255,0.5)",
-              lineHeight: 1.7,
-              margin: 0,
-              maxWidth: 280,
+              color: "rgba(255,255,255,0.4)",
+              lineHeight: 1.75,
+              margin: "0 0 28px",
+              maxWidth: 300,
             }}>
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
+            {/* Social icons */}
+            <div style={{ display: "flex", gap: 10 }}>
+              {[
+                { href: facebook, label: "Facebook", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> },
+                { href: instagram, label: "Instagram", icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg> },
+              ].map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                  className="t03-footer-social"
+                  style={{
+                    width: 38, height: 38, display: "flex", alignItems: "center", justifyContent: "center",
+                    border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.4)",
+                    textDecoration: "none",
+                  }}
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Kontakt + social + nav */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 32,
-          }} className="t03-footer-right">
-            <style>{`
-              @media (max-width: 480px) { .t03-footer-right { grid-template-columns: 1fr !important; } }
-            `}</style>
-
-            {/* Kontakt */}
-            <div>
-              <h4 style={{
-                fontFamily: "Arial, Helvetica, sans-serif",
-                fontWeight: 700, fontSize: "0.72rem",
-                color: ACCENT, textTransform: "uppercase",
-                letterSpacing: "0.14em", margin: "0 0 16px",
-              }}>Kontakt</h4>
-              {([
-                { field: "address", label: address },
-                { field: "phone",   label: phone },
-                { field: "email",   label: email },
-                { field: "hours",   label: hours },
-              ] as Array<{ field: string; label: string }>).map((r, i) => (
-                <div key={i} style={{
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  fontSize: "0.82rem",
-                  color: "rgba(255,255,255,0.58)",
-                  marginBottom: 6,
-                  lineHeight: 1.5,
-                }}>
-                  <GenericEditableText sectionId={sectionId} field={r.field} value={r.label} tag="span" />
-                </div>
-              ))}
-              {/* Social */}
-              <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-                <a href={facebook} target="_blank" rel="noopener noreferrer" style={{
-                  fontFamily: "Arial, sans-serif", fontSize: "0.72rem", fontWeight: 700,
-                  color: "rgba(255,255,255,0.5)", textDecoration: "none",
-                  border: "1px solid rgba(255,255,255,0.15)", padding: "5px 10px",
-                  transition: "color 0.2s, border-color 0.2s",
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.color = ACCENT; e.currentTarget.style.borderColor = ACCENT; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-                >FB</a>
-                <a href={instagram} target="_blank" rel="noopener noreferrer" style={{
-                  fontFamily: "Arial, sans-serif", fontSize: "0.72rem", fontWeight: 700,
-                  color: "rgba(255,255,255,0.5)", textDecoration: "none",
-                  border: "1px solid rgba(255,255,255,0.15)", padding: "5px 10px",
-                  transition: "color 0.2s, border-color 0.2s",
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.color = ACCENT; e.currentTarget.style.borderColor = ACCENT; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}
-                >IG</a>
+          {/* Contact column */}
+          <div>
+            <h4 style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 600, fontSize: "0.68rem",
+              color: ACCENT, textTransform: "uppercase",
+              letterSpacing: "0.2em", margin: "0 0 20px",
+            }}>Kontakt</h4>
+            {([
+              { field: "address", value: address },
+              { field: "phone",   value: phone },
+              { field: "email",   value: email },
+              { field: "hours",   value: hours },
+            ] as Array<{ field: string; value: string }>).map((r, i) => (
+              <div key={i} style={{
+                fontFamily: "'Barlow', sans-serif",
+                fontSize: "0.82rem",
+                color: "rgba(255,255,255,0.5)",
+                marginBottom: 8,
+                lineHeight: 1.55,
+              }}>
+                <GenericEditableText sectionId={sectionId} field={r.field} value={r.value} tag="span" />
               </div>
-            </div>
+            ))}
+          </div>
 
-            {/* Navigace */}
-            <div>
-              <h4 style={{
-                fontFamily: "Arial, Helvetica, sans-serif",
-                fontWeight: 700, fontSize: "0.72rem",
-                color: ACCENT, textTransform: "uppercase",
-                letterSpacing: "0.14em", margin: "0 0 16px",
-              }}>Navigace</h4>
-              <nav style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {navLinks.map((l, i) => (
-                  <a
-                    key={i}
-                    href={l.href}
-                    style={{
-                      fontFamily: "Arial, Helvetica, sans-serif",
-                      fontSize: "0.82rem",
-                      color: "rgba(255,255,255,0.55)",
-                      textDecoration: "none",
-                      transition: "color 0.2s",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.color = "#ffffff")}
-                    onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
-                  >
-                    <GenericEditableText sectionId={sectionId} field={`navLinks.${i}.label`} value={l.label} tag="span" />
-                  </a>
-                ))}
-              </nav>
-            </div>
+          {/* Navigation column */}
+          <div>
+            <h4 style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontWeight: 600, fontSize: "0.68rem",
+              color: ACCENT, textTransform: "uppercase",
+              letterSpacing: "0.2em", margin: "0 0 20px",
+            }}>Navigace</h4>
+            <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {navLinks.map((l, i) => (
+                <a key={i} href={l.href} className="t03-footer-link" style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "0.84rem", fontWeight: 400,
+                  color: "rgba(255,255,255,0.45)",
+                  textDecoration: "none",
+                  letterSpacing: "0.04em",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`navLinks.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
           </div>
         </div>
 
         {/* Copyright bar */}
         <div style={{
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-          padding: "16px clamp(20px,4vw,60px)",
-          display: "flex", justifyContent: "center",
+          borderTop: "1px solid rgba(255,255,255,0.06)",
+          padding: "18px clamp(20px,4vw,60px)",
+          maxWidth: 1280, margin: "0 auto",
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+          flexWrap: "wrap", gap: 12,
         }}>
           <p style={{
-            fontFamily: "Arial, Helvetica, sans-serif",
-            fontSize: "0.75rem",
-            color: "rgba(255,255,255,0.3)",
+            fontFamily: "'Barlow', sans-serif",
+            fontSize: "0.72rem",
+            color: "rgba(255,255,255,0.25)",
             margin: 0,
           }}>
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
+          <WeberoCredit />
         </div>
       </footer>
     </>
@@ -3988,6 +3873,7 @@ function FooterClinic03({ content, sectionId }: { content: Record<string,unknown
   const address   = String(content.address   ?? "Pařížská 28, 110 00 Praha 1");
   const phone     = String(content.phone     ?? "+420 222 888 999");
   const email     = String(content.email     ?? "recepce@diamondlook.cz");
+  const web       = String(content.web       ?? "");
   const hours     = String(content.hours     ?? "Po–Pá 8:00–19:00, So 9:00–14:00");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Diamond Look s.r.o. Všechna práva vyhrazena.`);
   const instagram = String(content.instagram ?? "https://instagram.com/diamondlook");
@@ -4043,6 +3929,7 @@ function FooterClinic03({ content, sectionId }: { content: Record<string,unknown
                 { val: address, field: "address", d: "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" },
                 { val: phone,   field: "phone",   d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5 13a19.79 19.79 0 0 1-3-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.73.32 1.44.58 2.12a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.68.26 1.39.46 2.12.58A2 2 0 0 1 22 16.92z" },
                 { val: email,   field: "email",   d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" },
+                { val: web,     field: "web",     d: "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" },
                 { val: hours,   field: "hours",   d: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" },
               ].map(({ val, field, d }, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -4580,106 +4467,98 @@ function FooterFyzio01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 }
 
 // ── fyzio-02-footer ───────────────────────────────────────────────────────────
-// Navy #1a2e4a bg, 3-col: brand + tagline | navigace | kontakt
-// Logo, zlatá čára separator, copyright
+// Navy #092029 bg, teal top accent, 3-col: brand + tagline + social | navigace |
+// kontakt. Teal hover, WeberoCredit v bottom baru. Movia.
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterFyzio02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   type Link = { label: string; href: string };
-  const siteName  = String(content.siteName  ?? "Demo Reset Fyzio");
+  const siteName  = String(content.siteName  ?? "Movia");
   const logoUrl   = String(content.logoUrl   ?? "/templates/fyzio-02/logo.svg");
-  const tagline   = String(content.tagline   ?? "Zbavte se omezení a bolesti.");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const hours     = String(content.hours     ?? "Po–Pá 8:00–20:00");
+  const tagline   = String(content.tagline   ?? "Fyzioterapie a funkční neurologie. Vrátíme vás do plného pohybu.");
+  const phone     = String(content.phone     ?? "725 480 190");
+  const email     = String(content.email     ?? "recepce@movia.cz");
+  const address   = String(content.address   ?? "Vinohradská 42, 120 00 Praha 2");
+  const hours     = String(content.hours     ?? "Po–Pá 7:00–20:00, So 8:00–13:00");
+  const navLabel  = String(content.navLabel  ?? "Navigace");
+  const contactLabel = String(content.contactLabel ?? "Kontakt");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
   const links     = (content.links as Link[]) ?? [];
+  const siteMode  = String(content.siteMode ?? "multipage");
 
-  const NAVY  = "#1a2e4a";
-  const GOLD  = "#c9a84c";
-  const WHITE = "#ffffff";
-  const MUTED = "rgba(255,255,255,0.55)";
-  const SERIF = "'DM Serif Display', serif";
-  const SANS  = "'Plus Jakarta Sans', sans-serif";
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const lightLogo = logoUrl.replace(/logo\.svg$/, "logo-light.svg");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const socials = [
+    { href: String(content.facebookUrl ?? "#"), label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
+    { href: String(content.instagramUrl ?? "#"), label: "Instagram", path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z M17.5 6.5h.01 M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2z" },
+  ];
 
   return (
-    <footer data-template="fyzio-02" style={{ backgroundColor: NAVY, fontFamily: SANS }}>
-      <style>{`
-        .f02-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; max-width: 1100px; margin: 0 auto; padding: 64px 24px 48px; }
-        @media(max-width: 860px) { .f02-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 36px !important; } }
-        @media(max-width: 520px) { .f02-footer-grid { grid-template-columns: 1fr !important; } }
-        .f02-footer-link { color: ${MUTED}; font-family: ${SANS}; font-size: 14px; text-decoration: none; transition: color 0.15s; line-height: 2; display: block; }
-        .f02-footer-link:hover { color: ${GOLD}; }
-      `}</style>
+    <footer data-template="fyzio-02" className="fz2-ft">
+      <div className="fz2-ft-inner">
+        <div className="fz2-ft-grid">
+          {/* Brand */}
+          <div className="fz2-ft-brand">
+            <a href={resolve("/")} aria-label={siteName} className="fz2-ft-logo">
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={lightLogo} alt={siteName} className="relative overflow-hidden" style={{ height: 42, width: "auto" }}>
+                <img loading="lazy" src={lightLogo} alt={siteName} style={{ height: 42, width: "auto", display: "block" }} />
+              </GenericEditableImage>
+            </a>
+            <p className="fz2-ft-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            <div className="fz2-ft-socials">
+              {socials.map(s => (
+                <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer" className="fz2-ft-social">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {s.path.split(" M").map((d, i) => <path key={i} d={(i === 0 ? "" : "M") + d} />)}
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
 
-      <div className="f02-footer-grid">
-        {/* Brand */}
-        <div>
-          <a href={resolve("/")} aria-label={siteName} style={{ display: "inline-block", marginBottom: 20 }}>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl.replace(/logo\.svg$/, "logo-light.svg")} alt={siteName} className="relative overflow-hidden" style={{ height: 44, width: "auto" }}>
-              <img loading="lazy" src={logoUrl.replace(/logo\.svg$/, "logo-light.svg")} alt={siteName} style={{ height: 44, width: "auto", display: "block" }} />
-            </GenericEditableImage>
-          </a>
-          <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.75, maxWidth: 260, marginBottom: 24 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          {/* Social */}
-          <div style={{ display: "flex", gap: 12 }}>
-            {[
-              { href: String(content.facebookUrl ?? "#"), label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-              { href: String(content.instagramUrl ?? "#"), label: "Instagram", path: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z M17.5 6.5h.01 M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2z" },
-            ].map(s => (
-              <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer"
-                style={{ width: 36, height: 36, borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: MUTED, transition: "border-color 0.15s, color 0.15s" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = MUTED; }}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  {s.path.split(" M").map((d, i) => <path key={i} d={(i === 0 ? "" : "M") + d} />)}
-                </svg>
-              </a>
-            ))}
+          {/* Navigace */}
+          <div className="fz2-ft-col">
+            <h4 className="fz2-ft-heading">
+              <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="span" />
+            </h4>
+            <nav className="fz2-ft-nav">
+              {links.map((l, i) => (
+                <a key={i} href={resolve(l.href)} className="fz2-ft-link">
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Kontakt */}
+          <div className="fz2-ft-col">
+            <h4 className="fz2-ft-heading">
+              <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span" />
+            </h4>
+            <a href={`tel:+420${phone.replace(/\s/g, "")}`} className="fz2-ft-link">
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={`mailto:${email}`} className="fz2-ft-link">
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+            <p className="fz2-ft-meta">
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </p>
+            <p className="fz2-ft-meta">
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+            </p>
           </div>
         </div>
 
-        {/* Navigace */}
-        <div>
-          <h4 style={{ fontFamily: SERIF, fontSize: "1rem", fontWeight: 400, color: WHITE, marginBottom: 20, letterSpacing: "0.02em" }}>Navigace</h4>
-          <nav>
-            {links.map((l, i) => (
-              <a key={i} href={resolve(l.href)} className="f02-footer-link">
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        {/* Kontakt */}
-        <div>
-          <h4 style={{ fontFamily: SERIF, fontSize: "1rem", fontWeight: 400, color: WHITE, marginBottom: 20, letterSpacing: "0.02em" }}>Kontakt</h4>
-          <a href={`tel:+420${phone.replace(/\s/g, "")}`} className="f02-footer-link">
-            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-          </a>
-          <a href={`mailto:${email}`} className="f02-footer-link">
-            <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-          </a>
-          <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.75, marginTop: 4 }}>
-            <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+        {/* Bottom bar */}
+        <div className="fz2-ft-bottom">
+          <p className="fz2-ft-copy">
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
-          <p style={{ fontFamily: SANS, fontSize: 14, color: MUTED, lineHeight: 1.75 }}>
-            <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
-          </p>
+          <WeberoCredit />
         </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", maxWidth: 1100, margin: "0 auto", padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-        <p style={{ fontFamily: SANS, fontSize: 13, color: MUTED, margin: 0 }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-        </p>
-        <div style={{ width: 32, height: 2, backgroundColor: GOLD }} />
       </div>
     </footer>
   );
@@ -4700,6 +4579,7 @@ function FooterCafe02({ content, sectionId }: { content: Record<string, unknown>
   const hours        = String(content.hours        ?? "Po–Ne · 8:00 – 23:00");
   const ico          = String(content.ico          ?? "12345678");
   const dic          = String(content.dic          ?? "CZ12345678");
+  const web          = String(content.web          ?? "");
   const newsletterLabel = String(content.newsletterLabel ?? "Novinky & víkendová menu");
   const newsletterPlaceholder = String(content.newsletterPlaceholder ?? "Váš e-mail");
   const newsletterCta = String(content.newsletterCta ?? "Odebírat");
@@ -4809,6 +4689,14 @@ function FooterCafe02({ content, sectionId }: { content: Record<string, unknown>
             <span>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>
             <span className="cafe02-footer__legal-sep" aria-hidden />
             <span>DIČ: <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" /></span>
+            {web && (
+              <>
+                <span className="cafe02-footer__legal-sep" aria-hidden />
+                <a href={web} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none" }}>
+                  <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" />
+                </a>
+              </>
+            )}
           </div>
           <WeberoCredit />
         </div>
@@ -4818,12 +4706,14 @@ function FooterCafe02({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── restaurant-01-footer ──────────────────────────────────────────────────────
-// Dark #1a0e0a bg, amber top linka
-// 3 sloupce: SVG logo + tagline + FB/IG social / navigace / kontakt info
-// Bottom: cream copyright + IČO bar
+// Ambiente dark-luxe #1a0e0a. Gold top hairline + centrovaný diamant ornament,
+// 3 sloupce: brand (logo + serif italic tagline + amber-fill social) / navigace /
+// kontakt. Gold underline-slide hover na linkách, editovatelné column labely +
+// copyright + IČO. Bottom bar: copyright + WeberoCredit (SEO backlink).
+// resolveNavHref → one-page/multi-page kompatibilní.
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterRestaurant01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName     = String(content.siteName     ?? "Ambiente Bistro");
+function FooterRestaurant01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const siteName     = String(content.siteName     ?? "Memento");
   const logoUrl      = String(content.logoUrl      ?? "/templates/restaurant-01/logo.svg");
   const tagline      = String(content.tagline      ?? "Gastronomie jako umění i řemeslo.");
   const address      = String(content.address      ?? "Ukázková 123, 110 00 Praha 1");
@@ -4831,6 +4721,10 @@ function FooterRestaurant01({ content, sectionId }: { content: Record<string, un
   const email        = String(content.email        ?? "info@demo.cz");
   const hours        = String(content.hours        ?? "Po–Pá 9:00–18:00, So 9:00–14:00");
   const ico          = String(content.ico          ?? "12345678");
+  const navLabel     = String(content.navLabel     ?? "Navigace");
+  const contactLabel = String(content.contactLabel ?? "Kontakt");
+  const legalText    = String(content.legalText    ?? "Všechna práva vyhrazena.");
+  const siteMode     = String(content.siteMode     ?? "multipage");
   const facebookUrl  = String(content.facebookUrl  ?? "https://facebook.com/demo");
   const instagramUrl = String(content.instagramUrl ?? "https://instagram.com/demo");
   const links        = (content.links as Array<{ label: string; href: string }>) ?? [];
@@ -4843,34 +4737,38 @@ function FooterRestaurant01({ content, sectionId }: { content: Record<string, un
   const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
   const year  = new Date().getFullYear();
 
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const colLabel = { fontFamily: FONT, fontSize: 13, fontWeight: 400, color: CREAM, letterSpacing: "0.18em", textTransform: "uppercase" as const, margin: "0 0 22px" };
+
   return (
-    <footer data-variant="restaurant-01-footer" style={{ backgroundColor: BG, fontFamily: SANS, borderTop: `2px solid ${AMBER}` }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "64px clamp(24px, 5vw, 64px) 40px" }}>
-        <div className="r01-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: "clamp(32px, 5vw, 64px)" }}>
+    <footer data-template="restaurant-01" data-variant="restaurant-01-footer" style={{ backgroundColor: BG, fontFamily: SANS, position: "relative", borderTop: "1px solid rgba(200,148,63,0.35)" }}>
+      {/* Gold top hairline + centrovaný diamant ornament */}
+      <div aria-hidden style={{ position: "absolute", top: -1, left: 0, right: 0, height: 1, background: `linear-gradient(to right, ${AMBER}00, ${AMBER}, ${AMBER}00)` }} />
+      <span aria-hidden style={{ position: "absolute", top: -5, left: "50%", transform: "translateX(-50%) rotate(45deg)", width: 9, height: 9, background: AMBER }} />
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px clamp(24px, 5vw, 64px) 44px" }}>
+        <div className="r01-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1.1fr", gap: "clamp(32px, 5vw, 72px)" }}>
           {/* Sloupec 1: Brand */}
           <div>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block", marginBottom: 20 }}>
-              <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 40, display: "block" }} />
-            </GenericEditableImage>
-            <p style={{ fontSize: 13, fontWeight: 300, color: MUTED, lineHeight: 1.7, margin: "0 0 24px" }}>
+            <a href={resolve("/")} aria-label={siteName} style={{ display: "inline-flex", marginBottom: 22, textDecoration: "none" }}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
+                <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 42, display: "block" }} />
+              </GenericEditableImage>
+            </a>
+            <p style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 16, fontWeight: 400, color: `${CREAM}cc`, lineHeight: 1.7, margin: "0 0 28px", maxWidth: 320 }}>
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
-            {/* Social */}
+            {/* Social — amber-fill hover */}
             <div style={{ display: "flex", gap: 12 }}>
               {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${AMBER}40`, display: "flex", alignItems: "center", justifyContent: "center", color: AMBER, textDecoration: "none", transition: "border-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = AMBER)}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = `${AMBER}40`)}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="r01-ftsocial" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid ${AMBER}55`, display: "flex", alignItems: "center", justifyContent: "center", color: AMBER, textDecoration: "none", transition: "background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease, transform 0.28s ease" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 </a>
               )}
               {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${AMBER}40`, display: "flex", alignItems: "center", justifyContent: "center", color: AMBER, textDecoration: "none", transition: "border-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.borderColor = AMBER)}
-                  onMouseLeave={e => (e.currentTarget.style.borderColor = `${AMBER}40`)}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="r01-ftsocial" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid ${AMBER}55`, display: "flex", alignItems: "center", justifyContent: "center", color: AMBER, textDecoration: "none", transition: "background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease, transform 0.28s ease" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                 </a>
               )}
             </div>
@@ -4878,13 +4776,12 @@ function FooterRestaurant01({ content, sectionId }: { content: Record<string, un
 
           {/* Sloupec 2: Navigace */}
           <div>
-            <h4 style={{ fontFamily: FONT, fontSize: 14, fontWeight: 400, color: CREAM, letterSpacing: 2, textTransform: "uppercase", margin: "0 0 20px" }}>Navigace</h4>
+            <h4 style={colLabel}>
+              <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="span" />
+            </h4>
             <nav>
               {links.map((l, i) => (
-                <a key={i} href={l.href} style={{ display: "block", fontSize: 13, fontWeight: 300, color: MUTED, textDecoration: "none", marginBottom: 10, transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                >
+                <a key={i} href={resolve(l.href)} className="r01-ftlink" style={{ display: "inline-block", fontSize: 13.5, fontWeight: 300, color: MUTED, textDecoration: "none", marginBottom: 12, transition: "color 0.24s ease" }}>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               ))}
@@ -4893,24 +4790,20 @@ function FooterRestaurant01({ content, sectionId }: { content: Record<string, un
 
           {/* Sloupec 3: Kontakt */}
           <div>
-            <h4 style={{ fontFamily: FONT, fontSize: 14, fontWeight: 400, color: CREAM, letterSpacing: 2, textTransform: "uppercase", margin: "0 0 20px" }}>Kontakt</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 13, fontWeight: 300, color: MUTED, margin: 0, lineHeight: 1.5 }}>
+            <h4 style={colLabel}>
+              <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span" />
+            </h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <p style={{ fontSize: 13.5, fontWeight: 300, color: MUTED, margin: 0, lineHeight: 1.55 }}>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </p>
-              <a href={`tel:+420${phone.replace(/\s/g,"")}`} style={{ fontSize: 13, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-              >
+              <a href={`tel:+420${phone.replace(/\s/g,"")}`} className="r01-ftlink" style={{ fontSize: 13.5, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.24s ease" }}>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
-              <a href={`mailto:${email}`} style={{ fontSize: 13, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-              >
+              <a href={`mailto:${email}`} className="r01-ftlink" style={{ fontSize: 13.5, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.24s ease" }}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
-              <p style={{ fontSize: 13, fontWeight: 300, color: MUTED, margin: 0, lineHeight: 1.5 }}>
+              <p style={{ fontSize: 13.5, fontWeight: 300, color: MUTED, margin: 0, lineHeight: 1.55 }}>
                 <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
               </p>
             </div>
@@ -4919,16 +4812,20 @@ function FooterRestaurant01({ content, sectionId }: { content: Record<string, un
       </div>
 
       {/* Copyright bar */}
-      <div style={{ borderTop: `1px solid rgba(200,148,63,0.2)`, padding: "16px clamp(24px, 5vw, 64px)" }}>
-        <div className="r01-footer-copyright" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-          <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>© {year} {siteName} · IČO: {ico}</p>
-          <p style={{ fontSize: 11, color: `${MUTED}88`, margin: 0 }}>Vytvořeno s Webero</p>
+      <div style={{ borderTop: `1px solid rgba(200,148,63,0.18)`, padding: "18px clamp(24px, 5vw, 64px)" }}>
+        <div className="r01-footer-copyright" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+          <p style={{ fontSize: 11.5, color: MUTED, margin: 0, letterSpacing: "0.02em" }}>
+            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /> · IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /> · <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+          </p>
+          <WeberoCredit />
         </div>
       </div>
 
       <style>{`
+        [data-variant="restaurant-01-footer"] .r01-ftlink:hover{color:${CREAM}!important}
+        [data-variant="restaurant-01-footer"] .r01-ftsocial:hover{background-color:${AMBER};border-color:${AMBER};color:${BG};transform:translateY(-3px)}
         @media(max-width:768px){.r01-footer-grid{grid-template-columns:1fr!important}}
-        @media(max-width:480px){.r01-footer-copyright{flex-direction:column!important;text-align:center}}
+        @media(max-width:480px){.r01-footer-copyright{flex-direction:column!important;text-align:center;justify-content:center}}
       `}</style>
     </footer>
   );
@@ -4939,31 +4836,38 @@ function FooterRestaurant01({ content, sectionId }: { content: Record<string, un
 // Copyright bar dole — Poppins, bílý text
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterRestaurant02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const siteName = String(content.siteName ?? "Demo Hybernská");
+  const siteName = String(content.siteName ?? "Naše restaurace");
   const logoUrl  = String(content.logoUrl  ?? "/templates/restaurant-02/logo.svg");
-  const tagline  = String(content.tagline  ?? "Česká kuchyně v srdci Prahy.");
+  const tagline  = String(content.tagline  ?? "Poctivá česká kuchyně v srdci Prahy.");
   const address  = String(content.address  ?? "");
   const phone    = String(content.phone    ?? "");
   const email    = String(content.email    ?? "");
   const hours    = String(content.hours    ?? "");
   const ico      = String(content.ico      ?? "");
+  const icoLabel   = String(content.icoLabel   ?? "IČO:");
+  const navLabel     = String(content.navLabel     ?? "Navigace");
+  const contactLabel = String(content.contactLabel ?? "Kontakt");
   const fbUrl    = String(content.facebookUrl  ?? "");
   const igUrl    = String(content.instagramUrl ?? "");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const BLACK   = "#000000";
+  const BLACK   = "#0a0a0a";
   const WHITE   = "#ffffff";
   const GHOST   = "rgba(255,255,255,0.55)";
   const RED     = "#c0392b";
   const POPPINS = "'Poppins', sans-serif";
   const year    = new Date().getFullYear();
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <footer data-template="restaurant-02" style={{ backgroundColor: BLACK, fontFamily: POPPINS, color: WHITE }}>
+    <footer data-template="restaurant-02" style={{ backgroundColor: BLACK, fontFamily: POPPINS, color: WHITE, position: "relative" }}>
+      {/* Červená top hairline */}
+      <span aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: RED }} />
+
       {/* Hlavní mřížka */}
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(48px, 7vw, 88px) clamp(20px, 5vw, 60px) clamp(40px, 5vw, 64px)", display: "grid", gridTemplateColumns: "1.4fr 1fr 1.2fr", gap: "clamp(32px, 5vw, 72px)" }} className="r02-footer-grid">
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(52px, 7vw, 92px) clamp(20px, 5vw, 60px) clamp(40px, 5vw, 64px)", display: "grid", gridTemplateColumns: "1.4fr 1fr 1.2fr", gap: "clamp(32px, 5vw, 72px)" }} className="r02-footer-grid">
 
         {/* Logo + tagline */}
         <div>
@@ -4972,27 +4876,19 @@ function FooterRestaurant02({ content, sectionId, tenantSlug, isAdmin }: { conte
               <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 40, objectFit: "contain", display: "block" }} />
             </GenericEditableImage>
           </a>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: GHOST, margin: "0 0 24px", maxWidth: 240 }}>
+          <p style={{ fontSize: 13, lineHeight: 1.7, color: GHOST, margin: "0 0 24px", maxWidth: 250 }}>
             <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
           </p>
           {/* Social */}
-          <div style={{ display: "flex", gap: 14 }}>
+          <div style={{ display: "flex", gap: 10 }}>
             {fbUrl && (
-              <a href={fbUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                style={{ color: GHOST, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = RED)}
-                onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              <a href={fbUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="r02-footer-social">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
             )}
             {igUrl && (
-              <a href={igUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                style={{ color: GHOST, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = RED)}
-                onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              <a href={igUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="r02-footer-social">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
               </a>
             )}
           </div>
@@ -5000,16 +4896,12 @@ function FooterRestaurant02({ content, sectionId, tenantSlug, isAdmin }: { conte
 
         {/* Navigace */}
         <div>
-          <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GHOST, margin: "0 0 20px" }}>Navigace</p>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+          <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="p"
+            style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: RED, margin: "0 0 20px" }} />
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 11 }}>
             {links.map((l, i) => (
               <li key={i}>
-                <a
-                  href={resolve(l.href)}
-                  style={{ fontSize: 13, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
-                >
+                <a href={resolve(l.href)} className="r02-flink" style={{ fontSize: 13, color: GHOST, textDecoration: "none" }}>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               </li>
@@ -5019,105 +4911,122 @@ function FooterRestaurant02({ content, sectionId, tenantSlug, isAdmin }: { conte
 
         {/* Kontakt */}
         <div>
-          <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GHOST, margin: "0 0 20px" }}>Kontakt</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {address && <p style={{ fontSize: 13, color: GHOST, margin: 0, lineHeight: 1.6 }}>{address}</p>}
+          <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="p"
+            style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: RED, margin: "0 0 20px" }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
+            {address && (
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p"
+                style={{ fontSize: 13, color: GHOST, margin: 0, lineHeight: 1.6 }} />
+            )}
             {phone && (
-              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontSize: 13, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
-              >{phone}</a>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="r02-flink" style={{ fontSize: 13, color: GHOST, textDecoration: "none" }}>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
             )}
             {email && (
-              <a href={`mailto:${email}`} style={{ fontSize: 13, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
-              >{email}</a>
+              <a href={`mailto:${email}`} className="r02-flink" style={{ fontSize: 13, color: GHOST, textDecoration: "none" }}>
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
             )}
-            {hours && <p style={{ fontSize: 12, color: GHOST, margin: "4px 0 0", lineHeight: 1.6 }}>{hours}</p>}
-            {ico && <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", margin: "8px 0 0" }}>IČO: {ico}</p>}
+            {hours && (
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="p"
+                style={{ fontSize: 12, color: GHOST, margin: "4px 0 0", lineHeight: 1.6 }} />
+            )}
+            {ico && (
+              <p style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", margin: "8px 0 0" }}>
+                <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" />{" "}
+                <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+              </p>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Copyright bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", maxWidth: 1200, margin: "0 auto", padding: "20px clamp(20px, 5vw, 60px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }} className="r02-footer-copyright">
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", margin: 0 }}>
+      {/* Copyright bar + WeberoCredit */}
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", maxWidth: 1200, margin: "0 auto", padding: "20px clamp(20px, 5vw, 60px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }} className="r02-footer-copyright">
+        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.32)", margin: 0 }}>
           © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
         </p>
+        <WeberoCredit />
       </div>
-
-      <style>{`
-        @media(max-width:768px){ .r02-footer-grid { grid-template-columns: 1fr 1fr !important; } }
-        @media(max-width:480px){ .r02-footer-grid { grid-template-columns: 1fr !important; } .r02-footer-copyright { flex-direction: column !important; text-align: center; } }
-      `}</style>
     </footer>
   );
 }
 
 // ── restaurant-03-footer ──────────────────────────────────────────────────────
-// Tmavá zelená (#0c351a), 3-col: logo+tagline+social | nav | kontakt+hodiny
-// Zlatá (#b97d26) akcenty, serif Georgia — La Casa Latina style
+// La Casa Dorada — luxe deep-green (#0c351a) 3-col footer. Gold top hairline +
+// centrovaný diamant ornament, serif italic tagline, editovatelné section labely,
+// gold underline-slide hover na linkách, WeberoCredit v bottom baru.
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterRestaurant03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const DARK   = "#0d1b2a";
-  const GOLD   = "#e05e3f";
+  const DARK   = "#0c351a";
+  const DARK_2 = "#0a2d15";
+  const GOLD   = "#b97d26";
+  const GOLD_LT = "#d4a24c";
   const WHITE  = "#ffffff";
   const GHOST  = "rgba(255,255,255,0.55)";
   const SERIF  = "Georgia, 'Times New Roman', serif";
-  const SANS   = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+  const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
   const year   = new Date().getFullYear();
 
-  const siteName = String(content.siteName ?? "La Casa Latina");
+  const siteName = String(content.siteName ?? "La Casa Dorada");
   const logoUrl  = String(content.logoUrl  ?? "/templates/restaurant-03/logo.svg");
   const tagline  = String(content.tagline  ?? "Latinskoamerická kuchyně v srdci Prahy.");
   const address  = String(content.address  ?? "");
   const phone    = String(content.phone    ?? "");
   const email    = String(content.email    ?? "");
   const hours    = String(content.hours    ?? "");
+  const navLabel     = String(content.navLabel     ?? "Navigace");
+  const contactLabel = String(content.contactLabel ?? "Kontakt");
+  const hoursLabel   = String(content.hoursLabel   ?? "Otevírací doba");
   const copyright = String(content.copyright ?? `© ${year} ${siteName}`);
   const legal    = String(content.legal    ?? "");
+  const siteMode = String(content.siteMode ?? "multipage");
   const fbUrl    = String(content.facebookUrl  ?? "");
   const igUrl    = String(content.instagramUrl ?? "");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <footer data-template="restaurant-03" style={{ backgroundColor: DARK, fontFamily: SANS, color: WHITE, borderTop: "1px solid #1e3a5f" }}>
+    <footer data-template="restaurant-03" style={{ background: `linear-gradient(180deg, ${DARK} 0%, ${DARK_2} 100%)`, fontFamily: SANS, color: WHITE, borderTop: "1px solid rgba(185,125,38,0.4)", position: "relative" }}>
+      {/* Gold top hairline + centrovaný diamant */}
+      <div aria-hidden style={{ position: "absolute", top: -1, left: 0, right: 0, height: 1, background: `linear-gradient(to right, ${GOLD}00, ${GOLD}, ${GOLD}00)` }} />
+      <span aria-hidden style={{ position: "absolute", top: -5, left: "50%", transform: "translateX(-50%) rotate(45deg)", width: 9, height: 9, background: GOLD }} />
+
       {/* Main grid */}
       <div
-        style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(48px, 7vw, 88px) clamp(20px, 5vw, 60px) clamp(40px, 5vw, 64px)", display: "grid", gridTemplateColumns: "1.4fr 1fr 1.2fr", gap: "clamp(32px, 5vw, 72px)" }}
+        style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(52px, 7vw, 92px) clamp(20px, 5vw, 60px) clamp(40px, 5vw, 60px)", display: "grid", gridTemplateColumns: "1.4fr 1fr 1.2fr", gap: "clamp(32px, 5vw, 72px)" }}
         className="r03-footer-grid"
       >
         {/* Col 1: Logo + tagline + social */}
         <div>
           <a href={resolve("/")} style={{ textDecoration: "none", display: "inline-block", marginBottom: 20 }}>
             <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
-              <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 44, objectFit: "contain", display: "block" }} />
+              <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 46, objectFit: "contain", display: "block" }} />
             </GenericEditableImage>
           </a>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: GHOST, margin: "0 0 24px", maxWidth: 240, fontFamily: SERIF, fontStyle: "italic" }}>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: GHOST, margin: "0 0 26px", maxWidth: 250, fontFamily: SERIF, fontStyle: "italic" }}>
             <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
           </p>
           {/* Social icons */}
-          <div style={{ display: "flex", gap: 14 }}>
+          <div style={{ display: "flex", gap: 12 }}>
             {fbUrl && (
               <a href={fbUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                style={{ color: GHOST, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
+                style={{ color: GHOST, transition: "color 0.2s, border-color 0.2s", border: "1px solid rgba(185,125,38,0.3)", borderRadius: "50%", width: 38, height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                onMouseEnter={e => { e.currentTarget.style.color = GOLD_LT; e.currentTarget.style.borderColor = GOLD; }}
+                onMouseLeave={e => { e.currentTarget.style.color = GHOST; e.currentTarget.style.borderColor = "rgba(185,125,38,0.3)"; }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
             )}
             {igUrl && (
               <a href={igUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                style={{ color: GHOST, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
+                style={{ color: GHOST, transition: "color 0.2s, border-color 0.2s", border: "1px solid rgba(185,125,38,0.3)", borderRadius: "50%", width: 38, height: 38, display: "inline-flex", alignItems: "center", justifyContent: "center" }}
+                onMouseEnter={e => { e.currentTarget.style.color = GOLD_LT; e.currentTarget.style.borderColor = GOLD; }}
+                onMouseLeave={e => { e.currentTarget.style.color = GHOST; e.currentTarget.style.borderColor = "rgba(185,125,38,0.3)"; }}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
               </a>
             )}
           </div>
@@ -5125,14 +5034,16 @@ function FooterRestaurant03({ content, sectionId, tenantSlug, isAdmin }: { conte
 
         {/* Col 2: Navigation */}
         <div>
-          <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Navigace</p>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+          <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="p"
+            style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_LT, margin: "0 0 22px" }} />
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
             {links.map((l, i) => (
               <li key={i}>
                 <a
                   href={resolve(l.href)}
-                  style={{ fontSize: 13, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
+                  className="r03-footer-link"
+                  style={{ fontSize: 13.5, color: GHOST, textDecoration: "none", transition: "color 0.2s", position: "relative" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = GOLD_LT)}
                   onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
                 >
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
@@ -5144,32 +5055,33 @@ function FooterRestaurant03({ content, sectionId, tenantSlug, isAdmin }: { conte
 
         {/* Col 3: Contact + hours */}
         <div>
-          <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Kontakt</p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="p"
+            style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_LT, margin: "0 0 22px" }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
             {address && (
-              <p style={{ fontSize: 13, color: GHOST, margin: 0, lineHeight: 1.6 }}>
+              <p style={{ fontSize: 13.5, color: GHOST, margin: 0, lineHeight: 1.6 }}>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </p>
             )}
             {phone && (
-              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontSize: 13, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
+              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontSize: 13.5, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = GOLD_LT)}
                 onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
               >
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
             )}
             {email && (
-              <a href={`mailto:${email}`} style={{ fontSize: 13, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
+              <a href={`mailto:${email}`} style={{ fontSize: 13.5, color: GHOST, textDecoration: "none", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = GOLD_LT)}
                 onMouseLeave={e => (e.currentTarget.style.color = GHOST)}
               >
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             )}
             {hours && (
-              <p style={{ fontSize: 12, color: GHOST, margin: "4px 0 0", lineHeight: 1.6 }}>
-                <span style={{ display: "block", color: GOLD, fontWeight: 600, fontSize: 10, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 4 }}>Otevírací doba</span>
+              <p style={{ fontSize: 12.5, color: GHOST, margin: "6px 0 0", lineHeight: 1.6 }}>
+                <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" style={{ display: "block", color: GOLD_LT, fontWeight: 700, fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 5 }} />
                 <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
               </p>
             )}
@@ -5178,18 +5090,19 @@ function FooterRestaurant03({ content, sectionId, tenantSlug, isAdmin }: { conte
       </div>
 
       {/* Copyright bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", maxWidth: 1200, margin: "0 auto", padding: "20px clamp(20px, 5vw, 60px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }} className="r03-footer-copyright">
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", margin: 0 }}>
+      <div style={{ borderTop: "1px solid rgba(185,125,38,0.16)", maxWidth: 1200, margin: "0 auto", padding: "20px clamp(20px, 5vw, 60px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }} className="r03-footer-copyright">
+        <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.35)", margin: 0 }}>
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          {legal && (
+            <> · <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" /></>
+          )}
         </p>
-        {legal && (
-          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
-          </p>
-        )}
+        <WeberoCredit />
       </div>
 
       <style>{`
+        [data-template="restaurant-03"] .r03-footer-link::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 100%; height: 1px; background: ${GOLD_LT}; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(.4,0,.2,1); }
+        [data-template="restaurant-03"] .r03-footer-link:hover::after { transform: scaleX(1); }
         @media(max-width:768px){ .r03-footer-grid { grid-template-columns: 1fr 1fr !important; } }
         @media(max-width:480px){ .r03-footer-grid { grid-template-columns: 1fr !important; } .r03-footer-copyright { flex-direction: column !important; text-align: center; } }
       `}</style>
@@ -5359,63 +5272,108 @@ function FooterCafe03({ content, sectionId }: { content: Record<string, unknown>
 // Simple light footer: logo centered + nav links + copyright line
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterBakery01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const DARK  = "#393939";
-  const MUTED = "#888888";
-  const SERIF = "'Josefin Sans', 'Helvetica Neue', sans-serif";
+  const DARK   = "#393939";
+  const MUTED  = "#7a7168";
+  const ACCENT = "#8b6030";
+  const SERIF  = "'Josefin Sans', 'Helvetica Neue', sans-serif";
+  const SANS   = "'Metropolis', 'Inter', sans-serif";
 
   const logoUrl   = String(content.logoUrl   ?? "/templates/bakery-01/logo.svg");
-  const siteName  = String(content.siteName  ?? "Demo Zrno Zrnko");
+  const siteName  = String(content.siteName  ?? "Kvásek & Káva");
+  const tagline   = String(content.tagline   ?? "Řemeslná pekárna & kavárna, kde každé ráno voní čerstvý chléb a poctivá káva.");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
+  const legalText = String(content.legalText ?? "Všechna práva vyhrazena");
+  const fbHref    = String(content.fbHref    ?? "https://facebook.com/demo");
+  const igHref    = String(content.igHref    ?? "https://instagram.com/demo");
+
+  const navTitle     = String(content.navTitle     ?? "Navigace");
+  const contactTitle = String(content.contactTitle ?? "Kontakt");
+  const hoursTitle   = String(content.hoursTitle   ?? "Otevřeno");
+  const address = String(content.address ?? "Kavčí Hory 8, Praha 4");
+  const phone   = String(content.phone   ?? "+420 777 123 456");
+  const email   = String(content.email   ?? "ahoj@kvasekakava.cz");
 
   type NavLink = { label?: string; href?: string };
-  const links: NavLink[] = Array.isArray(content.links) ? (content.links as NavLink[]) : [];
+  const links: NavLink[]  = Array.isArray(content.links) ? (content.links as NavLink[]) : [];
+  const hours: string[]   = Array.isArray(content.hours) ? (content.hours as string[]) : ["Po–Pá · 7:00–19:00", "So–Ne · 8:00–17:00"];
+
+  const colTitle: React.CSSProperties = { fontFamily: SERIF, fontSize: 12, fontWeight: 500, letterSpacing: "0.2em", textTransform: "uppercase", color: DARK, margin: "0 0 22px" };
+  const bodyTxt: React.CSSProperties = { fontFamily: SANS, fontSize: 14, lineHeight: 1.9, color: MUTED, textDecoration: "none" };
 
   return (
     <footer
-      style={{
-        backgroundColor: "#ffffff",
-        borderTop: "1px solid #e8e8e8",
-        fontFamily: SERIF,
-        padding: "clamp(40px, 6vw, 64px) clamp(24px, 5vw, 60px) clamp(24px, 4vw, 40px)",
-        textAlign: "center",
-      }}
+      data-template="bakery-01"
+      style={{ backgroundColor: "#f7f2ec", borderTop: "1px solid #e6dccc", fontFamily: SANS }}
     >
-      {/* Logo */}
-      <div style={{ marginBottom: 28 }}>
-        <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "inline-block" }}>
-          <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 56, display: "inline-block" }} />
-        </GenericEditableImage>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "clamp(56px, 7vw, 88px) clamp(24px, 5vw, 60px) clamp(28px, 3vw, 40px)" }}>
+        <div className="b01-foot-grid" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr 1fr", gap: "clamp(32px, 5vw, 56px)" }}>
+
+          {/* Brand */}
+          <div>
+            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "inline-block", marginBottom: 20 }}>
+              <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 58, display: "inline-block" }} />
+            </GenericEditableImage>
+            <p style={{ ...bodyTxt, maxWidth: 300, margin: "0 0 22px" }}>
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            <div style={{ display: "flex", gap: 14 }}>
+              <a className="b01-social" href={fbHref} target="_blank" rel="noreferrer" aria-label="Facebook" style={{ color: "#b0a493", display: "inline-flex" }}><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+              <a className="b01-social" href={igHref} target="_blank" rel="noreferrer" aria-label="Instagram" style={{ color: "#b0a493", display: "inline-flex" }}><svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor"><path d="M12 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227a3.81 3.81 0 01-.899 1.382 3.744 3.744 0 01-1.38.896c-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421a3.716 3.716 0 01-1.379-.899 3.644 3.644 0 01-.9-1.38c-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06zM12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913a5.885 5.885 0 001.384 2.126A5.868 5.868 0 004.14 23.37c.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558a5.898 5.898 0 002.126-1.384 5.86 5.86 0 001.384-2.126c.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913a5.89 5.89 0 00-1.384-2.126A5.847 5.847 0 0019.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 01-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
+            </div>
+          </div>
+
+          {/* Navigace */}
+          <div>
+            <h4 style={colTitle}><GenericEditableText sectionId={sectionId} field="navTitle" value={navTitle} tag="span" /></h4>
+            <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {links.map((link, i) => (
+                <a key={i} className="b01-foot-link" href={link.href ?? "#"} style={{ ...bodyTxt, fontFamily: SERIF, fontSize: 12.5, letterSpacing: "0.1em", textTransform: "uppercase", width: "fit-content" }}>
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label ?? ""} tag="span" />
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Kontakt */}
+          <div>
+            <h4 style={colTitle}><GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="span" /></h4>
+            <p style={{ ...bodyTxt, margin: "0 0 6px" }}><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>
+            <a className="b01-foot-link" href={`tel:${phone.replace(/\s/g,"")}`} style={{ ...bodyTxt, display: "block" }}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>
+            <a className="b01-foot-link" href={`mailto:${email}`} style={{ ...bodyTxt, display: "block" }}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>
+          </div>
+
+          {/* Otevřeno */}
+          <div>
+            <h4 style={colTitle}><GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" /></h4>
+            {hours.map((h, i) => (
+              <p key={i} style={{ ...bodyTxt, margin: "0 0 6px" }}><GenericEditableText sectionId={sectionId} field={`hours.${i}`} value={h} tag="span" /></p>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom row */}
+        <div className="b01-foot-bottom" style={{ marginTop: "clamp(40px, 5vw, 60px)", paddingTop: 24, borderTop: "1px solid #e6dccc", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+          <p style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.04em", color: MUTED, margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+            <span style={{ margin: "0 8px", color: ACCENT }}>·</span>
+            <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+          </p>
+          <span className="b01-webero-wrap"><WeberoCredit /></span>
+        </div>
       </div>
 
-      {/* Nav links */}
-      {links.length > 0 && (
-        <nav style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 24px", marginBottom: 32 }}>
-          {links.map((link, i) => (
-            <a
-              key={i}
-              href={link.href ?? "#"}
-              style={{
-                fontSize: 10,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: DARK,
-                textDecoration: "none",
-                opacity: 0.75,
-              }}
-            >
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label ?? ""} tag="span" />
-            </a>
-          ))}
-        </nav>
-      )}
-
-      {/* Divider */}
-      <div style={{ width: 40, height: 1, backgroundColor: "#e0e0e0", margin: "0 auto 24px" }} />
-
-      {/* Copyright */}
-      <p style={{ fontSize: 11, letterSpacing: "0.05em", color: MUTED, margin: 0, lineHeight: 1.6 }}>
-        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-      </p>
+      <style>{`
+        [data-template="bakery-01"] .b01-webero-wrap .bc-webero-credit { color: rgba(57,57,57,0.45) !important; }
+        [data-template="bakery-01"] .b01-webero-wrap .bc-webero-credit:hover { color: #8b6030 !important; }
+        [data-template="bakery-01"] .b01-webero-wrap .bc-webero-credit svg rect { fill: rgba(57,57,57,0.08) !important; }
+        @media (max-width: 860px) {
+          [data-template="bakery-01"] .b01-foot-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 520px) {
+          [data-template="bakery-01"] .b01-foot-grid { grid-template-columns: 1fr !important; }
+          [data-template="bakery-01"] .b01-foot-bottom { flex-direction: column; align-items: flex-start; }
+        }
+      `}</style>
     </footer>
   );
 }
@@ -5535,7 +5493,7 @@ function FooterCafe04({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── reality-02-footer ─────────────────────────────────────────────────────────
-// Ref: fermakleri.cz footer
+// Ref: realitni-pruvodce.cz footer
 // Tmavé #05303a bg, 4-col: logo+nav / Prodej domu / Prodej bytu / kontakt (tel+email)
 // Dolní copyright bar
 // ─────────────────────────────────────────────────────────────────────────────
@@ -5547,7 +5505,7 @@ function FooterReality02({ content, sectionId, tenantSlug, isAdmin }: { content:
   const address   = String(content.address   ?? "Vinohradská 42, Praha 2");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Realitní Průvodce s.r.o.`);
   const contactLabel = String(content.contactLabel ?? "Kontakt");
-  const columns   = (content.columns as Array<{ title?: string; heading?: string; links: Array<{ label: string; href: string }> }>) ?? [];
+  const columns   = appendBlogToColumns((content.columns as Array<{ title?: string; heading?: string; links: Array<{ label: string; href: string }> }>) ?? [], content);
   const navLinks  = (content.navLinks as Array<{ label: string; href: string }>) ?? [];
 
   const DARK   = "#05303a";
@@ -5644,10 +5602,19 @@ function FooterReality02({ content, sectionId, tenantSlug, isAdmin }: { content:
 function FooterReality03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const agents  = (content.agents  as Array<{ name: string; role: string; phone?: string; email?: string; image?: string }>) ?? [];
   const links   = (content.links   as Array<{ label: string; href: string }>) ?? [];
+  const siteName     = String(content.siteName     ?? "Reality Dvořák");
+  const siteSubtitle = String(content.siteSubtitle ?? "Realitní kancelář");
+  const tagline      = String(content.tagline      ?? "Rodinná realitní kancelář s osobním přístupem ke každému klientovi.");
+  const teamTitle    = String(content.teamTitle    ?? "Váš realitní tým");
+  const navTitle     = String(content.navTitle     ?? "Navigace");
+  const contactTitle = String(content.contactTitle ?? "Kontakt");
+  const legalText    = String(content.legalText    ?? "Všechna práva vyhrazena");
+  const icoLabel     = String(content.icoLabel     ?? "IČO:");
   const phone   = String(content.phone   ?? "");
   const email   = String(content.email   ?? "");
   const address = String(content.address ?? "");
   const ico     = String(content.ico     ?? "");
+  const siteMode = String(content.siteMode ?? "multipage");
 
   const DARK   = "#132538";
   const OCHRE  = "#e38a6a";
@@ -5656,48 +5623,43 @@ function FooterReality03({ content, sectionId, tenantSlug, isAdmin }: { content:
   const BORDER = "rgba(255,255,255,0.10)";
   const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || href.startsWith("#")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <footer style={{ backgroundColor: DARK, fontFamily: SANS, color: WHITE }}>
+    <footer data-template="reality-03" style={{ backgroundColor: DARK, fontFamily: SANS, color: WHITE }}>
 
       {/* Agent cards */}
       {agents.length > 0 && (
         <div style={{ borderBottom: `1px solid ${BORDER}` }}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(48px, 7vw, 80px) clamp(20px, 4vw, 64px)" }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "4px", textTransform: "uppercase", margin: "0 0 clamp(24px, 4vw, 40px)" }}>
-              Váš realitní tým
+              <GenericEditableText sectionId={sectionId} field="teamTitle" value={teamTitle} tag="span" />
             </p>
             <div data-r03-agents style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(agents.length, 2)}, 1fr)`, gap: 20 }}>
               {agents.map((agent, i) => (
                 <div
                   key={`r03-agent-${i}`}
-                  style={{ display: "flex", gap: 20, alignItems: "center", backgroundColor: "rgba(255,255,255,0.05)", borderRadius: 8, padding: "clamp(20px, 3vw, 28px)", border: `1px solid ${BORDER}` }}
+                  className="r03-agent-card"
+                  style={{ display: "flex", gap: 20, alignItems: "center", backgroundColor: "rgba(255,255,255,0.05)", borderRadius: 10, padding: "clamp(20px, 3vw, 28px)", border: `1px solid ${BORDER}`, transition: "background 0.3s ease, border-color 0.3s ease, transform 0.3s ease" }}
                 >
                   {agent.image && (
                     <div style={{ width: "clamp(72px, 10vw, 96px)", height: "clamp(72px, 10vw, 96px)", borderRadius: "50%", overflow: "hidden", flexShrink: 0, border: `2px solid rgba(227,138,106,0.4)` }}>
-                      <img loading="lazy" src={agent.image} alt={agent.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+                      <GenericEditableImage sectionId={sectionId} field={`agents.${i}.image`} src={agent.image} alt={agent.name} style={{ width: "100%", height: "100%" }}>
+                        <img loading="lazy" src={agent.image} alt={agent.name} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+                      </GenericEditableImage>
                     </div>
                   )}
                   <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
-                    <p style={{ fontSize: "clamp(1rem, 1.4vw, 1.15rem)", fontWeight: 700, color: WHITE, margin: 0, lineHeight: 1.2 }}>{agent.name}</p>
-                    <p style={{ fontSize: 12, color: OCHRE, margin: 0, fontWeight: 600, letterSpacing: "0.5px" }}>{agent.role}</p>
+                    <GenericEditableText sectionId={sectionId} field={`agents.${i}.name`} value={agent.name} tag="p" style={{ fontSize: "clamp(1rem, 1.4vw, 1.15rem)", fontWeight: 700, color: WHITE, margin: 0, lineHeight: 1.2 }} />
+                    <GenericEditableText sectionId={sectionId} field={`agents.${i}.role`} value={agent.role} tag="p" style={{ fontSize: 12, color: OCHRE, margin: 0, fontWeight: 600, letterSpacing: "0.5px" }} />
                     {agent.phone && (
-                      <a href={`tel:${agent.phone.replace(/\s/g, "")}`} style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s", marginTop: 2 }}
-                        onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                        onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                        {agent.phone}
+                      <a href={`tel:${agent.phone.replace(/\s/g, "")}`} className="r03-foot-link" style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s", marginTop: 2 }}>
+                        <GenericEditableText sectionId={sectionId} field={`agents.${i}.phone`} value={agent.phone} tag="span" />
                       </a>
                     )}
                     {agent.email && (
-                      <a href={`mailto:${agent.email}`} style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                        onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                        onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                        {agent.email}
+                      <a href={`mailto:${agent.email}`} className="r03-foot-link" style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}>
+                        <GenericEditableText sectionId={sectionId} field={`agents.${i}.email`} value={agent.email} tag="span" />
                       </a>
                     )}
                   </div>
@@ -5715,27 +5677,26 @@ function FooterReality03({ content, sectionId, tenantSlug, isAdmin }: { content:
           {/* Logo + tagline */}
           <div>
             <a href={resolve("/")} style={{ textDecoration: "none", display: "inline-flex", flexDirection: "column", marginBottom: 16 }}>
-              <span style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 26, fontWeight: 700, color: WHITE, lineHeight: 1.1, letterSpacing: "-0.3px" }}>Reality Premium</span>
-              <span style={{ fontSize: 10, fontWeight: 600, color: OCHRE, letterSpacing: "2.5px", marginTop: 4, textTransform: "uppercase" }}>Realitní kancelář</span>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: 26, fontWeight: 700, color: WHITE, lineHeight: 1.1, letterSpacing: "-0.3px" }} />
+              <GenericEditableText sectionId={sectionId} field="siteSubtitle" value={siteSubtitle} tag="span" style={{ fontSize: 10, fontWeight: 600, color: OCHRE, letterSpacing: "2.5px", marginTop: 4, textTransform: "uppercase" }} />
             </a>
-            <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.65, margin: 0, maxWidth: 220 }}>
-              Rodinná realitní kancelář s osobním přístupem ke každému klientovi.
-            </p>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p" style={{ fontSize: 13, color: MUTED, lineHeight: 1.65, margin: 0, maxWidth: 230 }} />
           </div>
 
           {/* Navigace */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "3px", textTransform: "uppercase", margin: "0 0 18px" }}>Navigace</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "3px", textTransform: "uppercase", margin: "0 0 18px" }}>
+              <GenericEditableText sectionId={sectionId} field="navTitle" value={navTitle} tag="span" />
+            </p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
               {links.map((l, i) => (
                 <a
                   key={`r03-fl-${i}`}
                   href={resolve(l.href)}
+                  className="r03-foot-link"
                   style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
                 >
-                  {l.label}
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               ))}
             </div>
@@ -5743,23 +5704,21 @@ function FooterReality03({ content, sectionId, tenantSlug, isAdmin }: { content:
 
           {/* Kontakt */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "3px", textTransform: "uppercase", margin: "0 0 18px" }}>Kontakt</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: OCHRE, letterSpacing: "3px", textTransform: "uppercase", margin: "0 0 18px" }}>
+              <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="span" />
+            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {address && (
-                <span style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }}>{address}</span>
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }} />
               )}
               {phone && (
-                <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                  {phone}
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="r03-foot-link" style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                 </a>
               )}
               {email && (
-                <a href={`mailto:${email}`} style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                  {email}
+                <a href={`mailto:${email}`} className="r03-foot-link" style={{ fontSize: 13, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                 </a>
               )}
             </div>
@@ -5769,13 +5728,21 @@ function FooterReality03({ content, sectionId, tenantSlug, isAdmin }: { content:
 
       {/* Copyright bar */}
       <div style={{ borderTop: `1px solid ${BORDER}` }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "18px clamp(20px, 4vw, 64px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ fontSize: 12, color: MUTED }}>
-            © {new Date().getFullYear()} Reality Premium. Všechna práva vyhrazena.
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "18px clamp(20px, 4vw, 64px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <span style={{ fontSize: 12, color: MUTED, display: "inline-flex", flexWrap: "wrap", gap: 6 }}>
+            <span>© {new Date().getFullYear()}</span>
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            <span aria-hidden style={{ opacity: 0.4 }}>·</span>
+            <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+            {ico && (
+              <>
+                <span aria-hidden style={{ opacity: 0.4 }}>·</span>
+                <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" />
+                <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+              </>
+            )}
           </span>
-          {ico && (
-            <span style={{ fontSize: 12, color: MUTED }}>IČO: {ico}</span>
-          )}
+          <WeberoCredit />
         </div>
       </div>
 
@@ -5788,67 +5755,58 @@ function FooterReality03({ content, sectionId, tenantSlug, isAdmin }: { content:
     </footer>
   );
 }
-
 // ── reality-01-footer ─────────────────────────────────────────────────────────
-// Dark #1a3640 bg, gold (#d4a96e) top border 2px
-// 3-col: SVG logo + tagline + FB/IG social pills / navigace / kontakt (adresa/tel/email/hodiny/IČO)
-// Šedý copyright bar dole
-// ─────────────────────────────────────────────────────────────────────────────
 function FooterReality01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName  = String(content.siteName  ?? "Luxusní Nemovitosti");
-  const tagline   = String(content.tagline   ?? "Prémiová realitní kancelář v Praze od roku 1991.");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
+  const logoLine1 = String(content.logoLine1 ?? "DOMUS");
+  const logoLine2 = String(content.logoLine2 ?? "Reality");
+  const tagline   = String(content.tagline   ?? "Prémiová realitní kancelář v Praze od roku 1998.");
+  const address   = String(content.address   ?? "Pařížská 28, 110 00 Praha 1");
   const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
+  const email     = String(content.email     ?? "info@domus-reality.cz");
   const ic        = String(content.ic        ?? "");
   const facebook  = String(content.facebook  ?? "");
   const instagram = String(content.instagram ?? "");
+  const hours     = String(content.hours     ?? "Po–Pá 9:00–18:00");
   const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${logoLine1} ${logoLine2}. Všechna práva vyhrazena.`);
 
   const DARK  = "#1a3640";
   const GOLD  = "#d4a96e";
   const WHITE = "#ffffff";
-  const MUTED = "rgba(255,255,255,0.5)";
+  const MUTED = "rgba(255,255,255,0.45)";
   const FONT  = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
   return (
-    <footer data-template="reality-01-footer" style={{ backgroundColor: DARK, fontFamily: FONT, borderTop: `2px solid ${GOLD}` }}>
-      {/* Main 3-col grid */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "56px clamp(20px, 5vw, 80px) 48px", display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: "40px 48px" }} data-r01-footer-grid>
+    <footer data-template="reality-01" style={{ backgroundColor: DARK, fontFamily: FONT }}>
+      {/* Gold top accent */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${GOLD} 30%, ${GOLD} 70%, transparent)` }} aria-hidden="true" />
+
+      <div className="r01-footer-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "56px clamp(20px,5vw,56px) 48px", display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: "40px 56px" }}>
 
         {/* Col 1: Logo + tagline + social */}
         <div>
-          {/* Wordmark logo */}
-          <div style={{ marginBottom: 16 }}>
-            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="div"
-              style={{ fontSize: 22, fontWeight: 700, letterSpacing: "0.35em", textTransform: "uppercase", color: WHITE, lineHeight: 1.1 }} />
-            <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.4em", textTransform: "uppercase", color: MUTED, textAlign: "center", marginTop: 3 }}>
-              NEMOVITOSTI
-            </div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 18 }}>
+            <GenericEditableText sectionId={sectionId} field="logoLine1" value={logoLine1} tag="span"
+              style={{ fontSize: 22, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: WHITE }} />
+            <span style={{ color: GOLD, fontSize: 22, fontWeight: 200 }}>|</span>
+            <GenericEditableText sectionId={sectionId} field="logoLine2" value={logoLine2} tag="span"
+              style={{ fontSize: 22, fontWeight: 300, letterSpacing: "0.06em", textTransform: "uppercase" as const, color: "rgba(255,255,255,0.7)" }} />
           </div>
           <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
-            style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }} />
-          {/* Social pills */}
+            style={{ fontFamily: BODY, color: MUTED, fontSize: 13, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }} />
+          {/* Social icons */}
           <div style={{ display: "flex", gap: 10 }}>
             {facebook && (
-              <a href={facebook} target="_blank" rel="noopener noreferrer"
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 999, border: `1px solid rgba(255,255,255,0.2)`, color: WHITE, textDecoration: "none", fontSize: 12, fontWeight: 600, transition: "border-color 0.2s, color 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = WHITE; }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                Facebook
+              <a href={facebook} target="_blank" rel="noopener noreferrer" className="r01-footer-social"
+                style={{ width: 38, height: 38, borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.6)", textDecoration: "none", transition: "border-color 0.25s, color 0.25s, background 0.25s" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
               </a>
             )}
             {instagram && (
-              <a href={instagram} target="_blank" rel="noopener noreferrer"
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 16px", borderRadius: 999, border: `1px solid rgba(255,255,255,0.2)`, color: WHITE, textDecoration: "none", fontSize: 12, fontWeight: 600, transition: "border-color 0.2s, color 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)"; e.currentTarget.style.color = WHITE; }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                Instagram
+              <a href={instagram} target="_blank" rel="noopener noreferrer" className="r01-footer-social"
+                style={{ width: 38, height: 38, borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.6)", textDecoration: "none", transition: "border-color 0.25s, color 0.25s, background 0.25s" }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
               </a>
             )}
           </div>
@@ -5856,15 +5814,12 @@ function FooterReality01({ content, sectionId }: { content: Record<string, unkno
 
         {/* Col 2: Navigace */}
         <div>
-          <span style={{ color: WHITE, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", display: "block", marginBottom: 20 }}>Navigace</span>
+          <span style={{ color: WHITE, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", display: "block", marginBottom: 22 }}>Navigace</span>
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {links.map((l, i) => (
-              <li key={`r01-flink-${i}`} style={{ marginBottom: 14 }}>
-                <a href={l.href}
-                  style={{ color: MUTED, textDecoration: "none", fontSize: 13, fontWeight: 500, transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                >
+              <li key={`r01-fl-${i}`} style={{ marginBottom: 14 }}>
+                <a href={l.href} className="r01-footer-link"
+                  style={{ color: MUTED, textDecoration: "none", fontSize: 13, fontWeight: 500, transition: "color 0.2s" }}>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               </li>
@@ -5874,59 +5829,58 @@ function FooterReality01({ content, sectionId }: { content: Record<string, unkno
 
         {/* Col 3: Kontakt */}
         <div>
-          <span style={{ color: WHITE, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", display: "block", marginBottom: 20 }}>Kontakt</span>
+          <span style={{ color: WHITE, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", display: "block", marginBottom: 22 }}>Kontakt</span>
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-            <li style={{ marginBottom: 14, display: "flex", alignItems: "flex-start", gap: 10 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <li style={{ marginBottom: 16, display: "flex", alignItems: "flex-start", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span"
-                style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }} />
+                style={{ fontFamily: BODY, color: MUTED, fontSize: 13, lineHeight: 1.6 }} />
             </li>
-            <li style={{ marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.34 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6.05 6.05l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              <a href={`tel:+420${phone.replace(/\s/g, "")}`}
-                style={{ color: MUTED, textDecoration: "none", fontSize: 13, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-              >
+            <li style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.34 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6.05 6.05l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <a href={`tel:+420${phone.replace(/\s/g,"")}`} className="r01-footer-link"
+                style={{ fontFamily: BODY, color: MUTED, textDecoration: "none", fontSize: 13, transition: "color 0.2s" }}>
                 <GenericEditableText sectionId={sectionId} field="phone" value={`+420 ${phone}`} tag="span" />
               </a>
             </li>
-            <li style={{ marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <a href={`mailto:${email}`}
-                style={{ color: MUTED, textDecoration: "none", fontSize: 13, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-              >
+            <li style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href={`mailto:${email}`} className="r01-footer-link"
+                style={{ fontFamily: BODY, color: MUTED, textDecoration: "none", fontSize: 13, transition: "color 0.2s" }}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             </li>
+            <li style={{ marginBottom: 16, display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span"
+                style={{ fontFamily: BODY, color: MUTED, fontSize: 13 }} />
+            </li>
             {ic && (
               <li style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                 <GenericEditableText sectionId={sectionId} field="ic" value={`IČO: ${ic}`} tag="span"
-                  style={{ color: MUTED, fontSize: 13 }} />
+                  style={{ fontFamily: BODY, color: MUTED, fontSize: 13 }} />
               </li>
             )}
           </ul>
         </div>
       </div>
 
-      {/* Copyright bar */}
+      {/* Copyright bar + WeberoCredit */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "18px clamp(20px, 5vw, 80px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "18px clamp(20px,5vw,56px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span"
             style={{ color: MUTED, fontSize: 12 }} />
-          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Powered by Webero</span>
+          <WeberoCredit />
         </div>
       </div>
 
       <style>{`
         @media (max-width: 900px) {
-          [data-r01-footer-grid] { grid-template-columns: 1fr 1fr !important; }
+          .r01-footer-grid { grid-template-columns: 1fr 1fr !important; }
         }
         @media (max-width: 560px) {
-          [data-r01-footer-grid] { grid-template-columns: 1fr !important; }
+          .r01-footer-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </footer>
@@ -5938,8 +5892,10 @@ function FooterReality01({ content, sectionId }: { content: Record<string, unkno
 // Spodní lišta: copyright vlevo + GDPR odkaz vpravo
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterReality04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const siteName     = String(content.siteName     ?? "Fox Reality");
-  const logoUrl      = String(content.logoUrl      ?? "");
+  const siteMode     = String(content.siteMode ?? "multipage");
+  const siteName     = String(content.siteName     ?? "Rezido reality");
+  const logoUrl      = String(content.logoUrl      ?? "/templates/reality-04/logo.svg");
+  const tagline      = String(content.tagline      ?? "Realitní kancelář s osobním přístupem — pomáháme s prodejem, koupí i pronájmem nemovitostí v Praze a okolí.");
   const address      = String(content.address      ?? "");
   const city         = String(content.city         ?? "");
   const ico          = String(content.ico          ?? "");
@@ -5948,49 +5904,61 @@ function FooterReality04({ content, sectionId, tenantSlug, isAdmin }: { content:
   const facebookUrl  = String(content.facebookUrl  ?? "");
   const instagramUrl = String(content.instagramUrl ?? "");
   const youtubeUrl   = String(content.youtubeUrl   ?? "");
-  const copyright    = String(content.copyright    ?? `© ${siteName}`);
+  const copyright    = String(content.copyright    ?? `© ${siteName}, všechna práva vyhrazena.`);
+  const navTitle     = String(content.navTitle     ?? "Navigace");
+  const servicesTitle = String(content.servicesTitle ?? "Služby");
+  const contactTitle  = String(content.contactTitle  ?? "Kontakt");
+  const gdprLabel    = String(content.gdprLabel    ?? "Ochrana osobních údajů (GDPR)");
+  const gdprHref     = String(content.gdprHref     ?? "/kontakt");
   const links        = (content.links         as Array<{ label: string; href: string }>) ?? [];
   const servicesLinks = (content.servicesLinks as Array<{ label: string; href: string }>) ?? [];
 
-  const BG      = "#1a1a1a";
+  const BG      = "#141414";
   const LINE    = "rgba(255,255,255,0.1)";
   const WHITE   = "#ffffff";
   const MUTED   = "rgba(255,255,255,0.55)";
   const GREEN   = "#21b276";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const ColTitle = ({ children }: { children: React.ReactNode }) => (
-    <div style={{ fontFamily: SANS, fontSize: 11, fontWeight: 700, color: MUTED, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 18 }}>{children}</div>
+  const ColTitle = ({ field, value }: { field: string; value: string }) => (
+    <GenericEditableText sectionId={sectionId} field={field} value={value} tag="div"
+      style={{ fontFamily: SANS, fontSize: 11, fontWeight: 700, color: WHITE, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 18 }} />
   );
 
   const FootLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-    <a href={resolve(href)} style={{ display: "block", fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 10, transition: "color 0.15s" }}
-      onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-      onMouseLeave={e => (e.currentTarget.style.color = MUTED as string)}
+    <a href={resolve(href)} className="r04-foot-link"
+      style={{ display: "block", fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 11, transition: "color 0.18s, padding-left 0.18s" }}
     >{children}</a>
   );
 
+  const Social = ({ href, label, path }: { href: string; label: string; path: React.ReactNode }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="r04-foot-social"
+      style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transition: "background-color 0.2s, transform 0.2s" }}
+    >
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{path}</svg>
+    </a>
+  );
+
   return (
-    <footer style={{ backgroundColor: BG }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(48px, 6vw, 72px) clamp(16px, 3vw, 40px) 0" }}>
+    <footer style={{ backgroundColor: BG }} data-template="reality-04">
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(48px, 6vw, 76px) clamp(16px, 3vw, 40px) 0" }}>
         <div className="r04-footer-grid">
 
-          {/* Sloupec 1 — logo + adresa */}
+          {/* Sloupec 1 — logo + tagline + adresa */}
           <div>
             {logoUrl ? (
-              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block", marginBottom: 20 }}>
-                <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 44, width: "auto", display: "block", filter: "brightness(0) invert(1)" }} />
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block", marginBottom: 18 }}>
+                <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 42, width: "auto", display: "block", filter: "brightness(0) invert(1)" }} />
               </GenericEditableImage>
             ) : (
-              <div style={{ fontFamily: SANS, fontSize: 18, fontWeight: 700, color: WHITE, marginBottom: 20 }}>
+              <div style={{ fontFamily: SANS, fontSize: 18, fontWeight: 700, color: WHITE, marginBottom: 18 }}>
                 <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
               </div>
             )}
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+              style={{ fontFamily: SANS, fontSize: 13.5, color: MUTED, lineHeight: 1.65, margin: "0 0 20px", maxWidth: 300 }} />
             <div style={{ fontFamily: SANS, fontSize: 13, color: MUTED, lineHeight: 1.8 }}>
               <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /><br />
               <GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" /><br />
@@ -6000,7 +5968,7 @@ function FooterReality04({ content, sectionId, tenantSlug, isAdmin }: { content:
 
           {/* Sloupec 2 — navigace */}
           <div>
-            <ColTitle>Navigace</ColTitle>
+            <ColTitle field="navTitle" value={navTitle} />
             {links.map((l, i) => (
               <FootLink key={i} href={l.href}>
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
@@ -6010,7 +5978,7 @@ function FooterReality04({ content, sectionId, tenantSlug, isAdmin }: { content:
 
           {/* Sloupec 3 — služby */}
           <div>
-            <ColTitle>Služby</ColTitle>
+            <ColTitle field="servicesTitle" value={servicesTitle} />
             {servicesLinks.map((l, i) => (
               <FootLink key={i} href={l.href}>
                 <GenericEditableText sectionId={sectionId} field={`servicesLinks.${i}.label`} value={l.label} tag="span" />
@@ -6020,79 +5988,43 @@ function FooterReality04({ content, sectionId, tenantSlug, isAdmin }: { content:
 
           {/* Sloupec 4 — kontakt + sociální sítě */}
           <div>
-            <ColTitle>Kontakt</ColTitle>
+            <ColTitle field="contactTitle" value={contactTitle} />
             {phone && (
-              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ display: "block", fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 10, transition: "color 0.15s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED as string)}
-              >
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="r04-foot-link" style={{ display: "block", fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 11, transition: "color 0.18s" }}>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
             )}
             {email && (
-              <a href={`mailto:${email}`} style={{ display: "block", fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 20, transition: "color 0.15s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED as string)}
-              >
+              <a href={`mailto:${email}`} className="r04-foot-link" style={{ display: "block", fontFamily: SANS, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 22, transition: "color 0.18s" }}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             )}
-            {/* Sociální ikonky */}
             <div style={{ display: "flex", gap: 10 }}>
-              {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                  style={{ width: 34, height: 34, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transition: "background-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = GREEN)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                </a>
-              )}
-              {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                  style={{ width: 34, height: 34, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transition: "background-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = GREEN)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                  </svg>
-                </a>
-              )}
-              {youtubeUrl && (
-                <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" aria-label="YouTube"
-                  style={{ width: 34, height: 34, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transition: "background-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = GREEN)}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-                    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
-                  </svg>
-                </a>
-              )}
+              {facebookUrl && <Social href={facebookUrl} label="Facebook" path={<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>} />}
+              {instagramUrl && <Social href={instagramUrl} label="Instagram" path={<><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></>} />}
+              {youtubeUrl && <Social href={youtubeUrl} label="YouTube" path={<><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></>} />}
             </div>
           </div>
         </div>
 
         {/* Spodní lišta */}
-        <div style={{ borderTop: `1px solid ${LINE}`, marginTop: "clamp(32px, 4vw, 52px)", padding: "20px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+        <div style={{ borderTop: `1px solid ${LINE}`, marginTop: "clamp(32px, 4vw, 52px)", padding: "22px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ fontFamily: SANS, fontSize: 12, color: MUTED }}>
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </span>
-          <a href="#gdpr" style={{ fontFamily: SANS, fontSize: 12, color: MUTED, textDecoration: "none", transition: "color 0.15s" }}
-            onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-            onMouseLeave={e => (e.currentTarget.style.color = MUTED as string)}
-          >Ochrana osobních údajů (GDPR)</a>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <a href={resolve(gdprHref)} className="r04-foot-link" style={{ fontFamily: SANS, fontSize: 12, color: MUTED, textDecoration: "none", transition: "color 0.18s" }}>
+              <GenericEditableText sectionId={sectionId} field="gdprLabel" value={gdprLabel} tag="span" />
+            </a>
+            <WeberoCredit />
+          </div>
         </div>
       </div>
 
       <style>{`
-        .r04-footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: clamp(24px, 3vw, 48px); }
+        .r04-footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: clamp(24px, 3vw, 48px); }
+        [data-template="reality-04"] .r04-foot-link:hover { color: #ffffff !important; }
+        [data-template="reality-04"] a.r04-foot-social:hover { background-color: #21b276 !important; transform: translateY(-2px); }
         @media (max-width: 900px) { .r04-footer-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 480px) { .r04-footer-grid { grid-template-columns: 1fr; } }
       `}</style>
@@ -6101,9 +6033,6 @@ function FooterReality04({ content, sectionId, tenantSlug, isAdmin }: { content:
 }
 
 // ── reality-05-footer ─────────────────────────────────────────────────────────
-// Zlatý quick-contact bar nahoře; tmavý 3-col (logo+tagline | nav | kontakt);
-// copyright lišta #2a2a2a
-// ─────────────────────────────────────────────────────────────────────────────
 function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const siteName         = String(content.siteName         ?? "Pavel Červenka");
   const logoUrl          = String(content.logoUrl          ?? "");
@@ -6111,6 +6040,8 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
   const quickContactText = String(content.quickContactText ?? "");
   const quickContactCta  = String(content.quickContactCta  ?? "Kontakt");
   const quickContactHref = String(content.quickContactHref ?? "#kontakt");
+  const navColumnTitle   = String(content.navColumnTitle   ?? "Navigace");
+  const contactColumnTitle = String(content.contactColumnTitle ?? "Kontakt");
   const address          = String(content.address          ?? "");
   const phone            = String(content.phone            ?? "");
   const email            = String(content.email            ?? "");
@@ -6120,6 +6051,7 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
   const instagram        = String(content.instagram        ?? "");
   const copyright        = String(content.copyright        ?? `© ${siteName}`);
   const links            = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode         = String(content.siteMode ?? "multipage");
 
   const GOLD  = "#CFA968";
   const DARK  = "#1c1c1c";
@@ -6128,30 +6060,23 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
   const MUTED = "rgba(255,255,255,0.55)";
   const FONT  = "'Open Sans', sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const FootLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
-    <a href={resolve(href)}
-      style={{ display: "block", fontFamily: FONT, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 10, transition: "color 0.15s" }}
-      onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-      onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
+    <a href={resolve(href)} className="r05-foot-link"
+      style={{ display: "block", fontFamily: FONT, fontSize: 14, color: MUTED, textDecoration: "none", marginBottom: 10, transition: "color 0.2s" }}
     >{children}</a>
   );
 
   return (
-    <footer data-template="reality-05-footer" style={{ fontFamily: FONT }}>
+    <footer data-template="reality-05" style={{ fontFamily: FONT }}>
       {/* Golden quick-contact bar */}
-      <div style={{ backgroundColor: GOLD, padding: "clamp(18px,2.5vw,28px) clamp(16px,3vw,40px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+      <div className="r05-footer-cta-bar" style={{ backgroundColor: GOLD, padding: "clamp(18px,2.5vw,28px) clamp(16px,3vw,40px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
         <span style={{ fontSize: "clamp(14px,1.3vw,17px)", color: DARK, fontWeight: 600, maxWidth: 640 }}>
           <GenericEditableText sectionId={sectionId} field="quickContactText" value={quickContactText} tag="span" />
         </span>
-        <a href={resolve(quickContactHref)}
-          style={{ display: "inline-block", backgroundColor: DARK, color: WHITE, fontFamily: FONT, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", padding: "12px 28px", transition: "opacity 0.2s", flexShrink: 0 }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+        <a href={resolve(quickContactHref)} className="r05-footer-cta-btn"
+          style={{ display: "inline-block", backgroundColor: DARK, color: WHITE, fontFamily: FONT, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", padding: "12px 28px", transition: "background-color 0.25s, color 0.25s", flexShrink: 0 }}
         >
           <GenericEditableText sectionId={sectionId} field="quickContactCta" value={quickContactCta} tag="span" />
         </a>
@@ -6181,22 +6106,14 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
               {/* Social icons */}
               <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
                 {facebook && (
-                  <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                    style={{ width: 36, height: 36, backgroundColor: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transition: "background-color 0.2s" }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD)}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
-                  >
+                  <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="r05-footer-social">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                     </svg>
                   </a>
                 )}
                 {instagram && (
-                  <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                    style={{ width: 36, height: 36, backgroundColor: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", justifyContent: "center", textDecoration: "none", transition: "background-color 0.2s" }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD)}
-                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)")}
-                  >
+                  <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="r05-footer-social">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -6209,7 +6126,9 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
 
             {/* Col 2 — navigation */}
             <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Navigace</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>
+                <GenericEditableText sectionId={sectionId} field="navColumnTitle" value={navColumnTitle} tag="span" />
+              </div>
               {links.map((l, i) => (
                 <FootLink key={i} href={l.href}>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
@@ -6219,25 +6138,21 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
 
             {/* Col 3 — contact details */}
             <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Kontakt</div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: GOLD, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>
+                <GenericEditableText sectionId={sectionId} field="contactColumnTitle" value={contactColumnTitle} tag="span" />
+              </div>
               <div style={{ fontSize: 13, color: MUTED, lineHeight: 2 }}>
                 {address && <div><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></div>}
                 {phone && (
                   <div>
-                    <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: MUTED, textDecoration: "none", transition: "color 0.15s" }}
-                      onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                      onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                    >
+                    <a href={`tel:${phone.replace(/\s/g, "")}`} className="r05-foot-link" style={{ color: MUTED, textDecoration: "none", transition: "color 0.2s" }}>
                       <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                     </a>
                   </div>
                 )}
                 {email && (
                   <div>
-                    <a href={`mailto:${email}`} style={{ color: MUTED, textDecoration: "none", transition: "color 0.15s" }}
-                      onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                      onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                    >
+                    <a href={`mailto:${email}`} className="r05-foot-link" style={{ color: MUTED, textDecoration: "none", transition: "color 0.2s" }}>
                       <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                     </a>
                   </div>
@@ -6251,21 +6166,17 @@ function FooterReality05({ content, sectionId, tenantSlug, isAdmin }: { content:
         </div>
       </div>
 
-      {/* Copyright bar */}
-      <div style={{ backgroundColor: BAR, padding: "14px clamp(16px,3vw,40px)", textAlign: "center" }}>
+      {/* Copyright bar + WeberoCredit */}
+      <div style={{ backgroundColor: BAR, padding: "14px clamp(16px,3vw,40px)", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
         <span style={{ fontSize: 12, color: MUTED, fontFamily: FONT }}>
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
         </span>
+        <WeberoCredit />
       </div>
-
-      <style>{`
-        .r05-footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1.4fr; gap: clamp(24px,4vw,56px); }
-        @media (max-width: 768px) { .r05-footer-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 480px) { .r05-footer-grid { grid-template-columns: 1fr; } }
-      `}</style>
     </footer>
   );
 }
+
 
 // ── reality-06-footer ─────────────────────────────────────────────────────────
 // Ref: jansrubar.cz — tmavě modrá #1C2B6B, agent foto + jméno + pill kontakty + SLUŽBY + NEMOVITOSTI
@@ -6276,8 +6187,8 @@ function FooterReality06({
   const PRIMARY = "#263A82";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const siteName    = String(content.siteName    ?? "Jan Šrubař");
-  const agentImage  = String(content.agentImage  ?? "/clones/srubar/images/jan.png");
+  const siteName    = String(content.siteName    ?? "Dominik Krejčí");
+  const agentImage  = String(content.agentImage  ?? "/templates/reality-06/agent.webp");
   const phone       = String(content.phone       ?? "");
   const email       = String(content.email       ?? "");
   const whatsapp    = String(content.whatsapp    ?? "");
@@ -6288,7 +6199,8 @@ function FooterReality06({
   const serviceLinks  = (content.serviceLinks  as Array<{ label: string; href: string }>) ?? [];
   const propertyLinks = (content.propertyLinks as Array<{ label: string; href: string }>) ?? [];
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <footer style={{ backgroundColor: BG, color: "#fff" }} data-template="reality-06-footer">
@@ -6309,12 +6221,12 @@ function FooterReality06({
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,48px)" }}>
         <div className="r06f-grid">
 
-          {/* Col 0 — agent photo + squircle blob */}
+          {/* Col 0 — agent squircle avatar */}
           <div className="r06f-photo-col" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ position: "relative", width: 148, height: 190, flexShrink: 0 }}>
-              <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 128, height: 158, backgroundColor: "#3D50A8", borderRadius: "48px 48px 40px 40px" }} />
-              <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={siteName} style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)" }}>
-                <img loading="lazy" src={agentImage} alt={siteName} style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 148, height: 190, objectFit: "contain", objectPosition: "bottom center", pointerEvents: "none" }} />
+            <div style={{ position: "relative", width: 136, height: 168, flexShrink: 0 }}>
+              <div aria-hidden="true" style={{ position: "absolute", inset: "8px -8px -8px 8px", backgroundColor: "#3D50A8", borderRadius: "44px 44px 38px 38px" }} />
+              <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={siteName} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                <img loading="lazy" src={agentImage} alt={siteName} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", borderRadius: "44px 44px 38px 38px", boxShadow: "0 12px 30px rgba(0,0,0,0.28)", pointerEvents: "none" }} />
               </GenericEditableImage>
             </div>
           </div>
@@ -6376,12 +6288,15 @@ function FooterReality06({
         </div>
 
         {/* Copyright bar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "14px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "14px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px 18px" }}>
           <p style={{ fontFamily: SANS, fontSize: 12, color: "rgba(255,255,255,0.38)", margin: 0 }}>{copyright}</p>
-          <a href={resolve("/gdpr")} style={{ fontFamily: SANS, fontSize: 12, color: "rgba(255,255,255,0.38)", textDecoration: "none" }}
-            onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
-            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.38)")}
-          >GDPR</a>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            <a href={resolve("/gdpr")} style={{ fontFamily: SANS, fontSize: 12, color: "rgba(255,255,255,0.38)", textDecoration: "none" }}
+              onMouseEnter={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
+              onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.38)")}
+            >GDPR</a>
+            <WeberoCredit />
+          </div>
         </div>
       </div>
     </footer>
@@ -6403,7 +6318,7 @@ function FooterAutoservis02({ content, sectionId, tenantSlug, isAdmin }: {
   const SANS = "'Open Sans', Arial, sans-serif";
   const siteMode = String(content.siteMode ?? "multipage");
 
-  const siteName     = String(content.siteName ?? "Demo GARANT Autoservis");
+  const siteName     = String(content.siteName ?? "Demo MOTORA Autoservis");
   const logoUrl      = String(content.logoUrl ?? "");
   const logoSub      = String(content.logoSub ?? "autoservis");
   const tagline      = String(content.tagline ?? "Profesionální autoservis — kvalitně, rychle a za férovou cenu.");
@@ -6690,6 +6605,28 @@ function FooterAutoservis03({ content, sectionId }: { content: Record<string, un
 
   return (
     <footer data-template="autoservis-03" className="a03-ft">
+      <style>{`
+        .a03-ft { position: relative; background: #080808; font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; }
+        .a03-ft-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right,#f97316,#c2410c 55%,transparent); }
+        .a03-ft-wrap { max-width: 1220px; margin: 0 auto; padding: clamp(48px,6vw,72px) 24px 0; }
+        .a03-ft-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: clamp(32px,5vw,60px); padding-bottom: clamp(36px,5vw,54px); }
+        .a03-ft-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .a03-ft-mark { width: 40px; height: 40px; border-radius: 11px; background: linear-gradient(135deg,#f97316,#c2410c); display: inline-flex; align-items: center; justify-content: center; color: #0a0a0a; flex-shrink: 0; box-shadow: 0 4px 14px rgba(249,115,22,0.35); }
+        .a03-ft-name { font-size: 18px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
+        .a03-ft-tag { font-size: 14px; color: #9ca3af; margin: 0 0 18px; line-height: 1.6; }
+        .a03-ft-social { display: flex; gap: 10px; }
+        .a03-ft-soc { width: 38px; height: 38px; border-radius: 10px; border: 1px solid #262626; background: #121212; color: #9ca3af; display: inline-flex; align-items: center; justify-content: center; transition: color .2s, border-color .2s, transform .2s; }
+        .a03-ft-soc:hover { color: #f97316; border-color: rgba(249,115,22,0.45); transform: translateY(-2px); }
+        .a03-ft-h4 { font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6b7280; margin: 6px 0 16px; }
+        .a03-ft-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+        .a03-ft-contact { display: flex; flex-direction: column; gap: 10px; }
+        .a03-ft-link { font-size: 14.5px; color: #d1d5db; text-decoration: none; transition: color .2s; }
+        .a03-ft-link:hover { color: #f97316; }
+        .a03-ft-addr { font-size: 14.5px; color: #9ca3af; line-height: 1.6; }
+        .a03-ft-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid #1c1c1c; padding: 20px 0 26px; }
+        .a03-ft-copy { font-size: 13px; color: #6b7280; }
+        @media (max-width: 800px) { .a03-ft-grid { grid-template-columns: 1fr; gap: 30px; } }
+      `}</style>
       <div aria-hidden="true" className="a03-ft-accent" />
       <div className="a03-ft-wrap">
         <div className="a03-ft-grid">
@@ -7013,66 +6950,77 @@ function FooterOrtho01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 }
 
 // ── ortho-02-footer ───────────────────────────────────────────────────────────
-function FooterOrtho02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function FooterOrtho02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const BEIGE = "#B7B3A5";
   const DARK  = "#1a1a1a";
-  const FONT  = "'Raleway', 'Montserrat', Arial, sans-serif";
+  const GOLD  = "#b39f6b";
+  const FONT  = "'Raleway', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Raleway', Arial, sans-serif";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => {
+    if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+      return resolveDemoHref(href, tenantSlug, isAdmin);
+    }
+    if (siteMode === "onepage") {
+      const slug = href.replace(/^\//, "");
+      return resolveDemoHref("/", tenantSlug, isAdmin) + "#" + slug;
+    }
+    return resolveDemoHref(href, tenantSlug, isAdmin);
+  };
 
   type Link = { label: string; href: string };
 
-  const siteName  = String(content.siteName  ?? "Perfect Smile");
-  const tagline   = String(content.tagline   ?? "Ortodoncie Praha");
-  const phone     = String(content.phone     ?? "");
-  const email     = String(content.email     ?? "");
-  const address   = String(content.address   ?? "");
-  const hours     = String(content.hours     ?? "");
-  const ico       = String(content.ico       ?? "");
-  const igHref    = String(content.igHref    ?? "");
-  const fbHref    = String(content.fbHref    ?? "");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
+  const siteName  = String(content.siteName  ?? "Harmony Ortho");
+  const tagline   = String(content.tagline   ?? "Ortodontická klinika · Praha");
+  const phone     = String(content.phone     ?? "+420 222 333 444");
+  const email     = String(content.email     ?? "info@harmonyortho.cz");
+  const address   = String(content.address   ?? "Vinohradská 48, 120 00 Praha 2");
+  const hours     = String(content.hours     ?? "Po–Pá 8:00–18:00");
+  const ico       = String(content.ico       ?? "12345678");
+  const igHref    = String(content.igHref    ?? "https://instagram.com/demo");
+  const fbHref    = String(content.fbHref    ?? "https://facebook.com/demo");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName} s.r.o.`);
   const links     = (content.links as Link[]) ?? [];
+
+  const contactLabel = String((content as Record<string,unknown>).contactLabel ?? "Kontakt");
+  const hoursLabel   = String((content as Record<string,unknown>).hoursLabel   ?? "Ordinační hodiny");
+  const navLabel     = String((content as Record<string,unknown>).navLabel     ?? "Navigace");
 
   return (
     <footer
-      data-section-type="footer"
-      data-variant="ortho-02-footer"
-      style={{ backgroundColor: DARK, color: "#fff", fontFamily: FONT, padding: "clamp(48px, 6vw, 72px) 0 0" }}
+      data-template="ortho-02"
+      style={{ backgroundColor: DARK, color: "#fff", fontFamily: FONT, padding: "clamp(56px, 7vw, 80px) 0 0" }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
+        <div className="o02-ft-grid" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr 1fr", gap: "clamp(28px, 4vw, 56px)", marginBottom: "clamp(40px, 5vw, 56px)" }}>
 
-        {/* Grid: logo+tagline | kontakt | navigace | social */}
-        <div className="o02-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr 1fr", gap: "clamp(28px, 4vw, 56px)", marginBottom: "clamp(36px, 5vw, 56px)" }}>
-
-          {/* Col 1: Wordmark + tagline */}
+          {/* Col 1: Logo + tagline + social */}
           <div>
-            <div style={{ marginBottom: 18 }}>
-              {/* Hidden editable handle — SVG text can't contain React children */}
-              <span style={{ display: "none" }}>
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </span>
-              <svg viewBox="0 0 300 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 24, display: "block" }}>
-                <text x="0" y="26" fontFamily="'Raleway','Helvetica Neue',Arial,sans-serif" fontWeight="300" fontSize="24" letterSpacing="6" fill={BEIGE}>{siteName.toUpperCase()}</text>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" style={{ display: "none" }} />
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2z" stroke={GOLD} strokeWidth="1" fill="none" opacity="0.4"/>
+                <path d="M10 20c1.5-3 3.5-5 6-5s4.5 2 6 5" stroke={GOLD} strokeWidth="1.3" strokeLinecap="round" fill="none"/>
+                <circle cx="12.5" cy="13.5" r="1" fill={GOLD}/>
+                <circle cx="19.5" cy="13.5" r="1" fill={GOLD}/>
               </svg>
+              <span style={{ fontFamily: FONT, fontWeight: 300, fontSize: "1rem", letterSpacing: "0.2em", textTransform: "uppercase" as const, color: BEIGE }}>{siteName.toUpperCase()}</span>
             </div>
-            <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", margin: "0 0 20px", lineHeight: 1.6, maxWidth: 220 }}>
+            <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.4)", margin: "0 0 22px", lineHeight: 1.6, maxWidth: 240, fontFamily: FONT_B }}>
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
-            {/* Social icons */}
             <div style={{ display: "flex", gap: 10 }}>
               {igHref && (
-                <a href={igHref} target="_blank" rel="noopener" style={{ width: 34, height: 34, borderRadius: 2, border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.18s" }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = BEIGE; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <a href={igHref} target="_blank" rel="noopener" className="o02-ft-social" style={{ width: 36, height: 36, borderRadius: 4, border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.3s, background-color 0.3s" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
                   </svg>
                 </a>
               )}
               {fbHref && (
-                <a href={fbHref} target="_blank" rel="noopener" style={{ width: 34, height: 34, borderRadius: 2, border: "1px solid rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.18s" }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = BEIGE; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)">
+                <a href={fbHref} target="_blank" rel="noopener" className="o02-ft-social" style={{ width: 36, height: 36, borderRadius: 4, border: "1px solid rgba(255,255,255,0.12)", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.3s, background-color 0.3s" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)">
                     <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
                   </svg>
                 </a>
@@ -7082,37 +7030,44 @@ function FooterOrtho02({ content, sectionId }: { content: Record<string, unknown
 
           {/* Col 2: Kontakt */}
           <div>
-            <p style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: BEIGE, margin: "0 0 16px" }}>Kontakt</p>
+            <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 18px" }}>
+              <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span" />
+            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {address && <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.5 }}>
+              <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.5, fontFamily: FONT_B }}>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-              </span>}
-              {phone && <a href={`tel:${phone}`} style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>
+              </span>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="o02-ft-link" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", fontFamily: FONT_B, transition: "color 0.2s" }}>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-              </a>}
-              {email && <a href={`mailto:${email}`} style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.55)", textDecoration: "none" }}>
+              </a>
+              <a href={`mailto:${email}`} className="o02-ft-link" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", fontFamily: FONT_B, transition: "color 0.2s" }}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-              </a>}
+              </a>
             </div>
           </div>
 
-          {/* Col 3: Provozní doba */}
+          {/* Col 3: Hodiny + IČO */}
           <div>
-            <p style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: BEIGE, margin: "0 0 16px" }}>Ordinační hodiny</p>
-            <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.6 }}>
+            <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 18px" }}>
+              <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
+            </p>
+            <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.7, fontFamily: FONT_B }}>
               <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
             </span>
-            {ico && <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", margin: "16px 0 0" }}>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></p>}
+            {ico && <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.25)", margin: "18px 0 0", fontFamily: FONT_B }}>
+              <GenericEditableText sectionId={sectionId} field="icoLabel" value="IČO: " tag="span" />
+              <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+            </p>}
           </div>
 
           {/* Col 4: Navigace */}
           <div>
-            <p style={{ fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: BEIGE, margin: "0 0 16px" }}>Navigace</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+            <p style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 18px" }}>
+              <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="span" />
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {links.map((l, i) => (
-                <a key={i} href={l.href} style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.5)", textDecoration: "none", transition: "color 0.18s" }}
-                  onMouseEnter={e => { e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
+                <a key={i} href={resolve(l.href)} className="o02-ft-link" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", textDecoration: "none", fontFamily: FONT_B, transition: "color 0.25s" }}>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               ))}
@@ -7121,40 +7076,39 @@ function FooterOrtho02({ content, sectionId }: { content: Record<string, unknown
         </div>
 
         {/* Copyright bar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "18px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.25)" }}>
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "20px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+          <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.22)", fontFamily: FONT_B }}>
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </span>
-          <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.15)" }}>Powered by Webero</span>
+          <WeberoCredit />
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 900px) { .o02-footer-grid { grid-template-columns: 1fr 1fr !important; } }
-        @media (max-width: 480px) { .o02-footer-grid { grid-template-columns: 1fr !important; } }
-      `}</style>
     </footer>
   );
 }
 
 /* ─── FooterLawyer01 ─────────────────────────────────────────── */
-function FooterLawyer01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function FooterLawyer01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const NAVY    = "#141760";
   const CRIMSON = "#a70336";
   const HEADING = "'Raleway','Montserrat','Helvetica Neue',Arial,sans-serif";
   const BODY    = "'Open Sans','Helvetica Neue',Arial,sans-serif";
 
-  const siteName   = String(content.siteName  ?? "SVOBODA & PARTNERS");
+  const siteName   = String(content.siteName  ?? "NOVOTNÝ & PARTNEŘI");
   const tagline    = String(content.tagline   ?? "");
-  const logoUrl    = String(content.logoUrl   ?? "");
   const email      = String(content.email     ?? "");
   const phone      = String(content.phone     ?? "");
   const address    = String(content.address   ?? "");
   const ico        = String(content.ico       ?? "");
+  const icoLabel   = String(content.icoLabel  ?? "IČO:");
+  const navLabel   = String(content.navLabel  ?? "Navigace");
+  const legalLabel = String(content.legalLabel ?? "Právní informace");
   const copyright  = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
   const links      = Array.isArray(content.links)      ? content.links      as Array<{ label: string; href: string }> : [];
   const legalLinks = Array.isArray(content.legalLinks) ? content.legalLinks as Array<{ label: string; href: string }> : [];
   const socials    = Array.isArray(content.socials)    ? content.socials    as Array<{ icon: string; href: string; label: string }> : [];
+  const siteMode   = String(content.siteMode ?? "multipage");
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const SocialIcon = ({ name }: { name: string }) => {
     const p = { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
@@ -7166,73 +7120,66 @@ function FooterLawyer01({ content, sectionId }: { content: Record<string, unknow
   const displayName = siteName.replace(/^Demo\s+/i, "");
 
   return (
-    <footer data-variant="lawyer-01-footer" style={{ backgroundColor: NAVY, color: "#fff" }}>
+    <footer data-template="lawyer-01" data-variant="lawyer-01-footer" style={{ backgroundColor: NAVY, color: "#fff", borderTop: `3px solid ${CRIMSON}` }}>
       <style>{`
-        @media (max-width: 860px) {
-          .l01-footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 540px) {
-          .l01-footer-grid { grid-template-columns: 1fr !important; }
-        }
+        .l01ft-link{position:relative;font-family:${BODY};font-size:0.9rem;color:rgba(255,255,255,0.7);text-decoration:none;width:fit-content;transition:color .2s ease,padding-left .22s ease;}
+        .l01ft-link::before{content:"";position:absolute;left:-12px;top:50%;transform:translateY(-50%) scaleX(0);width:7px;height:1.5px;background:${CRIMSON};transform-origin:left;transition:transform .25s ease;}
+        .l01ft-link:hover{color:#fff;padding-left:12px;}
+        .l01ft-link:hover::before{transform:translateY(-50%) scaleX(1);}
+        .l01ft-contact{font-family:${BODY};font-size:0.9rem;color:rgba(255,255,255,0.78);text-decoration:none;transition:color .2s ease;}
+        .l01ft-contact:hover{color:#f4b8cb;}
+        .l01ft-soc{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid rgba(255,255,255,0.22);color:rgba(255,255,255,0.75);transition:border-color .22s ease,color .22s ease,background .22s ease,transform .22s ease;}
+        .l01ft-soc:hover{border-color:${CRIMSON};background:${CRIMSON};color:#fff;transform:translateY(-2px);}
+        @media (max-width: 860px) { .l01-footer-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 540px) { .l01-footer-grid { grid-template-columns: 1fr !important; } .l01ft-bottom { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; } }
       `}</style>
 
       {/* Main footer body */}
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "64px 32px 48px" }}>
+      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "clamp(56px,6vw,72px) 32px 44px" }}>
         <div
           className="l01-footer-grid"
           style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "clamp(32px,5vw,72px)" }}
         >
           {/* Brand col */}
           <div>
-            {logoUrl ? (
-              <img loading="lazy" src={logoUrl} alt={displayName} style={{ height: 36, marginBottom: 20, filter: "brightness(0) invert(1)" }} />
-            ) : (
-              <p style={{ fontFamily: HEADING, fontSize: "1.15rem", fontWeight: 700, color: "#fff", margin: "0 0 20px", letterSpacing: "0.06em" }}>
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </p>
-            )}
+            <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", display: "inline-flex", flexDirection: "column", alignItems: "flex-start", gap: 4, marginBottom: 20 }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={displayName} tag="span"
+                style={{ fontFamily: HEADING, fontSize: "1.3rem", fontWeight: 800, color: "#fff", letterSpacing: "0.13em", textTransform: "uppercase", lineHeight: 1, borderBottom: `2px solid ${CRIMSON}`, paddingBottom: 4 }} />
+            </a>
             {tagline && (
-              <p style={{ fontFamily: BODY, fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, margin: "0 0 28px", maxWidth: 280 }}>
+              <p style={{ fontFamily: BODY, fontSize: "0.9rem", color: "rgba(255,255,255,0.62)", lineHeight: 1.7, margin: "6px 0 26px", maxWidth: 300 }}>
                 <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
               </p>
             )}
             {/* contact info */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
               {phone && (
-                <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: BODY, fontSize: "0.875rem", color: "rgba(255,255,255,0.8)", textDecoration: "none" }}>
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="l01ft-contact">
                   <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                 </a>
               )}
               {email && (
-                <a href={`mailto:${email}`} style={{ fontFamily: BODY, fontSize: "0.875rem", color: "rgba(255,255,255,0.8)", textDecoration: "none" }}>
+                <a href={`mailto:${email}`} className="l01ft-contact">
                   <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                 </a>
               )}
               {address && (
-                <span style={{ fontFamily: BODY, fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>
+                <span style={{ fontFamily: BODY, fontSize: "0.9rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.55 }}>
                   <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
                 </span>
               )}
               {ico && (
-                <span style={{ fontFamily: BODY, fontSize: "0.8rem", color: "rgba(255,255,255,0.45)" }}>
-                  IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+                <span style={{ fontFamily: BODY, fontSize: "0.82rem", color: "rgba(255,255,255,0.42)" }}>
+                  <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" />{" "}
+                  <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
                 </span>
               )}
             </div>
             {/* socials */}
             {socials.length > 0 && (
-              <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
+              <div style={{ display: "flex", gap: 12, marginTop: 26 }}>
                 {socials.map((s, i) => (
-                  <a
-                    key={i}
-                    href={s.href}
-                    aria-label={s.label}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.75)", transition: "border-color 0.18s, color 0.18s" }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = CRIMSON; el.style.color = "#fff"; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = "rgba(255,255,255,0.25)"; el.style.color = "rgba(255,255,255,0.75)"; }}
-                  >
+                  <a key={i} href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer" className="l01ft-soc">
                     <SocialIcon name={s.icon} />
                   </a>
                 ))}
@@ -7242,14 +7189,12 @@ function FooterLawyer01({ content, sectionId }: { content: Record<string, unknow
 
           {/* Nav links col */}
           <div>
-            <p style={{ fontFamily: HEADING, fontSize: "0.78rem", fontWeight: 700, color: CRIMSON, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 20px" }}>Navigace</p>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+            <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="p"
+              style={{ fontFamily: HEADING, fontSize: "0.76rem", fontWeight: 700, color: CRIMSON, letterSpacing: "0.16em", textTransform: "uppercase", margin: "0 0 22px" }} />
+            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
               {links.map((l, i) => (
                 <li key={i}>
-                  <a href={l.href} style={{ fontFamily: BODY, fontSize: "0.88rem", color: "rgba(255,255,255,0.72)", textDecoration: "none", transition: "color 0.15s" }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.72)"; }}
-                  >
+                  <a href={resolve(l.href)} className="l01ft-link">
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   </a>
                 </li>
@@ -7260,14 +7205,12 @@ function FooterLawyer01({ content, sectionId }: { content: Record<string, unknow
           {/* Legal links col */}
           {legalLinks.length > 0 && (
             <div>
-              <p style={{ fontFamily: HEADING, fontSize: "0.78rem", fontWeight: 700, color: CRIMSON, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 20px" }}>Právní informace</p>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+              <GenericEditableText sectionId={sectionId} field="legalLabel" value={legalLabel} tag="p"
+                style={{ fontFamily: HEADING, fontSize: "0.76rem", fontWeight: 700, color: CRIMSON, letterSpacing: "0.16em", textTransform: "uppercase", margin: "0 0 22px" }} />
+              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
                 {legalLinks.map((l, i) => (
                   <li key={i}>
-                    <a href={l.href} style={{ fontFamily: BODY, fontSize: "0.88rem", color: "rgba(255,255,255,0.72)", textDecoration: "none", transition: "color 0.15s" }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.72)"; }}
-                    >
+                    <a href={resolve(l.href)} className="l01ft-link">
                       <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label} tag="span" />
                     </a>
                   </li>
@@ -7280,11 +7223,11 @@ function FooterLawyer01({ content, sectionId }: { content: Record<string, unknow
 
       {/* Bottom bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-        <div style={{ maxWidth: 1180, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+        <div className="l01ft-bottom" style={{ maxWidth: 1180, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
           <span style={{ fontFamily: BODY, fontSize: "0.8rem", color: "rgba(255,255,255,0.45)" }}>
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </span>
-          <div style={{ width: 36, height: 2, backgroundColor: CRIMSON }} />
+          <WeberoCredit />
         </div>
       </div>
     </footer>
@@ -7298,20 +7241,23 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
   const WHITE  = "#ffffff";
   const FONT   = "'Inter', sans-serif";
 
-  const siteName    = String(content.siteName    ?? "Stavební Firma");
+  const siteName    = String(content.siteName    ?? "Stavba Design");
   const tagline     = String(content.tagline     ?? "");
   const email       = String(content.email       ?? "");
   const phone       = String(content.phone       ?? "");
   const address     = String(content.address     ?? "");
   const companyName = String(content.companyName ?? "");
   const ico         = String(content.ico         ?? "");
+  const dic         = String(content.dic         ?? "");
+  const navLabel    = String(content.navLabel    ?? "Navigace");
+  const firmLabel   = String(content.firmLabel   ?? "Firma");
+  const icoLabel    = String(content.icoLabel    ?? "IČO:");
+  const dicLabel    = String(content.dicLabel    ?? "DIČ:");
+  const legalText   = String(content.legalText   ?? "Všechna práva vyhrazena.");
+  const siteMode    = String(content.siteMode    ?? "multipage");
   const links       = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  const resolve = (href: string) => {
-    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
-    if (tenantSlug) return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href.startsWith("/") ? href : "/" + href}`;
-    return href;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const LogoMark = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 44" fill="none" style={{ width: 200, height: 34 }} aria-label={siteName}>
@@ -7320,14 +7266,14 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
       <rect x="2" y="26" width="29" height="9"  rx="2" fill={WHITE}/>
       <rect x="2" y="37" width="29" height="4"  rx="2" fill={ORANGE}/>
       <text fontFamily="'Inter', sans-serif" fontWeight="700" fontSize="19" fill={WHITE} letterSpacing="-0.3">
-        <tspan x="40" y="28">STAVEBNÍ</tspan>
-        <tspan fill={ORANGE} fontWeight="500" fontSize="18" dx="6">FIRMA</tspan>
+        <tspan x="40" y="28">STAVBA</tspan>
+        <tspan fill={ORANGE} fontWeight="500" fontSize="18" dx="6">DESIGN</tspan>
       </text>
     </svg>
   );
 
   return (
-    <footer style={{ backgroundColor: DARK, fontFamily: FONT, paddingTop: "clamp(56px,7vw,88px)" }} data-template="stavba-01">
+    <footer style={{ backgroundColor: DARK, fontFamily: FONT, paddingTop: "clamp(56px,7vw,88px)", borderTop: `3px solid ${ORANGE}` }} data-template="stavba-01">
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
         <div className="stavba-footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, paddingBottom: 56 }}>
 
@@ -7339,12 +7285,12 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
             </p>}
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {phone && <a href={`tel:+420${phone.replace(/\s/g,"")}`} style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.875rem", textDecoration: "none", display: "flex", alignItems: "center", gap: 8, transition: "color 0.15s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}>
+                onMouseEnter={e => (e.currentTarget.style.color = ORANGE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72c.12.97.33 1.93.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.88.37 1.84.58 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>}
               {email && <a href={`mailto:${email}`} style={{ color: "rgba(255,255,255,0.65)", fontSize: "0.875rem", textDecoration: "none", display: "flex", alignItems: "center", gap: 8, transition: "color 0.15s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = WHITE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}>
+                onMouseEnter={e => (e.currentTarget.style.color = ORANGE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.65)")}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>}
@@ -7357,11 +7303,12 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
 
           {/* Nav links */}
           <div>
-            <h4 style={{ color: WHITE, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.10em", textTransform: "uppercase", margin: "0 0 20px" }}>Navigace</h4>
+            <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="h4"
+              style={{ color: WHITE, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.10em", textTransform: "uppercase", margin: "0 0 20px" }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {links.map((l, i) => (
-                <a key={i} href={resolve(l.href)} style={{ color: "rgba(255,255,255,0.60)", fontSize: "0.875rem", textDecoration: "none", transition: "color 0.15s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = WHITE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.60)")}>
+                <a key={i} href={resolve(l.href)} className="s01-foot-link" style={{ color: "rgba(255,255,255,0.60)", fontSize: "0.875rem", textDecoration: "none", transition: "color 0.15s, padding-left 0.2s", width: "fit-content" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = WHITE; e.currentTarget.style.paddingLeft = "6px"; }} onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.60)"; e.currentTarget.style.paddingLeft = "0"; }}>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               ))}
@@ -7370,13 +7317,17 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
 
           {/* Legal */}
           <div>
-            <h4 style={{ color: WHITE, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.10em", textTransform: "uppercase", margin: "0 0 20px" }}>Firma</h4>
+            <GenericEditableText sectionId={sectionId} field="firmLabel" value={firmLabel} tag="h4"
+              style={{ color: WHITE, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.10em", textTransform: "uppercase", margin: "0 0 20px" }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {companyName && <span style={{ color: "rgba(255,255,255,0.60)", fontSize: "0.875rem" }}>
                 <GenericEditableText sectionId={sectionId} field="companyName" value={companyName} tag="span" />
               </span>}
               {ico && <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.8rem" }}>
-                IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+                <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" /> <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+              </span>}
+              {dic && <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.8rem" }}>
+                <GenericEditableText sectionId={sectionId} field="dicLabel" value={dicLabel} tag="span" /> <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" />
               </span>}
             </div>
           </div>
@@ -7386,9 +7337,9 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
 
       {/* Bottom bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.78rem" }}>© {new Date().getFullYear()} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" /></span>
-          <div style={{ width: 32, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.78rem" }}>© {new Date().getFullYear()} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" /></span>
+          <WeberoCredit />
         </div>
       </div>
 
@@ -7398,23 +7349,33 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
     </footer>
   );
 }
-
 // ── legal-02-footer ───────────────────────────────────────────────────────────
-function FooterLegal02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function FooterLegal02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const NAVY    = "#143171";
   const ORANGE  = "#EB5C2E";
-  const BOLD    = "bw_gradualbold, Georgia, serif";
-  const REG     = "bw_gradualregular, Georgia, serif";
+  const BOLD    = "'bw_gradualbold', 'Montserrat', Georgia, serif";
+  const REG     = "'Open Sans', Georgia, serif";
 
-  const siteName  = String(content.siteName  ?? "Demo ROWAN LEGAL");
+  const siteName  = String(content.siteName  ?? "DOLEŽAL & PARTNEŘI");
   const tagline   = String(content.tagline   ?? "");
   const email     = String(content.email     ?? "");
   const phone     = String(content.phone     ?? "");
   const address   = String(content.address   ?? "");
   const ico       = String(content.ico       ?? "");
+  const web       = String(content.web       ?? "");
+  const navLabel     = String(content.navLabel     ?? "Navigace");
+  const contactLabel = String(content.contactLabel ?? "Sídlo kanceláře");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
   const links     = Array.isArray(content.links) ? content.links as Array<{ label: string; href: string }> : [];
+  const siteMode  = String(content.siteMode ?? "multipage");
+  const resolve   = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
+  const ScalesMark = () => (
+    <svg className="l02f-logo-mark" width="40" height="40" viewBox="0 0 48 48" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M24 12v28" /><path d="M15 40h18" /><circle cx="24" cy="9" r="2.4" fill={ORANGE} stroke="none" />
+      <path d="M9 14h30" /><path d="M24 14 9 14M24 14l15 0" /><path d="M9 14 4 26a5 5 0 0 0 10 0z" /><path d="M39 14 34 26a5 5 0 0 0 10 0z" />
+    </svg>
+  );
   const SocialIcon = ({ name }: { name: string }) => {
     const p = { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
     if (name === "linkedin") return <svg {...p}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>;
@@ -7428,57 +7389,32 @@ function FooterLegal02({ content, sectionId }: { content: Record<string, unknown
   if (content.instagram) socials.push({ icon: "instagram", href: String(content.instagram), label: "Instagram" });
 
   return (
-    <footer data-variant="legal-02-footer" style={{ backgroundColor: NAVY, color: "#fff" }}>
+    <footer data-template="legal-02" data-variant="legal-02-footer" style={{ backgroundColor: NAVY, color: "#fff", position: "relative" }}>
+      <span aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, transparent, ${ORANGE} 50%, transparent)` }} />
       <style>{`
-        @media (max-width: 860px) { .l02-footer-grid { grid-template-columns: 1fr 1fr !important; } }
+        @font-face { font-family:'bw_gradualbold'; src:url('/templates/legal-02/bwgradual-bold-webfont.woff2') format('woff2'); font-display:swap; }
+        @media (max-width: 860px) { .l02-footer-grid { grid-template-columns: 1fr 1fr !important; } .l02-footer-outer { padding-left:24px !important; padding-right:24px !important; } }
         @media (max-width: 540px) { .l02-footer-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 80px 56px", boxSizing: "border-box" }}>
-        <div className="l02-footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "clamp(32px,5vw,72px)" }}>
+      <div className="l02-footer-outer" style={{ maxWidth: 1440, margin: "0 auto", padding: "76px 80px 56px", boxSizing: "border-box" }}>
+        <div className="l02-footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1.2fr", gap: "clamp(32px,5vw,72px)" }}>
 
           {/* Brand col */}
           <div>
-            {/* Text wordmark — ADVOKÁTNÍ / KANCELÁŘ in white */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", lineHeight: 1.15, marginBottom: 24 }}>
-              <span style={{ fontFamily: BOLD, fontWeight: 700, fontSize: 22, color: "#fff", letterSpacing: "0.04em", textTransform: "uppercase" }}>ADVOKÁTNÍ</span>
-              <span style={{ fontFamily: BOLD, fontWeight: 700, fontSize: 22, color: "#fff", letterSpacing: "0.04em", textTransform: "uppercase" }}>KANCELÁŘ</span>
+            <div className="l02f-brand" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+              <ScalesMark />
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span"
+                style={{ fontFamily: BOLD, fontWeight: 700, fontSize: 22, color: "#fff", letterSpacing: "0.03em", textTransform: "uppercase", lineHeight: 1.05 }} />
             </div>
             {tagline && (
-              <p style={{ fontFamily: REG, fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, margin: "0 0 28px", maxWidth: 280 }}>
-                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-              </p>
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                style={{ fontFamily: REG, fontSize: "0.9rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, margin: "0 0 28px", maxWidth: 320 }} />
             )}
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {phone && (
-                <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: REG, fontSize: "0.875rem", color: "rgba(255,255,255,0.8)", textDecoration: "none" }}>
-                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                </a>
-              )}
-              {email && (
-                <a href={`mailto:${email}`} style={{ fontFamily: REG, fontSize: "0.875rem", color: "rgba(255,255,255,0.8)", textDecoration: "none" }}>
-                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                </a>
-              )}
-              {address && (
-                <span style={{ fontFamily: REG, fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.5 }}>
-                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-                </span>
-              )}
-              {ico && (
-                <span style={{ fontFamily: REG, fontSize: "0.8rem", color: "rgba(255,255,255,0.4)" }}>
-                  IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
-                </span>
-              )}
-            </div>
             {socials.length > 0 && (
-              <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
+              <div style={{ display: "flex", gap: 12 }}>
                 {socials.map((s, i) => (
-                  <a key={i} href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer"
-                    style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.25)", color: "rgba(255,255,255,0.75)", transition: "border-color 0.18s, color 0.18s" }}
-                    onMouseEnter={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = ORANGE; el.style.color = "#fff"; }}
-                    onMouseLeave={e => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = "rgba(255,255,255,0.25)"; el.style.color = "rgba(255,255,255,0.75)"; }}
-                  >
+                  <a key={i} className="l02f-social" href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
                     <SocialIcon name={s.icon} />
                   </a>
                 ))}
@@ -7488,14 +7424,12 @@ function FooterLegal02({ content, sectionId }: { content: Record<string, unknown
 
           {/* Nav links */}
           <div>
-            <p style={{ fontFamily: BOLD, fontSize: "0.72rem", letterSpacing: "0.12em", color: ORANGE, textTransform: "uppercase", margin: "0 0 20px" }}>Navigace</p>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+            <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="p"
+              style={{ fontFamily: BOLD, fontSize: "0.72rem", letterSpacing: "0.12em", color: ORANGE, textTransform: "uppercase", margin: "0 0 20px" }} />
+            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
               {links.map((l, i) => (
                 <li key={i}>
-                  <a href={l.href} style={{ fontFamily: REG, fontSize: "0.88rem", color: "rgba(255,255,255,0.72)", textDecoration: "none", transition: "color 0.15s" }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = "#fff"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,255,255,0.72)"; }}
-                  >
+                  <a href={resolve(l.href)} className="l02f-link" style={{ fontFamily: REG, fontSize: "0.9rem" }}>
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   </a>
                 </li>
@@ -7503,19 +7437,29 @@ function FooterLegal02({ content, sectionId }: { content: Record<string, unknown
             </ul>
           </div>
 
-          {/* Empty third col — reserved for future legal links */}
-          <div />
+          {/* Contact / office col */}
+          <div className="l02f-contact">
+            <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="p"
+              style={{ fontFamily: BOLD, fontSize: "0.72rem", letterSpacing: "0.12em", color: ORANGE, textTransform: "uppercase", margin: "0 0 20px" }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, fontFamily: REG, fontSize: "0.9rem", color: "rgba(255,255,255,0.75)" }}>
+              {address && <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" style={{ lineHeight: 1.5 }} />}
+              {phone && <a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>}
+              {email && <a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>}
+              {ico && <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.82rem" }}>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>}
+              {web && <a href={web} target="_blank" rel="noopener noreferrer"><GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" /></a>}
+            </div>
+          </div>
 
         </div>
       </div>
 
       {/* Bottom bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "18px 80px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8, boxSizing: "border-box" }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "18px 80px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, boxSizing: "border-box" }}>
           <span style={{ fontFamily: REG, fontSize: "0.8rem", color: "rgba(255,255,255,0.45)" }}>
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </span>
-          <div style={{ width: 36, height: 2, backgroundColor: ORANGE }} />
+          <WeberoCredit />
         </div>
       </div>
     </footer>
@@ -8105,13 +8049,14 @@ function FooterFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content:
     { label: "Sušené & interiér",    href: "/katalog" },
     { label: "Firemní zakázky",      href: "/kontakt" },
   ];
-  const studioLinks = (content.studioLinks as Array<{ label: string; href: string }>) ?? [
+  const studioLinks = appendBlogLink((content.studioLinks as Array<{ label: string; href: string }>) ?? [
     { label: "O ateliéru",   href: "/onas"    },
     { label: "Doručení",     href: "/doruceni" },
     { label: "Časté dotazy", href: "/faq"     },
     { label: "Kontakt",      href: "/kontakt" },
-    { label: "Blog & inspirace", href: "/katalog" },
-  ];
+    // Was pointing at /katalog — this entry always meant the blog.
+    { label: "Blog & inspirace", href: "/blog" },
+  ], content);
 
   const newsletterEyebrow = String(content.newsletterEyebrow ?? "PŘIHLASTE SE K ODBĚRU");
   const newsletterCopy    = String(content.newsletterCopy    ?? "Sezónní novinky, inspirace a příležitostné slevy jednou za měsíc.");
@@ -8378,13 +8323,13 @@ function FooterCatering01({ content, sectionId, tenantSlug, isAdmin }: { content
     return href === "/" ? base : `${base}${href}`;
   }
 
-  const navLinks = [
+  const navLinks = appendBlogLink([
     { label: "Úvod",        href: "/" },
     { label: "Naše služby", href: "/sluzby" },
     { label: "O nás",       href: "/o-nas" },
     { label: "Galerie",     href: "/galerie" },
     { label: "Kontakt",     href: "/kontakt" },
-  ];
+  ], content);
 
   return (
     <footer
@@ -8519,14 +8464,14 @@ function FooterBakery02({ content, sectionId }: { content: Record<string, unknow
   ];
 
   const rawLinks = Array.isArray(content.links) ? content.links as Array<{ label?: string; href?: string }> : [];
-  const links = rawLinks.length > 0 ? rawLinks : [
+  const links = appendBlogLink(rawLinks.length > 0 ? rawLinks : [
     { label: "O pekářství", href: "/o-nas" },
     { label: "Aktuální nabídka", href: "/aktualni-nabidka" },
     { label: "Naše pečivo", href: "/nase-pecivo" },
     { label: "Kariéra", href: "/kariera" },
     { label: "Kde nás najdete", href: "/pobocky" },
     { label: "Ochrana osobních údajů", href: "/gdpr" },
-  ];
+  ], content);
 
   return (
     <footer
@@ -8631,6 +8576,9 @@ function FooterBakery02({ content, sectionId }: { content: Record<string, unknow
           font-weight: 300;
           letter-spacing: 0.5px;
         }
+        [data-variant="bakery-02-footer"] .b02f-webero-wrap .bc-webero-credit { color: rgba(51,51,51,0.45) !important; }
+        [data-variant="bakery-02-footer"] .b02f-webero-wrap .bc-webero-credit:hover { color: #222 !important; }
+        [data-variant="bakery-02-footer"] .b02f-webero-wrap .bc-webero-credit svg rect { fill: rgba(51,51,51,0.08) !important; }
       `}</style>
 
       <div className="b02f-top">
@@ -8678,7 +8626,7 @@ function FooterBakery02({ content, sectionId }: { content: Record<string, unknow
         {/* Col 4 — nav links + contact */}
         <div>
           <p className="b02f-col-title">Menu</p>
-          {links.slice(0, 5).map((l, li) => (
+          {appendBlogLink(links.slice(0, 5), content).map((l, li) => (
             <a key={`b02f-link-${li}`} href={l.href ?? "#"} className="b02f-nav-link">
               <GenericEditableText sectionId={sectionId} field={`links.${li}.label`} value={l.label ?? ""} tag="span" />
             </a>
@@ -8702,7 +8650,7 @@ function FooterBakery02({ content, sectionId }: { content: Record<string, unknow
             <GenericEditableText sectionId={sectionId} field="companyName" value={companyName} tag="span" />
             {ico && <>, IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></>}
           </span>
-          <span className="b02f-bottom-text">Vytvořeno v systému Webero</span>
+          <span className="b02f-webero-wrap"><WeberoCredit /></span>
         </div>
       </div>
     </footer>
@@ -9086,14 +9034,14 @@ function FooterLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
   const linkedin  = String(content.linkedin  ?? "https://linkedin.com/demo");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName} · Všechna práva vyhrazena`);
 
-  const navGroups = (content.navGroups as Array<{ label: string; links: Array<{ label: string; href: string }> }>) ?? [
+  const navGroups = appendBlogToColumns((content.navGroups as Array<{ label: string; links: Array<{ label: string; href: string }> }>) ?? [
     { label: "Kurzy", links: [
       { label: "Skupinové",    href: "/kurzy" },
       { label: "Individuální", href: "/kurzy" },
       { label: "Firemní",      href: "/kurzy" },
       { label: "Letní tábory", href: "/tabory" },
     ]},
-  ];
+  ], content);
 
   const resolve = (href: string) => {
     if (!href || href.startsWith("http") || href.startsWith("#")) return href;
@@ -9199,6 +9147,7 @@ function FooterEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   const description = String(content.description ?? "Individuální doučování s garantovanými výsledky pro žáky ZŠ, studenty SŠ i uchazeče o vysokou školu — osobně i online.");
   const phone      = String(content.phone      ?? "+420 775 100 200");
   const email      = String(content.email      ?? "info@akademiaplus.cz");
+  const address = String(content.address ?? "");
   const facebook   = String(content.facebook   ?? "");
   const instagram  = String(content.instagram  ?? "");
   const copyright  = String(content.copyright  ?? "© 2026 Akademia Plus s.r.o.");
@@ -9209,7 +9158,7 @@ function FooterEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   const gdprLabel  = String(content.gdprLabel  ?? "GDPR");
   const gdprHref   = String(content.gdprHref   ?? "/kontakt");
   const siteMode   = String(content.siteMode   ?? "multipage");
-  const columns    = (content.columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [];
+  const columns    = appendBlogToColumns((content.columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [], content);
 
   const resolve = (href: string) => {
     if (href.startsWith("http")) return href;
@@ -9283,6 +9232,12 @@ function FooterEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
+              {address && (
+                <span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </span>
+              )}
             </div>
             {(facebook || instagram) && (
               <div className="edu01ft-socials">
@@ -9340,7 +9295,7 @@ function FooterKids01({ content, sectionId }: { content: Record<string, unknown>
   const siteName   = String((content as any).siteName   ?? "Demo Kroužky");
   const logoUrl    = String((content as any).logoUrl    ?? "");
   const tagline    = String((content as any).tagline    ?? "");
-  const columns    = ((content as any).columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [];
+  const columns    = appendBlogToColumns(((content as any).columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [], content);
   const phone      = String((content as any).phone      ?? "");
   const email      = String((content as any).email      ?? "");
   const address    = String((content as any).address    ?? "");
@@ -9507,55 +9462,63 @@ function FooterVet01({
   const FONT_H  = "'Forum', 'Georgia', serif";
   const FONT_B  = "'Roboto Condensed', 'Roboto', sans-serif";
 
-  const resolve = (href: string) =>
-    tenantSlug && !isAdmin && href.startsWith("/") ? `/demo/${tenantSlug}${href}` : href;
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <footer
-      id={String(sectionId)}
-      data-variant="vet-01-footer"
-      style={{ background: TEAL_D, borderTop: `3px solid ${TEAL_L}` }}
+      data-template="vet-01-footer"
+      style={{ background: `linear-gradient(180deg,#0d7486,#0a5f6e)`, position: "relative", overflow: "hidden" }}
     >
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Roboto+Condensed:wght@400;500;700&display=swap" />
       <style>{`
-        .v01ft-inner { max-width: 1140px; margin: 0 auto; padding: 56px clamp(20px,5vw,40px) 32px; }
-        .v01ft-grid  { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 48px; margin-bottom: 40px; }
-        .v01ft-col-title { font-family: ${FONT_B}; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${TEAL_L}; margin: 0 0 16px; }
-        .v01ft-link  { display: block; font-family: ${FONT_B}; font-size: 14px; color: rgba(255,255,255,0.7); text-decoration: none; line-height: 2; transition: color 0.15s; }
-        .v01ft-link:hover { color: #fff; }
-        .v01ft-social { display: flex; gap: 12px; margin-top: 20px; }
-        .v01ft-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); text-decoration: none; transition: background 0.15s; }
-        .v01ft-social a:hover { background: ${TEAL_L}; color: #fff; }
-        .v01ft-bar   { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; }
-        .v01ft-copy  { font-family: ${FONT_B}; font-size: 13px; color: rgba(255,255,255,0.4); margin: 0; }
+        .v01ft { position:relative; }
+        .v01ft::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,${TEAL_L},#8fdcc5,${TEAL_L}); background-size:200% 100%; animation:v01ftSheen 9s linear infinite; }
+        @keyframes v01ftSheen { 0%{background-position:0 0} 100%{background-position:200% 0} }
+        .v01ft-paw { position:absolute; right:-30px; top:30px; width:230px; height:230px; fill:#fff; opacity:0.045; transform:rotate(-14deg); pointer-events:none; }
+        .v01ft-inner { position:relative; z-index:1; max-width: 1160px; margin: 0 auto; padding: 60px clamp(20px,5vw,40px) 30px; }
+        .v01ft-grid  { display: grid; grid-template-columns: 1.5fr 1fr 1.3fr; gap: 48px; margin-bottom: 40px; }
+        .v01ft-col-title { font-family: ${FONT_B}; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${TEAL_L}; margin: 0 0 18px; }
+        .v01ft-link  { display: flex; align-items:center; gap:9px; font-family: ${FONT_B}; font-size: 14.5px; color: rgba(255,255,255,0.72); text-decoration: none; line-height: 1; padding:6px 0; transition: color 0.2s, transform 0.2s; }
+        .v01ft-link:hover { color: #fff; transform:translateX(3px); }
+        .v01ft-link svg { color:${TEAL_L}; flex-shrink:0; }
+        .v01ft-tagline { font-family: ${FONT_H}; font-size: 1.05rem; color: rgba(255,255,255,0.68); line-height: 1.6; margin: 4px 0 0; max-width:320px; }
+        .v01ft-social { display: flex; gap: 12px; margin-top: 22px; }
+        .v01ft-social a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); text-decoration: none; transition: background 0.24s, transform 0.24s, color 0.24s; }
+        .v01ft-social a:hover { background: ${TEAL_L}; color: #fff; transform:translateY(-3px); }
+        .v01ft-bar   { border-top: 1px solid rgba(255,255,255,0.14); padding-top: 22px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; }
+        .v01ft-copy  { font-family: ${FONT_B}; font-size: 13px; color: rgba(255,255,255,0.45); margin: 0; }
         @media (max-width: 820px) { .v01ft-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
         @media (max-width: 520px) { .v01ft-grid { grid-template-columns: 1fr; gap: 28px; } }
       `}</style>
 
+      <div className="v01ft" >
+      <svg className="v01ft-paw" viewBox="0 0 60 60" aria-hidden="true"><circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/><ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="45" r="5"/><circle cx="37" cy="45" r="5"/></svg>
       <div className="v01ft-inner">
         <div className="v01ft-grid">
 
           {/* Col 1: Logo + tagline + social */}
           <div>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "inline-block", marginBottom: 16 }}>
+            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "inline-block", marginBottom: 14 }}>
               <img
                 src={logoUrl}
                 alt={siteName}
-                style={{ height: 40, display: "block" }}
+                style={{ height: 44, display: "block" }}
                 onError={e => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
               />
             </GenericEditableImage>
-            <p style={{ fontFamily: FONT_H, fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.6, margin: 0 }}>
+            <p className="v01ft-tagline">
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
             <div className="v01ft-social">
               {fbHref && fbHref !== "#" && (
                 <a href={fbHref} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
                 </a>
               )}
               {igHref && igHref !== "#" && (
                 <a href={igHref} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                 </a>
               )}
             </div>
@@ -9568,6 +9531,7 @@ function FooterVet01({
             </p>
             {links.map((l, i) => (
               <a key={i} href={resolve(l.href)} className="v01ft-link">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
@@ -9580,21 +9544,25 @@ function FooterVet01({
             </p>
             {phone && (
               <a href={`tel:${phone.replace(/\s/g, "")}`} className="v01ft-link">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.15a16 16 0 006.94 6.94l1.51-1.51a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
             )}
             {email && (
               <a href={`mailto:${email}`} className="v01ft-link">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             )}
             {address && (
               <span className="v01ft-link" style={{ cursor: "default" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </span>
             )}
             {hours && (
               <span className="v01ft-link" style={{ cursor: "default" }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
                 <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
               </span>
             )}
@@ -9606,7 +9574,9 @@ function FooterVet01({
           <p className="v01ft-copy">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
+          <WeberoCredit />
         </div>
+      </div>
       </div>
     </footer>
   );
@@ -9788,11 +9758,8 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
   const DARK  = "#101417";
   const FONT  = "'Hanken Grotesk', 'Inter', sans-serif";
 
-  function resolveDemoHref(href: string) {
-    if (!tenantSlug || !href.startsWith("/")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  }
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin ?? false);
 
   const siteName  = String(content.siteName  ?? "Psí Salón");
   const tagline   = String(content.tagline   ?? "Prémiová péče o Vaše miláčky");
@@ -9801,6 +9768,9 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
   const address   = String(content.address   ?? "");
   const ico       = String(content.ico       ?? "");
   const hours     = String(content.hours     ?? "");
+  const menuTitle    = String(content.menuTitle    ?? "Menu");
+  const contactTitle = String(content.contactTitle ?? "Kontakt");
+  const icoLabel     = String(content.icoLabel     ?? "IČO:");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
 
   type NavLink = { label?: string; href?: string };
@@ -9810,34 +9780,10 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
 
   return (
     <footer data-template="grooming-01-footer" style={{ background: DARK, fontFamily: FONT, borderTop: `2px solid ${GOLD}` }}>
-      <style>{`
-        .gr01ft-body{max-width:1280px;margin:0 auto;padding:clamp(48px,6vw,72px) clamp(24px,4vw,56px) clamp(32px,5vw,56px);display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:48px;}
-        .gr01ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;text-decoration:none;}
-        .gr01ft-logo-name{font-size:18px;font-weight:700;color:#fff;letter-spacing:0.5px;}
-        .gr01ft-tagline{font-size:13px;color:rgba(255,255,255,0.5);margin:0 0 24px;line-height:1.5;}
-        .gr01ft-social{display:flex;gap:10px;}
-        .gr01ft-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(208,170,87,0.35);transition:border-color 0.2s,background 0.2s;}
-        .gr01ft-social a:hover{border-color:${GOLD};background:rgba(208,170,87,0.12);}
-        .gr01ft-col-title{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:${GOLD};margin:0 0 20px;}
-        .gr01ft-links{display:flex;flex-direction:column;gap:10px;}
-        .gr01ft-links a{font-size:14px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;}
-        .gr01ft-links a:hover{color:#fff;}
-        .gr01ft-info{display:flex;flex-direction:column;gap:10px;}
-        .gr01ft-info-row{display:flex;align-items:flex-start;gap:10px;}
-        .gr01ft-info-val{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;}
-        .gr01ft-info-val a{color:rgba(255,255,255,0.6);text-decoration:none;}
-        .gr01ft-bar{border-top:1px solid rgba(255,255,255,0.08);margin:0 clamp(24px,4vw,56px);}
-        .gr01ft-bar-inner{max-width:1280px;margin:0 auto;padding:20px 0;display:flex;justify-content:center;}
-        .gr01ft-copy{font-size:12px;color:rgba(255,255,255,0.3);margin:0;}
-        @media(max-width:800px){
-          .gr01ft-body{grid-template-columns:1fr;gap:36px;}
-        }
-      `}</style>
-
       <div className="gr01ft-body">
         {/* Col 1 — logo + tagline + social */}
         <div>
-          <a href={resolveDemoHref("/")} className="gr01ft-logo">
+          <a href={resolve("/")} className="gr01ft-logo">
             <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
               <ellipse cx="8"  cy="8"  rx="4"  ry="5.5" fill={GOLD}/>
               <ellipse cx="24" cy="8"  rx="4"  ry="5.5" fill={GOLD}/>
@@ -9869,10 +9815,12 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
 
         {/* Col 2 — nav links */}
         <div>
-          <p className="gr01ft-col-title">Menu</p>
+          <p className="gr01ft-col-title">
+            <GenericEditableText sectionId={sectionId} field="menuTitle" value={menuTitle} tag="span" />
+          </p>
           <nav className="gr01ft-links">
             {links.map((l, i) => (
-              <a key={i} href={l.href ?? "#"}>
+              <a key={i} href={resolve(l.href ?? "#")}>
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label ?? ""} tag="span" />
               </a>
             ))}
@@ -9881,7 +9829,9 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
 
         {/* Col 3 — contact info */}
         <div>
-          <p className="gr01ft-col-title">Kontakt</p>
+          <p className="gr01ft-col-title">
+            <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="span" />
+          </p>
           <div className="gr01ft-info">
             {phone && (
               <div className="gr01ft-info-row">
@@ -9909,7 +9859,7 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
             )}
             {ico && (
               <div className="gr01ft-info-row">
-                <span className="gr01ft-info-val" style={{paddingLeft:23}}>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>
+                <span className="gr01ft-info-val" style={{paddingLeft:23}}><GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" /> <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>
               </div>
             )}
           </div>
@@ -9921,6 +9871,7 @@ function FooterGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content
           <p className="gr01ft-copy">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
+          <WeberoCredit />
         </div>
       </div>
     </footer>
@@ -10380,6 +10331,7 @@ function FooterUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: 
           color: rgba(255,255,255,0.35);
           margin: 0;
         }
+        .ucn03ft-bar-right { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
         .ucn03ft-legal { display: flex; gap: 20px; }
         .ucn03ft-legal a {
           font-size: 0.8rem;
@@ -10388,12 +10340,15 @@ function FooterUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: 
           transition: color 0.2s;
         }
         .ucn03ft-legal a:hover { color: rgba(255,255,255,0.65); }
+        .ucn03ft-bar-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.15); }
+        .ucn03ft-bar .bc-webero-credit:hover { color: ${GREEN} !important; }
         @media (max-width: 900px) {
           .ucn03ft-main { grid-template-columns: 1fr 1fr; gap: 40px; padding: 48px 24px 40px; }
         }
         @media (max-width: 600px) {
           .ucn03ft-main { grid-template-columns: 1fr; gap: 32px; padding: 40px 20px 32px; }
           .ucn03ft-bar-inner { flex-direction: column; align-items: flex-start; padding: 16px 20px; }
+          .ucn03ft-bar-right { gap: 14px; }
         }
       `}</style>
 
@@ -10466,18 +10421,21 @@ function FooterUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: 
             <p className="ucn03ft-copy">
               <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
             </p>
-            {legalLinks.length > 0 && (
-              <div className="ucn03ft-legal">
-                {legalLinks.map((link, i) => (
-                  <a key={i} href={link.href ?? "#"}>
-                    <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={String(link.label ?? "")} tag="span" />
-                  </a>
-                ))}
-              </div>
-            )}
+            <div className="ucn03ft-bar-right">
+              {legalLinks.length > 0 && (
+                <div className="ucn03ft-legal">
+                  {legalLinks.map((link, i) => (
+                    <a key={i} href={link.href ?? "#"}>
+                      <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={String(link.label ?? "")} tag="span" />
+                    </a>
+                  ))}
+                </div>
+              )}
+              {legalLinks.length > 0 && <span className="ucn03ft-bar-divider" />}
+              <WeberoCredit />
+            </div>
           </div>
         </div>
-        <WeberoCredit />
       </footer>
     </>
   );
@@ -11071,7 +11029,10 @@ function FooterArch01({ content, sectionId, tenantSlug }: { content: Record<stri
   const phone       = String(content.phone      ?? "");
   const socials     = (content.socials  as Social[]) ?? [];
   const legalName   = String(content.legalName  ?? "");
+  const legalAddress = String(content.legalAddress ?? "");
   const ico         = String(content.ico        ?? "");
+  const dic         = String(content.dic        ?? "");
+  const tagline     = String(content.tagline    ?? "");
   const gdprHref    = String(content.gdprHref   ?? "/gdpr");
   const cookiesHref = String(content.cookiesHref ?? "/cookies");
   const copyright   = String(content.copyright  ?? "");
@@ -11185,6 +11146,15 @@ function FooterArch01({ content, sectionId, tenantSlug }: { content: Record<stri
       line-height: 1.65;
       margin: 0 0 32px;
       white-space: pre-line;
+    }
+    .a01foot-tagline {
+      font-family: ${FONT};
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.45);
+      margin: 14px 0 26px;
+      max-width: 30ch;
     }
     .a01foot-legal {
       margin-top: 8px;
@@ -11305,6 +11275,11 @@ function FooterArch01({ content, sectionId, tenantSlug }: { content: Record<stri
                   }
                 </GenericEditableImage>
               </a>
+              {tagline && (
+                <p className="a01foot-tagline">
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </p>
+              )}
               <ul className="a01foot-nav">
                 {links.map((l, i) => (
                   <li key={i}>
@@ -11332,10 +11307,17 @@ function FooterArch01({ content, sectionId, tenantSlug }: { content: Record<stri
               </div>
               <div className="a01foot-legal">
                 {legalName && <p><GenericEditableText sectionId={sectionId} field="legalName" value={legalName} tag="span" /></p>}
+                {legalAddress && <p><GenericEditableText sectionId={sectionId} field="legalAddress" value={legalAddress} tag="span" /></p>}
                 {ico && (
                   <p>
                     <GenericEditableText sectionId={sectionId} field="icoLabel" value={String(content.icoLabel ?? "IČO")} tag="span" />{" "}
                     <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+                  </p>
+                )}
+                {dic && (
+                  <p>
+                    <GenericEditableText sectionId={sectionId} field="dicLabel" value={String(content.dicLabel ?? "DIČ")} tag="span" />{" "}
+                    <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" />
                   </p>
                 )}
               </div>
@@ -11591,6 +11573,7 @@ function FooterClean01({ content, sectionId, tenantSlug }: { content: Record<str
   const addressLabel    = String(content.addressLabel    ?? "Adresa");
   const phoneLabel      = String(content.phoneLabel      ?? "Telefon");
   const emailLabel      = String(content.emailLabel      ?? "E-mail");
+  const web             = String(content.web             ?? "");
   const hoursLabel      = String(content.hoursLabel      ?? "Provozní hodiny");
   const icoLabel        = String(content.icoLabel        ?? "IČO:");
 
@@ -11977,6 +11960,23 @@ function FooterClean01({ content, sectionId, tenantSlug }: { content: Record<str
                 </div>
               </div>
             </div>
+            {web && (
+              <div className="c01ft-contact-item">
+                <span className="c01ft-contact-icon">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </span>
+                <div>
+                  <div className="c01ft-contact-label">
+                    <GenericEditableText sectionId={sectionId} field="webLabel" value={String(content.webLabel ?? "Web")} tag="span" />
+                  </div>
+                  <div className="c01ft-contact-value">
+                    <a href={web} target="_blank" rel="noopener noreferrer">
+                      <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="c01ft-contact-item">
               <span className="c01ft-contact-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -12019,12 +12019,7 @@ function FooterClean01({ content, sectionId, tenantSlug }: { content: Record<str
 function FooterInstala02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const c = content as Record<string, unknown>;
 
-  const RED    = "#ee4036";
-  const WHITE  = "#ffffff";
-  const FONT_H = "'Montserrat', sans-serif";
-  const FONT_B = "'Roboto', sans-serif";
-
-  const siteName        = String(c.siteName        ?? "ThermoPlus Praha");
+  const siteName        = String(c.siteName        ?? "AquaFix");
   const logoUrl         = String(c.logoUrl         ?? "/templates/instala-02/logo.svg");
   const tagline         = String(c.tagline         ?? "Vytápění, voda a elektro — poctivě a načas");
   const phone           = String(c.phone           ?? "+420 704 123 456");
@@ -12064,284 +12059,7 @@ function FooterInstala02({ content, sectionId, tenantSlug, isAdmin }: { content:
   };
 
   return (
-    <footer data-template="instala-02-footer" style={{ backgroundColor: WHITE, fontFamily: FONT_B }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
-      <style>{`
-        /* ── CTA strip ── */
-        .i2ft-strip {
-          background: ${RED};
-          padding: 0 60px;
-          display: flex;
-          align-items: stretch;
-          justify-content: space-between;
-          min-height: 76px;
-        }
-        .i2ft-strip-left { display: flex; align-items: center; gap: 14px; }
-        .i2ft-strip-icon {
-          width: 40px; height: 40px;
-          background: rgba(255,255,255,0.16);
-          border-radius: 50%;
-          display: flex; align-items: center; justify-content: center;
-          flex-shrink: 0;
-        }
-        .i2ft-strip-text {
-          font-family: ${FONT_H};
-          font-size: 15px;
-          font-weight: 700;
-          color: ${WHITE};
-          letter-spacing: -0.01em;
-        }
-        .i2ft-strip-right { display: flex; align-items: center; }
-        .i2ft-strip-phone {
-          font-family: ${FONT_H};
-          font-size: 22px;
-          font-weight: 800;
-          color: ${WHITE};
-          text-decoration: none;
-          letter-spacing: -0.02em;
-          display: flex; align-items: center; gap: 10px;
-          padding: 0 32px;
-          height: 100%;
-          background: rgba(0,0,0,0.14);
-          transition: background .2s;
-        }
-        .i2ft-strip-phone:hover { background: rgba(0,0,0,0.24); }
-
-        /* ── brand bar — white with subtle border ── */
-        .i2ft-brand-bar {
-          background: ${WHITE};
-          border-bottom: 1.5px solid #e8e8e8;
-        }
-        .i2ft-brand-inner {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 32px 60px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 24px;
-        }
-        .i2ft-brand-left { display: flex; align-items: center; gap: 20px; }
-        .i2ft-logo { height: 44px; width: auto; display: block; }
-        .i2ft-vdivider { width: 1px; height: 36px; background: #e8e8e8; flex-shrink: 0; }
-        .i2ft-brand-name {
-          font-family: ${FONT_H};
-          font-size: 17px;
-          font-weight: 800;
-          color: #111;
-          letter-spacing: -0.02em;
-          line-height: 1;
-        }
-        .i2ft-brand-tagline { font-size: 12px; color: #999; margin-top: 4px; }
-        .i2ft-socials { display: flex; gap: 8px; }
-        .i2ft-social {
-          width: 36px; height: 36px;
-          background: #f7f7f7;
-          border: 1.5px solid #e8e8e8;
-          border-radius: 8px;
-          display: flex; align-items: center; justify-content: center;
-          text-decoration: none;
-          transition: background .2s, border-color .2s;
-        }
-        .i2ft-social:hover { background: ${RED}; border-color: ${RED}; }
-        .i2ft-social:hover svg { fill: ${WHITE} !important; stroke: ${WHITE} !important; }
-
-        /* ── main columns ── */
-        .i2ft-cols {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 56px 60px 52px;
-          display: grid;
-          grid-template-columns: 1.5fr 1fr 1.2fr;
-          gap: 60px;
-        }
-
-        /* kicker — same pattern as About section */
-        .i2ft-kicker {
-          font-family: ${FONT_H};
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: ${RED};
-          margin: 0 0 22px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .i2ft-kicker-line { display: inline-block; width: 36px; height: 2px; background: ${RED}; flex-shrink: 0; }
-
-        /* ── contact col — feat-card style from About ── */
-        .i2ft-feat {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 14px 16px;
-          background: #f7f7f7;
-          border-radius: 12px;
-          border: 1px solid #eee;
-          margin-bottom: 12px;
-          transition: box-shadow .2s;
-        }
-        .i2ft-feat:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.07); }
-        .i2ft-feat-icon {
-          width: 36px; height: 36px;
-          background: ${RED};
-          border-radius: 8px;
-          display: flex; align-items: center; justify-content: center;
-          flex-shrink: 0;
-        }
-        .i2ft-feat-label {
-          font-family: ${FONT_H};
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #999;
-          margin-bottom: 3px;
-        }
-        .i2ft-feat-val { font-size: 13px; color: #333; line-height: 1.45; }
-        .i2ft-feat-link { font-size: 13px; color: #333; text-decoration: none; transition: color .2s; }
-        .i2ft-feat-link:hover { color: ${RED}; }
-
-        /* ── nav col ── */
-        .i2ft-nav { list-style: none; margin: 0; padding: 0; }
-        .i2ft-nav li a {
-          display: flex;
-          align-items: center;
-          gap: 0;
-          font-size: 14px;
-          color: #555;
-          text-decoration: none;
-          padding: 9px 0;
-          border-bottom: 1px solid #f0f0f0;
-          transition: color .2s;
-          font-family: ${FONT_B};
-        }
-        .i2ft-nav li:last-child a { border-bottom: none; }
-        .i2ft-nav li a::before {
-          content: '';
-          display: inline-block;
-          width: 0;
-          height: 2px;
-          background: ${RED};
-          border-radius: 1px;
-          margin-right: 0;
-          transition: width .18s, margin-right .18s;
-          flex-shrink: 0;
-        }
-        .i2ft-nav li a:hover { color: #111; }
-        .i2ft-nav li a:hover::before { width: 14px; margin-right: 8px; }
-
-        /* ── info col — statsbox style from About ── */
-        .i2ft-statsbox {
-          border: 1.5px solid #e8e8e8;
-          border-radius: 12px;
-          overflow: hidden;
-          margin-bottom: 16px;
-        }
-        .i2ft-stat-row { display: flex; }
-        .i2ft-stat-row + .i2ft-stat-row { border-top: 1.5px solid #e8e8e8; }
-        .i2ft-stat-cell { flex: 1; padding: 12px 16px; }
-        .i2ft-stat-cell + .i2ft-stat-cell { border-left: 1.5px solid #e8e8e8; }
-        .i2ft-stat-lbl {
-          font-family: ${FONT_H};
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #bbb;
-          margin-bottom: 4px;
-        }
-        .i2ft-stat-val { font-size: 13px; color: #333; font-family: ${FONT_H}; font-weight: 600; }
-
-        /* hours — feat card with red left accent */
-        .i2ft-hours {
-          padding: 14px 16px 14px 20px;
-          background: #f7f7f7;
-          border-radius: 12px;
-          border: 1px solid #eee;
-          position: relative;
-          overflow: hidden;
-        }
-        .i2ft-hours::before {
-          content: '';
-          position: absolute;
-          left: 0; top: 0; bottom: 0;
-          width: 3px;
-          background: ${RED};
-          border-radius: 0 2px 2px 0;
-        }
-        .i2ft-hours-title {
-          font-family: ${FONT_H};
-          font-size: 9px;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: ${RED};
-          margin-bottom: 6px;
-        }
-        .i2ft-hours-val {
-          font-family: ${FONT_H};
-          font-size: 13px;
-          font-weight: 700;
-          color: #111;
-          margin-bottom: 5px;
-        }
-        .i2ft-hours-sub { font-size: 12px; color: #999; display: flex; align-items: center; gap: 7px; }
-        .i2ft-hours-dot {
-          width: 7px; height: 7px;
-          background: ${RED};
-          border-radius: 50%;
-          flex-shrink: 0;
-          animation: i2ft-pulse 2s ease-in-out infinite;
-        }
-        @keyframes i2ft-pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.35; transform: scale(0.6); }
-        }
-
-        /* ── bottom bar ── */
-        .i2ft-bottom { background: #f7f7f7; border-top: 1.5px solid #e8e8e8; }
-        .i2ft-bottom-inner {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 20px 60px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-        }
-        .i2ft-copy { font-size: 12px; color: #aaa; }
-        .i2ft-built { font-size: 11px; color: #ccc; display: flex; align-items: center; gap: 6px; }
-        .i2ft-built-dot { width: 4px; height: 4px; background: ${RED}; border-radius: 50%; opacity: 0.45; }
-
-        /* ── responsive ── */
-        @media (max-width: 1024px) {
-          .i2ft-strip { padding: 0 32px; }
-          .i2ft-brand-inner { padding: 28px 32px; }
-          .i2ft-cols { padding: 44px 32px 40px; gap: 40px; }
-          .i2ft-bottom-inner { padding: 18px 32px; }
-        }
-        @media (max-width: 768px) {
-          .i2ft-strip { padding: 0 20px; min-height: auto; flex-direction: column; align-items: flex-start; }
-          .i2ft-strip-left { padding: 16px 0 10px; }
-          .i2ft-strip-right { width: 100%; }
-          .i2ft-strip-phone { padding: 14px 0; width: 100%; justify-content: center; background: rgba(0,0,0,0.14); border-top: 1px solid rgba(255,255,255,0.15); }
-          .i2ft-brand-inner { padding: 22px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
-          .i2ft-cols { grid-template-columns: 1fr 1fr; gap: 32px; padding: 36px 20px 28px; }
-          .i2ft-bottom-inner { padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 6px; }
-        }
-        @media (max-width: 480px) {
-          .i2ft-cols { grid-template-columns: 1fr; }
-          .i2ft-strip-text { font-size: 13px; }
-          .i2ft-strip-phone { font-size: 18px; }
-          .i2ft-brand-name { font-size: 15px; }
-          .i2ft-brand-tagline { font-size: 11px; }
-        }
-      `}</style>
+    <footer data-template="instala-02-footer" style={{ backgroundColor: "#ffffff", fontFamily: "'Roboto', sans-serif" }}>
 
       {/* ── CTA strip ── */}
       <div className="i2ft-strip">
@@ -12491,8 +12209,7 @@ function FooterInstala02({ content, sectionId, tenantSlug, isAdmin }: { content:
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </span>
           <span className="i2ft-built">
-            <span className="i2ft-built-dot" />
-            Vytvořeno v systému Webero
+            <WeberoCredit />
           </span>
         </div>
       </div>
@@ -12501,173 +12218,117 @@ function FooterInstala02({ content, sectionId, tenantSlug, isAdmin }: { content:
 }
 
 // ── klima-01-footer ───────────────────────────────────────────────────────────
-// 1:1 pragoclima.cz: navy bg (#182545), 4 sloupce
-// Col 1: červený oval logo + tagline + soc. sítě
-// Col 2: Navigace (rychlé linky)
-// Col 3: Kontaktní informace (tel, email, adresa, hodiny)
-// Col 4: IČO/DIČ + web
-// Spodní bar: copyright, oddělená čára
-// ─────────────────────────────────────────────────────────────────────────────
 function FooterKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const siteName  = String(content.siteName  ?? "Klima Servis");
-  const tagline   = String(content.tagline   ?? "Klimatizace & tepelná čerpadla od roku 1990");
-  const email     = String(content.email     ?? "");
-  const phone     = String(content.phone     ?? "");
-  const address   = String(content.address   ?? "");
-  const facebook  = String(content.facebook  ?? "");
-  const instagram = String(content.instagram ?? "");
-  const ico       = String(content.ico       ?? "");
-  const dic       = String(content.dic       ?? "");
-  const hours     = String(content.hours     ?? "");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
+  const siteName  = String(content.siteName  ?? "AirComfort");
+  const tagline   = String(content.tagline   ?? "Klimatizace & tepelná čerpadla — váš specialista od roku 2006");
+  const email     = String(content.email     ?? "info@aircomfort.cz");
+  const phone     = String(content.phone     ?? "737 456 789");
+  const address   = String(content.address   ?? "Průmyslová 42, 602 00 Brno");
+  const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
+  const instagram = String(content.instagram ?? "https://instagram.com/demo");
+  const ico       = String(content.ico       ?? "87654321");
+  const dic       = String(content.dic       ?? "CZ87654321");
+  const hours     = String(content.hours     ?? "Po–Pá 7:30–16:30");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName} s.r.o.`);
   const links     = ((content.links as Array<{ label: string; href: string }>) ?? []);
+  const siteMode  = String(content.siteMode  ?? "multipage");
 
-  const RED  = "#e30016";
-  const NAVY = "#182545";
-  const FONT = "'Outfit', -apple-system, sans-serif";
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const LogoOval = () => (
-    <div style={{
-      display: "inline-flex", alignItems: "center", justifyContent: "center",
-      backgroundColor: RED, color: "#fff",
-      borderRadius: 21, padding: "0 20px", height: 42, minWidth: 110,
-    }}>
-      <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 16, letterSpacing: "0.5px", whiteSpace: "nowrap" }}>
-        <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-      </span>
-    </div>
-  );
-
-  const PhoneIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/>
-    </svg>
-  );
-  const MailIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-    </svg>
-  );
-  const PinIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-    </svg>
-  );
-  const ClockIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-    </svg>
-  );
-
-  const colTitle = (text: string) => (
-    <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.45)", margin: "0 0 18px" }}>{text}</p>
-  );
-
-  const contactRow = (icon: React.ReactNode, children: React.ReactNode) => (
-    <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 12, color: "rgba(255,255,255,0.75)", fontSize: 14 }}>
-      <span style={{ color: RED, marginTop: 1 }}>{icon}</span>
+  const contactItem = (icon: React.ReactNode, children: React.ReactNode) => (
+    <div className="kl01-ft-contact-row">
+      <span className="kl01-ft-contact-ic">{icon}</span>
       <span>{children}</span>
     </div>
   );
 
   return (
-    <>
-    <style>{`
-      @media (max-width: 768px) {
-        .klima-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
-      }
-      @media (max-width: 480px) {
-        .klima-footer-grid { grid-template-columns: 1fr !important; }
-        .klima-footer-bar { flex-direction: column !important; gap: 8px !important; text-align: center; }
-      }
-    `}</style>
-    <footer style={{ backgroundColor: NAVY, fontFamily: FONT, color: "#fff" }} data-template="klima-01">
+    <footer className="kl01-ft" data-template="klima-01">
+      <div className="kl01-ft-top">
+        <div className="kl01-ft-grid">
+          {/* Col 1: Logo + tagline + socials */}
+          <div className="kl01-ft-brand">
+            <a href={resolve("/")} className="kl01-ft-logo">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <line x1="16" y1="2" x2="16" y2="30" stroke="#e30016" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="2" y1="16" x2="30" y2="16" stroke="#e30016" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="5.86" y1="5.86" x2="26.14" y2="26.14" stroke="#e30016" strokeWidth="1.6" strokeLinecap="round"/>
+                <line x1="26.14" y1="5.86" x2="5.86" y2="26.14" stroke="#e30016" strokeWidth="1.6" strokeLinecap="round"/>
+              </svg>
+              <span className="kl01-ft-logo-text">
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
+            </a>
+            <p className="kl01-ft-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            <div className="kl01-ft-socials">
+              {facebook && (
+                <a href={facebook} className="kl01-ft-social" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+              )}
+              {instagram && (
+                <a href={instagram} className="kl01-ft-social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+              )}
+            </div>
+          </div>
 
-      {/* Hlavní tělo */}
-      <div className="klima-footer-grid" style={{ maxWidth: 1280, margin: "0 auto", padding: "64px 32px 48px", display: "grid", gridTemplateColumns: "1.4fr 1fr 1.3fr 1fr", gap: 48 }}>
+          {/* Col 2: Navigace */}
+          <div>
+            <p className="kl01-ft-col-title">Navigace</p>
+            <nav className="kl01-ft-nav">
+              {links.map((l, i) => (
+                <a key={i} href={resolve(l.href)} className="kl01-ft-nav-link">
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+          </div>
 
-        {/* Col 1: Logo + tagline + soc. sítě */}
-        <div>
-          <a href={resolve("/")} style={{ textDecoration: "none", display: "inline-block", marginBottom: 16 }}>
-            <LogoOval />
-          </a>
-          <p style={{ fontSize: 14, lineHeight: 1.6, color: "rgba(255,255,255,0.6)", margin: "0 0 24px", maxWidth: 260 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          {/* Soc. sítě */}
-          <div style={{ display: "flex", gap: 12 }}>
-            {facebook && (
-              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", textDecoration: "none", transition: "background-color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = RED)}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </a>
+          {/* Col 3: Kontakt */}
+          <div>
+            <p className="kl01-ft-col-title">Kontakt</p>
+            {phone && contactItem(
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.1 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>,
+              <a href={`tel:${phone.replace(/\s/g,"")}`} className="kl01-ft-contact-link"><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>
             )}
-            {instagram && (
-              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", textDecoration: "none", transition: "background-color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = RED)}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)")}
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
+            {email && contactItem(
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
+              <a href={`mailto:${email}`} className="kl01-ft-contact-link"><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>
+            )}
+            {address && contactItem(
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>,
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            )}
+            {hours && contactItem(
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
             )}
           </div>
-        </div>
 
-        {/* Col 2: Navigace */}
-        <div>
-          {colTitle("Navigace")}
-          <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {links.map((l, i) => (
-              <a
-                key={i}
-                href={resolve(l.href)}
-                style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: 14, transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
-              >
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        {/* Col 3: Kontakt */}
-        <div>
-          {colTitle("Kontakt")}
-          {phone   && contactRow(<PhoneIcon />, <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: "inherit", textDecoration: "none" }}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>)}
-          {email   && contactRow(<MailIcon />, <a href={`mailto:${email}`} style={{ color: "inherit", textDecoration: "none" }}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>)}
-          {address && contactRow(<PinIcon />, <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />)}
-          {hours   && contactRow(<ClockIcon />, <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />)}
-        </div>
-
-        {/* Col 4: Firemní údaje */}
-        <div>
-          {colTitle("Firemní údaje")}
-          <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "rgba(255,255,255,0.7)" }}>
-            {ico && <span>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>}
-            {dic && <span>DIČ: <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" /></span>}
+          {/* Col 4: Firemní údaje */}
+          <div>
+            <p className="kl01-ft-col-title">Firemní údaje</p>
+            <div className="kl01-ft-legal">
+              {ico && <span>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>}
+              {dic && <span>DIČ: <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" /></span>}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Copyright bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "20px 32px" }}>
-        <div className="klima-footer-bar" style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", margin: 0 }}>
+      <div className="kl01-ft-bar">
+        <div className="kl01-ft-bar-inner">
+          <p className="kl01-ft-copy">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
-          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", margin: 0 }}>
-            Vytvořeno v systému <span style={{ color: "rgba(255,255,255,0.5)" }}>Webero</span>
-          </p>
+          <WeberoCredit />
         </div>
       </div>
     </footer>
-    </>
   );
 }
 
@@ -12675,108 +12336,117 @@ function FooterKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // Newsletter pruh (zelený) + 4-sloupcový tmavý footer + copyright
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterFloors01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const GREEN   = "#007d47";
-  const DARK_BG = "#1a1a1a";
-  const WHITE   = "#ffffff";
-  const MUTED   = "rgba(255,255,255,0.55)";
-  const BORDER  = "rgba(255,255,255,0.1)";
-  const FONT    = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const WHITE = "#ffffff";
+  const FONT  = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const newsletterTitle       = String(content.newsletterTitle       ?? "Novinky, inspirace a zajímavosti ze světa podlah přímo do vaší schránky!");
-  const newsletterPlaceholder = String(content.newsletterPlaceholder ?? "Zadejte váš e-mail");
-  const newsletterCta         = String(content.newsletterCta         ?? "Odebírat");
-  const copyright             = String(content.copyright             ?? "© 2026 Demo Podlahy. Všechna práva vyhrazena.");
+  const siteName              = String(content.siteName ?? "PARKETO");
+  const tagline               = String(content.tagline ?? "Podlahové studio · pokládka na klíč");
+  const newsletterEyebrow     = String(content.newsletterEyebrow     ?? "Odebírejte novinky");
+  const newsletterTitle       = String(content.newsletterTitle       ?? "Nové kolekce, sezónní slevy a tipy pro váš domov — zdarma do schránky.");
+  const newsletterPlaceholder = String(content.newsletterPlaceholder ?? "Váš e-mail");
+  const newsletterCta         = String(content.newsletterCta         ?? "Přihlásit se");
+  const contactTitle          = String(content.contactTitle          ?? "Kontakt");
+  const copyright             = String(content.copyright             ?? "© 2026 PARKETO s.r.o. Všechna práva vyhrazena.");
 
   type ColLink = { label: string; href: string };
   type Col     = { title: string; links: ColLink[] };
-  const columns = (content.columns as Col[]) ?? [];
+  const columns = appendBlogToColumns((content.columns as Col[]) ?? [], content);
 
   type Contact = { address: string; phone: string; email: string };
-  const contact = (content.contact as Contact) ?? { address: "Ukázková 123, 110 00 Praha 1", phone: "+420 704 123 456", email: "info@demo.cz" };
+  const contact = (content.contact as Contact) ?? { address: "Ukázková 123, 110 00 Praha 1", phone: "+420 704 118 260", email: "studio@parketo.cz" };
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    const base = `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href.startsWith("http") || href.startsWith("#")) return href;
-    return `${base}${href.startsWith("/") ? href : "/" + href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const LogoMark = () => (
+    <svg width="38" height="38" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" fill="rgba(255,255,255,0.10)" />
+      <rect x="9"  y="12" width="10" height="4" rx="1" fill="#fff" opacity="0.9" />
+      <rect x="21" y="12" width="10" height="4" rx="1" fill="#fff" opacity="0.9" />
+      <rect x="9"  y="18" width="6"  height="4" rx="1" fill="#fff" opacity="0.9" />
+      <rect x="17" y="18" width="14" height="4" rx="1" fill="#fff" opacity="0.9" />
+      <rect x="9"  y="24" width="14" height="4" rx="1" fill="#fff" opacity="0.9" />
+      <rect x="25" y="24" width="6"  height="4" rx="1" fill="#fff" opacity="0.9" />
+    </svg>
+  );
+  const socials = [
+    { label: "Facebook",  path: "M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" },
+    { label: "Instagram", path: "" },
+    { label: "Pinterest", path: "" },
+  ];
 
   return (
-    <>
-      <style>{`
-        .f01ft-link { color: ${MUTED}; text-decoration: none; font-size: 13.5px; transition: color 0.15s; display: block; padding: 4px 0; }
-        .f01ft-link:hover { color: ${WHITE}; }
-        .f01ft-nl-input::placeholder { color: rgba(255,255,255,0.55); }
-        .f01ft-nl-input:focus { outline: none; border-color: rgba(255,255,255,0.8) !important; }
-        @media (max-width: 640px) {
-          .f01ft-nl-form { flex-direction: column !important; }
-          .f01ft-nl-input { width: 100% !important; border-right: 1.5px solid rgba(255,255,255,0.5) !important; border-bottom: none !important; border-radius: 4px 4px 0 0 !important; }
-          .f01ft-nl-btn { border-radius: 0 0 4px 4px !important; width: 100% !important; }
-          .f01ft-cols { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-      `}</style>
-
+    <section data-template="floors-01" style={{ fontFamily: FONT }}>
       {/* Newsletter strip */}
-      <div style={{ background: GREEN, padding: "36px 20px", fontFamily: FONT }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap" }}>
-          <GenericEditableText sectionId={sectionId} field="newsletterTitle" value={newsletterTitle} tag="p"
-            style={{ color: WHITE, fontSize: 15, fontWeight: 600, margin: 0, flex: "1 1 300px", lineHeight: 1.5 }}>
-            {newsletterTitle}
-          </GenericEditableText>
-          <form className="f01ft-nl-form" style={{ display: "flex", gap: 0, flex: "0 0 auto" }} onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder={newsletterPlaceholder}
-              className="f01ft-nl-input"
-              style={{ width: 260, height: 44, border: "1.5px solid rgba(255,255,255,0.5)", borderRight: "none", borderRadius: "4px 0 0 4px", background: "rgba(255,255,255,0.15)", color: WHITE, paddingLeft: 16, fontSize: 14, fontFamily: FONT }}
-            />
-            <button type="submit" className="f01ft-nl-btn" style={{ height: 44, padding: "0 22px", background: DARK_BG, color: WHITE, border: "none", borderRadius: "0 4px 4px 0", fontWeight: 700, fontSize: 13, cursor: "pointer", letterSpacing: "0.04em", fontFamily: FONT }}>
-              {newsletterCta}
+      <div className="f01ft-nl">
+        <div className="f01ft-nl-inner">
+          <div className="f01ft-nl-head">
+            <span className="f01ft-nl-eyebrow"><GenericEditableText sectionId={sectionId} field="newsletterEyebrow" value={newsletterEyebrow} tag="span" /></span>
+            <GenericEditableText sectionId={sectionId} field="newsletterTitle" value={newsletterTitle} tag="p" className="f01ft-nl-title" />
+          </div>
+          <form className="f01ft-nl-form" onSubmit={(e) => e.preventDefault()}>
+            <input type="email" placeholder={newsletterPlaceholder} className="f01ft-nl-input" aria-label="E-mail" />
+            <button type="submit" className="f01ft-nl-btn">
+              <GenericEditableText sectionId={sectionId} field="newsletterCta" value={newsletterCta} tag="span" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
             </button>
           </form>
         </div>
       </div>
 
       {/* Main footer */}
-      <footer style={{ background: DARK_BG, fontFamily: FONT, padding: "56px 20px 0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div className="f01ft-cols" style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(160px, 1fr))`, gap: "40px 32px", paddingBottom: 48, borderBottom: `1px solid ${BORDER}` }}>
+      <footer className="f01ft-main">
+        <div className="f01ft-inner">
+          {/* Brand row */}
+          <div className="f01ft-brandrow">
+            <div className="f01ft-brand">
+              <LogoMark />
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" className="f01ft-brand-name" />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" className="f01ft-brand-tag" />
+              </div>
+            </div>
+            <div className="f01ft-socials">
+              {socials.map((s, i) => (
+                <a key={i} href="#" className="f01ft-soc" aria-label={s.label}>
+                  {i === 0 ? (
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" /></svg>
+                  ) : i === 1 ? (
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" /></svg>
+                  ) : (
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.06 2.42 7.55 5.9 9.11-.08-.77-.15-1.96.03-2.8.17-.76 1.08-4.85 1.08-4.85s-.28-.55-.28-1.36c0-1.27.74-2.22 1.65-2.22.78 0 1.16.59 1.16 1.29 0 .78-.5 1.96-.76 3.05-.21.91.46 1.65 1.36 1.65 1.63 0 2.88-1.72 2.88-4.2 0-2.2-1.58-3.73-3.83-3.73-2.61 0-4.14 1.96-4.14 3.98 0 .79.3 1.63.68 2.09.08.09.09.17.06.27-.06.27-.21.83-.24.95-.04.15-.13.19-.29.11-1.08-.5-1.76-2.08-1.76-3.35 0-2.73 1.98-5.23 5.71-5.23 3 0 5.33 2.14 5.33 4.99 0 2.98-1.88 5.38-4.49 5.38-.88 0-1.7-.46-1.98-1l-.54 2.05c-.19.75-.72 1.68-1.08 2.25.81.25 1.67.38 2.56.38 5.52 0 10-4.48 10-10S17.52 2 12 2z" /></svg>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
 
+          {/* Columns */}
+          <div className="f01ft-cols">
             {columns.map((col, ci) => (
               <div key={ci}>
-                <p style={{ color: WHITE, fontSize: 13, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", margin: "0 0 16px" }}>{col.title}</p>
+                <GenericEditableText sectionId={sectionId} field={`columns.${ci}.title`} value={col.title} tag="p" className="f01ft-coltitle" />
                 {col.links.map((l, li) => (
-                  <a key={li} href={resolve(l.href)} className="f01ft-link">{l.label}</a>
+                  <a key={li} href={resolve(l.href)} className="f01ft-link" style={{ display: "flex" }}>{l.label}</a>
                 ))}
               </div>
             ))}
-
-            {/* Contact column */}
             <div>
-              <p style={{ color: WHITE, fontSize: 13, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", margin: "0 0 16px" }}>Kontakt</p>
-              <GenericEditableText sectionId={sectionId} field="contact.address" value={contact.address} tag="p"
-                style={{ color: MUTED, fontSize: 13.5, lineHeight: 1.6, margin: "0 0 12px" }}>
-                {contact.address}
-              </GenericEditableText>
-              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="f01ft-link" style={{ color: WHITE, fontWeight: 600 }}>{contact.phone}</a>
-              <a href={`mailto:${contact.email}`} className="f01ft-link">{contact.email}</a>
+              <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="p" className="f01ft-coltitle" />
+              <GenericEditableText sectionId={sectionId} field="contact.address" value={contact.address} tag="p" className="f01ft-caddr" />
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="f01ft-cphone"><GenericEditableText sectionId={sectionId} field="contact.phone" value={contact.phone} tag="span" /></a>
+              <a href={`mailto:${contact.email}`} className="f01ft-cmail"><GenericEditableText sectionId={sectionId} field="contact.email" value={contact.email} tag="span" /></a>
             </div>
-
           </div>
 
-          {/* Copyright */}
-          <div style={{ padding: "20px 0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p"
-              style={{ color: MUTED, fontSize: 12.5, margin: 0 }}>
-              {copyright}
-            </GenericEditableText>
-            <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 12, margin: 0 }}>
-              Powered by <span style={{ color: "rgba(255,255,255,0.35)" }}>Webero</span>
-            </p>
+          {/* Bottom */}
+          <div className="f01ft-bottom">
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p" className="f01ft-copy" />
+            <WeberoCredit />
           </div>
         </div>
       </footer>
-    </>
+    </section>
   );
 }
 
@@ -13102,50 +12772,162 @@ function FooterSolar02({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── malir-01-footer ───────────────────────────────────────────────────────────
-// 1:1 petrovomalovani.cz footer (is-copy):
-// - Černé pozadí #000000, padding 30px 20px
-// - Desktop: flex row, justify space-between
-//   vlevo: © copyright, vpravo: adresa + telefon
-// - Mobile: flex column, centered
-// - Font 18px, bílý text, Raleway
+// VYLEPŠENO (luxe malíř):
+// - Dark bg #0a0a0a, 3-col grid (logo+tagline / navigace / kontakt)
+// - Paint-roller mark + Playfair siteName + amber tagline
+// - Amber hairline top border, social icons, WeberoCredit
+// - Bottom legal bar with copyright
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterMalir01({ content, sectionId, isAdmin: _isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin?: boolean }) {
-  const WHITE   = "#ffffff";
-  const RALEWAY = "'Raleway', sans-serif";
+  const DARK     = "#0a0a0a";
+  const AMBER    = "#E79B0E";
+  const WHITE    = "#ffffff";
+  const MUTED    = "#999999";
+  const FONT_H   = "'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Raleway', sans-serif";
 
-  const copyright = String(content.copyright ?? "© 2025 Demo Malování");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const siteName  = String(content.siteName  ?? "Demo Malování");
+  const siteName  = String(content.siteName ?? "Malířské práce");
+  const tagline   = String(content.tagline ?? "Malování a lakování — Praha a okolí");
+  const copyright = String(content.copyright ?? "© 2025 Malířské práce. Všechna práva vyhrazena.");
+  const address   = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
+  const phone     = String(content.phone ?? "704 123 456");
+  const email     = String(content.email ?? "info@demo.cz");
+  const ic        = String(content.ic ?? "12345678");
+  const links     = (content.links as Array<{ label: string; href: string }>) ?? [
+    { label: "Malování", href: "/malovani" },
+    { label: "Lakování", href: "/lakovani" },
+    { label: "Reference", href: "/reference" },
+    { label: "Ceník", href: "/cenik" },
+    { label: "Kontakt", href: "/kontakt" },
+  ];
+  const facebook  = String((content.social as Record<string,string>)?.facebook ?? "");
+  const instagram = String((content.social as Record<string,string>)?.instagram ?? "");
+
+  const PaintRollerMark = () => (
+    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <rect x="6" y="6" width="22" height="12" rx="2" stroke={AMBER} strokeWidth="1.5" fill="none" />
+      <rect x="10" y="9" width="14" height="6" rx="1" fill={AMBER} opacity="0.25" />
+      <line x1="28" y1="12" x2="32" y2="12" stroke={AMBER} strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="32" y1="12" x2="32" y2="28" stroke={AMBER} strokeWidth="1.5" strokeLinecap="round" />
+      <rect x="29" y="28" width="6" height="8" rx="1.5" stroke={AMBER} strokeWidth="1.3" fill={AMBER} opacity="0.15" />
+    </svg>
+  );
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" />
-      <style>{`        .m01ft-footer { background: #000000; font-family: ${RALEWAY}; }
-        .m01ft-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; max-width: 1230px; margin: 0 auto; gap: 6px; text-align: center; }
-        .m01ft-text { font-size: 18px; color: ${WHITE}; margin: 0; line-height: 1.5; }
-        @media (min-width: 868px) {
-          .m01ft-inner { flex-direction: row; align-items: flex-end; justify-content: space-between; text-align: left; gap: 30px; }
-        }
-      `}</style>
-
-      <footer id="kontakt" className="m01ft-footer" data-template="malir-01">
-        <div className="m01ft-inner">
-          <p className="m01ft-text">
-            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span">{copyright}</GenericEditableText>
-          </p>
-          <p className="m01ft-text">
-            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span">{siteName}</GenericEditableText>
-            {", "}
-            <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span">{address}</GenericEditableText>
-            {", Telefon: "}
-            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">{phone}</GenericEditableText>
-          </p>
+    <footer data-template="malir-01" style={{
+      background: DARK, fontFamily: FONT_B, color: WHITE,
+      borderTop: `2px solid ${AMBER}`,
+    }}>
+      {/* Main grid */}
+      <div className="m01ft-grid" style={{
+        maxWidth: 1140, margin: "0 auto",
+        padding: "clamp(40px, 6vw, 64px) 30px clamp(32px, 4vw, 48px)",
+        display: "grid", gridTemplateColumns: "1.2fr 0.8fr 1fr", gap: "clamp(28px, 4vw, 48px)",
+      }}>
+        {/* Col 1: Brand */}
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+            <PaintRollerMark />
+            <div>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="div" style={{
+                fontFamily: FONT_H, fontWeight: 700, fontSize: 20, color: WHITE, lineHeight: 1.1,
+              }} />
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="div" style={{
+                fontFamily: FONT_B, fontSize: 11, color: AMBER, letterSpacing: "0.1em",
+                textTransform: "uppercase" as const, marginTop: 2,
+              }} />
+            </div>
+          </div>
+          <GenericEditableText sectionId={sectionId} field="footerDesc" value={String(content.footerDesc ?? "Profesionální malířské práce a lakování dřevěných prvků. Spolehlivost, kvalita a precizní provedení od roku 2001.")} tag="p" style={{
+            fontSize: 13.5, lineHeight: 1.7, color: `${WHITE}99`, margin: "0 0 20px", maxWidth: 320,
+          }} />
+          {/* Social icons */}
+          <div style={{ display: "flex", gap: 12 }}>
+            {facebook && (
+              <a href={facebook} target="_blank" rel="noopener" className="m01ft-social" aria-label="Facebook" style={{
+                width: 36, height: 36, borderRadius: "50%", border: `1px solid ${WHITE}25`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.3s", color: `${WHITE}cc`, textDecoration: "none",
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+            )}
+            {instagram && (
+              <a href={instagram} target="_blank" rel="noopener" className="m01ft-social" aria-label="Instagram" style={{
+                width: 36, height: 36, borderRadius: "50%", border: `1px solid ${WHITE}25`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.3s", color: `${WHITE}cc`, textDecoration: "none",
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+              </a>
+            )}
+          </div>
         </div>
-      </footer>
-    </>
+
+        {/* Col 2: Navigation */}
+        <div>
+          <GenericEditableText sectionId={sectionId} field="navColTitle" value={String(content.navColTitle ?? "Navigace")} tag="h4" style={{
+            fontFamily: FONT_B, fontWeight: 700, fontSize: 13, color: AMBER,
+            letterSpacing: "0.1em", textTransform: "uppercase" as const,
+            margin: "0 0 18px",
+          }} />
+          <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {links.map((l, i) => (
+              <a key={i} href={l.href} className="m01ft-link" style={{
+                color: `${WHITE}cc`, textDecoration: "none",
+                fontSize: 14, fontWeight: 500, transition: "color 0.3s",
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        {/* Col 3: Contact */}
+        <div>
+          <GenericEditableText sectionId={sectionId} field="contactColTitle" value={String(content.contactColTitle ?? "Kontakt")} tag="h4" style={{
+            fontFamily: FONT_B, fontWeight: 700, fontSize: 13, color: AMBER,
+            letterSpacing: "0.1em", textTransform: "uppercase" as const,
+            margin: "0 0 18px",
+          }} />
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0, marginTop: 2 }}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" style={{ fontSize: 14, color: `${WHITE}cc`, lineHeight: 1.5 }} />
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: `${WHITE}cc`, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+              <a href={`mailto:${email}`} style={{ color: `${WHITE}cc`, textDecoration: "none", fontSize: 14 }}>
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 4 }}>
+              <GenericEditableText sectionId={sectionId} field="icLabel" value={String(content.icLabel ?? "IČO:")} tag="span" style={{ fontSize: 12, color: MUTED }} />
+              <GenericEditableText sectionId={sectionId} field="ic" value={ic} tag="span" style={{ fontSize: 12, color: `${WHITE}88` }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div style={{
+        borderTop: `1px solid ${WHITE}12`, padding: "18px 30px",
+        maxWidth: 1140, margin: "0 auto",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        flexWrap: "wrap", gap: 12,
+      }}>
+        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" style={{
+          fontSize: 12, color: MUTED, fontFamily: FONT_B,
+        }} />
+        <WeberoCredit />
+      </div>
+    </footer>
   );
 }
 
@@ -13605,6 +13387,7 @@ function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<str
   const tagline      = String(content.tagline      ?? "Profesionální úklidová firma Praha");
   const address      = String(content.address      ?? "Ukázková 123, 110 00 Praha 1");
   const phone        = String(content.phone        ?? "+420 704 123 456");
+  const web          = String(content.web          ?? "");
   const email        = String(content.email        ?? "email@demo.cz");
   const ico          = String(content.ico          ?? "12345678");
   const openingHours = String(content.openingHours ?? "Po–Pá 8:00–16:00");
@@ -13667,6 +13450,12 @@ function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<str
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
             </div>
+            {web && (
+              <a href={web} target="_blank" rel="noopener noreferrer" className="c02ft-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" />
+              </a>
+            )}
             <div className="c02ft-row">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
               <GenericEditableText sectionId={sectionId} field="openingHours" value={openingHours} tag="span" />
@@ -13713,24 +13502,24 @@ function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<str
 
 /* ─── garden-02: Footer — tmavý 4-col ─────────────────────────────────────── */
 function FooterGarden02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  function resolve(href: string) {
-    if (!tenantSlug || !href.startsWith("/")) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  }
+  const siteMode = String((content as Record<string,unknown>).siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const siteName      = (content.siteName      as string) ?? "";
-  const tagline       = (content.tagline       as string) ?? "";
-  const phone         = (content.phone         as string) ?? "";
-  const email         = (content.email         as string) ?? "";
-  const address       = (content.address       as string) ?? "";
-  const ico           = (content.ico           as string) ?? "";
-  const hours         = (content.hours         as string) ?? "";
-  const facebook      = (content.facebook      as string) ?? "";
-  const instagram     = (content.instagram     as string) ?? "";
-  const copyright     = (content.copyright     as string) ?? "";
-  const linksCol1Title = (content.linksCol1Title as string) ?? "";
-  const linksCol2Title = (content.linksCol2Title as string) ?? "";
+  const siteName       = String(content.siteName      ?? "EdenPro s.r.o.");
+  const tagline        = String(content.tagline       ?? "Zahradní realizace — Praha a Středočeský kraj");
+  const phone          = String(content.phone         ?? "+420 608 345 789");
+  const email          = String(content.email         ?? "info@edenpro.cz");
+  const address        = String(content.address       ?? "Květinová 12, 150 00 Praha 5");
+  const ico            = String(content.ico           ?? "09876543");
+  const hours          = String(content.hours         ?? "Po–Pá 7:30–17:00");
+  const facebook       = String(content.facebook      ?? "");
+  const instagram      = String(content.instagram     ?? "");
+  const copyright      = String(content.copyright     ?? "© 2026 EdenPro s.r.o.");
+  const legalText      = String((content as Record<string,unknown>).legalText ?? "Všechna práva vyhrazena.");
+  const linksCol1Title = String(content.linksCol1Title ?? "Naše služby");
+  const linksCol2Title = String(content.linksCol2Title ?? "Navigace");
+  const hoursLabel     = String((content as Record<string,unknown>).hoursLabel ?? "Otevírací doba");
+  const contactLabel   = String((content as Record<string,unknown>).contactLabel ?? "Kontakt");
   const linksCol1 = ((content.linksCol1 as Array<{ label: string; href: string }>) ?? []);
   const linksCol2 = ((content.linksCol2 as Array<{ label: string; href: string }>) ?? []);
 
@@ -13738,74 +13527,173 @@ function FooterGarden02({ content, sectionId, tenantSlug, isAdmin }: { content: 
   const DARK    = "#1a2a0a";
   const FONT    = "'Inter', Arial, sans-serif";
 
+  const LeafMark = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+      <path d="M8 34C8 22 16 10 32 8C30 20 22 32 8 34Z" fill={PRIMARY} opacity="0.85"/>
+      <path d="M8 34C14 28 20 20 28 14" stroke={DARK} strokeWidth="1.4" strokeLinecap="round" opacity="0.35"/>
+    </svg>
+  );
+
   return (
     <>
       <style>{`
-        .g02ft-footer  { background: ${DARK}; color: rgba(255,255,255,0.8); font-family: ${FONT}; padding: 72px 0 0; }
-        .g02ft-inner   { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
-        @media (max-width: 900px) { .g02ft-inner { grid-template-columns: 1fr 1fr; gap: 32px; } }
-        @media (max-width: 560px) { .g02ft-inner { grid-template-columns: 1fr; gap: 28px; } }
-        .g02ft-brand-name { font-size: 1.2rem; font-weight: 800; color: #fff; margin: 0 0 6px; }
-        .g02ft-brand-tag  { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin: 0 0 20px; }
-        .g02ft-contact    { display: flex; flex-direction: column; gap: 8px; font-size: 0.875rem; }
-        .g02ft-contact a  { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.15s; }
+        .g02ft-footer {
+          background: linear-gradient(175deg, ${DARK} 0%, #0d1605 100%);
+          color: rgba(255,255,255,0.75); font-family: ${FONT};
+          padding: 80px 0 0; position: relative;
+        }
+        .g02ft-hairline {
+          position: absolute; top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, ${PRIMARY}55 50%, transparent 100%);
+        }
+        .g02ft-inner {
+          max-width: 1180px; margin: 0 auto; padding: 0 1.5rem;
+          display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem;
+        }
+        @media (max-width: 900px) { .g02ft-inner { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+        @media (max-width: 560px) { .g02ft-inner { grid-template-columns: 1fr; gap: 2rem; } }
+        .g02ft-logo { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+        .g02ft-brand-name {
+          font-size: 1.35rem; font-weight: 800; color: #fff;
+          letter-spacing: -0.01em; line-height: 1.1;
+        }
+        .g02ft-brand-tag {
+          font-size: 0.8rem; color: rgba(255,255,255,0.40);
+          margin: 0 0 1.2rem; line-height: 1.5;
+        }
+        .g02ft-contact { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; }
+        .g02ft-contact a {
+          color: rgba(255,255,255,0.65); text-decoration: none;
+          transition: color 0.25s; display: inline-flex; align-items: center; gap: 0.4rem;
+        }
         .g02ft-contact a:hover { color: ${PRIMARY}; }
-        .g02ft-social  { display: flex; gap: 10px; margin-top: 16px; }
-        .g02ft-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); color: #fff; text-decoration: none; font-size: 0.78rem; font-weight: 700; transition: background 0.15s; }
-        .g02ft-social a:hover { background: ${PRIMARY}; }
-        .g02ft-col-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: ${PRIMARY}; margin: 0 0 14px; }
-        .g02ft-col ul  { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
-        .g02ft-col ul a { font-size: 0.875rem; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
-        .g02ft-col ul a:hover { color: ${PRIMARY}; }
-        .g02ft-bottom  { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 56px; padding: 20px 24px; text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.35); max-width: 1140px; margin-left: auto; margin-right: auto; }
+        .g02ft-contact span { color: rgba(255,255,255,0.50); font-size: 0.82rem; }
+        .g02ft-social { display: flex; gap: 0.6rem; margin-top: 1.2rem; }
+        .g02ft-social a {
+          display: flex; align-items: center; justify-content: center;
+          width: 36px; height: 36px; border-radius: 50%;
+          background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7);
+          text-decoration: none; border: 1px solid rgba(255,255,255,0.08);
+          transition: background 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .g02ft-social a:hover { background: ${PRIMARY}; color: #fff; border-color: ${PRIMARY}; }
+        .g02ft-col-title {
+          font-size: 0.68rem; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: ${PRIMARY}; margin: 0 0 1rem;
+        }
+        .g02ft-col ul {
+          list-style: none; margin: 0; padding: 0;
+          display: flex; flex-direction: column; gap: 0.6rem;
+        }
+        .g02ft-col ul a {
+          font-size: 0.85rem; color: rgba(255,255,255,0.55);
+          text-decoration: none; transition: color 0.25s, padding-left 0.25s;
+        }
+        .g02ft-col ul a:hover { color: ${PRIMARY}; padding-left: 4px; }
+        .g02ft-hours-label {
+          font-size: 0.68rem; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: ${PRIMARY}; margin: 0 0 0.8rem;
+        }
+        .g02ft-hours-val {
+          font-size: 0.85rem; color: rgba(255,255,255,0.55);
+        }
+        .g02ft-bottom {
+          border-top: 1px solid rgba(255,255,255,0.07);
+          margin-top: 3.5rem; padding: 1.2rem 1.5rem;
+          display: flex; align-items: center; justify-content: space-between;
+          max-width: 1180px; margin-left: auto; margin-right: auto;
+          font-size: 0.75rem; color: rgba(255,255,255,0.30);
+        }
+        @media (max-width: 560px) {
+          .g02ft-bottom { flex-direction: column; gap: 0.6rem; text-align: center; }
+        }
       `}</style>
-      <footer className="g02ft-footer">
+      <footer className="g02ft-footer" data-template="garden-02">
+        <span className="g02ft-hairline" aria-hidden="true" />
         <div className="g02ft-inner">
-          {/* Col 1 — brand */}
           <div>
-            <p className="g02ft-brand-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></p>
-            <p className="g02ft-brand-tag"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></p>
+            <div className="g02ft-logo">
+              <LeafMark />
+              <span className="g02ft-brand-name">
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
+            </div>
+            <p className="g02ft-brand-tag">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
             <div className="g02ft-contact">
-              {phone   && <a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>}
-              {email   && <a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>}
+              <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span" style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase" as const, color: PRIMARY, marginBottom: "0.3rem" }} />
+              {phone && <a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>}
+              {email && <a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>}
               {address && <span><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></span>}
-              {ico     && <span>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>}
-              {hours   && <span><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></span>}
+              {ico && <span><GenericEditableText sectionId={sectionId} field="ico" value={`IČO: ${ico}`} tag="span" /></span>}
             </div>
             {(facebook || instagram) && (
               <div className="g02ft-social">
-                {facebook  && <a href={facebook}  target="_blank" rel="noopener noreferrer" aria-label="Facebook">fb</a>}
-                {instagram && <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">ig</a>}
+                {facebook && (
+                  <a href={facebook} target="_blank" rel="noopener" aria-label="Facebook">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                )}
+                {instagram && (
+                  <a href={instagram} target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  </a>
+                )}
               </div>
             )}
           </div>
-          {/* Col 2 — links 1 */}
+
           {linksCol1.length > 0 && (
             <div className="g02ft-col">
-              <p className="g02ft-col-title">{linksCol1Title}</p>
+              <p className="g02ft-col-title">
+                <GenericEditableText sectionId={sectionId} field="linksCol1Title" value={linksCol1Title} tag="span" />
+              </p>
               <ul>
                 {linksCol1.map((link, i) => (
-                  <li key={i}><a href={resolve(link.href)}>{link.label}</a></li>
+                  <li key={i}><a href={resolve(link.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`linksCol1.${i}.label`} value={link.label} tag="span" />
+                  </a></li>
                 ))}
               </ul>
             </div>
           )}
-          {/* Col 3 — links 2 */}
+
           {linksCol2.length > 0 && (
             <div className="g02ft-col">
-              <p className="g02ft-col-title">{linksCol2Title}</p>
+              <p className="g02ft-col-title">
+                <GenericEditableText sectionId={sectionId} field="linksCol2Title" value={linksCol2Title} tag="span" />
+              </p>
               <ul>
                 {linksCol2.map((link, i) => (
-                  <li key={i}><a href={resolve(link.href)}>{link.label}</a></li>
+                  <li key={i}><a href={resolve(link.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`linksCol2.${i}.label`} value={link.label} tag="span" />
+                  </a></li>
                 ))}
               </ul>
             </div>
           )}
-          {/* Col 4 — empty placeholder for spacing */}
-          <div />
+
+          <div>
+            <p className="g02ft-hours-label">
+              <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
+            </p>
+            <span className="g02ft-hours-val">
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+            </span>
+          </div>
         </div>
+
         <div className="g02ft-bottom">
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          <span>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+            {" · "}
+            <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+          </span>
+          <WeberoCredit />
         </div>
       </footer>
     </>
@@ -13902,8 +13790,14 @@ function FooterArbo01({ content, sectionId }: { content: Record<string, unknown>
           margin: 0 auto;
           font-size: 0.8rem;
           color: rgba(255,255,255,0.4);
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem 1.25rem;
           text-align: center;
         }
+        @media (min-width: 640px) { .arbo01-ft-bottom { justify-content: space-between; } }
       `}</style>
 
       <footer className="arbo01-ft" id={String(sectionId)} data-template="arbo-01-footer">
@@ -13956,6 +13850,7 @@ function FooterArbo01({ content, sectionId }: { content: Record<string, unknown>
 
         <div className="arbo01-ft-bottom">
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          <WeberoCredit />
         </div>
       </footer>
     </>
@@ -13996,6 +13891,120 @@ function FooterDdd01({ content, sectionId }: {
 
   return (
     <footer className="ddd01ft-footer" data-template="ddd-01">
+      <style>{`        .ddd01ft-footer {
+          background: #07294a;
+          color: rgba(255,255,255,0.78);
+          font-family: 'Figtree', system-ui, sans-serif;
+          padding: 72px 24px 0;
+        }
+        .ddd01ft-top {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1.6fr 1fr 1fr;
+          gap: 48px;
+          padding-bottom: 56px;
+          border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        .ddd01ft-logo-wrap {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 14px;
+        }
+        .ddd01ft-logo-wrap img { width: 44px; height: 44px; }
+        .ddd01ft-sitename {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #fff;
+        }
+        .ddd01ft-tagline {
+          font-size: 0.875rem;
+          color: #0c93eb;
+          font-weight: 600;
+          margin-bottom: 20px;
+        }
+        .ddd01ft-contact-row {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          font-size: 0.875rem;
+        }
+        .ddd01ft-contact-row a {
+          color: rgba(255,255,255,0.78);
+          text-decoration: none;
+          transition: color 0.15s;
+        }
+        .ddd01ft-contact-row a:hover { color: #fff; }
+        .ddd01ft-contact-row span {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+        }
+        .ddd01ft-contact-row span b { color: rgba(255,255,255,0.45); font-size: 0.78rem; min-width: 36px; font-weight: 400; }
+        .ddd01ft-social-row {
+          display: flex;
+          gap: 12px;
+          margin-top: 20px;
+        }
+        .ddd01ft-social-row a {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 36px;
+          height: 36px;
+          background: rgba(255,255,255,0.1);
+          border-radius: 50%;
+          color: #fff;
+          text-decoration: none;
+          font-size: 0.82rem;
+          font-weight: 700;
+          transition: background 0.15s;
+        }
+        .ddd01ft-social-row a:hover { background: #0c93eb; }
+        .ddd01ft-col-title {
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #fff;
+          margin-bottom: 18px;
+        }
+        .ddd01ft-link-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+        .ddd01ft-link-list a {
+          font-size: 0.9rem;
+          color: rgba(255,255,255,0.72);
+          text-decoration: none;
+          transition: color 0.15s;
+        }
+        .ddd01ft-link-list a:hover { color: #fff; }
+        .ddd01ft-bottom {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 24px 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          font-size: 0.8rem;
+          color: rgba(255,255,255,0.42);
+        }
+        .ddd01ft-bottom-ico { font-size: 0.78rem; }
+        @media (max-width: 900px) {
+          .ddd01ft-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+        }
+        @media (max-width: 560px) {
+          .ddd01ft-top { grid-template-columns: 1fr; }
+          .ddd01ft-bottom { flex-direction: column; align-items: flex-start; gap: 6px; }
+        }
+            `}</style>
       <div className="ddd01ft-top">
         <div>
           <div className="ddd01ft-logo-wrap">
@@ -14071,8 +14080,8 @@ function FooterDdd01({ content, sectionId }: {
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
         </span>
         {ico && <span className="ddd01ft-bottom-ico">IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>}
+        <WeberoCredit />
       </div>
-      <WeberoCredit />
     </footer>
   );
 }
@@ -14337,6 +14346,7 @@ function FooterChalet01({ content, sectionId }: { content: Record<string, unknow
   const address   = String(c.address   ?? "Na Vrchu 42, 542 27 Malá Úpa");
   const phone     = String(c.phone     ?? "+420 704 123 456");
   const email     = String(c.email     ?? "info@boudanavrchu.cz");
+  const web       = String(c.web       ?? "");
   const facebook  = String(c.facebook  ?? "https://facebook.com/boudanavrchu");
   const instagram = String(c.instagram ?? "https://instagram.com/boudanavrchu");
   const copyright = String(c.copyright ?? `© ${new Date().getFullYear()} Bouda Na Vrchu. Všechna práva vyhrazena.`);
@@ -14532,6 +14542,14 @@ function FooterChalet01({ content, sectionId }: { content: Record<string, unknow
                 </svg>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </div>
+              {web && (
+                <a href={web} target="_blank" rel="noopener noreferrer" className="ch01ft-contact-row">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18Z"/>
+                  </svg>
+                  <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span" />
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -15198,6 +15216,7 @@ function FooterEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: 
   const tagline     = String(content.tagline     ?? "Eventová agentura Praha");
   const phone       = String(content.phone       ?? "704 123 456");
   const email       = String(content.email       ?? "email@demo.cz");
+  const web = String(content.web ?? "");
   const address     = String(content.address     ?? "Ukázková 123, 110 00 Praha 1");
   const ico         = String(content.ico         ?? "12345678");
   const icoLabel    = String(content.icoLabel    ?? "IČO");
@@ -15384,6 +15403,11 @@ function FooterEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: 
               <a href={`mailto:${email}`}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span">{email}</GenericEditableText>
               </a>
+              {web && (
+                <a href={web} target="_blank" rel="noopener noreferrer">
+                  <GenericEditableText sectionId={sectionId} field="web" value={web.replace(/^https?:\/\//, "")} tag="span">{web.replace(/^https?:\/\//, "")}</GenericEditableText>
+                </a>
+              )}
             </div>
             <p className="ev01ft-ico">
               <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span">{icoLabel}</GenericEditableText>
@@ -15878,107 +15902,112 @@ function Dj01FooterInner({
 // sloupec 3: navigační linky
 // copyright bar dole
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterRestaurant04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName   = String(content.siteName   ?? "Corleone");
+function FooterRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const siteName   = String(content.siteName   ?? "Osteria Verde");
+  const logoTagline = String((content as any).logoTagline ?? "Pizzeria · Trattoria");
   const tagline    = String(content.tagline    ?? "Autentická italská kuchyně v Praze");
-  const address    = String(content.address    ?? "Ukázková 123, 110 00 Praha 1");
-  const phone      = String(content.phone      ?? "704 123 456");
-  const email      = String(content.email      ?? "info@demo.cz");
-  const hours      = String(content.hours      ?? "Po–Pá 10:00–23:00, So–Ne 11:00–23:00");
+  const address    = String(content.address    ?? "Mánesova 42, Praha 2");
+  const phone      = String(content.phone      ?? "+420 222 518 907");
+  const email      = String(content.email      ?? "info@osteriaverde.cz");
+  const hours      = String(content.hours      ?? "Po–Čt 11:00–22:00 · Pá–So 11:00–23:00");
   const copyright  = String(content.copyright  ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
   const fbUrl      = String((content as any).facebookUrl  ?? "");
   const igUrl      = String((content as any).instagramUrl ?? "");
   const links      = ((content as any).links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode   = String(content.siteMode ?? "multipage");
 
   const DARK   = "#0d1f0a";
+  const SURF   = "#152d11";
   const RED    = "#c41c1c";
   const CREAM  = "#f5f0e8";
   const MUTED  = "#8fa889";
   const MUTED2 = "#5a7a56";
+  const BORDER = "#1e3a1a";
   const SERIF  = "'Fraunces', Georgia, 'Times New Roman', serif";
   const SANS   = "'Nunito Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const LogoSvg = () => (
-    <svg viewBox="0 0 200 46" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 40, display: "block" }}>
-      <path d="M8 38 L22 10 L36 38 Z" fill={RED} opacity="0.9" />
-      <circle cx="22" cy="21" r="3.5" fill={CREAM} opacity="0.9" />
-      <circle cx="17" cy="30" r="2.5" fill={CREAM} opacity="0.7" />
-      <circle cx="28" cy="29" r="2" fill={CREAM} opacity="0.7" />
-      <text x="44" y="26" fontFamily="Georgia, serif" fontSize="18" fontWeight="700"
-            fill={CREAM} letterSpacing="3" style={{ fontStyle: "italic" }}>PIZZA</text>
-      <rect x="44" y="29" width="84" height="1.2" fill={RED} opacity="0.8" />
-      <text x="44" y="40" fontFamily="'Helvetica Neue', Arial, sans-serif" fontSize="9.5"
-            fontWeight="600" fill={CREAM} letterSpacing="5" opacity="0.85">FACTORY</text>
-    </svg>
-  );
-
-  const IconFb = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke={MUTED} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-  const IconIg = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-      <rect x="2" y="2" width="20" height="20" rx="5" stroke={MUTED} strokeWidth="1.5"/>
-      <circle cx="12" cy="12" r="4" stroke={MUTED} strokeWidth="1.5"/>
-      <circle cx="17.5" cy="6.5" r="1" fill={MUTED}/>
-    </svg>
-  );
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin ?? false);
 
   return (
-    <footer style={{ background: DARK, borderTop: `2px solid ${RED}` }}>
-      {/* Hlavní obsah */}
-      <div style={{ maxWidth: 1180, margin: "0 auto", padding: "clamp(48px, 8vw, 80px) clamp(24px, 6vw, 80px) clamp(32px, 5vw, 56px)" }}>
+    <footer data-template="restaurant-04" style={{ background: DARK, borderTop: `2px solid ${RED}` }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "clamp(56px, 8vw, 88px) clamp(24px, 6vw, 80px) clamp(40px, 5vw, 60px)" }}>
         <div style={{
-          display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: "clamp(32px, 5vw, 72px)",
+          display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: "clamp(32px, 5vw, 72px)",
         }} className="r04-footer-grid">
 
-          {/* Sloupec 1: Logo + tagline + social */}
+          {/* Col 1: Logo + tagline + social */}
           <div>
-            <div style={{ marginBottom: 16 }}><LogoSvg /></div>
+            {/* Reuse navbar emblem lockup */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: "50%",
+                background: RED, display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L8 18h8L12 2z" fill={CREAM} opacity="0.95"/>
+                  <circle cx="12" cy="12" r="2" fill={RED}/>
+                  <circle cx="10" cy="15" r="1.3" fill={CREAM} opacity="0.7"/>
+                  <circle cx="14.5" cy="14.5" r="1" fill={CREAM} opacity="0.6"/>
+                  <path d="M16 5c1.5 1 2 3 1 4.5" stroke="#2d5a1e" strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>
+                </svg>
+              </div>
+              <div>
+                <span style={{
+                  fontFamily: SERIF, fontSize: 20, fontWeight: 700, fontStyle: "italic",
+                  color: CREAM, display: "block", lineHeight: 1.1,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                </span>
+                <span style={{
+                  fontFamily: SANS, fontSize: 9, fontWeight: 600,
+                  letterSpacing: "0.2em", textTransform: "uppercase",
+                  color: RED, opacity: 0.85,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="logoTagline" value={logoTagline} tag="span" />
+                </span>
+              </div>
+            </div>
             <p style={{
-              fontFamily: SANS, fontSize: 13, color: MUTED,
-              lineHeight: 1.6, margin: "0 0 28px", maxWidth: 260,
+              fontFamily: SANS, fontSize: 14, color: MUTED,
+              lineHeight: 1.7, margin: "0 0 28px", maxWidth: 280,
             }}>
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
             {(fbUrl || igUrl) && (
-              <div style={{ display: "flex", gap: 12 }}>
+              <div style={{ display: "flex", gap: 10 }}>
                 {fbUrl && (
-                  <a href={fbUrl} target="_blank" rel="noopener noreferrer"
-                    style={{
-                      width: 36, height: 36, borderRadius: "50%",
-                      border: `1px solid ${MUTED2}`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      transition: "border-color 0.2s",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = RED)}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = MUTED2)}
-                  ><IconFb /></a>
+                  <a href={fbUrl} target="_blank" rel="noopener noreferrer" className="r04-footer-social" style={{
+                    width: 38, height: 38, borderRadius: "50%", border: `1px solid ${BORDER}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke={MUTED} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
                 )}
                 {igUrl && (
-                  <a href={igUrl} target="_blank" rel="noopener noreferrer"
-                    style={{
-                      width: 36, height: 36, borderRadius: "50%",
-                      border: `1px solid ${MUTED2}`,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      transition: "border-color 0.2s",
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.borderColor = RED)}
-                    onMouseLeave={e => (e.currentTarget.style.borderColor = MUTED2)}
-                  ><IconIg /></a>
+                  <a href={igUrl} target="_blank" rel="noopener noreferrer" className="r04-footer-social" style={{
+                    width: 38, height: 38, borderRadius: "50%", border: `1px solid ${BORDER}`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <rect x="2" y="2" width="20" height="20" rx="5" stroke={MUTED} strokeWidth="1.5"/>
+                      <circle cx="12" cy="12" r="4" stroke={MUTED} strokeWidth="1.5"/>
+                      <circle cx="17.5" cy="6.5" r="1" fill={MUTED}/>
+                    </svg>
+                  </a>
                 )}
               </div>
             )}
           </div>
 
-          {/* Sloupec 2: Kontakt */}
+          {/* Col 2: Kontakt */}
           <div>
             <h4 style={{
-              fontFamily: SERIF, fontSize: 14, fontWeight: 400, fontStyle: "italic",
-              color: CREAM, margin: "0 0 20px", letterSpacing: "0.04em",
+              fontFamily: SERIF, fontSize: 15, fontWeight: 400, fontStyle: "italic",
+              color: CREAM, margin: "0 0 24px", letterSpacing: "0.04em",
             }}>Kontakt</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {[
                 { field: "address", label: address },
                 { field: "phone",   label: phone,  href: `tel:${phone.replace(/\s/g, "")}` },
@@ -15986,13 +16015,13 @@ function FooterRestaurant04({ content, sectionId }: { content: Record<string, un
                 { field: "hours",   label: hours },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", gap: 8 }}>
-                  <div style={{ width: 3, background: RED, borderRadius: 1, flexShrink: 0, marginTop: 3 }} />
+                  <div style={{ width: 2, background: RED, borderRadius: 1, flexShrink: 0, marginTop: 4, opacity: 0.6 }} />
                   {item.href ? (
-                    <a href={item.href} style={{ fontFamily: SANS, fontSize: 13, color: MUTED, textDecoration: "none", lineHeight: 1.5 }}>
+                    <a href={item.href} className="r04-footer-link" style={{ fontFamily: SANS, fontSize: 13, color: MUTED, textDecoration: "none", lineHeight: 1.6 }}>
                       <GenericEditableText sectionId={sectionId} field={item.field} value={item.label} tag="span" />
                     </a>
                   ) : (
-                    <span style={{ fontFamily: SANS, fontSize: 13, color: MUTED, lineHeight: 1.5 }}>
+                    <span style={{ fontFamily: SANS, fontSize: 13, color: MUTED, lineHeight: 1.6 }}>
                       <GenericEditableText sectionId={sectionId} field={item.field} value={item.label} tag="span" />
                     </span>
                   )}
@@ -16001,23 +16030,22 @@ function FooterRestaurant04({ content, sectionId }: { content: Record<string, un
             </div>
           </div>
 
-          {/* Sloupec 3: Navigace */}
+          {/* Col 3: Navigace */}
           <div>
             <h4 style={{
-              fontFamily: SERIF, fontSize: 14, fontWeight: 400, fontStyle: "italic",
-              color: CREAM, margin: "0 0 20px", letterSpacing: "0.04em",
+              fontFamily: SERIF, fontSize: 15, fontWeight: 400, fontStyle: "italic",
+              color: CREAM, margin: "0 0 24px", letterSpacing: "0.04em",
             }}>Navigace</h4>
-            <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {links.map((link, i) => (
                 <a
                   key={i}
-                  href={link.href}
+                  href={resolve(link.href)}
+                  className="r04-footer-link"
                   style={{
                     fontFamily: SANS, fontSize: 13, color: MUTED,
-                    textDecoration: "none", transition: "color 0.2s",
+                    textDecoration: "none",
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
                 >
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
                 </a>
@@ -16029,21 +16057,20 @@ function FooterRestaurant04({ content, sectionId }: { content: Record<string, un
 
       {/* Copyright bar */}
       <div style={{
-        borderTop: `1px solid #1e3a1a`,
-        padding: "18px clamp(24px, 6vw, 80px)",
-        maxWidth: "100%",
+        borderTop: `1px solid ${BORDER}`,
+        padding: "20px clamp(24px, 6vw, 80px)",
       }}>
-        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <div style={{
+          maxWidth: 1200, margin: "0 auto",
+          display: "flex", flexWrap: "wrap", gap: "8px 24px",
+          alignItems: "center", justifyContent: "space-between",
+        }}>
           <p style={{ fontFamily: SANS, fontSize: 12, color: MUTED2, margin: 0 }}>
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
+          <WeberoCredit />
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) { .r04-footer-grid { grid-template-columns: 1fr !important; } }
-        @media (min-width: 601px) and (max-width: 768px) { .r04-footer-grid { grid-template-columns: 1fr 1fr !important; } }
-      `}</style>
     </footer>
   );
 }
@@ -16275,6 +16302,7 @@ function FooterVideo01({ content, sectionId, isAdmin }: {
           <p className="vd01ft-copyright">
             {isAdmin ? <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" /> : copyright}
           </p>
+          <WeberoCredit />
         </div>
       </div>
     </footer>
@@ -16396,5 +16424,2925 @@ function FooterRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { con
         </div>
       </div>
     </footer>
+  );
+}
+
+/* ============================================================
+ * eshop-02 "Modrý Košík" — Shoptet Classic DNA
+ * Footer: navy, 4 sloupce (brand+kontakt / Nakupujte / Informace
+ * / Zákaznický servis), trust řada plateb, bottom bar + WeberoCredit.
+ * ============================================================ */
+
+function FooterEshop02({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const BLUE = "#1266cc";
+  const ACCENT = "#f0803c";
+  const DARK = "#142b45";
+  const SANS = "'Open Sans', 'Segoe UI', Arial, sans-serif";
+
+  const siteName = String(content.siteName ?? "Modrý Košík");
+  const tagline = content.tagline === undefined ? "" : String(content.tagline);
+  const phone = String(content.phone ?? "+420 777 123 456");
+  const email = String(content.email ?? "info@modrykosik.cz");
+  const address = String(content.address ?? "Skladová 12, 190 00 Praha 9");
+  const openNote = content.openNote === undefined ? "Zákaznická linka Po–Ne 8:00–20:00" : String(content.openNote);
+  const shopLinks = Array.isArray(content.shopLinks) ? (content.shopLinks as Array<Record<string, unknown>>) : [];
+  const infoLinks = appendBlogLink(
+    (Array.isArray(content.infoLinks) ? (content.infoLinks as Array<Record<string, unknown>>) : []) as NavLink[],
+    content
+  );
+  const serviceLinks = Array.isArray(content.serviceLinks) ? (content.serviceLinks as Array<Record<string, unknown>>) : [];
+  const payments = Array.isArray(content.payments) ? (content.payments as string[]) : ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Bankovní převod", "Dobírka"];
+  const year = new Date().getFullYear();
+
+  const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+  const resolve = (href: string) => {
+    if (isAdmin) return "#";
+    if (!href.startsWith("/")) return href;
+    return `${base}${href}`;
+  };
+
+  const col = (title: string, titleField: string, links: Array<Record<string, unknown>>, listField: string) => (
+    <div>
+      <GenericEditableText sectionId={sectionId} field={titleField} value={title} tag="p" className="wc2ft-col-title" />
+      <ul className="wc2ft-list">
+        {links.map((l, i) => (
+          <li key={i}>
+            <a href={resolve(String(l.href ?? "/"))}>
+              <GenericEditableText sectionId={sectionId} field={`${listField}.${i}.label`} value={String(l.label ?? "")} tag="span" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return (
+    <footer className="wc2ft" data-variant="eshop-02-footer">
+      <style>{`
+        .wc2ft { background: ${DARK}; color: rgba(255,255,255,0.78); font-family: ${SANS}; }
+        .wc2ft-inner { max-width: 1280px; margin: 0 auto; padding: clamp(44px,5.5vw,72px) 24px 0; }
+        .wc2ft-grid { display: grid; grid-template-columns: minmax(0,4fr) repeat(3, minmax(0,2.6fr)); gap: clamp(28px,4vw,56px); padding-bottom: clamp(32px,4vw,48px); }
+        @media (max-width: 980px) { .wc2ft-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px) { .wc2ft-grid { grid-template-columns: 1fr; } }
+        .wc2ft-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .wc2ft-mark { width: 38px; height: 38px; border-radius: 10px; background: ${BLUE}; display: grid; place-items: center; }
+        .wc2ft-name { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; color: #fff; }
+        .wc2ft-tagline { font-size: 14px; line-height: 1.65; margin: 0 0 18px; color: rgba(255,255,255,0.62); max-width: 300px; }
+        .wc2ft-contact { display: flex; flex-direction: column; gap: 9px; }
+        .wc2ft-contact a, .wc2ft-contact span.wc2ft-row { display: inline-flex; align-items: center; gap: 9px; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 14px; font-weight: 600; }
+        .wc2ft-contact a:hover { color: #fff; }
+        .wc2ft-contact svg { flex-shrink: 0; color: ${ACCENT}; }
+        .wc2ft-open { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+        .wc2ft-col-title { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fff; margin: 0 0 16px; }
+        .wc2ft-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+        .wc2ft-list a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 14px; transition: color .15s, padding-left .2s; }
+        .wc2ft-list a:hover { color: #fff; padding-left: 4px; }
+        .wc2ft-trust { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .wc2ft-trust-label { font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.5); margin-right: 6px; }
+        .wc2ft-pay { font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 7px; padding: 6px 12px; }
+        .wc2ft-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0 22px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; color: rgba(255,255,255,0.5); }
+      `}</style>
+      <div className="wc2ft-inner">
+        <div className="wc2ft-grid">
+          <div>
+            <div className="wc2ft-brand">
+              <span className="wc2ft-mark" aria-hidden>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              </span>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" className="wc2ft-name" />
+            </div>
+            {tagline.trim() !== "" && (
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p" className="wc2ft-tagline" />
+            )}
+            <div className="wc2ft-contact">
+              <a href={`tel:${phone.replace(/\s/g, "")}`}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <a href={`mailto:${email}`}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
+              <span className="wc2ft-row">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+              </span>
+              <GenericEditableText sectionId={sectionId} field="openNote" value={openNote} tag="span" className="wc2ft-open" />
+            </div>
+          </div>
+          {col(String(content.shopTitle ?? "Nakupujte"), "shopTitle", shopLinks, "shopLinks")}
+          {col(String(content.infoTitle ?? "Informace"), "infoTitle", infoLinks, "infoLinks")}
+          {col(String(content.serviceTitle ?? "Zákaznický servis"), "serviceTitle", serviceLinks, "serviceLinks")}
+        </div>
+        <div className="wc2ft-trust">
+          <span className="wc2ft-trust-label">Bezpečně zaplatíte</span>
+          {payments.map((p, i) => (
+            <span className="wc2ft-pay" key={i}>{p}</span>
+          ))}
+        </div>
+        <div className="wc2ft-bottom">
+          <span>© {year} {siteName} — všechna práva vyhrazena</span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-03-footer ─────────────────────────────────────────────────────────────
+// Shoptet Disco footer, povýšeno: žlutý newsletter pás (Nunito 900 + hranatý
+// input a černé CTA) → bílý 4-sloupcový footer (brand+kontakt / Nakupujte /
+// Informace / zákaznická linka) → bottom bar s platbami a copyright.
+// Linky resolvované s prefixem /demo/{tenantSlug} — funguje i mimo homepage.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop03({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const YELLOW = "#FFC500";
+  const BLACK = "#000000";
+  const TEXT = "#1f1f1f";
+  const MUTED = "#767676";
+  const BORDER = "#e6e6e6";
+  const SANS = "'Nunito', 'Segoe UI', Arial, sans-serif";
+
+  const siteName = String(content.siteName ?? "Pohodář");
+  const tagline = content.tagline === undefined ? "" : String(content.tagline);
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const openNote = content.openNote === undefined ? "" : String(content.openNote);
+  const shopTitle = String(content.shopTitle ?? "Nakupujte");
+  const infoTitle = String(content.infoTitle ?? "Informace");
+  const shopLinks = Array.isArray(content.shopLinks) ? (content.shopLinks as Array<Record<string, unknown>>) : [];
+  const infoLinks = Array.isArray(content.infoLinks) ? (content.infoLinks as Array<Record<string, unknown>>) : [];
+  const payments = Array.isArray(content.payments) ? (content.payments as string[]) : ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Bankovní převod", "Dobírka"];
+  const nlHeading = String(content.nlHeading ?? "Slevy a novinky e-mailem");
+  const nlText = content.nlText === undefined ? "" : String(content.nlText);
+  const nlPlaceholder = String(content.nlPlaceholder ?? "vas@email.cz");
+  const nlButton = String(content.nlButton ?? "Odebírat");
+  const year = new Date().getFullYear();
+  const [nlDone, setNlDone] = useState(false);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+  const resolve = (href: string) => {
+    if (siteMode === "onepage") {
+      if (href.startsWith("/") && href !== "/") return `${base}#${href.slice(1)}`;
+      if (href.startsWith("#")) return `${base}${href}`;
+      return href;
+    }
+    if (href.startsWith("#")) return `${base}/${href.slice(1)}`;
+    if (href.startsWith("/")) return `${base}${href}`;
+    return href;
+  };
+
+  const col = (links: Array<Record<string, unknown>>, fieldBase: string) => (
+    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+      {links.map((lk, i) => (
+        <li key={i}>
+          <a href={resolve(String(lk.href ?? "/"))} className="es03f-link" style={{ color: TEXT, textDecoration: "none", fontSize: 14.5, fontWeight: 600 }}>
+            <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.label`} value={String(lk.label ?? "")} tag="span" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+
+  return (
+    <footer data-variant="eshop-03-footer" style={{ fontFamily: SANS, background: "#fff" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" />
+      <style>{`
+        .es03f-link { transition: color 0.15s; }
+        .es03f-link:hover { color: #b58a00 !important; text-decoration: underline !important; text-underline-offset: 3px; }
+        .es03f-grid { display: grid; grid-template-columns: minmax(0,1.5fr) repeat(3, minmax(0,1fr)); gap: clamp(28px,4vw,56px); }
+        @media (max-width: 900px) { .es03f-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .es03f-grid { grid-template-columns: 1fr; } }
+        .es03f-nl { display: flex; align-items: center; justify-content: space-between; gap: clamp(18px,3vw,40px); flex-wrap: wrap; }
+        .es03f-nl-form { display: flex; flex: 1 1 340px; max-width: 480px; }
+        .es03f-nl-form input { flex: 1; height: 50px; border: 1px solid #e6e6e6; border-right: none; border-radius: 0; padding: 0 16px; font-size: 15px; font-family: 'Nunito','Segoe UI',Arial,sans-serif; outline: none; background: #fff; color: #1f1f1f; }
+        .es03f-nl-form button { height: 50px; padding: 0 24px; border: none; border-radius: 0; background: #FFC500; color: #000; font-size: 13.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; font-family: 'Nunito','Segoe UI',Arial,sans-serif; transition: background 0.2s; }
+        .es03f-nl-form button:hover { background: #e6b200; }
+      `}</style>
+
+      {/* Newsletter pás */}
+      <div style={{ background: "#f6f6f6", borderBottom: `1px solid ${BORDER}` }}>
+        <div className="es03f-nl" style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(24px,3vw,36px) 20px" }}>
+          <div style={{ minWidth: 260 }}>
+            <GenericEditableText sectionId={sectionId} field="nlHeading" value={nlHeading} tag="h3"
+              style={{ fontSize: "clamp(20px,2.2vw,26px)", fontWeight: 900, color: BLACK, margin: 0, letterSpacing: "-0.01em" }} />
+            {nlText && (
+              <GenericEditableText sectionId={sectionId} field="nlText" value={nlText} tag="p"
+                style={{ fontSize: 14, color: MUTED, margin: "6px 0 0", fontWeight: 600 }} />
+            )}
+          </div>
+          {nlDone ? (
+            <p style={{ fontSize: 15, fontWeight: 800, color: BLACK, margin: 0 }}>Děkujeme! Potvrzení jsme poslali na váš e-mail.</p>
+          ) : (
+            <form className="es03f-nl-form" onSubmit={(e) => { e.preventDefault(); setNlDone(true); }}>
+              <input type="email" required placeholder={nlPlaceholder} aria-label="E-mail" />
+              <button type="submit">{nlButton}</button>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {/* Hlavní footer */}
+      <div style={{ borderBottom: `1px solid ${BORDER}` }}>
+        <div className="es03f-grid" style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(36px,5vw,60px) 20px" }}>
+          <div>
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="p"
+              style={{ fontSize: 24, fontWeight: 900, color: BLACK, margin: 0, letterSpacing: "-0.01em" }} />
+            {tagline && (
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                style={{ fontSize: 14, color: MUTED, lineHeight: 1.6, margin: "12px 0 0", maxWidth: 320 }} />
+            )}
+            <div style={{ marginTop: 18, display: "flex", flexDirection: "column", gap: 8, fontSize: 14.5, fontWeight: 700 }}>
+              {phone && (
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="es03f-link" style={{ color: BLACK, textDecoration: "none" }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+              )}
+              {email && (
+                <a href={`mailto:${email}`} className="es03f-link" style={{ color: BLACK, textDecoration: "none" }}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              )}
+              {address && (
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p"
+                  style={{ color: MUTED, fontWeight: 600, margin: 0 }} />
+              )}
+            </div>
+          </div>
+          <div>
+            <GenericEditableText sectionId={sectionId} field="shopTitle" value={shopTitle} tag="h4"
+              style={{ fontSize: 15, fontWeight: 800, color: BLACK, textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 16px" }} />
+            {col(shopLinks, "shopLinks")}
+          </div>
+          <div>
+            <GenericEditableText sectionId={sectionId} field="infoTitle" value={infoTitle} tag="h4"
+              style={{ fontSize: 15, fontWeight: 800, color: BLACK, textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 16px" }} />
+            {col(infoLinks, "infoLinks")}
+          </div>
+          <div>
+            <h4 style={{ fontSize: 15, fontWeight: 800, color: BLACK, textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 16px" }}>Zákaznická linka</h4>
+            {openNote && (
+              <GenericEditableText sectionId={sectionId} field="openNote" value={openNote} tag="p"
+                style={{ fontSize: 14.5, color: TEXT, lineHeight: 1.6, margin: 0, fontWeight: 600 }} />
+            )}
+            <div style={{ marginTop: 16, display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {payments.map((p, i) => (
+                <span key={i} style={{ fontSize: 11.5, fontWeight: 700, color: MUTED, border: `1px solid ${BORDER}`, padding: "4px 9px" }}>{p}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom bar */}
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "18px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+        <p style={{ fontSize: 13, color: MUTED, margin: 0, fontWeight: 600 }}>© {year} {siteName}. Všechna práva vyhrazena.</p>
+        <WeberoCredit />
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-04-footer ─────────────────────────────────────────────────────────────
+// Shoptet Samba footer 1:1: centrovaný newsletter pás (h2, e-mail input,
+// consent poznámka, periwinkle tlačítko se šipkou) → bílý footer se
+// 4 sloupci: Kontakt (jméno + mail/tel s ikonkami + adresa), O nás (text),
+// Nakupujte, Informace → bottom bar s platbami a copyright.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop04({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const PERI = "#6883ba";
+  const INK = "#161616";
+  const MUTED = "#6f6f6f";
+  const BORDER = "#e8e8e8";
+  const SANS = "'Raleway', 'Segoe UI', Arial, sans-serif";
+
+  const siteName = String(content.siteName ?? "Pastelka");
+  const tagline = content.tagline === undefined ? "" : String(content.tagline);
+  const contactName = String((content as Record<string, unknown>).contactName ?? siteName);
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const openNote = content.openNote === undefined ? "" : String(content.openNote);
+  const shopTitle = String(content.shopTitle ?? "Nakupujte");
+  const infoTitle = String(content.infoTitle ?? "Informace");
+  const shopLinks = Array.isArray(content.shopLinks) ? (content.shopLinks as Array<Record<string, unknown>>) : [];
+  const infoLinks = appendBlogLink(
+    (Array.isArray(content.infoLinks) ? (content.infoLinks as Array<Record<string, unknown>>) : []) as NavLink[],
+    content
+  );
+  const payments = Array.isArray(content.payments) ? (content.payments as string[]) : ["Visa", "Mastercard", "Apple Pay", "Google Pay", "Bankovní převod", "Dobírka"];
+  const nlHeading = String(content.nlHeading ?? "Odebírat newsletter");
+  const nlNote = String((content as Record<string, unknown>).nlNote ?? "Vložením e-mailu souhlasíte s podmínkami ochrany osobních údajů.");
+  const nlPlaceholder = String(content.nlPlaceholder ?? "Vaše e-mailová adresa");
+  const nlButton = String(content.nlButton ?? "Odebírat");
+  const year = new Date().getFullYear();
+  const [nlDone, setNlDone] = useState(false);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+  const resolve = (href: string) => {
+    if (siteMode === "onepage") {
+      if (href.startsWith("/") && href !== "/") return `${base}#${href.slice(1)}`;
+      if (href.startsWith("#")) return `${base}${href}`;
+      return href;
+    }
+    if (href.startsWith("#")) return `${base}/${href.slice(1)}`;
+    if (href.startsWith("/")) return `${base}${href}`;
+    return href;
+  };
+
+  const col = (links: Array<Record<string, unknown>>, fieldBase: string) => (
+    <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+      {links.map((lk, i) => (
+        <li key={i}>
+          <a href={resolve(String(lk.href ?? "/"))} className="es04f-link" style={{ color: INK, textDecoration: "none", fontSize: 14, fontWeight: 500 }}>
+            <GenericEditableText sectionId={sectionId} field={`${fieldBase}.${i}.label`} value={String(lk.label ?? "")} tag="span" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+
+  return (
+    <footer data-variant="eshop-04-footer" style={{ fontFamily: SANS, background: "#fff" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" />
+      <style>{`
+        .es04f-link { transition: color 0.2s; }
+        .es04f-link:hover { color: #6883ba !important; }
+        .es04f-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: clamp(28px,4vw,56px); }
+        @media (max-width: 900px) { .es04f-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .es04f-grid { grid-template-columns: 1fr; } }
+        .es04f-nl { text-align: center; padding: clamp(36px,4.5vw,60px) 20px; }
+        .es04f-nl h3 { font-size: 32px; font-weight: 700; letter-spacing: 1.6px; color: #161616; margin: 0 0 22px; }
+        @media (max-width: 720px) { .es04f-nl h3 { font-size: 24px; } }
+        .es04f-nl-form { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .es04f-nl-form input { width: min(420px, 100%); height: 50px; border: 1px solid #e8e8e8; border-radius: 8px; padding: 0 16px; font-size: 15px; text-align: center; font-family: 'Raleway','Segoe UI',Arial,sans-serif; outline: none; background: #fff; color: #161616; transition: border-color 0.2s, box-shadow 0.2s; }
+        .es04f-nl-form input:focus { border-color: #6883ba; box-shadow: 0 0 0 3px rgba(104,131,186,0.14); }
+        .es04f-nl-note { font-size: 12.5px; color: #6f6f6f; max-width: 420px; margin: 0 auto; }
+        .es04f-nl-form button { display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 26px; border: none; border-radius: 8px; background: #6883ba; color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Raleway','Segoe UI',Arial,sans-serif; transition: background 0.3s; }
+        .es04f-nl-form button:hover { background: #7999d9; }
+        .es04f-contact li { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 14px; }
+        .es04f-credit .bc-webero-credit { color: #6f6f6f !important; }
+        .es04f-credit .bc-webero-credit:hover { color: #6883ba !important; }
+        .es04f-credit .bc-webero-credit rect { fill: rgba(22,22,22,0.08) !important; }
+      `}</style>
+
+      {/* Newsletter — centrovaný pás */}
+      <div style={{ background: "#f9f9f9", borderTop: `1px solid ${BORDER}` }}>
+        <div className="es04f-nl" style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <GenericEditableText sectionId={sectionId} field="nlHeading" value={nlHeading} tag="h3" />
+          {nlDone ? (
+            <p style={{ fontSize: 15, fontWeight: 700, color: PERI, margin: 0 }}>Děkujeme! Potvrzení jsme poslali na váš e-mail.</p>
+          ) : (
+            <form className="es04f-nl-form" onSubmit={(e) => { e.preventDefault(); setNlDone(true); }}>
+              <input type="email" required placeholder={nlPlaceholder} aria-label="E-mail" />
+              <GenericEditableText sectionId={sectionId} field="nlNote" value={nlNote} tag="p" className="es04f-nl-note" />
+              <button type="submit">
+                {nlButton}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+
+      {/* Footer sloupce */}
+      <div style={{ background: "#fff", borderTop: `1px solid ${BORDER}` }}>
+        <div className="es04f-grid" style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(36px,5vw,60px) 20px" }}>
+          <div>
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: INK, margin: "0 0 16px" }}>Kontakt</h4>
+            <GenericEditableText sectionId={sectionId} field="contactName" value={contactName} tag="strong"
+              style={{ display: "block", fontSize: 15, fontWeight: 700, color: INK, marginBottom: 8 }} />
+            <ul className="es04f-contact" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+              {email && (
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></svg>
+                  <a href={`mailto:${email}`} className="es04f-link" style={{ color: INK, textDecoration: "none" }}>
+                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                  </a>
+                </li>
+              )}
+              {phone && (
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="es04f-link" style={{ color: INK, textDecoration: "none" }}>
+                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                  </a>
+                </li>
+              )}
+              {address && (
+                <li>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={MUTED} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" style={{ color: MUTED }} />
+                </li>
+              )}
+            </ul>
+          </div>
+          <div>
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: INK, margin: "0 0 16px" }}>O nás</h4>
+            {tagline && (
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p"
+                style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, margin: 0 }} />
+            )}
+            {openNote && (
+              <GenericEditableText sectionId={sectionId} field="openNote" value={openNote} tag="p"
+                style={{ fontSize: 13.5, color: MUTED, lineHeight: 1.6, margin: "12px 0 0" }} />
+            )}
+          </div>
+          <div>
+            <GenericEditableText sectionId={sectionId} field="shopTitle" value={shopTitle} tag="h4"
+              style={{ fontSize: 16, fontWeight: 700, color: INK, margin: "0 0 16px" }} />
+            {col(shopLinks, "shopLinks")}
+          </div>
+          <div>
+            <GenericEditableText sectionId={sectionId} field="infoTitle" value={infoTitle} tag="h4"
+              style={{ fontSize: 16, fontWeight: 700, color: INK, margin: "0 0 16px" }} />
+            {col(infoLinks, "infoLinks")}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div style={{ borderTop: `1px solid ${BORDER}`, background: "#f9f9f9" }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+            <p style={{ fontSize: 13, color: MUTED, margin: 0 }}>© {year} {siteName}. Všechna práva vyhrazena.</p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {payments.map((p, i) => (
+                <span key={i} style={{ fontSize: 11.5, fontWeight: 600, color: MUTED, border: `1px solid ${BORDER}`, borderRadius: 999, padding: "3px 10px", background: "#fff" }}>{p}</span>
+              ))}
+            </div>
+            <span className="es04f-credit"><WeberoCredit /></span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+ * eshop-05 "Hračkolandia" — Footer
+ * Pompo DNA: white, 3 link cols + Doprava a platba (carrier badges)
+ * + trust badge, bottom legal row with socials right
+ * ═══════════════════════════════════════════════════════════ */
+
+function FooterEshop05({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as {
+    columns?: Array<{ title: string; links: Array<{ label: string; href: string }> }>;
+    carriersTitle?: string; carriers?: string[]; payments?: string[]; trustBadge?: string;
+    copyright?: string;
+    legalLinks?: Array<{ label: string; href: string }>;
+    social?: Array<{ icon: string; href: string }>;
+    siteMode?: string;
+  };
+  const NAVY = "#0e1b2c";
+  const MUTED = "#64748b";
+  const BORDER = "#e7eaee";
+  const RED = "#ff3b5c";
+  const GREEN = "#12b76a";
+  const SURFACE = "#f2f4f7";
+  const SANS = "'Nunito Sans','Segoe UI',Arial,sans-serif";
+  const resolve = (href: string) => resolveNavHref(href, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin);
+  const columns = appendBlogToColumns(c.columns ?? [], content);
+  const social = c.social ?? [];
+  const legalLinks = c.legalLinks ?? [];
+
+  const socialIcon = (name: string) => {
+    const paths: Record<string, string> = {
+      facebook: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
+      instagram: "M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zM16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01",
+      youtube: "M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33zM9.75 15.02V8.48l5.75 3.27-5.75 3.27z",
+    };
+    return <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d={paths[name] ?? paths.facebook} /></svg>;
+  };
+
+  return (
+    <footer data-variant="eshop-05-footer" style={{ fontFamily: SANS, background: "#fff" }}>
+      <style>{`
+        .es05-ft-link { color: ${NAVY}; text-decoration: none; font-size: 14px; font-weight: 600; line-height: 2.4; transition: color 0.15s; display: block; }
+        .es05-ft-link:hover { color: ${RED}; text-decoration: underline; text-underline-offset: 3px; }
+        .es05-ft-title { font-size: 16.5px; font-weight: 900; color: ${NAVY}; margin-bottom: 14px; }
+        .es05-ft-logo { display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 14px; border-radius: 6px; background: ${SURFACE}; font-size: 12.5px; font-weight: 900; font-style: italic; color: ${NAVY}; }
+        .es05-ft-legal { color: ${MUTED}; text-decoration: none; font-size: 12.5px; font-weight: 600; }
+        .es05-ft-legal:hover { color: ${NAVY}; text-decoration: underline; }
+        .es05-ft-social { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; color: ${NAVY}; transition: color 0.15s, background 0.15s; }
+        .es05-ft-social:hover { color: ${RED}; background: ${SURFACE}; }
+        .es05-ft-credit .bc-webero-credit { color: ${MUTED} !important; }
+        .es05-ft-credit .bc-webero-credit:hover { color: ${NAVY} !important; }
+        .es05-ft-credit .bc-webero-credit svg rect { fill: rgba(14,27,44,0.08); }
+        @media (max-width: 900px) { .es05-ft-cols { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 560px) { .es05-ft-cols { grid-template-columns: 1fr !important; } }
+      `}</style>
+
+      <div style={{ maxWidth: 1580, margin: "0 auto", padding: "52px 14px 0" }}>
+        <div className="es05-ft-cols" style={{ display: "grid", gridTemplateColumns: `repeat(${columns.length}, 1fr) 1.3fr`, gap: 36, paddingBottom: 44 }}>
+          {columns.map((col, ci) => (
+            <div key={ci}>
+              <div className="es05-ft-title">{col.title}</div>
+              {col.links.map((lk, li) => <a key={li} href={resolve(lk.href)} className="es05-ft-link">{lk.label}</a>)}
+            </div>
+          ))}
+          {/* Doprava a platba: carrier + payment badges + trust badge */}
+          <div style={{ display: "flex", gap: 28 }}>
+            <div style={{ flex: 1 }}>
+              <div className="es05-ft-title">{c.carriersTitle ?? "Doprava a platba"}</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {(c.carriers ?? []).map((cr, i) => <span key={i} className="es05-ft-logo">{cr}</span>)}
+                {(c.payments ?? []).map((pm, i) => <span key={i} className="es05-ft-logo">{pm}</span>)}
+              </div>
+            </div>
+            {c.trustBadge && (
+              <div style={{
+                width: 92, height: 92, borderRadius: "50%", flexShrink: 0, alignSelf: "flex-start",
+                border: `2px solid ${GREEN}`, background: "#fff",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4,
+                textAlign: "center", padding: 10,
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round"><path d="M5 12l5 5L20 7"/></svg>
+                <span style={{ fontSize: 9.5, fontWeight: 900, color: NAVY, textTransform: "uppercase", letterSpacing: "0.04em", lineHeight: 1.25 }}>{c.trustBadge}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom legal row */}
+        <div style={{ borderTop: `1px solid ${BORDER}`, display: "flex", alignItems: "center", gap: 20, padding: "20px 0 24px", flexWrap: "wrap" }}>
+          <GenericEditableText sectionId={sectionId} field="copyright" value={c.copyright ?? `© ${new Date().getFullYear()} Web`} tag="span" style={{ fontSize: 12.5, fontWeight: 700, color: NAVY }} />
+          <span style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
+            {legalLinks.map((lk, i) => <a key={i} href={resolve(lk.href)} className="es05-ft-legal">{lk.label}</a>)}
+          </span>
+          <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 4 }}>
+            {social.map((s, i) => <a key={i} href={s.href} className="es05-ft-social" aria-label={s.icon}>{socialIcon(s.icon)}</a>)}
+          </span>
+          <span className="es05-ft-credit"><WeberoCredit /></span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-06-footer ─────────────────────────────────────────────────────────────
+// Footer (svetplodu DNA, Ořeškárna): světle šedý zaoblený kontejner uvnitř
+// stránky (odsazený, ne full-bleed): newsletter blok (nadpis, input + tmavé
+// tlačítko Odebírat, popisek, telefon/e-mail + otevírací doba, social kruhy) +
+// 2 sloupce odkazů. Pod kontejnerem legal řádek (©, cookies, podmínky…)
+// + WeberoCredit. Fixní žlutý „PSST!" sticker vlevo dole (kupon na první nákup).
+// Mobil: sloupce pod sebou, input full-width, sticker menší.
+function FooterEshop06({ content, sectionId, tenantSlug, isAdmin }: Props) {
+  const c = content as Record<string, unknown>;
+  const siteName = String(c.siteName ?? "E-shop");
+  const newsletterTitle = String(c.newsletterTitle ?? "Křupavé novinky do e-mailu");
+  const newsletterNote = String(c.newsletterNote ?? "");
+  const phone = String(c.phone ?? "");
+  const email = String(c.email ?? "");
+  const hours = String(c.hours ?? "");
+  const columns = appendBlogToColumns((c.columns as Array<{ title: string; links: Array<{ label: string; href: string }> }>) ?? [], content);
+  const socials = (c.socials as Array<{ kind: string; href?: string }>) ?? [];
+  const legalLinks = (c.legalLinks as Array<{ label: string; href: string }>) ?? [];
+  const sticker = c.sticker as { text?: string; href?: string } | undefined;
+  const [subscribed, setSubscribed] = useState(false);
+
+  const CHARCOAL = "#1d1d1b";
+  const YELLOW = "#f6c500";
+  const MUTED = "#6d6a63";
+  const BORDER = "#e5e3dd";
+  const SANS = "'Figtree','Segoe UI',Arial,sans-serif";
+  const HEAD = "'Archivo','Helvetica Neue',Arial,sans-serif";
+  const SCRIPT = "'Caveat Brush','Comic Sans MS',cursive";
+
+  return (
+    <footer data-variant="eshop-06-footer" style={{ fontFamily: SANS, background: "#fff", padding: "28px 0 0" }}>
+      <style>{`
+        .es06f-box { background: #f5f4f0; border-radius: 18px; padding: clamp(30px, 4vw, 54px); display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); }
+        .es06f-input-row { display: flex; gap: 10px; }
+        .es06f-input { flex: 1; height: 52px; border: 1.5px solid ${BORDER}; border-radius: 10px; background: #fff; padding: 0 18px; font-size: 15px; font-weight: 500; color: ${CHARCOAL}; font-family: ${SANS}; outline: none; transition: border-color 0.15s; min-width: 0; }
+        .es06f-input:focus { border-color: ${CHARCOAL}; }
+        .es06f-btn { height: 52px; padding: 0 24px; border: none; border-radius: 10px; background: ${CHARCOAL}; color: #fff; font-family: ${HEAD}; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; cursor: pointer; transition: background 0.16s; white-space: nowrap; }
+        .es06f-btn:hover { background: #000; }
+        .es06f-link { display: block; padding: 6px 0; color: ${CHARCOAL}; text-decoration: none; font-size: 14.5px; font-weight: 600; transition: color 0.14s; }
+        .es06f-link:hover { color: #188a49; text-decoration: underline; text-underline-offset: 3px; }
+        .es06f-social { width: 42px; height: 42px; border-radius: 50%; background: #fff; color: ${CHARCOAL}; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.15s, background 0.15s, color 0.15s; }
+        .es06f-social:hover { transform: translateY(-2px); background: ${CHARCOAL}; color: #fff; }
+        .es06f-legal { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 20px 4px 22px; }
+        .es06f-legal a { color: ${MUTED}; text-decoration: none; font-size: 12.5px; font-weight: 500; }
+        .es06f-legal a:hover { color: ${CHARCOAL}; text-decoration: underline; }
+        .es06f-sticker { position: fixed; left: 18px; bottom: 18px; z-index: 60; width: 116px; height: 116px; border-radius: 50%; background: ${YELLOW}; color: ${CHARCOAL}; display: flex; align-items: center; justify-content: center; text-align: center; padding: 16px; font-family: ${HEAD}; font-size: 13px; font-weight: 800; text-transform: uppercase; line-height: 1.25; text-decoration: none; transform: rotate(-8deg); box-shadow: 0 14px 30px rgba(29,29,27,0.24); transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1); }
+        .es06f-sticker:hover { transform: rotate(-4deg) scale(1.06); }
+        @media (max-width: 960px) { .es06f-box { grid-template-columns: 1fr 1fr; } .es06f-news { grid-column: 1 / -1; } }
+        @media (max-width: 640px) {
+          .es06f-box { grid-template-columns: 1fr; padding: 26px 20px; }
+          .es06f-input-row { flex-direction: column; }
+          .es06f-btn { width: 100%; }
+          .es06f-sticker { width: 92px; height: 92px; font-size: 11px; left: 12px; bottom: 12px; padding: 12px; }
+          .es06f-legal { justify-content: flex-start; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 24px" }}>
+        <div className="es06f-box">
+          {/* Newsletter + kontakt */}
+          <div className="es06f-news">
+            <span style={{ fontFamily: SCRIPT, fontSize: 38, color: CHARCOAL, display: "inline-block", transform: "rotate(-2deg)", lineHeight: 1, marginBottom: 20 }}>{siteName}</span>
+            <h3 style={{ fontFamily: HEAD, fontSize: 15, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: CHARCOAL, margin: "0 0 14px" }}>{newsletterTitle}</h3>
+            {subscribed ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 9, height: 52, color: "#188a49", fontSize: 15, fontWeight: 700 }}>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="#21a95c"><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Díky! Křupavé novinky jsou na cestě.
+              </div>
+            ) : (
+              <form className="es06f-input-row" onSubmit={(e) => { e.preventDefault(); setSubscribed(true); }}>
+                <input type="email" required placeholder="Váš e-mail" aria-label="Váš e-mail" className="es06f-input" />
+                <button type="submit" className="es06f-btn">Odebírat</button>
+              </form>
+            )}
+            {newsletterNote && <p style={{ fontSize: 13.5, fontWeight: 500, lineHeight: 1.65, color: MUTED, margin: "16px 0 0", maxWidth: 420 }}>{newsletterNote}</p>}
+            <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 6 }}>
+              {(phone || email) && (
+                <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", fontSize: 14.5 }}>
+                  <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#21a95c", flexShrink: 0 }} />
+                  {phone && <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontWeight: 800, color: CHARCOAL, textDecoration: "none" }}>{phone}</a>}
+                  {phone && email && <span style={{ color: MUTED }}>|</span>}
+                  {email && <a href={`mailto:${email}`} style={{ fontWeight: 700, color: CHARCOAL, textDecoration: "none", textTransform: "uppercase", fontSize: 13 }}>{email}</a>}
+                </span>
+              )}
+              {hours && <span style={{ fontSize: 13.5, fontWeight: 500, color: MUTED }}>{hours}</span>}
+            </div>
+            {socials.length > 0 && (
+              <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap" }}>
+                {socials.map((s, i) => (
+                  <a key={i} href={s.href ?? "#"} target="_blank" rel="noreferrer" aria-label={s.kind} className="es06f-social">
+                    <Es06SocialIcon kind={s.kind} />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Sloupce odkazů */}
+          {columns.slice(0, 2).map((col, ci) => (
+            <div key={ci}>
+              <h3 style={{ fontFamily: HEAD, fontSize: 13.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.07em", color: CHARCOAL, margin: "0 0 14px" }}>{col.title}</h3>
+              {col.links.map((l, li) => (
+                <a key={li} href={resolveDemoHref(l.href, tenantSlug, isAdmin)} className="es06f-link">{l.label}</a>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Legal řádek */}
+        <div className="es06f-legal">
+          <span style={{ fontSize: 12.5, fontWeight: 600, color: MUTED }}>© {new Date().getFullYear()} {siteName.toUpperCase()}</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            {legalLinks.map((l, i) => (
+              <a key={i} href={resolveDemoHref(l.href, tenantSlug, isAdmin)}>{l.label}</a>
+            ))}
+          </div>
+          <WeberoCredit />
+        </div>
+      </div>
+
+      {/* PSST sticker */}
+      {sticker?.text && !isAdmin && (
+        <a href={resolveDemoHref(sticker.href ?? "/obchod", tenantSlug, isAdmin)} className="es06f-sticker">{sticker.text}</a>
+      )}
+    </footer>
+  );
+}
+
+// ── eshop-08-footer ─────────────────────────────────────────────────────────────
+// Domea (bonami.cz DNA): brand statement s logem, sloupce Informace o nákupu /
+// Více o Domea, socials řada, legal lišta s copyrightem a adresou.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop08({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'DM Sans', 'Segoe UI', Arial, sans-serif";
+  const INK = "#2b2b2b";
+  const GREEN = "#3d9a50";
+  const MUTED = "#8a8a86";
+  const BORDER = "#e6e6e3";
+  const SURFACE = "#f4f4f2";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const c = content as Record<string, unknown>;
+  const siteName = String(c.siteName ?? "Domea");
+  const statement = String(c.statement ?? "");
+  const columns = appendBlogToColumns((c.columns as Array<{ heading?: string; links?: Array<{ label: string; href: string }> }>) ?? [], content);
+  const socialsHeading = String(c.socialsHeading ?? "");
+  const socials = (c.socials as Array<{ icon?: string; href?: string }>) ?? [];
+  const legalLinks = (c.legalLinks as Array<{ label: string; href: string }>) ?? [];
+  const copyright = String(c.copyright ?? "");
+  const address = String(c.address ?? "");
+
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    if (name === "facebook") return <svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
+    if (name === "instagram") return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>;
+    if (name === "pinterest") return <svg {...p}><circle cx="12" cy="12" r="10"/><path d="M9 20l2.5-8M10 10.5c0-2 1.4-3.5 3.2-3.5 1.7 0 2.8 1.2 2.8 2.9 0 2.2-1.3 4.1-3.2 4.1-.9 0-1.6-.5-1.8-1.2"/></svg>;
+    if (name === "youtube") return <svg {...p}><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>;
+    return <svg {...p}><circle cx="12" cy="12" r="10"/></svg>;
+  };
+
+  return (
+    <footer data-variant="eshop-08-footer" style={{ fontFamily: SANS, background: SURFACE, marginTop: 26 }}>
+      <style>{`
+        .es08f-link { transition: color 0.13s; }
+        .es08f-link:hover { color: ${GREEN} !important; }
+        .es08f-social { transition: background 0.15s, color 0.15s, transform 0.15s; }
+        .es08f-social:hover { background: ${INK} !important; color: #fff !important; transform: translateY(-2px); }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "48px 24px 36px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(240px, 1.3fr) repeat(2, minmax(180px, 1fr))", gap: "36px 48px" }} className="es08f-grid">
+          <style>{`@media (max-width: 860px) { .es08f-grid { grid-template-columns: 1fr !important; } }`}</style>
+          {/* Brand statement */}
+          <div>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <svg width="26" height="26" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                {[0, 90, 180, 270].map((a) => (
+                  <ellipse key={a} cx="24" cy="13" rx="7.5" ry="11" fill={GREEN} opacity="0.92" transform={`rotate(${a} 24 24)`} />
+                ))}
+                <circle cx="24" cy="24" r="5" fill={SURFACE} />
+                <circle cx="24" cy="24" r="3.2" fill={GREEN} />
+              </svg>
+              <span style={{ fontSize: 24, fontWeight: 800, color: INK, letterSpacing: "-0.03em" }}>{siteName.toLowerCase()}</span>
+            </span>
+            {statement && <p style={{ margin: "14px 0 0", fontSize: 14.5, fontWeight: 500, lineHeight: 1.6, color: "#5c5c58", maxWidth: 340 }}>{statement}</p>}
+            {socials.length > 0 && (
+              <div style={{ marginTop: 22 }}>
+                {socialsHeading && <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>{socialsHeading}</div>}
+                <div style={{ display: "flex", gap: 10 }}>
+                  {socials.map((s, si) => (
+                    <a key={si} href={s.href ?? "#"} className="es08f-social" aria-label={s.icon} style={{
+                      width: 38, height: 38, borderRadius: "50%", background: "#fff", color: INK,
+                      display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none",
+                      border: `1px solid ${BORDER}`,
+                    }}><SocialIcon name={s.icon} /></a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Link sloupce */}
+          {columns.map((col, ci) => (
+            <div key={ci}>
+              {col.heading && <h4 style={{ margin: "0 0 14px", fontSize: 11.5, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED }}>{col.heading}</h4>}
+              {(col.links ?? []).map((lk, li) => (
+                <a key={li} href={resolve(lk.href)} className="es08f-link" style={{
+                  display: "block", padding: "5px 0", fontSize: 14, fontWeight: 500, color: INK, textDecoration: "none",
+                }}>{lk.label}</a>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Legal lišta */}
+      <div style={{ borderTop: `1px solid ${BORDER}` }}>
+        <div style={{ maxWidth: 1360, margin: "0 auto", padding: "16px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+            {legalLinks.map((lk, i) => (
+              <a key={i} href={resolve(lk.href)} className="es08f-link" style={{ fontSize: 12.5, fontWeight: 500, color: MUTED, textDecoration: "none" }}>{lk.label}</a>
+            ))}
+          </div>
+          <span style={{ fontSize: 12.5, fontWeight: 500, color: MUTED }}>{copyright}{address ? ` · ${address}` : ""}</span>
+        </div>
+      </div>
+
+      <div style={{ textAlign: "center", padding: "8px 0 12px", borderTop: `1px solid ${BORDER}` }}>
+        <span style={{ fontSize: 11, color: MUTED, fontWeight: 400 }}>
+          Vytvořeno na <a href="https://webero.cz" target="_blank" rel="noopener noreferrer" style={{ color: GREEN, fontWeight: 600, textDecoration: "none" }}>Webero.cz</a>
+        </span>
+      </div>
+    </footer>
+  );
+}
+
+
+// ── eshop-07-footer ─────────────────────────────────────────────────────────────
+// Kosmetika-zdravi.cz DNA footer (Néroli parfumerie): ink #16161d podklad —
+// newsletter řádek (kicker + uppercase heading | bílý pill input + ODESLAT),
+// hairline, 5 sloupců (Kontakty / linkové sloupce / Sledujte nás), spodní řada
+// dopravci | květinový mark + logotyp | platby, legal řádek + WeberoCredit.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es07FootLink = { label: string; href: string };
+type Es07FootCol = { title: string; links: Es07FootLink[] };
+
+function FooterEshop07({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const [sent, setSent] = useState(false);
+  const c = content as {
+    siteName?: string;
+    newsletter?: { kicker?: string; heading?: string; placeholder?: string; button?: string };
+    contact?: { title?: string; phone?: string; hours?: string; email?: string };
+    columns?: Es07FootCol[];
+    socials?: { title?: string; instagram?: string; facebook?: string };
+    shippingBadges?: string[];
+    paymentBadges?: string[];
+    legal?: string;
+    legalLinks?: Es07FootLink[];
+    siteMode?: string;
+  };
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const siteName = String(c.siteName ?? "néroli parfumerie");
+  const nl = c.newsletter ?? {};
+  const contact = c.contact ?? {};
+  const columns = appendBlogToColumns(c.columns ?? [], content);
+  const socials = c.socials ?? {};
+  const shipping = c.shippingBadges ?? [];
+  const payments = c.paymentBadges ?? [];
+
+  const INK = "#16161d";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', Arial, sans-serif";
+  const HAIR = "rgba(255,255,255,0.13)";
+  const DIM = "rgba(255,255,255,0.62)";
+  const DIMMER = "rgba(255,255,255,0.45)";
+
+  return (
+    <footer style={{ background: INK, color: "#fff", fontFamily: SANS }} data-variant="eshop-07-footer">
+      <style>{`
+        .es07f-link { color: ${DIM}; text-decoration: none; transition: color 0.14s; font-size: 14px; font-weight: 500; }
+        .es07f-link:hover { color: #fff; }
+        .es07f-send { transition: background 0.16s, transform 0.16s; }
+        .es07f-send:hover { background: #e9eaee !important; transform: translateY(-1px); }
+        .es07f-input::placeholder { color: #8b8f9c; }
+        .es07f-badge { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border: 1px solid ${HAIR}; border-radius: 6px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: ${DIM}; }
+        .es07f-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 34px; }
+        @media (max-width: 1080px) { .es07f-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 560px) { .es07f-grid { grid-template-columns: 1fr; } }
+        .es07f-nlrow { display: flex; align-items: center; justify-content: space-between; gap: 34px; flex-wrap: wrap; }
+        .es07f-bottom { display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap; }
+      `}</style>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "0 24px" }}>
+        {/* Newsletter */}
+        <div className="es07f-nlrow" style={{ padding: "44px 0 40px", borderBottom: `1px solid ${HAIR}` }}>
+          <div style={{ minWidth: 260 }}>
+            {nl.kicker && (
+              <GenericEditableText sectionId={sectionId} field="newsletter.kicker" value={String(nl.kicker)} tag="div" style={{
+                fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.2em", color: DIMMER, marginBottom: 10,
+              }} />
+            )}
+            {nl.heading && (
+              <GenericEditableText sectionId={sectionId} field="newsletter.heading" value={String(nl.heading)} tag="div" style={{
+                fontSize: "clamp(19px, 2vw, 24px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em",
+                lineHeight: 1.3, maxWidth: 420,
+              }} />
+            )}
+          </div>
+          <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} style={{ display: "flex", gap: 0, flex: "0 1 480px", minWidth: 280 }}>
+            <input type="email" required placeholder={String(nl.placeholder ?? "Vaše e-mailová adresa")} className="es07f-input" style={{
+              flex: 1, height: 54, border: "none", borderRadius: "8px 0 0 8px", padding: "0 20px",
+              fontSize: 14.5, fontWeight: 500, background: "#fff", color: INK, fontFamily: SANS, outline: "none", minWidth: 0,
+            }} />
+            <button type="submit" className="es07f-send" style={{
+              height: 54, padding: "0 26px", border: "none", borderRadius: "0 8px 8px 0", cursor: "pointer",
+              background: "#fff", color: INK, fontSize: 12.5, fontWeight: 800, textTransform: "uppercase",
+              letterSpacing: "0.1em", fontFamily: SANS, borderLeft: "1px solid #e8e9ed",
+            }}>{sent ? "Děkujeme ✓" : String(nl.button ?? "Odeslat")}</button>
+          </form>
+        </div>
+
+        {/* Sloupce */}
+        <div className="es07f-grid" style={{ padding: "42px 0 46px" }}>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: DIMMER, marginBottom: 16 }}>{contact.title ?? "Kontakty"}</div>
+            {contact.phone && (
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} style={{ display: "inline-block", color: "#fff", fontSize: 16.5, fontWeight: 800, textDecoration: "underline", textUnderlineOffset: 4 }}>{contact.phone}</a>
+            )}
+            {contact.hours && <div style={{ marginTop: 6, fontSize: 13.5, fontWeight: 500, color: DIM }}>{contact.hours}</div>}
+            {contact.email && (
+              <a href={`mailto:${contact.email}`} className="es07f-link" style={{ display: "inline-block", marginTop: 14, textDecoration: "underline", textUnderlineOffset: 4 }}>{contact.email}</a>
+            )}
+          </div>
+          {columns.map((col, i) => (
+            <div key={i}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: DIMMER, marginBottom: 16 }}>{col.title}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {col.links.map((lk, j) => (
+                  <a key={j} href={resolve(lk.href)} className="es07f-link">{lk.label}</a>
+                ))}
+              </div>
+            </div>
+          ))}
+          {(socials.instagram || socials.facebook) && (
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: DIMMER, marginBottom: 16 }}>{socials.title ?? "Sledujte nás"}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {socials.instagram && (
+                  <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="es07f-link" style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>
+                    Instagram
+                  </a>
+                )}
+                {socials.facebook && (
+                  <a href={socials.facebook} target="_blank" rel="noopener noreferrer" className="es07f-link" style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-2.9h-2.8V9.2c0-.84.23-1.41 1.44-1.41h1.46V5.2c-.25-.03-1.12-.11-2.13-.11-2.1 0-3.54 1.28-3.54 3.64v2.38H8.3V14h2.42v7h2.78z"/></svg>
+                    Facebook
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Dopravci | mark | platby */}
+        <div className="es07f-bottom" style={{ padding: "26px 0", borderTop: `1px solid ${HAIR}` }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            {shipping.map((s, i) => <span key={i} className="es07f-badge">{s}</span>)}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+            <Es07TileFlowerFooter />
+            <span style={{ fontSize: 21, fontWeight: 800, letterSpacing: "-0.02em", textTransform: "lowercase" }}>{siteName}</span>
+          </div>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
+            {payments.map((s, i) => <span key={i} className="es07f-badge">{s}</span>)}
+          </div>
+        </div>
+
+        {/* Legal */}
+        <div style={{ padding: "18px 0 26px", borderTop: `1px solid ${HAIR}`, textAlign: "center" }}>
+          {c.legal && <div style={{ fontSize: 12.5, fontWeight: 500, color: DIMMER }}>{String(c.legal)}</div>}
+          {(c.legalLinks ?? []).length > 0 && (
+            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "6px 22px", marginTop: 10 }}>
+              {(c.legalLinks ?? []).map((lk, i) => (
+                <a key={i} href={resolve(lk.href)} className="es07f-link" style={{ fontSize: 12.5 }}>{lk.label}</a>
+              ))}
+            </div>
+          )}
+          <div style={{ marginTop: 12 }}><WeberoCredit /></div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function Es07TileFlowerFooter() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 48 48" fill="none" aria-hidden="true" style={{ display: "block" }}>
+      <g stroke="#fff" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+        {[0, 60, 120, 180, 240, 300].map((a) => (
+          <path key={a} d="M24 7.5 C27.6 13, 27.6 18.5, 24 22.5 C20.4 18.5, 20.4 13, 24 7.5 Z" transform={`rotate(${a} 24 24)`} />
+        ))}
+      </g>
+      <circle cx="24" cy="24" r="3.1" fill="#fff" />
+    </svg>
+  );
+}
+
+// ── eshop-09-footer ─────────────────────────────────────────────────────────────
+// Mobil Expres (mp.cz DNA, navy/mint identita): kompaktní tmavý footer #151b28
+// s mint gradient linkou nahoře — brand (bolt mark + bílý wordmark, socials
+// ghost kruhy) | 3 centrované řady linků + © řádek | Infolinka (sluchátka
+// ikona + mint číslo) | newsletter (pill input + mint OK + checkbox). Dole
+// WeberoCredit. Mobil: sloupce pod sebou, linky wrapují.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop09({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Archivo', 'Segoe UI', Arial, sans-serif";
+  const BG = "#151b28";
+  const MINT = "#3ce0a6";
+  const ON_MINT = "#06281c";
+  const DIM = "#aeb6bd";
+  const DIMMER = "#6b7684";
+  const HAIR = "rgba(255,255,255,0.09)";
+  const [nlChecked, setNlChecked] = useState(false);
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlDone, setNlDone] = useState(false);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const c = content as Record<string, unknown>;
+  const siteName = String(c.siteName ?? "Mobil Expres");
+  const linkRowsRaw = (c.linkRows as Array<Array<{ label: string; href: string }>>) ?? [];
+  // Rows-of-links shape: put Blog in the first populated row.
+  const firstRow = linkRowsRaw.findIndex((r) => r?.length);
+  const linkRows = firstRow === -1
+    ? linkRowsRaw
+    : linkRowsRaw.map((r, i) => (i === firstRow ? appendBlogLink(r, content) : r));
+  const socials = (c.socials as Array<{ icon?: string; href?: string }>) ?? [];
+  const hotline = (c.hotline as { label?: string; phone?: string; hours?: string }) ?? {};
+  const newsletter = (c.newsletter as { placeholder?: string; buttonLabel?: string; consent?: string; doneText?: string }) ?? {};
+  const copyright = String(c.copyright ?? "");
+
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    if (name === "facebook") return <svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
+    if (name === "instagram") return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>;
+    if (name === "tiktok") return <svg {...p}><path d="M15 3v9.5a4 4 0 1 1-4-4"/><path d="M15 3c.5 2.8 2.3 4.6 5 5"/></svg>;
+    if (name === "youtube") return <svg {...p}><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>;
+    return <svg {...p}><circle cx="12" cy="12" r="10"/></svg>;
+  };
+
+  return (
+    <footer data-variant="eshop-09-footer" style={{ fontFamily: SANS, background: BG, marginTop: 34 }}>
+      <style>{`
+        .es09f-top { height: 3px; background: linear-gradient(90deg, transparent, ${MINT} 30%, ${MINT} 70%, transparent); opacity: 0.85; }
+        .es09f-link { font-size: 13.5px; font-weight: 600; color: ${DIM}; text-decoration: none; transition: color 0.13s; white-space: nowrap; }
+        .es09f-link:hover { color: ${MINT}; }
+        .es09f-social { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid ${HAIR}; color: ${DIM}; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s; }
+        .es09f-social:hover { background: ${MINT}; border-color: ${MINT}; color: ${ON_MINT}; transform: translateY(-2px); }
+        .es09f-grid { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(0, 1.6fr) auto minmax(260px, auto); gap: 36px; align-items: center; }
+        .es09f-input { flex: 1; min-width: 0; height: 46px; border: 1.5px solid rgba(255,255,255,0.16); border-radius: 999px 0 0 999px; border-right: none; background: rgba(255,255,255,0.05); padding: 0 20px; font-family: ${SANS}; font-size: 14px; font-weight: 500; color: #fff; outline: none; transition: border-color 0.15s, background 0.15s; }
+        .es09f-input::placeholder { color: ${DIMMER}; }
+        .es09f-input:focus { border-color: ${MINT}; background: rgba(255,255,255,0.08); }
+        .es09f-ok { height: 46px; padding: 0 24px; border: none; border-radius: 0 999px 999px 0; background: ${MINT}; color: ${ON_MINT}; font-family: ${SANS}; font-size: 13.5px; font-weight: 800; letter-spacing: 0.03em; cursor: pointer; transition: background 0.15s; }
+        .es09f-ok:hover { background: #63eabb; }
+        .es09f-check { display: flex; align-items: flex-start; gap: 9px; margin-top: 11px; cursor: pointer; user-select: none; }
+        .es09f-box { flex-shrink: 0; width: 17px; height: 17px; margin-top: 1px; border-radius: 5px; border: 1.5px solid rgba(255,255,255,0.3); display: inline-flex; align-items: center; justify-content: center; transition: background 0.14s, border-color 0.14s; }
+        .es09f-box.on { background: ${MINT}; border-color: ${MINT}; }
+        @media (max-width: 1180px) { .es09f-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 760px) { .es09f-grid { grid-template-columns: 1fr; gap: 28px; text-align: center; } .es09f-brand, .es09f-hotline { justify-content: center; } .es09f-rows { justify-content: center; } }
+      `}</style>
+      <div className="es09f-top" />
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "40px 24px 26px" }}>
+        <div className="es09f-grid">
+          {/* Brand + socials */}
+          <div>
+            <span className="es09f-brand" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <svg width="32" height="32" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+                <circle cx="24" cy="24" r="22" fill={MINT} />
+                <path d="M26.8 10.5 15.5 26h7l-2.4 11.5L32.5 21h-7l1.3-10.5z" fill="#1d2433" stroke="#1d2433" strokeWidth="1.4" strokeLinejoin="round" />
+              </svg>
+              <span style={{ fontSize: 22, fontWeight: 800, color: "#fff", letterSpacing: "-0.015em", whiteSpace: "nowrap" }}>{siteName}</span>
+            </span>
+            {socials.length > 0 && (
+              <span className="es09f-brand" style={{ display: "flex", gap: 10, marginTop: 18 }}>
+                {socials.map((s, i) => (
+                  <a key={i} href={s.href ?? "#"} target="_blank" rel="noopener noreferrer" className="es09f-social" aria-label={s.icon}>
+                    <SocialIcon name={s.icon} />
+                  </a>
+                ))}
+              </span>
+            )}
+          </div>
+
+          {/* Řady linků + © */}
+          <div style={{ minWidth: 0 }}>
+            {linkRows.map((row, ri) => (
+              <div key={ri} className="es09f-rows" style={{ display: "flex", flexWrap: "wrap", gap: "9px 26px", justifyContent: "center", marginTop: ri === 0 ? 0 : 11 }}>
+                {row.map((lk, li) => <a key={li} href={resolve(lk.href)} className="es09f-link">{lk.label}</a>)}
+              </div>
+            ))}
+            {copyright && (
+              <div style={{ marginTop: 18, textAlign: "center", fontSize: 12.5, fontWeight: 500, color: "#6b7684" }}>{copyright}</div>
+            )}
+          </div>
+
+          {/* Infolinka */}
+          <div className="es09f-hotline" style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke={DIM} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6.5" rx="2"/><rect x="17.5" y="13" width="4" height="6.5" rx="2"/><path d="M19.5 19.5c0 1.7-1.6 2.5-3.5 2.5h-2"/></svg>
+            <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: DIM }}>{hotline.label ?? "Infolinka"}</span>
+              {hotline.phone && (
+                <a href={`tel:${hotline.phone.replace(/\s/g, "")}`} style={{ fontSize: 17, fontWeight: 800, color: MINT, textDecoration: "none", whiteSpace: "nowrap" }}>{hotline.phone}</a>
+              )}
+              {hotline.hours && <span style={{ fontSize: 12, fontWeight: 500, color: "#6b7684" }}>{hotline.hours}</span>}
+            </span>
+          </div>
+
+          {/* Newsletter */}
+          <div>
+            {nlDone ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14.5, fontWeight: 700, color: MINT }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={MINT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" opacity="0.35"/><path d="M8 12.5l2.8 2.8L16.5 9"/></svg>
+                {newsletter.doneText ?? "Díky! Akční nabídky vám budeme posílat."}
+              </div>
+            ) : (
+              <>
+                <form style={{ display: "flex" }} onSubmit={(e) => { e.preventDefault(); if (nlEmail.trim() && nlChecked) setNlDone(true); }}>
+                  <input type="email" className="es09f-input" placeholder={newsletter.placeholder ?? "Váš e-mail"} value={nlEmail} onChange={(e) => setNlEmail(e.target.value)} aria-label="E-mail" />
+                  <button type="submit" className="es09f-ok">{newsletter.buttonLabel ?? "OK"}</button>
+                </form>
+                <span className="es09f-check" onClick={() => setNlChecked(!nlChecked)} role="checkbox" aria-checked={nlChecked} tabIndex={0}>
+                  <span className={`es09f-box${nlChecked ? " on" : ""}`}>
+                    {nlChecked && <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={ON_MINT} strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg>}
+                  </span>
+                  <span style={{ fontSize: 12.5, fontWeight: 500, color: DIM, textAlign: "left" }}>{newsletter.consent ?? "Chci dostávat informace o akčních nabídkách"}</span>
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 30, paddingTop: 18, borderTop: `1px solid ${HAIR}`, display: "flex", justifyContent: "center" }}>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-10-footer ─────────────────────────────────────────────────────────────
+// BOTIQ footer (footshop DNA): černá #0a0a0b, nahoře volt→violet gradient linka.
+// Řádek 1: sticker logo + tagline | newsletter (hranatý input + volt ODEBÍRAT,
+// funkční souhlas checkbox + done stav). Řádek 2: 4 sloupce — 3× linky
+// (condensed uppercase nadpisy) + Kontakt (volt telefon, e-mail, hodiny,
+// socials ghost čtverce). Dole: ©, právní linky, platební chipy, WeberoCredit.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop10({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const COND = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+  const SANS = "'Barlow', 'Segoe UI', Arial, sans-serif";
+  const BLACK = "#0a0a0b";
+  const VOLT = "#c8f53c";
+  const ON_VOLT = "#111603";
+  const VIOLET = "#7a5cff";
+  const DIM = "#a8a8ab";
+  const DIMMER = "#6e6e72";
+  const HAIR = "rgba(255,255,255,0.1)";
+  const [nlChecked, setNlChecked] = useState(false);
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlDone, setNlDone] = useState(false);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const c = content as Record<string, unknown>;
+  const siteName = String(c.siteName ?? "BOTIQ");
+  const tagline = String(c.tagline ?? "");
+  const columns = appendBlogToColumns((c.columns as Array<{ heading?: string; links?: Array<{ label: string; href: string }> }>) ?? [], content);
+  const contact = (c.contact as { heading?: string; phone?: string; email?: string; hours?: string }) ?? {};
+  const socials = (c.socials as Array<{ icon?: string; href?: string; label?: string }>) ?? [];
+  const newsletter = (c.newsletter as { heading?: string; placeholder?: string; buttonLabel?: string; consent?: string; doneText?: string }) ?? {};
+  const legalLinks = (c.legalLinks as Array<{ label: string; href: string }>) ?? [];
+  const payments = (c.payments as string[]) ?? [];
+  const copyright = String(c.copyright ?? "");
+
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    if (name === "facebook") return <svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
+    if (name === "tiktok") return <svg {...p}><path d="M15 3v9.5a4 4 0 1 1-4-4"/><path d="M15 3c.5 2.8 2.3 4.6 5 5"/></svg>;
+    if (name === "youtube") return <svg {...p}><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>;
+    return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>;
+  };
+
+  return (
+    <footer data-variant="eshop-10-footer" style={{ fontFamily: SANS, background: BLACK, marginTop: 0 }}>
+      <style>{`
+        .es10f-top { height: 3px; background: linear-gradient(90deg, ${VOLT}, ${VOLT} 55%, ${VIOLET}); }
+        .es10f-link { font-size: 13.5px; font-weight: 500; color: ${DIM}; text-decoration: none; transition: color 0.13s, padding-left 0.15s; display: inline-block; }
+        .es10f-link:hover { color: ${VOLT}; padding-left: 4px; }
+        .es10f-social { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px;
+          border-radius: 2px; border: 2px solid ${HAIR}; color: ${DIM};
+          transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s; }
+        .es10f-social:hover { background: ${VOLT}; border-color: ${VOLT}; color: ${ON_VOLT}; transform: translateY(-2px); }
+        .es10f-input { flex: 1; min-width: 0; height: 46px; border: 1.5px solid rgba(255,255,255,0.18); border-radius: 2px 0 0 2px;
+          border-right: none; background: #17171a; padding: 0 16px; font-family: ${SANS}; font-size: 14px; font-weight: 500;
+          color: #fff; outline: none; transition: border-color 0.15s, background 0.15s; }
+        .es10f-input::placeholder { color: ${DIMMER}; }
+        .es10f-input:focus { border-color: ${VOLT}; background: #101013; }
+        .es10f-ok { height: 46px; padding: 0 22px; border: none; border-radius: 0 2px 2px 0; background: ${VOLT}; color: ${ON_VOLT};
+          font-family: ${COND}; font-size: 15px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+          transition: background 0.15s; }
+        .es10f-ok:hover { background: #d9ff55; }
+        .es10f-ok:disabled { opacity: 0.45; cursor: not-allowed; }
+        .es10f-chip { display: inline-block; padding: 4px 10px; border: 1.5px solid ${HAIR}; border-radius: 2px;
+          font-family: ${COND}; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: ${DIMMER}; }
+        .es10f-legal { font-size: 12.5px; font-weight: 500; color: ${DIMMER}; text-decoration: none; transition: color 0.13s; }
+        .es10f-legal:hover { color: ${VOLT}; }
+        .es10f-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px; }
+        .es10f-nlrow { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(320px, 460px); gap: 34px; align-items: center; justify-content: space-between; }
+        @media (max-width: 980px) { .es10f-grid { grid-template-columns: repeat(2, 1fr); } .es10f-nlrow { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) { .es10f-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <div className="es10f-top" aria-hidden />
+      <div style={{ maxWidth: 1460, margin: "0 auto", padding: "40px 24px 26px" }}>
+        {/* Řádek 1 — brand + newsletter */}
+        <div className="es10f-nlrow" style={{ paddingBottom: 32, borderBottom: `1px solid ${HAIR}` }}>
+          <div>
+            <span style={{ position: "relative", display: "inline-block" }}>
+              <span aria-hidden style={{ position: "absolute", inset: 0, transform: "skewX(-12deg) translate(4px, 3px)", background: VIOLET, borderRadius: 2 }} />
+              <span style={{ position: "relative", display: "inline-block", background: VOLT, transform: "skewX(-12deg)", borderRadius: 2, padding: "6px 14px" }}>
+                <span style={{ display: "inline-block", transform: "skewX(12deg)", fontFamily: COND, fontSize: 22, fontWeight: 800, fontStyle: "italic", letterSpacing: "0.1em", textTransform: "uppercase", color: ON_VOLT, lineHeight: 1.1 }}>{siteName}</span>
+              </span>
+            </span>
+            {tagline && <p style={{ margin: "13px 0 0", maxWidth: 380, fontSize: 14, fontWeight: 500, lineHeight: 1.5, color: DIM }}>{tagline}</p>}
+          </div>
+          <div>
+            {newsletter.heading && (
+              <div style={{ fontFamily: COND, fontSize: 17, fontWeight: 800, letterSpacing: "0.09em", textTransform: "uppercase", color: "#fff", marginBottom: 10 }}>{newsletter.heading}</div>
+            )}
+            {nlDone ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 10, height: 46, color: VOLT, fontSize: 14.5, fontWeight: 700 }}>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill={VOLT}><circle cx="12" cy="12" r="11" opacity="0.25" /><path d="M7 12.5l3.2 3.2L17 9" stroke={VOLT} strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                {newsletter.doneText ?? "Díky! Sleduj schránku — první drop info letí brzy."}
+              </div>
+            ) : (
+              <>
+                <div style={{ display: "flex" }}>
+                  <input className="es10f-input" type="email" placeholder={newsletter.placeholder ?? "Tvůj e-mail"} value={nlEmail} onChange={(e) => setNlEmail(e.target.value)} />
+                  <button className="es10f-ok" type="button" disabled={!nlChecked || !nlEmail.includes("@")} onClick={() => setNlDone(true)}>
+                    {newsletter.buttonLabel ?? "Odebírat"}
+                  </button>
+                </div>
+                <label style={{ display: "flex", alignItems: "flex-start", gap: 9, marginTop: 10, cursor: "pointer" }}>
+                  <input type="checkbox" checked={nlChecked} onChange={(e) => setNlChecked(e.target.checked)} style={{ marginTop: 2, accentColor: VOLT, width: 15, height: 15, cursor: "pointer" }} />
+                  <span style={{ fontSize: 12.5, fontWeight: 500, lineHeight: 1.45, color: DIMMER }}>{newsletter.consent ?? "Souhlasím se zpracováním e-mailu pro zasílání novinek."}</span>
+                </label>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Řádek 2 — sloupce */}
+        <div className="es10f-grid" style={{ padding: "32px 0 30px", borderBottom: `1px solid ${HAIR}` }}>
+          {columns.slice(0, 3).map((col, ci) => (
+            <div key={ci}>
+              <div style={{ fontFamily: COND, fontSize: 16, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", marginBottom: 13 }}>{col.heading}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+                {(col.links ?? []).map((l, li) => (
+                  <a key={li} href={isAdmin ? "#" : resolve(l.href)} className="es10f-link">{l.label}</a>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div>
+            <div style={{ fontFamily: COND, fontSize: 16, fontWeight: 800, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", marginBottom: 13 }}>{contact.heading ?? "Kontakt"}</div>
+            {contact.phone && (
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} style={{ display: "block", fontFamily: COND, fontSize: 24, fontWeight: 800, letterSpacing: "0.04em", color: VOLT, textDecoration: "none", lineHeight: 1.1 }}>{contact.phone}</a>
+            )}
+            {contact.hours && <div style={{ marginTop: 5, fontSize: 12.5, fontWeight: 500, color: DIMMER }}>{contact.hours}</div>}
+            {contact.email && (
+              <a href={`mailto:${contact.email}`} className="es10f-link" style={{ marginTop: 9 }}>{contact.email}</a>
+            )}
+            {socials.length > 0 && (
+              <div style={{ display: "flex", gap: 8, marginTop: 15 }}>
+                {socials.map((so, i) => (
+                  <a key={i} href={so.href ?? "#"} className="es10f-social" aria-label={so.label ?? so.icon} target="_blank" rel="noreferrer">
+                    <SocialIcon name={so.icon} />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Řádek 3 — legal + platby */}
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "12px 22px", paddingTop: 20 }}>
+          <span style={{ fontSize: 12.5, fontWeight: 500, color: DIMMER }}>{copyright || `© ${new Date().getFullYear()} ${siteName}`}</span>
+          {legalLinks.map((l, i) => (
+            <a key={i} href={isAdmin ? "#" : resolve(l.href)} className="es10f-legal">{l.label}</a>
+          ))}
+          <span style={{ display: "inline-flex", gap: 7, marginLeft: "auto", flexWrap: "wrap" }}>
+            {payments.map((pm, i) => <span key={i} className="es10f-chip">{pm}</span>)}
+          </span>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", paddingTop: 18 }}>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-11-footer ─────────────────────────────────────────────────────────────
+// HORAL (rockpoint DNA, povýšeno): černý footer — horní blok „Potřebujete
+// poradit?" (telefon + hodiny, e-mail + chat) | newsletter (input + zelené
+// Přihlásit se, funkční done stav). Vlasový předěl. 4 sloupce linků (Vše o
+// nákupu / Služby / HORAL / Doprava a platba jako bordered chipy). Dole ©,
+// socials a WeberoCredit. Zelená gradient linka nahoře.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop11({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SANS = "'Fira Sans', 'Segoe UI', Arial, sans-serif";
+  const BG = "#131313";
+  const GREEN = "#0f7d4e";
+  const GREEN_LIGHT = "#4fce8d";
+  const DIM = "#b5b5b0";
+  const DIMMER = "#7c7c76";
+  const HAIR = "rgba(255,255,255,0.1)";
+  const [nlEmail, setNlEmail] = useState("");
+  const [nlDone, setNlDone] = useState(false);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const c = content as Record<string, unknown>;
+  const siteName = String(c.siteName ?? "HORAL");
+  const help = (c.help as { heading?: string; phone?: string; hours?: string; email?: string; chatText?: string }) ?? {};
+  const newsletter = (c.newsletter as { heading?: string; text?: string; placeholder?: string; buttonLabel?: string; doneText?: string }) ?? {};
+  const columns = appendBlogToColumns((c.columns as Array<{ heading: string; links: Array<{ label: string; href: string }> }>) ?? [], content);
+  const shippingChips = ((c.shippingChips as string[]) ?? []);
+  const paymentChips = ((c.paymentChips as string[]) ?? []);
+  const socials = (c.socials as Array<{ icon?: string; href?: string }>) ?? [];
+  const copyright = String(c.copyright ?? "");
+
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+    if (name === "facebook") return <svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
+    if (name === "instagram") return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>;
+    if (name === "youtube") return <svg {...p}><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/></svg>;
+    return <svg {...p}><circle cx="12" cy="12" r="10"/></svg>;
+  };
+
+  return (
+    <footer data-variant="eshop-11-footer" style={{ fontFamily: SANS, background: BG, marginTop: 0 }}>
+      <style>{`
+        .es11f-topline { height: 3px; background: linear-gradient(90deg, transparent, ${GREEN} 30%, ${GREEN} 70%, transparent); opacity: 0.9; }
+        .es11f-link { font-size: 14px; font-weight: 500; color: ${DIM}; text-decoration: none; transition: color 0.14s, padding-left 0.16s; display: inline-block; }
+        .es11f-link:hover { color: ${GREEN_LIGHT}; padding-left: 4px; }
+        .es11f-tel { color: #fff; text-decoration: none; font-size: 21px; font-weight: 800; transition: color 0.14s; }
+        .es11f-tel:hover { color: ${GREEN_LIGHT}; }
+        .es11f-mail { color: ${DIM}; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; transition: color 0.14s; }
+        .es11f-mail:hover { color: ${GREEN_LIGHT}; }
+        .es11f-nl-input { flex: 1; min-width: 0; height: 52px; border: 1.5px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.05);
+          color: #fff; padding: 0 16px; font-size: 14.5px; font-family: ${SANS}; transition: border-color 0.16s; }
+        .es11f-nl-input::placeholder { color: ${DIMMER}; }
+        .es11f-nl-input:focus { outline: none; border-color: ${GREEN_LIGHT}; }
+        .es11f-nl-btn { height: 52px; padding: 0 24px; border: none; background: ${GREEN}; color: #fff; font-size: 14.5px; font-weight: 700;
+          font-family: ${SANS}; cursor: pointer; transition: background 0.16s; flex-shrink: 0; }
+        .es11f-nl-btn:hover { background: #0b613c; }
+        .es11f-chip { display: inline-flex; align-items: center; height: 34px; padding: 0 13px; border: 1px solid ${HAIR};
+          color: ${DIM}; font-size: 12.5px; font-weight: 600; letter-spacing: 0.03em; transition: border-color 0.15s, color 0.15s; }
+        .es11f-chip:hover { border-color: ${GREEN_LIGHT}; color: #fff; }
+        .es11f-social { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%;
+          border: 1px solid ${HAIR}; color: ${DIM}; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s; }
+        .es11f-social:hover { background: ${GREEN}; border-color: ${GREEN}; color: #fff; transform: translateY(-2px); }
+        .es11f-top-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 56px; }
+        .es11f-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px; }
+        @media (max-width: 980px) { .es11f-top-grid { grid-template-columns: 1fr; gap: 34px; } .es11f-cols { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px) { .es11f-cols { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="es11f-topline" />
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "44px 24px 0" }}>
+        {/* Potřebujete poradit + newsletter */}
+        <div className="es11f-top-grid" style={{ paddingBottom: 38, borderBottom: `1px solid ${HAIR}` }}>
+          <div>
+            <h3 style={{ margin: "0 0 18px", fontFamily: SANS, fontSize: 20, fontWeight: 800, color: "#fff" }}>{help.heading ?? "Potřebujete poradit?"}</h3>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
+                <span style={{ width: 42, height: 42, borderRadius: "50%", border: `1px solid ${HAIR}`, display: "flex", alignItems: "center", justifyContent: "center", color: GREEN_LIGHT, flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3A19.5 19.5 0 0 1 5.1 13 19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0 1 22 16.9z"/></svg>
+                </span>
+                <span>
+                  <a href={`tel:${String(help.phone ?? "").replace(/\s/g, "")}`} className="es11f-tel">{help.phone}</a>
+                  {help.hours && <span style={{ display: "block", marginTop: 2, fontSize: 13, color: DIMMER }}>{help.hours}</span>}
+                </span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
+                <span style={{ width: 42, height: 42, borderRadius: "50%", border: `1px solid ${HAIR}`, display: "flex", alignItems: "center", justifyContent: "center", color: GREEN_LIGHT, flexShrink: 0 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6.5 9-6.5"/></svg>
+                </span>
+                <span>
+                  <a href={`mailto:${help.email ?? ""}`} className="es11f-mail" style={{ fontSize: 15.5 }}>{help.email}</a>
+                  {help.chatText && <span style={{ display: "block", marginTop: 2, fontSize: 13, color: DIMMER }}>{help.chatText}</span>}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 style={{ margin: "0 0 10px", fontFamily: SANS, fontSize: 20, fontWeight: 800, color: "#fff" }}>{newsletter.heading ?? "Novinky a akce"}</h3>
+            {newsletter.text && <p style={{ margin: "0 0 16px", fontSize: 14, color: DIMMER, lineHeight: 1.5 }}>{newsletter.text}</p>}
+            {nlDone ? (
+              <div style={{ display: "flex", alignItems: "center", gap: 11, height: 52, padding: "0 18px", border: `1.5px solid ${GREEN_LIGHT}`, color: GREEN_LIGHT, fontSize: 14.5, fontWeight: 700, maxWidth: 480 }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(79,206,141,0.15)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                {newsletter.doneText ?? "Hotovo — první tipy dorazí co nevidět."}
+              </div>
+            ) : (
+              <form style={{ display: "flex", gap: 0, maxWidth: 480 }} onSubmit={(e) => { e.preventDefault(); if (nlEmail.includes("@")) setNlDone(true); }}>
+                <input type="email" required className="es11f-nl-input" placeholder={newsletter.placeholder ?? "Váš e-mail"} value={nlEmail} onChange={(e) => setNlEmail(e.target.value)} />
+                <button type="submit" className="es11f-nl-btn">{newsletter.buttonLabel ?? "Přihlásit se"}</button>
+              </form>
+            )}
+          </div>
+        </div>
+
+        {/* Sloupce */}
+        <div className="es11f-cols" style={{ padding: "36px 0 34px", borderBottom: `1px solid ${HAIR}` }}>
+          {columns.map((col, ci) => (
+            <div key={ci}>
+              <h4 style={{ margin: "0 0 14px", fontFamily: SANS, fontSize: 15, fontWeight: 800, color: "#fff" }}>{col.heading}</h4>
+              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 9 }}>
+                {(col.links ?? []).map((l, li) => (
+                  <li key={li}><a href={resolve(l.href)} className="es11f-link">{l.label}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div>
+            <h4 style={{ margin: "0 0 14px", fontFamily: SANS, fontSize: 15, fontWeight: 800, color: "#fff" }}>Doprava</h4>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
+              {shippingChips.map((ch, chi) => <span key={chi} className="es11f-chip">{ch}</span>)}
+            </div>
+            <h4 style={{ margin: "0 0 14px", fontFamily: SANS, fontSize: 15, fontWeight: 800, color: "#fff" }}>Platby</h4>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {paymentChips.map((ch, chi) => <span key={chi} className="es11f-chip">{ch}</span>)}
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", padding: "22px 0 26px" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <svg width="24" height="24" viewBox="0 0 46 46" fill="none" aria-hidden><rect width="46" height="46" rx="2" fill="#0f7d4e"/><circle cx="34.5" cy="12.5" r="3.4" fill="#ffffff"/><path d="M4 36 L16 15 L21.5 24 L27 12 L42 36 Z" fill="#ffffff"/></svg>
+            <span style={{ fontSize: 15, fontWeight: 800, letterSpacing: "0.09em", textTransform: "uppercase", color: "#fff" }}>{siteName}</span>
+          </span>
+          <span style={{ fontSize: 13, color: DIMMER }}>{copyright}</span>
+          <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 9 }}>
+            {socials.map((so, si) => (
+              <a key={si} href={so.href ?? "#"} className="es11f-social" aria-label={so.icon ?? "social"} target="_blank" rel="noopener noreferrer">
+                <SocialIcon name={so.icon} />
+              </a>
+            ))}
+          </span>
+        </div>
+        <div style={{ paddingBottom: 22 }}>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-14-footer ─────────────────────────────────────────────────────────────
+// Zahradia: lesní footer #14352a — nahoře centrovaný „Přesunout nahoru“,
+// 4 sloupce (3× odkazy + kontakt se serif nadpisem, telefonem a sociálními
+// kruhy), vlasové linky rgba(cream). Spodní řádek: partnerské kluby (štítek
+// se štítem), způsoby platby, copyright. Terakotové hover akcenty.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es14FooterCol = { heading?: string; links?: Array<{ label: string; href: string }> };
+
+function FooterEshop14({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const FOREST = "#14352a";
+  const CREAM = "#faf7f0";
+  const TERRA = "#d96f32";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const siteName = String(content.siteName ?? "Zahradia");
+  const topLabel = String(content.topLabel ?? "Přesunout nahoru");
+  const columns = appendBlogToColumns(((content.columns as Es14FooterCol[]) ?? []).slice(0, 3), content);
+  const contactHeading = String(content.contactHeading ?? "Zůstaňte s námi v kontaktu");
+  const contactLinkLabel = String(content.contactLinkLabel ?? "Potřebujete poradit?");
+  const contactLinkHref = String(content.contactLinkHref ?? "/poradna");
+  const phone = String(content.phone ?? "");
+  const phoneHours = String(content.phoneHours ?? "");
+  const partners = ((content.partners as Array<{ label: string; sub?: string }>) ?? []).slice(0, 3);
+  const paymentNote = String(content.paymentNote ?? "");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+
+  const scrollTop = (e: React.MouseEvent) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+  return (
+    <footer data-variant="eshop-14-footer" style={{ fontFamily: SANS, background: FOREST, color: CREAM }}>
+      <style>{`
+        .es14f-top { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 15px 20px; width: 100%;
+          background: rgba(250,247,240,0.05); border: none; border-bottom: 1px solid rgba(250,247,240,0.1); color: rgba(250,247,240,0.75);
+          font-size: 12.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; font-family: ${SANS};
+          transition: background 0.16s, color 0.16s; }
+        .es14f-top:hover { background: rgba(250,247,240,0.09); color: ${CREAM}; }
+        .es14f-link { display: block; padding: 5px 0; color: rgba(250,247,240,0.68); text-decoration: none; font-size: 13.5px; transition: color 0.14s, padding-left 0.16s; }
+        .es14f-link:hover { color: ${TERRA}; padding-left: 4px; }
+        .es14f-colh { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(250,247,240,0.45); margin: 0 0 14px; }
+        .es14f-social { width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(250,247,240,0.25); color: ${CREAM}; display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, transform 0.14s; }
+        .es14f-social:hover { background: ${TERRA}; border-color: ${TERRA}; transform: translateY(-2px); }
+        .es14f-advice { display: inline-flex; align-items: center; gap: 8px; color: ${CREAM}; text-decoration: none; font-size: 15px; font-weight: 700; border-bottom: 1.5px solid ${TERRA}; padding-bottom: 3px; transition: color 0.14s; }
+        .es14f-advice:hover { color: ${TERRA}; }
+        .es14f-grid { display: grid; grid-template-columns: repeat(3, 1fr) 1.3fr; gap: clamp(26px, 3.5vw, 60px); padding: clamp(36px, 4.5vw, 60px) 0 40px; }
+        @media (max-width: 960px) { .es14f-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .es14f-grid { grid-template-columns: 1fr; } }
+        .es14f-partner { display: inline-flex; align-items: center; gap: 10px; }
+      `}</style>
+
+      <button className="es14f-top" onClick={scrollTop}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+        {topLabel}
+      </button>
+
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es14f-grid">
+          {columns.map((col, i) => (
+            <div key={i}>
+              <h3 className="es14f-colh">{col.heading}</h3>
+              {(col.links ?? []).map((l) => (
+                <a key={l.href + l.label} href={resolve(l.href)} className="es14f-link">{l.label}</a>
+              ))}
+            </div>
+          ))}
+          <div>
+            <div style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: 23, color: CREAM, marginBottom: 16 }}>{contactHeading}</div>
+            <a href={resolve(contactLinkHref)} className="es14f-advice">{contactLinkLabel}</a>
+            {phone && (
+              <div style={{ marginTop: 18 }}>
+                <a href={`tel:${phone.replace(/\s+/g, "")}`} style={{ color: CREAM, textDecoration: "none", fontSize: 21, fontWeight: 700 }}>{phone}</a>
+                {phoneHours && <div style={{ fontSize: 12.5, color: "rgba(250,247,240,0.55)", marginTop: 3 }}>{phoneHours}</div>}
+              </div>
+            )}
+            <div style={{ display: "flex", gap: 10, marginTop: 22 }}>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="Facebook" className="es14f-social">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14 8h2.5l.5-3h-3V3.5C14 2.6 14.3 2 15.6 2H17V-0.6? Z" opacity="0"/><path d="M13.5 21v-7h2.4l.4-2.8h-2.8V9.4c0-.8.3-1.4 1.5-1.4h1.4V5.5c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5v2.3H8.5V14H11v7h2.5Z"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="YouTube" className="es14f-social">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="6" width="19" height="12.5" rx="3.5"/><path d="m10.2 9.7 4.6 2.55-4.6 2.55Z" fill="currentColor"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="Instagram" className="es14f-social">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(250,247,240,0.12)", padding: "22px 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap" }}>
+            {partners.map((pt, i) => (
+              <span key={i} className="es14f-partner">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={TERRA} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2.5 19.5 5v6.2c0 4.6-3.1 8.2-7.5 10.3-4.4-2.1-7.5-5.7-7.5-10.3V5L12 2.5Z"/></svg>
+                <span style={{ lineHeight: 1.25 }}>
+                  {pt.sub && <span style={{ display: "block", fontSize: 11, color: "rgba(250,247,240,0.5)" }}>{pt.sub}</span>}
+                  <span style={{ display: "block", fontSize: 13.5, fontWeight: 700, color: CREAM }}>{pt.label}</span>
+                </span>
+              </span>
+            ))}
+          </div>
+          {paymentNote && (
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 13, color: "rgba(250,247,240,0.65)" }}>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 9.5h19"/><path d="M6 14.5h4"/></svg>
+              {paymentNote}
+            </span>
+          )}
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(250,247,240,0.12)", padding: "18px 0 26px", textAlign: "center", fontSize: 12.5, color: "rgba(250,247,240,0.45)" }}>
+          {copyright}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+
+// ── eshop-12-footer ─────────────────────────────────────────────────────────────
+// PACKA footer (petcenter DNA): navy newsletter pruh (tlapka + nadpis, e-mail pill
+// + mango ODEBÍRAT s funkčním consent checkboxem a done stavem | Kontaktujte nás
+// + telefon + sociální sítě) → sloupce linků (O PACKA / Vše o nákupu / Můj účet /
+// Naše prodejny s mango pill) → © + právní linky + platební chipy + WeberoCredit.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es12FooterCol = { title: string; links: Array<{ label: string; href: string }> };
+
+function Es12PawMark({ size = 30, color = "#ff8a3d" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden>
+      <circle cx="6.2" cy="9.5" r="2.05"/><circle cx="10.4" cy="6.4" r="2.15"/><circle cx="14.9" cy="6.6" r="2.15"/><circle cx="18.6" cy="10.1" r="2"/>
+      <path d="M12.4 11.4c2.8 0 4.9 1.7 4.9 4 0 2.5-2.2 4.1-5.3 4.1-3 0-5.2-1.6-5.2-4 0-2.4 2.5-4.1 5.6-4.1Z"/>
+    </svg>
+  );
+}
+
+function FooterEshop12({ content, sectionId, tenantSlug, isAdmin }: Props) {
+  const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [done, setDone] = useState(false);
+  const DISPLAY = "'Baloo 2', 'Segoe UI', system-ui, sans-serif";
+  const SANS = "'Nunito', 'Segoe UI', system-ui, sans-serif";
+  const MANGO = "#ff8a3d", MANGO_DEEP = "#f06e1e";
+  const NAVY = "#14224a", NAVY_DEEP = "#0e1834";
+
+  const c = content as Record<string, unknown>;
+  const siteName = String(c.siteName ?? "PACKA");
+  const tagline = String(c.tagline ?? "");
+  const newsletterTitle = String(c.newsletterTitle ?? "Nezmeškejte žádnou akci");
+  const newsletterText = String(c.newsletterText ?? "");
+  const newsletterPlaceholder = String(c.newsletterPlaceholder ?? "Váš e-mail");
+  const newsletterCta = String(c.newsletterCta ?? "Odebírat");
+  const consentLabel = String(c.consentLabel ?? "Souhlasím se zpracováním osobních údajů");
+  const doneText = String(c.doneText ?? "Děkujeme! Jste přihlášeni k odběru.");
+  const contactTitle = String(c.contactTitle ?? "Kontaktujte nás");
+  const phone = String(c.phone ?? "");
+  const phoneNote = String(c.phoneNote ?? "");
+  const email2 = String(c.email ?? "");
+  const followLabel = String(c.followLabel ?? "Sledujte nás");
+  const columns = appendBlogToColumns(((c.columns as Es12FooterCol[]) ?? []).filter(x => x && x.title), content);
+  const storesCta = String(c.storesCta ?? "");
+  const legal = ((c.legal as Array<{ label: string; href: string }>) ?? []);
+  const payments = ((c.payments as string[]) ?? []);
+  const copyright = String(c.copyright ?? `© ${new Date().getFullYear()} ${siteName}`);
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const canSubmit = consent && /.+@.+\..+/.test(email);
+
+  return (
+    <footer style={{ fontFamily: SANS, background: NAVY, color: "#fff" }}>
+      <style>{`
+        .es12x-input { height: 50px; width: 100%; border-radius: 999px; border: 2px solid rgba(255,255,255,0.22);
+          background: rgba(255,255,255,0.08); color: #fff; padding: 0 22px; font-family: ${SANS};
+          font-size: 14.5px; font-weight: 600; transition: border-color 0.15s, background 0.15s; }
+        .es12x-input::placeholder { color: rgba(255,255,255,0.5); }
+        .es12x-input:focus { outline: none; border-color: ${MANGO}; background: rgba(255,255,255,0.12); }
+        .es12x-btn { height: 50px; padding: 0 26px; border-radius: 999px; border: none; cursor: pointer;
+          background: ${MANGO}; color: #fff; font-family: ${DISPLAY}; font-size: 15px; font-weight: 800;
+          letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 8px 20px rgba(240,110,30,0.35);
+          transition: background 0.15s, transform 0.15s, opacity 0.15s; flex-shrink: 0; }
+        .es12x-btn:hover:not(:disabled) { background: ${MANGO_DEEP}; transform: translateY(-1px); }
+        .es12x-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+        .es12x-link { display: block; padding: 5px 0; font-size: 13.5px; font-weight: 600;
+          color: rgba(255,255,255,0.72); text-decoration: none; transition: color 0.13s, padding-left 0.13s; }
+        .es12x-link:hover { color: ${MANGO}; padding-left: 4px; }
+        .es12x-soc { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px;
+          border-radius: 999px; border: 2px solid rgba(255,255,255,0.25); color: #fff;
+          transition: background 0.15s, border-color 0.15s, transform 0.15s; }
+        .es12x-soc:hover { background: ${MANGO}; border-color: ${MANGO}; transform: translateY(-2px); }
+        .es12x-pill { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px;
+          border-radius: 999px; background: ${MANGO}; color: #fff; font-family: ${DISPLAY}; font-size: 14px;
+          font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none;
+          box-shadow: 0 8px 18px rgba(240,110,30,0.3); transition: background 0.15s, transform 0.15s; }
+        .es12x-pill:hover { background: ${MANGO_DEEP}; transform: translateY(-2px); }
+        .es12x-pay { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 8px;
+          border: 1.5px solid rgba(255,255,255,0.22); font-size: 11.5px; font-weight: 800;
+          letter-spacing: 0.05em; color: rgba(255,255,255,0.75); }
+        .es12x-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1.1fr; gap: 34px; }
+        @media (max-width: 980px) { .es12x-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 620px) { .es12x-grid { grid-template-columns: 1fr; } }
+        .es12x-news { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: center; }
+        @media (max-width: 980px) { .es12x-news { grid-template-columns: 1fr; } }
+      `}</style>
+
+      {/* ═══ Newsletter pruh ═══ */}
+      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", position: "relative", overflow: "hidden" }}>
+        <svg aria-hidden width="150" height="150" viewBox="0 0 24 24" fill="rgba(255,255,255,0.045)" style={{ position: "absolute", right: -16, top: -26, transform: "rotate(18deg)" }}><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>
+        <div style={{ maxWidth: 1360, margin: "0 auto", padding: "40px 24px 38px" }}>
+          <div className="es12x-news">
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <span style={{ display: "inline-flex", background: `linear-gradient(135deg, ${MANGO}, ${MANGO_DEEP})`, borderRadius: 13, padding: 7, transform: "rotate(-6deg)", boxShadow: "0 6px 16px rgba(255,138,61,0.35)" }}>
+                  <Es12PawMark size={24} color="#fff" />
+                </span>
+                <h3 style={{ margin: 0, fontFamily: DISPLAY, fontSize: "clamp(21px, 2vw, 27px)", fontWeight: 800, lineHeight: 1.1, color: "#fff" }}>{newsletterTitle}</h3>
+              </div>
+              {newsletterText && <p style={{ margin: "10px 0 0", fontSize: 14, fontWeight: 500, color: "rgba(255,255,255,0.65)", maxWidth: 480 }}>{newsletterText}</p>}
+              {done ? (
+                <p style={{ margin: "16px 0 0", display: "inline-flex", alignItems: "center", gap: 9, fontFamily: DISPLAY, fontSize: 16, fontWeight: 700, color: "#7ee2b0" }}>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  {doneText}
+                </p>
+              ) : (
+                <>
+                  <div style={{ display: "flex", gap: 10, marginTop: 16, maxWidth: 480 }}>
+                    <input type="email" className="es12x-input" placeholder={newsletterPlaceholder} value={email} onChange={(e) => setEmail(e.target.value)} aria-label={newsletterPlaceholder} />
+                    <button type="button" className="es12x-btn" disabled={!canSubmit} onClick={() => setDone(true)}>{newsletterCta}</button>
+                  </div>
+                  <label style={{ display: "inline-flex", alignItems: "center", gap: 9, marginTop: 12, fontSize: 12.5, fontWeight: 600, color: "rgba(255,255,255,0.6)", cursor: "pointer" }}>
+                    <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ width: 16, height: 16, accentColor: MANGO }} />
+                    {consentLabel}
+                  </label>
+                </>
+              )}
+            </div>
+            <div>
+              <h4 style={{ margin: 0, fontFamily: DISPLAY, fontSize: 19, fontWeight: 800, color: "#fff" }}>{contactTitle}</h4>
+              {phone && (
+                <a href={`tel:${phone.replace(/\s+/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 12, textDecoration: "none" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 12, background: "rgba(255,138,61,0.16)", color: MANGO }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>
+                  </span>
+                  <span style={{ display: "inline-flex", flexDirection: "column", lineHeight: 1.2 }}>
+                    <span style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 800, color: "#fff" }}>{phone}</span>
+                    {phoneNote && <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.55)" }}>{phoneNote}</span>}
+                  </span>
+                </a>
+              )}
+              {email2 && <a href={`mailto:${email2}`} className="es12x-link" style={{ marginTop: 8 }}>{email2}</a>}
+              <div style={{ marginTop: 16 }}>
+                <span style={{ display: "block", fontSize: 12.5, fontWeight: 800, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 10 }}>{followLabel}</span>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <a href="#" aria-label="Instagram" className="es12x-soc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+                  <a href="#" aria-label="Facebook" className="es12x-soc"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.2-1.5 1.5-1.5h1.4V4.9c-.3 0-1.1-.1-2.1-.1-2.1 0-3.6 1.3-3.6 3.7V11H8.3v3h2.4v7h2.8Z"/></svg></a>
+                  <a href="#" aria-label="YouTube" className="es12x-soc"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.5.4 7.8.4 7.8.4s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15.2V8.8l5.2 3.2Z"/></svg></a>
+                  <a href="#" aria-label="TikTok" className="es12x-soc"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16.8 2h-3v13.4a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6 0 .9.1V9.5a6 6 0 0 0-.9-.1 6 6 0 1 0 6 6V8.7A7.6 7.6 0 0 0 21 10V7a4.7 4.7 0 0 1-4.2-5Z"/></svg></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ═══ Sloupce ═══ */}
+      <div style={{ maxWidth: 1360, margin: "0 auto", padding: "38px 24px 30px" }}>
+        <div className="es12x-grid">
+          <div>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+              <Es12PawMark size={26} color={MANGO} />
+              <span style={{ fontFamily: DISPLAY, fontSize: 24, fontWeight: 800 }}>{siteName}</span>
+            </span>
+            {tagline && <p style={{ margin: "10px 0 0", fontSize: 13.5, fontWeight: 500, lineHeight: 1.6, color: "rgba(255,255,255,0.6)", maxWidth: 280 }}>{tagline}</p>}
+          </div>
+          {columns.map((col, ci) => (
+            <div key={ci}>
+              <h5 style={{ margin: "0 0 12px", fontFamily: DISPLAY, fontSize: 15.5, fontWeight: 800, letterSpacing: "0.02em", color: "#fff" }}>{col.title}</h5>
+              {(col.links ?? []).map((l, li) => (
+                <a key={li} href={resolve(l.href)} className="es12x-link">{l.label}</a>
+              ))}
+              {ci === columns.length - 1 && storesCta && (
+                <a href={resolve("/prodejny")} className="es12x-pill" style={{ marginTop: 14 }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {storesCta}
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══ Spodní lišta ═══ */}
+      <div style={{ background: NAVY_DEEP }}>
+        <div style={{ maxWidth: 1360, margin: "0 auto", padding: "18px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 22px" }}>
+          <span style={{ fontSize: 12.5, fontWeight: 600, color: "rgba(255,255,255,0.55)" }}>{copyright}</span>
+          <span style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
+            {legal.map((l, li) => (
+              <a key={li} href={resolve(l.href)} style={{ fontSize: 12.5, fontWeight: 600, color: "rgba(255,255,255,0.55)", textDecoration: "none" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")} onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}>{l.label}</a>
+            ))}
+          </span>
+          <span style={{ marginLeft: "auto", display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
+            {payments.map((pm, pi) => <span key={pi} className="es12x-pay">{pm}</span>)}
+          </span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-13-footer ─────────────────────────────────────────────────────────────
+// LUNELA (milagro DNA) — bílý editorial footer v containeru 1140/15:
+// nahoře centrované sociální ikony s vlasovými linkami po stranách + šipka
+// nahoru vpravo; 4 sloupce (serif nadpisy): O nás / Vše o nákupu / Rady a tipy
+// / Potřebujete poradit? (telefon+hodiny, e-mail) + newsletter (input + Odeslat
+// outlined serif, GDPR poznámka); řada badge (AURELLE autorizovaný prodejce,
+// OVĚŘENO ZÁKAZNÍKY zlatý kroužek, platební chipy); spodní lišta © + odkazy.
+// content: socials/columns[]/contact/newsletter/badges/bottomLinks/copyright.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es13FooterLink = { label: string; href: string };
+type Es13FooterColumn = { heading?: string; links?: Es13FooterLink[] };
+
+function FooterEshop13({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const SERIF = "'Playfair Display', Georgia, serif";
+  const SANS = "'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif";
+  const INK = "#141414";
+  const MUTED = "#83837f";
+  const HAIR = "#e4e4e1";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const socials = (content.socials as Record<string, string>) ?? {};
+  const columns = appendBlogToColumns(((content.columns as Es13FooterColumn[]) ?? []).slice(0, 3), content);
+  const contact = (content.contact as { heading?: string; phone?: string; hours?: string; email?: string }) ?? {};
+  const newsletter = (content.newsletter as { heading?: string; placeholder?: string; button?: string; note?: string; noteLink?: string }) ?? {};
+  const brandBadge = (content.brandBadge as { name?: string; sub?: string }) ?? {};
+  const verified = String(content.verifiedBadge ?? "");
+  const payments = ((content.payments as string[]) ?? []).slice(0, 5);
+  const bottomLinks = ((content.bottomLinks as Es13FooterLink[]) ?? []).slice(0, 5);
+  const copyright = String(content.copyright ?? "");
+
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+
+  return (
+    <footer data-variant="eshop-13-footer" style={{ fontFamily: SANS, background: "#fff", borderTop: `1px solid transparent`, padding: "26px 0 0", marginTop: 20 }}>
+      <style>{`
+        .es13f-wrap { max-width: 1140px; margin: 0 auto; padding: 0 15px; }
+        .es13f-social-row { display: flex; align-items: center; gap: 26px; justify-content: center; position: relative; padding: 10px 0 34px; }
+        .es13f-hair { flex: 0 0 130px; height: 1px; background: #c9cbd6; }
+        .es13f-social { color: ${INK}; display: inline-flex; transition: opacity 0.15s, transform 0.15s; }
+        .es13f-social:hover { opacity: 0.6; transform: translateY(-2px); }
+        .es13f-top { position: absolute; right: 0; top: 6px; color: ${INK}; background: none; border: none; cursor: pointer; padding: 8px; transition: transform 0.18s; }
+        .es13f-top:hover { transform: translateY(-3px); }
+
+        .es13f-cols { display: grid; grid-template-columns: 18fr 24fr 24fr 34fr; gap: 34px; padding-bottom: 40px; }
+        .es13f-h { font-family: ${SERIF}; font-size: 20px; font-weight: 700; color: ${INK}; margin: 0 0 20px; }
+        .es13f-link { display: block; font-size: 14.5px; color: ${INK}; text-decoration: none; margin-top: 13px; line-height: 1.5; transition: opacity 0.14s; }
+        .es13f-link:hover { opacity: 0.6; text-decoration: underline; text-underline-offset: 3px; }
+
+        .es13f-nl { display: flex; margin-top: 14px; }
+        .es13f-nl input { flex: 1; height: 50px; border: 1px solid ${HAIR}; border-right: none; background: #fafaf9; padding: 0 16px;
+          font-family: ${SANS}; font-size: 14px; color: ${INK}; outline: none; }
+        .es13f-nl input:focus { border-color: ${INK}; }
+        .es13f-nl button { height: 50px; padding: 0 26px; border: 1px solid ${INK}; background: #fff; color: ${INK};
+          font-family: ${SERIF}; font-size: 17px; cursor: pointer; transition: background 0.16s, color 0.16s; }
+        .es13f-nl button:hover { background: ${INK}; color: #fff; }
+
+        .es13f-badges { display: flex; align-items: center; gap: 34px; flex-wrap: wrap; padding: 6px 0 44px; }
+        .es13f-verified { width: 62px; height: 62px; border-radius: 50%; background: #f5c518; display: inline-flex; flex-direction: column;
+          align-items: center; justify-content: center; text-align: center; font-size: 7.5px; font-weight: 800; letter-spacing: 0.06em;
+          color: ${INK}; line-height: 1.35; padding: 6px; border: 2px dashed rgba(20,20,20,0.25); }
+        .es13f-pay { display: inline-flex; align-items: center; gap: 7px; color: ${MUTED}; font-size: 13px; font-weight: 600; }
+
+        .es13f-bottom { border-top: 1px solid ${HAIR}; padding: 20px 0 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: ${INK}; }
+        .es13f-bottom a { color: ${INK}; text-decoration: none; transition: opacity 0.14s; }
+        .es13f-bottom a:hover { opacity: 0.6; text-decoration: underline; text-underline-offset: 3px; }
+        .es13f-sep { color: #b9b9b5; }
+
+        @media (max-width: 960px) { .es13f-cols { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { .es13f-cols { grid-template-columns: 1fr; gap: 26px; } .es13f-hair { flex-basis: 40px; } }
+      `}</style>
+      <div className="es13f-wrap">
+        {/* Sociální ikony s linkami */}
+        <div className="es13f-social-row">
+          <span className="es13f-hair" aria-hidden />
+          {socials.facebook && (
+            <a href={socials.facebook} aria-label="Facebook" className="es13f-social" target="_blank" rel="noopener noreferrer">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7C18.3 21.1 22 17 22 12c0-5.5-4.5-10-10-10Z"/></svg>
+            </a>
+          )}
+          {socials.instagram && (
+            <a href={socials.instagram} aria-label="Instagram" className="es13f-social" target="_blank" rel="noopener noreferrer">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          )}
+          {socials.tiktok && (
+            <a href={socials.tiktok} aria-label="TikTok" className="es13f-social" target="_blank" rel="noopener noreferrer">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2.1 1.9 3.7 4.4 3.9v3c-1.7 0-3.2-.5-4.4-1.4v6.5c0 3.9-2.7 6.4-6.2 6.4C7 21.4 4.6 19 4.6 15.9c0-3.4 2.9-5.9 6.4-5.6v3.1c-1.8-.4-3.4.7-3.4 2.5 0 1.6 1.2 2.7 2.8 2.7 1.8 0 3.1-1.3 3.1-3.5V3h3.1Z"/></svg>
+            </a>
+          )}
+          <span className="es13f-hair" aria-hidden />
+          <button className="es13f-top" aria-label="Nahoru" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20V4"/><path d="m5 11 7-7 7 7"/></svg>
+          </button>
+        </div>
+
+        {/* Sloupce */}
+        <div className="es13f-cols">
+          {columns.map((col, ci) => (
+            <div key={ci}>
+              <h3 className="es13f-h">{col.heading}</h3>
+              {(col.links ?? []).map((l) => (
+                <a key={l.href + l.label} href={resolve(l.href)} className="es13f-link">{l.label}</a>
+              ))}
+            </div>
+          ))}
+          <div>
+            <h3 className="es13f-h">{contact.heading ?? "Potřebujete poradit?"}</h3>
+            {contact.phone && (
+              <p style={{ display: "flex", alignItems: "center", gap: 12, margin: "13px 0 0", fontSize: 14.5, color: INK }}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg>
+                <a href={`tel:${contact.phone.replace(/\s+/g, "")}`} style={{ color: INK, textDecoration: "none", fontWeight: 600 }}>{contact.phone}</a>
+                {contact.hours && <span style={{ color: MUTED }}>&thinsp;|&thinsp; {contact.hours}</span>}
+              </p>
+            )}
+            {contact.email && (
+              <p style={{ display: "flex", alignItems: "center", gap: 12, margin: "12px 0 0", fontSize: 14.5 }}>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+                <a href={`mailto:${contact.email}`} style={{ color: INK, textDecoration: "none" }}>{contact.email}</a>
+              </p>
+            )}
+
+            <h3 className="es13f-h" style={{ margin: "34px 0 0" }}>{newsletter.heading ?? "Akce i novinky dostanete přednostně"}</h3>
+            <form className="es13f-nl" onSubmit={(e) => { e.preventDefault(); if (email.trim()) { setSent(true); setEmail(""); } }}>
+              <input
+                type="email" required placeholder={newsletter.placeholder ?? "Váš e-mail"} value={email}
+                onChange={(e) => setEmail(e.target.value)} aria-label="E-mail pro odběr novinek"
+              />
+              <button type="submit">{sent ? "✓ Díky" : (newsletter.button ?? "Odeslat")}</button>
+            </form>
+            {newsletter.note && (
+              <p style={{ margin: "12px 0 0", fontSize: 12.5, color: MUTED, lineHeight: 1.5 }}>
+                {newsletter.note}{" "}
+                {newsletter.noteLink && <a href={resolve("/ochrana-osobnich-udaju")} style={{ color: MUTED }}>{newsletter.noteLink}</a>}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Badge řada */}
+        <div className="es13f-badges">
+          {brandBadge.name && (
+            <span style={{ display: "inline-flex", flexDirection: "column", lineHeight: 1 }}>
+              <span style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, letterSpacing: "0.1em", color: INK, textTransform: "uppercase" }}>{brandBadge.name}</span>
+              {brandBadge.sub && <span style={{ marginTop: 7, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.22em", color: INK, textTransform: "uppercase", borderTop: "1px solid #FFD2D0", paddingTop: 6, textAlign: "center" }}>{brandBadge.sub}</span>}
+            </span>
+          )}
+          {verified && <span className="es13f-verified">{verified}</span>}
+          {payments.map((pm) => (
+            <span key={pm} className="es13f-pay">
+              <svg width="24" height="17" viewBox="0 0 24 17" fill="none" stroke="currentColor" strokeWidth="1.4"><rect x="0.8" y="0.8" width="22.4" height="15.4" rx="2.4"/><path d="M1 5.6h22" strokeWidth="1.8"/><path d="M4 11.5h5"/></svg>
+              {pm}
+            </span>
+          ))}
+        </div>
+
+        {/* Spodní lišta */}
+        <div className="es13f-bottom">
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" style={{ fontSize: 13 }} />
+          {bottomLinks.map((l) => (
+            <span key={l.href + l.label} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <span className="es13f-sep">|</span>
+              <a href={resolve(l.href)}>{l.label}</a>
+            </span>
+          ))}
+          <span style={{ marginLeft: "auto", color: MUTED, fontSize: 12.5 }}>Vytvořeno na platformě <strong style={{ fontWeight: 700 }}>Webero</strong></span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-15-footer ─────────────────────────────────────────────────────────────
+// Apatyka footer — pilulka DNA 1:1. Tmavě zelený #0d4a3f: vlevo lowercase wordmark
+// + orámované store badges, 3 sloupce odkazů (Zákaznická podpora / O Apatyce /
+// Právní informace), dole vlevo demo kontakty, vpravo jazykový pill; spodní řádek
+// copyright + sociální ikony.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop15({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const BG = "#0d4a3f";
+  const LINE = "rgba(255,255,255,0.14)";
+  const MUTEDW = "rgba(255,255,255,0.72)";
+  const SYS = "-apple-system, 'system-ui', 'Segoe UI', Roboto, Arial, sans-serif";
+
+  const siteName = String(content.siteName ?? "apatyka");
+  const columns = appendBlogToColumns((content.columns as Array<{ title?: string; links?: Array<{ label?: string; href?: string }> }>) ?? [], content);
+  const storePrefixG = String(content.googleBadgeTop ?? "GET IT ON");
+  const storeG = String(content.googleBadge ?? "Google Play");
+  const storePrefixA = String(content.appleBadgeTop ?? "Download on the");
+  const storeA = String(content.appleBadge ?? "App Store");
+  const langLabel = String(content.langLabel ?? "Čeština");
+  const copyright = String(content.copyright ?? "");
+  const contactEmail = String(content.contactEmail ?? "");
+  const contactPhone = String(content.contactPhone ?? "");
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <footer data-variant="eshop-15-footer" style={{ fontFamily: SYS, background: BG, color: "#fff" }}>
+      <style>{`
+        .es15f-grid { max-width: 1420px; margin: 0 auto; padding: 62px 28px 30px; display: grid;
+          grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 44px; }
+        @media (max-width: 1023px) { .es15f-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 640px) { .es15f-grid { grid-template-columns: 1fr; } }
+        .es15f-store { display: inline-flex; align-items: center; gap: 9px; border: 1px solid rgba(255,255,255,0.5); border-radius: 9px;
+          padding: 7px 14px 7px 11px; color: #fff; text-decoration: none; transition: background 0.15s; }
+        .es15f-store:hover { background: rgba(255,255,255,0.08); }
+        .es15f-link { display: block; padding: 6px 0; color: ${MUTEDW}; text-decoration: none; font-size: 14.5px; transition: color 0.13s; }
+        .es15f-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+        .es15f-lang { display: inline-flex; align-items: center; gap: 9px; border: 1px solid rgba(255,255,255,0.4); border-radius: 10px;
+          padding: 10px 16px; color: #fff; font-size: 14px; font-weight: 500; background: none; cursor: pointer; font-family: ${SYS}; transition: background 0.15s; }
+        .es15f-lang:hover { background: rgba(255,255,255,0.08); }
+        .es15f-soc { color: ${MUTEDW}; display: inline-flex; transition: color 0.14s, transform 0.14s; }
+        .es15f-soc:hover { color: #fff; transform: translateY(-2px); }
+        @media (prefers-reduced-motion: reduce) { .es15f-soc, .es15f-store, .es15f-lang { transition: none; } }
+      `}</style>
+
+      <div className="es15f-grid">
+        {/* Brand + badges */}
+        <div>
+          <div style={{ fontWeight: 800, fontSize: 30, letterSpacing: "-0.02em", textTransform: "lowercase", lineHeight: 1 }}>{siteName}</div>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 11, marginTop: 26 }}>
+            <a href="#" onClick={(e) => e.preventDefault()} className="es15f-store">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M4 3.5v17c0 .4.45.65.8.43l2.1-1.2L13.2 12 6.9 4.27l-2.1-1.2A.5.5 0 0 0 4 3.5Zm11.5 5.1L8.6 4.9l5.5 6.2 1.4-2.5Zm0 6.8-1.4-2.5-5.5 6.2 6.9-3.7Zm1.8-5.8 2.3 1.25a.9.9 0 0 1 0 1.6l-2.3 1.25L15.6 12l1.7-2.4Z"/></svg>
+              <span><span style={{ display: "block", fontSize: 9, letterSpacing: "0.06em", color: MUTEDW }}>{storePrefixG.toUpperCase()}</span>
+              <span style={{ display: "block", fontSize: 15, fontWeight: 700 }}>{storeG}</span></span>
+            </a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="es15f-store">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.15-2.8.85-3.5.85-.75 0-1.85-.83-3.05-.8-1.55.02-3 .9-3.8 2.3-1.65 2.85-.42 7.05 1.16 9.35.8 1.13 1.72 2.4 2.94 2.35 1.18-.05 1.63-.76 3.06-.76 1.42 0 1.83.76 3.07.73 1.27-.02 2.07-1.14 2.84-2.28.9-1.3 1.26-2.57 1.28-2.64-.03-.01-2.45-.94-2.6-3.75ZM14.1 5.9c.64-.8 1.08-1.9.96-3-.93.04-2.07.62-2.74 1.42-.6.7-1.13 1.83-.99 2.9 1.04.08 2.11-.52 2.77-1.32Z"/></svg>
+              <span><span style={{ display: "block", fontSize: 9, letterSpacing: "0.04em", color: MUTEDW }}>{storePrefixA}</span>
+              <span style={{ display: "block", fontSize: 15, fontWeight: 700 }}>{storeA}</span></span>
+            </a>
+          </div>
+          {(contactEmail || contactPhone) && (
+            <div style={{ marginTop: 26, fontSize: 14, color: MUTEDW, lineHeight: 1.8 }}>
+              {contactEmail && <a href={`mailto:${contactEmail}`} className="es15f-link" style={{ padding: 0 }}>{contactEmail}</a>}
+              {contactPhone && <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="es15f-link" style={{ padding: 0 }}>{contactPhone}</a>}
+            </div>
+          )}
+        </div>
+
+        {/* Sloupce odkazů */}
+        {columns.slice(0, 3).map((col, ci) => (
+          <div key={ci}>
+            <div style={{ fontSize: 16.5, fontWeight: 700, marginBottom: 16 }}>{col.title}</div>
+            {(col.links ?? []).map((l, li) => (
+              <a key={li} href={l.href ? resolve(l.href) : "#"} onClick={l.href ? undefined : (e) => e.preventDefault()} className="es15f-link">{l.label}</a>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Jazyk */}
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px 26px", display: "flex", justifyContent: "flex-end" }}>
+        <button type="button" className="es15f-lang">
+          <span style={{ fontSize: 16, lineHeight: 1 }} aria-hidden>🇨🇿</span>
+          {langLabel}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+
+      {/* Spodní řádek */}
+      <div style={{ borderTop: `1px solid ${LINE}` }}>
+        <div style={{ maxWidth: 1420, margin: "0 auto", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 13.5, color: MUTEDW }}>{copyright}</span>
+          <span style={{ display: "inline-flex", gap: 18 }}>
+            <a href="#" onClick={(e) => e.preventDefault()} className="es15f-soc" aria-label="Facebook"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.5-3h-2.9V9.1c0-.9.3-1.6 1.7-1.6h1.3V4.8c-.6-.1-1.5-.2-2.4-.2-2.4 0-4 1.4-4 4.1V11H7.5v3h2.6v7h3.4Z"/></svg></a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="es15f-soc" aria-label="Instagram"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="es15f-soc" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.7 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2.5 3h6.2l4.3 5.7L17.7 3Zm-1.1 16.2h1.7L7.8 4.7H6L16.6 19.2Z"/></svg></a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="es15f-soc" aria-label="LinkedIn"><svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M6.4 8.9H3.2V21h3.2V8.9ZM4.8 3.5a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 0 0 0-3.8ZM13 8.9H9.9V21H13v-6.3c0-1.7.8-2.7 2.2-2.7 1.3 0 1.9.9 1.9 2.7V21h3.2v-7.1c0-3.1-1.7-4.6-4-4.6-1.8 0-2.7 1-3.3 2V8.9Z"/></svg></a>
+          </span>
+        </div>
+      </div>
+      <WeberoCredit />
+    </footer>
+  );
+}
+
+// ── eshop-16-footer ─────────────────────────────────────────────────────────────
+// Spížka (kosik.cz DNA): tmavě fíková patička — nahoru-tlačítko pruh, brand blok
+// (wordmark „Spížka." s meruňkovou tečkou, tagline, demo kontakty e-mail/telefon,
+// sociální kolečka) + 3 sloupce odkazů → pruh platebních chipů + doručovací
+// poznámka → copyright + WeberoCredit. content: siteName/tagline/columns[3]/
+// email/phone/phoneHours/payments[]/deliveryNote/copyright.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es16FooterCol = { heading: string; links: Array<{ label: string; href: string }> };
+
+function FooterEshop16({ content, tenantSlug, isAdmin }: Props) {
+  const HEAD = "'Bricolage Grotesque', 'Segoe UI', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const FIG_DK = "#3f152c";
+  const APRICOT = "#f2a541";
+  const CREAM = "#fbf7f1";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const siteName = String(content.siteName ?? "Spížka");
+  const tagline = String(content.tagline ?? "Online supermarket s rozvozem. Vy vaříte, my jezdíme.");
+  const topLabel = String(content.topLabel ?? "Zpět nahoru");
+  const columns = appendBlogToColumns(((content.columns as Es16FooterCol[]) ?? []).slice(0, 3), content);
+  const email = String(content.email ?? "email@demo.cz");
+  const phone = String(content.phone ?? "704 123 456");
+  const phoneHours = String(content.phoneHours ?? "po–ne 7:00–22:00");
+  const payments = ((content.payments as string[]) ?? ["Visa", "Mastercard", "Apple Pay", "Google Pay"]).slice(0, 6);
+  const deliveryNote = String(content.deliveryNote ?? "Doručujeme dnes už od 14:00 • minimální nákup 699 Kč");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+
+  const scrollTop = (e: React.MouseEvent) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+  return (
+    <footer data-variant="eshop-16-footer" style={{ fontFamily: SANS, background: FIG_DK, color: CREAM, marginTop: 14 }}>
+      <style>{`
+        .es16f-top { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 14px 20px; width: 100%;
+          background: rgba(251,247,241,0.05); border: none; border-bottom: 1px solid rgba(251,247,241,0.1); color: rgba(251,247,241,0.72);
+          font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; font-family: ${SANS};
+          transition: background 0.16s, color 0.16s; }
+        .es16f-top:hover { background: rgba(251,247,241,0.09); color: ${CREAM}; }
+        .es16f-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: clamp(26px, 3.5vw, 56px); padding: clamp(34px, 4vw, 54px) 0 36px; }
+        @media (max-width: 960px) { .es16f-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .es16f-grid { grid-template-columns: 1fr; } }
+        .es16f-colh { font-family: ${SANS}; font-size: 11.5px; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(251,247,241,0.45); margin: 0 0 13px; }
+        .es16f-link { display: block; padding: 5px 0; color: rgba(251,247,241,0.7); text-decoration: none; font-size: 13.5px; transition: color 0.14s, padding-left 0.16s; }
+        .es16f-link:hover { color: ${APRICOT}; padding-left: 4px; }
+        .es16f-contact { display: flex; align-items: center; gap: 9px; color: ${CREAM}; text-decoration: none; font-size: 14.5px; font-weight: 700; padding: 4px 0; transition: color 0.14s; }
+        .es16f-contact:hover { color: ${APRICOT}; }
+        .es16f-contact svg { color: ${APRICOT}; flex: 0 0 auto; }
+        .es16f-social { width: 38px; height: 38px; border-radius: 999px; border: 1px solid rgba(251,247,241,0.22); color: ${CREAM};
+          display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, transform 0.14s; }
+        .es16f-social:hover { background: ${APRICOT}; border-color: ${APRICOT}; color: ${FIG_DK}; transform: translateY(-2px); }
+        .es16f-pay { display: inline-flex; align-items: center; background: rgba(251,247,241,0.08); border: 1px solid rgba(251,247,241,0.16);
+          color: rgba(251,247,241,0.85); font-size: 12px; font-weight: 700; padding: 6px 13px; border-radius: 999px; line-height: 1.2; }
+      `}</style>
+
+      <button className="es16f-top" onClick={scrollTop}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+        {topLabel}
+      </button>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es16f-grid">
+          <div>
+            <div style={{ fontFamily: HEAD, fontWeight: 800, fontSize: 30, letterSpacing: "-0.02em", color: CREAM }}>
+              {siteName}<span style={{ color: APRICOT }}>.</span>
+            </div>
+            <p style={{ margin: "9px 0 18px", fontSize: 13.5, color: "rgba(251,247,241,0.62)", lineHeight: 1.55, maxWidth: 300 }}>{tagline}</p>
+            <a href={`mailto:${email}`} className="es16f-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+              {email}
+            </a>
+            <a href={`tel:${phone.replace(/\s+/g, "")}`} className="es16f-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 3.5h4l1.5 4.5-2.2 1.6a13 13 0 0 0 6.1 6.1l1.6-2.2 4.5 1.5v4a1.8 1.8 0 0 1-2 1.8C10.6 20 4 13.4 3.2 5.5a1.8 1.8 0 0 1 1.8-2Z"/></svg>
+              {phone}
+            </a>
+            <div style={{ fontSize: 12, color: "rgba(251,247,241,0.45)", margin: "2px 0 20px", paddingLeft: 25 }}>{phoneHours}</div>
+            <div style={{ display: "flex", gap: 9 }}>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="Facebook" className="es16f-social">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M13.5 21v-7h2.4l.4-2.8h-2.8V9.4c0-.8.3-1.4 1.5-1.4h1.4V5.5c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5v2.3H8.5V14H11v7h2.5Z"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="Instagram" className="es16f-social">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="YouTube" className="es16f-social">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="6" width="19" height="12.5" rx="3.5"/><path d="m10.2 9.7 4.6 2.55-4.6 2.55Z" fill="currentColor"/></svg>
+              </a>
+            </div>
+          </div>
+
+          {columns.map((col, i) => (
+            <div key={i}>
+              <h3 className="es16f-colh">{col.heading}</h3>
+              {(col.links ?? []).map((l) => (
+                <a key={l.href + l.label} href={resolve(l.href)} className="es16f-link">{l.label}</a>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(251,247,241,0.12)", padding: "20px 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {payments.map((pay) => <span key={pay} className="es16f-pay">{pay}</span>)}
+          </div>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(251,247,241,0.6)" }}>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={APRICOT} strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17.5" cy="17.5" r="1.7"/></svg>
+            {deliveryNote}
+          </span>
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(251,247,241,0.12)", padding: "16px 0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap", fontSize: 12.5, color: "rgba(251,247,241,0.45)" }}>
+          <span>{copyright}</span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-17-footer ─────────────────────────────────────────────────────────────
+// Rozkvět (florea.cz DNA): krémový footer — 4 sloupce (ZÁKAZNICKÝ SERVIS,
+// INSPIRUJEME VÁS, O NÁS = seznamy odkazů; POTŘEBUJETE PORADIT? = avatarka
+// floristky + zelený telefon + otevírací doba + e-mail řádek + cert chip).
+// Spodní pás oddělený linkou: platební chipy vlevo (VISA, Mastercard, PayPal,
+// Twisto), award chipy uprostřed (zlatá hvězda Cena kvality, 21 000+ recenzí),
+// eko chipy vpravo. Copyright řádek s kvítkem. Vše demo data.
+// content: columns[{heading,links[{label,href}]}] / contact{heading,phone,hours,email,image,cert}
+//          / payments[] / awards[{title,sub}] / eco[] / copyright.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es17fColumn = { heading?: string; links?: Array<{ label: string; href: string }> };
+type Es17fContact = { heading?: string; phone?: string; hours?: string; email?: string; image?: string; cert?: string };
+
+function FooterEshop17({ content, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const HEAD = "'Fraunces', Georgia, serif";
+  const SANS = "'Instrument Sans', 'Segoe UI', system-ui, sans-serif";
+  const BORDO = "#8f1d3d";
+  const GOLD = "#c9a24b";
+  const GREEN = "#3c7d46";
+  const INK = "#241a1d";
+  const MUTED = "#7d6d72";
+  const CREAM = "#f7f1e8";
+  const LINE = "#eadfd6";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const columns = appendBlogToColumns(((content.columns as Es17fColumn[]) ?? []).slice(0, 3), content);
+  const contact = (content.contact as Es17fContact) ?? {};
+  const payments = ((content.payments as string[]) ?? []).slice(0, 5);
+  const awards = ((content.awards as Array<{ title?: string; sub?: string }>) ?? []).slice(0, 2);
+  const eco = ((content.eco as string[]) ?? []).slice(0, 4);
+  const copyright = String(content.copyright ?? "");
+
+  if (!columns.length && !contact.phone) return null;
+
+  return (
+    <footer data-variant="eshop-17-footer" style={{ fontFamily: SANS, background: CREAM, borderTop: `1px solid ${LINE}` }}>
+      <style>{`
+        .es17f-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.15fr); gap: clamp(24px, 3vw, 54px); }
+        @media (max-width: 980px) { .es17f-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 560px) { .es17f-grid { grid-template-columns: 1fr; } }
+        .es17f-h { font-size: 13.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: ${INK}; margin: 0 0 14px; }
+        .es17f-link { display: block; padding: 5px 0; font-size: 14px; color: ${INK}; text-decoration: none; transition: color 0.13s, padding-left 0.15s; }
+        .es17f-link:hover { color: ${BORDO}; padding-left: 3px; }
+        .es17f-chip { display: inline-flex; align-items: center; gap: 7px; background: #fff; border: 1px solid ${LINE}; border-radius: 9px;
+          padding: 7px 13px; font-size: 12.5px; font-weight: 700; color: ${INK}; line-height: 1.25; }
+        .es17f-bottom { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+      `}</style>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "38px 28px 0" }}>
+        <div className="es17f-grid">
+          {columns.map((col) => (
+            <div key={col.heading}>
+              <h3 className="es17f-h">{col.heading}</h3>
+              {(col.links ?? []).map((l) => (
+                <a key={l.label} href={resolve(l.href)} className="es17f-link">{l.label}</a>
+              ))}
+            </div>
+          ))}
+
+          {(contact.phone || contact.email) && (
+            <div>
+              <h3 className="es17f-h">{contact.heading ?? "Potřebujete poradit?"}</h3>
+              <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: 13 }}>
+                {contact.image && (
+                  <img src={contact.image} alt="" loading="lazy" style={{ width: 52, height: 52, borderRadius: "50%", objectFit: "cover", border: "2.5px solid #fff", boxShadow: `0 0 0 1px ${LINE}` }} />
+                )}
+                <span style={{ lineHeight: 1.35 }}>
+                  {contact.phone && (
+                    <a href={`tel:${contact.phone.replace(/\s/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 19, fontWeight: 700, color: GREEN, textDecoration: "none" }}>
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.13.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.45c.9.34 1.84.57 2.8.7A2 2 0 0 1 22 16.9Z"/></svg>
+                      {contact.phone}
+                    </a>
+                  )}
+                  {contact.hours && <span style={{ display: "block", fontSize: 12.5, color: MUTED }}>{contact.hours}</span>}
+                </span>
+              </div>
+              {contact.email && (
+                <a href={`mailto:${contact.email}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 14.5, fontWeight: 700, color: INK, textDecoration: "none" }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>
+                  {contact.email}
+                </a>
+              )}
+              {contact.cert && (
+                <div style={{ marginTop: 20 }}>
+                  <span className="es17f-chip">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={BORDO} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3.5 19 6v5.5c0 4.6-3 7.7-7 9-4-1.3-7-4.4-7-9V6l7-2.5Z"/><path d="m8.8 11.8 2.2 2.2 4.2-4.4"/></svg>
+                    {contact.cert}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Spodní pás */}
+        <div className="es17f-bottom" style={{ borderTop: `1px solid ${LINE}`, marginTop: 34, padding: "20px 0" }}>
+          {payments.length > 0 && (
+            <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {payments.map((pm) => (
+                <span key={pm} className="es17f-chip" style={{ fontStyle: "italic", fontWeight: 800 }}>{pm}</span>
+              ))}
+            </span>
+          )}
+          {awards.length > 0 && (
+            <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {awards.map((a) => (
+                <span key={a.title} className="es17f-chip">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill={GOLD} aria-hidden="true"><path d="M12 2.5l2.5 5.4 5.9.6-4.4 4 1.2 5.8-5.2-3-5.2 3 1.2-5.8-4.4-4 5.9-.6L12 2.5z"/></svg>
+                  <span>
+                    {a.title}
+                    {a.sub && <span style={{ display: "block", fontSize: 10.5, fontWeight: 500, color: MUTED }}>{a.sub}</span>}
+                  </span>
+                </span>
+              ))}
+            </span>
+          )}
+          {eco.length > 0 && (
+            <span style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {eco.map((e) => (
+                <span key={e} className="es17f-chip" style={{ color: "#2f6238" }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3c7d46" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-4.5 3.5-8 9-9.5 3-.8 6-1 7.5-1-.2 1.5-.7 4.5-1.5 7.5C17.5 15.5 15 20 11 20Z"/><path d="M4 21c2-3.5 5-6.5 9-8.5"/></svg>
+                  {e}
+                </span>
+              ))}
+            </span>
+          )}
+        </div>
+
+        {copyright && (
+          <div style={{ borderTop: `1px solid ${LINE}`, padding: "16px 0 20px", textAlign: "center", fontSize: 12.5, color: MUTED, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill={GOLD} aria-hidden="true"><circle cx="12" cy="12" r="2.6" fill={BORDO} /><ellipse cx="12" cy="5.4" rx="3" ry="4.1"/><ellipse cx="12" cy="18.6" rx="3" ry="4.1"/><ellipse cx="5.4" cy="12" rx="4.1" ry="3"/><ellipse cx="18.6" cy="12" rx="4.1" ry="3"/></svg>
+            {copyright}
+          </div>
+        )}
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-19-footer ─────────────────────────────────────────────────────────────
+// Grunt (dek.cz DNA): grafitový footer — 3 link sloupce s chevrony + panel
+// „Nevíte si rady?" se Zákaznickým centrem (telefonní a e-mail pill, demo
+// kontakty) a poznámkou o dostupnosti; spodní řádek copyright + „Sledujte nás"
+// ikonky. Pod tím bílý bottom bar (DEK vzor): SSL zámek + CSS wordmarky
+// mastercard/VISA + demo důvěryhodnostní badge chipy. WeberoCredit.
+// content: siteName/columns[3]/helpTitle/helpLinks/contact*/phone/email/
+// contactNote/copyright/socialLabel/bottom{ssl,badges[]}.
+// ──────────────────────────────────────────────────────────────────────────────
+function FooterEshop19({ content, sectionId, tenantSlug, isAdmin }: Props) {
+  const HEAD = "'Space Grotesk', 'Arial', sans-serif";
+  const SANS = "'Inter', 'Segoe UI', system-ui, sans-serif";
+  const RED = "#d5232c";
+  const GRAPHITE = "#212428";
+  const GRAPHITE_DK = "#17191c";
+  const INK = "#1d1f23";
+  const MUTED = "#6b6f76";
+  const LINE = "#e6e5e0";
+
+  const siteName = String(content.siteName ?? "Grunt");
+  const columns = appendBlogToColumns((content.columns as Array<{ title?: string; name?: string; links?: Array<{ label: string; href: string }> }> ?? []).slice(0, 3), content);
+  const helpTitle = String(content.helpTitle ?? "Nevíte si rady?");
+  const helpLinks = (content.helpLinks as Array<{ label: string; href: string }> ?? []);
+  const contactHeading = String(content.contactHeading ?? "Kontaktujte naše");
+  const contactTitle = String(content.contactTitle ?? "Zákaznické centrum");
+  const phone = String(content.phone ?? "704 123 456");
+  const email = String(content.email ?? "email@demo.cz");
+  const contactNote = String(content.contactNote ?? "");
+  const copyright = String(content.copyright ?? `© 2026 ${siteName} a.s.`);
+  const socialLabel = String(content.socialLabel ?? "Sledujte nás na:");
+  const bottom = (content.bottom as { ssl?: string; badges?: Array<{ label?: string; sub?: string }> }) ?? {};
+
+  const resolve = (h: string) => (isAdmin ? "#" : (tenantSlug ? `/demo/${tenantSlug}${h.startsWith("/") ? h : "/obchod"}` : h));
+
+  return (
+    <footer data-variant="eshop-19-footer" style={{ fontFamily: SANS }}>
+      <style>{`
+        .es19f-grid { display: grid; grid-template-columns: repeat(3, 1fr) 1.25fr; gap: 40px; }
+        @media (max-width: 1020px) { .es19f-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; } }
+        @media (max-width: 640px) { .es19f-grid { grid-template-columns: 1fr; } }
+
+        .es19f-link { display: flex; align-items: center; gap: 8px; padding: 5.5px 0; font-size: 13px; font-weight: 500;
+          color: rgba(255,255,255,0.72); text-decoration: none; transition: color 0.13s, padding-left 0.15s; }
+        .es19f-link svg { color: #d5232c; flex-shrink: 0; }
+        .es19f-link:hover { color: #fff; padding-left: 3px; }
+
+        .es19f-pill { display: flex; align-items: center; gap: 11px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 8px; padding: 11px 15px; text-decoration: none; margin-top: 10px; transition: background 0.15s, border-color 0.15s; }
+        .es19f-pill:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.24); }
+
+        .es19f-soc { width: 34px; height: 34px; border-radius: 7px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.75);
+          display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, color 0.15s, transform 0.14s; }
+        .es19f-soc:hover { background: #d5232c; color: #fff; transform: translateY(-2px); }
+
+        .es19f-bottom { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+        @media (max-width: 900px) { .es19f-bottom { justify-content: center; } }
+      `}</style>
+
+      {/* Hlavní grafitová část */}
+      <div style={{ background: GRAPHITE, color: "#fff", padding: "52px 0 30px" }}>
+        <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+          <div className="es19f-grid">
+            {columns.map((col, i) => (
+              <div key={i}>
+                <h3 style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 14.5, letterSpacing: "0.05em", textTransform: "uppercase", color: "#fff", margin: "0 0 12px" }}>{col.title ?? col.name}</h3>
+                {(col.links ?? []).map((l) => (
+                  <a key={l.label} href={resolve(l.href)} className="es19f-link">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+                    {l.label}
+                  </a>
+                ))}
+              </div>
+            ))}
+
+            <div>
+              <h3 style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 14.5, letterSpacing: "0.05em", textTransform: "uppercase", color: "#fff", margin: "0 0 12px" }}>{helpTitle}</h3>
+              {helpLinks.map((l) => (
+                <a key={l.label} href={resolve(l.href)} className="es19f-link">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+                  {l.label}
+                </a>
+              ))}
+              <div style={{ marginTop: 14, fontSize: 12.5, color: "rgba(255,255,255,0.6)" }}>{contactHeading}</div>
+              <div style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 16.5, letterSpacing: "0.02em", color: "#fff", marginTop: 2 }}>{contactTitle}</div>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="es19f-pill">
+                <span style={{ width: 30, height: 30, borderRadius: 6, background: RED, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c1 .3 2 .5 3 .6a2 2 0 0 1 1.6 2Z"/></svg>
+                </span>
+                <span style={{ fontSize: 15.5, fontWeight: 800, color: "#fff" }}>{phone}</span>
+              </a>
+              <a href={`mailto:${email}`} className="es19f-pill">
+                <span style={{ width: 30, height: 30, borderRadius: 6, background: "rgba(255,255,255,0.12)", display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+                </span>
+                <span style={{ fontSize: 13.5, fontWeight: 600, color: "#fff" }}>{email}</span>
+              </a>
+              {contactNote && <p style={{ marginTop: 12, fontSize: 11.5, lineHeight: 1.55, color: "rgba(255,255,255,0.5)" }}>{contactNote}</p>}
+            </div>
+          </div>
+
+          <div style={{ marginTop: 40, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.55)" }}>{copyright}</span>
+            <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 12.5, color: "rgba(255,255,255,0.55)", marginRight: 2 }}>{socialLabel}</span>
+              <a href="#" onClick={(e) => e.preventDefault()} className="es19f-soc" aria-label="Facebook">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H8.5v3h2.8v7h2.2Z"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="es19f-soc" aria-label="LinkedIn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8.8H3.6V21h2.9V8.8ZM5 7.4a1.7 1.7 0 1 0 0-3.4 1.7 1.7 0 0 0 0 3.4ZM21 14.3c0-3.3-1.8-4.9-4.2-4.9-1.9 0-2.8 1-3.3 1.8V8.8H10.6V21h2.9v-6.5c0-1.7.8-2.7 2.2-2.7 1.3 0 2 .9 2 2.7V21H21v-6.7Z"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} className="es19f-soc" aria-label="YouTube">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.7-1.8C18.3 5 12 5 12 5s-6.3 0-7.9.4A2.5 2.5 0 0 0 2.4 7.2 26.3 26.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a2.5 2.5 0 0 0 1.7 1.8c1.6.4 7.9.4 7.9.4s6.3 0 7.9-.4a2.5 2.5 0 0 0 1.7-1.8c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8ZM10 15.2V8.8l5.4 3.2-5.4 3.2Z"/></svg>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Bílý bottom bar — SSL, platby, demo badge */}
+      <div style={{ background: "#fff", borderTop: `1px solid ${LINE}`, padding: "16px 0" }}>
+        <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+          <div className="es19f-bottom">
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 12, fontWeight: 600, color: MUTED }}>
+              <span style={{ width: 26, height: 26, borderRadius: 6, background: RED, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+              </span>
+              {bottom.ssl ?? "Bezpečné nakupování díky šifrování SSL"}
+            </span>
+
+            {/* Platební wordmarky */}
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 18 }}>
+              <span aria-label="mastercard" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <span style={{ position: "relative", width: 34, height: 21, display: "inline-block" }}>
+                  <span style={{ position: "absolute", left: 0, top: 0, width: 21, height: 21, borderRadius: 999, background: "#eb001b", opacity: 0.9 }} />
+                  <span style={{ position: "absolute", right: 0, top: 0, width: 21, height: 21, borderRadius: 999, background: "#f79e1b", opacity: 0.9, mixBlendMode: "multiply" }} />
+                </span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: INK }}>mastercard</span>
+              </span>
+              <span style={{ fontFamily: SANS, fontStyle: "italic", fontWeight: 900, fontSize: 17, letterSpacing: "-0.03em", color: "#1a1f71" }}>VISA</span>
+            </span>
+
+            <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              {(bottom.badges ?? []).map((b, i) => (
+                <span key={i} style={{ display: "inline-flex", flexDirection: "column", gap: 1, border: `1.5px solid ${LINE}`, borderRadius: 7, padding: "6px 12px" }}>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: INK, letterSpacing: "0.02em" }}>{b.label}</span>
+                  {b.sub && <span style={{ fontSize: 9.5, fontWeight: 600, color: MUTED }}>{b.sub}</span>}
+                </span>
+              ))}
+            </span>
+          </div>
+          <div style={{ marginTop: 10, display: "flex", justifyContent: "center" }}>
+            <WeberoCredit />
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-18-footer ─────────────────────────────────────────────────────────────
+// Oktan (autokelly.cz DNA) — karbonový footer #0b0c0e: pruh „Zpět nahoru",
+// grid 1.4fr + 3 sloupce (brand: Es18fMark + OKTAN Archivo 900 italic wordmark
+// + tagline + demo kontakty email/telefon + sociální kolečka se žlutým hoverem;
+// sloupce odkazů dle AK footeru — Nakupování/Společnost/Pro zákazníky), pod tím
+// platební chipy + poznámka o výdeji, spodní řádek copyright + WeberoCredit.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es18FooterCol = { heading: string; links?: Array<{ label: string; href: string }> };
+
+function Es18fMark({ height = 26 }: { height?: number }) {
+  const w = Math.round(height * 0.86);
+  return (
+    <svg width={w} height={height} viewBox="0 0 26 30" aria-hidden="true" style={{ display: "block", flexShrink: 0 }}>
+      <path d="M7 0h19l-7 30H0L7 0Z" fill="#ffd400" />
+      <path d="M15.4 4.5 9 16.6h4.2l-2.4 8.9 7.6-12.7h-4.3l3.3-8.3h-2Z" fill="#131417" />
+    </svg>
+  );
+}
+
+function FooterEshop18({ content, tenantSlug, isAdmin }: Props) {
+  const HEAD = "'Archivo', 'Arial Black', sans-serif";
+  const SANS = "'Inter', 'Segoe UI', system-ui, sans-serif";
+  const CARBON_DK = "#0b0c0e";
+  const YELLOW = "#ffd400";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const siteName = String(content.siteName ?? "Oktan");
+  const tagline = String(content.tagline ?? "Autodíly bez kompromisů — dnes objednáte, zítra vyzvednete.");
+  const topLabel = String(content.topLabel ?? "Zpět nahoru");
+  const columns = appendBlogToColumns(((content.columns as Es18FooterCol[]) ?? []).slice(0, 3), content);
+  const email = String(content.email ?? "email@demo.cz");
+  const phone = String(content.phone ?? "704 123 456");
+  const phoneHours = String(content.phoneHours ?? "Po–Pá 7–19, So 8–14");
+  const payments = ((content.payments as string[]) ?? ["Visa", "Mastercard", "Google Pay", "Apple Pay", "Dobírka"]).slice(0, 6);
+  const pickupNote = String(content.pickupNote ?? "Výdej dnes na 120 pobočkách • doprava zdarma od 1 500 Kč");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+
+  const scrollTop = (e: React.MouseEvent) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+
+  return (
+    <footer data-variant="eshop-18-footer" style={{ fontFamily: SANS, background: CARBON_DK, color: "#fff", marginTop: 14 }}>
+      <style>{`
+        .es18f-top { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 14px 20px; width: 100%;
+          background: rgba(255,255,255,0.04); border: none; border-bottom: 1px solid rgba(255,255,255,0.09); color: rgba(255,255,255,0.66);
+          font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; font-family: ${SANS};
+          transition: background 0.16s, color 0.16s; }
+        .es18f-top:hover { background: rgba(255,255,255,0.08); color: ${YELLOW}; }
+        .es18f-grid { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: clamp(26px, 3.5vw, 56px); padding: clamp(34px, 4vw, 54px) 0 36px; }
+        @media (max-width: 960px) { .es18f-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 560px) { .es18f-grid { grid-template-columns: 1fr; } }
+        .es18f-colh { font-family: ${HEAD}; font-size: 12px; font-weight: 800; font-stretch: 112%; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(255,255,255,0.42); margin: 0 0 13px; }
+        .es18f-link { display: block; padding: 5px 0; color: rgba(255,255,255,0.68); text-decoration: none; font-size: 13.5px; transition: color 0.14s, padding-left 0.16s; }
+        .es18f-link:hover { color: ${YELLOW}; padding-left: 4px; }
+        .es18f-contact { display: flex; align-items: center; gap: 9px; color: #fff; text-decoration: none; font-size: 14.5px; font-weight: 700; padding: 4px 0; transition: color 0.14s; }
+        .es18f-contact:hover { color: ${YELLOW}; }
+        .es18f-contact svg { color: ${YELLOW}; flex: 0 0 auto; }
+        .es18f-social { width: 38px; height: 38px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.2); color: #fff;
+          display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.14s; }
+        .es18f-social:hover { background: ${YELLOW}; border-color: ${YELLOW}; color: #131417; transform: translateY(-2px); }
+        .es18f-pay { display: inline-flex; align-items: center; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+          color: rgba(255,255,255,0.82); font-size: 12px; font-weight: 700; padding: 6px 13px; border-radius: 9px; line-height: 1.2; }
+      `}</style>
+
+      <button className="es18f-top" onClick={scrollTop}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+        {topLabel}
+      </button>
+
+      <div style={{ maxWidth: 1420, margin: "0 auto", padding: "0 28px" }}>
+        <div className="es18f-grid">
+          <div>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+              <Es18fMark height={28} />
+              <span style={{ fontFamily: HEAD, fontWeight: 900, fontStyle: "italic", fontStretch: "120%", fontSize: 27, letterSpacing: "0.015em", textTransform: "uppercase", color: "#fff" }}>{siteName}</span>
+            </span>
+            <p style={{ margin: "11px 0 18px", fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.55, maxWidth: 300 }}>{tagline}</p>
+            <a href={`mailto:${email}`} className="es18f-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg>
+              {email}
+            </a>
+            <a href={`tel:${phone.replace(/\s+/g, "")}`} className="es18f-contact">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 3.5h4l1.5 4.5-2.2 1.6a13 13 0 0 0 6.1 6.1l1.6-2.2 4.5 1.5v4a1.8 1.8 0 0 1-2 1.8C10.6 20 4 13.4 3.2 5.5a1.8 1.8 0 0 1 1.8-2Z"/></svg>
+              {phone}
+            </a>
+            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.42)", margin: "2px 0 20px", paddingLeft: 25 }}>{phoneHours}</div>
+            <div style={{ display: "flex", gap: 9 }}>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="Facebook" className="es18f-social">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M13.5 21v-7h2.4l.4-2.8h-2.8V9.4c0-.8.3-1.4 1.5-1.4h1.4V5.5c-.3 0-1.1-.1-2-.1-2 0-3.4 1.2-3.4 3.5v2.3H8.5V14H11v7h2.5Z"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="Instagram" className="es18f-social">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="YouTube" className="es18f-social">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="6" width="19" height="12.5" rx="3.5"/><path d="m10.2 9.7 4.6 2.55-4.6 2.55Z" fill="currentColor"/></svg>
+              </a>
+              <a href="#" onClick={(e) => e.preventDefault()} aria-label="TikTok" className="es18f-social">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M16.6 3c.4 2 1.7 3.4 3.9 3.6v2.8c-1.5 0-2.8-.4-3.9-1.2v5.6a5.9 5.9 0 1 1-5.9-5.9c.3 0 .7 0 1 .1v2.9a3 3 0 1 0 2.1 2.9V3h2.8Z"/></svg>
+              </a>
+            </div>
+          </div>
+
+          {columns.map((col, i) => (
+            <div key={i}>
+              <h3 className="es18f-colh">{col.heading}</h3>
+              {(col.links ?? []).map((l) => (
+                <a key={l.href + l.label} href={resolve(l.href)} className="es18f-link">{l.label}</a>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "20px 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {payments.map((pay) => <span key={pay} className="es18f-pay">{pay}</span>)}
+          </div>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "rgba(255,255,255,0.56)" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2 4.5 13.5h6L10 22l8.5-11.5h-6L13 2Z"/></svg>
+            {pickupNote}
+          </span>
+        </div>
+
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "16px 0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap", fontSize: 12.5, color: "rgba(255,255,255,0.42)" }}>
+          <span>{copyright}</span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── eshop-20-footer ─────────────────────────────────────────────────────────────
+// Vykuk (dedoles.cz DNA): krémový footer — vlevo Pomoc a vrácení + O Vykuk
+// (ikona v bílém kruhu + Baloo uppercase titulek, odkazy), uprostřed Způsoby
+// platby + Způsoby doručení (neutrální chipy), vpravo bílá karta „Vykuk drobné"
+// s růžovým maskotem; pod tím Sledujte nás (kruhové sociální ikony) a demo
+// kontakty; spodní bílý řádek copyright + legal odkazy + WeberoCredit.
+// ──────────────────────────────────────────────────────────────────────────────
+type Es20FooterLink = { label: string; href?: string };
+type Es20FooterGroup = { title?: string; icon?: string; links?: Es20FooterLink[] };
+
+function Es20fMark({ height = 64, bar = "#f6a7d7", face = "#e0559f" }: { height?: number; bar?: string; face?: string }) {
+  const w = Math.round(height * 1.2);
+  return (
+    <svg width={w} height={height} viewBox="0 0 36 30" aria-hidden="true" style={{ display: "block", flexShrink: 0 }}>
+      <circle cx="9.5" cy="9" r="3.6" fill={face} />
+      <circle cx="26.5" cy="9" r="3.6" fill={face} />
+      <path d="M5.5 22a12.5 11.5 0 0 1 25 0Z" fill={face} />
+      <rect x="0" y="21" width="36" height="9" rx="4.5" fill={bar} />
+      <rect x="6.5" y="18.6" width="5" height="4.8" rx="2.4" fill={face} />
+      <rect x="24.5" y="18.6" width="5" height="4.8" rx="2.4" fill={face} />
+      <circle cx="13" cy="15.6" r="3.1" fill="#fff" />
+      <circle cx="23" cy="15.6" r="3.1" fill="#fff" />
+      <circle cx="13.7" cy="16.2" r="1.4" fill={face} />
+      <circle cx="22.3" cy="16.2" r="1.4" fill={face} />
+    </svg>
+  );
+}
+
+function Es20fIcon({ name, size = 17 }: { name?: string; size?: number }) {
+  const p = { width: size, height: size, viewBox: "0 0 24 24", fill: "none" as const, stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+  switch (name) {
+    case "help": return (<svg {...p}><circle cx="12" cy="12" r="9"/><path d="M9.3 9.2A2.8 2.8 0 0 1 14.8 10c0 1.8-2.8 2.2-2.8 3.6M12 17h.01"/></svg>);
+    case "bag": return (<svg {...p}><path d="M5.5 8h13l-1 12.5h-11L5.5 8Z"/><path d="M8.8 10.5V6.7a3.2 3.2 0 0 1 6.4 0v3.8"/></svg>);
+    case "card": return (<svg {...p}><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19M6 15h4"/></svg>);
+    case "truck": return (<svg {...p}><path d="M2.5 6h11v10h-11zM13.5 9.5h4l3 3.5v3h-7"/><circle cx="6.5" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/></svg>);
+    default: return (<svg {...p}><circle cx="12" cy="12" r="9"/></svg>);
+  }
+}
+
+function FooterEshop20({ content, tenantSlug, isAdmin }: Props) {
+  const HEAD = "'Baloo 2', 'Arial Rounded MT Bold', sans-serif";
+  const SANS = "'Figtree', 'Segoe UI', system-ui, sans-serif";
+  const COCOA = "#4b2413";
+  const PINK = "#f6a7d7";
+  const PINK_DEEP = "#e0559f";
+  const CREAM = "#f7f0e2";
+  const INK = "#3c2010";
+  const MUTED = "#8a7160";
+  const LINE = "#e9dcc8";
+
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const siteName = String(content.siteName ?? "Vykuk");
+  const groups = ((content.groups as Es20FooterGroup[]) ?? []).slice(0, 2);
+  const paymentsTitle = String(content.paymentsTitle ?? "Způsoby platby");
+  const payments = ((content.payments as string[]) ?? ["Visa", "Mastercard", "Apple Pay", "Google Pay"]).slice(0, 6);
+  const deliveryTitle = String(content.deliveryTitle ?? "Způsoby doručení");
+  const deliveries = ((content.deliveries as string[]) ?? ["Výdejní box", "Kurýr", "Pošta"]).slice(0, 6);
+  const promo = (content.promo as { title?: string; lead?: string; text?: string; linkText?: string; href?: string }) ?? {};
+  const followLabel = String(content.followLabel ?? "Sledujte nás:");
+  const socialsRaw = (content.socials as Array<string | { kind?: string; label?: string; href?: string }>) ?? ["facebook", "instagram", "tiktok", "youtube"];
+  const socials = socialsRaw.slice(0, 5).map((it) => typeof it === "string" ? { kind: it, label: it, href: "" } : { kind: it.kind ?? it.label?.toLowerCase() ?? "facebook", label: it.label ?? it.kind ?? "", href: it.href ?? "" });
+  const email = String(content.email ?? "email@demo.cz");
+  const phone = String(content.phone ?? "704 123 456");
+  const copyright = String(content.copyright ?? `© 2011–${new Date().getFullYear()} ${siteName}`);
+  const legal = ((content.legal as Es20FooterLink[]) ?? []).slice(0, 6);
+
+  return (
+    <footer data-variant="eshop-20-footer" style={{ fontFamily: SANS, background: CREAM, color: INK, marginTop: 0 }}>
+      <style>{`
+        .es20f-grouph { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
+        .es20f-groupicon { width: 34px; height: 34px; border-radius: 999px; background: #fff; color: ${COCOA}; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(56,25,12,0.08); }
+        .es20f-grouptitle { font-family: ${HEAD}; font-weight: 700; font-size: 14px; letter-spacing: 0.07em; text-transform: uppercase; color: ${COCOA}; }
+        .es20f-link { display: block; padding: 5px 0; color: ${MUTED}; text-decoration: none; font-size: 13.5px; font-weight: 500; transition: color 0.14s, padding-left 0.16s; }
+        .es20f-link:hover { color: ${PINK_DEEP}; padding-left: 4px; }
+        .es20f-chip { display: inline-flex; align-items: center; background: #fff; border: 1px solid ${LINE}; color: ${INK};
+          font-size: 12px; font-weight: 700; padding: 6px 13px; border-radius: 999px; line-height: 1.2; }
+        .es20f-social { width: 38px; height: 38px; border-radius: 999px; border: 1.5px solid rgba(75,36,19,0.25); color: ${COCOA};
+          display: inline-flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, transform 0.14s; }
+        .es20f-social:hover { background: ${PINK}; border-color: ${PINK}; transform: translateY(-2px); }
+        .es20f-legal { color: ${MUTED}; text-decoration: none; font-size: 12.5px; font-weight: 500; transition: color 0.14s; }
+        .es20f-legal:hover { color: ${INK}; }
+        .es20f-promolink { color: ${COCOA}; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: ${PINK}; transition: opacity 0.14s; }
+        .es20f-promolink:hover { opacity: 0.65; }
+        .es20f-grid { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: clamp(28px, 4vw, 60px); padding: clamp(36px, 4.5vw, 58px) 0 30px; }
+        @media (max-width: 960px) { .es20f-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 620px) { .es20f-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <div className="px-4 md:px-7" style={{ maxWidth: 1420, margin: "0 auto" }}>
+        <div className="es20f-grid">
+          {/* Pomoc a vrácení + O Vykuk */}
+          <div>
+            {groups[0] && (
+              <div style={{ marginBottom: 26 }}>
+                <div className="es20f-grouph">
+                  <span className="es20f-groupicon"><Es20fIcon name={groups[0].icon ?? "help"} /></span>
+                  <span className="es20f-grouptitle">{groups[0].title}</span>
+                </div>
+                {(groups[0].links ?? []).map((l) => (
+                  <a key={l.label} href={l.href ? resolve(l.href) : "#"} onClick={l.href ? undefined : (e) => e.preventDefault()} className="es20f-link">{l.label}</a>
+                ))}
+              </div>
+            )}
+            {groups[1] && (
+              <div>
+                <div className="es20f-grouph">
+                  <span className="es20f-groupicon"><Es20fIcon name={groups[1].icon ?? "bag"} /></span>
+                  <span className="es20f-grouptitle">{groups[1].title}</span>
+                </div>
+                {(groups[1].links ?? []).map((l) => (
+                  <a key={l.label} href={l.href ? resolve(l.href) : "#"} onClick={l.href ? undefined : (e) => e.preventDefault()} className="es20f-link">{l.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Platby + doručení + kontakty */}
+          <div>
+            <div style={{ marginBottom: 24 }}>
+              <div className="es20f-grouph">
+                <span className="es20f-groupicon"><Es20fIcon name="card" /></span>
+                <span className="es20f-grouptitle">{paymentsTitle}</span>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                {payments.map((pm) => <span key={pm} className="es20f-chip">{pm}</span>)}
+              </div>
+            </div>
+            <div style={{ marginBottom: 24 }}>
+              <div className="es20f-grouph">
+                <span className="es20f-groupicon"><Es20fIcon name="truck" /></span>
+                <span className="es20f-grouptitle">{deliveryTitle}</span>
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                {deliveries.map((d) => <span key={d} className="es20f-chip">{d}</span>)}
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <a href={`mailto:${email}`} className="es20f-link" style={{ fontWeight: 700, color: INK }}>{email}</a>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="es20f-link" style={{ fontWeight: 700, color: INK }}>{phone}</a>
+            </div>
+          </div>
+
+          {/* Vykuk drobné karta */}
+          {promo.title && (
+            <div style={{ background: "#fff", borderRadius: 22, padding: "26px 26px 24px", display: "flex", gap: 18, alignItems: "flex-start", boxShadow: "0 2px 12px rgba(56,25,12,0.06)", alignSelf: "start" }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: HEAD, fontWeight: 800, fontSize: 16.5, letterSpacing: "0.05em", textTransform: "uppercase", color: COCOA, marginBottom: 7 }}>{promo.title}</div>
+                {promo.lead && <div style={{ fontSize: 13.5, fontWeight: 700, color: INK, lineHeight: 1.45, marginBottom: 8 }}>{promo.lead}</div>}
+                {promo.text && (
+                  <div style={{ fontSize: 13, fontWeight: 500, color: MUTED, lineHeight: 1.55 }}>
+                    {promo.text}{" "}
+                    {promo.linkText && <a href={promo.href ? resolve(promo.href) : "#"} onClick={promo.href ? undefined : (e) => e.preventDefault()} className="es20f-promolink">{promo.linkText}</a>}
+                  </div>
+                )}
+              </div>
+              <div style={{ flexShrink: 0, alignSelf: "center" }}>
+                <Es20fMark height={72} />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sledujte nás */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "0 0 34px", flexWrap: "wrap" }}>
+          <span style={{ fontFamily: HEAD, fontWeight: 700, fontSize: 14, letterSpacing: "0.07em", textTransform: "uppercase", color: COCOA }}>{followLabel}</span>
+          <span style={{ display: "inline-flex", gap: 9 }}>
+            {socials.map((so) => (
+              <a key={so.kind} href={so.href || "#"} onClick={so.href ? undefined : (e) => e.preventDefault()} className="es20f-social" aria-label={so.label}>
+                <Es06SocialIcon kind={so.kind} />
+              </a>
+            ))}
+          </span>
+        </div>
+      </div>
+
+      {/* Spodní řádek */}
+      <div style={{ background: "#fff", borderTop: `1px solid ${LINE}` }}>
+        <div className="px-4 md:px-7" style={{ maxWidth: 1420, margin: "0 auto", minHeight: 56, display: "flex", alignItems: "center", gap: "10px 22px", flexWrap: "wrap", padding: "12px 28px" }}>
+          <span style={{ fontSize: 12.5, fontWeight: 600, color: MUTED }}>{copyright}</span>
+          <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            {legal.map((l) => (
+              <a key={l.label} href={l.href ? resolve(l.href) : "#"} onClick={l.href ? undefined : (e) => e.preventDefault()} className="es20f-legal">{l.label}</a>
+            ))}
+            <WeberoCredit />
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ── artist-01-footer ─────────────────────────────────────────────────────────────
+// 1:1 luciebila.com #footer: světlý footer, top hairline (80% width), podpis
+// uprostřed, kruhové social ikony (granát → černá na hover), nav-footer linky
+// (uppercase, letter-spacing .3em, hover granát), copyright + WeberoCredit.
+// Elevace: podpis Great Vibes, social ikony lift+rotate, jemný reveal.
+// ─────────────────────────────────────────────────────────────────────────────
+function FooterArtist01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const signature = String(content.signature ?? "Viktorie");
+  const siteName  = String(content.siteName ?? "Viktorie Lánská");
+  const copyright = String(content.copyright ?? "© 2026 Viktorie Lánská. Všechna práva vyhrazena.");
+  const facebook  = String(content.facebook ?? "");
+  const instagram = String(content.instagram ?? "");
+  const youtube   = String(content.youtube ?? "");
+  const spotify   = String(content.spotify ?? "");
+
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [
+    { label: "O mně", href: "/o-mne" },
+    { label: "Diskografie", href: "/diskografie" },
+    { label: "Koncerty", href: "/koncerty" },
+    { label: "Kontakt", href: "/kontakt" },
+    { label: "Ochrana údajů", href: "/ochrana-udaju" },
+  ];
+
+  const socials: Array<{ key: string; href: string; label: string; path: string }> = [];
+  if (facebook)  socials.push({ key: "fb", href: facebook,  label: "Facebook",  path: "M13.5 22v-8h2.7l.4-3.1h-3.1V8.9c0-.9.25-1.5 1.55-1.5H17V4.6c-.3 0-1.3-.1-2.45-.1-2.4 0-4.05 1.47-4.05 4.17v2.33H7.8V14h2.7v8h3z" });
+  if (instagram) socials.push({ key: "ig", href: instagram, label: "Instagram", path: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zM17.5 6a1 1 0 1 1-1 1 1 1 0 0 1 1-1z" });
+  if (youtube)   socials.push({ key: "yt", href: youtube,   label: "YouTube",   path: "M21.6 7.2s-.2-1.36-.8-1.96c-.76-.8-1.6-.8-2-.85C16 4.1 12 4.1 12 4.1h-.02s-4 0-6.8.24c-.4.05-1.24.05-2 .85-.6.6-.8 1.96-.8 1.96S2 8.8 2 10.4v1.5c0 1.6.2 3.2.2 3.2s.2 1.36.8 1.96c.76.8 1.76.77 2.2.86 1.6.15 6.8.2 6.8.2s4 0 6.8-.25c.4-.05 1.24-.05 2-.85.6-.6.8-1.96.8-1.96s.2-1.6.2-3.2v-1.5c0-1.6-.2-3.2-.2-3.2zM9.9 14.6V8.9l5.2 2.86-5.2 2.84z" });
+  if (spotify)   socials.push({ key: "sp", href: spotify,   label: "Spotify",   path: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.42a.62.62 0 0 1-.86.2c-2.35-1.44-5.3-1.76-8.79-.96a.62.62 0 1 1-.28-1.22c3.8-.87 7.08-.5 9.72 1.12.3.18.39.57.21.86zm1.23-2.74a.78.78 0 0 1-1.07.26c-2.69-1.65-6.79-2.13-9.97-1.17a.78.78 0 1 1-.45-1.5c3.63-1.09 8.15-.55 11.24 1.34.37.23.49.71.25 1.07zm.11-2.85c-3.23-1.92-8.55-2.1-11.63-1.16a.94.94 0 1 1-.54-1.8c3.54-1.07 9.42-.86 13.13 1.34a.94.94 0 0 1-.96 1.62z" });
+
+  return (
+    <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@300;400;500&display=swap" />
+      <style>{`
+        .ar01-footer {
+          position: relative;
+          background: #faf7f2;
+          padding: 56px 40px 46px;
+          text-align: center;
+        }
+        .ar01-footer::before {
+          content: ""; display: block; margin: 0 auto 44px;
+          width: 80%; max-width: 1020px; height: 1px;
+          background: linear-gradient(to right, transparent, rgba(20,16,14,.35) 20%, rgba(20,16,14,.35) 80%, transparent);
+        }
+        .ar01-footer-sign {
+          font-family: 'Great Vibes', cursive;
+          font-size: 46px; line-height: 1; color: #9b1c31;
+          display: inline-block; text-decoration: none;
+          transition: transform .4s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-footer-sign:hover { transform: scale(1.05); }
+        .ar01-footer-name {
+          font-family: 'Roboto', sans-serif; font-size: 12px; font-weight: 500;
+          letter-spacing: .3em; text-transform: uppercase; color: #6b6258;
+          margin-top: 8px;
+        }
+        .ar01-footer-social {
+          display: flex; justify-content: center; gap: 18px;
+          list-style: none; margin: 30px 0 0; padding: 0;
+        }
+        .ar01-footer-social a {
+          display: flex; align-items: center; justify-content: center;
+          width: 44px; height: 44px; border-radius: 50%;
+          background: #9b1c31; color: #fff; text-decoration: none;
+          transition: background-color .3s cubic-bezier(.32,.72,0,1), transform .35s cubic-bezier(.32,.72,0,1);
+        }
+        .ar01-footer-social a:hover { background: #14100e; transform: translateY(-4px) rotate(-6deg); }
+        .ar01-footer-social svg { width: 19px; height: 19px; }
+        .ar01-footer-nav {
+          display: flex; flex-wrap: wrap; justify-content: center;
+          list-style: none; margin: 34px 0 0; padding: 0;
+        }
+        .ar01-footer-nav li { margin: 0 22px 16px; }
+        .ar01-footer-nav a {
+          font-family: 'Roboto', sans-serif; font-size: 13px; font-weight: 400;
+          letter-spacing: .3em; text-transform: uppercase; color: #14100e;
+          text-decoration: none; transition: color .2s linear;
+        }
+        .ar01-footer-nav a:hover { color: #9b1c31; }
+        .ar01-footer-copy {
+          font-family: 'Roboto', sans-serif; font-size: 12.5px; letter-spacing: .04em;
+          color: #9a8f84; margin-top: 22px;
+        }
+        .ar01-footer-credit { margin-top: 16px; }
+        .ar01-footer-credit .bc-webero-credit { color: rgba(20,16,14,.5) !important; }
+        .ar01-footer-credit .bc-webero-credit:hover { color: #9b1c31 !important; }
+        .ar01-footer-credit .bc-webero-credit svg rect { fill: rgba(20,16,14,.08); }
+        @media (max-width: 560px) {
+          .ar01-footer { padding: 44px 22px 36px; }
+          .ar01-footer-nav li { margin: 0 12px 12px; }
+          .ar01-footer-nav a { letter-spacing: .2em; font-size: 12px; }
+        }
+      `}</style>
+
+      <footer className="ar01-footer" data-template="artist-01">
+        <a href={resolve("/")} className="ar01-footer-sign" aria-label={siteName}>
+          <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span">{signature}</GenericEditableText>
+        </a>
+        <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="div" className="ar01-footer-name" />
+
+        {socials.length > 0 && (
+          <ul className="ar01-footer-social">
+            {socials.map((s) => (
+              <li key={s.key}>
+                <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={s.path} /></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <ul className="ar01-footer-nav">
+          {links.map((l, i) => (
+            <li key={i}>
+              <a href={resolve(l.href)}>
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span">{l.label}</GenericEditableText>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="div" className="ar01-footer-copy" />
+        <div className="ar01-footer-credit">
+          <WeberoCredit />
+        </div>
+      </footer>
+    </>
   );
 }
