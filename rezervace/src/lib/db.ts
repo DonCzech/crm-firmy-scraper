@@ -19,7 +19,23 @@ export async function sql(strings: TemplateStringsArray, ...values: unknown[]): 
   return (getSql() as any)(strings, ...values)
 }
 
-export async function initDb() {
+// Schéma se zakládá jen jednou za život instance. Dřív se všech 33 DDL příkazů
+// (CREATE TABLE IF NOT EXISTS / ALTER TABLE …) pouštělo při KAŽDÉM požadavku, což
+// samo o sobě stálo stovky milisekund. Držíme rozpracovaný slib, aby souběžné
+// požadavky čekaly na tentýž průchod; při chybě se memo zahodí, ať jde zkusit znovu.
+let _initPromise: Promise<void> | null = null
+
+export async function initDb(): Promise<void> {
+  if (!_initPromise) {
+    _initPromise = runMigrations().catch((err) => {
+      _initPromise = null
+      throw err
+    })
+  }
+  return _initPromise
+}
+
+async function runMigrations() {
   const s = getSql()
 
   await s`

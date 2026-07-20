@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
+import { ConnectionKeyCard } from '@/components/admin/ConnectionKeyCard'
 
 interface UserProfile {
   name: string
@@ -951,6 +952,8 @@ export default function SettingsPage() {
           </div>
         </form>
       </div>
+
+      <ConnectionKeyCard />
     </div>
   )
 }

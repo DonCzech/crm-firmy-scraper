@@ -41,7 +41,10 @@ export async function GET(
   try {
     await initDb()
     const slug = String(params.slug)
-    const origin = (process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin).replace(/\/$/, '')
+    // Origin bereme primárně z požadavku — je to vždy doména, na kterou klient
+    // skutečně dosáhl. Env proměnná umí zastarat (mířila na starou vercel.app
+    // adresu) a v tomhle projektu navíc obsahuje zalomení řádku.
+    const origin = new URL(request.url).origin.trim().replace(/\/$/, '')
 
     const users = await sql`
       SELECT id, name, slug, avatar_color, avatar_url, bio, timezone,
