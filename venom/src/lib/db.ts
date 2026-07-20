@@ -500,6 +500,18 @@ export async function initDb(): Promise<void> {
       value TEXT NOT NULL,
       created_at TIMESTAMPTZ DEFAULT now()
     );
+    -- Shoptet-style "vlastní kód" — HTML/CSS/JS vkládané do veřejných stránek
+    -- tenanta (web i storefront). NIKDY se nevkládá do admin/studio/login.
+    CREATE TABLE IF NOT EXISTS tenant_custom_code (
+      tenant_id INTEGER PRIMARY KEY REFERENCES tenants(id) ON DELETE CASCADE,
+      enabled BOOLEAN NOT NULL DEFAULT true,
+      head_html TEXT NOT NULL DEFAULT '',
+      body_end_html TEXT NOT NULL DEFAULT '',
+      custom_css TEXT NOT NULL DEFAULT '',
+      custom_js TEXT NOT NULL DEFAULT '',
+      updated_at TIMESTAMPTZ DEFAULT now()
+    );
+
     CREATE TABLE IF NOT EXISTS tenant_redirects (
       id SERIAL PRIMARY KEY,
       tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
@@ -515,6 +527,12 @@ export async function initDb(): Promise<void> {
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS deletion_notified_at TIMESTAMPTZ;
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS parent_tenant_id INTEGER REFERENCES tenants(id) ON DELETE SET NULL;
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS showcase_kind TEXT;
+
+    -- Párovací klíč k rezervačnímu účtu (Rezora). Čte ho VÝHRADNĚ server, když
+    -- volá /api/connect/* — díky tomu spravuje majitel rezervace přímo zde a do
+    -- Rezory se přihlašovat nemusí. Do stránky se nikdy neposílá; návštěvník
+    -- vidí jen veřejný providerSlug v sekci widgetu.
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS rezora_connection_key TEXT;
 
     -- F1: per-section sparse overrides + dual-mode render flag
     ALTER TABLE sections ADD COLUMN IF NOT EXISTS content_overrides JSONB DEFAULT '{}';
@@ -603,6 +621,65 @@ export async function initDb(): Promise<void> {
     CREATE INDEX IF NOT EXISTS idx_tenants_lifecycle ON tenants(lifecycle_status);
     CREATE INDEX IF NOT EXISTS idx_tenants_last_activity ON tenants(last_activity_at);
     CREATE INDEX IF NOT EXISTS idx_data_slots_tenant ON tenant_data_slots(tenant_id);
+  `);
+
+  // ── AI Designér (Claude Opus) — kredity, požadavky, snapshoty ──────────────
+  // Bezpečnostní model: AI nikdy nezapisuje do souborů šablon. Vydává pouze
+  // strukturované JSON operace, které server validuje a aplikuje výhradně na
+  // per-tenant DB vrstvy (tenant_overrides, sections.settings, custom_code).
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS ai_credit_wallets (
+      tenant_id INTEGER PRIMARY KEY REFERENCES tenants(id) ON DELETE CASCADE,
+      balance INTEGER NOT NULL DEFAULT 0 CHECK (balance >= 0),
+      reserved INTEGER NOT NULL DEFAULT 0 CHECK (reserved >= 0),
+      updated_at TIMESTAMPTZ DEFAULT now()
+    );
+
+    CREATE TABLE IF NOT EXISTS ai_credit_ledger (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      kind TEXT NOT NULL CHECK (kind IN ('topup','hold','settle','release','admin_adjust')),
+      amount INTEGER NOT NULL,
+      request_id INTEGER,
+      order_number TEXT,
+      note TEXT,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS idx_ai_credit_ledger_tenant ON ai_credit_ledger(tenant_id, created_at DESC);
+
+    CREATE TABLE IF NOT EXISTS ai_design_requests (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      mode TEXT NOT NULL,
+      prompt TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','done','failed')),
+      credits_held INTEGER NOT NULL,
+      credits_charged INTEGER,
+      input_tokens INTEGER,
+      output_tokens INTEGER,
+      summary TEXT,
+      operations JSONB,
+      error TEXT,
+      created_at TIMESTAMPTZ DEFAULT now(),
+      completed_at TIMESTAMPTZ
+    );
+    CREATE INDEX IF NOT EXISTS idx_ai_design_requests_tenant ON ai_design_requests(tenant_id, created_at DESC);
+
+    CREATE TABLE IF NOT EXISTS ai_design_snapshots (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      request_id INTEGER NOT NULL REFERENCES ai_design_requests(id) ON DELETE CASCADE,
+      payload JSONB NOT NULL,
+      restored_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS idx_ai_design_snapshots_tenant ON ai_design_snapshots(tenant_id, request_id);
+  `);
+
+  // Idempotence dobíjení: jeden GoPay order smí připsat kredity jen jednou.
+  await pool.query(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_ai_credit_ledger_topup_order
+      ON ai_credit_ledger(order_number) WHERE kind = 'topup';
   `);
 
   // Functional unique index for tenant_overrides — COALESCE avoids null inequalities
@@ -718,7 +795,7 @@ export interface UserAccount {
 
 export async function getUserByEmail(email: string): Promise<UserAccount | null> {
   await initDb();
-  return queryOne<UserAccount>("SELECT * FROM user_accounts WHERE email = $1", [email]);
+  return queryOne<UserAccount>("SELECT * FROM user_accounts WHERE lower(email) = lower($1) LIMIT 1", [email.trim()]);
 }
 
 export async function getUserById(id: number): Promise<UserAccount | null> {
@@ -900,6 +977,7 @@ export interface Tenant {
   email_settings: Record<string, unknown> | null;
   brand_data: Record<string, unknown> | null;
   site_mode: "onepage" | "multipage";
+  tenant_kind?: "website" | "commerce" | null;
   created_at: string;
   updated_at: string;
 }

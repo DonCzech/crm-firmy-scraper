@@ -181,8 +181,10 @@ async function runMigrations() {
   // Povinnost kontaktních polí — řídí admin, respektuje veřejný formulář i widget
   await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS require_email BOOLEAN DEFAULT true`
   await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS require_phone BOOLEAN DEFAULT false`
-  // Párovací klíč pro připojení webu (widget na cizí doméně). Slouží JEN k ověření
-  // vlastnictví účtu při propojení — do prohlížeče se nikdy neposílá.
+  // Párovací klíč pro připojení webu (widget na cizí doméně). Ověřuje vlastnictví
+  // účtu při propojení a zároveň autorizuje serverová volání /api/connect/*, aby
+  // majitel spravoval rezervace z administrace svého webu. Posílá ho výhradně
+  // server webu — do prohlížeče návštěvníka se nikdy nedostane.
   await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS connection_key TEXT`
   await s`CREATE UNIQUE INDEX IF NOT EXISTS idx_users_connection_key ON rez_users(connection_key) WHERE connection_key IS NOT NULL`
 

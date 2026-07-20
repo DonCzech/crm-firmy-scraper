@@ -1,25 +1,23 @@
 import { NextRequest } from "next/server";
 import { requireTenantAdmin, assertSameOrigin } from "@/lib/demo-auth";
 import { query } from "@/lib/db";
+import { REZORA_API } from "@/lib/rezora/client";
 
 export const dynamic = "force-dynamic";
 
 /**
  * Bezpečné propojení tenantího webu s rezervačním účtem v Rezoře.
  *
- * Majitel si v Rezoře vygeneruje párovací klíč (`rz_…`) a zadá ho zde. Tento
- * route ho ověří SERVEROVĚ proti Rezoře (`/api/connect/verify`) a při úspěchu
- * uloží do rezora-widget sekcí jen veřejný `providerSlug`. Klíč se nikdy
- * neukládá do DB ani neposílá do prohlížeče návštěvníka — do HTML jde pouze
- * slug, který je stejně veřejný. Tím se z „napiš si slug ručně" (kdokoli mohl
- * připojit cizí účet) stává ověřené propojení přes tajemství, které zná jen
- * vlastník účtu.
+ * Majitel si v Rezoře vygeneruje párovací klíč (`rz_…`) a zadá ho zde. Route ho
+ * ověří SERVEROVĚ proti Rezoře (`/api/connect/verify`) a při úspěchu uloží do
+ * rezora-widget sekcí veřejný `providerSlug`. Tím se z „napiš si slug ručně"
+ * (kdokoli mohl připojit cizí účet) stává ověřené propojení přes tajemství,
+ * které zná jen vlastník účtu.
+ *
+ * Klíč se ukládá k tenantovi do `tenants.rezora_connection_key`, protože jím
+ * server autorizuje správu rezervací v administraci (/api/connect/*). Čte ho
+ * VÝHRADNĚ server — do stránky se nikdy neposílá, návštěvník vidí jen slug.
  */
-
-const REZORA_API = (
-  process.env.NEXT_PUBLIC_REZERVACE_ORIGIN ||
-  (process.env.NODE_ENV !== "production" ? "http://localhost:3199" : "https://app.rezora.cz")
-).replace(/\/$/, "");
 
 /** Placeholder slug demo tenantů — bereme ho jako „nepropojeno". */
 const DEMO_PLACEHOLDER = "vyzkousej";
@@ -100,6 +98,11 @@ export async function POST(
   }
 
   // Zapiš JEN slug + veřejné API do všech rezora-widget sekcí tenanta.
+  // Klíč uložíme k tenantovi — server jím pak autorizuje správu rezervací
+  // (/api/connect/*), takže majitel nemusí do Rezory vůbec chodit. Do stránky
+  // se klíč nikdy nedostane; návštěvníkovi jde jen veřejný slug níž.
+  await query(`UPDATE tenants SET rezora_connection_key = $2 WHERE id = $1`, [tenant.id, key]);
+
   const updated = await query<{ id: number }>(
     `UPDATE sections
         SET settings = jsonb_set(
@@ -129,6 +132,9 @@ export async function DELETE(
   const { tenantSlug } = await params;
   const { ok, tenant } = await requireTenantAdmin(tenantSlug);
   if (!ok || !tenant) return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Odpojení musí zahodit i klíč, jinak by web dál mohl číst cizí rezervace.
+  await query(`UPDATE tenants SET rezora_connection_key = NULL WHERE id = $1`, [tenant.id]);
 
   const updated = await query<{ id: number }>(
     `UPDATE sections

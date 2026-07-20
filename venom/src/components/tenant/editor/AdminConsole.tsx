@@ -6,6 +6,7 @@ import {
   History, ShieldCheck, User, ChevronRight, Mail,
   Loader2, Search, Rocket, ExternalLink, FileStack, LayoutTemplate,
   AlertCircle, Check, Menu, Palette, Wand2, Image as ImageIcon, Database, Bot, Gauge, Brush,
+  CalendarCheck,
 } from "lucide-react";
 import {
   SeoPanel, MessagesPanel, RevisionsPanel, AuditPanel, PagesPanel, TemplatePanel, DesignPanel, AiTextPanel, StockImagesPanel, DomainWizardPanel, BackupPanel, AnalyticsPanel, AiBuilderPanel, PerformancePanel, LogoGeneratorPanel,
@@ -29,7 +30,7 @@ import "../../studio/design-tokens.css";
 
 export type AdminView =
   | "overview" | "pages" | "design" | "logo" | "template" | "aibuild" | "ai" | "stock" | "domain" | "blog" | "messages" | "seo" | "perf" | "analytics"
-  | "modules" | "revisions" | "backup" | "audit" | "account";
+  | "modules" | "bookings" | "revisions" | "backup" | "audit" | "account";
 
 interface NavItem {
   key: AdminView;
@@ -56,6 +57,7 @@ const NAV: NavItem[] = [
   { key: "perf",      label: "Výkon",      hint: "Audit obrázků a odkazů",      Icon: Gauge,       native: true },
   { key: "analytics", label: "Analytics",  hint: "GTM, GA4, Pixel, GSC",        Icon: BarChart3, native: true },
   { key: "modules",   label: "Moduly",     hint: "Rezervace, e-shop, formuláře", Icon: Puzzle },
+  { key: "bookings",  label: "Rezervace",  hint: "Termíny klientů",             Icon: CalendarCheck },
   { key: "revisions", label: "Verze",      hint: "Historie a obnovení",        Icon: History,     native: true },
   { key: "backup",    label: "Záloha",     hint: "Stáhnout / obnovit JSON",     Icon: Database,    native: true },
   { key: "audit",     label: "Audit",      hint: "Záznamy úprav",              Icon: ShieldCheck, native: true },
@@ -197,6 +199,7 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
             {view === "perf"      && <NativeView    title="Výkon"><PerformancePanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "analytics" && <NativeView    title="Analytics"><AnalyticsPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "modules"   && <IframeView    tenantSlug={tenantSlug} path="/admin/modules"   title="Moduly" />}
+            {view === "bookings"  && <IframeView    tenantSlug={tenantSlug} path="/admin/rezervace" title="Rezervace" />}
             {view === "revisions" && <NativeView    title="Verze"><RevisionsPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "backup"    && <NativeView    title="Záloha"><BackupPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "audit"     && <NativeView    title="Audit"><AuditPanel tenantSlug={tenantSlug} /></NativeView>}
