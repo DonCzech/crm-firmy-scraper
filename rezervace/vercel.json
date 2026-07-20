@@ -3,7 +3,6 @@
   "buildCommand": "next build",
   "devCommand": "next dev -p 3020",
   "installCommand": "npm install",
-  "//regions": "Databáze (Neon) běží v eu-central-1. Funkce dřív běžely v iad1 (USA), takže každý dotaz letěl přes Atlantik — čtyři dotazy = přes 4 s. fra1 je u databáze.",
   "regions": ["fra1"],
   "crons": [
     {
