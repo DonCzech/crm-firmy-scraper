@@ -19,13 +19,21 @@ export async function sql(strings: TemplateStringsArray, ...values: unknown[]): 
   return (getSql() as any)(strings, ...values)
 }
 
-// Schéma se zakládá jen jednou za život instance. Dřív se všech 33 DDL příkazů
-// (CREATE TABLE IF NOT EXISTS / ALTER TABLE …) pouštělo při KAŽDÉM požadavku, což
-// samo o sobě stálo stovky milisekund. Držíme rozpracovaný slib, aby souběžné
-// požadavky čekaly na tentýž průchod; při chybě se memo zahodí, ať jde zkusit znovu.
+// Migrace NEPATŘÍ do cesty požadavku. Všech 33 DDL příkazů se dřív pouštělo při
+// každém volání API; po zavedení memoizace za to platil aspoň každý studený
+// start — naměřeno 13,5 s na prvním požadavku nové instance.
+//
+// V produkci proto schéma zakládáme jen na výslovné vyžádání (POST /api/db/init
+// nebo DB_AUTO_MIGRATE=1). Ve vývoji zůstává automatika, aby se s novou databází
+// nemuselo nic řešit. Memo drží rozpracovaný slib, takže souběžné požadavky
+// čekají na tentýž průchod; při chybě se zahodí, ať jde zkusit znovu.
 let _initPromise: Promise<void> | null = null
 
-export async function initDb(): Promise<void> {
+const AUTO_MIGRATE =
+  process.env.DB_AUTO_MIGRATE === '1' || process.env.NODE_ENV !== 'production'
+
+export async function initDb(force = false): Promise<void> {
+  if (!force && !AUTO_MIGRATE) return
   if (!_initPromise) {
     _initPromise = runMigrations().catch((err) => {
       _initPromise = null
