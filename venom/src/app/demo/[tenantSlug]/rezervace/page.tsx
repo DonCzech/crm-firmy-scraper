@@ -6,13 +6,18 @@ import {
   getTenantOverrides,
 } from "@/lib/db";
 import { resolveAllSections } from "@/lib/section-resolver";
+import { withRezoraPrefetch } from "@/lib/rezora/prefetch";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { TenantCustomCode } from "@/components/tenant/TenantCustomCode";
 import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ tenantSlug: string }>;
+  searchParams?: Promise<{ preset?: string }>;
 }
+
+/** Tvarové presety konsolidovaného widgetu — viz designs/AdaptiveDesign.tsx. */
+const PRESETS = new Set(["sharp", "soft", "clinical", "editorial"]);
 
 export const revalidate = 300;
 
@@ -47,8 +52,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function TenantBookingPage({ params }: Props) {
+export default async function TenantBookingPage({ params, searchParams }: Props) {
   const { tenantSlug } = await params;
+  const { preset } = (await searchParams) ?? {};
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || tenant.status === "suspended") return notFound();
 
@@ -69,14 +75,28 @@ export default async function TenantBookingPage({ params }: Props) {
   // jako jedinou obsahovou sekci na začátek (order_index nízké → nad footer).
   const navbar = sections.find((s) => s.section_type === "navbar");
   const footer = sections.find((s) => s.section_type === "footer");
-  const bookingSections = [navbar, { ...widget, order_index: 0 }, footer].filter(
-    (s): s is NonNullable<typeof s> => Boolean(s)
+  // `?preset=sharp|soft|clinical|editorial` přepne widget na konsolidovaný
+  // tvarový preset — slouží k porovnání proti stávajícímu bespoke designu,
+  // aniž by se cokoli měnilo v databázi.
+  const widgetSection = preset && PRESETS.has(preset)
+    ? { ...widget, order_index: 0, section_variant: preset }
+    : { ...widget, order_index: 0 };
+
+  // Nabídku načteme už na serveru → widget je vyplněný v prvním HTML.
+  const bookingSections = await withRezoraPrefetch(
+    [navbar, widgetSection, footer].filter((s): s is NonNullable<typeof s> => Boolean(s))
   );
 
   const bookingPage = { ...home, slug: "rezervace" };
 
   return (
     <>
+      {/*
+        Řada šablon má průhledný navbar, který na homepage leží přes hero. Tady
+        žádné hero není, takže by rezervace vyjela pod menu — proto sekci
+        odsadíme o jeho výšku. Platí pro všechny varianty widgetu, ne jen nové.
+      */}
+      <style>{`#rezervace{padding-top:clamp(132px,13vw,184px)}`}</style>
       <TenantCustomCode tenantId={tenant.id} placement="head" />
       <TenantPublicView
         tenant={tenant}

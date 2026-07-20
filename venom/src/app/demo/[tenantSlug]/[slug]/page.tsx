@@ -1,9 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
 import { resolveAllSections } from "@/lib/section-resolver";
+import { withRezoraPrefetch } from "@/lib/rezora/prefetch";
 import { AsteraDemoPageTemplate } from "@/components/templates/AsteraDemoPageTemplate";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { ClonedSiteRenderer } from "@/components/tenant/ClonedSiteRenderer";
+import { TenantCustomCode } from "@/components/tenant/TenantCustomCode";
 import type { SiteContent } from "@/lib/content-types";
 import type { Metadata } from "next";
 
@@ -66,7 +68,7 @@ export default async function TenantAsteraSubPage({ params }: Props) {
 
     // F1 read-through: merge template defaults + slot refs + sparse content_overrides
     // into settings.content so the components receive resolved data.
-    const pageSections = await resolveAllSections(tenant, rawSections);
+    const pageSections = await withRezoraPrefetch(await resolveAllSections(tenant, rawSections));
 
     // Clone mode — render original HTML 1:1
     const cloneSection = pageSections.find((s) => s.section_type === "full-page-clone");
@@ -79,6 +81,7 @@ export default async function TenantAsteraSubPage({ params }: Props) {
 
     return (
       <>
+        <TenantCustomCode tenantId={tenant.id} placement="head" />
         <TenantPublicView
           tenant={tenant}
           page={tenantPage}
@@ -86,6 +89,7 @@ export default async function TenantAsteraSubPage({ params }: Props) {
           overrides={overrides}
           isAdmin={false}
         />
+        <TenantCustomCode tenantId={tenant.id} placement="body-end" />
       </>
     );
   }
