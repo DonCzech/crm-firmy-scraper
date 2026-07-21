@@ -4435,52 +4435,52 @@ function PromoClean02({ content, sectionId }: { content: Record<string, unknown>
         .c02p-tagline {
           display: inline-flex; align-items: center; gap: 0.55rem;
           font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
-          text-transform: uppercase; color: #1B5BFF;
+          text-transform: uppercase; color: var(--color-primary, #1B5BFF);
           margin-bottom: 1.1rem;
         }
-        .c02p-tagline::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02p-tagline::before { content: ""; width: 22px; height: 2px; background: var(--color-primary, #1B5BFF); border-radius: 2px; }
         .c02p-h2 {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: clamp(1.9rem, 3.4vw, 2.9rem);
-          font-weight: 750; color: #0B1526;
+          font-weight: 750; color: var(--color-secondary, #0B1526);
           line-height: 1.08; margin: 0;
           letter-spacing: -0.03em; text-wrap: balance;
         }
         .c02p-sub {
-          font-size: 1.02rem; color: #5B6577;
+          font-size: 1.02rem; color: var(--color-text-muted, #5B6577);
           line-height: 1.7; margin: 0 0 0.3rem;
         }
         .c02p-grid {
           display: grid; grid-template-columns: repeat(4, 1fr);
-          border-top: 1px solid #E2E8F1;
+          border-top: 1px solid var(--color-border, #E2E8F1);
         }
         .c02p-item {
           padding: 1.9rem 1.6rem 0.4rem 0;
-          border-right: 1px solid #E2E8F1;
+          border-right: 1px solid var(--color-border, #E2E8F1);
           position: relative;
         }
         .c02p-item + .c02p-item { padding-left: 1.6rem; }
         .c02p-item:last-child { border-right: none; padding-right: 0; }
         .c02p-index {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: 0.86rem; font-weight: 700; color: #1B5BFF;
+          font-size: 0.86rem; font-weight: 700; color: var(--color-primary, #1B5BFF);
           letter-spacing: 0.04em; display: block; margin-bottom: 1.15rem;
           font-variant-numeric: tabular-nums;
         }
         .c02p-item-title {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: 1.16rem; font-weight: 700; letter-spacing: -0.015em;
-          color: #0B1526; margin: 0 0 0.55rem;
+          color: var(--color-secondary, #0B1526); margin: 0 0 0.55rem;
         }
         .c02p-item-desc {
-          font-size: 0.92rem; color: #5B6577;
+          font-size: 0.92rem; color: var(--color-text-muted, #5B6577);
           line-height: 1.68; margin: 0;
         }
         @media (max-width: 960px) {
           .c02p-header { grid-template-columns: 1fr; gap: 1.2rem; }
           .c02p-grid { grid-template-columns: 1fr 1fr; row-gap: 0.6rem; }
           .c02p-item:nth-child(2n) { border-right: none; }
-          .c02p-item:nth-child(n+3) { border-top: 1px solid #E2E8F1; }
+          .c02p-item:nth-child(n+3) { border-top: 1px solid var(--color-border, #E2E8F1); }
           .c02p-grid { border-top: none; }
           .c02p-item { padding: 1.4rem 1.2rem 0.6rem 0; }
           .c02p-item + .c02p-item { padding-left: 1.2rem; }
@@ -4489,7 +4489,7 @@ function PromoClean02({ content, sectionId }: { content: Record<string, unknown>
         @media (max-width: 500px) {
           .c02p-grid { grid-template-columns: 1fr; }
           .c02p-item { border-right: none !important; padding: 1.3rem 0 0.5rem !important; }
-          .c02p-item:nth-child(n+2) { border-top: 1px solid #E2E8F1; }
+          .c02p-item:nth-child(n+2) { border-top: 1px solid var(--color-border, #E2E8F1); }
         }
       `}</style>
 

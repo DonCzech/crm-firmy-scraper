@@ -12007,7 +12007,7 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         .c02ab-media { position: relative; }
         .c02ab-photo-wrap {
           position: relative; border-radius: 20px; overflow: hidden;
-          aspect-ratio: 4/5; background: #E7EBF2;
+          aspect-ratio: 4/5; background: var(--color-border, #E7EBF2);
           box-shadow: 0 34px 70px -38px rgba(11,21,38,0.4);
         }
         .c02ab-photo-wrap img {
@@ -12016,7 +12016,7 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         .c02ab-quote {
           position: absolute; left: clamp(-1.2rem, -2vw, -2rem); bottom: 1.4rem;
           max-width: min(85%, 20rem);
-          background: #0B1526; color: #fff;
+          background: var(--color-secondary, #0B1526); color: #fff;
           border-radius: 16px; padding: 1.15rem 1.3rem;
           box-shadow: 0 22px 45px -20px rgba(11,21,38,0.55);
         }
@@ -12029,48 +12029,48 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         .c02ab-tagline {
           display: inline-flex; align-items: center; gap: 0.55rem;
           font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
-          text-transform: uppercase; color: #1B5BFF;
+          text-transform: uppercase; color: var(--color-primary, #1B5BFF);
           margin-bottom: 1.1rem;
         }
-        .c02ab-tagline::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02ab-tagline::before { content: ""; width: 22px; height: 2px; background: var(--color-primary, #1B5BFF); border-radius: 2px; }
         .c02ab-h2 {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: clamp(1.9rem, 3.4vw, 2.9rem);
-          font-weight: 750; color: #0B1526;
+          font-weight: 750; color: var(--color-secondary, #0B1526);
           line-height: 1.08; margin: 0 0 1.3rem;
           letter-spacing: -0.03em; text-wrap: balance;
         }
         .c02ab-body {
-          font-size: 1.04rem; color: #5B6577;
+          font-size: 1.04rem; color: var(--color-text-muted, #5B6577);
           line-height: 1.75; margin: 0 0 2rem;
         }
         .c02ab-features {
           display: grid; grid-template-columns: 1fr 1fr;
           gap: 1.6rem 2rem; margin-bottom: 2.3rem;
-          border-top: 1px solid #E2E8F1; padding-top: 1.8rem;
+          border-top: 1px solid var(--color-border, #E2E8F1); padding-top: 1.8rem;
         }
         .c02ab-feat-title {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em;
-          color: #0B1526; margin: 0 0 0.4rem;
+          color: var(--color-secondary, #0B1526); margin: 0 0 0.4rem;
           display: flex; align-items: center; gap: 0.5rem;
         }
         .c02ab-feat-title::before {
-          content: ""; width: 7px; height: 7px; border-radius: 2px; background: #1B5BFF; flex-shrink: 0;
+          content: ""; width: 7px; height: 7px; border-radius: 2px; background: var(--color-primary, #1B5BFF); flex-shrink: 0;
         }
         .c02ab-feat-desc {
-          font-size: 0.9rem; color: #5B6577;
+          font-size: 0.9rem; color: var(--color-text-muted, #5B6577);
           line-height: 1.62; margin: 0;
         }
         .c02ab-cta {
           display: inline-flex; align-items: center; gap: 0.6rem;
           padding: 0.95rem 1.9rem; border-radius: 9999px;
-          background: #0B1526;
+          background: var(--color-secondary, #0B1526);
           color: #fff; font-weight: 700; font-size: 0.97rem;
           text-decoration: none;
           transition: background 0.25s, transform 0.25s;
         }
-        .c02ab-cta:hover { background: #1B5BFF; transform: translateY(-2px); }
+        .c02ab-cta:hover { background: var(--color-primary, #1B5BFF); transform: translateY(-2px); }
 
         @media (max-width: 900px) {
           .c02ab-inner { grid-template-columns: 1fr; gap: 2.6rem; }

@@ -11334,7 +11334,7 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
     <>
       <style>{`
         .c02sv-section {
-          background: #F4F6F9;
+          background: var(--color-bg, #F4F6F9);
           padding: clamp(4rem, 8vw, 7rem) 0;
           font-family: 'Onest', sans-serif;
         }
@@ -11347,19 +11347,19 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
         .c02sv-tagline {
           display: inline-flex; align-items: center; gap: 0.55rem;
           font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
-          text-transform: uppercase; color: #1B5BFF;
+          text-transform: uppercase; color: var(--color-primary, #1B5BFF);
           margin-bottom: 1.1rem;
         }
-        .c02sv-tagline::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02sv-tagline::before { content: ""; width: 22px; height: 2px; background: var(--color-primary, #1B5BFF); border-radius: 2px; }
         .c02sv-h2 {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: clamp(1.9rem, 3.4vw, 2.9rem);
-          font-weight: 750; color: #0B1526;
+          font-weight: 750; color: var(--color-secondary, #0B1526);
           line-height: 1.08; margin: 0;
           letter-spacing: -0.03em; text-wrap: balance;
         }
         .c02sv-sub {
-          font-size: 1.02rem; color: #5B6577;
+          font-size: 1.02rem; color: var(--color-text-muted, #5B6577);
           line-height: 1.7; margin: 0 0 0.3rem;
         }
         .c02sv-grid {
@@ -11369,7 +11369,7 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
         }
         .c02sv-card {
           background: #fff;
-          border: 1px solid #E7EBF2;
+          border: 1px solid var(--color-border, #E7EBF2);
           border-radius: 18px;
           overflow: hidden;
           display: flex; flex-direction: column;
@@ -11382,7 +11382,7 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
         }
         .c02sv-img-wrap {
           width: 100%; aspect-ratio: 4/3; overflow: hidden;
-          background: #E7EBF2; position: relative;
+          background: var(--color-border, #E7EBF2); position: relative;
         }
         .c02sv-img-wrap img {
           width: 100%; height: 100%;
@@ -11395,16 +11395,16 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
         .c02sv-card-title {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: 1.18rem; font-weight: 700; letter-spacing: -0.015em;
-          color: #0B1526; margin: 0 0 0.5rem; line-height: 1.25;
+          color: var(--color-secondary, #0B1526); margin: 0 0 0.5rem; line-height: 1.25;
         }
         .c02sv-card-desc {
-          font-size: 0.92rem; color: #5B6577;
+          font-size: 0.92rem; color: var(--color-text-muted, #5B6577);
           line-height: 1.66; margin: 0 0 1.2rem; flex: 1;
         }
         .c02sv-btn {
           display: inline-flex; align-items: center; gap: 0.45rem;
           font-size: 0.88rem; font-weight: 700;
-          color: #1B5BFF; text-decoration: none;
+          color: var(--color-primary, #1B5BFF); text-decoration: none;
           transition: gap 0.2s;
           margin-top: auto;
         }

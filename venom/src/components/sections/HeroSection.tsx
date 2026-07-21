@@ -20830,7 +20830,7 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       <style>{`
         .c02h-section {
           position: relative; overflow: hidden;
-          background: #F4F6F9;
+          background: var(--color-bg, #F4F6F9);
           padding: calc(4.75rem + clamp(2.5rem, 6vw, 4.5rem)) 0 clamp(3.5rem, 7vw, 6rem);
           font-family: 'Onest', sans-serif;
         }
@@ -20842,49 +20842,49 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
         .c02h-eyebrow {
           display: inline-flex; align-items: center; gap: 0.55rem;
           font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-          color: #1B5BFF; margin-bottom: 1.4rem;
+          color: var(--color-primary, #1B5BFF); margin-bottom: 1.4rem;
         }
-        .c02h-eyebrow::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02h-eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--color-primary, #1B5BFF); border-radius: 2px; }
         .c02h-h1 {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: clamp(2.7rem, 5.6vw, 4.6rem);
-          font-weight: 800; color: #0B1526; line-height: 1.02;
+          font-weight: 800; color: var(--color-secondary, #0B1526); line-height: 1.02;
           margin: 0; letter-spacing: -0.035em;
           text-wrap: balance;
         }
-        .c02h-h1 .c02h-accent { color: #1B5BFF; display: inline; }
+        .c02h-h1 .c02h-accent { color: var(--color-primary, #1B5BFF); display: inline; }
         .c02h-sub {
           font-size: clamp(1rem, 1.6vw, 1.13rem);
-          color: #5B6577; line-height: 1.72; margin: 1.5rem 0 0;
+          color: var(--color-text-muted, #5B6577); line-height: 1.72; margin: 1.5rem 0 0;
           max-width: 33rem;
         }
         .c02h-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 2.1rem; }
         .c02h-btn1 {
           display: inline-flex; align-items: center; gap: 0.6rem;
           padding: 1rem 1.9rem; border-radius: 9999px;
-          background: #1B5BFF; color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
+          background: var(--color-primary, #1B5BFF); color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
           transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
           box-shadow: 0 14px 30px -14px rgba(27,91,255,0.55);
         }
-        .c02h-btn1:hover { background: #0E44D6; transform: translateY(-2px); box-shadow: 0 20px 38px -14px rgba(27,91,255,0.6); }
+        .c02h-btn1:hover { background: var(--color-accent, #0E44D6); transform: translateY(-2px); box-shadow: 0 20px 38px -14px rgba(27,91,255,0.6); }
         .c02h-btn1 svg { transition: transform 0.25s; }
         .c02h-btn1:hover svg { transform: translateX(3px); }
         .c02h-btn2 {
           display: inline-flex; align-items: center; gap: 0.55rem;
           padding: 1rem 1.7rem; border-radius: 9999px;
           border: 1px solid #D6DEEA; background: #fff;
-          color: #0B1526; font-weight: 600; font-size: 1rem; text-decoration: none;
+          color: var(--color-secondary, #0B1526); font-weight: 600; font-size: 1rem; text-decoration: none;
           transition: border-color 0.2s, background 0.2s;
         }
-        .c02h-btn2:hover { border-color: #0B1526; }
+        .c02h-btn2:hover { border-color: var(--color-secondary, #0B1526); }
         .c02h-trust {
           display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.1rem;
-          margin-top: 2.2rem; padding-top: 1.6rem; border-top: 1px solid #E2E8F1;
-          font-size: 0.9rem; color: #5B6577;
+          margin-top: 2.2rem; padding-top: 1.6rem; border-top: 1px solid var(--color-border, #E2E8F1);
+          font-size: 0.9rem; color: var(--color-text-muted, #5B6577);
         }
         .c02h-stars { display: inline-flex; align-items: center; gap: 0.15rem; }
         .c02h-stars svg { display: block; }
-        .c02h-score { font-weight: 800; color: #0B1526; margin-left: 0.35rem; font-variant-numeric: tabular-nums; }
+        .c02h-score { font-weight: 800; color: var(--color-secondary, #0B1526); margin-left: 0.35rem; font-variant-numeric: tabular-nums; }
         .c02h-tdot { width: 4px; height: 4px; border-radius: 50%; background: #C6CFDD; }
         .c02h-glogo { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: #3D4B63; }
 
@@ -20904,13 +20904,13 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
         }
         .c02h-chip1-ico {
           width: 34px; height: 34px; border-radius: 10px; background: #EAF1FF;
-          display: grid; place-items: center; flex-shrink: 0; color: #1B5BFF;
+          display: grid; place-items: center; flex-shrink: 0; color: var(--color-primary, #1B5BFF);
         }
-        .c02h-chip1 b { display: block; font-size: 0.84rem; color: #0B1526; line-height: 1.25; }
-        .c02h-chip1 small { display: block; font-size: 0.74rem; color: #5B6577; margin-top: 1px; }
+        .c02h-chip1 b { display: block; font-size: 0.84rem; color: var(--color-secondary, #0B1526); line-height: 1.25; }
+        .c02h-chip1 small { display: block; font-size: 0.74rem; color: var(--color-text-muted, #5B6577); margin-top: 1px; }
         .c02h-chip2 {
           position: absolute; bottom: 1.2rem; left: -1rem;
-          background: #0B1526; color: #fff; border-radius: 14px;
+          background: var(--color-secondary, #0B1526); color: #fff; border-radius: 14px;
           padding: 0.85rem 1.15rem; display: flex; align-items: baseline; gap: 0.55rem;
           box-shadow: 0 18px 40px -18px rgba(11,21,38,0.5);
         }
@@ -21019,9 +21019,9 @@ function HeroClean02Page({ content, sectionId, tenantSlug, isAdmin }: { content:
     <>
       <style>{`
         .c02hp-section {
-          background: #F4F6F9;
+          background: var(--color-bg, #F4F6F9);
           padding: calc(4.75rem + clamp(2rem, 4.5vw, 3.5rem)) 0 clamp(2.4rem, 5vw, 4rem);
-          border-bottom: 1px solid #E2E8F1;
+          border-bottom: 1px solid var(--color-border, #E2E8F1);
           font-family: 'Onest', sans-serif;
         }
         .c02hp-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
@@ -21029,17 +21029,17 @@ function HeroClean02Page({ content, sectionId, tenantSlug, isAdmin }: { content:
           display: flex; align-items: center; gap: 0.5rem;
           font-size: 0.84rem; color: #98A4B8; margin-bottom: 1.1rem;
         }
-        .c02hp-crumbs a { color: #5B6577; text-decoration: none; font-weight: 500; }
-        .c02hp-crumbs a:hover { color: #1B5BFF; }
+        .c02hp-crumbs a { color: var(--color-text-muted, #5B6577); text-decoration: none; font-weight: 500; }
+        .c02hp-crumbs a:hover { color: var(--color-primary, #1B5BFF); }
         .c02hp-crumbs svg { color: #C6CFDD; }
         .c02hp-h1 {
           font-family: 'Bricolage Grotesque', sans-serif;
           font-size: clamp(2.2rem, 4.6vw, 3.6rem);
-          font-weight: 800; color: #0B1526; line-height: 1.04;
+          font-weight: 800; color: var(--color-secondary, #0B1526); line-height: 1.04;
           margin: 0; letter-spacing: -0.035em; text-wrap: balance;
         }
         .c02hp-sub {
-          font-size: clamp(0.98rem, 1.5vw, 1.1rem); color: #5B6577;
+          font-size: clamp(0.98rem, 1.5vw, 1.1rem); color: var(--color-text-muted, #5B6577);
           line-height: 1.7; margin: 1rem 0 0; max-width: 40rem;
         }
       `}</style>

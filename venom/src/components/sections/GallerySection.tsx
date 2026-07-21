@@ -59,7 +59,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
-  if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} />;
+  if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "gallery-universal") {
     return <GalleryUniversal
       content={content}
@@ -8408,7 +8408,7 @@ function GalleryFourCol({ content, variant, images, rawArray, activeImage, setAc
 
 
 // ══ PROOF (proof-01) — Before/After comparison slider (nová capability) ════════
-type BaItem = { beforeImage?: string; afterImage?: string; beforeLabel?: string; afterLabel?: string; caption?: string };
+type BaItem = { beforeImage?: string; afterImage?: string; beforeLabel?: string; afterLabel?: string; caption?: string; slug?: string; title?: string; excerpt?: string };
 
 function BeforeAfterCard({ item, sectionId, index }: { item: BaItem; sectionId: number; index: number }) {
   const [pos, setPos] = useState(50);
@@ -8454,11 +8454,12 @@ function BeforeAfterCard({ item, sectionId, index }: { item: BaItem; sectionId: 
   );
 }
 
-function BeforeAfterProof01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function BeforeAfterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const eyebrow = String(content.eyebrow ?? "Realizace");
   const title   = String(content.title   ?? "Vidíte rozdíl — přetáhněte posuvník");
   const lead    = String(content.lead    ?? "Reálné zakázky před a po. Táhněte středem, nebo použijte šipky na klávesnici.");
   const items = (content.items as BaItem[] | undefined) ?? [];
+  const detailCtaText = String(content.detailCtaText ?? "Zobrazit celou realizaci");
   return (
     <>
       <style>{`
@@ -8484,6 +8485,9 @@ function BeforeAfterProof01({ content, sectionId }: { content: Record<string, un
         .pf01ba-range { position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:ew-resize; }
         .pf01ba-stage:focus-within .pf01ba-handle { box-shadow:0 0 0 4px rgba(195,53,43,.4), 0 4px 14px rgba(27,58,92,.35); }
         .pf01ba-cap { font-size:.92rem; font-weight:600; color:var(--pf-ink); margin-top:12px; }
+        .pf01ba-detail { display:inline-flex; align-items:center; gap:6px; margin-top:8px; font-size:.88rem; font-weight:700; color:var(--pf-accent); text-decoration:none; }
+        .pf01ba-detail svg { transition:transform .25s; }
+        .pf01ba-detail:hover svg { transform:translateX(4px); }
         @media (prefers-reduced-motion: reduce){ .pf01ba-handle{ transition:none; } }
       `}</style>
       <section className="pf01ba" data-template="proof-01" id="realizace">
@@ -8497,7 +8501,18 @@ function BeforeAfterProof01({ content, sectionId }: { content: Record<string, un
           </div>
           <div className="pf01ba-grid">
             {items.map((it, i) => (
-              <BeforeAfterCard key={i} item={it} sectionId={sectionId} index={i} />
+              <div key={i}>
+                <BeforeAfterCard item={it} sectionId={sectionId} index={i} />
+                {it.slug && (
+                  <a
+                    className="pf01ba-detail"
+                    href={isAdmin ? "#" : tenantSlug ? `/demo/${tenantSlug}/realizace/${it.slug}` : `#`}
+                  >
+                    {detailCtaText}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                )}
+              </div>
             ))}
           </div>
         </div>

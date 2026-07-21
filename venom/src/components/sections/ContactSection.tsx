@@ -11180,13 +11180,13 @@ function ContactClean02({ content, sectionId, tenantSlug, isAdmin: _isAdmin }: {
   return (
     <>
       <style>{`
-        .c02co-section { background: #F4F6F9; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02co-section { background: var(--color-bg, #F4F6F9); padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
         .c02co-inner {
           max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
           display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.3rem; align-items: stretch;
         }
         .c02co-panel {
-          background: #0B1526; border-radius: 20px; padding: clamp(1.9rem, 3.5vw, 2.9rem);
+          background: var(--color-secondary, #0B1526); border-radius: 20px; padding: clamp(1.9rem, 3.5vw, 2.9rem);
           display: flex; flex-direction: column;
         }
         .c02co-kicker {
@@ -11213,31 +11213,31 @@ function ContactClean02({ content, sectionId, tenantSlug, isAdmin: _isAdmin }: {
         .c02co-row-val { font-size: .95rem; font-weight: 600; color: #fff; }
         .c02co-row-val a { color: #fff; text-decoration: none; }
         .c02co-row-val a:hover { color: #6E9BFF; }
-        .c02co-form-wrap { background: #fff; border: 1px solid #E7EBF2; border-radius: 20px; padding: clamp(1.9rem, 3.5vw, 2.9rem); }
+        .c02co-form-wrap { background: #fff; border: 1px solid var(--color-border, #E7EBF2); border-radius: 20px; padding: clamp(1.9rem, 3.5vw, 2.9rem); }
         .c02co-form-title {
           font-family: 'Bricolage Grotesque',sans-serif;
-          font-size: 1.4rem; font-weight: 750; letter-spacing: -0.02em; color: #0B1526; margin: 0 0 1.6rem;
+          font-size: 1.4rem; font-weight: 750; letter-spacing: -0.02em; color: var(--color-secondary, #0B1526); margin: 0 0 1.6rem;
         }
         .c02co-form { display: flex; flex-direction: column; gap: 1.1rem; }
         .c02co-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .c02co-field label { font-size: .8rem; font-weight: 700; color: #22304A; display: block; margin-bottom: .38rem; letter-spacing: .01em; }
         .c02co-field input, .c02co-field select, .c02co-field textarea {
           width: 100%; padding: .82rem 1rem; border: 1px solid #D6DEEA; border-radius: 12px; box-sizing: border-box;
-          font-family: 'Onest',sans-serif; font-size: .93rem; color: #0B1526; background: #FAFBFD; outline: none;
+          font-family: 'Onest',sans-serif; font-size: .93rem; color: var(--color-secondary, #0B1526); background: #FAFBFD; outline: none;
           transition: border-color .2s, box-shadow .2s, background .2s;
         }
         .c02co-field input:focus, .c02co-field select:focus, .c02co-field textarea:focus {
-          border-color: #1B5BFF; box-shadow: 0 0 0 3px rgba(27,91,255,.14); background: #fff;
+          border-color: var(--color-primary, #1B5BFF); box-shadow: 0 0 0 3px rgba(27,91,255,.14); background: #fff;
         }
         .c02co-field textarea { min-height: 112px; resize: vertical; }
         .c02co-submit {
           width: 100%; padding: 1rem 2rem; border-radius: 9999px; border: none;
-          background: #1B5BFF; color: #fff;
+          background: var(--color-primary, #1B5BFF); color: #fff;
           font-family: 'Onest',sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer;
           transition: background .25s, transform .2s;
           box-shadow: 0 14px 30px -14px rgba(27,91,255,.55);
         }
-        .c02co-submit:hover:not(:disabled) { background: #0E44D6; transform: translateY(-1px); }
+        .c02co-submit:hover:not(:disabled) { background: var(--color-accent, #0E44D6); transform: translateY(-1px); }
         .c02co-submit:disabled { opacity: .7; cursor: default; }
         .c02co-note { font-size: .78rem; color: #98A4B8; text-align: center; margin: 0; }
         .c02co-success { background: #F0FBF5; border: 1px solid #B9E7CD; border-radius: 14px; padding: 1.6rem; text-align: center; }

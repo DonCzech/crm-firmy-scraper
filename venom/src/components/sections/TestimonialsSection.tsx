@@ -4892,23 +4892,23 @@ function TestimonialsClean02({ content, sectionId }: { content: Record<string, u
   return (
     <>
       <style>{`
-        .c02tm-section { background: #F4F6F9; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02tm-section { background: var(--color-bg, #F4F6F9); padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
         .c02tm-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
         .c02tm-header { margin-bottom: clamp(2.2rem, 4.5vw, 3.2rem); }
         .c02tm-kicker {
           display: inline-flex; align-items: center; gap: .55rem;
           font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-          color: #1B5BFF; margin-bottom: 1.1rem;
+          color: var(--color-primary, #1B5BFF); margin-bottom: 1.1rem;
         }
-        .c02tm-kicker::before { content: ''; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02tm-kicker::before { content: ''; width: 22px; height: 2px; background: var(--color-primary, #1B5BFF); border-radius: 2px; }
         .c02tm-h2 {
           font-family: 'Bricolage Grotesque',sans-serif;
-          font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 750; color: #0B1526;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 750; color: var(--color-secondary, #0B1526);
           margin: 0; line-height: 1.08; letter-spacing: -0.03em;
         }
         .c02tm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }
         .c02tm-card {
-          background: #fff; border: 1px solid #E7EBF2; border-radius: 18px;
+          background: #fff; border: 1px solid var(--color-border, #E7EBF2); border-radius: 18px;
           padding: 1.9rem 1.8rem 1.7rem;
           display: flex; flex-direction: column; gap: 1.1rem;
           transition: box-shadow .3s, transform .3s, border-color .3s;
@@ -4931,10 +4931,10 @@ function TestimonialsClean02({ content, sectionId }: { content: Record<string, u
           width: 38px; height: 38px; border-radius: 50%;
           display: flex; align-items: center; justify-content: center;
           font-family: 'Bricolage Grotesque',sans-serif; font-size: .78rem; font-weight: 800;
-          color: #1B5BFF; background: #EAF1FF; flex-shrink: 0;
+          color: var(--color-primary, #1B5BFF); background: #EAF1FF; flex-shrink: 0;
         }
         .c02tm-info { flex: 1; min-width: 0; }
-        .c02tm-author { font-weight: 700; color: #0B1526; font-size: .89rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .c02tm-author { font-weight: 700; color: var(--color-secondary, #0B1526); font-size: .89rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .c02tm-date { font-size: .74rem; color: #98A4B8; margin-top: 2px; font-variant-numeric: tabular-nums; }
         @media (max-width: 900px) { .c02tm-grid { grid-template-columns: 1fr; gap: 1rem; } }
         @media (prefers-reduced-motion: reduce) { .c02tm-card { transition: none; } }

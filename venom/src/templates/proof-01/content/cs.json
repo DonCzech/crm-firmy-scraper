@@ -211,24 +211,46 @@
         "afterImage": "/templates/proof-01/img/ba1-after.webp",
         "beforeLabel": "Před",
         "afterLabel": "Po",
-        "caption": "Kompletní rekonstrukce bytu 3+kk — Praha 6, hotovo za 6 týdnů"
+        "caption": "Kompletní rekonstrukce bytu 3+kk — Praha 6, hotovo za 6 týdnů",
+        "title": "Kompletní rekonstrukce bytu 3+kk",
+        "place": "Praha 6",
+        "duration": "6 týdnů",
+        "scope": "Kompletní realizace",
+        "excerpt": "Z holobytu s odhalenými stěnami po hotový domov na klíč — včetně elektroinstalace, podlah a nové kuchyně.",
+        "body": "Klient převzal byt v původním stavu ze 70. let. Provedli jsme kompletní demontáž, nové rozvody elektřiny a vody, štukování, podlahy a montáž kuchyně na míru. Předání proběhlo v dohodnutém termínu, s pevnou cenou dle nabídky — bez jediné vícepráce navíc.\n\nSoučástí zakázky byla i koordinace kuchyňského studia a dodávka vestavěných skříní. Po dokončení jsme byt kompletně uklidili a předali s protokolem a 5letou zárukou.",
+        "slug": "kompletni-rekonstrukce-bytu-3-kk"
       },
       {
         "beforeImage": "/templates/proof-01/img/ba2-before.webp",
         "afterImage": "/templates/proof-01/img/ba2-after.webp",
         "beforeLabel": "V průběhu",
         "afterLabel": "Po",
-        "caption": "Malování a renovace interiéru — rodinný dům Kladno"
+        "caption": "Malování a renovace interiéru — rodinný dům Kladno",
+        "title": "Malování a renovace interiéru",
+        "place": "rodinný dům Kladno",
+        "duration": "4 dny",
+        "scope": "Instalace / montáž",
+        "excerpt": "Renovace stěn, stropů a dřevěných prvků v obývané domácnosti — bez stresu a s dokonalým úklidem.",
+        "body": "Majitelé potřebovali oživit interiér bez stěhování. Nábytek jsme zakryli, opravili praskliny, přebrousili a natřeli stěny i stropy ve třech pokojích. Pracovali jsme po místnostech, aby dům zůstal obyvatelný.\n\nHotovo za čtyři dny včetně úklidu. Cena odpovídala nabídce na korunu.",
+        "slug": "malovani-a-renovace-interieru"
       },
       {
         "beforeImage": "/templates/proof-01/img/ba3-before.webp",
         "afterImage": "/templates/proof-01/img/ba3-after.webp",
         "beforeLabel": "Hrubá stavba",
         "afterLabel": "Po",
-        "caption": "Novostavba na klíč — od hrubé stavby po kuchyň, Průhonice"
+        "caption": "Novostavba na klíč — od hrubé stavby po kuchyň, Průhonice",
+        "title": "Novostavba na klíč — od hrubé stavby po kuchyň",
+        "place": "Průhonice",
+        "duration": "5 měsíců",
+        "scope": "Kompletní realizace",
+        "excerpt": "Kompletní dokončení novostavby: rozvody, omítky, podlahy, koupelny a kuchyň na míru.",
+        "body": "Investor nám předal dům ve fázi hrubé stavby. Zajistili jsme kompletní dokončovací práce — rozvody, omítky, anhydritové podlahy, obklady koupelen a montáž kuchyně. Jeden tým, jeden harmonogram, týdenní reporty postupu.\n\nDům jsme předali ve smluveném termínu s kompletní dokumentací a zárukou 5 let.",
+        "slug": "novostavba-na-klic-od-hrube-stavby-po-kuchyn"
       }
     ],
-    "images": []
+    "images": [],
+    "detailCtaText": "Zobrazit celou realizaci"
   },
   "pricing": {
     "eyebrow": "Orientační ceník",

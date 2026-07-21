@@ -54,56 +54,6 @@
       "cs"
     ]
   },
-  "moodPresets": [
-    {
-      "key": "arctic",
-      "label": "Arctic",
-      "description": "Chladná modrá na paper podkladu — default pro úklid a facility služby",
-      "tokens": {
-        "colorPrimary": "#1B5BFF",
-        "colorSecondary": "#0B1526",
-        "colorAccent": "#0E44D6",
-        "colorBackground": "#F4F6F9",
-        "colorSurface": "#FFFFFF",
-        "colorText": "#0B1526",
-        "colorTextMuted": "#5B6577",
-        "colorBorder": "#E2E8F1",
-        "borderRadius": "9999px"
-      }
-    },
-    {
-      "key": "mint",
-      "label": "Mint",
-      "description": "Klidná zelenomodrá — eco úklid, wellness prostory, kliniky",
-      "tokens": {
-        "colorPrimary": "#0E8A6E",
-        "colorSecondary": "#0A241E",
-        "colorAccent": "#0A6D57",
-        "colorBackground": "#F3F7F5",
-        "colorSurface": "#FFFFFF",
-        "colorText": "#0A241E",
-        "colorTextMuted": "#5A6B65",
-        "colorBorder": "#E0EAE6",
-        "borderRadius": "9999px"
-      }
-    },
-    {
-      "key": "graphite",
-      "label": "Graphite",
-      "description": "Tmavý ink s jantarovým akcentem — prémiový facility management",
-      "tokens": {
-        "colorPrimary": "#C98F2C",
-        "colorSecondary": "#15181E",
-        "colorAccent": "#A97821",
-        "colorBackground": "#F5F4F1",
-        "colorSurface": "#FFFFFF",
-        "colorText": "#15181E",
-        "colorTextMuted": "#67707E",
-        "colorBorder": "#E6E4DF",
-        "borderRadius": "9999px"
-      }
-    }
-  ],
   "pages": [
     {
       "slug": "home",

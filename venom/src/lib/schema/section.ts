@@ -41,23 +41,6 @@ export const contentRefsSchema = z
   })
   .passthrough();
 
-/**
- * Mood preset — pojmenovaná sada design tokenů, kterou si zákazník ve Studiu
- * přepne jedním klikem (V3 engine capability). Tokens jdou přes existující
- * designTokens pipeline (POST /api/demo/:slug/design-tokens), takže preset
- * nikdy nemění strukturu ani obsah — jen vizuální náladu.
- */
-export const moodPresetSchema = z
-  .object({
-    key: z.string().regex(/^[a-z0-9-]+$/, "preset key must be kebab-case"),
-    label: z.string().min(1),
-    description: z.string().optional(),
-    tokens: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])),
-  })
-  .strict();
-
-export type MoodPreset = z.infer<typeof moodPresetSchema>;
-
 export const templateManifestSchema = z
   .object({
     $schema: z.string().optional(),
@@ -95,7 +78,6 @@ export const templateManifestSchema = z
       )
       .optional(),
     i18n: i18nSchema.default({ default: "cs", supported: ["cs"] }),
-    moodPresets: z.array(moodPresetSchema).optional(),
     pages: z.array(pageSchema).min(1),
     content: contentRefsSchema.optional(),
     images: z

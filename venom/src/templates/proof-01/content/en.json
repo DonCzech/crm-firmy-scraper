@@ -211,24 +211,46 @@
         "afterImage": "/templates/proof-01/img/ba1-after.webp",
         "beforeLabel": "Before",
         "afterLabel": "After",
-        "caption": "Complete apartment renovation — Prague 6, done in 6 weeks"
+        "caption": "Complete apartment renovation — Prague 6, done in 6 weeks",
+        "title": "Complete apartment renovation",
+        "place": "Prague 6",
+        "duration": "6 weeks",
+        "scope": "Full renovation",
+        "excerpt": "From a bare shell to a turnkey home — wiring, floors and a custom kitchen.",
+        "body": "The client took over a 1970s apartment in its original state. We handled full demolition, new wiring and plumbing, plastering, floors and a custom kitchen. Handover on schedule, at the fixed quoted price.\n\nWe also coordinated the kitchen studio and delivered built-in wardrobes. The apartment was handed over cleaned, with documentation and a 5-year warranty.",
+        "slug": "complete-apartment-renovation"
       },
       {
         "beforeImage": "/templates/proof-01/img/ba2-before.webp",
         "afterImage": "/templates/proof-01/img/ba2-after.webp",
         "beforeLabel": "In progress",
         "afterLabel": "After",
-        "caption": "Painting and interior renovation — family house, Kladno"
+        "caption": "Painting and interior renovation — family house, Kladno",
+        "title": "Painting and interior renovation",
+        "place": "family house, Kladno",
+        "duration": "4 days",
+        "scope": "Installation",
+        "excerpt": "Walls, ceilings and woodwork renovated in an occupied home — stress-free, spotless cleanup.",
+        "body": "The owners wanted a refresh without moving out. We covered the furniture, repaired cracks, sanded and repainted walls and ceilings in three rooms, working room by room.\n\nDone in four days including cleanup, at exactly the quoted price.",
+        "slug": "painting-and-interior-renovation"
       },
       {
         "beforeImage": "/templates/proof-01/img/ba3-before.webp",
         "afterImage": "/templates/proof-01/img/ba3-after.webp",
         "beforeLabel": "Before",
         "afterLabel": "After",
-        "caption": "Turnkey new build — from shell to finished kitchen, Průhonice"
+        "caption": "Turnkey new build — from shell to finished kitchen, Průhonice",
+        "title": "Turnkey new build — shell to kitchen",
+        "place": "Průhonice",
+        "duration": "5 months",
+        "scope": "Full delivery",
+        "excerpt": "Complete fit-out of a new build: services, plasters, floors, bathrooms and a custom kitchen.",
+        "body": "The investor handed us the house at shell stage. We delivered all finishing work — services, plasters, screeds, bathroom tiling and kitchen installation. One team, one schedule, weekly progress reports.\n\nHanded over on the contracted date with full documentation and a 5-year warranty.",
+        "slug": "turnkey-new-build-shell-to-kitchen"
       }
     ],
-    "images": []
+    "images": [],
+    "detailCtaText": "View full project"
   },
   "pricing": {
     "eyebrow": "Indicative pricing",

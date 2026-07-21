@@ -13382,7 +13382,7 @@ function FooterGarden01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 
 // ── clean-02-footer ───────────────────────────────────────────────────────────
 function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string }) {
-  const NAVY    = "#0B1526";
+  const NAVY    = "var(--color-secondary, #0B1526)";
   const PRIMARY = "#6E9BFF";
   const FONT_H  = "'Bricolage Grotesque', sans-serif";
   const FONT_B  = "'Onest', sans-serif";
@@ -13418,7 +13418,7 @@ function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<str
         .c02ft-main { max-width: 76rem; margin: 0 auto; padding: clamp(3rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem) 2.8rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
         .c02ft-logo { font-family: ${FONT_H}; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin: 0 0 .3rem; display: flex; align-items: center; gap: .6rem; }
         .c02ft-logo-dot {
-          width: 28px; height: 28px; border-radius: 8px; background: #1B5BFF; flex-shrink: 0;
+          width: 28px; height: 28px; border-radius: 8px; background: var(--color-primary, #1B5BFF); flex-shrink: 0;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cpath d='M1.5 11.5c2.2-3 4.3-3 6.5 0s4.3 3 6.5 0' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' fill='none'/%3E%3Cpath d='M1.5 6.5c2.2-3 4.3-3 6.5 0s4.3 3 6.5 0' stroke='%239BC0FF' stroke-width='1.9' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
           background-repeat: no-repeat; background-position: center;
         }

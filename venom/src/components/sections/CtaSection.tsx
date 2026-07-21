@@ -3229,7 +3229,7 @@ function CtaClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
   return (
     <>
       <style>{`
-        .c02ct-section { background: #0B1526; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02ct-section { background: var(--color-secondary, #0B1526); padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
         .c02ct-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
         .c02ct-kicker {
           display: inline-flex; align-items: center; gap: .55rem;
@@ -3270,7 +3270,7 @@ function CtaClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
         .c02ct-btn {
           display: inline-flex; align-items: center; gap: .55rem;
           padding: 1rem 2rem; border-radius: 9999px;
-          background: #1B5BFF; color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
+          background: var(--color-primary, #1B5BFF); color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
           transition: background .25s, transform .25s;
           box-shadow: 0 16px 34px -16px rgba(27,91,255,.7);
         }

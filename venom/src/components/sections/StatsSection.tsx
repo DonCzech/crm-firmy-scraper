@@ -2675,8 +2675,8 @@ function StatsClean02({ content, sectionId }: { content: Record<string, unknown>
       <style>{`
         .c02s-section {
           background: #fff;
-          border-top: 1px solid #E2E8F1;
-          border-bottom: 1px solid #E2E8F1;
+          border-top: 1px solid var(--color-border, #E2E8F1);
+          border-bottom: 1px solid var(--color-border, #E2E8F1);
           font-family: 'Onest', sans-serif;
           overflow: hidden;
         }
@@ -2686,7 +2686,7 @@ function StatsClean02({ content, sectionId }: { content: Record<string, unknown>
         }
         .c02s-title {
           font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-          color: #5B6577; margin: 0; max-width: 15rem; line-height: 1.5;
+          color: var(--color-text-muted, #5B6577); margin: 0; max-width: 15rem; line-height: 1.5;
         }
         .c02s-track-wrap { position: relative; overflow: hidden; }
         .c02s-track-wrap::before,
@@ -2709,7 +2709,7 @@ function StatsClean02({ content, sectionId }: { content: Record<string, unknown>
           transition: color 0.3s;
         }
         .c02s-mark::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #D6DEEA; }
-        .c02s-mark:hover { color: #0B1526; }
+        .c02s-mark:hover { color: var(--color-secondary, #0B1526); }
         @media (max-width: 760px) {
           .c02s-inner { grid-template-columns: 1fr; gap: 1.1rem; padding-top: 1.3rem; padding-bottom: 1.3rem; }
           .c02s-title { max-width: none; }
