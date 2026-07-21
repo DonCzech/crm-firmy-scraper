@@ -16,7 +16,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 |---|---------|-------------|-----------|--------|------|
 | 1 | clean-02 | clean-02-demo | 1119 (+showcase 1091) | kompletně + fotky | ✅ DONE |
 | 2 | klempir-01 | klempir-01-demo | 1086 | kompletně + fotky | ✅ DONE |
-| 3 | ortho-01 | ortho-01-v2 | 684 | kompletně + VŠECHNY obrázky | 🔨 ROZDĚLANÁ (viz §6) |
+| 3 | ortho-01 | ortho-01-v2 | 684 | kompletně + VŠECHNY obrázky | ✅ DONE |
 | 4 | hair-01 | hair-01-v2 | 401 | kompletně | ⏳ |
 | 5 | hair-02 | hair-02-demo | 414 | kompletně | ⏳ |
 | 6 | hair-03 | hair-03-v2 | 407 | kompletně | ⏳ |
@@ -146,7 +146,14 @@ past s Playfair — V3_PLAYBOOK §2.1 platí i tady).
   Pozn.: POZOR, výstupy jednotlivých bloků končí `}` + prázdný řádek; body soubor musí
   obsahovat i úvodní `// ── …` komentář a interface, pokud ho blok měl.
 
-## 5. ORTHO-01 — ROZPRACOVÁNO (pokračuj přesně tady)
+## 5. ORTHO-01 — ✅ DONE (2026-07-21, commit 7f5574e3; sekce níže jen jako referenční brief)
+
+Hotovo vč. DB propagace: podstránkové hero sekce tenanta 684 přepnuty na `hero-ortho-01-page`
+s obsahem v overrides, promo vloženo na financovani (footer order 2→3), overrides reset,
+designTokens na 26 řádcích, presets API vrací 3 moody. QA: home+sluzby+financovani
+desktop/mobil OK, Studio bez JS chyb, kontakt API {"ok":true}. Rezora „clinical" dědí teal.
+POZOR: starý blok ortho-01-promo obsahoval i PromoDental01 bez vlastního markeru — při
+splice přes markery vždy zkontroluj tsc, komponenta obnovena z HEAD.
 
 **Návrh „Porcelain"**: bg `#FAFAF8`, surface `#fff`, ink `#14201E`, teal `#0F766E`
 (accent hover `#0B5D57`), wash `#E9F4F1`, border `#E4E7E3`, muted `#5F6B68`.
