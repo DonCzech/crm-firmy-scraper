@@ -33,7 +33,7 @@ function applyPriority(children: React.ReactNode): React.ReactNode {
     if (!isValidElement(child)) return child;
     const element = child as ReactElement<Record<string, unknown>>;
     if (element.type === "img") {
-      const merged = { ...element.props, loading: "eager", fetchpriority: "high" };
+      const merged = { ...element.props, loading: "eager", fetchPriority: "high" };
       return cloneElement(element, merged);
     }
     return element;

@@ -69,7 +69,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
     return <ContactBeauty01 content={content} sectionId={sectionId} />;
   }
   if (variant === "contact-hair-02-location") {
-    return <ContactHair02Location content={content} sectionId={sectionId} />;
+    return <ContactHair02Location content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "tattoo-01-contact") {
     return <ContactTattoo01 content={content} sectionId={sectionId} />;
@@ -910,79 +910,202 @@ function ContactBeauty01({ content, sectionId }: { content: Record<string, unkno
   );
 }
 
-function ContactHair02Location({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tag     = String(content.tag     ?? "");
-  const title   = String(content.title   ?? "");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "On-line rezervace");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
-  const phone   = String(content.phone   ?? "");
-  const email   = String(content.email   ?? "");
-  const image   = String(content.image   ?? "");
-  const TEAL  = "#8ab2ab";
-  const BEIGE = "rgb(235,232,226)";
-  const FONT  = "'Montserrat', sans-serif";
+// contact-hair-02-location — V3: vlevo kontaktní hairline řádky + otevírací doba +
+// foto salonu, vpravo REÁLNÝ formulář (POST /api/demo/<slug>/contact) se stavy
+// sending/success/error, honeypotem a GDPR poznámkou.
+function ContactHair02Location({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const tag = String(content.tag ?? "Kontakt");
+  const title = String(content.title ?? "");
+  const body = String(content.body ?? "");
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const image = String(content.image ?? "");
+  const hours = (content.hours as Array<{ day: string; value: string }>) ?? [];
+
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [tel, setTel] = useState("");
+  const [message, setMessage] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin || honeypot || !tenantSlug) return;
+    setStatus("sending");
+    setErrorMsg("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email: mail, phone: tel, message, website: honeypot }),
+      });
+      const json = (await res.json()) as { error?: string };
+      if (!res.ok) {
+        setErrorMsg(json.error ?? "Nepodařilo se odeslat zprávu.");
+        setStatus("error");
+      } else {
+        setStatus("success");
+        setName(""); setMail(""); setTel(""); setMessage("");
+      }
+    } catch {
+      setErrorMsg("Nepodařilo se odeslat zprávu. Zkuste to znovu.");
+      setStatus("error");
+    }
+  }
 
   return (
-    <section id="kontakt" style={{ backgroundColor: "#ffffff", padding: 0 }} data-template="hair-02">
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "stretch", minHeight: 520 }}>
-        {/* Left — beige, padding 50px */}
-        <div style={{ flex: "0 0 42%", minWidth: 280, backgroundColor: BEIGE, padding: "80px 50px", boxSizing: "border-box" }}>
-          {/* H6 teal tag */}
-          {tag && (
-            <h6 style={{ color: TEAL, fontFamily: FONT, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", margin: "0 0 20px" }}>
-              <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
-            </h6>
-          )}
-          {/* H1 address */}
-          <h2 style={{ color: "#000000", fontFamily: FONT, fontSize: "clamp(1.8rem, 2.5vw, 2.2rem)", fontWeight: 700, lineHeight: 1.2, margin: "0 0 20px", textTransform: "uppercase" }}>
+    <section id="kontakt" data-section-type="contact" data-variant="contact-hair-02-location" className="h02co-section" data-template="hair-02">
+      <style>{`
+        .h02co-section {
+          background: var(--color-surface, #FFFFFF); font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h02co-inner {
+          max-width: 80rem; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr;
+          gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start;
+        }
+        .h02co-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: var(--color-primary, #C0685C);
+        }
+        .h02co-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #C0685C); }
+        .h02co-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em;
+          color: var(--color-text, #2A211E); margin: 0 0 1rem; text-wrap: balance;
+        }
+        .h02co-body { font-size: 1.02rem; line-height: 1.68; color: var(--color-text-muted, #7C6B64); margin: 0 0 2rem; max-width: 46ch; }
+        .h02co-rows { margin-bottom: 2rem; }
+        .h02co-row {
+          display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+          padding: 0.85rem 0; border-bottom: 1px solid var(--color-border, #EADDD6);
+        }
+        .h02co-row:first-child { border-top: 1px solid var(--color-border, #EADDD6); }
+        .h02co-k { font-size: 0.86rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-text-muted, #7C6B64); }
+        .h02co-v { font-size: 1rem; font-weight: 600; color: var(--color-text, #2A211E); text-align: right; text-decoration: none; }
+        a.h02co-v:hover { color: var(--color-primary, #C0685C); }
+        .h02co-photo { border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 3; display: block; background: #F3E3DC; }
+        .h02co-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h02co-form {
+          background: #F3E3DC; border-radius: 20px; padding: clamp(1.6rem, 3vw, 2.4rem);
+        }
+        .h02co-form h3 {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-size: 1.6rem;
+          color: var(--color-text, #2A211E); margin: 0 0 1.4rem;
+        }
+        .h02co-field { margin-bottom: 1rem; }
+        .h02co-field label {
+          display: block; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.03em;
+          color: #6B564F; margin-bottom: 0.4rem;
+        }
+        .h02co-field input, .h02co-field textarea {
+          width: 100%; padding: 0.8rem 1rem; border-radius: 12px; box-sizing: border-box;
+          border: 1px solid #E2CCC3; background: #fff; color: var(--color-text, #2A211E);
+          font-family: inherit; font-size: 0.96rem;
+        }
+        .h02co-field input:focus, .h02co-field textarea:focus {
+          outline: 2px solid var(--color-primary, #C0685C); outline-offset: 1px; border-color: transparent;
+        }
+        .h02co-field textarea { min-height: 7rem; resize: vertical; }
+        .h02co-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+        .h02co-submit {
+          width: 100%; padding: 0.95rem 1.5rem; border: none; border-radius: 999px; cursor: pointer;
+          background: var(--color-primary, #C0685C); color: #fff; font-family: inherit;
+          font-size: 0.98rem; font-weight: 600; transition: background 0.25s, transform 0.25s;
+        }
+        .h02co-submit:hover:not(:disabled) { background: var(--color-accent, #9E5147); transform: translateY(-1px); }
+        .h02co-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+        .h02co-note { font-size: 0.8rem; line-height: 1.5; color: #7A655D; margin: 0.9rem 0 0; }
+        .h02co-msg { font-size: 0.92rem; margin: 0.9rem 0 0; padding: 0.75rem 1rem; border-radius: 12px; }
+        .h02co-msg[data-kind="success"] { background: #E4F0E8; color: #1F5133; }
+        .h02co-msg[data-kind="error"] { background: #F7DFDC; color: #8A2B22; }
+        @media (max-width: 899px) { .h02co-inner { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="h02co-inner">
+        <div>
+          <span className="h02co-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
+          </span>
+          <h2 className="h02co-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          {/* Body text */}
           {body && (
-            <p style={{ color: "#000000", fontFamily: FONT, fontSize: 15, lineHeight: 1.75, textAlign: "justify", margin: "0 0 28px" }}>
+            <p className="h02co-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
-          {/* CTA button */}
-          <a
-            href={ctaHref}
-            data-btn="primary"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              backgroundColor: TEAL, color: "#fff",
-              fontFamily: FONT, fontSize: 14, fontWeight: 600,
-              letterSpacing: "0.05em", textTransform: "lowercase",
-              padding: "11px 26px", borderRadius: 4,
-              textDecoration: "none", marginBottom: 28,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-              <path d="M2 6h8M6 2l4 4-4 4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-          {/* Phone + email */}
-          <div style={{ fontFamily: FONT, fontSize: 14, color: "#000000", lineHeight: 1.8 }}>
-            {phone && <p style={{ margin: "0 0 4px" }}>Telefon: <a href={`tel:${phone}`} style={{ color: "#000", textDecoration: "none" }}>{phone}</a></p>}
-            {email && <p style={{ margin: 0 }}>Email: <a href={`mailto:${email}`} style={{ color: "#000", textDecoration: "none" }}>{email}</a></p>}
+          <div className="h02co-rows">
+            {phone && (
+              <div className="h02co-row">
+                <span className="h02co-k">Telefon</span>
+                <a className="h02co-v" href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
+              </div>
+            )}
+            {email && (
+              <div className="h02co-row">
+                <span className="h02co-k">E-mail</span>
+                <a className="h02co-v" href={`mailto:${email}`}>{email}</a>
+              </div>
+            )}
+            {address && (
+              <div className="h02co-row">
+                <span className="h02co-k">Adresa</span>
+                <span className="h02co-v">
+                  <GenericEditableText sectionId={sectionId} field="address" value={address.replace(/\n/g, ", ")} tag="span" />
+                </span>
+              </div>
+            )}
+            {hours.map((h, i) => (
+              <div className="h02co-row" key={i}>
+                <span className="h02co-k">
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                </span>
+                <span className="h02co-v">
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                </span>
+              </div>
+            ))}
           </div>
-        </div>
-
-        {/* Right — full-height photo */}
-        <div style={{ flex: "1 1 58%", minHeight: 480, position: "relative", overflow: "hidden" }}>
           {image && (
-            <Image
-              src={image}
-              alt={title}
-              fill
-              className="object-cover"
-              style={{ objectPosition: "47% 100%" }}
-              sizes="(max-width:768px) 100vw, 58vw"
-              unoptimized={shouldSkipNextImageOptimization(image)}
-            />
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="h02co-photo">
+              <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
           )}
         </div>
+
+        <form className="h02co-form" onSubmit={handleSubmit} style={{ position: "relative" }}>
+          <h3>Napište nám</h3>
+          <div className="h02co-field">
+            <label htmlFor={`h02-name-${sectionId}`}>Jméno *</label>
+            <input id={`h02-name-${sectionId}`} required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
+          </div>
+          <div className="h02co-field">
+            <label htmlFor={`h02-mail-${sectionId}`}>E-mail *</label>
+            <input id={`h02-mail-${sectionId}`} type="email" required value={mail} onChange={(e) => setMail(e.target.value)} autoComplete="email" />
+          </div>
+          <div className="h02co-field">
+            <label htmlFor={`h02-tel-${sectionId}`}>Telefon</label>
+            <input id={`h02-tel-${sectionId}`} value={tel} onChange={(e) => setTel(e.target.value)} autoComplete="tel" />
+          </div>
+          <div className="h02co-field">
+            <label htmlFor={`h02-msg-${sectionId}`}>Zpráva *</label>
+            <textarea id={`h02-msg-${sectionId}`} required value={message} onChange={(e) => setMessage(e.target.value)} />
+          </div>
+          <div className="h02co-hp" aria-hidden>
+            <label htmlFor={`h02-web-${sectionId}`}>Nevyplňujte</label>
+            <input id={`h02-web-${sectionId}`} tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
+          </div>
+          <button type="submit" className="h02co-submit" disabled={status === "sending"}>
+            {status === "sending" ? "Odesílám…" : "Odeslat zprávu"}
+          </button>
+          {status === "success" && <p className="h02co-msg" data-kind="success" role="status">Děkujeme, ozveme se vám do 24 hodin.</p>}
+          {status === "error" && <p className="h02co-msg" data-kind="error" role="alert">{errorMsg}</p>}
+          <p className="h02co-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
+        </form>
       </div>
     </section>
   );

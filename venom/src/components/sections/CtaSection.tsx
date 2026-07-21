@@ -800,78 +800,71 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
   );
 }
 
-// hair-02: beige (#ebe8e2) 2-col — left: teal h6 tag + H1 + lead + outline CTA; right: circle image
+// cta-hair-02-promo — V3: wash pás (#F3E3DC) pro rytmus mezi světlými sekcemi,
+// vlevo eyebrow + Newsreader H2 + text + clay pill CTA, vpravo foto radius 20.
 function CtaHair02Promo({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const tag     = String(content.tag     ?? "e-shop");
-  const title   = String(content.title   ?? "REVOLUCE V PÉČI O VLASY");
-  const body    = String(content.body    ?? "");
+  const tag = String(content.tag ?? "");
+  const title = String(content.title ?? "");
+  const body = String(content.body ?? "");
   const ctaText = String(content.ctaText ?? "Zjistit více");
-  const ctaHref = resolveDemoHref(String(content.ctaHref ?? "#kontakt"), tenantSlug, isAdmin);
-  const image   = String(content.image   ?? "");
-  const TEAL  = "#8ab2ab";
-  const BEIGE = "rgb(235,232,226)";
-  const FONT  = "'Montserrat', sans-serif";
+  const ctaHref = resolveDemoHref(String(content.ctaHref ?? "/kontakt"), tenantSlug, isAdmin);
+  const image = String(content.image ?? "");
 
   return (
-    <section
-      id="promo"
-      style={{ backgroundColor: BEIGE, padding: "70px 0", fontFamily: FONT }}
-      data-template="hair-02"
-    >
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 48 }}>
-        {/* Left — text */}
-        <div style={{ flex: "1 1 380px", minWidth: 280 }}>
-          {/* Teal tag */}
-          <p style={{ color: TEAL, fontFamily: FONT, fontSize: 14, fontWeight: 500, margin: "0 0 20px", textTransform: "lowercase", letterSpacing: "0.03em" }}>
-            <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
-          </p>
-          {/* H1 */}
-          <h2 style={{ color: "#000000", fontFamily: FONT, fontSize: "clamp(1.75rem, 3vw, 2rem)", fontWeight: 700, lineHeight: 1.4, margin: "0 0 16px", textTransform: "uppercase" }}>
+    <section id="promo" className="h02ct-section" data-template="hair-02">
+      <style>{`
+        .h02ct-section {
+          background: #F3E3DC; font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h02ct-inner {
+          max-width: 80rem; margin: 0 auto; display: grid; grid-template-columns: 1.1fr 0.9fr;
+          gap: clamp(2.5rem, 6vw, 5rem); align-items: center;
+        }
+        .h02ct-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: var(--color-accent, #9E5147);
+        }
+        .h02ct-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-accent, #9E5147); }
+        .h02ct-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2rem, 4.2vw, 3.1rem); line-height: 1.1; letter-spacing: -0.02em;
+          color: var(--color-text, #2A211E); margin: 0 0 1.2rem; text-wrap: balance; max-width: 18ch;
+        }
+        .h02ct-body { font-size: 1.05rem; line-height: 1.7; color: #6B564F; margin: 0 0 2rem; max-width: 48ch; }
+        .h02ct-cta {
+          display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 2rem; border-radius: 999px;
+          background: var(--color-primary, #C0685C); color: #fff; font-size: 0.96rem; font-weight: 600;
+          text-decoration: none; box-shadow: 0 8px 24px rgba(192,104,92,0.3);
+          transition: background 0.25s, transform 0.25s;
+        }
+        .h02ct-cta:hover { background: var(--color-accent, #9E5147); transform: translateY(-2px); }
+        .h02ct-photo { border-radius: 20px; overflow: hidden; aspect-ratio: 1 / 1; display: block; }
+        .h02ct-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 899px) { .h02ct-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+      `}</style>
+      <div className="h02ct-inner">
+        <div>
+          {tag && (
+            <span className="h02ct-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
+            </span>
+          )}
+          <h2 className="h02ct-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          {/* Lead */}
           {body && (
-            <p style={{ color: "#000000", fontFamily: FONT, fontSize: 16, lineHeight: 1.7, margin: "0 0 28px" }}>
+            <p className="h02ct-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
-          {/* Outline CTA */}
-          <a
-            href={ctaHref}
-            data-btn="primary"
-            style={{
-              display: "inline-block",
-              fontFamily: FONT,
-              fontSize: 14,
-              fontWeight: 600,
-              color: TEAL,
-              border: `1.5px solid ${TEAL}`,
-              borderRadius: 10,
-              padding: "10px 30px",
-              textDecoration: "none",
-              textTransform: "lowercase",
-              letterSpacing: "0.02em",
-              transition: "background .2s, color .2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = TEAL; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TEAL; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+          <a href={ctaHref} data-btn="primary" className="h02ct-cta">{ctaText}</a>
         </div>
-
-        {/* Right — circle image */}
         {image && (
-          <div style={{ flex: "0 0 auto", width: "min(380px, 100%)", aspectRatio: "1/1", borderRadius: "50%", overflow: "hidden", position: "relative" }}>
-            <Image
-              src={image}
-              alt={title}
-              fill
-              className="object-cover"
-              sizes="(max-width:768px) 100vw, 380px"
-              unoptimized={shouldSkipNextImageOptimization(image)}
-            />
-          </div>
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="h02ct-photo">
+            <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </GenericEditableImage>
         )}
       </div>
     </section>

@@ -1,37 +1,78 @@
 {
   "colors": {
-    "primary":    "#459696",
-    "secondary":  "#2d7070",
-    "background": "#ebe8e2",
-    "surface":    "#f5f3ef",
-    "text":       "#4a4a4a",
-    "textMuted":  "#888888",
-    "accent":     "#459696",
-    "border":     "rgba(69,150,150,0.2)"
+    "primary": "#C0685C",
+    "secondary": "#3B2B27",
+    "background": "#FBF6F3",
+    "surface": "#FFFFFF",
+    "text": "#2A211E",
+    "textMuted": "#7C6B64",
+    "accent": "#9E5147",
+    "border": "#EADDD6"
   },
   "typography": {
-    "fontHeading": "'Montserrat', sans-serif",
-    "fontBody":    "'Montserrat', sans-serif",
+    "fontHeading": "'Newsreader', Georgia, serif",
+    "fontBody": "'Schibsted Grotesk', sans-serif",
     "scale": "comfortable"
   },
   "radius": {
-    "sm":   "4px",
-    "md":   "8px",
-    "lg":   "10px",
-    "pill": "99px"
+    "sm": "12px",
+    "md": "16px",
+    "lg": "20px",
+    "pill": "999px"
   },
   "spacing": {
     "personality": "spacious",
     "section": "comfortable"
   },
   "shadows": {
-    "sm": "0 1px 3px rgba(0,0,0,0.07)",
-    "md": "0 6px 20px rgba(0,0,0,0.10)",
-    "lg": "0 16px 48px rgba(0,0,0,0.14)"
+    "sm": "0 1px 3px rgba(42,33,30,0.07)",
+    "md": "0 8px 24px rgba(42,33,30,0.10)",
+    "lg": "0 18px 48px rgba(42,33,30,0.14)"
   },
   "animation": {
-    "ease": "cubic-bezier(0.4,0,0.2,1)",
-    "duration": "250ms",
+    "ease": "cubic-bezier(0.22,1,0.36,1)",
+    "duration": "280ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "blush": {
+      "label": "Blush — hřejivá clay rose (default)",
+      "tokens": {
+        "colorPrimary": "#C0685C",
+        "colorAccent": "#9E5147",
+        "colorSecondary": "#3B2B27",
+        "colorBackground": "#FBF6F3",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#2A211E",
+        "colorTextMuted": "#7C6B64",
+        "colorBorder": "#EADDD6"
+      }
+    },
+    "sage": {
+      "label": "Sage — klidná zelená",
+      "tokens": {
+        "colorPrimary": "#6F8A6A",
+        "colorAccent": "#55704F",
+        "colorSecondary": "#232C21",
+        "colorBackground": "#F7F8F4",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#1E2620",
+        "colorTextMuted": "#6C7568",
+        "colorBorder": "#E1E6DC"
+      }
+    },
+    "plum": {
+      "label": "Plum — sytá švestková",
+      "tokens": {
+        "colorPrimary": "#8A5A72",
+        "colorAccent": "#6C4257",
+        "colorSecondary": "#2B1D25",
+        "colorBackground": "#FAF5F7",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#251A1F",
+        "colorTextMuted": "#77676E",
+        "colorBorder": "#EBDEE4"
+      }
+    }
   }
 }

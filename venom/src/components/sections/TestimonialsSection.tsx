@@ -255,6 +255,9 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
     if (variant === "hair-01-cards") {
     return <TestimonialsHair01 content={content} sectionId={sectionId} />;
   }
+    if (variant === "hair-02-testimonials") {
+    return <TestimonialsHair02 content={content} sectionId={sectionId} />;
+  }
 
   if (variant === "testimonials-peak-cut-grid") {
     // peak-cut (aka barber-05) — Brutalist Atelier White testimonials
@@ -6158,6 +6161,124 @@ function TestimonialsHair01({ content, sectionId }: { content: Record<string, un
               </figure>
             );
           })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// hair-02-testimonials — V3: tmavá sekce (rytmus), iniciálové avatary (NIKDY stock
+// portréty), hvězdy v clay, hairline sloupce. Pole: tagline/title/rating/ratingLabel,
+// testimonials[].{author,role,rating,text}.
+function TestimonialsHair02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type T = { author?: string; role?: string; rating?: string; text?: string };
+  const tagline = String(content.tagline ?? "Recenze");
+  const title = String(content.title ?? "Co říkají klientky");
+  const rating = String(content.rating ?? "");
+  const ratingLabel = String(content.ratingLabel ?? "");
+  const items = (content.testimonials as T[]) ?? [];
+  const initials = (name: string) =>
+    name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+
+  return (
+    <section id="recenze" data-section-type="testimonials" data-variant="hair-02-testimonials" className="h02tm-section" data-template="hair-02">
+      <style>{`
+        .h02tm-section {
+          background: var(--color-secondary, #3B2B27); font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h02tm-inner { max-width: 80rem; margin: 0 auto; }
+        .h02tm-head {
+          display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+          flex-wrap: wrap; margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+        }
+        .h02tm-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #E8A99D;
+        }
+        .h02tm-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: #E8A99D; }
+        .h02tm-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2.1rem, 4.4vw, 3.3rem); line-height: 1.08; letter-spacing: -0.02em;
+          color: #FBF6F3; margin: 0; text-wrap: balance;
+        }
+        .h02tm-score { text-align: right; }
+        .h02tm-score-v {
+          font-family: 'Newsreader', Georgia, serif; font-size: clamp(2.4rem, 5vw, 3.2rem);
+          color: #E8A99D; line-height: 1; display: block;
+        }
+        .h02tm-score-l { font-size: 0.86rem; color: rgba(251,246,243,0.72); }
+        .h02tm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+        .h02tm-item {
+          padding: 0 clamp(1.2rem, 2.4vw, 2.2rem);
+          border-left: 1px solid rgba(251,246,243,0.14);
+        }
+        .h02tm-item:first-child { padding-left: 0; border-left: none; }
+        .h02tm-item:last-child { padding-right: 0; }
+        .h02tm-stars { color: #E8A99D; font-size: 0.95rem; letter-spacing: 0.14em; margin-bottom: 1.1rem; }
+        .h02tm-text {
+          font-size: 1.02rem; line-height: 1.72; color: rgba(251,246,243,0.88); margin: 0 0 1.6rem;
+        }
+        .h02tm-who { display: flex; align-items: center; gap: 0.85rem; }
+        .h02tm-av {
+          width: 2.8rem; height: 2.8rem; border-radius: 999px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          background: var(--color-primary, #C0685C); color: #fff;
+          font-size: 0.9rem; font-weight: 700; letter-spacing: 0.02em;
+        }
+        .h02tm-name { font-size: 0.98rem; font-weight: 600; color: #FBF6F3; display: block; }
+        .h02tm-role { font-size: 0.84rem; color: rgba(251,246,243,0.62); }
+        @media (max-width: 899px) {
+          .h02tm-grid { grid-template-columns: 1fr; gap: 2.2rem; }
+          .h02tm-item { padding: 2.2rem 0 0; border-left: none; border-top: 1px solid rgba(251,246,243,0.14); }
+          .h02tm-item:first-child { padding-top: 0; border-top: none; }
+          .h02tm-score { text-align: left; }
+        }
+      `}</style>
+      <div className="h02tm-inner">
+        <div className="h02tm-head">
+          <div>
+            <span className="h02tm-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </span>
+            <h2 className="h02tm-title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+          </div>
+          {rating && (
+            <div className="h02tm-score">
+              <span className="h02tm-score-v">
+                <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" />
+              </span>
+              <span className="h02tm-score-l">
+                <GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span" />
+              </span>
+            </div>
+          )}
+        </div>
+        <div className="h02tm-grid">
+          {items.map((t, i) => (
+            <figure className="h02tm-item" key={i}>
+              <div className="h02tm-stars" role="img" aria-label={`Hodnocení ${t.rating ?? "5"} z 5`}>
+                {"★".repeat(Number(t.rating ?? 5) || 5)}
+              </div>
+              <blockquote className="h02tm-text">
+                <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={t.text ?? ""} tag="span" />
+              </blockquote>
+              <figcaption className="h02tm-who">
+                <span className="h02tm-av" aria-hidden>{initials(t.author ?? "")}</span>
+                <span>
+                  <span className="h02tm-name">
+                    <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={t.author ?? ""} tag="span" />
+                  </span>
+                  <span className="h02tm-role">
+                    <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={t.role ?? ""} tag="span" />
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </div>
     </section>

@@ -62,6 +62,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   if (variant === "orbit-01-integrations") return <IntegrationsOrbit01 content={content} sectionId={sectionId} />;
   if (variant === "signal-01-cases") return <CasesSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hair-02-gallery") return <GalleryHair02 content={content} sectionId={sectionId} />;
   if (variant === "gallery-universal") {
     return <GalleryUniversal
       content={content}
@@ -8696,5 +8697,77 @@ function IntegrationsOrbit01({ content, sectionId }: { content: Record<string, u
         </div>
       </section>
     </>
+  );
+}
+
+// hair-02-gallery — V3: mřížka fotek 4/3 s hover zoomem, první dvě přes 2 sloupce.
+// Pole: tagline/title/subtitle, images[].{url,alt}.
+function GalleryHair02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type Img = { url?: string; alt?: string };
+  const tagline = String(content.tagline ?? "Galerie");
+  const title = String(content.title ?? "Naše práce");
+  const subtitle = String(content.subtitle ?? "");
+  const images = ((content.images as Img[]) ?? []).filter((i) => i && i.url);
+
+  return (
+    <section id="galerie" data-section-type="gallery" data-variant="hair-02-gallery" className="h02g-section" data-template="hair-02">
+      <style>{`
+        .h02g-section {
+          background: var(--color-bg, #FBF6F3); font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h02g-inner { max-width: 80rem; margin: 0 auto; }
+        .h02g-head { max-width: 44rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+        .h02g-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: var(--color-primary, #C0685C);
+        }
+        .h02g-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #C0685C); }
+        .h02g-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2.1rem, 4.4vw, 3.3rem); line-height: 1.08; letter-spacing: -0.02em;
+          color: var(--color-text, #2A211E); margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h02g-sub { font-size: 1.02rem; line-height: 1.65; color: var(--color-text-muted, #7C6B64); margin: 0; }
+        .h02g-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(0.8rem, 1.6vw, 1.3rem); }
+        .h02g-item {
+          border-radius: 20px; overflow: hidden; aspect-ratio: 3 / 4; display: block; background: #F3E3DC;
+        }
+        .h02g-item:nth-child(1), .h02g-item:nth-child(6) { grid-column: span 2; aspect-ratio: 3 / 2; }
+        .h02g-item img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .h02g-item:hover img { transform: scale(1.05); }
+        @media (max-width: 899px) {
+          .h02g-grid { grid-template-columns: repeat(2, 1fr); }
+          .h02g-item:nth-child(1), .h02g-item:nth-child(6) { grid-column: span 2; }
+        }
+        @media (prefers-reduced-motion: reduce) { .h02g-item img { transition: none; } }
+      `}</style>
+      <div className="h02g-inner">
+        <div className="h02g-head">
+          <span className="h02g-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </span>
+          <h2 className="h02g-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {subtitle && (
+            <p className="h02g-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+        <div className="h02g-grid">
+          {images.map((im, i) => (
+            <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h02g-item">
+              <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

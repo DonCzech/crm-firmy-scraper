@@ -204,145 +204,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
 
   // hair-02: white bg, centered col-10, teal h6 tagline + big H1 + body paragraphs + CTA + brands bar
   if (variant === "about-hair-02-story") {
-    const tagline    = String(content.tagline ?? "");
-    const title      = String(content.title   ?? "Hair Studio No.1");
-    const body       = String(content.body    ?? "");
-    const paragraphs = (content.paragraphs as string[]) ?? [];
-    const ctaText    = String(content.ctaText ?? "Rezervace");
-    const ctaHref    = String(content.ctaHref ?? "#kontakt");
-    const brands     = (content.brands as Array<{ name: string; logo: string }>) ?? [];
-    const TEAL       = "#8ab2ab";
-    const FONT       = "'Montserrat', sans-serif";
-    return (
-      <section
-        id="o-nas"
-        style={{ backgroundColor: "#ffffff", padding: "60px 0", fontFamily: FONT }}
-        data-template="hair-02"
-      >
-        {/* Main text block — centered, 10/12 wide */}
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
-          {/* Tagline + mobile CTA row */}
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: -24, position: "relative" }}>
-            {tagline && (
-              <h6
-                style={{ color: TEAL, fontFamily: FONT, fontSize: 14, fontWeight: 500,
-                  letterSpacing: "0.04em", margin: 0, textTransform: "none" }}
-              >
-                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-              </h6>
-            )}
-            {/* Mobile-only CTA */}
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              className="md:hidden"
-              style={{
-                display: "inline-block",
-                backgroundColor: TEAL,
-                color: "#fff",
-                fontFamily: FONT,
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                padding: "9px 22px",
-                borderRadius: 4,
-                textDecoration: "none",
-                textTransform: "uppercase",
-              }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-          </div>
-
-          {/* H1 title */}
-          <h1
-            style={{ color: "#000000", fontFamily: FONT, fontSize: "clamp(2rem, 4vw, 2.55rem)",
-              fontWeight: 700, lineHeight: 1.15, margin: "28px 0 10px" }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h1>
-
-          {/* Body paragraphs */}
-          {(paragraphs.length > 0 ? paragraphs : body ? [body] : []).map((p, i) => (
-            <p
-              key={i}
-              style={{ color: "rgb(0,0,0)", fontFamily: FONT, fontSize: 15, lineHeight: 1.75,
-                textAlign: "justify", margin: "0 0 16px" }}
-            >
-              {p}
-            </p>
-          ))}
-
-          {/* Desktop CTA */}
-          <a
-            href={ctaHref}
-            data-btn="primary"
-            className="hidden md:inline-block"
-            style={{
-              marginTop: 8,
-              display: "inline-block",
-              backgroundColor: TEAL,
-              color: "#fff",
-              fontFamily: FONT,
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: "0.1em",
-              padding: "11px 30px",
-              borderRadius: 4,
-              textDecoration: "none",
-              textTransform: "uppercase",
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-        </div>
-
-        {/* Brands bar — dark strip #575757 */}
-        {brands.length > 0 && (
-          <div
-            style={{
-              marginTop: 60,
-              backgroundColor: "rgb(87,87,87)",
-              padding: "30px 24px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 48,
-              flexWrap: "wrap",
-            }}
-          >
-            {brands.map((b, i) => (
-              b.logo ? (
-                <Image
-                  key={i}
-                  src={b.logo}
-                  alt={b.name}
-                  width={120}
-                  height={40}
-                  className="object-contain"
-                  style={{ opacity: 0.9, filter: "brightness(0) invert(1)", maxHeight: 40 }}
-                  unoptimized={shouldSkipNextImageOptimization(b.logo)}
-                />
-              ) : (
-                <span
-                  key={i}
-                  style={{
-                    color: "rgba(255,255,255,0.85)",
-                    fontFamily: FONT,
-                    fontSize: 13,
-                    fontWeight: 600,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {b.name}
-                </span>
-              )
-            ))}
-          </div>
-        )}
-      </section>
-    );
+    return <AboutHair02Story content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-03: white bg, 2-col — portrait foto vlevo (rounded 28px + shadow) / founder story vpravo
@@ -21682,5 +21544,147 @@ function SecurityOrbit01({ content, sectionId }: { content: Record<string, unkno
         </div>
       </section>
     </>
+  );
+}
+
+// about-hair-02-story — V3 „Blush & Clay": split — vlevo eyebrow + Newsreader H2 +
+// odstavce + statistiky na hairline, vpravo foto karta s posunutým wash rámem;
+// dole textové wordmarky demo značek. Pole: tagline/title/body/paragraphs/stats/
+// image/brands/ctaText/ctaHref.
+function AboutHair02Story({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const tagline = String(content.tagline ?? "O salonu");
+  const title = String(content.title ?? "");
+  const body = String(content.body ?? "");
+  const paragraphs = (content.paragraphs as string[]) ?? [];
+  const image = String(content.image ?? "");
+  const ctaText = String(content.ctaText ?? "Objednat se");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const brands = (content.brands as Array<{ name: string }>) ?? [];
+  const stats = (content.stats as Array<{ value: string; label: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="o-nas" data-section-type="about" data-variant="about-hair-02-story" className="h02ab-section" data-template="hair-02">
+      <style>{`
+        .h02ab-section {
+          background: var(--color-bg, #FBF6F3); font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h02ab-inner { max-width: 80rem; margin: 0 auto; }
+        .h02ab-grid {
+          display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2.5rem, 6vw, 5rem);
+          align-items: center;
+        }
+        .h02ab-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.3rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: var(--color-primary, #C0685C);
+        }
+        .h02ab-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #C0685C); }
+        .h02ab-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2.1rem, 4.4vw, 3.3rem); line-height: 1.08; letter-spacing: -0.02em;
+          color: var(--color-text, #2A211E); margin: 0 0 1.3rem; text-wrap: balance;
+        }
+        .h02ab-lead {
+          font-size: clamp(1.05rem, 1.5vw, 1.18rem); line-height: 1.6; color: var(--color-text, #2A211E);
+          margin: 0 0 1.5rem; max-width: 48ch;
+        }
+        .h02ab-p { font-size: 1rem; line-height: 1.75; color: var(--color-text-muted, #7C6B64); margin: 0 0 1.1rem; max-width: 54ch; }
+        .h02ab-stats {
+          display: flex; gap: clamp(1.5rem, 3vw, 2.6rem); margin: 2.2rem 0 2.4rem; flex-wrap: wrap;
+        }
+        .h02ab-stat { padding-left: 1.4rem; border-left: 1px solid var(--color-border, #EADDD6); }
+        .h02ab-stat:first-child { padding-left: 0; border-left: none; }
+        .h02ab-stat-v {
+          font-family: 'Newsreader', Georgia, serif; font-size: clamp(1.9rem, 3vw, 2.5rem); font-weight: 400;
+          color: var(--color-primary, #C0685C); line-height: 1; display: block; margin-bottom: 0.35rem;
+        }
+        .h02ab-stat-l { font-size: 0.85rem; color: var(--color-text-muted, #7C6B64); letter-spacing: 0.01em; }
+        .h02ab-cta {
+          display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 2rem; border-radius: 999px;
+          background: var(--color-primary, #C0685C); color: #fff; font-size: 0.96rem; font-weight: 600;
+          text-decoration: none; box-shadow: 0 8px 24px rgba(192,104,92,0.26);
+          transition: background 0.25s, transform 0.25s;
+        }
+        .h02ab-cta:hover { background: var(--color-accent, #9E5147); transform: translateY(-2px); }
+        .h02ab-media { position: relative; }
+        .h02ab-media::before {
+          content: ""; position: absolute; inset: 1.6rem -1.6rem -1.6rem 1.6rem; border-radius: 20px;
+          background: #F3E3DC; z-index: 0;
+        }
+        .h02ab-photo {
+          position: relative; z-index: 1; border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 5;
+          display: block; background: var(--color-surface, #fff);
+        }
+        .h02ab-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h02ab-brands {
+          margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2rem;
+          border-top: 1px solid var(--color-border, #EADDD6);
+          display: flex; flex-wrap: wrap; align-items: center; gap: clamp(1.6rem, 5vw, 4rem);
+        }
+        .h02ab-brand {
+          font-size: 0.88rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+          color: var(--color-text-muted, #7C6B64); opacity: 0.75;
+        }
+        @media (max-width: 899px) {
+          .h02ab-grid { grid-template-columns: 1fr; gap: 3rem; }
+          .h02ab-media::before { inset: 1rem -1rem -1rem 1rem; }
+        }
+      `}</style>
+      <div className="h02ab-inner">
+        <div className="h02ab-grid">
+          <div>
+            <span className="h02ab-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </span>
+            <h2 className="h02ab-title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            {body && (
+              <p className="h02ab-lead">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+            {paragraphs.map((p, i) => (
+              <p className="h02ab-p" key={i}>
+                <GenericEditableText sectionId={sectionId} field={`paragraphs.${i}`} value={p} tag="span" />
+              </p>
+            ))}
+            {stats.length > 0 && (
+              <div className="h02ab-stats">
+                {stats.map((s, i) => (
+                  <div className="h02ab-stat" key={i}>
+                    <span className="h02ab-stat-v">
+                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+                    </span>
+                    <span className="h02ab-stat-l">
+                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+            <a href={resolve(ctaHref)} data-btn="primary" className="h02ab-cta">{ctaText}</a>
+          </div>
+          {image && (
+            <div className="h02ab-media">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="h02ab-photo">
+                <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+            </div>
+          )}
+        </div>
+        {brands.length > 0 && (
+          <div className="h02ab-brands">
+            {brands.map((b, i) => (
+              <span className="h02ab-brand" key={i}>
+                <GenericEditableText sectionId={sectionId} field={`brands.${i}.name`} value={b.name} tag="span" />
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

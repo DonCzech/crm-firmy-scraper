@@ -1,49 +1,47 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "hair-02",
-  "name": "Hair Studio No.1",
+  "name": "Salon Blush",
   "industry": "hair",
   "skeleton": "service-personal",
-  "version": "0.1.0",
+  "version": "3.0.0",
+  "tags": [
+    "v3"
+  ],
   "baseTemplate": null,
-  "description": "Kadeřnický salon s teal paletou (#8ab2ab), Montserrat, beige (#ebe8e2) pozadí — image slider hero, story sekce s brandy, promo e-shop, location split. Inspirováno hairsalon-no1.cz.",
-  "sectionOrderNote": "Originál má hero (slider) → about (story+brands) → promo (e-shop) → location-split → gallery → services → testimonials → footer; pořadí odpovídá service-personal kostře.",
+  "description": "V3 „Blush & Clay“ — kadeřnický salon v hřejivé pastelové paletě (clay rose #C0685C, paper #FBF6F3, espresso #3B2B27), Newsreader + Schibsted Grotesk, radius 20 a pill CTA. Cinematic slider hero, foto karty služeb s cenou, galerie práce, tmavá sekce recenzí s iniciálovými avatary, kontakt s reálným formulářem a inline rezervace Rezora.",
+  "sectionOrderNote": "Rytmus světlá/tmavá dle V3_PLAYBOOK §1: hero (tmavý) → about (paper) → služby (bílá) → promo (wash) → galerie (paper) → recenze (tmavé) → rezervace → kontakt (bílá) → footer (tmavý). Žádné dvě tmavé sekce za sebou.",
   "skippedSections": [
     {
       "pos": 5,
       "name": "Pricing",
-      "reason": "originál nemá ceník na homepage — přes booking/kontakt"
+      "reason": "ceny jsou přímo na foto kartách služeb — samostatný ceník by je duplikoval"
     },
     {
       "pos": 7,
       "name": "Team",
-      "reason": "originál nemá team sekci na homepage"
-    },
-    {
-      "pos": 9,
-      "name": "Booking/CTA",
-      "reason": "CTA je součástí hero a location sekcí"
-    },
-    {
-      "pos": 10,
-      "name": "Locations",
-      "reason": "adresa je v contact-location sekci"
+      "reason": "salon prezentuje tým v příběhu na /o-nas, ne samostatnou sekcí na homepage"
     },
     {
       "pos": 11,
       "name": "FAQ",
-      "reason": "originál nemá FAQ"
+      "reason": "dotazy řeší rezervační widget a kontaktní formulář"
     }
   ],
   "extraSections": [
     {
       "type": "cta",
       "variant": "cta-hair-02-promo",
-      "reason": "e-shop promo blok s beige bg, 2-col text+circle foto — unikátní pro hairsalon-no1"
+      "reason": "blush wash pás drží rytmus mezi dvěma světlými sekcemi a nese promo péče o barvu"
     },
     {
       "type": "rezora-widget",
-      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+      "reason": "inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    },
+    {
+      "type": "contact",
+      "variant": "contact-hair-02-location",
+      "reason": "kostra service-personal nemá kontaktní sekci s formulářem; salon ji potřebuje pro poptávky mimo rezervační okno"
     }
   ],
   "i18n": {
@@ -74,9 +72,24 @@
           "contentRef": "about"
         },
         {
+          "type": "services",
+          "variant": "hair-02-services",
+          "contentRef": "services"
+        },
+        {
           "type": "cta",
           "variant": "cta-hair-02-promo",
           "contentRef": "promo"
+        },
+        {
+          "type": "gallery",
+          "variant": "hair-02-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-02-testimonials",
+          "contentRef": "testimonials"
         },
         {
           "type": "rezora-widget",
@@ -89,30 +102,15 @@
           "contentRef": "contact-location"
         },
         {
-          "type": "gallery",
-          "variant": "default",
-          "contentRef": "gallery"
-        },
-        {
-          "type": "services",
-          "variant": "cards-grid",
-          "contentRef": "services"
-        },
-        {
-          "type": "testimonials",
-          "variant": "hair-01-cards",
-          "contentRef": "testimonials"
-        },
-        {
           "type": "footer",
-          "variant": "hair-01-footer",
+          "variant": "hair-02-footer",
           "contentRef": "footer"
         }
       ]
     },
     {
       "slug": "o-nas",
-      "title": "O nás",
+      "title": "O salonu",
       "sections": [
         {
           "type": "navbar",
@@ -121,7 +119,7 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-hair-02-page",
           "contentRef": "pages.o-nas.hero"
         },
         {
@@ -130,8 +128,13 @@
           "contentRef": "about"
         },
         {
+          "type": "testimonials",
+          "variant": "hair-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
           "type": "footer",
-          "variant": "hair-01-footer",
+          "variant": "hair-02-footer",
           "contentRef": "footer"
         }
       ]
@@ -147,17 +150,43 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-hair-02-page",
           "contentRef": "pages.galerie.hero"
         },
         {
           "type": "gallery",
-          "variant": "default",
+          "variant": "hair-02-gallery",
           "contentRef": "gallery"
         },
         {
           "type": "footer",
-          "variant": "hair-01-footer",
+          "variant": "hair-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "recenze",
+      "title": "Recenze",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-02-page",
+          "contentRef": "pages.recenze.hero"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-02-footer",
           "contentRef": "footer"
         }
       ]
@@ -172,13 +201,18 @@
           "contentRef": "navbar"
         },
         {
+          "type": "hero",
+          "variant": "hero-hair-02-page",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
           "type": "contact",
           "variant": "contact-hair-02-location",
           "contentRef": "contact-location"
         },
         {
           "type": "footer",
-          "variant": "hair-01-footer",
+          "variant": "hair-02-footer",
           "contentRef": "footer"
         }
       ]

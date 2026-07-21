@@ -1,39 +1,30 @@
 {
   "navbar": {
-    "siteName": "Demo Hair Salon",
+    "siteName": "Salon Blush",
     "logoUrl": "",
+    "phone": "+420 704 123 456",
+    "ctaText": "Objednat se",
+    "ctaHref": "/kontakt",
     "links": [
       {
         "label": "O salonu",
         "href": "/o-nas"
       },
       {
-        "label": "Produkty",
-        "href": "/kontakt"
-      },
-      {
-        "label": "Ceník",
-        "href": "/o-nas#cenik"
-      },
-      {
-        "label": "Náš tým",
-        "href": "/o-nas#tym"
+        "label": "Služby",
+        "href": "/#sluzby"
       },
       {
         "label": "Galerie",
         "href": "/galerie"
       },
       {
-        "label": "Kariéra",
-        "href": "/kontakt"
+        "label": "Recenze",
+        "href": "/recenze"
       },
       {
         "label": "Kontakt",
         "href": "/kontakt"
-      },
-      {
-        "label": "Recenze",
-        "href": "/#recenze"
       }
     ],
     "socials": [
@@ -48,159 +39,228 @@
     ]
   },
   "hero": {
+    "eyebrow": "Kadeřnické studio · Praha 1",
+    "title": "Vlasy, které",
+    "titleAccent": "vám sluší",
+    "subtitle": "Střih na míru vašemu typu vlasů, barvení s citem pro odrost a péče, která vydrží do další návštěvy. Objednejte se on-line za dvě minuty.",
+    "ctaText": "On-line rezervace",
+    "ctaHref": "#rezervace",
+    "ctaSecondaryText": "Prohlédnout služby",
+    "ctaSecondaryHref": "#sluzby",
     "slides": [
       {
-        "image": "/assets/hair-02/4d26a316df-DSC0914.jpg",
-        "alt": "Recepce Demo Hair Salon"
+        "image": "https://images.unsplash.com/photo-1546877625-cb8c71916608?w=1920&h=1200&fit=crop&auto=format&q=80",
+        "alt": "Klientka salonu s vlnitým účesem"
       },
       {
-        "image": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg",
-        "alt": "Interiér salonu"
+        "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&h=1200&fit=crop&auto=format&q=80",
+        "alt": "Dlouhé vlasy po foukané"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1920&h=1200&fit=crop&auto=format&q=80",
+        "alt": "Interiér Salonu Blush"
       }
-    ],
-    "ctaText": "On-line rezervace",
-    "ctaHref": "#kontakt"
+    ]
   },
   "about": {
-    "tagline": "Demo ulice 12, Praha",
-    "title": "Demo Hair Salon",
-    "ctaText": "Rezervace",
-    "ctaHref": "#kontakt",
-    "body": "Jsme tým zkušených kadeřníků s dlouholetou praxí v oboru, kteří se neustále školí a vzdělávají, abychom vám mohli nabídnout nejnovější trendy a techniky z kadeřnického světa.",
+    "tagline": "O salonu",
+    "title": "Malý salon, velká péče",
+    "body": "Jsme čtyřčlenný tým kadeřnic v centru Prahy. Pracujeme bez spěchu — na jednu klientku máme vždycky dost času.",
     "paragraphs": [
-      "Příběh Demo Hair Salonu začal před více než deseti lety, kdy jsme otevřeli náš první salon v centru města. O několik let poté jsme rozšířili naše působení a otevřeli druhý salon – tentokrát přímo na Demo ulici v samém srdci čtvrti.",
-      "Kvalita našich služeb a spokojenost zákazníků pro nás vždy byly na prvním místě. Udržujeme vysoký standard a skvělý tým na každém místě – neustále se školíme a vzděláváme, abychom vám mohli nabídnout nejnovější trendy z kadeřnického světa.",
-      "Pracujeme s prémiovými vlasovými značkami a nabízíme kompletní portfolio včetně moderních technik zesvětlení a barvení. Fotky naší práce sledujte na Instagramu a Facebooku."
+      "Salon Blush jsme otevřely v roce 2014 s jednoduchým záměrem: dělat vlasy tak, aby vypadaly dobře i třetí týden po návštěvě. Proto každou návštěvu začínáme konzultací a diagnostikou vlasů — teprve pak se domlouváme na střihu nebo barvě.",
+      "Barvíme převážně technikami s měkkým přechodem (balayage, airtouch), které nevytvářejí ostrou linii odrostu. Díky tomu k nám můžete chodit po třech měsících místo po šesti týdnech.",
+      "Používáme profesionální vlasovou kosmetiku bez sulfátů a každý úkon vám doporučíme jen tehdy, když ho vaše vlasy opravdu potřebují."
     ],
+    "ctaText": "Objednat se",
+    "ctaHref": "/kontakt",
+    "image": "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=1200&h=1500&fit=crop&auto=format&q=80",
     "brands": [
       {
-        "name": "Demo Brand A",
+        "name": "DEMO CARE",
         "logo": ""
       },
       {
-        "name": "Demo Brand B",
+        "name": "BLUSH LAB",
         "logo": ""
       },
       {
-        "name": "Demo Brand C",
+        "name": "ATELIER N°1",
         "logo": ""
       },
       {
-        "name": "Demo Brand D",
+        "name": "PURE DEMO",
         "logo": ""
+      }
+    ],
+    "stats": [
+      {
+        "value": "11",
+        "label": "let v centru Prahy"
+      },
+      {
+        "value": "4",
+        "label": "kadeřnice v týmu"
+      },
+      {
+        "value": "4,9",
+        "label": "hodnocení na Google"
       }
     ]
   },
   "promo": {
-    "tag": "péče o vlasy",
-    "title": "INOVATIVNÍ PÉČE O VAŠE VLASY",
-    "body": "Pokud hledáte řešení pro zdravější, silnější a krásnější vlasy, máme pro vás to pravé. Využíváme prémiové produkty a nejnovější techniky.",
-    "ctaText": "zjistit více",
-    "ctaHref": "#kontakt",
-    "image": "/assets/hair-02/19ca280349-IMG_0924.webp"
+    "tag": "Péče o barvu",
+    "title": "Barva, která nevybledne za tři mytí",
+    "body": "K barvení dostanete domácí péči vybranou přímo pro váš odstín — a přeplach zdarma do čtyř týdnů, pokud barva ztratí lesk.",
+    "ctaText": "Chci konzultaci",
+    "ctaHref": "/kontakt",
+    "image": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=1100&h=1100&fit=crop&auto=format&q=80"
   },
   "contact-location": {
-    "tag": "Demo Hair Salon",
-    "title": "Ukázková 123",
-    "body": "Salon se nachází přímo v centru města, výborně dostupný MHD. Metrem i tramvají se k nám dostanete snadno — zastávka je jen pár kroků od nás.",
+    "tag": "Kde nás najdete",
+    "title": "Ukázková 123, Praha 1",
+    "body": "Salon je dvě minuty od stanice metra, ve dvoře s vlastním vchodem. Přijďte o pět minut dřív — uvaříme vám kávu.",
     "ctaText": "On-line rezervace",
-    "ctaHref": "#kontakt",
+    "ctaHref": "#rezervace",
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
-    "image": ""
+    "address": "Ukázková 123\n110 00 Praha 1",
+    "image": "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=1200&h=1400&fit=crop&auto=format&q=80",
+    "hours": [
+      {
+        "day": "Pondělí – Pátek",
+        "value": "9:00 – 20:00"
+      },
+      {
+        "day": "Sobota",
+        "value": "10:00 – 15:00"
+      },
+      {
+        "day": "Neděle",
+        "value": "Zavřeno"
+      }
+    ]
   },
   "gallery": {
+    "tagline": "Galerie",
     "title": "Naše práce",
+    "subtitle": "Výběr střihů a barev z posledních měsíců. Všechny fotky jsou z našeho salonu.",
     "images": [
       {
-        "url": "/assets/hair-02/4d26a316df-DSC0914.jpg",
-        "alt": "Interiér demo salonu"
+        "url": "https://images.unsplash.com/photo-1546877625-cb8c71916608?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Vlnitý střih s měkkým balayage"
       },
       {
-        "url": "/assets/hair-02/e3869b8d3c-DSC1072.jpg",
-        "alt": "Kadeřnické křeslo"
+        "url": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Dlouhé vlasy po foukané"
       },
       {
-        "url": "/assets/hair-02/0e78010331-DSC1106.jpg",
-        "alt": "Mytí vlasů"
+        "url": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Levandulová barva na dlouhé vlasy"
       },
       {
-        "url": "/assets/hair-02/6861d0ad18-DSC0929.jpg",
-        "alt": "Barvení vlasů"
+        "url": "https://images.unsplash.com/photo-1470259078422-826894b933aa?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Sytá růžová barva"
       },
       {
-        "url": "/assets/hair-02/2239235813-DSC1300.webp",
-        "alt": "Střih a styling"
+        "url": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Foukaná do vln"
       },
       {
-        "url": "/assets/hair-02/10a80d4b76-DSC1210.webp",
-        "alt": "Práce stylistky"
+        "url": "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Mycí box a péče o vlasy"
       },
       {
-        "url": "/assets/hair-02/df609aaa4b-DSC1598-3.webp",
-        "alt": "Balayage technika"
+        "url": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Střih pro přírodní kudrny"
       },
       {
-        "url": "/assets/hair-02/19ca280349-IMG_0924.webp",
-        "alt": "Péče o vlasy"
+        "url": "https://images.unsplash.com/photo-1523263685509-57c1d050d19b?w=900&h=1100&fit=crop&auto=format&q=80",
+        "alt": "Společenský účes"
       }
     ]
   },
   "services": {
+    "tagline": "Ceník",
     "title": "Naše služby",
+    "subtitle": "Ceny jsou orientační — konečnou cenu vždy potvrdíme při konzultaci podle délky a hustoty vlasů.",
     "services": [
       {
         "name": "Dámský střih",
-        "description": "Kompletní dámský střih s foukanou a finálním stylováním."
+        "description": "Konzultace, mytí, střih a finální styling. Včetně rady, jak účes zvládnete doma.",
+        "price": "od 890 Kč",
+        "duration": "60 min",
+        "image": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
         "name": "Pánský střih",
-        "description": "Precizní pánský střih přizpůsobený vašemu stylu."
+        "description": "Precizní střih strojkem i nůžkami, úprava vousů a styling.",
+        "price": "od 490 Kč",
+        "duration": "40 min",
+        "image": "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
         "name": "Barvení",
-        "description": "Profesionální barvení vlasů prémiovými produkty — trvalý a zářivý výsledek."
+        "description": "Jednotný odstín nebo krytí šedin s přípravou vlasového vlákna.",
+        "price": "od 1 490 Kč",
+        "duration": "120 min",
+        "image": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
         "name": "Melír & balayage",
-        "description": "Přirozené rozjasnění, sun-kissed efekt nebo dramatický kontrast."
+        "description": "Měkký přechod bez ostrého odrostu — vydrží tři měsíce i déle.",
+        "price": "od 2 290 Kč",
+        "duration": "180 min",
+        "image": "https://images.unsplash.com/photo-1470259078422-826894b933aa?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
         "name": "Keratinové ošetření",
-        "description": "Prohloubené ošetření pro zdravé, lesklé a snadno zvladatelné vlasy."
+        "description": "Regenerace poškozených vlasů, uhlazení krepatění na několik týdnů.",
+        "price": "od 1 890 Kč",
+        "duration": "90 min",
+        "image": "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
-        "name": "Dětský střih",
-        "description": "Příjemné střihání pro nejmenší zákazníky."
+        "name": "Svatební & společenský účes",
+        "description": "Zkouška předem, v den akce účes i s fixací na celý den.",
+        "price": "od 1 290 Kč",
+        "duration": "75 min",
+        "image": "https://images.unsplash.com/photo-1523263685509-57c1d050d19b?w=900&h=600&fit=crop&auto=format&q=80"
       }
     ]
   },
   "testimonials": {
-    "title": "Co říkají zákazníci",
-    "rating": 4.9,
+    "tagline": "Recenze",
+    "title": "Co říkají klientky",
+    "rating": "4.9",
+    "ratingLabel": "průměr ze 128 hodnocení na Google",
     "testimonials": [
       {
         "author": "Petra M.",
-        "rating": 5,
-        "text": "Úžasný salon! Přišla jsem bez rezervace, obsloužili mě okamžitě a výsledek předčil moje očekávání. Vrátím se určitě."
+        "role": "klientka od 2019",
+        "rating": "5",
+        "text": "Poprvé po letech mám barvu, která mi nevybledne do měsíce do zrzava. A hlavně — odrost není vidět, takže nemusím běhat do salonu každých šest týdnů."
       },
       {
         "author": "Jana K.",
-        "rating": 5,
-        "text": "Skvělý tým, profesionální přístup a příjemná atmosféra. Balayage dopadl přesně jak jsem si představovala."
+        "role": "klientka od 2021",
+        "rating": "5",
+        "text": "Přišla jsem s tím, že chci „něco změnit“, a odešla jsem se střihem, který si konečně umím udělat i sama doma. Vysvětlily mi to krok za krokem."
       },
       {
         "author": "Monika T.",
-        "rating": 5,
-        "text": "Navštěvuji salon přes rok a vždy odcházím spokojená. Doporučuji všem, kdo hledají kvalitní kadeřnictví v Praze."
+        "role": "klientka od 2017",
+        "rating": "5",
+        "text": "Chodím sem sedmý rok. Nikdy mě netlačily do drahého ošetření — když vlasy nic nepotřebují, řeknou to na rovinu."
       }
     ]
   },
   "footer": {
-    "heading": "Těšíme se na vás!",
+    "siteName": "Salon Blush",
+    "heading": "Těšíme se na vás",
+    "tagline": "Kadeřnické studio v centru Prahy. Střih, barva a péče bez spěchu.",
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
-    "address": "Demo ulice 12\n110 00 Praha 1",
+    "address": "Ukázková 123\n110 00 Praha 1",
     "hoursLabel": "Otevírací doba",
     "hours": [
       {
@@ -216,6 +276,28 @@
         "value": "Zavřeno"
       }
     ],
+    "links": [
+      {
+        "label": "O salonu",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "/#sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Recenze",
+        "href": "/recenze"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
     "socials": [
       {
         "label": "Instagram",
@@ -226,28 +308,44 @@
         "href": "https://facebook.com/demo"
       }
     ],
-    "legal": "Demo Studio s.r.o. | IČ: 00000000 | DIČ: CZ00000000"
+    "ctaText": "On-line rezervace",
+    "ctaHref": "/kontakt",
+    "legal": "Demo Studio s.r.o. | IČO: 12345678 | DIČ: CZ12345678"
   },
   "pages": {
     "o-nas": {
       "hero": {
-        "title": "O nás",
-        "subtitle": "Náš příběh a tým",
-        "backgroundImage": "/assets/hair-02/4d26a316df-DSC0914.jpg"
+        "title": "O salonu",
+        "subtitle": "Čtyři kadeřnice, jedenáct let praxe a jeden salon ve dvoře v centru Prahy.",
+        "backgroundImage": "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=1800&h=700&fit=crop&auto=format&q=80"
       }
     },
     "galerie": {
       "hero": {
         "title": "Galerie",
-        "subtitle": "Nabízíme kompletní kadeřnické služby pro dámy, pány i děti. Pracujeme s prémiovými vlasovými produkty a ovládáme nejmodernější techniky barvení a zesvětlení.",
-        "backgroundImage": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg"
+        "subtitle": "Střihy, barvy a účesy z našeho salonu — bez retuší a stock fotek.",
+        "backgroundImage": "https://images.unsplash.com/photo-1470259078422-826894b933aa?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Ozvěte se nám, nebo se rovnou objednejte on-line.",
+        "backgroundImage": "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "recenze": {
+      "hero": {
+        "title": "Recenze",
+        "subtitle": "128 hodnocení na Google s průměrem 4,9.",
+        "backgroundImage": "https://images.unsplash.com/photo-1546877625-cb8c71916608?w=1800&h=700&fit=crop&auto=format&q=80"
       }
     }
   },
   "home": {
     "rezervace": {
-      "title": "Objednejte se online",
-      "subtitle": "Vyberte službu, kadeřníka a čas. Potvrzení dorazí e-mailem.",
+      "title": "Objednejte se on-line",
+      "subtitle": "Vyberte službu, kadeřnici a čas. Potvrzení vám přijde e-mailem.",
       "providerSlug": "",
       "apiBaseUrl": ""
     }

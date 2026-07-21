@@ -18,13 +18,22 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 2 | klempir-01 | klempir-01-demo | 1086 | kompletně + fotky | ✅ DONE |
 | 3 | ortho-01 | ortho-01-v2 | 684 | kompletně + VŠECHNY obrázky | ✅ DONE |
 | 4 | hair-01 | hair-01-v2 | 401 | kompletně | ✅ DONE |
-| 5 | hair-02 | hair-02-demo | 414 | kompletně | ⏳ |
-| 6 | hair-03 | hair-03-v2 | 407 | kompletně | ⏳ |
+| 5 | hair-02 | hair-02-demo | 414 (+showcase 415) | kompletně | ⏳ |
+| 6 | hair-03 | hair-03-v2 | 407 (+showcase 420) | kompletně | ⏳ |
 | 7 | hair-04 | hair-04-v2 | 419 | kompletně | ⏳ |
-| 8 | kids-01 | kids-01-v2 | 896 | vylepšit + Webero credit | ⏳ |
-| 9 | lang-01 | lang-01-v2 | 885 | vylepšit + Webero credit | ⏳ |
+| 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
+| 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
 | 10 | malir-02 | malir-02-demo | 1163 | kompletně | ⏳ |
 | 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | ⏳ |
+
+**AKTUÁLNÍ BĚH (zadání 2026-07-21, závazný rozsah):** řádky 5–11 = přesně těchto 7 šablon, nic
+jiného. Uživatel je kontroluje na produkci `https://webero.co/demo/<slug>`, a to na těchto
+tenantech: `hair-04-v2`, `malir-02-demo`, `hair-03-v2`, `hair-02-demo`, `ucetni-01-v2`,
+`kids-01-showcase`, `lang-01-showcase`.
+⇒ **DB propagaci (reset overrides + designTokens) dělej pro VŠECHNY tenanty daného
+`template_id`** (v2 i showcase mají společnou šablonu, ale vlastní `content_overrides` —
+jinak zákazník uvidí starý obsah na tom druhém). Kontrolní dotaz:
+`SELECT id, slug FROM tenants WHERE template_id = (SELECT template_id FROM tenants WHERE slug='<slug>')`.
 
 Další závazné pokyny uživatele z průběhu:
 - **MULTIPAGE povinně** — menu a footer na reálné routy (`/sluzby`, `/o-mne`…), ne #anchory.

@@ -92,7 +92,10 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 
   // hair-02: full-bleed photo slider, height 687px, white overlay, teal CTA pill
   if (variant === "hero-hair-02-slider") {
-    return <HeroHair02Slider content={content} sectionId={sectionId} />;
+    return <HeroHair02Slider content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-hair-02-page") {
+    return <HeroHair02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-03: 2-col split — levý sloupec 50% s paddingem, pravý sloupec 50% foto edge-to-edge.
@@ -4009,13 +4012,81 @@ function HeroBarber04Slider({
   );
 }
 
-function HeroHair02Slider({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// hero-hair-02-slider — V3 cinematic: fullbleed crossfade slider, tmavý gradient,
+// Newsreader H1 s clay akcentovým řádkem, CTA pár, dots + progres. Pole: slides[],
+// eyebrow, title, titleAccent, subtitle, ctaText/Href, ctaSecondaryText/Href.
+// hero-hair-02-page — podstránkový hero (Blush & Clay): paper bg, breadcrumb,
+// Newsreader H1, volitelná fotka jako úzký pás. Pole: title, subtitle, backgroundImage.
+function HeroHair02Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const crumb = String(content.crumbLabel ?? title);
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section className="h02hp-wrap" data-template="hair-02">
+      <style>{`
+        .h02hp-wrap {
+          background: var(--color-bg, #FBF6F3); font-family: 'Schibsted Grotesk', sans-serif;
+          padding: calc(5rem + clamp(2.5rem, 6vw, 4.5rem)) clamp(1.25rem, 4vw, 2.75rem) 0;
+        }
+        .h02hp-inner { max-width: 80rem; margin: 0 auto; }
+        .h02hp-crumb { font-size: 0.82rem; letter-spacing: 0.04em; color: var(--color-text-muted, #7C6B64); margin-bottom: 1.1rem; }
+        .h02hp-crumb a { color: var(--color-text-muted, #7C6B64); text-decoration: none; }
+        .h02hp-crumb a:hover { color: var(--color-primary, #C0685C); }
+        .h02hp-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2.4rem, 5.4vw, 4rem); line-height: 1.05; letter-spacing: -0.02em;
+          color: var(--color-text, #2A211E); margin: 0 0 1rem; text-wrap: balance;
+        }
+        .h02hp-sub { font-size: 1.05rem; line-height: 1.65; color: var(--color-text-muted, #7C6B64); max-width: 52ch; margin: 0; }
+        .h02hp-photo {
+          margin-top: clamp(2.2rem, 5vw, 3.4rem); border-radius: 20px; overflow: hidden;
+          aspect-ratio: 21 / 7; background: var(--color-surface, #fff);
+        }
+        .h02hp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 767px) { .h02hp-photo { aspect-ratio: 16 / 9; } }
+      `}</style>
+      <div className="h02hp-inner">
+        <div className="h02hp-crumb">
+          <a href={resolve("/")}>Domů</a> <span aria-hidden>/</span> {crumb}
+        </div>
+        <h1 className="h02hp-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle && (
+          <p className="h02hp-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+        {image && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="h02hp-photo">
+            <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </GenericEditableImage>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// hero-hair-02-slider — V3 cinematic: fullbleed crossfade slider, tmavý gradient,
+// Newsreader H1 s clay akcentovým řádkem, CTA pár, dots + progres. Pole: slides[],
+// eyebrow, title, titleAccent, subtitle, ctaText/Href, ctaSecondaryText/Href.
+function HeroHair02Slider({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   type Slide = { image: string; alt?: string };
-  const slides = ((content.slides as Slide[]) ?? []);
+  const slides = ((content.slides as Slide[]) ?? []).filter((s) => s && s.image);
+  const eyebrow = String(content.eyebrow ?? "Kadeřnické studio · Praha");
+  const title = String(content.title ?? "Vlasy, které");
+  const titleAccent = String(content.titleAccent ?? "vám sluší");
+  const subtitle = String(content.subtitle ?? "");
   const ctaText = String(content.ctaText ?? "On-line rezervace");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const ctaHref = String(content.ctaHref ?? "#rezervace");
+  const cta2Text = String(content.ctaSecondaryText ?? "Naše služby");
+  const cta2Href = String(content.ctaSecondaryHref ?? "#sluzby");
   const [idx, setIdx] = useState(0);
   const count = slides.length;
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   useEffect(() => {
     if (count <= 1) return;
@@ -4023,120 +4094,116 @@ function HeroHair02Slider({ content, sectionId }: { content: Record<string, unkn
     return () => clearInterval(t);
   }, [count]);
 
-  const TEAL = "#459696";
-  const HERO_H = 687;
-
   return (
-    <section
-      id="uvod"
-      className="relative w-full overflow-hidden"
-      style={{ height: HERO_H, backgroundColor: "#ebe8e2" }}
-      data-template="hair-02"
-    >
-      {/* slides — crossfade */}
-      {slides.map((sl, i) => (
-        <div
+    <section id="uvod" className="h02h-hero" data-template="hair-02">
+      <style>{`
+        .h02h-hero {
+          position: relative; min-height: 92vh; display: flex; align-items: flex-end;
+          overflow: hidden; background: var(--color-secondary, #3B2B27);
+          font-family: 'Schibsted Grotesk', sans-serif;
+        }
+        .h02h-slide {
+          position: absolute; inset: 0; opacity: 0; transition: opacity 1.1s ease;
+        }
+        .h02h-slide[data-active="true"] { opacity: 1; }
+        .h02h-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h02h-scrim {
+          position: absolute; inset: 0;
+          background: linear-gradient(180deg, rgba(42,33,30,0.44) 0%, rgba(42,33,30,0.18) 38%, rgba(42,33,30,0.82) 100%);
+        }
+        .h02h-inner {
+          position: relative; z-index: 2; width: 100%; max-width: 80rem; margin: 0 auto;
+          padding: 0 clamp(1.25rem, 4vw, 2.75rem) clamp(3.5rem, 8vw, 6rem);
+        }
+        .h02h-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem;
+          font-size: 0.79rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #F2C9C0;
+        }
+        .h02h-eyebrow::before { content: ""; width: 34px; height: 1.5px; background: var(--color-primary, #C0685C); }
+        .h02h-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2.9rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -0.02em;
+          color: #FFFFFF; margin: 0 0 1.35rem; text-wrap: balance; max-width: 16ch;
+        }
+        .h02h-title em { display: block; font-style: italic; color: #F2C9C0; }
+        .h02h-sub {
+          font-size: clamp(1rem, 1.5vw, 1.12rem); line-height: 1.65; color: rgba(255,255,255,0.86);
+          max-width: 46ch; margin: 0 0 2.2rem;
+        }
+        .h02h-ctas { display: flex; flex-wrap: wrap; gap: 0.85rem; align-items: center; }
+        .h02h-btn {
+          display: inline-flex; align-items: center; gap: 0.55rem; padding: 1rem 2.1rem; border-radius: 999px;
+          font-size: 0.97rem; font-weight: 600; text-decoration: none; transition: transform 0.25s, background 0.25s;
+        }
+        .h02h-btn-primary { background: var(--color-primary, #C0685C); color: #fff; box-shadow: 0 10px 30px rgba(192,104,92,0.36); }
+        .h02h-btn-primary:hover { background: var(--color-accent, #9E5147); transform: translateY(-2px); }
+        .h02h-btn-ghost { color: #fff; border: 1px solid rgba(255,255,255,0.42); }
+        .h02h-btn-ghost:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+        .h02h-dots { display: flex; gap: 0.5rem; margin-top: 2.6rem; }
+        .h02h-dot {
+          width: 34px; height: 3px; border-radius: 2px; border: none; padding: 0; cursor: pointer;
+          background: rgba(255,255,255,0.32); transition: background 0.25s;
+        }
+        .h02h-dot[data-on="true"] { background: var(--color-primary, #C0685C); }
+        @media (max-width: 767px) {
+          .h02h-hero { min-height: 88vh; }
+          .h02h-btn { flex: 1 1 auto; justify-content: center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .h02h-slide, .h02h-btn { transition: none; }
+        }
+      `}</style>
+
+      {slides.map((s, i) => (
+        <GenericEditableImage
           key={i}
-          aria-hidden={i !== idx}
-          className="absolute inset-0 transition-opacity duration-1000"
-          style={{ opacity: i === idx ? 1 : 0, zIndex: i === idx ? 1 : 0 }}
+          sectionId={sectionId}
+          field={`slides.${i}.image`}
+          src={s.image}
+          alt={s.alt ?? ""}
+          className="h02h-slide"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: i === idx ? 1 : 0, transition: "opacity 1.1s ease" }}
+          priority={i === 0}
         >
-          <Image
-            src={sl.image}
-            alt={sl.alt ?? ""}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority={i === 0}
-            unoptimized={shouldSkipNextImageOptimization(sl.image)}
-          />
-        </div>
+          <img src={s.image} alt={s.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        </GenericEditableImage>
       ))}
+      <div className="h02h-scrim" aria-hidden />
 
-      {/* white overlay rgba(255,255,255,0.25) */}
-      <div aria-hidden className="absolute inset-0 z-10" style={{ backgroundColor: "rgba(255,255,255,0.25)" }} />
-
-      {/* CTA pill — centered at ~65% of height */}
-      <div
-        className="absolute z-20 flex flex-col items-center"
-        style={{ left: "50%", top: "65%", transform: "translate(-50%, -50%)" }}
-      >
-        <a
-          href={ctaHref}
-          data-btn="primary"
-          className="no-underline uppercase tracking-widest transition-opacity hover:opacity-80"
-          style={{
-            backgroundColor: TEAL,
-            color: "#fff",
-            fontFamily: "'Montserrat', sans-serif",
-            fontSize: 13,
-            fontWeight: 600,
-            letterSpacing: "0.18em",
-            padding: "13px 36px",
-            borderRadius: 99,
-            display: "inline-block",
-          }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
-      </div>
-
-      {/* Prev / Next arrows */}
-      {count > 1 && (
-        <>
-          <button
-            type="button"
-            onClick={() => setIdx((i) => (i - 1 + count) % count)}
-            aria-label="Předchozí slide"
-            className="absolute top-1/2 z-20 flex items-center justify-center bg-transparent border-0 cursor-pointer"
-            style={{ left: 20, transform: "translateY(-50%)", color: TEAL, opacity: 0.8, padding: 0 }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
-          >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <polyline points="15 6 9 12 15 18" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={() => setIdx((i) => (i + 1) % count)}
-            aria-label="Další slide"
-            className="absolute top-1/2 z-20 flex items-center justify-center bg-transparent border-0 cursor-pointer"
-            style={{ right: 20, transform: "translateY(-50%)", color: TEAL, opacity: 0.8, padding: 0 }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
-          >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <polyline points="9 6 15 12 9 18" />
-            </svg>
-          </button>
-        </>
-      )}
-
-      {/* Dots */}
-      {count > 1 && (
-        <div
-          className="absolute left-1/2 z-20 flex items-center gap-2"
-          style={{ bottom: 20, transform: "translateX(-50%)" }}
-          aria-hidden
-        >
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setIdx(i)}
-              aria-label={`Slide ${i + 1}`}
-              className="border-0 cursor-pointer rounded-full p-0"
-              style={{
-                width: i === idx ? 10 : 8,
-                height: i === idx ? 10 : 8,
-                backgroundColor: i === idx ? TEAL : "rgba(255,255,255,0.7)",
-                transition: "all .25s",
-              }}
-            />
-          ))}
+      <div className="h02h-inner">
+        <span className="h02h-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
+        <h1 className="h02h-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          <em><GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" /></em>
+        </h1>
+        {subtitle && (
+          <p className="h02h-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+        <div className="h02h-ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="h02h-btn h02h-btn-primary">{ctaText}</a>
+          <a href={resolve(cta2Href)} className="h02h-btn h02h-btn-ghost">{cta2Text}</a>
         </div>
-      )}
+        {count > 1 && (
+          <div className="h02h-dots" role="tablist" aria-label="Fotografie salonu">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                className="h02h-dot"
+                data-on={i === idx}
+                role="tab"
+                aria-selected={i === idx}
+                aria-label={`Fotografie ${i + 1}`}
+                onClick={() => setIdx(i)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 }

@@ -2268,150 +2268,163 @@ function NavbarHair01Topbar(props: Props) {
 }
 
 
+// hair-02-navbar — Salon Blush · V3 „Blush & Clay": blur sticky bar, Newsreader
+// wordmark, underline-slide linky, clay pill CTA, overlay menu + sticky mobilní CTA.
 function NavbarHair02({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const siteName = String(content.siteName ?? "Hair Studio No.1");
-  const logoUrl  = String(content.logoUrl ?? "");
-  const logoSrc  = logoUrl || demoLogoDataUrl(siteName);
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  // Reference: hairsalon-no1-demo — bílá hlavička
-  // Výška zmenšena o 30%: 90px → 63px, mobile 70px → 49px
-  const BG    = "#ffffff";
-  const TEXT  = "#4a4a4a";
-  const TEAL  = "#459696";
-  const SERIF = "Georgia, Times, 'Times New Roman', serif";
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", handler); };
+  }, [open]);
+
+  const siteName = String(content.siteName ?? "Salon Blush");
+  const phone = String(content.phone ?? "+420 704 123 456");
+  const ctaText = String(content.ctaText ?? "Objednat se");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{ backgroundColor: "#ffffff" }}
-      data-template="hair-02"
-    >
-      {/* Desktop — výška 63px (90px * 0.7) */}
-      <div
-        className="hidden md:flex items-center max-w-[1280px] mx-auto"
-        style={{ height: 63, padding: "0 24px" }}
-      >
-        {/* Logo vlevo */}
-        <a
-          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
-          className="shrink-0 flex items-center"
-          aria-label={siteName}
-          style={{ marginRight: 32 }}
-        >
-          <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="relative overflow-hidden" style={{ width: 112, height: 28 }}>
-            <img loading="eager" src={logoSrc} alt={siteName} style={{ width: 112, height: 28, objectFit: "contain" }} />
-          </GenericEditableImage>
-        </a>
+    <>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style>{`
+        .h02n-bar {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          font-family: 'Schibsted Grotesk', sans-serif;
+          background: rgba(251,246,243,${scrolled ? "0.95" : "0.86"});
+          -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--color-border, #EADDD6);
+          transition: background 0.3s;
+        }
+        .h02n-inner {
+          max-width: 80rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.75rem);
+          height: 5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+        }
+        .h02n-logo { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; flex-shrink: 0; }
+        .h02n-wordmark {
+          font-family: 'Newsreader', Georgia, serif; font-size: 1.62rem; font-weight: 400;
+          letter-spacing: -0.01em; color: var(--color-text, #2A211E); line-height: 1;
+        }
+        .h02n-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--color-primary, #C0685C); }
+        .h02n-links { display: flex; align-items: center; gap: 1.7rem; list-style: none; margin: 0; padding: 0; }
+        .h02n-links a {
+          position: relative; font-size: 0.93rem; font-weight: 500; letter-spacing: 0.01em;
+          color: #6B5A53; text-decoration: none; padding: 0.35rem 0; transition: color 0.2s;
+        }
+        .h02n-links a::after {
+          content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 1.5px;
+          background: var(--color-primary, #C0685C); transition: right 0.28s cubic-bezier(0.22,1,0.36,1);
+        }
+        .h02n-links a:hover { color: var(--color-text, #2A211E); }
+        .h02n-links a:hover::after { right: 0; }
+        .h02n-right { display: flex; align-items: center; gap: 1.15rem; }
+        .h02n-phone { font-size: 0.92rem; font-weight: 600; color: var(--color-text, #2A211E); text-decoration: none; white-space: nowrap; }
+        .h02n-cta {
+          display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.72rem 1.6rem; border-radius: 999px;
+          background: var(--color-primary, #C0685C); color: #fff; font-size: 0.9rem; font-weight: 600;
+          letter-spacing: 0.01em; text-decoration: none; white-space: nowrap;
+          box-shadow: 0 6px 18px rgba(192,104,92,0.28); transition: background 0.25s, transform 0.25s;
+        }
+        .h02n-cta:hover { background: var(--color-accent, #9E5147); transform: translateY(-1px); }
+        .h02n-burger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--color-text, #2A211E); }
+        .h02n-overlay {
+          position: fixed; inset: 0; background: var(--color-secondary, #3B2B27); z-index: 200;
+          display: flex; flex-direction: column; padding: 1.15rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+          font-family: 'Schibsted Grotesk', sans-serif;
+        }
+        .h02n-overlay[data-open="true"] { opacity: 1; pointer-events: auto; }
+        .h02n-ov-top { display: flex; align-items: center; justify-content: space-between; height: 3.7rem; }
+        .h02n-ov-word { font-family: 'Newsreader', Georgia, serif; font-size: 1.5rem; color: #FBF6F3; }
+        .h02n-ov-close { background: none; border: none; color: #FBF6F3; font-size: 2rem; line-height: 1; cursor: pointer; padding: 4px 10px; }
+        .h02n-ov-links { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.3rem; }
+        .h02n-ov-links a {
+          font-family: 'Newsreader', Georgia, serif; font-size: clamp(1.9rem, 7vw, 2.7rem); font-weight: 400;
+          color: #FBF6F3; text-decoration: none; padding: 0.45rem 0;
+          border-bottom: 1px solid rgba(251,246,243,0.13);
+          opacity: 0; transform: translateY(14px); transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .h02n-overlay[data-open="true"] .h02n-ov-links a { opacity: 1; transform: none; }
+        .h02n-ov-links a:nth-child(1) { transition-delay: 0.05s; } .h02n-ov-links a:nth-child(2) { transition-delay: 0.1s; }
+        .h02n-ov-links a:nth-child(3) { transition-delay: 0.15s; } .h02n-ov-links a:nth-child(4) { transition-delay: 0.2s; }
+        .h02n-ov-links a:nth-child(5) { transition-delay: 0.25s; } .h02n-ov-links a:nth-child(6) { transition-delay: 0.3s; }
+        .h02n-ov-cta {
+          display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1.05rem;
+          border-radius: 999px; background: var(--color-primary, #C0685C); color: #fff; font-weight: 600; text-decoration: none;
+        }
+        .h02n-mobilebar {
+          display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+          background: rgba(251,246,243,0.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+          border-top: 1px solid var(--color-border, #EADDD6); font-family: 'Schibsted Grotesk', sans-serif;
+        }
+        .h02n-mb-cta {
+          display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.9rem;
+          border-radius: 999px; background: var(--color-primary, #C0685C); color: #fff;
+          font-size: 0.95rem; font-weight: 600; text-decoration: none;
+        }
+        @media (max-width: 1023px) {
+          .h02n-links, .h02n-phone, .h02n-cta { display: none; }
+          .h02n-burger { display: block; }
+          .h02n-mobilebar { display: block; }
+          .h02n-inner { height: 4.4rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .h02n-overlay, .h02n-ov-links a, .h02n-cta { transition: none; }
+        }
+      `}</style>
 
-        {/* Nav linky (flex-1) */}
-        <nav className="flex items-center gap-6 flex-1">
+      <header className="h02n-bar" data-template="hair-02">
+        <div className="h02n-inner">
+          <a href={resolve("/")} className="h02n-logo" aria-label={siteName}>
+            <span className="h02n-wordmark"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+            <span className="h02n-dot" aria-hidden />
+          </a>
+          <ul className="h02n-links">
+            {links.map((l, i) => (
+              <li key={i}><a href={resolve(l.href)}>{l.label}</a></li>
+            ))}
+          </ul>
+          <div className="h02n-right">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="h02n-phone">{phone}</a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="h02n-cta">{ctaText}</a>
+            <button className="h02n-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="h02n-overlay" data-open={open} aria-hidden={!open}>
+        <div className="h02n-ov-top">
+          <span className="h02n-ov-word">{siteName}</span>
+          <button className="h02n-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+        </div>
+        <nav className="h02n-ov-links">
           {links.map((l, i) => (
-            <a
-              key={`h2-nav-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{
-                fontFamily: SERIF,
-                fontSize: "0.82em",
-                fontWeight: 400,
-                color: TEXT,
-                textTransform: "uppercase",
-                letterSpacing: "0.04em",
-                textDecoration: "none",
-                transition: "color 0.15s",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = TEAL)}
-              onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
-            >
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-            </a>
+            <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>{l.label}</a>
           ))}
         </nav>
-
-        {/* CTA vpravo — tmavý outline pill */}
-        <a
-          href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 7,
-            border: `1.5px solid ${TEXT}`,
-            color: TEXT,
-            fontFamily: SERIF,
-            fontSize: "0.78em",
-            fontWeight: 400,
-            letterSpacing: "0.06em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            padding: "7px 18px",
-            borderRadius: 99,
-            whiteSpace: "nowrap",
-            transition: "background 0.15s, color 0.15s",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = TEXT; e.currentTarget.style.color = BG; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TEXT; }}
-        >
-          ON-LINE REZERVACE
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden><rect x="0.5" y="0.5" width="9" height="9" rx="1" stroke="currentColor" strokeWidth="1.2"/></svg>
-        </a>
+        <a href={resolve(ctaHref)} data-btn="primary" className="h02n-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
       </div>
 
-      {/* Mobile — výška 49px (70px * 0.7) */}
-      <div
-        className="flex md:hidden items-center justify-between"
-        style={{ height: 49, padding: "0 16px" }}
-      >
-        <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName}>
-          <img loading="eager" src={logoSrc} alt={siteName} style={{ height: 28, objectFit: "contain" }} />
-        </a>
-        <button
-          className="flex flex-col justify-between w-5 h-[14px] bg-transparent border-0 cursor-pointer p-0"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-          aria-expanded={open}
-        >
-          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
-          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
-          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
-        </button>
+      <div className="h02n-mobilebar" aria-hidden={open}>
+        <a href={resolve(ctaHref)} className="h02n-mb-cta">{ctaText}</a>
       </div>
-
-      {/* Mobile overlay */}
-      {open && (
-        <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8"
-          style={{ backgroundColor: "#ffffff" }}
-        >
-          <button
-            className="absolute top-5 right-6 bg-transparent border-0 cursor-pointer"
-            style={{ color: TEXT, fontSize: 22 }}
-            onClick={() => setOpen(false)}
-            aria-label="Zavřít menu"
-          >✕</button>
-          {links.map((l, i) => (
-            <a
-              key={`h2-mob-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{ fontFamily: SERIF, color: TEXT, fontSize: 16, fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.06em", textDecoration: "none" }}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
-            style={{
-              border: `1px solid ${TEAL}`, color: TEAL, fontFamily: SERIF,
-              fontSize: 14, padding: "10px 24px", borderRadius: 99, textDecoration: "none", textTransform: "uppercase",
-            }}
-            onClick={() => setOpen(false)}
-          >
-            ON-LINE REZERVACE
-          </a>
-        </div>
-      )}
-    </header>
+    </>
   );
 }
 

@@ -506,6 +506,9 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     if (variant === "hair-01-footer") {
     return <FooterHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+    if (variant === "hair-02-footer") {
+    return <FooterHair02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
 
   // Footer — peak-cut (aka barber-05) Brutalist Atelier White
   // Dark ink #0a0a0a footer (kontrast k whitebody), 4-col grid: BRAND / NAV / KONTAKT / OTEVŘENO,
@@ -19729,5 +19732,135 @@ function FooterOrbit01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         </div>
       </footer>
     </>
+  );
+}
+
+// hair-02-footer — V3 tmavý footer (#3B2B27) + WeberoCredit v copyright baru.
+// Pole: siteName/tagline/heading/ctaText/ctaHref/phone/email/address/hours/links/socials/legal.
+function FooterHair02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const siteName = String(content.siteName ?? "Salon Blush");
+  const heading = String(content.heading ?? "Těšíme se na vás");
+  const tagline = String(content.tagline ?? "");
+  const ctaText = String(content.ctaText ?? "On-line rezervace");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const hoursLabel = String(content.hoursLabel ?? "Otevírací doba");
+  const hours = (content.hours as Array<{ day: string; value: string }>) ?? [];
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const socials = (content.socials as Array<{ label: string; href: string }>) ?? [];
+  const legal = String(content.legal ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <footer data-section-type="footer" data-variant="hair-02-footer" className="h02ft-footer" data-template="hair-02">
+      <style>{`
+        .h02ft-footer {
+          background: var(--color-secondary, #3B2B27); color: #FBF6F3;
+          font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(3.5rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 2.75rem) 0;
+        }
+        .h02ft-inner { max-width: 80rem; margin: 0 auto; }
+        .h02ft-top {
+          display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+          flex-wrap: wrap; padding-bottom: clamp(2.2rem, 4vw, 3rem);
+        }
+        .h02ft-heading {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.08; letter-spacing: -0.02em;
+          color: #FBF6F3; margin: 0 0 0.7rem; text-wrap: balance;
+        }
+        .h02ft-tagline { font-size: 1rem; line-height: 1.6; color: rgba(251,246,243,0.72); margin: 0; max-width: 42ch; }
+        .h02ft-cta {
+          display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 2rem; border-radius: 999px;
+          background: var(--color-primary, #C0685C); color: #fff; font-size: 0.96rem; font-weight: 600;
+          text-decoration: none; white-space: nowrap; transition: background 0.25s, transform 0.25s;
+        }
+        .h02ft-cta:hover { background: var(--color-accent, #9E5147); transform: translateY(-2px); }
+        .h02ft-cols {
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.6rem, 3vw, 2.6rem);
+          padding: clamp(2.2rem, 4vw, 3rem) 0;
+          border-top: 1px solid rgba(251,246,243,0.14);
+        }
+        .h02ft-h {
+          font-size: 0.76rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #E8A99D; margin: 0 0 1.1rem;
+        }
+        .h02ft-list { list-style: none; margin: 0; padding: 0; }
+        .h02ft-list li { margin-bottom: 0.6rem; font-size: 0.95rem; color: rgba(251,246,243,0.8); line-height: 1.5; }
+        .h02ft-list a { color: rgba(251,246,243,0.8); text-decoration: none; transition: color 0.2s; }
+        .h02ft-list a:hover { color: #E8A99D; }
+        .h02ft-hrow { display: flex; justify-content: space-between; gap: 1rem; }
+        .h02ft-bottom {
+          display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+          padding: 1.4rem 0 calc(1.4rem + env(safe-area-inset-bottom));
+          border-top: 1px solid rgba(251,246,243,0.14);
+          font-size: 0.85rem; color: rgba(251,246,243,0.6);
+        }
+        @media (max-width: 899px) { .h02ft-cols { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 519px) { .h02ft-cols { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="h02ft-inner">
+        <div className="h02ft-top">
+          <div>
+            <h2 className="h02ft-heading">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            {tagline && (
+              <p className="h02ft-tagline">
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </p>
+            )}
+          </div>
+          <a href={resolve(ctaHref)} data-btn="primary" className="h02ft-cta">{ctaText}</a>
+        </div>
+
+        <div className="h02ft-cols">
+          <div>
+            <h3 className="h02ft-h">Navigace</h3>
+            <ul className="h02ft-list">
+              {links.map((l, i) => (
+                <li key={i}><a href={resolve(l.href)}>{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="h02ft-h">Kontakt</h3>
+            <ul className="h02ft-list">
+              {phone && <li><a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a></li>}
+              {email && <li><a href={`mailto:${email}`}>{email}</a></li>}
+              {address && <li><GenericEditableText sectionId={sectionId} field="address" value={address.replace(/\n/g, ", ")} tag="span" /></li>}
+            </ul>
+          </div>
+          <div>
+            <h3 className="h02ft-h">{hoursLabel}</h3>
+            <ul className="h02ft-list">
+              {hours.map((h, i) => (
+                <li className="h02ft-hrow" key={i}>
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="h02ft-h">Sledujte nás</h3>
+            <ul className="h02ft-list">
+              {socials.map((s, i) => (
+                <li key={i}><a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="h02ft-bottom">
+          <span>
+            <GenericEditableText sectionId={sectionId} field="legal" value={legal || siteName} tag="span" />
+          </span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
   );
 }

@@ -291,6 +291,9 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
     if (variant === "hair-numbered-cards") {
     return <ServicesHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hair-02-services") {
+    return <ServicesHair02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
 
   // Support both field name conventions: services[] and items[] (generator/pricing section)
   const services = (
@@ -16685,5 +16688,114 @@ function UsecasesOrbit01({ content, sectionId }: { content: Record<string, unkno
         </div>
       </section>
     </>
+  );
+}
+
+// hair-02-services — V3 „Blush & Clay": foto karty služeb (aspect 16/10, hover zoom,
+// číslo v rohu), hairline řádek s cenou a délkou. Pole: tagline/title/subtitle,
+// services[].{name,description,price,duration,image}.
+function ServicesHair02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Item = { name?: string; description?: string; price?: string; duration?: string; image?: string; ctaHref?: string };
+  const tagline = String(content.tagline ?? "Ceník");
+  const title = String(content.title ?? "Naše služby");
+  const subtitle = String(content.subtitle ?? "");
+  const items = ((content.services ?? content.items) as Item[]) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="sluzby" data-section-type="services" data-variant="hair-02-services" className="h02sv-section" data-template="hair-02">
+      <style>{`
+        .h02sv-section {
+          background: var(--color-surface, #FFFFFF); font-family: 'Schibsted Grotesk', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h02sv-inner { max-width: 80rem; margin: 0 auto; }
+        .h02sv-head { max-width: 46rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+        .h02sv-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: var(--color-primary, #C0685C);
+        }
+        .h02sv-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #C0685C); }
+        .h02sv-title {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400;
+          font-size: clamp(2.1rem, 4.4vw, 3.3rem); line-height: 1.08; letter-spacing: -0.02em;
+          color: var(--color-text, #2A211E); margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h02sv-sub { font-size: 1.02rem; line-height: 1.65; color: var(--color-text-muted, #7C6B64); margin: 0; }
+        .h02sv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 2.6vw, 2.2rem); }
+        .h02sv-card { display: flex; flex-direction: column; }
+        .h02sv-media {
+          position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 16 / 10;
+          display: block; background: #F3E3DC; margin-bottom: 1.25rem;
+        }
+        .h02sv-media img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .h02sv-card:hover .h02sv-media img { transform: scale(1.05); }
+        .h02sv-num {
+          position: absolute; top: 0.9rem; left: 0.9rem; z-index: 2;
+          width: 2.1rem; height: 2.1rem; border-radius: 999px;
+          display: flex; align-items: center; justify-content: center;
+          background: rgba(251,246,243,0.92); color: var(--color-text, #2A211E);
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em;
+        }
+        .h02sv-name {
+          font-family: 'Newsreader', Georgia, serif; font-weight: 400; font-size: 1.42rem;
+          line-height: 1.2; color: var(--color-text, #2A211E); margin: 0 0 0.55rem;
+        }
+        .h02sv-desc { font-size: 0.95rem; line-height: 1.62; color: var(--color-text-muted, #7C6B64); margin: 0 0 1.1rem; flex: 1; }
+        .h02sv-meta {
+          display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+          padding-top: 0.9rem; border-top: 1px solid var(--color-border, #EADDD6);
+        }
+        .h02sv-price { font-size: 1.02rem; font-weight: 700; color: var(--color-primary, #C0685C); }
+        .h02sv-dur { font-size: 0.86rem; color: var(--color-text-muted, #7C6B64); }
+        @media (max-width: 1023px) { .h02sv-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 639px) { .h02sv-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .h02sv-media img { transition: none; } }
+      `}</style>
+      <div className="h02sv-inner">
+        <div className="h02sv-head">
+          <span className="h02sv-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </span>
+          <h2 className="h02sv-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {subtitle && (
+            <p className="h02sv-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+        <div className="h02sv-grid">
+          {items.map((it, i) => (
+            <article className="h02sv-card" key={i}>
+              {it.image && (
+                <GenericEditableImage sectionId={sectionId} field={`services.${i}.image`} src={it.image} alt={it.name ?? ""} className="h02sv-media">
+                  <img src={it.image} alt={it.name ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              )}
+              <h3 className="h02sv-name">
+                <GenericEditableText sectionId={sectionId} field={`services.${i}.name`} value={it.name ?? ""} tag="span" />
+              </h3>
+              <p className="h02sv-desc">
+                <GenericEditableText sectionId={sectionId} field={`services.${i}.description`} value={it.description ?? ""} tag="span" />
+              </p>
+              <div className="h02sv-meta">
+                <span className="h02sv-price">
+                  <GenericEditableText sectionId={sectionId} field={`services.${i}.price`} value={it.price ?? ""} tag="span" />
+                </span>
+                <span className="h02sv-dur">
+                  <GenericEditableText sectionId={sectionId} field={`services.${i}.duration`} value={it.duration ?? ""} tag="span" />
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

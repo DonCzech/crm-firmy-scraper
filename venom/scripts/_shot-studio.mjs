@@ -1,6 +1,6 @@
 // Usage: node scripts/_shot-studio.mjs <slug> <token> <outPrefix>
 import { chromium } from "playwright-core";
-const OUT = "/private/tmp/claude-501/-Users-apple-DEV-CRM/8d3ce491-cf60-4c06-81bc-72505aca8558/scratchpad";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV-CRM/8e7241b1-e9c0-4afd-a9d1-2820c22ee3ee/scratchpad";
 const [slug, token, prefix] = process.argv.slice(2);
 const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
 const ctx = await browser.newContext({ viewport: { width: 1600, height: 950 } });
