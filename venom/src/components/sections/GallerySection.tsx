@@ -59,6 +59,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  if (variant === "signal-01-cases") return <CasesSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "gallery-universal") {
     return <GalleryUniversal
@@ -4939,16 +4940,8 @@ function InspirationFloors01({ content, sectionId, tenantSlug, isAdmin }: { cont
 }
 
 // ── klempir-01-gallery ────────────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz:
-// - White bg, padding 80px 0
-// - H2 "Realizoval jsem" centered 36px + silver underline
-// - Grid repeat(auto-fill, minmax(350px, 1fr)), gap 30px
-// - Card: radius 8px, overflow hidden, box-shadow
-//   hover: translateY(-10px), image scale(1.1)
-//   - Image 250px height
-//   - Info: padding 20px, center; h3 18px #3a3a3a; p 14px gray
-// - Footer "A mnoho dalších..." with decorative lines
-// ─────────────────────────────────────────────────────────────────────────────
+// Copper & Slate: paper bg, editorial header; 3 projektové karty s foto 4/3,
+// Fraunces titulek + popis, copper hover linka.
 interface GalleryK01Props {
   content: Record<string, unknown>;
   sectionId: number;
@@ -4957,83 +4950,77 @@ interface GalleryK01Props {
 }
 type K01GalleryItem = { url?: string; alt?: string; title?: string; description?: string };
 
-function GalleryKlempir01({ content, sectionId, tenantSlug, isAdmin }: GalleryK01Props) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const MEDIUM = "#3a3a3a";
-  const GRAY   = "#717171";
-
-  const title  = String(content.title  ?? "Realizoval jsem");
-  const images = (Array.isArray(content.images) ? content.images : []) as K01GalleryItem[];
+function GalleryKlempir01({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: _isAdmin }: GalleryK01Props) {
+  const kicker = String(content.kicker ?? "Realizace");
+  const title = String(content.title ?? "Dokončené projekty");
+  const note = String(content.note ?? "…a desítky dalších střech v Brně a okolí.");
+  const images = (content.images as K01GalleryItem[]) ?? [];
 
   return (
     <>
       <style>{`
-        .k01-gallery { background: #ffffff; padding: 80px 0; position: relative; font-family: ${FONT}; }
-        .k01-gallery::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.05); }
-        .k01-gallery-container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .k01-gallery-h2 { font-size: 36px; font-weight: 600; color: ${DARK}; text-align: center; margin-bottom: 50px; position: relative; font-family: ${FONT}; }
-        .k01-gallery-h2::after { content: ''; display: block; width: 80px; height: 3px; background: ${SILVER}; margin: 15px auto 0; }
-        .k01-gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
-        .k01-proj-card { border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .k01-proj-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .k01-proj-img { height: 250px; overflow: hidden; }
-        .k01-proj-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; display: block; }
-        .k01-proj-card:hover .k01-proj-img img { transform: scale(1.1); }
-        .k01-proj-info { padding: 20px; background: #ffffff; display: flex; flex-direction: column; flex-grow: 1; text-align: center; }
-        .k01-proj-info h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; color: ${MEDIUM}; font-family: ${FONT}; }
-        .k01-proj-info p { color: ${GRAY}; font-size: 14px; line-height: 1.6; margin: 0; }
-        .k01-gallery-more { text-align: center; margin-top: 40px; font-style: italic; font-size: 18px; color: ${GRAY}; display: flex; align-items: center; justify-content: center; gap: 15px; }
-        .k01-deco-line { display: inline-block; width: 30px; height: 1px; background: ${GRAY}; flex-shrink: 0; }
-        @media (max-width: 768px) {
-          .k01-gallery-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-          .k01-proj-img { height: 200px; }
+        .k01g-section { background: #F5F3EF; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Manrope', sans-serif; }
+        .k01g-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .k01g-kicker {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #B4622D; margin-bottom: 1.1rem;
         }
+        .k01g-kicker::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01g-h2 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.8rem); font-weight: 600;
+          color: #191C1F; line-height: 1.1; margin: 0 0 clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;
+        }
+        .k01g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+        .k01g-card {
+          background: #fff; border: 1px solid #E9E5DD; border-radius: 6px; overflow: hidden;
+          transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .k01g-card:hover { transform: translateY(-4px); box-shadow: 0 28px 50px -30px rgba(20,23,26,0.35); }
+        .k01g-img { aspect-ratio: 4/3; overflow: hidden; background: #E4E0D8; position: relative; }
+        .k01g-img img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .k01g-card:hover .k01g-img img { transform: scale(1.045); }
+        .k01g-body { padding: 1.25rem 1.35rem 1.4rem; }
+        .k01g-title { font-family: 'Fraunces', serif; font-size: 1.14rem; font-weight: 600; color: #191C1F; margin: 0 0 0.4rem; letter-spacing: -0.01em; }
+        .k01g-desc { font-size: 0.9rem; color: #6B6F73; line-height: 1.62; margin: 0; }
+        .k01g-note {
+          margin: 2.2rem 0 0; text-align: center; font-size: 0.95rem; color: #9B9F9F;
+          font-style: italic; font-family: 'Fraunces', serif;
+        }
+        @media (max-width: 900px) { .k01g-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .k01g-card, .k01g-img img { transition: none !important; } }
       `}</style>
 
-      <section id="galerie" className="k01-gallery" data-template="klempir-01">
-        <div className="k01-gallery-container">
-          <h2 className="k01-gallery-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-
-          <div className="k01-gallery-grid">
-            {images.map((item, i) => {
-              const imgUrl = String(item.url ?? "");
-              const imgAlt = String(item.alt ?? "");
-              const imgTitle = String(item.title ?? "");
-              const imgDesc  = String(item.description ?? "");
-              return (
-                <div key={i} className="k01-proj-card">
-                  <div className="k01-proj-img">
-                    <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={imgUrl} alt={imgAlt} style={{}}>
-                      <img loading="lazy" src={imgUrl} alt={imgAlt} />
-                    </GenericEditableImage>
-                  </div>
-                  <div className="k01-proj-info">
-                    <h3>
-                      <GenericEditableText sectionId={sectionId} field={`images.${i}.title`} value={imgTitle} tag="span" />
-                    </h3>
-                    <p>
-                      <GenericEditableText sectionId={sectionId} field={`images.${i}.description`} value={imgDesc} tag="span" />
-                    </p>
-                  </div>
+      <section className="k01g-section" id="galerie" data-template="klempir-01-gallery">
+        <div className="k01g-inner">
+          <p className="k01g-kicker"><GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" /></p>
+          <h2 className="k01g-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          <div className="k01g-grid">
+            {images.map((img, i) => (
+              <article key={i} className="k01g-card">
+                <div className="k01g-img">
+                  <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url ?? ""} alt={img.alt ?? img.title ?? ""} className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                    <img src={img.url} alt={img.alt ?? img.title ?? ""} loading="lazy" />
+                  </GenericEditableImage>
                 </div>
-              );
-            })}
+                <div className="k01g-body">
+                  <h3 className="k01g-title"><GenericEditableText sectionId={sectionId} field={`images.${i}.title`} value={img.title ?? ""} tag="span" /></h3>
+                  <p className="k01g-desc"><GenericEditableText sectionId={sectionId} field={`images.${i}.description`} value={img.description ?? ""} tag="span" /></p>
+                </div>
+              </article>
+            ))}
           </div>
-
-          <div className="k01-gallery-more">
-            <span className="k01-deco-line" />
-            <p>A mnoho dalších...</p>
-            <span className="k01-deco-line" />
-          </div>
+          <p className="k01g-note"><GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" /></p>
         </div>
       </section>
     </>
   );
 }
+
 
 // ── garden-01-gallery ────────────────────────────────────────────────────────
 function GalleryGarden01({
@@ -8514,6 +8501,105 @@ function BeforeAfterProof01({ content, sectionId, tenantSlug, isAdmin }: { conte
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Case studies: fotokarty s velkou metrikou (Oswald, electric blue), industry mono
+// štítkem a odkazem na CMS detail /case-studies/<slug>.
+function CasesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const eyebrow = String(content.eyebrow ?? "Case studies");
+  const title   = String(content.title   ?? "Výsledky, které si můžete přeměřit");
+  const lead    = String(content.lead    ?? "Každý projekt končí číslem, ne prezentací. Vybrané case studies s měřitelným dopadem.");
+  type SgCase = { slug?: string; title?: string; excerpt?: string; body?: string; metric?: string; metricLabel?: string; industry?: string; photo?: string; client?: string };
+  const items = (content.items as SgCase[] | undefined) ?? [];
+  const linkLabel = String(content.linkLabel ?? "Celá case study");
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>(".sg01cs-card"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("sg01-vis"); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [items.length]);
+  return (
+    <>
+      <style>{`
+        .sg01cs { --sg-accent:#2563EB; --sg-ink:#101418; --sg-muted:#5B6472; --sg-border:#E3E7EB;
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--sg-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01cs-inner { max-width:1280px; margin:0 auto; }
+        .sg01cs-head { max-width:660px; margin-bottom:clamp(32px,5vw,52px); }
+        .sg01cs .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01cs .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent); }
+        .sg01cs-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
+        .sg01cs-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
+        .sg01cs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+        .sg01cs-card { display:flex; flex-direction:column; background:#fff; border:1px solid var(--sg-border); border-radius:10px; overflow:hidden;
+          text-decoration:none; color:inherit; opacity:0; transform:translateY(20px);
+          transition:opacity .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 80ms), transform .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 80ms), box-shadow .25s, border-color .25s; }
+        .sg01cs-card.sg01-vis { opacity:1; transform:translateY(0); }
+        .sg01cs-card.sg01-vis:hover { transform:translateY(-5px); box-shadow:0 14px 30px -18px rgba(16,20,24,.28); border-color:#CBD5E1;
+          transition:opacity .2s, transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s, border-color .25s; }
+        .sg01cs-photo { position:relative; aspect-ratio:16/10; overflow:hidden; background:#E4E8ED; }
+        .sg01cs-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.22,.68,0,1); }
+        .sg01cs-card:hover .sg01cs-photo img { transform:scale(1.05); }
+        .sg01cs-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(13,17,22,.5)); }
+        .sg01cs-ind { position:absolute; left:14px; top:14px; z-index:1; font-family:var(--font-mono, ui-monospace, monospace); font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+          color:#fff; background:rgba(13,17,22,.72); padding:5px 10px; border-radius:4px; backdrop-filter:blur(6px); }
+        .sg01cs-body { display:flex; flex-direction:column; gap:8px; padding:22px 24px 24px; flex:1; }
+        .sg01cs-metric { display:flex; align-items:baseline; gap:10px; padding-bottom:12px; border-bottom:1px solid var(--sg-border); margin-bottom:6px; }
+        .sg01cs-metric > b { font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(1.9rem,2.4vw,2.4rem); font-weight:600; line-height:1; color:var(--sg-accent); font-variant-numeric:tabular-nums; white-space:nowrap; }
+        .sg01cs-metric b span { font-size:inherit; }
+        .sg01cs-metric > span { font-size:.84rem; color:var(--sg-muted); font-weight:600; line-height:1.35; }
+        .sg01cs-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.18rem; font-weight:600; letter-spacing:.01em; margin:0; }
+        .sg01cs-excerpt { font-size:.93rem; color:var(--sg-muted); line-height:1.55; margin:0; flex:1; }
+        .sg01cs-more { display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:.88rem; color:var(--sg-accent); margin-top:6px; }
+        .sg01cs-more svg { transition:transform .25s; } .sg01cs-card:hover .sg01cs-more svg { transform:translateX(4px); }
+        @media (prefers-reduced-motion: reduce){ .sg01cs-card{ opacity:1; transform:none; transition:none; } .sg01cs-more svg,.sg01cs-photo img{ transition:none; } }
+      `}</style>
+      <section className="sg01cs" data-template="signal-01" id="case-studies">
+        <div className="sg01cs-inner">
+          <div className="sg01cs-head">
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01cs-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="sg01cs-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="sg01cs-grid" ref={gridRef}>
+            {items.map((c, i) => {
+              const href = isAdmin ? "#" : c.slug && tenantSlug ? `/demo/${tenantSlug}/case-studies/${c.slug}` : "#";
+              return (
+                <a key={i} className="sg01cs-card" style={{ ["--i" as string]: i % 3 }} href={href}>
+                  <span className="sg01cs-photo" aria-hidden="true">
+                    {c.photo && <img src={String(c.photo)} alt="" loading="lazy" />}
+                    {c.industry && (
+                      <span className="sg01cs-ind">
+                        <GenericEditableText sectionId={sectionId} field={`items.${i}.industry`} value={String(c.industry ?? "")} tag="span" />
+                      </span>
+                    )}
+                  </span>
+                  <span className="sg01cs-body">
+                    <span className="sg01cs-metric">
+                      <b><GenericEditableText sectionId={sectionId} field={`items.${i}.metric`} value={String(c.metric ?? "")} tag="span" /></b>
+                      <span><GenericEditableText sectionId={sectionId} field={`items.${i}.metricLabel`} value={String(c.metricLabel ?? "")} tag="span" /></span>
+                    </span>
+                    <h3 className="sg01cs-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={String(c.title ?? "")} tag="span" /></h3>
+                    <p className="sg01cs-excerpt"><GenericEditableText sectionId={sectionId} field={`items.${i}.excerpt`} value={String(c.excerpt ?? "")} tag="span" /></p>
+                    <span className="sg01cs-more">
+                      <GenericEditableText sectionId={sectionId} field="linkLabel" value={linkLabel} tag="span" />
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </span>
+                  </span>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>

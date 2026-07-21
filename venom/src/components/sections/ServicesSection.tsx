@@ -48,6 +48,8 @@ interface Props {
 
 export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdmin }: Props) {
 
+  if (variant === "signal-01-services") return <ServicesSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "signal-01-method")   return <MethodSignal01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-services") return <ServicesProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-process")  return <ProcessProof01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-pricing")  return <PricingProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -11099,93 +11101,139 @@ function ServicesSolar02({ content, sectionId }: { content: Record<string, unkno
 }
 
 // ── klempir-01-services ────────────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz:
-// - #f9f9f9 bg, padding 80px 0
-// - H2 "Nabízím" centered 36px + silver underline
-// - Grid repeat(auto-fill, minmax(350px, 1fr)), gap 30px
-// - Card: white bg, radius 8px, shadow 0 5px 15px rgba(0,0,0,0.1)
-//   - hover: translateY(-10px), bigger shadow
-//   - Image 250px, scale 1.05 on hover
-//   - Content: padding 25px, text-align center; h3 22px #3a3a3a; p gray line-height 1.6
-// ─────────────────────────────────────────────────────────────────────────────
+// Copper & Slate: bílé bg, editorial header; 3 hlavní služby jako foto karty
+// (4/3, copper hover linka) + zbytek jako kompaktní číslované řádky ve 2 col.
 interface ServicesK01Props {
   content: Record<string, unknown>;
   sectionId: number;
   tenantSlug?: string;
   isAdmin: boolean;
 }
-type K01ServiceItem = { title?: string; description?: string; image?: string; name?: string };
 
-function ServicesKlempir01({ content, sectionId, tenantSlug, isAdmin }: ServicesK01Props) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const MEDIUM = "#3a3a3a";
-  const GRAY   = "#717171";
-
-  const title = String(content.title ?? "Nabízím");
-  const items = (Array.isArray(content.items) ? content.items : []) as K01ServiceItem[];
+function ServicesKlempir01({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: _isAdmin }: ServicesK01Props) {
+  const kicker = String(content.kicker ?? "Služby");
+  const title = String(content.title ?? "Kompletní klempířské a pokrývačské práce");
+  const subtitle = String(content.subtitle ?? "Od drobné opravy žlabu po rekonstrukci celé střechy — všechna řemesla pod jednou střechou.");
+  const items = (content.items as Array<{ name?: string; title?: string; description?: string; image?: string }>) ?? [];
+  const featured = items.slice(0, 3);
+  const rest = items.slice(3);
 
   return (
     <>
       <style>{`
-        .k01-services { background: #f9f9f9; padding: 80px 0; position: relative; font-family: ${FONT}; }
-        .k01-services::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.05); }
-        .k01-services-container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .k01-services-h2 { font-size: 36px; font-weight: 600; color: ${DARK}; text-align: center; margin-bottom: 50px; position: relative; font-family: ${FONT}; }
-        .k01-services-h2::after { content: ''; display: block; width: 80px; height: 3px; background: ${SILVER}; margin: 15px auto 0; }
-        .k01-services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
-        .k01-svc-card { background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-        .k01-svc-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-        .k01-svc-img { height: 250px; overflow: hidden; }
-        .k01-svc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
-        .k01-svc-card:hover .k01-svc-img img { transform: scale(1.05); }
-        .k01-svc-body { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; text-align: center; }
-        .k01-svc-body h3 { color: ${MEDIUM}; margin-bottom: 15px; font-size: 22px; font-weight: 600; font-family: ${FONT}; }
-        .k01-svc-body p { color: ${GRAY}; line-height: 1.6; margin: 0; font-size: 15px; }
-        @media (max-width: 768px) {
-          .k01-services-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-          .k01-svc-img { height: 200px; }
+        .k01sv-section { background: #fff; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Manrope', sans-serif; }
+        .k01sv-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .k01sv-head {
+          display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+          gap: 1.5rem 4rem; align-items: end; margin-bottom: clamp(2.2rem, 4.5vw, 3.4rem);
         }
+        .k01sv-kicker {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #B4622D; margin-bottom: 1.1rem;
+        }
+        .k01sv-kicker::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01sv-h2 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.8rem); font-weight: 600;
+          color: #191C1F; line-height: 1.1; margin: 0; letter-spacing: -0.02em; text-wrap: balance;
+        }
+        .k01sv-sub { font-size: 1rem; color: #6B6F73; line-height: 1.7; margin: 0 0 0.3rem; }
+        .k01sv-featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-bottom: 2.6rem; }
+        .k01sv-card {
+          position: relative; background: #fff; border: 1px solid #E9E5DD; border-radius: 6px;
+          overflow: hidden; transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .k01sv-card:hover { transform: translateY(-4px); box-shadow: 0 28px 50px -30px rgba(20,23,26,0.35); }
+        .k01sv-card-img { aspect-ratio: 4/3; overflow: hidden; background: #E4E0D8; position: relative; }
+        .k01sv-card-img img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .k01sv-card:hover .k01sv-card-img img { transform: scale(1.045); }
+        .k01sv-card-body { padding: 1.35rem 1.4rem 1.5rem; border-top: 3px solid #B4622D; }
+        .k01sv-card-title {
+          font-family: 'Fraunces', serif; font-size: 1.22rem; font-weight: 600;
+          color: #191C1F; margin: 0 0 0.5rem; letter-spacing: -0.01em;
+        }
+        .k01sv-card-desc { font-size: 0.92rem; color: #6B6F73; line-height: 1.66; margin: 0; }
+        .k01sv-rest {
+          display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem;
+          border-top: 1px solid #E9E5DD;
+        }
+        .k01sv-row {
+          display: grid; grid-template-columns: auto 1fr; gap: 0.4rem 1.1rem;
+          padding: 1.3rem 0.2rem; border-bottom: 1px solid #E9E5DD; align-items: baseline;
+        }
+        .k01sv-row-num {
+          font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600;
+          color: #B4622D; font-variant-numeric: tabular-nums;
+        }
+        .k01sv-row-title {
+          font-family: 'Fraunces', serif; font-size: 1.08rem; font-weight: 600;
+          color: #191C1F; margin: 0; letter-spacing: -0.01em;
+        }
+        .k01sv-row-desc { grid-column: 2; font-size: 0.9rem; color: #6B6F73; line-height: 1.62; margin: 0; }
+        @media (max-width: 960px) {
+          .k01sv-head { grid-template-columns: 1fr; gap: 1rem; }
+          .k01sv-featured { grid-template-columns: 1fr; }
+          .k01sv-rest { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) { .k01sv-card, .k01sv-card-img img { transition: none !important; } }
       `}</style>
 
-      <section id="sluzby" className="k01-services" data-template="klempir-01">
-        <div className="k01-services-container">
-          <h2 className="k01-services-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+      <section className="k01sv-section" id="sluzby" data-template="klempir-01-services">
+        <div className="k01sv-inner">
+          <div className="k01sv-head">
+            <div>
+              <p className="k01sv-kicker"><GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" /></p>
+              <h2 className="k01sv-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            </div>
+            <p className="k01sv-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          </div>
 
-          <div className="k01-services-grid">
-            {items.map((item, i) => {
-              const itemTitle = String(item.title ?? item.name ?? "");
-              const itemDesc  = String(item.description ?? "");
-              const itemImg   = String(item.image ?? "");
+          <div className="k01sv-featured">
+            {featured.map((item, i) => {
+              const label = item.title ?? item.name ?? "";
               return (
-                <div key={i} className="k01-svc-card">
-                  {itemImg && (
-                    <div className="k01-svc-img">
-                      <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={itemImg} alt={itemTitle} style={{}}>
-                        <img loading="lazy" src={itemImg} alt={itemTitle} />
+                <article key={i} className="k01sv-card">
+                  {item.image && (
+                    <div className="k01sv-card-img">
+                      <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={label} className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                        <img src={item.image} alt={label} loading="lazy" />
                       </GenericEditableImage>
                     </div>
                   )}
-                  <div className="k01-svc-body">
-                    <h3>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={itemTitle} tag="span" />
-                    </h3>
-                    <p>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={itemDesc} tag="span" />
-                    </p>
+                  <div className="k01sv-card-body">
+                    <h3 className="k01sv-card-title"><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={label} tag="span" /></h3>
+                    <p className="k01sv-card-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" /></p>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>
+
+          {rest.length > 0 && (
+            <div className="k01sv-rest">
+              {rest.map((item, i) => {
+                const idx = i + 3;
+                const label = item.title ?? item.name ?? "";
+                return (
+                  <div key={idx} className="k01sv-row">
+                    <span className="k01sv-row-num">{String(idx + 1).padStart(2, "0")}</span>
+                    <h3 className="k01sv-row-title"><GenericEditableText sectionId={sectionId} field={`items.${idx}.title`} value={label} tag="span" /></h3>
+                    <p className="k01sv-row-desc"><GenericEditableText sectionId={sectionId} field={`items.${idx}.description`} value={item.description ?? ""} tag="span" /></p>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     </>
   );
 }
+
 
 // ── malir-01-services ─────────────────────────────────────────────────────────
 // VYLEPŠENO (luxe malíř):
@@ -16171,6 +16219,167 @@ function PricingProof01({ content, sectionId, tenantSlug, isAdmin }: { content: 
             })}
           </div>
           <p className="pf01pr-note"><GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" /></p>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Řešení: fotokarty na ledově šedém pozadí (16/10, hover scale, spodní gradient,
+// mono index v rohu) + Metodika: číslované kroky na charcoal s hairline mřížkou.
+function ServicesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow = String(content.eyebrow ?? "Řešení");
+  const title   = String(content.title   ?? "Oblasti, ve kterých doručujeme čísla");
+  const lead    = String(content.lead    ?? "Každé řešení má jasný rozsah, tým a metriku úspěchu, na které se dohodneme předem.");
+  type SgSvc = { name?: string; description?: string; photo?: string; href?: string; tag?: string };
+  const items = (content.items as SgSvc[] | undefined) ?? [];
+  const linkLabel = String(content.linkLabel ?? "Zjistit více");
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>(".sg01svc-card"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("sg01-vis"); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [items.length]);
+  return (
+    <>
+      <style>{`
+        .sg01svc { --sg-accent:#2563EB; --sg-ink:#101418; --sg-text:#111827; --sg-muted:#5B6472; --sg-border:#E3E7EB;
+          background:#F3F5F7; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--sg-text);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01svc-inner { max-width:1280px; margin:0 auto; }
+        .sg01svc-head { max-width:660px; margin-bottom:clamp(32px,5vw,56px); }
+        .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent); }
+        .sg01svc-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
+        .sg01svc-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
+        .sg01svc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+        .sg01svc-card { position:relative; display:flex; flex-direction:column; background:#fff; border:1px solid var(--sg-border);
+          border-radius:10px; text-decoration:none; color:inherit; overflow:hidden;
+          opacity:0; transform:translateY(20px);
+          transition:opacity .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 70ms), transform .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 70ms), box-shadow .25s, border-color .25s; }
+        .sg01svc-card.sg01-vis { opacity:1; transform:translateY(0); }
+        .sg01svc-card.sg01-vis:hover { transform:translateY(-5px); box-shadow:0 14px 30px -18px rgba(16,20,24,.28); border-color:#CBD5E1;
+          transition:opacity .2s, transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s, border-color .25s; }
+        .sg01svc-photo { position:relative; aspect-ratio:16/10; overflow:hidden; background:#E4E8ED; }
+        .sg01svc-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.22,.68,0,1); }
+        .sg01svc-card:hover .sg01svc-photo img { transform:scale(1.05); }
+        .sg01svc-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(13,17,22,.5)); }
+        .sg01svc-num { position:absolute; left:16px; bottom:12px; z-index:1; color:#fff; font-family:var(--font-mono, ui-monospace, monospace); font-weight:700; font-size:.78rem; letter-spacing:.14em; }
+        .sg01svc-body { display:flex; flex-direction:column; gap:10px; padding:22px 24px 24px; flex:1; }
+        .sg01svc-tag { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sg-accent); }
+        .sg01svc-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.2rem; font-weight:600; letter-spacing:.01em; margin:0; }
+        .sg01svc-desc { font-size:.94rem; color:var(--sg-muted); line-height:1.55; margin:0; flex:1; }
+        .sg01svc-more { display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:.88rem; color:var(--sg-accent); margin-top:4px; }
+        .sg01svc-more svg { transition:transform .25s; } .sg01svc-card:hover .sg01svc-more svg { transform:translateX(4px); }
+        @media (prefers-reduced-motion: reduce){ .sg01svc-card{ opacity:1; transform:none; transition:none; } .sg01svc-more svg,.sg01svc-photo img{ transition:none; } }
+      `}</style>
+      <section className="sg01svc" data-template="signal-01" id="reseni">
+        <div className="sg01svc-inner">
+          <div className="sg01svc-head">
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01svc-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="sg01svc-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="sg01svc-grid" ref={gridRef}>
+            {items.map((s, i) => (
+              <a key={i} className="sg01svc-card" style={{ ["--i" as string]: i % 4 }} href={resolveDemoHref(String(s.href ?? "/reseni"), tenantSlug, isAdmin)}>
+                <span className="sg01svc-photo" aria-hidden="true">
+                  {s.photo && <img src={String(s.photo)} alt="" loading="lazy" />}
+                  <span className="sg01svc-num">{String(i + 1).padStart(2, "0")}</span>
+                </span>
+                <span className="sg01svc-body">
+                  <span className="sg01svc-tag"><GenericEditableText sectionId={sectionId} field={`items.${i}.tag`} value={String(s.tag ?? "")} tag="span" /></span>
+                  <h3 className="sg01svc-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(s.name ?? "")} tag="span" /></h3>
+                  <p className="sg01svc-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(s.description ?? "")} tag="span" /></p>
+                  <span className="sg01svc-more">
+                    <GenericEditableText sectionId={sectionId} field="linkLabel" value={linkLabel} tag="span" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function MethodSignal01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Metodika");
+  const title   = String(content.title   ?? "Od diagnostiky k měřitelnému výsledku");
+  const lead    = String(content.lead    ?? "Žádné nekonečné analýzy. Pevné fáze, pevné výstupy a metrika úspěchu dohodnutá předem.");
+  const steps = (content.steps as Array<{ title?: string; description?: string; duration?: string }> | undefined) ?? [];
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>(".sg01mt-step"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("sg01-vis"); io.unobserve(e.target); } });
+    }, { threshold: 0.2 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [steps.length]);
+  return (
+    <>
+      <style>{`
+        .sg01mt { --sg-accent:#2563EB; --sg-accent-lt:#6EA8FE; --sg-ink:#101418;
+          background:var(--sg-ink); color:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01mt-inner { max-width:1280px; margin:0 auto; }
+        .sg01mt-head { max-width:660px; margin-bottom:clamp(36px,5vw,60px); }
+        .sg01mt .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent-lt); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01mt .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent-lt); }
+        .sg01mt-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
+        .sg01mt-lead { font-size:1.05rem; color:rgba(255,255,255,.78); line-height:1.6; margin:0; }
+        .sg01mt-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.12); border-radius:10px; overflow:hidden; }
+        .sg01mt-step { background:var(--sg-ink); padding:34px 26px 30px; position:relative;
+          opacity:0; transform:translateY(18px);
+          transition:opacity .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 110ms), transform .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 110ms), background .25s; }
+        .sg01mt-step.sg01-vis { opacity:1; transform:translateY(0); }
+        .sg01mt-step:hover { background:#161C24; }
+        .sg01mt-step::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--sg-accent);
+          transform:scaleX(0); transform-origin:left; transition:transform .6s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 110ms + 250ms); }
+        .sg01mt-step.sg01-vis::before { transform:scaleX(1); }
+        .sg01mt-toprow { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:18px; }
+        .sg01mt-num { display:inline-flex; align-items:baseline; gap:8px; font-family:var(--font-mono, ui-monospace, monospace); font-weight:700;
+          font-size:1.7rem; line-height:1; color:var(--sg-accent-lt); }
+        .sg01mt-num::after { content:''; width:26px; height:1px; background:rgba(110,168,254,.45); align-self:center; }
+        .sg01mt-dur { font-family:var(--font-mono, ui-monospace, monospace); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.72); }
+        .sg01mt-step h3 { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:1.14rem; font-weight:600; margin:0 0 8px; letter-spacing:.01em; }
+        .sg01mt-step p { font-size:.92rem; color:rgba(255,255,255,.78); line-height:1.58; margin:0; }
+        @media (prefers-reduced-motion: reduce){ .sg01mt-step{ opacity:1; transform:none; transition:none; } .sg01mt-step::before{ transform:scaleX(1); transition:none; } }
+      `}</style>
+      <section className="sg01mt" data-template="signal-01" id="metodika">
+        <div className="sg01mt-inner">
+          <div className="sg01mt-head">
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01mt-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="sg01mt-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="sg01mt-grid" ref={gridRef}>
+            {steps.map((s, i) => (
+              <div key={i} className="sg01mt-step" style={{ ["--i" as string]: i }}>
+                <div className="sg01mt-toprow">
+                  <span className="sg01mt-num">{String(i + 1).padStart(2, "0")}</span>
+                  {s.duration && (
+                    <span className="sg01mt-dur">
+                      <GenericEditableText sectionId={sectionId} field={`steps.${i}.duration`} value={String(s.duration ?? "")} tag="span" />
+                    </span>
+                  )}
+                </div>
+                <h3><GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={String(s.title ?? "")} tag="span" /></h3>
+                <p><GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={String(s.description ?? "")} tag="span" /></p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

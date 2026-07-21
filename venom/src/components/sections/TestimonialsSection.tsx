@@ -25,6 +25,7 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
   // za běhu měnila počet hooks a React by spadl.
   const [active, setActive] = useState(0);
 
+  if (variant === "signal-01-testimonials") return <TestimonialsSignal01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-testimonials") return <TestimonialsProof01 content={content} sectionId={sectionId} />;
   if (variant === "eshop-02-testimonials") return <TestimonialsEshop02 content={content} sectionId={sectionId} />;
   if (variant === "eshop-07-reviews") return <TestimonialsEshop07 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -4639,112 +4640,82 @@ function TestimonialsSolar02({ content, sectionId }: { content: Record<string, u
 }
 
 // ── klempir-01-testimonials ───────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz reviews section:
-// - #f9f9f9 bg, padding 80px 0
-// - H2 "Co říkají klienti" centered + silver underline
-// - Centered rating badge: ★★★★★ gold stars + "4.9 (27 recenzí)"
-// - 3-col grid of review cards (white bg, radius 10px, shadow, padding 30px)
-//   - Card header: 60px circular avatar + name (18px) + gold ★★★★★
-//   - Italic review text, line-height 1.6
-// - Responsive: 2-col @992px, 1-col @768px
-// ─────────────────────────────────────────────────────────────────────────────
-interface TestimonialsK01Props {
-  content: Record<string, unknown>;
-  sectionId: number;
-}
-type K01Review = { name?: string; text?: string; rating?: number; image?: string };
-
-function TestimonialsKlempir01({ content, sectionId }: TestimonialsK01Props) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const MEDIUM = "#3a3a3a";
-  const GRAY   = "#717171";
-  const GOLD   = "#FFD700";
-
-  const title    = String(content.title    ?? "Co říkají klienti");
-  const subtitle = String(content.subtitle ?? "Hodnocení 4.9★ (27 recenzí)");
-  const items    = (Array.isArray(content.items) ? content.items : []) as K01Review[];
-
-  const stars = (n: number) => "★".repeat(Math.min(5, Math.max(0, n))) + "☆".repeat(5 - Math.min(5, Math.max(0, n)));
+// Copper & Slate: bílé bg, editorial header; 3 karty s copper hvězdami,
+// Fraunces citátem a iniciálovým avatarem (žádné stock portréty).
+function TestimonialsKlempir01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const kicker = String(content.kicker ?? "Recenze");
+  const title = String(content.title ?? "Co říkají klienti");
+  const items = (content.items as Array<{ name?: string; text?: string; rating?: number }>) ?? [];
+  const initials = (name: string) => name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
 
   return (
     <>
       <style>{`
-        .k01-reviews { background: #f9f9f9; padding: 80px 0; position: relative; font-family: ${FONT}; }
-        .k01-reviews::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.05); }
-        .k01-reviews-container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .k01-reviews-h2 { font-size: 36px; font-weight: 600; color: ${DARK}; text-align: center; margin-bottom: 50px; position: relative; font-family: ${FONT}; }
-        .k01-reviews-h2::after { content: ''; display: block; width: 80px; height: 3px; background: ${SILVER}; margin: 15px auto 0; }
-        .k01-rating-badge { display: flex; flex-direction: column; align-items: center; background: #fff; padding: 15px 30px; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); width: fit-content; margin: 0 auto 40px; }
-        .k01-rating-stars { color: ${GOLD}; font-size: 24px; margin-bottom: 5px; letter-spacing: 2px; }
-        .k01-rating-text { display: flex; align-items: center; gap: 5px; }
-        .k01-rating-value { font-size: 20px; font-weight: 700; color: ${MEDIUM}; }
-        .k01-rating-count { color: ${GRAY}; font-size: 14px; }
-        .k01-reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 0; }
-        .k01-review-card { background: #fff; border-radius: 10px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .k01-review-head { display: flex; align-items: center; margin-bottom: 20px; }
-        .k01-review-avatar { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; margin-right: 15px; flex-shrink: 0; background: ${SILVER}; }
-        .k01-review-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .k01-review-name { margin: 0 0 5px; font-size: 18px; font-weight: 600; color: ${MEDIUM}; font-family: ${FONT}; }
-        .k01-review-star { color: ${GOLD}; font-size: 14px; letter-spacing: 1px; }
-        .k01-review-text { font-style: italic; color: ${GRAY}; line-height: 1.6; margin: 0; flex-grow: 1; font-size: 15px; }
-        @media (max-width: 992px) { .k01-reviews-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .k01-reviews-grid { grid-template-columns: 1fr; } }
+        .k01tm-section { background: #fff; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Manrope', sans-serif; }
+        .k01tm-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .k01tm-kicker {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #B4622D; margin-bottom: 1.1rem;
+        }
+        .k01tm-kicker::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01tm-h2 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.8rem); font-weight: 600;
+          color: #191C1F; line-height: 1.1; margin: 0 0 clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;
+        }
+        .k01tm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+        .k01tm-card {
+          background: #F5F3EF; border: 1px solid #E9E5DD; border-radius: 6px;
+          padding: 1.8rem 1.7rem 1.6rem; display: flex; flex-direction: column; gap: 1rem;
+          transition: box-shadow 0.3s, transform 0.3s;
+        }
+        .k01tm-card:hover { transform: translateY(-4px); box-shadow: 0 28px 50px -30px rgba(20,23,26,0.3); }
+        .k01tm-stars { display: flex; gap: 3px; }
+        .k01tm-text {
+          font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 500;
+          color: #23262A; line-height: 1.6; margin: 0; flex: 1; letter-spacing: -0.005em;
+        }
+        .k01tm-footer { display: flex; align-items: center; gap: 0.8rem; border-top: 1px solid #E9E5DD; padding-top: 1.1rem; }
+        .k01tm-avatar {
+          width: 38px; height: 38px; border-radius: 50%;
+          display: grid; place-items: center;
+          font-size: 0.78rem; font-weight: 800; color: #B4622D; background: rgba(180,98,45,0.12);
+          flex-shrink: 0;
+        }
+        .k01tm-name { font-weight: 700; color: #191C1F; font-size: 0.92rem; }
+        @media (max-width: 900px) { .k01tm-grid { grid-template-columns: 1fr; gap: 1rem; } }
+        @media (prefers-reduced-motion: reduce) { .k01tm-card { transition: none; } }
       `}</style>
 
-      <section id="recenze" className="k01-reviews" data-template="klempir-01">
-        <div className="k01-reviews-container">
-          <h2 className="k01-reviews-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-
-          {/* Rating badge */}
-          <div className="k01-rating-badge">
-            <div className="k01-rating-stars">★★★★★</div>
-            <div className="k01-rating-text">
-              <span className="k01-rating-value">4,9</span>
-              <span className="k01-rating-count">
-                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-              </span>
-            </div>
-          </div>
-
-          <div className="k01-reviews-grid">
-            {items.map((item, i) => {
-              const name   = String(item.name  ?? "");
-              const text   = String(item.text  ?? "");
-              const rating = Number(item.rating ?? 5);
-              const avatar = String(item.image ?? "");
-              return (
-                <div key={i} className="k01-review-card">
-                  <div className="k01-review-head">
-                    <div className="k01-review-avatar">
-                      {avatar && (
-                        <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={avatar} alt={name} style={{}}>
-                          <img loading="lazy" src={avatar} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                        </GenericEditableImage>
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="k01-review-name">
-                        <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" />
-                      </h4>
-                      <div className="k01-review-star">{stars(rating)}</div>
-                    </div>
-                  </div>
-                  <p className="k01-review-text">
-                    "<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={text} tag="span" />"
-                  </p>
+      <section className="k01tm-section" id="recenze" data-template="klempir-01-testimonials">
+        <div className="k01tm-inner">
+          <p className="k01tm-kicker"><GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" /></p>
+          <h2 className="k01tm-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          <div className="k01tm-grid">
+            {items.map((item, i) => (
+              <figure key={i} className="k01tm-card" style={{ margin: 0 }}>
+                <div className="k01tm-stars" aria-label={`${item.rating ?? 5} z 5 hvězdiček`}>
+                  {Array.from({ length: item.rating ?? 5 }).map((_, s) => (
+                    <svg key={s} width="15" height="15" viewBox="0 0 24 24" fill="#B4622D" aria-hidden="true"><path d="M12 2l2.9 6.26 6.87.6-5.2 4.53 1.55 6.72L12 16.54l-6.12 3.57 1.55-6.72-5.2-4.53 6.87-.6L12 2z"/></svg>
+                  ))}
                 </div>
-              );
-            })}
+                <blockquote className="k01tm-text" style={{ margin: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text ?? ""} tag="span" />
+                </blockquote>
+                <figcaption className="k01tm-footer">
+                  <span className="k01tm-avatar" aria-hidden="true">{initials(item.name ?? "?")}</span>
+                  <span className="k01tm-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" /></span>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
     </>
   );
 }
+
 
 // ── malir-01-testimonials ─────────────────────────────────────────────────────
 // VYLEPŠENO (luxe malíř):
@@ -6062,6 +6033,84 @@ function TestimonialsProof01({ content, sectionId }: { content: Record<string, u
                     <span>
                       <span className="pf01ts-name" style={{ display: "block" }}><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.name`} value={name} tag="span" /></span>
                       <span className="pf01ts-role"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={String(t.role ?? "")} tag="span" /></span>
+                    </span>
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Reference: featured layout — první citace na charcoal, ostatní bílé hairline karty.
+function TestimonialsSignal01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Reference");
+  const title   = String(content.title   ?? "Co říkají klienti");
+  const lead    = String(content.lead    ?? "Reference od lidí, kteří odpovídají za výsledek — jednatelé, CFO a ředitelé.");
+  type T = { text?: string; quote?: string; name?: string; role?: string; rating?: number };
+  const items = (content.testimonials as T[] | undefined) ?? (content.items as T[] | undefined) ?? [];
+  return (
+    <>
+      <style>{`
+        .sg01ts { --sg-accent:#2563EB; --sg-accent-lt:#6EA8FE; --sg-ink:#101418; --sg-muted:#5B6472; --sg-border:#E3E7EB;
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--sg-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01ts-inner { max-width:1180px; margin:0 auto; }
+        .sg01ts-head { max-width:660px; margin-bottom:clamp(32px,5vw,52px); }
+        .sg01ts .sg01-eyebrow{ font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01ts .sg01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--sg-accent); }
+        .sg01ts-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
+        .sg01ts-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
+        .sg01ts-grid { display:grid; grid-template-columns:1.15fr 1fr; gap:18px; }
+        .sg01ts-card { display:flex; flex-direction:column; background:#fff; border:1px solid var(--sg-border); border-radius:10px; padding:28px;
+          transition:transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s; }
+        .sg01ts-card:hover { transform:translateY(-4px); box-shadow:0 10px 24px -16px rgba(16,20,24,.22); }
+        .sg01ts-card:first-child { grid-row:span 2; background:var(--sg-ink); border-color:var(--sg-ink); color:#fff; justify-content:center; padding:36px 32px; }
+        .sg01ts-card:first-child .sg01ts-quote { font-weight:600; font-size:1.28rem; line-height:1.55; }
+        .sg01ts-card:first-child .sg01ts-role { color:rgba(255,255,255,.72); }
+        .sg01ts-card:first-child .sg01ts-av { background:var(--sg-accent); }
+        .sg01ts-stars { display:flex; gap:3px; margin-bottom:16px; color:var(--sg-accent); }
+        .sg01ts-card:first-child .sg01ts-stars { color:var(--sg-accent-lt); }
+        .sg01ts-quote { font-size:1.02rem; line-height:1.6; margin:0 0 22px; flex:none; }
+        .sg01ts-quote::before { content:'\\201C'; color:var(--sg-accent); font-size:2rem; line-height:0; vertical-align:-.35em; margin-right:4px; }
+        .sg01ts-card:first-child .sg01ts-quote::before { color:var(--sg-accent-lt); }
+        .sg01ts-meta { display:flex; align-items:center; gap:12px; }
+        .sg01ts-av { width:44px; height:44px; border-radius:50%; background:var(--sg-ink); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+        .sg01ts-name { font-weight:800; font-size:.96rem; }
+        .sg01ts-role { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; color:var(--sg-muted); }
+        @media (max-width:820px){ .sg01ts-grid{ grid-template-columns:1fr; } .sg01ts-card:first-child{ grid-row:auto; } }
+        @media (prefers-reduced-motion: reduce){ .sg01ts-card{ transition:none; } }
+      `}</style>
+      <section className="sg01ts" data-template="signal-01" id="reference">
+        <div className="sg01ts-inner">
+          <div className="sg01ts-head">
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01ts-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="sg01ts-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="sg01ts-grid">
+            {items.map((t, i) => {
+              const rating = Math.max(1, Math.min(5, Number(t.rating ?? 5)));
+              const name = String(t.name ?? "");
+              return (
+                <figure key={i} className="sg01ts-card" style={{ margin: 0 }}>
+                  <div className="sg01ts-stars" role="img" aria-label={`Hodnocení ${rating} z 5`}>
+                    {Array.from({ length: 5 }).map((_, si) => (
+                      <svg key={si} width="16" height="16" viewBox="0 0 24 24" fill={si < rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    ))}
+                  </div>
+                  <blockquote className="sg01ts-quote" style={{ margin: 0 }}>
+                    <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={String(t.text ?? t.quote ?? "")} tag="span" />
+                  </blockquote>
+                  <figcaption className="sg01ts-meta">
+                    <span className="sg01ts-av" aria-hidden="true">{name.charAt(0) || "?"}</span>
+                    <span>
+                      <span className="sg01ts-name" style={{ display: "block" }}><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.name`} value={name} tag="span" /></span>
+                      <span className="sg01ts-role"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={String(t.role ?? "")} tag="span" /></span>
                     </span>
                   </figcaption>
                 </figure>

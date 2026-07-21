@@ -30,6 +30,7 @@ function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isA
 }
 
 export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
+  if (variant === "signal-01-contact") return <ContactSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-contact") return <ContactProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "artist-01-contact") return <ContactArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "contact-bakery-01") return <ContactBakery01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -155,7 +156,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "ucetni-03-contact")    return <ContactUcetni03 content={content} sectionId={sectionId} />;
   if (variant === "ucetni-04-contact")    return <ContactUcetni04 content={content} sectionId={sectionId} />;
   if (variant === "solar-02-contact")     return <ContactSolar02 content={content} sectionId={sectionId} />;
-  if (variant === "klempir-01-contact")   return <ContactKlempir01 content={content} sectionId={sectionId} />;
+  if (variant === "klempir-01-contact")   return <ContactKlempir01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} />;
   if (variant === "garden-01-contact")    return <ContactGarden01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "garden-02-contact")    return <ContactGarden02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-contact")     return <ContactClean02  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -10345,167 +10346,170 @@ function ContactSolar02({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── klempir-01-contact ────────────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz contact section:
-// - White bg, padding 80px 0
-// - H2 "Kontakt" centered + silver underline
-// - Centered intro box (max-w 800px): h3 + subtitle text + phone CTA button
-// - 2-col: left info panel (phone/email/address/hours) | right contact form
-// - Contact icon: 50px circle silver gradient bg, 4 items
-// - Form: name + phone (row), email, textarea, submit button
-// ─────────────────────────────────────────────────────────────────────────────
-interface ContactK01Props {
-  content: Record<string, unknown>;
-  sectionId: number;
-}
+// Copper & Slate: paper bg; slate info panel (tel/email/oblast/hodiny s copper
+// ikonami) + bílý formulář s reálným odesláním na /api/demo/:slug/contact.
+function ContactKlempir01({ content, sectionId, tenantSlug }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string }) {
+  const [status, setStatus] = React.useState<"idle" | "sending" | "ok" | "err">("idle");
+  const kicker = String(content.kicker ?? "Kontakt");
+  const title = String(content.title ?? "Ozvěte se — poradím a rychle vyjedu");
+  const subtitle = String(content.subtitle ?? "Popište mi, co vaše střecha potřebuje. Ozvu se zpět do 24 hodin, u havárií ještě týž den.");
+  const phone = String(content.phone ?? "+420 704 123 456");
+  const email = String(content.email ?? "email@demo.cz");
+  const address = String(content.address ?? "Brno a Jihomoravský kraj");
+  const hours = String(content.hours ?? "Po–Pá 7:00–17:00, So 8:00–12:00");
+  const formTitle = String(content.formTitle ?? "Napište mi");
+  const ctaText = String(content.ctaText ?? "Odeslat zprávu");
 
-function ContactKlempir01({ content, sectionId }: ContactK01Props) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const MEDIUM = "#3a3a3a";
-  const GRAY   = "#717171";
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("sending");
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      sectionId,
+      name: String(fd.get("name") ?? ""),
+      phone: String(fd.get("phone") ?? ""),
+      email: String(fd.get("email") ?? ""),
+      message: String(fd.get("message") ?? ""),
+    };
+    try {
+      const url = tenantSlug ? `/api/demo/${tenantSlug}/contact` : "/api/contact";
+      const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      setStatus(res.ok ? "ok" : "err");
+    } catch {
+      setStatus("err");
+    }
+  };
 
-  const title      = String(content.title      ?? "Kontakt");
-  const subtitle   = String(content.subtitle   ?? "Potřebujete opravit střechu, vyměnit klempířské prvky nebo řešit havarijní stav?");
-  const phone      = String(content.phone      ?? "+420 704 123 456");
-  const email      = String(content.email      ?? "info@demo.cz");
-  const address    = String(content.address    ?? "Praha a okolí");
-  const hours      = String(content.hours      ?? "Po–Pá 7:00–18:00, So 8:00–13:00");
-  const formTitle  = String(content.formTitle  ?? "Napište mi");
-  const ctaText    = String(content.ctaText    ?? "Odeslat zprávu");
+  const rows: Array<{ label: string; field: string; value: string; href?: string; icon: React.ReactNode }> = [
+    { label: "Telefon", field: "phone", value: phone, href: `tel:${phone.replace(/\s/g, "")}`, icon: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/> },
+    { label: "E-mail", field: "email", value: email, href: `mailto:${email}`, icon: <><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M22 6l-10 7L2 6" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></> },
+    { label: "Oblast působení", field: "address", value: address, icon: <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="1.8" fill="none"/><circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="1.8" fill="none"/></> },
+    { label: "Pracovní doba", field: "hours", value: hours, icon: <><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round"/></> },
+  ];
 
   return (
     <>
       <style>{`
-        .k01-contact { background: #ffffff; padding: 80px 0; position: relative; font-family: ${FONT}; }
-        .k01-contact::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.05); }
-        .k01-contact-container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .k01-contact-h2 { font-size: 36px; font-weight: 600; color: ${DARK}; text-align: center; margin-bottom: 50px; position: relative; font-family: ${FONT}; }
-        .k01-contact-h2::after { content: ''; display: block; width: 80px; height: 3px; background: ${SILVER}; margin: 15px auto 0; }
-        .k01-contact-intro { text-align: center; max-width: 800px; margin: 0 auto 50px; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .k01-contact-intro h3 { font-size: 28px; font-weight: 600; color: ${MEDIUM}; margin-bottom: 20px; font-family: ${FONT}; }
-        .k01-contact-intro p { font-size: 18px; line-height: 1.6; color: ${GRAY}; margin-bottom: 15px; }
-        .k01-contact-cta { display: flex; flex-direction: column; align-items: center; margin-top: 30px; }
-        .k01-contact-btn { display: inline-flex; align-items: center; gap: 10px; background: ${MEDIUM}; color: #fff; padding: 14px 32px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 16px; font-family: ${FONT}; transition: background 0.2s; min-width: 220px; justify-content: center; }
-        .k01-contact-btn:hover { background: ${DARK}; }
-        .k01-contact-content { display: flex; gap: 50px; }
-        .k01-contact-info { flex: 1; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .k01-contact-item { display: flex; align-items: flex-start; margin-bottom: 30px; }
-        .k01-contact-item:last-child { margin-bottom: 0; }
-        .k01-contact-icon { width: 50px; height: 50px; background: linear-gradient(135deg, ${SILVER}, #a0a0a0); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; flex-shrink: 0; font-size: 20px; color: ${DARK}; }
-        .k01-contact-itext h3 { font-size: 18px; font-weight: 600; color: ${MEDIUM}; margin-bottom: 5px; font-family: ${FONT}; }
-        .k01-contact-itext p, .k01-contact-itext a { color: ${GRAY}; text-decoration: none; font-size: 15px; line-height: 1.5; }
-        .k01-contact-itext a:hover { color: ${SILVER}; }
-        .k01-contact-form { flex: 1; background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-        .k01-contact-form h3 { font-size: 24px; font-weight: 600; color: ${MEDIUM}; margin-bottom: 25px; font-family: ${FONT}; }
-        .k01-form-row { display: flex; gap: 20px; margin-bottom: 20px; }
-        .k01-form-group { flex: 1; margin-bottom: 20px; }
-        .k01-form-group:last-child { margin-bottom: 0; }
-        .k01-form-group input, .k01-form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 4px; font-family: ${FONT}; font-size: 15px; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; }
-        .k01-form-group input:focus, .k01-form-group textarea:focus { outline: none; border-color: ${SILVER}; box-shadow: 0 0 0 2px rgba(192,192,192,0.2); }
-        .k01-form-group textarea { height: 150px; resize: vertical; }
-        .k01-form-submit { background: ${MEDIUM}; color: #fff; padding: 14px 30px; border: none; border-radius: 4px; font-family: ${FONT}; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
-        .k01-form-submit:hover { background: ${DARK}; }
-        @media (max-width: 992px) {
-          .k01-contact-content { flex-direction: column; }
-          .k01-form-row { flex-direction: column; gap: 0; }
+        .k01co-section { background: #F5F3EF; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Manrope', sans-serif; }
+        .k01co-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.2rem; align-items: stretch;
         }
-        @media (max-width: 600px) {
-          .k01-contact-intro { padding: 24px 16px; }
-          .k01-contact-info, .k01-contact-form { padding: 24px 16px; }
-          .k01-contact-h2 { font-size: 28px; }
-          .k01-contact-intro h3 { font-size: 22px; }
+        .k01co-panel { background: #14171A; border-radius: 6px; padding: clamp(1.9rem, 3.5vw, 2.8rem); }
+        .k01co-kicker {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #D98E55; margin-bottom: 1.1rem;
         }
+        .k01co-kicker::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01co-h2 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 600; color: #F7F4EF;
+          margin: 0 0 0.8rem; line-height: 1.12; letter-spacing: -0.02em;
+        }
+        .k01co-sub { font-size: 0.93rem; color: rgba(247,244,239,0.65); line-height: 1.7; margin: 0 0 1.9rem; }
+        .k01co-row { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
+        .k01co-row:last-child { margin-bottom: 0; }
+        .k01co-ico {
+          width: 40px; height: 40px; border-radius: 4px; background: rgba(180,98,45,0.18);
+          display: grid; place-items: center; flex-shrink: 0; color: #D98E55;
+        }
+        .k01co-label { font-size: 0.7rem; font-weight: 700; color: rgba(247,244,239,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2px; }
+        .k01co-val { font-size: 0.96rem; font-weight: 600; color: #F7F4EF; }
+        .k01co-val a { color: #F7F4EF; text-decoration: none; }
+        .k01co-val a:hover { color: #D98E55; }
+        .k01co-form-wrap { background: #fff; border: 1px solid #E9E5DD; border-radius: 6px; padding: clamp(1.9rem, 3.5vw, 2.8rem); }
+        .k01co-form-title {
+          font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; color: #191C1F; margin: 0 0 1.5rem; letter-spacing: -0.015em;
+        }
+        .k01co-form { display: flex; flex-direction: column; gap: 1.05rem; }
+        .k01co-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .k01co-field label { font-size: 0.8rem; font-weight: 700; color: #23262A; display: block; margin-bottom: 0.36rem; }
+        .k01co-field input, .k01co-field textarea {
+          width: 100%; padding: 0.8rem 1rem; border: 1px solid #DDD8CE; border-radius: 4px; box-sizing: border-box;
+          font-family: 'Manrope', sans-serif; font-size: 0.93rem; color: #191C1F; background: #FBFAF8; outline: none;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .k01co-field input:focus, .k01co-field textarea:focus { border-color: #B4622D; box-shadow: 0 0 0 3px rgba(180,98,45,0.15); background: #fff; }
+        .k01co-field textarea { min-height: 120px; resize: vertical; }
+        .k01co-submit {
+          width: 100%; padding: 1rem 2rem; border-radius: 4px; border: none;
+          background: #B4622D; color: #fff; font-family: 'Manrope', sans-serif;
+          font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.25s;
+        }
+        .k01co-submit:hover:not(:disabled) { background: #8F4A1E; }
+        .k01co-submit:disabled { opacity: 0.7; cursor: default; }
+        .k01co-note { font-size: 0.78rem; color: #9B9F9F; text-align: center; margin: 0; }
+        .k01co-success { background: #F1F7F1; border: 1px solid #BFDDBF; border-radius: 6px; padding: 1.6rem; text-align: center; }
+        .k01co-success p { font-size: 0.95rem; color: #2F5B2F; font-weight: 600; margin: 0; }
+        .k01co-error { margin: 0; font-size: 0.85rem; font-weight: 600; color: #A33A2A; text-align: center; }
+        @media (max-width: 960px) { .k01co-inner { grid-template-columns: 1fr; } }
+        @media (max-width: 520px) { .k01co-2col { grid-template-columns: 1fr; } }
       `}</style>
 
-      <section id="kontakt" className="k01-contact" data-template="klempir-01">
-        <div className="k01-contact-container">
-          <h2 className="k01-contact-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-
-          {/* Intro box */}
-          <div className="k01-contact-intro">
-            <h3>Potřebujete odbornou pomoc?</h3>
-            <p>
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-            <div className="k01-contact-cta">
-              <a href={`tel:${phone.replace(/\s/g, "")}`} className="k01-contact-btn">
-                📞 Zavolat ihned
-              </a>
-            </div>
+      <section className="k01co-section" id="kontakt" data-template="klempir-01-contact">
+        <div className="k01co-inner">
+          <div className="k01co-panel">
+            <p className="k01co-kicker"><GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" /></p>
+            <h2 className="k01co-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="k01co-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+            {rows.map((row) => (
+              <div key={row.field} className="k01co-row">
+                <span className="k01co-ico" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24">{row.icon}</svg></span>
+                <div>
+                  <div className="k01co-label">{row.label}</div>
+                  <div className="k01co-val">
+                    {row.href ? (
+                      <a href={row.href}><GenericEditableText sectionId={sectionId} field={row.field} value={row.value} tag="span" /></a>
+                    ) : (
+                      <GenericEditableText sectionId={sectionId} field={row.field} value={row.value} tag="span" />
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Info + form */}
-          <div className="k01-contact-content">
-            {/* Left: contact info */}
-            <div className="k01-contact-info">
-              <div className="k01-contact-item">
-                <div className="k01-contact-icon">📞</div>
-                <div className="k01-contact-itext">
-                  <h3>Telefon</h3>
-                  <p><a href={`tel:${phone.replace(/\s/g, "")}`}>
-                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                  </a></p>
-                </div>
+          <div className="k01co-form-wrap">
+            <h3 className="k01co-form-title"><GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" /></h3>
+            {status === "ok" ? (
+              <div className="k01co-success" role="status">
+                <p>Zpráva odeslána! Ozvu se vám do 24 hodin, u havárií ještě dnes.</p>
               </div>
-              <div className="k01-contact-item">
-                <div className="k01-contact-icon">✉️</div>
-                <div className="k01-contact-itext">
-                  <h3>Email</h3>
-                  <p><a href={`mailto:${email}`}>
-                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                  </a></p>
-                </div>
-              </div>
-              <div className="k01-contact-item">
-                <div className="k01-contact-icon">📍</div>
-                <div className="k01-contact-itext">
-                  <h3>Oblast působení</h3>
-                  <p><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>
-                </div>
-              </div>
-              <div className="k01-contact-item">
-                <div className="k01-contact-icon">🕐</div>
-                <div className="k01-contact-itext">
-                  <h3>Pracovní doba</h3>
-                  <p><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right: form */}
-            <div className="k01-contact-form">
-              <h3>
-                <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" />
-              </h3>
-              <form onSubmit={(e) => e.preventDefault()}>
-                <div className="k01-form-row">
-                  <div className="k01-form-group" style={{ marginBottom: 0 }}>
-                    <input type="text" placeholder="Vaše jméno" required />
+            ) : (
+              <form className="k01co-form" onSubmit={handleSubmit}>
+                <div className="k01co-2col">
+                  <div className="k01co-field">
+                    <label htmlFor={`k01-name-${sectionId}`}>Jméno *</label>
+                    <input id={`k01-name-${sectionId}`} type="text" name="name" required autoComplete="name" placeholder="Jan Novák" />
                   </div>
-                  <div className="k01-form-group" style={{ marginBottom: 0 }}>
-                    <input type="tel" placeholder="Váš telefon" required />
+                  <div className="k01co-field">
+                    <label htmlFor={`k01-phone-${sectionId}`}>Telefon *</label>
+                    <input id={`k01-phone-${sectionId}`} type="tel" name="phone" required autoComplete="tel" placeholder="+420 704 123 456" />
                   </div>
                 </div>
-                <div className="k01-form-group">
-                  <input type="email" placeholder="Váš email" />
+                <div className="k01co-field">
+                  <label htmlFor={`k01-email-${sectionId}`}>E-mail</label>
+                  <input id={`k01-email-${sectionId}`} type="email" name="email" autoComplete="email" placeholder="jan@email.cz" />
                 </div>
-                <div className="k01-form-group">
-                  <textarea placeholder="Popis zakázky" required />
+                <div className="k01co-field">
+                  <label htmlFor={`k01-msg-${sectionId}`}>Popis zakázky *</label>
+                  <textarea id={`k01-msg-${sectionId}`} name="message" required placeholder="Popište střechu a co potřebujete opravit — typ krytiny, rozsah, adresa…" />
                 </div>
-                <button type="submit" className="k01-form-submit">
-                  <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <button type="submit" className="k01co-submit" disabled={status === "sending"}>
+                  {status === "sending" ? "Odesílám…" : ctaText}
                 </button>
+                {status === "err" && <p className="k01co-error" role="alert">Odeslání se nepovedlo. Zkuste to znovu, nebo rovnou zavolejte.</p>}
+                <p className="k01co-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
               </form>
-            </div>
+            )}
           </div>
         </div>
       </section>
     </>
   );
 }
+
 
 // ── garden-01-contact ────────────────────────────────────────────────────────
 // VYLEPŠENO: tmavý info panel #202714, gold accenty, formulář s green focus glow,
@@ -14869,6 +14873,217 @@ function ContactProof01({ content, sectionId, tenantSlug, isAdmin }: { content: 
                   <GenericEditableText sectionId={sectionId} field="consentLabel" value={consentLabel} tag="span" />
                 </label>
                 <button type="submit" className="pf01ct-submit" disabled={status === "sending" || isAdmin}>
+                  {status === "sending" ? "Odesílám…" : <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />}
+                  {status !== "sending" && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Konzultace: charcoal panel s info řádky + bílá karta s formulářem (jméno,
+// společnost, e-mail, telefon, select Co řešíte, zpráva, GDPR, honeypot).
+function ContactSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow  = String(content.eyebrow  ?? "Konzultace");
+  const heading  = String(content.heading  ?? "Rezervujte si 30 minut s partnerem");
+  const subheading = String(content.subheading ?? "Popíšete situaci, my řekneme, jak bychom postupovali a co by to přineslo. Prvních 30 minut zdarma a bez závazku.");
+  const phone    = String(content.phone    ?? "+420 704 123 456");
+  const email    = String(content.email    ?? "poptavka@demo.cz");
+  const address  = String(content.address  ?? "Ukázková 123, 110 00 Praha 1");
+  const hours    = String(content.hours    ?? "Po–Pá 9:00–18:00");
+  const icoLabel = String(content.icoLabel ?? "Fakturační údaje");
+  const ico      = String(content.ico ?? "IČO 12345678 · vedeno u MS v Praze");
+  const formTitle = String(content.formTitle ?? "Nezávazná konzultace");
+  const nameLabel = String(content.nameLabel ?? "Jméno a příjmení");
+  const companyLabel = String(content.companyLabel ?? "Společnost");
+  const phoneLabel = String(content.phoneLabel ?? "Telefon");
+  const emailLabel = String(content.emailLabel ?? "Pracovní e-mail");
+  const topicLabel = String(content.topicLabel ?? "Co řešíte");
+  const rawTopics = content.topics as string[] | undefined;
+  const topics = rawTopics && rawTopics.length ? rawTopics : ["Strategie a růst", "Finance a controlling", "Compliance a právo", "Procesy a provoz", "Jiné"];
+  const messageLabel = String(content.messageLabel ?? "Stručně popište situaci");
+  const consentLabel = String(content.consentLabel ?? "Souhlasím se zpracováním osobních údajů za účelem vyřízení poptávky.");
+  const submitLabel = String(content.submitLabel ?? "Rezervovat konzultaci");
+  const successTitle = String(content.successTitle ?? "Děkujeme, poptávka odešla.");
+  const successBody  = String(content.successBody ?? "Do 24 hodin se ozve partner odpovědný za vaši oblast a domluvíte si termín konzultace.");
+
+  const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
+  const [email2, setEmail2] = useState("");
+  const [phone2, setPhone2] = useState("");
+  const [topic, setTopic] = useState("");
+  const [message, setMessage] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin) return;
+    if (honeypot) return;
+    if (!consent) { setErrorMsg("Pro odeslání potvrďte souhlas se zpracováním údajů."); setStatus("error"); return; }
+    if (!message.trim()) { setErrorMsg("Popište prosím stručně, co řešíte."); setStatus("error"); return; }
+    if (!tenantSlug) { setStatus("success"); return; }
+    setStatus("sending");
+    setErrorMsg("");
+    const composed = [
+      topic ? `Co řešíme: ${topic}` : "",
+      company ? `Společnost: ${company}` : "",
+      "",
+      message,
+    ].filter((l, i) => l !== "" || i === 2).join("\n");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email: email2, phone: phone2, message: composed, website: honeypot }),
+      });
+      const json = await res.json().catch(() => ({})) as { error?: string };
+      if (!res.ok) { setErrorMsg(json.error ?? "Nepodařilo se odeslat poptávku."); setStatus("error"); }
+      else { setStatus("success"); setName(""); setCompany(""); setEmail2(""); setPhone2(""); setTopic(""); setMessage(""); setConsent(false); }
+    } catch {
+      setErrorMsg("Nepodařilo se odeslat poptávku. Zkuste to znovu, nebo nám zavolejte.");
+      setStatus("error");
+    }
+  }
+
+  const infoRows: Array<{ icon: React.ReactNode; label: string; value: string; href?: string }> = [
+    { label: "Telefon", value: phone, href: `tel:${phone.replace(/\s/g, "")}`, icon: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/> },
+    { label: "E-mail", value: email, href: `mailto:${email}`, icon: <><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></> },
+    { label: "Kancelář", value: address, icon: <><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></> },
+    { label: "K zastižení", value: hours, icon: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></> },
+  ];
+
+  return (
+    <>
+      <style>{`
+        .sg01ct { --sg-accent:#2563EB; --sg-accent-lt:#6EA8FE; --sg-ink:#101418; --sg-muted:#5B6472; --sg-border:#E3E7EB;
+          background:var(--sg-ink); color:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01ct-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(32px,5vw,64px); align-items:start; }
+        .sg01ct .sg01-eyebrow{ font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent-lt); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01ct .sg01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--sg-accent-lt); }
+        .sg01ct-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.8rem,3.4vw,2.6rem); font-weight:600; letter-spacing:.01em; line-height:1.1; margin:0 0 14px; }
+        .sg01ct-sub { font-size:1.02rem; color:rgba(255,255,255,.8); line-height:1.6; margin:0 0 30px; }
+        .sg01ct-info { display:grid; gap:16px; margin-bottom:26px; }
+        .sg01ct-row { display:flex; align-items:flex-start; gap:14px; }
+        .sg01ct-row-ic { width:42px; height:42px; border-radius:6px; background:rgba(37,99,235,.2); color:var(--sg-accent-lt); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .sg01ct-row-lbl { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.72); }
+        .sg01ct-row-val { font-weight:700; color:#fff; text-decoration:none; }
+        a.sg01ct-row-val:hover { color:var(--sg-accent-lt); }
+        .sg01ct-ico { border-top:1px solid rgba(255,255,255,.12); padding-top:20px; }
+        .sg01ct-ico-lbl { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.72); margin:0 0 6px; }
+        .sg01ct-ico-val { font-weight:700; }
+        .sg01ct-card { background:#fff; border-radius:12px; padding:clamp(24px,3vw,36px); color:var(--sg-ink); box-shadow:0 14px 40px -22px rgba(0,0,0,.35); }
+        .sg01ct-card-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.22rem; font-weight:600; letter-spacing:.01em; margin:0 0 20px; }
+        .sg01ct-field { margin-bottom:16px; }
+        .sg01ct-field label { display:block; font-size:.82rem; font-weight:700; color:var(--sg-ink); margin-bottom:6px; }
+        .sg01ct-field input, .sg01ct-field textarea, .sg01ct-field select { width:100%; padding:12px 14px; border:1.5px solid var(--sg-border); border-radius:8px; font-family:inherit; font-size:.96rem; color:var(--sg-ink); background:#fff; transition:border-color .18s, box-shadow .18s; }
+        .sg01ct-field input:focus, .sg01ct-field textarea:focus, .sg01ct-field select:focus { outline:none; border-color:var(--sg-accent); box-shadow:0 0 0 3px rgba(37,99,235,.15); }
+        .sg01ct-field textarea { min-height:110px; resize:vertical; }
+        .sg01ct-field select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235B6472' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; cursor:pointer; }
+        .sg01ct-2col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+        .sg01ct-consent { display:flex; align-items:flex-start; gap:9px; font-size:.85rem; color:var(--sg-muted); line-height:1.45; margin:4px 0 18px; }
+        .sg01ct-consent input { margin-top:3px; accent-color:var(--sg-accent); flex-shrink:0; }
+        .sg01ct-submit { width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:15px; background:var(--sg-accent); color:#fff; font-weight:700; font-size:1rem; border:none; border-radius:6px; cursor:pointer; font-family:inherit; transition:transform .2s, box-shadow .2s, filter .2s; }
+        .sg01ct-submit:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 14px 28px -12px rgba(37,99,235,.7); }
+        .sg01ct-submit:disabled { opacity:.6; cursor:not-allowed; }
+        .sg01ct-err { background:#fdecea; color:#b3261e; border:1px solid #f5c6c2; border-radius:8px; padding:11px 14px; font-size:.88rem; margin-bottom:14px; }
+        .sg01ct-hp { position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+        .sg01ct-success { text-align:center; padding:24px 8px; }
+        .sg01ct-success-ic { width:64px; height:64px; border-radius:50%; background:rgba(37,99,235,.12); color:var(--sg-accent); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
+        .sg01ct-success h3 { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.35rem; font-weight:600; margin:0 0 8px; }
+        .sg01ct-success p { color:var(--sg-muted); line-height:1.6; margin:0; }
+        @media (max-width:820px){ .sg01ct-inner{ grid-template-columns:1fr; } .sg01ct-2col{ grid-template-columns:1fr; } }
+        @media (prefers-reduced-motion: reduce){ .sg01ct-submit,.sg01ct-field input,.sg01ct-field textarea{ transition:none; } }
+      `}</style>
+      <section className="sg01ct" data-template="signal-01" id="konzultace">
+        <div className="sg01ct-inner">
+          <div>
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01ct-title"><GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" /></h2>
+            <p className="sg01ct-sub"><GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" /></p>
+            <div className="sg01ct-info">
+              {infoRows.map((r, i) => (
+                <div key={i} className="sg01ct-row">
+                  <span className="sg01ct-row-ic">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{r.icon}</svg>
+                  </span>
+                  <span>
+                    <span className="sg01ct-row-lbl" style={{ display: "block" }}>{r.label}</span>
+                    {r.href
+                      ? <a href={r.href} className="sg01ct-row-val">{r.value}</a>
+                      : <span className="sg01ct-row-val">{r.value}</span>}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="sg01ct-ico">
+              <p className="sg01ct-ico-lbl"><GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" /></p>
+              <p className="sg01ct-ico-val" style={{ margin: 0 }}><GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></p>
+            </div>
+          </div>
+
+          <div className="sg01ct-card">
+            {status === "success" ? (
+              <div className="sg01ct-success" role="status" aria-live="polite">
+                <span className="sg01ct-success-ic">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                </span>
+                <h3><GenericEditableText sectionId={sectionId} field="successTitle" value={successTitle} tag="span" /></h3>
+                <p><GenericEditableText sectionId={sectionId} field="successBody" value={successBody} tag="span" /></p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate>
+                <h3 className="sg01ct-card-title"><GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" /></h3>
+                {status === "error" && <div className="sg01ct-err" role="alert">{errorMsg}</div>}
+                <div className="sg01ct-2col">
+                  <div className="sg01ct-field">
+                    <label htmlFor={`sg01-name-${sectionId}`}><GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span" /></label>
+                    <input id={`sg01-name-${sectionId}`} type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" />
+                  </div>
+                  <div className="sg01ct-field">
+                    <label htmlFor={`sg01-company-${sectionId}`}><GenericEditableText sectionId={sectionId} field="companyLabel" value={companyLabel} tag="span" /></label>
+                    <input id={`sg01-company-${sectionId}`} type="text" name="company" value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" />
+                  </div>
+                </div>
+                <div className="sg01ct-2col">
+                  <div className="sg01ct-field">
+                    <label htmlFor={`sg01-email-${sectionId}`}><GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" /></label>
+                    <input id={`sg01-email-${sectionId}`} type="email" name="email" value={email2} onChange={(e) => setEmail2(e.target.value)} required autoComplete="email" />
+                  </div>
+                  <div className="sg01ct-field">
+                    <label htmlFor={`sg01-phone-${sectionId}`}><GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" /></label>
+                    <input id={`sg01-phone-${sectionId}`} type="tel" name="phone" value={phone2} onChange={(e) => setPhone2(e.target.value)} autoComplete="tel" />
+                  </div>
+                </div>
+                <div className="sg01ct-field">
+                  <label htmlFor={`sg01-topic-${sectionId}`}><GenericEditableText sectionId={sectionId} field="topicLabel" value={topicLabel} tag="span" /></label>
+                  <select id={`sg01-topic-${sectionId}`} name="topic" value={topic} onChange={(e) => setTopic(e.target.value)}>
+                    <option value="">— Vyberte oblast —</option>
+                    {topics.map((t, i) => (
+                      <option key={i} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="sg01ct-field">
+                  <label htmlFor={`sg01-msg-${sectionId}`}><GenericEditableText sectionId={sectionId} field="messageLabel" value={messageLabel} tag="span" /></label>
+                  <textarea id={`sg01-msg-${sectionId}`} name="message" value={message} onChange={(e) => setMessage(e.target.value)} required />
+                </div>
+                <div className="sg01ct-hp" aria-hidden="true">
+                  <label>Web<input type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} /></label>
+                </div>
+                <label className="sg01ct-consent">
+                  <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+                  <GenericEditableText sectionId={sectionId} field="consentLabel" value={consentLabel} tag="span" />
+                </label>
+                <button type="submit" className="sg01ct-submit" disabled={status === "sending" || isAdmin}>
                   {status === "sending" ? "Odesílám…" : <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />}
                   {status !== "sending" && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>}
                 </button>

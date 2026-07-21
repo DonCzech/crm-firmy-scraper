@@ -35,6 +35,7 @@ export function TeamSection({ content, variant, sectionId }: Props) {
   if (variant === "kids-01-team")    return <TeamKids01  content={content} sectionId={sectionId} />;
   if (variant === "vet-01-team")     return <TeamVet01   content={content} sectionId={sectionId} />;
   if (variant === "arch-01-team")    return <TeamArch01  content={content} sectionId={sectionId} />;
+  if (variant === "signal-01-team")  return <TeamSignal01 content={content} sectionId={sectionId} />;
   if (variant === "legal-02-team")   return <TeamLegal02 content={content} sectionId={sectionId} />;
 
   // beauty-01 — Sand-Cream Editorial Wellness team grid
@@ -1504,5 +1505,67 @@ function TeamLegal02({ content, sectionId }: { content: Record<string, unknown>;
         </div>
       </div>
     </section>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Tým: portrétní karty 4/5, jméno Oswald, mono role, krátké bio. Ledové pozadí.
+function TeamSignal01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Tým");
+  const title   = String(content.title   ?? "Senioři, kteří už firmy vedli");
+  const lead    = String(content.lead    ?? "Žádní junioři na fakturaci. Na projektu pracují lidé, kteří mají výsledky za sebou.");
+  type SgMember = { name?: string; role?: string; bio?: string; image?: string };
+  const members = (content.members as SgMember[] | undefined) ?? [];
+  return (
+    <>
+      <style>{`
+        .sg01tm { --sg-accent:#2563EB; --sg-ink:#101418; --sg-muted:#5B6472; --sg-border:#E3E7EB;
+          background:#F3F5F7; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--sg-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01tm-inner { max-width:1180px; margin:0 auto; }
+        .sg01tm-head { max-width:660px; margin-bottom:clamp(32px,5vw,52px); }
+        .sg01tm .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01tm .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent); }
+        .sg01tm-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
+        .sg01tm-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
+        .sg01tm-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:18px; }
+        .sg01tm-card { background:#fff; border:1px solid var(--sg-border); border-radius:10px; overflow:hidden; transition:transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s; }
+        .sg01tm-card:hover { transform:translateY(-4px); box-shadow:0 12px 28px -18px rgba(16,20,24,.25); }
+        .sg01tm-photo { position:relative; aspect-ratio:4/5; overflow:hidden; background:#E4E8ED; }
+        .sg01tm-photoslot { position:absolute; inset:0; width:100%; height:100%; display:block; }
+        .sg01tm-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s cubic-bezier(.22,.68,0,1); }
+        .sg01tm-card:hover .sg01tm-photo img { transform:scale(1.04); }
+        .sg01tm-body { padding:20px 22px 22px; }
+        .sg01tm-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.12rem; font-weight:600; letter-spacing:.01em; margin:0 0 4px; }
+        .sg01tm-role { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 10px; }
+        .sg01tm-bio { font-size:.9rem; color:var(--sg-muted); line-height:1.55; margin:0; }
+        @media (prefers-reduced-motion: reduce){ .sg01tm-card,.sg01tm-photo img{ transition:none; } }
+      `}</style>
+      <section className="sg01tm" data-template="signal-01" id="tym">
+        <div className="sg01tm-inner">
+          <div className="sg01tm-head">
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01tm-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="sg01tm-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="sg01tm-grid">
+            {members.map((m, i) => (
+              <div key={i} className="sg01tm-card">
+                <div className="sg01tm-photo">
+                  <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={String(m.image ?? "")} alt={String(m.name ?? "")} className="sg01tm-photoslot">
+                    {m.image && <img src={String(m.image)} alt={String(m.name ?? "")} loading="lazy" />}
+                  </GenericEditableImage>
+                </div>
+                <div className="sg01tm-body">
+                  <h3 className="sg01tm-name"><GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={String(m.name ?? "")} tag="span" /></h3>
+                  <p className="sg01tm-role"><GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={String(m.role ?? "")} tag="span" /></p>
+                  <p className="sg01tm-bio"><GenericEditableText sectionId={sectionId} field={`members.${i}.bio`} value={String(m.bio ?? "")} tag="span" /></p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

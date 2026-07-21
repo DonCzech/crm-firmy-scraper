@@ -5,6 +5,7 @@ import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { OptimizedPicture } from "@/components/OptimizedPicture";
 import { SearchAutocomplete, type Suggestions as WsaSuggestions } from "@/components/storefront/SearchAutocomplete";
+import { StorefrontMegaMenu, type MegaMenuTheme } from "@/components/storefront/MegaMenu";
 
 interface Props {
   content: Record<string, unknown>;
@@ -3288,6 +3289,7 @@ function NavbarFitness01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
 // Main exported dispatch — must be after all variant functions
 export function NavbarSection(props: Props) {
+  if (props.variant === "signal-01-navbar") return <NavbarSignal01 {...props} />;
   if (props.variant === "proof-01-navbar") return <NavbarProof01 {...props} />;
   if (props.variant === "hair-01-topbar") return <NavbarHair01Topbar {...props} />;
   if (props.variant === "hair-02-navbar") return <NavbarHair02 {...props} />;
@@ -3785,157 +3787,219 @@ function NavbarDj01(props: Props) {
 }
 
 // ── klempir-01-navbar ─────────────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz:
-// - Fixed TRANSPARENT navbar přes hero (ztmavení pochází z radial-gradient hero overlaye)
-// - Na scrollu (>60px) → bílý bg + box-shadow 0 5px 15px rgba(0,0,0,0.1)
-// - Logo vlevo: SVG max-height 50px (bílá verze transparent, tmavá verze scrolled)
-// - Container: max-width 1200px, padding 20px 15px
-// - Nav linky: bílé → tmavé, hover silver #c0c0c0 + 2px underline
-// - Tel vpravo; hamburger na mobilu (<992px) → fullscreen tmavý overlay
-// - Font: Montserrat 500
-// ─────────────────────────────────────────────────────────────────────────────
+// Copper & Slate: transparent přes tmavý hero → slate blur bar po scrollu;
+// Fraunces wordmark, copper CTA, fullscreen overlay menu se scroll-lockem
+// + sticky mobilní CTA lišta (Zavolat / Poptávka).
 function NavbarKlempir01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const WHITE  = "#ffffff";
-  const FONT   = "'Montserrat', sans-serif";
+  useEffect(() => {
+    if (!menuOpen) return;
+    document.body.style.overflow = "hidden";
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handler);
+    };
+  }, [menuOpen]);
 
-  const siteName = String(content.siteName ?? "Klempířské práce");
-  const logoUrl  = String(content.logoUrl  ?? "");
+  const siteName = String(content.siteName ?? "Klempířství Hruška");
   const phone    = String(content.phone    ?? "+420 704 123 456");
+  const ctaText  = String(content.ctaText  ?? "Nezávazná poptávka");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
   const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
-  const isLight   = scrolled || menuOpen;
-  const navBg     = isLight ? WHITE : "transparent";
-  const navShadow = scrolled ? "0 5px 15px rgba(0,0,0,0.1)" : "none";
-  const linkColor = isLight ? DARK : WHITE;
-  // White SVG logo rendered dark when navbar is on white bg
-  const logoFilter = isLight ? "brightness(0) saturate(100%)" : "none";
-
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" />
-      <style>{`        .k01-header{position:fixed;width:100%;top:0;left:0;z-index:1000;transition:all 0.3s ease;}
-        .k01-inner{display:flex;align-items:center;justify-content:space-between;width:90%;max-width:1200px;margin:0 auto;padding:20px 15px;}
-        .k01-menu{display:flex;list-style:none;margin:0;padding:0;}
-        .k01-menu li{margin:0 15px;}
-        .k01-menu a{font-family:${FONT};font-weight:500;font-size:16.5px;text-decoration:none;transition:all 0.3s ease;position:relative;}
-        .k01-menu a::after{content:'';position:absolute;width:0;height:2px;background-color:${SILVER};bottom:-5px;left:0;transition:all 0.3s ease;}
-        .k01-menu a:hover::after{width:100%;}
-        .k01-phone-link{font-family:${FONT};font-weight:500;font-size:16.5px;text-decoration:none;transition:all 0.3s ease;}
-        .k01-phone-link:hover{color:${SILVER}!important;}
-        .k01-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:5px;}
-        .k01-hamburger span{display:block;width:25px;height:2px;border-radius:2px;transition:all 0.3s ease;}
-        .k01-header-right{display:flex;align-items:center;gap:20px;}
-        @media(max-width:992px){
-          .k01-menu-wrap{display:none!important;}
-          .k01-phone-wrap{display:none!important;}
-          .k01-hamburger{display:flex!important;}
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+      <style>{`
+        .k01-header {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          font-family: 'Manrope', sans-serif;
+          background: ${scrolled ? "rgba(20,23,26,0.9)" : "transparent"};
+          -webkit-backdrop-filter: ${scrolled ? "blur(14px)" : "none"};
+          backdrop-filter: ${scrolled ? "blur(14px)" : "none"};
+          border-bottom: 1px solid ${scrolled ? "rgba(247,244,239,0.12)" : "transparent"};
+          transition: background 0.3s, border-color 0.3s;
         }
-        .k01-mobile-overlay{position:fixed;top:0;left:0;width:100%;height:100vh;background:${DARK};z-index:999;padding:80px 30px 30px;display:flex;flex-direction:column;overflow-y:auto;}
-        .k01-mobile-overlay a{color:${WHITE};font-family:${FONT};font-size:18px;font-weight:500;text-decoration:none;padding:15px 0;border-bottom:1px solid rgba(255,255,255,0.1);transition:color 0.2s;}
-        .k01-mobile-overlay a:hover{color:${SILVER};}
-        .k01-mobile-close{position:absolute;top:20px;right:20px;background:none;border:none;cursor:pointer;color:${WHITE};width:30px;height:30px;}
+        .k01-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          height: 4.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+        }
+        .k01-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
+        .k01-logo-mark {
+          width: 30px; height: 30px; background: #B4622D; display: grid; place-items: center; flex-shrink: 0;
+        }
+        .k01-logo-text {
+          font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.18rem;
+          letter-spacing: -0.01em; color: #F7F4EF; white-space: nowrap;
+        }
+        .k01-menu { display: flex; align-items: center; gap: 1.5rem; list-style: none; margin: 0; padding: 0; }
+        .k01-menu a {
+          position: relative; font-size: 0.93rem; font-weight: 600; color: rgba(247,244,239,0.85);
+          text-decoration: none; padding: 0.35rem 0; transition: color 0.2s;
+        }
+        .k01-menu a::after {
+          content: ""; position: absolute; left: 0; right: 100%; bottom: -2px; height: 2px;
+          background: #B4622D; transition: right 0.25s cubic-bezier(0.65,0,0.35,1);
+        }
+        .k01-menu a:hover { color: #fff; }
+        .k01-menu a:hover::after { right: 0; }
+        .k01-right { display: flex; align-items: center; gap: 1.2rem; flex-shrink: 0; }
+        .k01-phone {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          font-size: 0.93rem; font-weight: 700; color: #F7F4EF; text-decoration: none;
+          font-variant-numeric: tabular-nums; white-space: nowrap;
+        }
+        .k01-phone svg { color: #D98E55; }
+        .k01-phone:hover { color: #D98E55; }
+        .k01-cta {
+          display: inline-flex; align-items: center;
+          padding: 0.64rem 1.35rem; border-radius: 4px;
+          background: #B4622D; color: #fff; font-size: 0.9rem; font-weight: 700;
+          text-decoration: none; white-space: nowrap;
+          transition: background 0.25s;
+        }
+        .k01-cta:hover { background: #8F4A1E; }
+        .k01-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: #F7F4EF; }
+        .k01-overlay {
+          position: fixed; inset: 0; background: #14171A; z-index: 200;
+          display: flex; flex-direction: column; padding: 1.1rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+          font-family: 'Manrope', sans-serif;
+        }
+        .k01-overlay.k01-open { opacity: 1; pointer-events: auto; }
+        .k01-ov-head { display: flex; align-items: center; justify-content: space-between; height: 3.4rem; }
+        .k01-ov-close {
+          background: transparent; border: 1px solid rgba(247,244,239,0.25); border-radius: 4px;
+          width: 44px; height: 44px; display: grid; place-items: center;
+          font-size: 1.5rem; cursor: pointer; color: #F7F4EF; line-height: 1;
+        }
+        .k01-ov-links { display: flex; flex-direction: column; margin-top: 1.6rem; flex: 1; overflow-y: auto; }
+        .k01-ov-links a {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(1.6rem, 6vw, 2.1rem); font-weight: 600; letter-spacing: -0.01em;
+          color: #F7F4EF; text-decoration: none;
+          padding: 0.7rem 0; border-bottom: 1px solid rgba(247,244,239,0.12);
+          display: flex; align-items: center; justify-content: space-between;
+          opacity: 0; transform: translateY(10px); transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .k01-ov-links a::after { content: "→"; font-size: 1.1rem; color: #B4622D; }
+        .k01-open .k01-ov-links a { opacity: 1; transform: none; }
+        ${Array.from({ length: 8 }, (_, i) => `.k01-open .k01-ov-links a:nth-child(${i + 1}) { transition-delay: ${60 + i * 45}ms; }`).join("\n")}
+        .k01-ov-foot { display: flex; flex-direction: column; gap: 0.8rem; padding-top: 1.4rem; }
+        .k01-ov-phone {
+          text-align: center; font-size: 1.05rem; font-weight: 700; color: #F7F4EF; text-decoration: none;
+          padding: 0.95rem 2rem; border-radius: 4px; border: 1px solid rgba(247,244,239,0.25);
+        }
+        .k01-ov-cta {
+          display: block; padding: 1rem 2rem; text-align: center;
+          border-radius: 4px; background: #B4622D;
+          color: #fff; font-weight: 700; font-size: 1.02rem; text-decoration: none;
+        }
+        .k01-mobilebar {
+          display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          background: rgba(20,23,26,0.94);
+          -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+          border-top: 1px solid rgba(247,244,239,0.15);
+          padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom));
+          grid-template-columns: 1fr 1.4fr; gap: 0.6rem;
+          font-family: 'Manrope', sans-serif;
+        }
+        .k01-mb-call, .k01-mb-cta {
+          display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+          border-radius: 4px; font-size: 0.95rem; font-weight: 700; text-decoration: none;
+          padding: 0.78rem 0.5rem;
+        }
+        .k01-mb-call { border: 1px solid rgba(247,244,239,0.3); color: #F7F4EF; }
+        .k01-mb-cta { background: #B4622D; color: #fff; }
+        @media (max-width: 1050px) {
+          .k01-menu, .k01-phone, .k01-cta { display: none; }
+          .k01-hamburger { display: block; }
+          .k01-mobilebar { display: grid; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .k01-overlay, .k01-ov-links a, .k01-menu a::after { transition: none !important; }
+        }
       `}</style>
 
-      <header
-        className="k01-header"
-        data-template="klempir-01"
-        style={{ backgroundColor: navBg, boxShadow: navShadow }}
-      >
+      <header className="k01-header" data-template="klempir-01-navbar">
         <div className="k01-inner">
-          {/* Logo */}
-          <a href={resolve("/")} style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }} aria-label={siteName}>
-            {logoUrl ? (
-              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} className="relative overflow-hidden" style={{ height: 50 }}>
-                <img
-                  src={logoUrl} alt={siteName}
-                  style={{ height: 50, width: "auto", objectFit: "contain", display: "block", filter: logoFilter, transition: "filter 0.3s ease" }}
-                />
-              </GenericEditableImage>
-            ) : (
-              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 20, color: isLight ? DARK : WHITE, letterSpacing: "0.3px", whiteSpace: "nowrap", transition: "color 0.3s" }}>
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </span>
-            )}
+          <a href={resolve("/")} className="k01-logo" aria-label={siteName}>
+            <span className="k01-logo-mark" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 9.5L8 3l6 6.5" stroke="#F7F4EF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M4.5 9.5V13h7V9.5" stroke="#F7F4EF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+            <span className="k01-logo-text"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
           </a>
 
-          {/* Desktop nav */}
-          <nav className="k01-menu-wrap" style={{ display: "flex" }}>
-            <ul className="k01-menu">
-              {links.map((l, i) => (
-                <li key={`${l.href}-${i}`}>
-                  <a
-                    href={resolve(l.href)}
-                    style={{ color: linkColor }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = SILVER; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = linkColor; }}
-                  >
-                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <ul className="k01-menu" role="list">
+            {links.map((link, i) => (
+              <li key={i}>
+                <a href={resolve(link.href)}>
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                </a>
+              </li>
+            ))}
+          </ul>
 
-          {/* Right: phone + hamburger */}
-          <div className="k01-header-right">
-            <div className="k01-phone-wrap">
-              <a
-                className="k01-phone-link"
-                href={`tel:${phone.replace(/\s/g, "")}`}
-                style={{ color: linkColor }}
-              >
-                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-              </a>
-            </div>
-            <button
-              className="k01-hamburger"
-              onClick={() => setMenuOpen(o => !o)}
-              aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
-            >
-              {[0, 1, 2].map(n => (
-                <span key={n} style={{
-                  backgroundColor: isLight ? DARK : WHITE,
-                  transform: menuOpen
-                    ? n === 0 ? "translateY(7px) rotate(45deg)"
-                    : n === 2 ? "translateY(-7px) rotate(-45deg)"
-                    : "scaleX(0)"
-                    : "none",
-                  opacity: menuOpen && n === 1 ? 0 : 1,
-                }} />
-              ))}
-            </button>
+          <div className="k01-right">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="k01-phone">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="k01-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
           </div>
+
+          <button className="k01-hamburger" onClick={() => setMenuOpen(true)} aria-label="Otevřít menu" aria-expanded={menuOpen}>
+            <svg width="26" height="18" viewBox="0 0 26 18" fill="none" aria-hidden="true">
+              <rect y="0" width="26" height="2.4" rx="1.2" fill="currentColor"/>
+              <rect y="7.8" width="18" height="2.4" rx="1.2" fill="currentColor"/>
+              <rect y="15.6" width="26" height="2.4" rx="1.2" fill="currentColor"/>
+            </svg>
+          </button>
         </div>
       </header>
 
-      {/* Mobile fullscreen overlay */}
-      {menuOpen && (
-        <div className="k01-mobile-overlay">
-          <button className="k01-mobile-close" onClick={() => setMenuOpen(false)} aria-label="Zavřít">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          </button>
-          {links.map((l, i) => (
-            <a key={i} href={resolve(l.href)} onClick={() => setMenuOpen(false)}>{l.label}</a>
-          ))}
-          <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ marginTop: 20, color: SILVER, fontWeight: 700 }} onClick={() => setMenuOpen(false)}>{phone}</a>
+      <div className={`k01-overlay${menuOpen ? " k01-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
+        <div className="k01-ov-head">
+          <span className="k01-logo-text" style={{ fontSize: "1.1rem" }}>{siteName}</span>
+          <button className="k01-ov-close" onClick={() => setMenuOpen(false)} aria-label="Zavřít menu">×</button>
         </div>
-      )}
+        <div className="k01-ov-links">
+          {links.map((link, i) => (
+            <a key={i} href={resolve(link.href)} onClick={() => setMenuOpen(false)}>{link.label}</a>
+          ))}
+        </div>
+        <div className="k01-ov-foot">
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="k01-ov-phone" onClick={() => setMenuOpen(false)}>{phone}</a>
+          <a href={resolve(ctaHref)} data-btn="primary" className="k01-ov-cta" onClick={() => setMenuOpen(false)}>{ctaText}</a>
+        </div>
+      </div>
+
+      <div className="k01-mobilebar" aria-hidden={menuOpen}>
+        <a href={`tel:${phone.replace(/\s/g, "")}`} className="k01-mb-call">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
+          Zavolat
+        </a>
+        <a href={resolve(ctaHref)} className="k01-mb-cta">{ctaText}</a>
+      </div>
     </>
   );
 }
@@ -11414,173 +11478,187 @@ function NavbarDental01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 }
 
 // ── ortho-01-navbar ──────────────────────────────────────────────────────────
-// Transparent overlay nad hero (margin-bottom -84px), bílý + shadow po scrollu.
-// Logo: inline SVG tooth + wordmark — bílý transparent, teal+slate po scrollu.
-// Nav: 6 linků. CTA: teal #00b7ad pill "Konzultace zdarma" + bílá šipka.
-// Mobile: fullscreen slate #244757 overlay s bílými linky.
-// ─────────────────────────────────────────────────────────────────────────────
-function NavbarOrtho01({ content, isAdmin, tenantSlug, sectionId }: Props) {
-  const [open, setOpen] = useState(false);
+// Porcelain V3: transparent → porcelánový blur bar; Young Serif wordmark,
+// teal CTA pill, fullscreen overlay + sticky mobilní CTA lišta.
+function NavbarOrtho01(props: Props) {
+  const { content, tenantSlug, isAdmin, sectionId } = props;
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     if (!open) return;
+    document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", handler); };
   }, [open]);
 
-  const TEAL  = "#00b7ad";
-  const SLATE = "#244757";
-  const WHITE = "#ffffff";
-  const FONT  = "'Inter', 'Arial', sans-serif";
-  const HEIGHT = 92; // +10% of original 84px
-
-  const isScrolled = scrolled || open;
-  const bgColor   = isScrolled ? WHITE : "rgba(0,0,0,0)";
-  const shadow    = isScrolled ? "0 2px 20px rgba(0,0,0,0.12)" : "none";
-  const linkColor = isScrolled ? SLATE : WHITE;
-  const logoTooth = isScrolled ? TEAL : WHITE;
-  const logoText  = isScrolled ? SLATE : WHITE;
-  const logoSub   = isScrolled ? TEAL  : "rgba(255,255,255,0.75)";
-
-  const siteName  = String(content.siteName  ?? "Demo Svět rovnátek");
-  const logoLine1 = String(content.logoLine1 ?? "Neviditelná");
-  const logoLine2 = String(content.logoLine2 ?? "Rovnátka");
-  const ctaText   = String(content.ctaText   ?? "Konzultace zdarma");
-  const ctaHref   = String(content.ctaHref   ?? "#kontakt");
-  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
-
-  const defaultLinks = [
-    { label: "Pro děti",       href: "#sluzby" },
-    { label: "Pro teenagery",  href: "#sluzby" },
-    { label: "Smile Makeover", href: "#sluzby" },
-    { label: "Financování",    href: "#financovani" },
-    { label: "FAQ",            href: "#faq" },
-    { label: "Kontakt",        href: "#kontakt" },
-  ];
-  const navLinks = links.length > 0 ? links : defaultLinks;
+  const siteName = String(content.siteName ?? "Úsměv Ortodoncie");
+  const line1 = String(content.logoLine1 ?? "Úsměv");
+  const line2 = String(content.logoLine2 ?? "Ortodoncie");
+  const ctaText = String(content.ctaText ?? "Konzultace zdarma");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
   const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
     <>
-      <header style={{
-        position: "fixed",
-        top: 0, left: 0, right: 0,
-        zIndex: 50,
-        height: HEIGHT,
-        backgroundColor: bgColor,
-        boxShadow: shadow,
-        transition: "background-color 0.3s ease, box-shadow 0.3s ease",
-        fontFamily: FONT,
-      }}>
-        <div style={{
-          maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px, 4vw, 40px)",
-          height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16,
-        }}>
-          {/* Logo */}
-          <a href={resolve("/")} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 9, flexShrink: 0 }} title={siteName}>
-            <svg width="40" height="40" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M18 2C13.2 2 9 5.8 9 10.8c0 2.3.7 4.3 1.5 6.2 1.2 2.8 1.5 4.8 1.5 7 0 3.2 1.1 6.4 2.3 8.8.5 1 1.2 1.7 2.2 1.7 1 0 1.6-.8 1.9-2.2l.6-4 .6 4c.3 1.4.9 2.2 1.9 2.2 1 0 1.7-.7 2.2-1.7C27 30.4 27 27.2 27 24c0-2.2.3-4.2 1.5-7 .8-1.9 1.5-3.9 1.5-6.2C30 5.8 22.8 2 18 2Z" fill={logoTooth}/>
-              <rect x="11" y="12.5" width="14" height="3" rx="0.8" fill={logoTooth} opacity=".2"/>
-              <rect x="12.5" y="12.5" width="2.4" height="3" rx=".5" fill={logoTooth}/>
-              <rect x="16.8" y="12.5" width="2.4" height="3" rx=".5" fill={logoTooth}/>
-              <rect x="21.1" y="12.5" width="2.4" height="3" rx=".5" fill={logoTooth}/>
-            </svg>
-            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
-              <span style={{ fontSize: "1.01rem", fontWeight: 800, color: logoText, letterSpacing: "-0.01em", fontFamily: FONT }}>
-                <GenericEditableText sectionId={sectionId} field="logoLine1" value={logoLine1} tag="span" />
-              </span>
-              <span style={{ fontSize: "1.01rem", fontWeight: 800, color: logoTooth, letterSpacing: "-0.01em", fontFamily: FONT }}>
-                <GenericEditableText sectionId={sectionId} field="logoLine2" value={logoLine2} tag="span" />
-              </span>
-            </div>
-          </a>
-
-          {/* Nav links (desktop) */}
-          <nav className="o01-nav" style={{ display: "flex", alignItems: "center", gap: 40, flexGrow: 1, justifyContent: "center" }}>
-            {navLinks.map((l, i) => (
-              <a
-                key={`o01-${i}`}
-                href={resolve(l.href)}
-                style={{ fontFamily: FONT, fontSize: "0.91rem", fontWeight: 500, color: linkColor, textDecoration: "none", whiteSpace: "nowrap", transition: "color 0.18s" }}
-                onMouseEnter={e => { e.currentTarget.style.color = TEAL; }}
-                onMouseLeave={e => { e.currentTarget.style.color = linkColor; }}
-              >
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA */}
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            className="o01-cta"
-            style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, backgroundColor: TEAL, color: WHITE, fontFamily: FONT, fontSize: "0.91rem", fontWeight: 600, padding: "11px 22px", borderRadius: 999, textDecoration: "none", transition: "opacity 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.85"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-
-          {/* Hamburger */}
-          <button
-            aria-label={open ? "Zavřít menu" : "Otevřít menu"} aria-expanded={open}
-            onClick={() => setOpen(!open)}
-            className="o01-hamburger"
-            style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8, color: isScrolled ? SLATE : WHITE, zIndex: 60 }}
-          >
-            {open
-              ? <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-            }
-          </button>
-        </div>
-      </header>
-
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <style>{`
-        @media (max-width: 900px) {
-          .o01-nav       { display: none !important; }
-          .o01-cta       { display: none !important; }
-          .o01-hamburger { display: flex !important; }
+        .o01n-bar {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          font-family: 'Outfit', sans-serif;
+          background: ${scrolled ? "rgba(250,250,248,0.9)" : "transparent"};
+          -webkit-backdrop-filter: ${scrolled ? "blur(14px)" : "none"};
+          backdrop-filter: ${scrolled ? "blur(14px)" : "none"};
+          border-bottom: 1px solid ${scrolled ? "var(--color-border, #E4E7E3)" : "transparent"};
+          transition: background 0.3s, border-color 0.3s;
         }
+        .o01n-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          height: 4.6rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+        }
+        .o01n-logo { display: flex; align-items: center; gap: 0.65rem; text-decoration: none; flex-shrink: 0; }
+        .o01n-mark {
+          width: 34px; height: 34px; border-radius: 50%;
+          background: var(--color-primary, #0F766E); display: grid; place-items: center; flex-shrink: 0;
+        }
+        .o01n-logo-text { line-height: 1.05; }
+        .o01n-l1 { display: block; font-family: 'Young Serif', serif; font-size: 1.1rem; color: var(--color-text, #14201E); }
+        .o01n-l2 { display: block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-primary, #0F766E); }
+        .o01n-links { display: flex; align-items: center; gap: 1.45rem; list-style: none; margin: 0; padding: 0; }
+        .o01n-links a {
+          position: relative; font-size: 0.93rem; font-weight: 500; color: #3E4A47;
+          text-decoration: none; padding: 0.35rem 0; transition: color 0.2s;
+        }
+        .o01n-links a::after {
+          content: ""; position: absolute; left: 0; right: 100%; bottom: -1px; height: 2px;
+          background: var(--color-primary, #0F766E); transition: right 0.25s cubic-bezier(0.65,0,0.35,1);
+        }
+        .o01n-links a:hover { color: var(--color-text, #14201E); }
+        .o01n-links a:hover::after { right: 0; }
+        .o01n-cta {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          padding: 0.68rem 1.45rem; border-radius: 9999px;
+          background: var(--color-primary, #0F766E); color: #fff; font-size: 0.92rem; font-weight: 600;
+          text-decoration: none; white-space: nowrap; transition: background 0.25s, transform 0.25s;
+        }
+        .o01n-cta:hover { background: var(--color-accent, #0B5D57); transform: translateY(-1px); }
+        .o01n-burger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--color-text, #14201E); }
+        .o01n-overlay {
+          position: fixed; inset: 0; background: var(--color-bg, #FAFAF8); z-index: 200;
+          display: flex; flex-direction: column; padding: 1.1rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01n-overlay.o01n-open { opacity: 1; pointer-events: auto; }
+        .o01n-ov-head { display: flex; align-items: center; justify-content: space-between; height: 3.4rem; }
+        .o01n-ov-close {
+          background: #fff; border: 1px solid var(--color-border, #E4E7E3); border-radius: 9999px;
+          width: 44px; height: 44px; display: grid; place-items: center;
+          font-size: 1.5rem; cursor: pointer; color: var(--color-text, #14201E); line-height: 1;
+        }
+        .o01n-ov-links { display: flex; flex-direction: column; margin-top: 1.5rem; flex: 1; overflow-y: auto; }
+        .o01n-ov-links a {
+          font-family: 'Young Serif', serif;
+          font-size: clamp(1.5rem, 5.8vw, 2rem); color: var(--color-text, #14201E); text-decoration: none;
+          padding: 0.7rem 0; border-bottom: 1px solid var(--color-border, #E4E7E3);
+          display: flex; align-items: center; justify-content: space-between;
+          opacity: 0; transform: translateY(10px); transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .o01n-ov-links a::after { content: "→"; font-size: 1.05rem; color: var(--color-primary, #0F766E); }
+        .o01n-open .o01n-ov-links a { opacity: 1; transform: none; }
+        ${Array.from({ length: 8 }, (_, i) => `.o01n-open .o01n-ov-links a:nth-child(${i + 1}) { transition-delay: ${60 + i * 45}ms; }`).join("\n")}
+        .o01n-ov-cta {
+          display: block; margin-top: 1.4rem; padding: 1rem 2rem; text-align: center;
+          border-radius: 9999px; background: var(--color-primary, #0F766E);
+          color: #fff; font-weight: 700; font-size: 1.02rem; text-decoration: none;
+        }
+        .o01n-mobilebar {
+          display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          background: rgba(250,250,248,0.94);
+          -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+          border-top: 1px solid var(--color-border, #E4E7E3);
+          padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom));
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01n-mb-cta {
+          display: flex; align-items: center; justify-content: center; gap: 0.45rem;
+          border-radius: 9999px; font-size: 0.98rem; font-weight: 700; text-decoration: none;
+          padding: 0.82rem 0.5rem; background: var(--color-primary, #0F766E); color: #fff;
+        }
+        @media (max-width: 1050px) {
+          .o01n-links, .o01n-cta { display: none; }
+          .o01n-burger { display: block; }
+          .o01n-mobilebar { display: block; }
+        }
+        @media (prefers-reduced-motion: reduce) { .o01n-overlay, .o01n-ov-links a { transition: none !important; } }
       `}</style>
 
-      {open && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 49, backgroundColor: SLATE, display: "flex", flexDirection: "column", padding: "100px 32px 40px", overflowY: "auto" }}>
-          {navLinks.map((l, i) => (
-            <a
-              key={`o01-mob-${i}`}
-              href={resolve(l.href)}
-              onClick={() => setOpen(false)}
-              style={{ display: "block", padding: "16px 0", fontFamily: FONT, fontSize: "1.1rem", fontWeight: 500, color: WHITE, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.15)" }}
-            >
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-            </a>
-          ))}
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            onClick={() => setOpen(false)}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "14px 28px", backgroundColor: TEAL, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, borderRadius: 999, textDecoration: "none", alignSelf: "flex-start" }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <nav className="o01n-bar" data-template="ortho-01-navbar">
+        <div className="o01n-inner">
+          <a href={resolve("/")} className="o01n-logo" aria-label={siteName}>
+            <span className="o01n-mark" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 13c2 3.5 4.5 5.5 7 5.5s5-2 7-5.5" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/><circle cx="7.5" cy="8" r="1.4" fill="#fff"/><circle cx="16.5" cy="8" r="1.4" fill="#fff"/></svg>
+            </span>
+            <span className="o01n-logo-text">
+              <span className="o01n-l1"><GenericEditableText sectionId={sectionId} field="logoLine1" value={line1} tag="span" /></span>
+              <span className="o01n-l2"><GenericEditableText sectionId={sectionId} field="logoLine2" value={line2} tag="span" /></span>
+            </span>
           </a>
+
+          <ul className="o01n-links" role="list">
+            {links.map((link, i) => (
+              <li key={i}>
+                <a href={resolve(link.href)}>
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <a href={resolve(ctaHref)} data-btn="primary" className="o01n-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+
+          <button className="o01n-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+            <svg width="26" height="18" viewBox="0 0 26 18" fill="none" aria-hidden="true">
+              <rect y="0" width="26" height="2.4" rx="1.2" fill="currentColor"/>
+              <rect y="7.8" width="18" height="2.4" rx="1.2" fill="currentColor"/>
+              <rect y="15.6" width="26" height="2.4" rx="1.2" fill="currentColor"/>
+            </svg>
+          </button>
         </div>
-      )}
+      </nav>
+
+      <div className={`o01n-overlay${open ? " o01n-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
+        <div className="o01n-ov-head">
+          <span className="o01n-l1" style={{ fontSize: "1.05rem" }}>{siteName}</span>
+          <button className="o01n-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+        </div>
+        <div className="o01n-ov-links">
+          {links.map((link, i) => (
+            <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
+          ))}
+        </div>
+        <a href={resolve(ctaHref)} data-btn="primary" className="o01n-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+      </div>
+
+      <div className="o01n-mobilebar" aria-hidden={open}>
+        <a href={resolve(ctaHref)} className="o01n-mb-cta">{ctaText}</a>
+      </div>
     </>
   );
 }
+
 
 // ── ortho-02-navbar ───────────────────────────────────────────────────────────
 function NavbarOrtho02({ content, isAdmin, tenantSlug, sectionId }: Props) {
@@ -23809,9 +23887,26 @@ function NavbarClinic03({ content, isAdmin, tenantSlug, sectionId }: Props) {
 // ── eshop-01-navbar ─────────────────────────────────────────────────────────────
 // E-shop megamenu navbar: utility strip + main bar (logo, search, cart badge) + category mega-dropdown
 // ──────────────────────────────────────────────────────────────────────────────
+const ES01_MEGA_THEME = {
+  "--wmm-font": "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  "--wmm-accent": "#2563eb",
+  "--wmm-accent-dark": "#1d4ed8",
+  "--wmm-accent-soft": "rgba(37,99,235,0.08)",
+  "--wmm-bar-h": "46px",
+  "--wmm-btn-bg": "transparent",
+  "--wmm-btn-fg": "#111111",
+  "--wmm-btn-h": "46px",
+  "--wmm-btn-px": "0px",
+  "--wmm-btn-radius": "0px",
+  "--wmm-btn-size": "13.5px",
+  "--wmm-btn-tt": "uppercase",
+  "--wmm-btn-ls": "0.04em",
+  "--wmm-panel-border-top": "3px solid #2563eb",
+  "--wmm-radius-lg": "0 0 14px 14px",
+} as React.CSSProperties;
+
 function NavbarEshop01({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [megaCat, setMegaCat] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
@@ -23874,7 +23969,7 @@ function NavbarEshop01({ content, isAdmin, tenantSlug, sectionId }: Props) {
         .es01-nav-link:hover::after, .es01-nav-link[data-active]::after { width: 100%; }
       `}</style>
 
-      <header style={{ position: "sticky", top: 0, zIndex: 100, fontFamily: SANS }} onMouseLeave={() => setMegaCat(null)}>
+      <header style={{ position: "sticky", top: 0, zIndex: 100, fontFamily: SANS }}>
         {/* Utility strip */}
         <div style={{ background: DARK, color: "#fff", fontSize: 12, fontWeight: 500 }}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", height: 36, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -23976,118 +24071,50 @@ function NavbarEshop01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         </div>
 
-        {/* Navigation row with megamenu */}
+        {/* Navigation row — jednotné megamenu (StorefrontMegaMenu, mode=catalog) */}
         <nav className="hidden md:block" style={{ background: BG, borderBottom: `1px solid ${BORDER}` }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 46 }}>
-            {/* Category megamenu trigger */}
-            {categories.length > 0 && (
-              <div style={{ position: "relative" }} onMouseEnter={() => setMegaCat("_all")} onMouseLeave={() => setMegaCat(null)}>
-                <button style={{
-                  display: "flex", alignItems: "center", gap: 7,
-                  height: 46, padding: "0 16px 0 0",
-                  background: "none", border: "none", cursor: "pointer",
-                  fontFamily: SANS, fontSize: 13.5, fontWeight: 700, color: DARK,
-                  textTransform: "uppercase", letterSpacing: "0.04em",
-                }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
-                  Kategorie
-                  <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: megaCat ? "rotate(180deg)" : "none" }}>
-                    <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                {/* Megamenu dropdown */}
-                {megaCat && (
-                  <div className="es01-mega-enter" style={{
-                    position: "absolute", top: "100%", left: -20, zIndex: 200,
-                    background: BG, border: `1px solid ${BORDER}`, borderTop: `3px solid ${ACCENT}`,
-                    borderRadius: "0 0 14px 14px",
-                    boxShadow: "0 20px 50px rgba(0,0,0,0.12)",
-                    padding: 24, minWidth: 680,
-                    display: "grid", gridTemplateColumns: categories.length > 4 ? "repeat(3, 1fr)" : `repeat(${Math.min(categories.length, 3)}, 1fr)`,
-                    gap: 6,
-                  }}>
-                    {categories.map((cat) => (
-                      <a key={cat.slug ?? cat.label} href={resolve(cat.slug ? `/obchod?kategorie=${cat.slug}` : "#")}
-                        style={{
-                          display: "flex", alignItems: "center", gap: 12,
-                          padding: "10px 14px", borderRadius: 10,
-                          textDecoration: "none", color: DARK, transition: "background 0.15s",
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.background = "#f3f4f6")}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                      >
-                        {cat.image ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={cat.image} alt="" style={{ width: 44, height: 44, borderRadius: 8, objectFit: "cover", background: "#f5f5f5" }} />
-                        ) : (
-                          <span style={{
-                            width: 44, height: 44, borderRadius: 8,
-                            background: `${ACCENT}12`, color: ACCENT,
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                            fontSize: 18, fontWeight: 700, flexShrink: 0,
-                          }}>
-                            {cat.label.charAt(0)}
-                          </span>
-                        )}
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 600 }}>{cat.label}</div>
-                          {cat.items && <div style={{ fontSize: 12, color: MUTED }}>{cat.items.length} produktů</div>}
-                        </div>
-                      </a>
-                    ))}
-                    <a href={resolve("/obchod")} style={{
-                      gridColumn: "1 / -1", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                      padding: "10px 14px", borderRadius: 10, marginTop: 6,
-                      background: "#f9fafb", color: ACCENT, textDecoration: "none",
-                      fontSize: 13, fontWeight: 600, transition: "background 0.15s",
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+            <StorefrontMegaMenu
+              categories={categories}
+              extras={(content as Record<string, unknown>).__megamenu}
+              mode="catalog"
+              catalogLabel="Kategorie"
+              allLabel="Vše z kategorie"
+              theme={ES01_MEGA_THEME}
+              resolveHref={resolve}
+              trailing={
+                <>
+                  <div style={{ width: 1, height: 22, background: BORDER, margin: "0 8px", flexShrink: 0 }} />
+                  {links.map((lk, i) => (
+                    <a key={i} href={resolve(lk.href)} className="es01-nav-link" style={{
+                      padding: "0 14px", height: 46, display: "flex", alignItems: "center",
+                      fontFamily: SANS, fontSize: 13.5, fontWeight: 500, color: DARK,
+                      textDecoration: "none", letterSpacing: "0.01em", whiteSpace: "nowrap",
+                      transition: "color 0.15s",
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = `${ACCENT}10`)}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "#f9fafb")}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = ACCENT)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = DARK)}
                     >
-                      Zobrazit všechny produkty
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                      {lk.label}
                     </a>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Divider */}
-            {categories.length > 0 && <div style={{ width: 1, height: 22, background: BORDER, margin: "0 8px" }} />}
-
-            {/* Nav links */}
-            <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-              {links.map((lk, i) => (
-                <a key={i} href={resolve(lk.href)} className="es01-nav-link" style={{
-                  padding: "0 14px", height: 46, display: "flex", alignItems: "center",
-                  fontFamily: SANS, fontSize: 13.5, fontWeight: 500, color: DARK,
-                  textDecoration: "none", letterSpacing: "0.01em",
-                  transition: "color 0.15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = ACCENT)}
-                onMouseLeave={(e) => (e.currentTarget.style.color = DARK)}
-                >
-                  {lk.label}
-                </a>
-              ))}
-            </div>
-
-            {/* CTA on right */}
-            <a href={resolve(ctaHref)} style={{
-              marginLeft: "auto",
-              display: "inline-flex", alignItems: "center", gap: 6,
-              height: 34, padding: "0 16px", borderRadius: 8,
-              background: ACCENT, color: "#fff",
-              fontSize: 13, fontWeight: 600, textDecoration: "none",
-              transition: "background 0.15s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#1d4ed8")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = ACCENT)}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-            </a>
+                  ))}
+                  <a href={resolve(ctaHref)} style={{
+                    marginLeft: "auto",
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    height: 34, padding: "0 16px", borderRadius: 8,
+                    background: ACCENT, color: "#fff",
+                    fontSize: 13, fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap",
+                    transition: "background 0.15s", flexShrink: 0,
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "#1d4ed8")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = ACCENT)}
+                  >
+                    <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </a>
+                </>
+              }
+            />
           </div>
         </nav>
       </header>
@@ -24143,9 +24170,28 @@ function NavbarEshop01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 // hlavní bar (logo, velké hledání, účet, košík s badge) → modrá kategorie
 // lišta s megamenu „Všechny kategorie" + zvýrazněné Akce/Novinky.
 // ──────────────────────────────────────────────────────────────────────────────
+const ES02_MEGA_THEME = {
+  "--wmm-font": "'Open Sans', 'Segoe UI', Arial, sans-serif",
+  "--wmm-accent": "#1266cc",
+  "--wmm-accent-dark": "#0e51a3",
+  "--wmm-accent-soft": "rgba(18,102,204,0.08)",
+  "--wmm-bar-h": "46px",
+  "--wmm-btn-bg": "transparent",
+  "--wmm-btn-bg-active": "#0e51a3",
+  "--wmm-btn-fg": "#ffffff",
+  "--wmm-btn-h": "46px",
+  "--wmm-btn-px": "16px",
+  "--wmm-btn-radius": "0px",
+  "--wmm-btn-size": "13px",
+  "--wmm-btn-tt": "uppercase",
+  "--wmm-btn-ls": "0.05em",
+  "--wmm-panel-border-top": "3px solid #f0803c",
+  "--wmm-radius-lg": "0 0 12px 12px",
+  "--wmm-shadow": "0 20px 50px rgba(20,43,69,0.16)",
+} as React.CSSProperties;
+
 function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
@@ -24326,104 +24372,52 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         </div>
 
-        {/* Modrá kategorie lišta */}
-        <nav className="hidden md:block" style={{ background: BLUE }} onMouseLeave={() => setMegaOpen(false)}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 46 }}>
-            {/* Megamenu trigger */}
-            <div style={{ position: "relative", alignSelf: "stretch", display: "flex" }} onMouseEnter={() => setMegaOpen(true)}>
-              <button style={{
-                display: "flex", alignItems: "center", gap: 8,
-                padding: "0 16px", margin: "0 4px 0 -16px",
-                background: megaOpen ? BLUE_DARK : "transparent", border: "none", cursor: "pointer",
-                fontFamily: SANS, fontSize: 13, fontWeight: 700, color: "#fff",
-                textTransform: "uppercase", letterSpacing: "0.05em", transition: "background 0.15s",
-              }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
-                Všechny kategorie
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: megaOpen ? "rotate(180deg)" : "none" }}>
-                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-
-              {megaOpen && (
-                <div className="es02-mega-enter" style={{
-                  position: "absolute", top: "100%", left: -20, zIndex: 200,
-                  background: "#fff", border: `1px solid ${BORDER}`, borderTop: `3px solid ${ACCENT}`,
-                  borderRadius: "0 0 12px 12px",
-                  boxShadow: "0 20px 50px rgba(20,43,69,0.16)",
-                  padding: 22, minWidth: 640,
-                  display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4,
-                }}>
-                  {categories.map((cat) => (
-                    <a key={cat.slug ?? cat.label} href={catHref(cat.slug)}
-                      style={{
-                        display: "flex", alignItems: "center", gap: 11,
-                        padding: "9px 12px", borderRadius: 8,
-                        textDecoration: "none", color: DARK, transition: "background 0.15s",
-                      }}
-                      onMouseEnter={(e) => (e.currentTarget.style.background = SURFACE)}
-                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                    >
-                      <span style={{
-                        width: 38, height: 38, borderRadius: 8,
-                        background: `${BLUE}12`, color: BLUE,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 16, fontWeight: 700, flexShrink: 0,
+        {/* Modrá kategorie lišta — jednotné megamenu (StorefrontMegaMenu, mode=catalog) */}
+        <nav className="hidden md:block" style={{ background: BLUE }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+            <StorefrontMegaMenu
+              categories={categories}
+              extras={(content as Record<string, unknown>).__megamenu}
+              mode="catalog"
+              catalogLabel="Všechny kategorie"
+              allLabel="Vše z kategorie"
+              theme={ES02_MEGA_THEME}
+              resolveHref={resolve}
+              trailing={
+                <>
+                  <div style={{ display: "flex", alignItems: "center", overflow: "hidden", flex: 1 }}>
+                    {categories.slice(0, 6).map((cat) => (
+                      <a key={cat.slug ?? cat.label} href={catHref(cat.slug)} className="es02-cat-link" style={{
+                        padding: "0 13px", height: 46, display: "flex", alignItems: "center",
+                        fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: "#fff",
+                        textDecoration: "none", whiteSpace: "nowrap",
                       }}>
-                        {cat.label.charAt(0)}
-                      </span>
-                      <span style={{ fontSize: 13.5, fontWeight: 600 }}>{cat.label}</span>
-                    </a>
-                  ))}
-                  <a href={resolve("/obchod")} style={{
-                    gridColumn: "1 / -1", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                    padding: "10px 12px", borderRadius: 8, marginTop: 6,
-                    background: SURFACE, color: BLUE, textDecoration: "none",
-                    fontSize: 13, fontWeight: 700, transition: "background 0.15s",
-                  }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = `${BLUE}14`)}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = SURFACE)}
-                  >
-                    Zobrazit všechny produkty
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                  </a>
-                </div>
-              )}
-            </div>
-
-            {/* Category quick links */}
-            <div style={{ display: "flex", alignItems: "center", overflow: "hidden", flex: 1 }}>
-              {categories.slice(0, 6).map((cat) => (
-                <a key={cat.slug ?? cat.label} href={catHref(cat.slug)} className="es02-cat-link" style={{
-                  padding: "0 13px", height: 46, display: "flex", alignItems: "center",
-                  fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: "#fff",
-                  textDecoration: "none", whiteSpace: "nowrap",
-                }}>
-                  {cat.label}
-                </a>
-              ))}
-            </div>
-
-            {/* Highlight links (Akce / Novinky) */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto", flexShrink: 0 }}>
-              {highlightLinks.map((lk, i) => (
-                <a key={i} href={catHref(lk.slug)} style={{
-                  display: "inline-flex", alignItems: "center", gap: 6,
-                  height: 30, padding: "0 13px", borderRadius: 15,
-                  background: lk.tone === "accent" ? ACCENT : "rgba(255,255,255,0.16)",
-                  color: "#fff", fontSize: 12.5, fontWeight: 700, textDecoration: "none",
-                  transition: "filter 0.15s", whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.08)")}
-                onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
-                >
-                  {lk.tone === "accent" && (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z"/></svg>
-                  )}
-                  {lk.label}
-                </a>
-              ))}
-            </div>
+                        {cat.label}
+                      </a>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto", flexShrink: 0 }}>
+                    {highlightLinks.map((lk, i) => (
+                      <a key={i} href={catHref(lk.slug)} style={{
+                        display: "inline-flex", alignItems: "center", gap: 6,
+                        height: 30, padding: "0 13px", borderRadius: 15,
+                        background: lk.tone === "accent" ? ACCENT : "rgba(255,255,255,0.16)",
+                        color: "#fff", fontSize: 12.5, fontWeight: 700, textDecoration: "none",
+                        transition: "filter 0.15s", whiteSpace: "nowrap",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.filter = "brightness(1.08)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
+                      >
+                        {lk.tone === "accent" && (
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 4.5 13.5H11L9.5 22 19 9.5h-6.5L13 2Z"/></svg>
+                        )}
+                        {lk.label}
+                      </a>
+                    ))}
+                  </div>
+                </>
+              }
+            />
           </div>
         </nav>
       </header>
@@ -36244,6 +36238,137 @@ function NavbarProof01({ content, isAdmin, tenantSlug, sectionId }: Props) {
             <GenericEditableText sectionId={sectionId} field="mobileCtaCallLabel" value={mCallLabel} tag="span" />
           </a>
           <a href={resolve(mLeadHref)} className="pf01nav-mobar-lead" data-btn="primary">
+            <GenericEditableText sectionId={sectionId} field="mobileCtaLeadLabel" value={mLeadLabel} tag="span" />
+          </a>
+        </nav>
+      </div>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Sticky světlý navbar s hairline spodní linkou, electric blue CTA, mobil drawer
+// + fixní spodní CTA lišta (Zavolat / Konzultace). Fonty z theme tokenů.
+function NavbarSignal01({ content, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, [open]);
+
+  const siteName = String(content.siteName ?? "Ukázka Consulting");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const logoSrc  = logoUrl || demoLogoDataUrl(siteName);
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const ctaText = String(content.ctaText ?? "Rezervovat konzultaci");
+  const ctaHref = String(content.ctaHref ?? "#konzultace");
+  const phone   = String(content.phone ?? "704 123 456");
+  const phoneHref = String(content.phoneHref ?? "tel:+420704123456");
+  const mCallLabel = String(content.mobileCtaCallLabel ?? "Zavolat");
+  const mCallHref  = String(content.mobileCtaCallHref ?? phoneHref);
+  const mLeadLabel = String(content.mobileCtaLeadLabel ?? "Konzultace");
+  const mLeadHref  = String(content.mobileCtaLeadHref ?? ctaHref);
+
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  return (
+    <>
+      <style>{`
+        .sg01nav-wrap { --sg-accent:#2563EB; --sg-ink:#101418; --sg-text:#111827; --sg-border:#E3E7EB;
+          font-family: var(--font-body, system-ui, -apple-system, sans-serif); }
+        .sg01nav { position: sticky; top: 0; z-index: 60; background: rgba(255,255,255,.9);
+          backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+          border-bottom: 1px solid var(--sg-border); }
+        .sg01nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); height: 72px;
+          display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+        .sg01nav-brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; color: var(--sg-ink); min-width: 0; }
+        .sg01nav-brand img { height: 32px; width: auto; display: block; }
+        .sg01nav-links { display: flex; align-items: center; gap: 2px; }
+        .sg01nav-links a { padding: 8px 14px; font-size: .92rem; font-weight: 600; color: var(--sg-text); text-decoration: none;
+          border-radius: 6px; transition: background .18s, color .18s; }
+        .sg01nav-links a:hover { background: rgba(37,99,235,.06); color: var(--sg-accent); }
+        .sg01nav-right { display: flex; align-items: center; gap: 14px; }
+        .sg01nav-phone { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; font-size: .92rem; color: var(--sg-ink); text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .sg01nav-phone svg { color: var(--sg-accent); }
+        .sg01nav-cta { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; background: var(--sg-accent);
+          color: #fff; font-weight: 700; font-size: .9rem; text-decoration: none; border-radius: 6px; white-space: nowrap; transition: transform .2s, box-shadow .2s; }
+        .sg01nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(37,99,235,.7); }
+        .sg01nav-burger { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--sg-border);
+          border-radius: 6px; background: #fff; cursor: pointer; color: var(--sg-ink); }
+        .sg01nav-drawer { position: fixed; inset: 0; z-index: 70; background: rgba(16,20,24,.55); opacity: 0; pointer-events: none; transition: opacity .25s; }
+        .sg01nav-drawer[data-open="true"] { opacity: 1; pointer-events: auto; }
+        .sg01nav-panel { position: absolute; top: 0; right: 0; height: 100%; width: min(84vw, 340px); background: #F3F5F7;
+          transform: translateX(100%); transition: transform .3s cubic-bezier(.22,.68,0,1); display: flex; flex-direction: column; padding: 20px; }
+        .sg01nav-drawer[data-open="true"] .sg01nav-panel { transform: translateX(0); }
+        .sg01nav-panel-close { align-self: flex-end; width: 44px; height: 44px; border: 1px solid var(--sg-border); border-radius: 6px; background: #fff; font-size: 1.4rem; cursor: pointer; color: var(--sg-ink); }
+        .sg01nav-panel a { padding: 14px 8px; font-size: 1.02rem; font-weight: 700; color: var(--sg-ink); text-decoration: none; border-bottom: 1px solid var(--sg-border); }
+        .sg01nav-panel-cta { margin-top: 18px; text-align: center; background: var(--sg-accent); color: #fff !important; border-radius: 6px; border-bottom: none !important; }
+        .sg01nav-mobar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+          padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); gap: 10px; background: rgba(255,255,255,.94);
+          backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--sg-border); }
+        .sg01nav-mobar a { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px;
+          font-weight: 700; font-size: .95rem; text-decoration: none; border-radius: 6px; }
+        .sg01nav-mobar-call { background: #fff; color: var(--sg-ink); border: 1.5px solid var(--sg-border); }
+        .sg01nav-mobar-lead { background: var(--sg-accent); color: #fff; }
+        @media (max-width: 900px) {
+          .sg01nav-links, .sg01nav-phone, .sg01nav-cta { display: none; }
+          .sg01nav-burger { display: inline-flex; }
+          .sg01nav-mobar { display: flex; }
+        }
+        @media (prefers-reduced-motion: reduce) { .sg01nav-drawer, .sg01nav-panel, .sg01nav-cta { transition: none; } }
+      `}</style>
+
+      <div className="sg01nav-wrap" data-template="signal-01">
+        <header className="sg01nav">
+          <div className="sg01nav-inner">
+            <a href={homeHref} className="sg01nav-brand" aria-label={siteName}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="sg01nav-logoslot">
+                <img src={logoSrc} alt={siteName} />
+              </GenericEditableImage>
+            </a>
+            <nav className="sg01nav-links" aria-label="Hlavní navigace">
+              {links.map((l, i) => (
+                <a key={i} href={resolve(l.href)}>
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+            <div className="sg01nav-right">
+              <a href={phoneHref} className="sg01nav-phone">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <a href={resolve(ctaHref)} className="sg01nav-cta" data-btn="primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+              <button className="sg01nav-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div className="sg01nav-drawer" data-open={open} onClick={() => setOpen(false)}>
+          <div className="sg01nav-panel" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Navigace">
+            <button className="sg01nav-panel-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+            <nav>
+              {links.map((l, i) => (
+                <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)} style={{ display: "block" }}>{l.label}</a>
+              ))}
+            </nav>
+            <a href={resolve(ctaHref)} className="sg01nav-panel-cta" style={{ display: "block", padding: "14px" }} onClick={() => setOpen(false)}>{ctaText}</a>
+          </div>
+        </div>
+
+        <nav className="sg01nav-mobar" aria-label="Rychlý kontakt">
+          <a href={mCallHref} className="sg01nav-mobar-call">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <GenericEditableText sectionId={sectionId} field="mobileCtaCallLabel" value={mCallLabel} tag="span" />
+          </a>
+          <a href={resolve(mLeadHref)} className="sg01nav-mobar-lead" data-btn="primary">
             <GenericEditableText sectionId={sectionId} field="mobileCtaLeadLabel" value={mLeadLabel} tag="span" />
           </a>
         </nav>

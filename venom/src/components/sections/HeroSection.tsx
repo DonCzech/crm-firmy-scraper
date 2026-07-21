@@ -68,6 +68,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-clean-02-page") return <HeroClean02Page content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ddd-01-hero")   return <HeroDdd01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-ddd-01-page") return <HeroDdd01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "signal-01-hero") return <HeroSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-signal-01-page") return <HeroSignal01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-hero") return <HeroProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-proof-01-page") return <HeroProof01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
@@ -29341,6 +29343,281 @@ function HeroProof01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="pf01pb-title" />
           {subtitle && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="pf01pb-sub" />}
           <div className="pf01pb-rule" aria-hidden="true" />
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// Cinematic hero: full-bleed korporátní fotka + charcoal overlay, Oswald typografie,
+// dark glass panel se signature interakcí „Vyberte svou roli" (segmented se sliding
+// thumb) → živé přepnutí 3 benefitů + case metriky + CTA Rezervovat konzultaci.
+type Sg01Role = { label?: string; benefits?: string[]; metric?: string; metricLabel?: string; note?: string };
+
+function sg01ResolveHref(href: string, tenantSlug?: string, isAdmin?: boolean) {
+  if (!tenantSlug) return href;
+  if (href.startsWith("#") || href.startsWith("http") || href.startsWith("tel:") || href.startsWith("mailto:")) return href;
+  return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href.startsWith("/") ? href : "/" + href}`;
+}
+
+function HeroSignal01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const eyebrow     = String(content.eyebrow     ?? "Consulting pro měřitelné výsledky");
+  const title       = String(content.title       ?? "Rozhodnutí podložená daty,");
+  const titleAccent = String(content.titleAccent ?? "výsledky podložené čísly.");
+  const subtitle    = String(content.subtitle    ?? "Pomáháme vedení firem doručit strategii do provozu. Pevný rozsah, jasná metrika úspěchu a senioři, kteří už firmy vedli.");
+  const ctaText          = String(content.ctaText          ?? "Rezervovat konzultaci");
+  const ctaHref          = String(content.ctaHref          ?? "#konzultace");
+  const ctaSecondaryText = String(content.ctaSecondaryText ?? "Zavolat: 704 123 456");
+  const ctaSecondaryHref = String(content.ctaSecondaryHref ?? "tel:+420704123456");
+  const photo    = String(content.photo    ?? "/templates/signal-01/img/hero.webp");
+  const photoAlt = String(content.photoAlt ?? "Korporátní budovy");
+  const rawTrust = content.trust as string[] | undefined;
+  const trust = rawTrust && rawTrust.length ? rawTrust : ["120+ dokončených projektů", "ISO 9001 / 27001", "NPS 74"];
+
+  const selectorTitle    = String(content.selectorTitle    ?? "Vyberte svou roli");
+  const selectorSubtitle = String(content.selectorSubtitle ?? "Ukážeme vám, co nejčastěji řešíme pro lidi ve vaší pozici.");
+  const metricEyebrow    = String(content.metricEyebrow    ?? "Typický výsledek");
+  const selectorCtaText  = String(content.selectorCtaText  ?? "Rezervovat konzultaci");
+  const selectorCtaHref  = String(content.selectorCtaHref  ?? "#konzultace");
+  const selectorCtaNote  = String(content.selectorCtaNote  ?? "Prvních 30 minut zdarma · bez závazku");
+
+  const roles: Sg01Role[] = (content.roles as Sg01Role[] | undefined)?.length
+    ? (content.roles as Sg01Role[])
+    : [
+        { label: "CEO", benefits: ["Strategie růstu s jasnou metrikou", "Provozní model, který škáluje", "Reporting pro board na jedné stránce"], metric: "+18 %", metricLabel: "růst EBITDA do 18 měsíců", note: "Výrobní skupina, 240 zaměstnanců" },
+        { label: "CFO", benefits: ["Controlling a cashflow řízení", "Snížení provozních nákladů", "Automatizovaný reporting"], metric: "−23 %", metricLabel: "provozních nákladů za 12 měsíců", note: "Obchodní skupina, 5 poboček" },
+      ];
+
+  const [roleIdx, setRoleIdx] = useState(0);
+  const role = roles[Math.min(roleIdx, roles.length - 1)] ?? {};
+  const benefits = (role.benefits ?? []).slice(0, 3);
+
+  return (
+    <>
+      <style>{`
+        .sg01hero { position: relative; background: #101418; overflow: hidden;
+          font-family: var(--font-body, system-ui, -apple-system, sans-serif); color: #fff;
+          display: flex; align-items: center; min-height: clamp(640px, 92vh, 900px); }
+        .sg01hero-bgwrap { position: absolute; inset: 0; z-index: 0; }
+        .sg01hero-bgwrap::after { content: ''; position: absolute; inset: 0;
+          background: linear-gradient(92deg, rgba(13,17,22,.95) 0%, rgba(13,17,22,.78) 40%, rgba(13,17,22,.42) 72%, rgba(13,17,22,.55) 100%); }
+        .sg01hero-bgwrap::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 140px; z-index: 1;
+          background: linear-gradient(180deg, transparent, rgba(13,17,22,.88)); }
+        .sg01hero-photo-slot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .sg01hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+        .sg01hero-inner { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; width: 100%;
+          padding: clamp(96px, 12vh, 140px) clamp(20px, 5vw, 48px) clamp(56px, 8vh, 88px);
+          display: grid; grid-template-columns: 1.12fr 0.88fr; gap: clamp(36px, 5vw, 80px); align-items: center; }
+        @keyframes sg01up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        .sg01hero-left { min-width: 0; padding-right: clamp(0px, 2vw, 24px); }
+        .sg01hero-left > * { animation: sg01up .65s cubic-bezier(.22,.68,0,1) both; }
+        .sg01hero-left > *:nth-child(1) { animation-delay: .05s; }
+        .sg01hero-left > *:nth-child(2) { animation-delay: .13s; }
+        .sg01hero-left > *:nth-child(3) { animation-delay: .22s; }
+        .sg01hero-left > *:nth-child(4) { animation-delay: .32s; }
+        .sg01hero-left > *:nth-child(5) { animation-delay: .44s; }
+        .sg01hero-eyebrow { font-family: var(--font-mono, ui-monospace, monospace); font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #6EA8FE; margin: 0 0 20px;
+          display: inline-flex; align-items: center; gap: 12px; }
+        .sg01hero-eyebrow::before { content: ''; width: 40px; height: 2px; background: #6EA8FE; }
+        .sg01hero-h1 { font-family: var(--font-heading, system-ui, sans-serif); color: #fff;
+          font-size: clamp(2.5rem, 5.2vw, 4.4rem); font-weight: 600; line-height: 1.05;
+          letter-spacing: 0; margin: 0 0 24px; text-wrap: balance; }
+        .sg01hero-h1-accent { display: block; font-weight: 600; color: #6EA8FE; font-size: 1em; margin-top: .06em; }
+        .sg01hero-sub { font-size: clamp(1.02rem, 1.35vw, 1.18rem); line-height: 1.65; color: rgba(255,255,255,.82);
+          max-width: 30em; margin: 0 0 34px; }
+        .sg01hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+        .sg01btn-primary { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; gap: 10px;
+          padding: 16px 30px; background: #2563EB; color: #fff; font-weight: 700; font-size: .98rem;
+          text-decoration: none; border-radius: 6px; transition: transform .35s cubic-bezier(.22,.68,0,1), box-shadow .35s ease; white-space: nowrap; }
+        .sg01btn-primary > * { position: relative; z-index: 2; }
+        .sg01btn-primary::before { content: ''; position: absolute; top: 0; left: -130%; width: 55%; height: 100%; z-index: 1;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent); transform: skewX(-18deg); transition: left .6s cubic-bezier(.22,.68,0,1); }
+        .sg01btn-primary:hover::before { left: 140%; }
+        .sg01btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(37,99,235,.7); }
+        .sg01btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; background: rgba(255,255,255,.06);
+          color: #fff; font-weight: 600; font-size: .98rem; text-decoration: none; border: 1.5px solid rgba(255,255,255,.35);
+          border-radius: 6px; transition: border-color .2s, background .2s; white-space: nowrap; backdrop-filter: blur(6px); }
+        .sg01btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,.12); }
+        .sg01hero-trust { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 36px;
+          padding-top: 24px; border-top: 1px solid rgba(255,255,255,.22); }
+        .sg01hero-trust-item { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 700; color: #fff; }
+        .sg01hero-trust-item svg { flex-shrink: 0; color: #6EA8FE; }
+        .sg01hero-trust-item + .sg01hero-trust-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%;
+          background: rgba(255,255,255,.35); margin-right: 14px; }
+        /* glass panel */
+        .sg01hero-visual { position: relative; min-width: 0; animation: sg01up .7s cubic-bezier(.22,.68,0,1) .18s both; z-index: 2; }
+        .sg01sel { position: relative; z-index: 2; width: 100%; color: #fff;
+          background: rgba(10,15,22,.66); backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+          border: 1px solid rgba(255,255,255,.14);
+          border-radius: 16px; padding: clamp(24px,2.4vw,32px); box-shadow: 0 30px 70px -25px rgba(0,0,0,.55); }
+        .sg01sel-title { font-family: var(--font-heading, system-ui, sans-serif); color: #fff; font-size: 1.24rem; font-weight: 600; letter-spacing: .01em; margin: 0 0 4px; }
+        .sg01sel-sub { font-size: .84rem; color: rgba(255,255,255,.62); margin: 0 0 18px; }
+        .sg01sel-roles { position: relative; display: flex; background: rgba(255,255,255,.08); border-radius: 8px; padding: 3px; margin-bottom: 6px; width: 100%; isolation: isolate; }
+        .sg01sel-roles-thumb { position: absolute; top: 3px; bottom: 3px; left: 3px; border-radius: 6px; background: #fff;
+          box-shadow: 0 2px 10px rgba(0,0,0,.35); z-index: 0; transition: transform .28s cubic-bezier(.22,.68,0,1);
+          width: calc((100% - 6px) / var(--sg-n, 4)); transform: translateX(calc(var(--sg-i, 0) * 100%)); }
+        .sg01sel-role { position: relative; z-index: 1; flex: 1; border: none; cursor: pointer; padding: 9px 2px; border-radius: 6px; font-family: inherit;
+          font-weight: 700; font-size: .8rem; color: rgba(255,255,255,.62); background: transparent; transition: color .2s; white-space: nowrap; }
+        .sg01sel-role[aria-checked="true"] { color: #101418; }
+        .sg01sel-benefits { display: block; margin: 0 0 16px; border-top: 1px solid rgba(255,255,255,.12); }
+        @keyframes sg01fade { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+        .sg01sel-benefit { display: flex; align-items: center; gap: 11px; padding: 12px 2px; border-bottom: 1px solid rgba(255,255,255,.12);
+          font-size: .92rem; font-weight: 600; color: rgba(255,255,255,.9); animation: sg01fade .3s cubic-bezier(.22,.68,0,1) both; }
+        .sg01sel-benefit:nth-child(2) { animation-delay: .05s; }
+        .sg01sel-benefit:nth-child(3) { animation-delay: .1s; }
+        .sg01sel-benefit svg { flex-shrink: 0; color: #6EA8FE; }
+        .sg01sel-metric { padding: 4px 0 0; animation: sg01fade .32s cubic-bezier(.22,.68,0,1) both; }
+        .sg01sel-metric-lbl { font-family: var(--font-mono, ui-monospace, monospace); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 6px; }
+        .sg01sel-metric-val { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+        .sg01sel-metric-val > b { font-family: var(--font-heading, system-ui, sans-serif); font-size: clamp(2.1rem, 2.6vw, 2.7rem); font-weight: 600; line-height: 1; color: #6EA8FE;
+          font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .sg01sel-metric-val b span { font-size: inherit; }
+        .sg01sel-metric-val > span { font-size: .88rem; color: rgba(255,255,255,.85); font-weight: 600; max-width: 16em; line-height: 1.35; }
+        .sg01sel-metric-note { font-family: var(--font-mono, ui-monospace, monospace); font-size: .72rem; color: rgba(255,255,255,.5); margin-top: 8px; }
+        .sg01sel-cta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; width: 100%;
+          padding: 15px; background: #2563EB; color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none;
+          border-radius: 6px; transition: filter .2s, transform .2s; box-shadow: 0 10px 30px -10px rgba(37,99,235,.6); }
+        .sg01sel-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .sg01sel-cta-note { font-family: var(--font-mono, ui-monospace, monospace); text-align: center; font-size: .7rem; color: rgba(255,255,255,.5); margin-top: 10px; }
+        @media (max-width: 1000px) {
+          .sg01hero { min-height: 0; }
+          .sg01hero-inner { grid-template-columns: 1fr; padding-top: 96px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .sg01hero-left > *, .sg01hero-visual, .sg01sel-benefit, .sg01sel-metric { animation: none; }
+          .sg01btn-primary, .sg01btn-primary::before, .sg01sel-role, .sg01sel-roles-thumb { transition: none; }
+        }
+      `}</style>
+
+      <section className="sg01hero" data-template="signal-01" id="uvod">
+        <div className="sg01hero-bgwrap" aria-hidden="true">
+          <GenericEditableImage sectionId={sectionId} field="photo" src={photo} alt={photoAlt} className="sg01hero-photo-slot">
+            <img src={photo} alt="" className="sg01hero-photo" />
+          </GenericEditableImage>
+        </div>
+        <div className="sg01hero-inner">
+          <div className="sg01hero-left">
+            <p className="sg01hero-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </p>
+            <h1 className="sg01hero-h1">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              {titleAccent && (
+                <span className="sg01hero-h1-accent">
+                  <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+                </span>
+              )}
+            </h1>
+            <p className="sg01hero-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+            <div className="sg01hero-ctas">
+              <a href={sg01ResolveHref(ctaHref, tenantSlug, isAdmin)} className="sg01btn-primary" data-btn="primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href={sg01ResolveHref(ctaSecondaryHref, tenantSlug, isAdmin)} className="sg01btn-ghost">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+              </a>
+            </div>
+            <div className="sg01hero-trust">
+              {trust.map((t, i) => (
+                <span key={i} className="sg01hero-trust-item">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                  <GenericEditableText sectionId={sectionId} field={`trust.${i}`} value={t} tag="span" />
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="sg01hero-visual">
+            <div className="sg01sel" role="group" aria-label={selectorTitle}>
+              <div className="sg01sel-title">
+                <GenericEditableText sectionId={sectionId} field="selectorTitle" value={selectorTitle} tag="span" />
+              </div>
+              <p className="sg01sel-sub">
+                <GenericEditableText sectionId={sectionId} field="selectorSubtitle" value={selectorSubtitle} tag="span" />
+              </p>
+              <div className="sg01sel-roles" role="radiogroup" aria-label={selectorTitle}
+                style={{ ["--sg-n" as string]: roles.length, ["--sg-i" as string]: Math.min(roleIdx, roles.length - 1) }}>
+                <span className="sg01sel-roles-thumb" aria-hidden="true" />
+                {roles.map((r, i) => (
+                  <button key={i} type="button" className="sg01sel-role" role="radio" aria-checked={roleIdx === i} onClick={() => setRoleIdx(i)}>
+                    {String(r.label ?? "")}
+                  </button>
+                ))}
+              </div>
+              <div className="sg01sel-benefits" key={`b-${roleIdx}`} aria-live="polite">
+                {benefits.map((b, i) => (
+                  <div key={i} className="sg01sel-benefit">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                    <GenericEditableText sectionId={sectionId} field={`roles.${roleIdx}.benefits.${i}`} value={b} tag="span" />
+                  </div>
+                ))}
+              </div>
+              <div className="sg01sel-metric" key={`m-${roleIdx}`} aria-live="polite">
+                <div className="sg01sel-metric-lbl">
+                  <GenericEditableText sectionId={sectionId} field="metricEyebrow" value={metricEyebrow} tag="span" />
+                </div>
+                <div className="sg01sel-metric-val">
+                  <b><GenericEditableText sectionId={sectionId} field={`roles.${roleIdx}.metric`} value={String(role.metric ?? "")} tag="span" /></b>
+                  <span><GenericEditableText sectionId={sectionId} field={`roles.${roleIdx}.metricLabel`} value={String(role.metricLabel ?? "")} tag="span" /></span>
+                </div>
+                {role.note && (
+                  <div className="sg01sel-metric-note">
+                    <GenericEditableText sectionId={sectionId} field={`roles.${roleIdx}.note`} value={String(role.note ?? "")} tag="span" />
+                  </div>
+                )}
+              </div>
+              <a href={sg01ResolveHref(selectorCtaHref, tenantSlug, isAdmin)} className="sg01sel-cta" data-btn="primary">
+                <GenericEditableText sectionId={sectionId} field="selectorCtaText" value={selectorCtaText} tag="span" />
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <p className="sg01sel-cta-note">
+                <GenericEditableText sectionId={sectionId} field="selectorCtaNote" value={selectorCtaNote} tag="span" />
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-signal-01-page — podstránkové hero (breadcrumb + claim) ──────────────
+function HeroSignal01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const title      = String(content.title      ?? "Podstránka");
+  const subtitle   = String(content.subtitle   ?? "");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadHref  = String(content.breadcrumbHref ?? "/");
+  return (
+    <>
+      <style>{`
+        .sg01pb { position: relative; background: #101418; color: #fff;
+          font-family: var(--font-body, system-ui, -apple-system, sans-serif); overflow: hidden; }
+        .sg01pb-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: clamp(44px, 6vw, 76px) clamp(20px, 5vw, 48px); }
+        .sg01pb-crumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono, ui-monospace, monospace); font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 16px; }
+        .sg01pb-crumb a { color: rgba(255,255,255,.55); text-decoration: none; transition: color .2s; }
+        .sg01pb-crumb a:hover { color: #6EA8FE; }
+        .sg01pb-crumb .cur { color: #fff; }
+        .sg01pb-title { font-family: var(--font-heading, system-ui, sans-serif); color: #fff; font-size: clamp(2rem, 4.2vw, 3.1rem); font-weight: 600; letter-spacing: .01em; line-height: 1.06; margin: 0; }
+        .sg01pb-sub { font-size: clamp(1rem, 1.35vw, 1.12rem); color: rgba(255,255,255,.72); max-width: 42em; margin: 14px 0 0; line-height: 1.6; }
+        .sg01pb-rule { width: 56px; height: 3px; background: #2563EB; margin-top: 24px; }
+      `}</style>
+      <section className="sg01pb" data-template="signal-01">
+        <div className="sg01pb-inner">
+          <div className="sg01pb-crumb">
+            <a href={sg01ResolveHref(breadHref, tenantSlug, isAdmin)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span aria-hidden="true">/</span>
+            <span className="cur">{title}</span>
+          </div>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="sg01pb-title" />
+          {subtitle && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="sg01pb-sub" />}
+          <div className="sg01pb-rule" aria-hidden="true" />
         </div>
       </section>
     </>

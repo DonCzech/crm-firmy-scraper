@@ -16,6 +16,7 @@ interface Props {
 }
 
 export function FaqSection({ content, variant, sectionId }: Props) {
+  if (variant === "signal-01-faq")    return <FaqSignal01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-faq")     return <FaqProof01 content={content} sectionId={sectionId} />;
   if (variant === "eshop-02-faq")     return <FaqEshop02 content={content} sectionId={sectionId} />;
   if (variant === "stavba-01-faq")    return <FaqStavba01 content={content} sectionId={sectionId} />;
@@ -1332,6 +1333,86 @@ function FaqProof01({ content, sectionId }: { content: Record<string, unknown>; 
             ))}
           </div>
           <div className="pf01fq-cta">
+            <a href={ctaHref}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ SIGNAL — Swiss authority (signal-01) ══════════════════════════════════════
+// FAQ: centrovaný úzký sloupec, hairline accordion, kruhový toggle, CTA na #konzultace.
+function FaqSignal01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Časté dotazy");
+  const title   = String(content.title   ?? "Na co se klienti ptají před spoluprací");
+  const lead    = String(content.lead    ?? "Nenašli jste odpověď? Rezervujte si 30 minut — první konzultace je zdarma.");
+  const ctaText = String(content.ctaText ?? "Rezervovat konzultaci");
+  const ctaHref = String(content.ctaHref ?? "#konzultace");
+  const faq = (
+    (content as { items?: FaqItem[] }).items ??
+    ((content as { faq?: Array<{ question?: string; answer?: string }> }).faq ?? []).map(
+      (i) => ({ question: i.question ?? "", answer: i.answer ?? "" })
+    )
+  );
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <>
+      <style>{`
+        .sg01fq { --sg-accent:#2563EB; --sg-ink:#101418; --sg-muted:#5B6472; --sg-border:#E3E7EB;
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--sg-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .sg01fq-inner { max-width:760px; margin:0 auto; }
+        .sg01fq-head { text-align:center; margin-bottom:clamp(28px,4vw,44px); }
+        .sg01fq .sg01-eyebrow{ font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01fq-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.7rem,3.2vw,2.5rem); font-weight:600; letter-spacing:.01em; line-height:1.1; margin:0 0 12px; }
+        .sg01fq-lead { font-size:1rem; color:var(--sg-muted); line-height:1.6; margin:0; }
+        .sg01fq-list { border-top:1px solid var(--sg-border); }
+        .sg01fq-item { border-bottom:1px solid var(--sg-border); }
+        .sg01fq-q { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 2px; background:none; border:none; cursor:pointer; text-align:left; font-family:inherit; color:var(--sg-ink); }
+        .sg01fq-q-text { font-size:1.02rem; font-weight:700; line-height:1.4; transition:color .2s; }
+        .sg01fq-q:hover .sg01fq-q-text { color:var(--sg-accent); }
+        .sg01fq-tog { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1.5px solid var(--sg-border); color:var(--sg-ink); display:flex; align-items:center; justify-content:center; transition:background .2s, color .2s, border-color .2s, transform .3s; }
+        .sg01fq-item[data-open="true"] .sg01fq-tog { background:var(--sg-accent); border-color:var(--sg-accent); color:#fff; transform:rotate(45deg); }
+        .sg01fq-a { display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s cubic-bezier(.22,.68,0,1); }
+        .sg01fq-item[data-open="true"] .sg01fq-a { grid-template-rows:1fr; }
+        .sg01fq-a-inner { overflow:hidden; }
+        .sg01fq-a-inner p { margin:0; padding:0 40px 20px 2px; font-size:.96rem; color:var(--sg-muted); line-height:1.7; }
+        .sg01fq-cta { display:flex; justify-content:center; margin-top:clamp(24px,3vw,36px); }
+        .sg01fq-cta a { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; background:var(--sg-accent); color:#fff; font-weight:700; font-size:.95rem; text-decoration:none; border-radius:6px; transition:transform .2s, box-shadow .2s; }
+        .sg01fq-cta a:hover { transform:translateY(-1px); box-shadow:0 12px 26px -12px rgba(37,99,235,.6); }
+        .sg01fq-cta svg { transition:transform .25s; }
+        .sg01fq-cta a:hover svg { transform:translateY(2px); }
+        @media (prefers-reduced-motion: reduce){ .sg01fq-a,.sg01fq-tog,.sg01fq-cta a{ transition:none; } }
+      `}</style>
+      <section className="sg01fq" data-template="signal-01" id="faq">
+        <div className="sg01fq-inner">
+          <div className="sg01fq-head">
+            <p className="sg01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="sg01fq-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="sg01fq-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="sg01fq-list">
+            {faq.map((item, i) => (
+              <div key={i} className="sg01fq-item" data-open={open === i}>
+                <button type="button" className="sg01fq-q" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
+                  <span className="sg01fq-q-text"><GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" /></span>
+                  <span className="sg01fq-tog" aria-hidden="true">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div className="sg01fq-a">
+                  <div className="sg01fq-a-inner">
+                    <p><GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" /></p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="sg01fq-cta">
             <a href={ctaHref}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
