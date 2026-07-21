@@ -1,26 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID, randomBytes } from "crypto";
-import { query } from "@/lib/db";
-import { requireSession, getUserCompany } from "@/lib/auth";
-import { auditLog } from "@/lib/audit";
+import { query, withTransaction } from "@/lib/db";
+import { requireSession, getUserCompany, canCreateResource } from "@/lib/auth";
 import { z } from "zod";
 import { generateInvoiceNumber } from "@/lib/invoice-number";
 
 const itemSchema = z.object({
   name: z.string().min(1),
-  quantity: z.number().min(0),
+  quantity: z.number().positive().max(1_000_000),
   unit: z.string().optional(),
-  unitPrice: z.number(),
+  unitPrice: z.number().min(0).max(1_000_000_000),
   vatRate: z.number().int().min(0).max(21),
 });
 
 const schema = z.object({
   clientId: z.string().optional().nullable(),
   type: z.enum(["invoice", "proforma", "advance", "credit_note", "tax_document"]).default("invoice"),
-  currency: z.string().default("CZK"),
-  issueDate: z.string(),
-  dueDate: z.string(),
-  taxableDate: z.string().optional(),
+  currency: z.string().regex(/^[A-Z]{3}$/).default("CZK"),
+  issueDate: z.string().date(),
+  dueDate: z.string().date(),
+  taxableDate: z.string().date().optional(),
   note: z.string().optional(),
   variableSymbol: z.string().optional(),
   paymentMethod: z.enum(["bank", "card", "cash", "cod", "other"]).default("bank"),
@@ -29,15 +28,19 @@ const schema = z.object({
   footerText: z.string().optional(),
   language: z.string().optional().default("cs"),
   reverseCharge: z.boolean().optional().default(false),
-  discountAmount: z.number().optional().nullable(),
-  discountPct: z.number().optional().nullable(),
+  discountAmount: z.number().min(0).optional().nullable(),
+  discountPct: z.number().min(0).max(100).optional().nullable(),
   showAlreadyPaid: z.boolean().optional().default(false),
   invoiceTemplate: z.string().optional(),
   invoiceColor: z.string().optional(),
   bankAccountId: z.string().optional().nullable(),
   showIban: z.string().optional().default("auto"),
   tagIds: z.array(z.string()).optional(),
-  items: z.array(itemSchema).min(0),
+  items: z.array(itemSchema).min(1).max(500),
+}).superRefine((data, ctx) => {
+  if (data.dueDate < data.issueDate) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["dueDate"], message: "Splatnost nesmí být před datem vystavení" });
+  }
 });
 
 function calcItems(items: z.infer<typeof itemSchema>[], isVatPayer: boolean) {
@@ -103,6 +106,10 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const company = await getUserCompany(user.id);
   if (!company) return NextResponse.json({ error: "No company" }, { status: 400 });
+  const allowance = await canCreateResource(user.id, company.id, "invoice");
+  if (!allowance.allowed) {
+    return NextResponse.json({ error: "Dosáhli jste měsíčního limitu faktur tarifu Free", code: "PLAN_LIMIT" }, { status: 403 });
+  }
 
   const body = await req.json().catch(() => ({}));
   const parsed = schema.safeParse(body);
@@ -112,33 +119,36 @@ export async function POST(req: NextRequest) {
   const refError = await validateInvoiceRefs(company.id, data);
   if (refError) return NextResponse.json({ error: refError }, { status: 400 });
 
-  const isVatPayer = company.vat_status === "vat_payer";
-  const calcedItems = calcItems(data.items, isVatPayer);
+  const created = await withTransaction(async (client) => {
+    const isVatPayer = company.vat_status === "vat_payer";
+    const calcedItems = calcItems(data.items, isVatPayer);
+    const subtotal = Math.round(calcedItems.reduce((s, i) => s + i.totalWithoutVat, 0) * 100) / 100;
+    const vatTotal = Math.round(calcedItems.reduce((s, i) => s + i.totalVat, 0) * 100) / 100;
+    const gross = Math.round((subtotal + vatTotal) * 100) / 100;
+    const discount = data.discountPct
+      ? Math.round(gross * data.discountPct) / 100
+      : Math.min(data.discountAmount ?? 0, gross);
+    const total = Math.max(0, Math.round((gross - discount) * 100) / 100);
 
-  const subtotal = calcedItems.reduce((s, i) => s + i.totalWithoutVat, 0);
-  const vatTotal = calcedItems.reduce((s, i) => s + i.totalVat, 0);
-  const total = Math.round((subtotal + vatTotal) * 100) / 100;
+    const allocation = await client.query(
+      "UPDATE fak_companies SET invoice_next = invoice_next + 1 WHERE id = $1 RETURNING invoice_next - 1 AS allocated",
+      [company.id]
+    );
+    const allocated = Number(allocation.rows[0]?.allocated);
+    if (!Number.isInteger(allocated) || allocated < 1) throw new Error("Číslo faktury nelze přidělit");
+    const number = generateInvoiceNumber({
+      invoice_prefix: company.invoice_prefix ?? "",
+      invoice_number_year_format: company.invoice_number_year_format ?? "full",
+      invoice_number_month: company.invoice_number_month ?? false,
+      invoice_number_position: company.invoice_number_position ?? "end",
+      invoice_number_volume: company.invoice_number_volume ?? 10000,
+      invoice_number_separator: company.invoice_number_separator ?? "-",
+      invoice_next: allocated,
+    }, new Date(`${data.issueDate}T00:00:00Z`));
 
-  // Generate invoice number using new configurable format
-  const number = generateInvoiceNumber({
-    invoice_prefix: company.invoice_prefix ?? "",
-    invoice_number_year_format: company.invoice_number_year_format ?? "full",
-    invoice_number_month: company.invoice_number_month ?? false,
-    invoice_number_position: company.invoice_number_position ?? "end",
-    invoice_number_volume: company.invoice_number_volume ?? 10000,
-    invoice_number_separator: company.invoice_number_separator ?? "-",
-    invoice_next: company.invoice_next ?? 1,
-  }, new Date(data.issueDate));
-
-  await query(
-    "UPDATE fak_companies SET invoice_next = invoice_next + 1 WHERE id = $1",
-    [company.id]
-  );
-
-  const id = randomUUID();
-  const publicToken = randomBytes(24).toString("hex");
-
-  await query(
+    const id = randomUUID();
+    const publicToken = randomBytes(24).toString("hex");
+    await client.query(
     `INSERT INTO fak_invoices
        (id, company_id, client_id, number, variable_symbol, type, status, currency,
         issue_date, due_date, taxable_date, subtotal, vat_total, total, note,
@@ -169,21 +179,21 @@ export async function POST(req: NextRequest) {
       data.bankAccountId ?? null,
       data.showIban ?? "auto",
     ]
-  );
+    );
 
   // Save tags
-  if (data.tagIds?.length) {
-    for (const tagId of data.tagIds) {
-      await query(
+    if (data.tagIds?.length) {
+      for (const tagId of data.tagIds) {
+        await client.query(
         "INSERT INTO fak_invoice_tags (invoice_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
         [id, tagId]
       );
+      }
     }
-  }
 
-  for (let idx = 0; idx < calcedItems.length; idx++) {
-    const item = calcedItems[idx];
-    await query(
+    for (let idx = 0; idx < calcedItems.length; idx++) {
+      const item = calcedItems[idx];
+      await client.query(
       `INSERT INTO fak_invoice_items
          (id, invoice_id, name, quantity, unit, unit_price, vat_rate,
           total_without_vat, total_vat, total_with_vat, sort_order)
@@ -191,9 +201,14 @@ export async function POST(req: NextRequest) {
       [randomUUID(), id, item.name, item.quantity, item.unit ?? null,
        item.unitPrice, item.vatRate, item.totalWithoutVat, item.totalVat, item.totalWithVat, idx]
     );
-  }
-
-  await auditLog({ userId: user.id, companyId: company.id, action: "invoice.created", entityType: "invoice", entityId: id });
-  const { rows } = await query("SELECT * FROM fak_invoices WHERE id = $1 AND company_id = $2", [id, company.id]);
-  return NextResponse.json(rows[0], { status: 201 });
+    }
+    await client.query(
+      `INSERT INTO fak_audit_log (id, company_id, user_id, action, entity_type, entity_id)
+       VALUES ($1,$2,$3,'invoice.created','invoice',$4)`,
+      [randomUUID(), company.id, user.id, id]
+    );
+    const result = await client.query("SELECT * FROM fak_invoices WHERE id = $1 AND company_id = $2", [id, company.id]);
+    return result.rows[0];
+  });
+  return NextResponse.json(created, { status: 201 });
 }

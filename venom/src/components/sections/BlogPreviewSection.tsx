@@ -1756,11 +1756,13 @@ function BlogFloors01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 }
 
 // ── clean-02-blog ─────────────────────────────────────────────────────────────
+// Arctic Editorial „Napsali o nás": press list místo karet — řádky se source
+// wordmarkem, titulkem, datem a šipkou; hairline dělítka, hover posun.
 function BlogClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const eyebrow = String(content.eyebrow ?? "Média a publikace");
   const title   = String(content.title ?? "Napsali o nás");
+  const readLabel = String(content.readLabel ?? "Přečíst článek");
   const items   = (content.items as Array<{ date?: string; title?: string; href?: string; image?: string; source?: string; imageType?: string }>) ?? [];
-  const NAVY = "#0e0e53"; const BLUE = "#019dff"; const GRAY = "#6b77a4";
   const resolve = (href: string) => {
     if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
     const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
@@ -1769,29 +1771,52 @@ function BlogClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   return (
     <>
       <style>{`
-        .c02bl-section { background: #f3f9ff; padding: 5rem 5%; font-family: 'Onest',sans-serif; }
-        .c02bl-inner { max-width: 80rem; margin: 0 auto; }
-        .c02bl-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 3rem; }
-        .c02bl-kicker { display: inline-flex; align-items: center; gap: .45rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${BLUE}; margin-bottom: .75rem; }
-        .c02bl-kicker::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; }
-        .c02bl-h2 { font-family: 'Bricolage Grotesque',sans-serif; font-size: clamp(1.65rem,3.2vw,2.5rem); font-weight: 800; color: ${NAVY}; margin: 0; line-height: 1.2; }
-        .c02bl-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.75rem; }
-        .c02bl-card { background: #fff; border: 1px solid #dfecff; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; transition: box-shadow .25s, transform .25s; }
-        .c02bl-card:hover { box-shadow: 0 12px 40px -10px rgba(1,157,255,.18); transform: translateY(-3px); }
-        .c02bl-img-logo { width: 100%; aspect-ratio: 16/7; background: #eef6ff; display: flex; align-items: center; justify-content: center; padding: 1.5rem 2rem; border-bottom: 1px solid #dfecff; overflow: hidden; }
-        .c02bl-img-logo img { max-width: 100%; max-height: 80px; object-fit: contain; filter: grayscale(30%); }
-        .c02bl-img-photo { width: 100%; aspect-ratio: 16/9; border-bottom: 1px solid #dfecff; overflow: hidden; }
-        .c02bl-img-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-        .c02bl-body { padding: 1.5rem; display: flex; flex-direction: column; gap: .9rem; flex: 1; }
-        .c02bl-meta { display: flex; align-items: center; gap: .45rem; }
-        .c02bl-meta svg { width: 14px; height: 14px; flex-shrink: 0; color: ${BLUE}; }
-        .c02bl-date { font-size: .75rem; font-weight: 500; color: ${GRAY}; }
-        .c02bl-title { font-family: 'Bricolage Grotesque',sans-serif; font-size: 1rem; font-weight: 700; color: ${NAVY}; margin: 0; line-height: 1.5; flex: 1; }
-        .c02bl-link { display: inline-flex; align-items: center; gap: .35rem; font-size: .85rem; font-weight: 700; color: ${BLUE}; margin-top: auto; transition: gap .2s; }
-        .c02bl-link:hover { gap: .6rem; }
-        .c02bl-link svg { width: 14px; height: 14px; }
-        @media(max-width:900px) { .c02bl-grid { grid-template-columns: repeat(2,1fr); } }
-        @media(max-width:550px) { .c02bl-grid { grid-template-columns: 1fr; } }
+        .c02bl-section { background: #fff; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02bl-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .c02bl-header { margin-bottom: clamp(2rem, 4vw, 3rem); }
+        .c02bl-kicker {
+          display: inline-flex; align-items: center; gap: .55rem;
+          font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #1B5BFF; margin-bottom: 1.1rem;
+        }
+        .c02bl-kicker::before { content: ''; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02bl-h2 {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 750;
+          color: #0B1526; margin: 0; line-height: 1.08; letter-spacing: -0.03em;
+        }
+        .c02bl-list { border-top: 1px solid #E2E8F1; }
+        .c02bl-row {
+          display: grid; grid-template-columns: 11rem 1fr auto auto;
+          gap: 1.5rem 2.5rem; align-items: center;
+          padding: 1.55rem 0.4rem;
+          border-bottom: 1px solid #E2E8F1;
+          text-decoration: none;
+          transition: background 0.25s, padding-left 0.25s;
+        }
+        .c02bl-row:hover { background: #F4F6F9; padding-left: 1rem; }
+        .c02bl-source {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: 1.02rem; font-weight: 800; letter-spacing: -0.01em; color: #0B1526;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .c02bl-title { font-size: 1rem; font-weight: 500; color: #3D4B63; margin: 0; line-height: 1.55; }
+        .c02bl-date { font-size: .82rem; color: #98A4B8; white-space: nowrap; font-variant-numeric: tabular-nums; }
+        .c02bl-arrow {
+          width: 38px; height: 38px; border-radius: 50%;
+          border: 1px solid #D6DEEA; display: grid; place-items: center;
+          color: #0B1526; transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s;
+        }
+        .c02bl-row:hover .c02bl-arrow { background: #1B5BFF; border-color: #1B5BFF; color: #fff; transform: rotate(-45deg); }
+        @media (max-width: 760px) {
+          .c02bl-row { grid-template-columns: 1fr auto; gap: 0.35rem 1rem; padding: 1.25rem 0.2rem; }
+          .c02bl-source { grid-column: 1; }
+          .c02bl-arrow { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+          .c02bl-title { grid-column: 1; }
+          .c02bl-date { grid-column: 1; }
+          .c02bl-row:hover { padding-left: 0.2rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { .c02bl-row, .c02bl-arrow { transition: none; } }
       `}</style>
       <section className="c02bl-section" id="blog" data-template="clean-02-blog">
         <div className="c02bl-inner">
@@ -1799,33 +1824,15 @@ function BlogClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
             <p className="c02bl-kicker"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
             <h2 className="c02bl-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
           </div>
-          <div className="c02bl-grid">
+          <div className="c02bl-list">
             {items.map((item, i) => (
-              <a key={i} href={resolve(item.href ?? "#blog")} className="c02bl-card">
-                {item.imageType === "photo" ? (
-                  <div className="c02bl-img-photo">
-                    <img src={item.image} alt={item.source ?? "publikace"} loading="lazy" />
-                  </div>
-                ) : (
-                  <div className="c02bl-img-logo">
-                    {item.image ? (
-                      <img src={item.image} alt={item.source ?? "publikace"} loading="lazy" />
-                    ) : (
-                      <span style={{fontSize:"1.5rem",fontWeight:800,color:BLUE,fontFamily:"'Bricolage Grotesque',sans-serif"}}>{item.source ?? "?"}</span>
-                    )}
-                  </div>
-                )}
-                <div className="c02bl-body">
-                  <div className="c02bl-meta">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    <span className="c02bl-date"><GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={item.date ?? ""} tag="span" /></span>
-                  </div>
-                  <p className="c02bl-title"><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" /></p>
-                  <span className="c02bl-link">
-                    Přečíst článek
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                  </span>
-                </div>
+              <a key={i} href={resolve(item.href ?? "#blog")} className="c02bl-row" aria-label={readLabel}>
+                <span className="c02bl-source"><GenericEditableText sectionId={sectionId} field={`items.${i}.source`} value={item.source ?? ""} tag="span" /></span>
+                <p className="c02bl-title"><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" /></p>
+                <span className="c02bl-date"><GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={item.date ?? ""} tag="span" /></span>
+                <span className="c02bl-arrow" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
               </a>
             ))}
           </div>

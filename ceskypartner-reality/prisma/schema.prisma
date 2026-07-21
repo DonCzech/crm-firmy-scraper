@@ -1,0 +1,536 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Uživatelé & Auth ───────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(AGENT)
+  avatar       String?
+  phone        String?
+  bio          String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  listings      Listing[]
+  blogPosts     BlogPost[]
+  contactNotes  ContactNote[]
+  deals         Deal[]
+  tasks         Task[]
+  documents     Document[]
+  boardMessages BoardMessage[]
+}
+
+enum Role {
+  ADMIN
+  AGENT
+}
+
+// ─── Nemovitosti ────────────────────────────────────────────────────
+
+model Listing {
+  id               String             @id @default(cuid())
+  title            String
+  slug             String             @unique
+  status           ListingStatus      @default(DRAFT)
+  deal             DealType
+  kind             PropertyKind
+  disposition      String?
+  price            Int
+  priceNote        String?
+  location         String
+  region           String?
+  district         String?
+  address          String?
+  ruianAddressCode String?
+  ruianParcelCode  String?
+  lat              Float?
+  lng              Float?
+  area             Int?
+  landArea         Int?
+  floor            Int?
+  floors           Int?
+  penb             String?
+  yearBuilt        Int?
+  description      String?            @db.Text
+  tourUrl          String?
+  videoUrl         String?
+  zip              String?
+  ownership        OwnershipType?
+  condition        PropertyCondition?
+  construction     ConstructionType?
+  furnishing       Furnishing?
+  monthlyFees      Int?
+  deposit          Int?
+  exclusive        Boolean            @default(false)
+  priceHidden      Boolean            @default(false)
+  amenities        String[]
+  tags             String[]
+  featured         Boolean            @default(false)
+  publishedAt      DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  agentId String?
+  agent   User?   @relation(fields: [agentId], references: [id])
+
+  images  Media[] @relation("ListingImages")
+  video   Media?  @relation("ListingVideo", fields: [videoId], references: [id])
+  videoId String? @unique
+
+  portalExports PortalExport[]
+  contacts      Contact[]
+  deals         Deal[]
+  tasks         Task[]
+  documents     Document[]
+
+  @@index([status, deal])
+  @@index([kind])
+  @@index([location])
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  RESERVED
+  SOLD
+  RENTED
+  ARCHIVED
+}
+
+enum DealType {
+  SALE
+  RENT
+  INVESTMENT
+}
+
+enum PropertyKind {
+  APARTMENT
+  HOUSE
+  LAND
+  COMMERCIAL
+}
+
+enum OwnershipType {
+  PERSONAL
+  COOPERATIVE
+  STATE
+}
+
+enum PropertyCondition {
+  NEW_BUILD
+  VERY_GOOD
+  GOOD
+  TO_RECONSTRUCT
+  UNDER_CONSTRUCTION
+  DEVELOPER_PROJECT
+}
+
+enum ConstructionType {
+  BRICK
+  PANEL
+  WOOD
+  STONE
+  MIXED
+  SKELETON
+  LOW_ENERGY
+}
+
+enum Furnishing {
+  FURNISHED
+  PARTLY
+  UNFURNISHED
+}
+
+// ─── Media ──────────────────────────────────────────────────────────
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  key       String   @unique
+  filename  String
+  mimeType  String
+  size      Int
+  width     Int?
+  height    Int?
+  alt       String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  listingId    String?
+  listing      Listing? @relation("ListingImages", fields: [listingId], references: [id], onDelete: SetNull)
+  videoListing Listing? @relation("ListingVideo")
+
+  blogPost   BlogPost? @relation(fields: [blogPostId], references: [id], onDelete: SetNull)
+  blogPostId String?
+
+  @@index([listingId])
+}
+
+// ─── Blog ───────────────────────────────────────────────────────────
+
+model BlogPost {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  excerpt     String?    @db.Text
+  content     String     @db.Text
+  status      PostStatus @default(DRAFT)
+  coverImage  String?
+  metaTitle   String?
+  metaDesc    String?
+  tags        String[]
+  publishedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  images Media[]
+
+  @@index([status, publishedAt])
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// ─── Kontakty / Poptávky ────────────────────────────────────────────
+
+model Contact {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String        @db.Text
+  source    ContactSource @default(FORM)
+  status    ContactStatus @default(NEW)
+  listingId String?
+  listing   Listing?      @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  notes ContactNote[]
+
+  @@index([status])
+}
+
+enum ContactSource {
+  FORM
+  NEWSLETTER
+  PHONE
+  PORTAL
+}
+
+enum ContactStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  ARCHIVED
+}
+
+model ContactNote {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  contactId String
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+}
+
+// ─── Export na portály ───────────────────────────────────────────────
+
+model PortalExport {
+  id            String       @id @default(cuid())
+  localId       Int          @unique @default(autoincrement())
+  portal        Portal
+  externalId    String?
+  status        ExportStatus @default(PENDING)
+  lastSyncAt    DateTime?
+  lastAttemptAt DateTime?
+  verifiedAt    DateTime?
+  remoteUrl     String?
+  remoteStatus  String?
+  errorLog      String?      @db.Text
+  createdAt     DateTime     @default(now())
+
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([portal, listingId])
+}
+
+enum Portal {
+  B3_TECHNOLOGY
+  SREALITY
+  BEZREALITKY
+  REALITY_CZ
+  REALITY_IDNES
+  REALITYMIX
+  CESKEREALITY
+  REALHIT
+  IGLUU
+  ULOVDOMOV
+  BYTY_CZ
+  REALITNI_ESO
+  EUROBYDLENI
+  POZEMKY_CZ
+  ANNONCE
+  BAZOS_REALITY
+  REALCITY
+  AVIZO
+  VIAREALITY
+  PRAZSKEREALITY
+  PRAGUE_REAL_ESTATE
+  HRADECKEREALITY
+  REALITNI_TRZNICE
+  REALITNI_KOMORA
+  REALINGO
+  SUPERHOME
+  MECH_CZ
+  DOMONAUT
+  VINEGRET
+  REALITYCECHY
+  LOVEC_REALIT
+  NEMOVITOSTI_BLESK
+  REAS
+  SUPERBYTY24
+  PROPERTY4YOU
+  VALUO
+  JENREALITY
+  BLACK_REALITY
+  DOMY_BYTY_POZEMKY
+  ARKCR
+  FACEBOOK_MARKETPLACE
+}
+
+enum ExportStatus {
+  PENDING
+  SYNCED
+  ERROR
+  REMOVED
+}
+
+// ─── Nastavení firmy ────────────────────────────────────────────────
+
+model Setting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Adresář ────────────────────────────────────────────────────────
+
+model Person {
+  id            String     @id @default(cuid())
+  name          String
+  email         String?
+  phone         String?
+  type          PersonType @default(CLIENT)
+  company       String?
+  address       String?
+  note          String?    @db.Text
+  gdprConsent   Boolean    @default(false)
+  gdprConsentAt DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  deals   Deal[]
+  demands Demand[]
+  tasks   Task[]
+
+  @@index([type])
+}
+
+enum PersonType {
+  CLIENT
+  PROSPECT
+  OWNER
+  PARTNER
+}
+
+// ─── Obchodní případy ───────────────────────────────────────────────
+
+model Deal {
+  id            String    @id @default(cuid())
+  title         String
+  stage         DealStage @default(LEAD)
+  dealType      DealType  @default(SALE)
+  price         Int?
+  commission    Int?
+  commissionPct Float?
+  note          String?   @db.Text
+  closedAt      DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  listingId String?
+  listing   Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  clientId  String?
+  client    Person?  @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  agentId   String?
+  agent     User?    @relation(fields: [agentId], references: [id], onDelete: SetNull)
+
+  tasks     Task[]
+  documents Document[]
+
+  @@index([stage])
+  @@index([agentId, closedAt])
+}
+
+enum DealStage {
+  LEAD
+  VIEWING
+  OFFER
+  RESERVATION
+  CONTRACT
+  CLOSED
+  LOST
+}
+
+// ─── Plánování (úkoly / kanban) ─────────────────────────────────────
+
+model Task {
+  id          String       @id @default(cuid())
+  title       String
+  description String?      @db.Text
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(NORMAL)
+  dueDate     DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  assigneeId String?
+  assignee   User?    @relation(fields: [assigneeId], references: [id], onDelete: SetNull)
+  dealId     String?
+  deal       Deal?    @relation(fields: [dealId], references: [id], onDelete: SetNull)
+  personId   String?
+  person     Person?  @relation(fields: [personId], references: [id], onDelete: SetNull)
+  listingId  String?
+  listing    Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([assigneeId, dueDate])
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  WAITING
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+// ─── Obecné poptávky ────────────────────────────────────────────────
+
+model Demand {
+  id           String        @id @default(cuid())
+  title        String
+  deal         DealType
+  kind         PropertyKind?
+  region       String?
+  district     String?
+  dispositions String[]
+  priceMin     Int?
+  priceMax     Int?
+  areaMin      Int?
+  note         String?       @db.Text
+  status       DemandStatus  @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  personId String?
+  person   Person? @relation(fields: [personId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+}
+
+enum DemandStatus {
+  ACTIVE
+  MATCHED
+  CLOSED
+}
+
+// ─── Dokumenty ──────────────────────────────────────────────────────
+
+model Document {
+  id        String      @id @default(cuid())
+  name      String
+  url       String
+  key       String      @unique
+  mimeType  String
+  size      Int
+  category  DocCategory @default(OTHER)
+  note      String?
+  createdAt DateTime    @default(now())
+
+  uploaderId String?
+  uploader   User?    @relation(fields: [uploaderId], references: [id], onDelete: SetNull)
+  dealId     String?
+  deal       Deal?    @relation(fields: [dealId], references: [id], onDelete: SetNull)
+  listingId  String?
+  listing    Listing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+
+  @@index([category])
+}
+
+enum DocCategory {
+  CONTRACT
+  PROTOCOL
+  POWER_OF_ATTORNEY
+  LV
+  MARKETING
+  OTHER
+}
+
+// ─── Recenze klientů ────────────────────────────────────────────────
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  /// „Prodej bytu, Praha 2"
+  context   String?
+  quote     String   @db.Text
+  rating    Int      @default(5)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+}
+
+// ─── Nástěnka ───────────────────────────────────────────────────────
+
+model BoardMessage {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  pinned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([pinned, createdAt])
+}

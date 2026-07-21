@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/bank-sync",
       "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/recurring",
+      "schedule": "15 5 * * *"
     }
   ]
 }

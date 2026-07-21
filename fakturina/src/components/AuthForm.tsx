@@ -45,7 +45,7 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
   return (
     <form onSubmit={handleSubmit} className="card p-7 space-y-4">
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">{error}</div>
+        <div role="alert" aria-live="polite" className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">{error}</div>
       )}
 
       {mode === "register" && (
@@ -84,14 +84,16 @@ export default function AuthForm({ mode }: { mode: "login" | "register" }) {
             value={form.password}
             onChange={set("password")}
             required
-            minLength={mode === "register" ? 8 : 1}
-            placeholder={mode === "register" ? "Min. 8 znaků" : "Vaše heslo"}
+            minLength={mode === "register" ? 12 : 1}
+            placeholder={mode === "register" ? "Min. 12 znaků" : "Vaše heslo"}
             autoComplete={mode === "login" ? "current-password" : "new-password"}
           />
           <button
             type="button"
             onClick={() => setShowPass(!showPass)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            aria-label={showPass ? "Skrýt heslo" : "Zobrazit heslo"}
+            aria-pressed={showPass}
           >
             {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>

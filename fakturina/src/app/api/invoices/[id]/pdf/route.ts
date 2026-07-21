@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { requireSession, getUserCompany } from "@/lib/auth";
 import { generateInvoiceHtml } from "@/lib/invoice-pdf";
+import { rateLimit } from "@/lib/rate-limit";
+import { requestIp } from "@/lib/security";
 
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const limited = rateLimit(`invoice-pdf:${requestIp(req)}`, 30, 60_000);
+  if (!limited.allowed) return NextResponse.json({ error: "Příliš mnoho PDF požadavků" }, { status: 429, headers: { "Retry-After": String(limited.retryAfter) } });
   const { id } = await params;
   const user = await requireSession().catch(() => null);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

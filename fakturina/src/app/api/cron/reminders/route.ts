@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { query, initDb } from "@/lib/db";
 import { reminderEmailSubject, sendReminderEmail } from "@/lib/email";
 import { emailLog } from "@/lib/email-log";
+import { hasValidCronSecret } from "@/lib/security";
 
 export const dynamic = "force-dynamic";
 
@@ -29,9 +30,10 @@ function todayISO(): string {
 
 export async function GET(req: NextRequest) {
   // Security: bearer token or Vercel cron header
-  const auth = req.headers.get("authorization");
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && auth !== `Bearer ${cronSecret}`) {
+  if (!process.env.CRON_SECRET) {
+    return NextResponse.json({ error: "Cron není nakonfigurován" }, { status: 503 });
+  }
+  if (!hasValidCronSecret(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -107,6 +109,15 @@ export async function GET(req: NextRequest) {
           continue;
         }
 
+        const reminderLogId = randomUUID();
+        const claimed = await query(
+          `INSERT INTO fak_reminder_log (id, invoice_id, type, sent_at, status)
+           VALUES ($1, $2, $3, $4, 'sending')
+           ON CONFLICT (invoice_id, type) DO NOTHING RETURNING id`,
+          [reminderLogId, invoice.id, reminder.type, Math.floor(Date.now() / 1000)]
+        );
+        if (!claimed.rows[0]) continue;
+
         const emailData = {
           to: invoice.client_email,
           clientName: invoice.client_name ?? "Zákazník",
@@ -131,11 +142,7 @@ export async function GET(req: NextRequest) {
           providerMessageId: messageId,
         });
 
-        await query(
-          `INSERT INTO fak_reminder_log (id, invoice_id, type, sent_at, status)
-           VALUES ($1, $2, $3, $4, 'sent')`,
-          [randomUUID(), invoice.id, reminder.type, Math.floor(Date.now() / 1000)]
-        );
+        await query("UPDATE fak_reminder_log SET status = 'sent' WHERE id = $1", [reminderLogId]);
 
         results.push({ invoiceId: invoice.id, type: reminder.type, status: "sent" });
       } catch (err) {
@@ -150,6 +157,10 @@ export async function GET(req: NextRequest) {
           error: err instanceof Error ? err.message : "Odeslání upomínky selhalo",
         });
         results.push({ invoiceId: invoice.id, type: reminder.type, status: "error" });
+        await query(
+          "DELETE FROM fak_reminder_log WHERE invoice_id = $1 AND type = $2 AND status = 'sending'",
+          [invoice.id, reminder.type]
+        ).catch(() => undefined);
       }
     }
   }

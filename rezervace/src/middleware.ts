@@ -22,7 +22,9 @@ export async function middleware(request: NextRequest) {
   // a párovací (/api/connect) endpointy zůstávají bez CORS — volají se buď
   // ze stejné domény, nebo ze serveru webu, takže cizí prohlížeč na ně nemá.
   const isPublicBookingApi =
-    pathname.startsWith('/api/users/') || pathname.startsWith('/api/bookings')
+    pathname.startsWith('/api/users/') ||
+    pathname.startsWith('/api/bookings') ||
+    pathname.startsWith('/api/inquiries')
 
   if (isPublicBookingApi) {
     if (request.method === 'OPTIONS') {

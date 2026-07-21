@@ -56,6 +56,32 @@ export interface PdfInvoiceData {
   watermark?: boolean;
 }
 
+function esc(value: unknown) {
+  return String(value ?? "").replace(/[&<>'"]/g, (char) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;",
+  })[char] ?? char);
+}
+
+function safeLogoUrl(value?: string) {
+  if (!value) return undefined;
+  if (value.startsWith("/uploads/") || /^https:\/\//i.test(value)) return esc(value);
+  return undefined;
+}
+
+function sanitizeInvoiceData(data: PdfInvoiceData): PdfInvoiceData {
+  const strings = <T extends object>(input: T): T => Object.fromEntries(
+    Object.entries(input as Record<string, unknown>)
+      .map(([key, value]) => [key, typeof value === "string" ? esc(value) : value])
+  ) as T;
+  return {
+    ...strings(data),
+    accentColor: /^#[0-9a-f]{6}$/i.test(data.accentColor ?? "") ? data.accentColor : "#4f46e5",
+    supplier: { ...strings(data.supplier), logoUrl: safeLogoUrl(data.supplier.logoUrl) },
+    client: strings(data.client),
+    items: data.items.map((item) => strings(item)),
+  };
+}
+
 function vatBreakdownRows(items: PdfInvoiceData["items"], currency: string, rowClass: string): string {
   const byRate = new Map<number, { base: number; vat: number }>();
   for (const item of items) {
@@ -1000,6 +1026,7 @@ ${data.watermark ? `<div class="wm">Fakturina FREE</div>` : ""}
 
 // ─── Router ────────────────────────────────────────────────────────
 export function generateInvoiceHtml(data: PdfInvoiceData): string {
+  data = sanitizeInvoiceData(data);
   let html: string;
   switch (data.template) {
     case "solaris":   html = templateSolaris(data); break;

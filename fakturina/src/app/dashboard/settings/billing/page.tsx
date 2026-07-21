@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { getSession, getSubscription } from "@/lib/auth";
 import { PLANS } from "@/lib/stripe";
 import BillingActions from "@/components/BillingActions";

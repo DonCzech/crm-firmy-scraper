@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { query } from "@/lib/db";
-import { requireSession, getUserCompany } from "@/lib/auth";
+import { requireSession, getUserCompany, canCreateResource } from "@/lib/auth";
 import { auditLog } from "@/lib/audit";
 import { z } from "zod";
 
@@ -34,6 +34,10 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const company = await getUserCompany(user.id);
   if (!company) return NextResponse.json({ error: "No company" }, { status: 400 });
+  const allowance = await canCreateResource(user.id, company.id, "client");
+  if (!allowance.allowed) {
+    return NextResponse.json({ error: "Dosáhli jste limitu klientů tarifu Free", code: "PLAN_LIMIT" }, { status: 403 });
+  }
 
   const body = await req.json().catch(() => ({}));
   const parsed = schema.safeParse(body);

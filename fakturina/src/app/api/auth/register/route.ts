@@ -3,14 +3,24 @@ import bcrypt from "bcryptjs";
 import { randomUUID, randomBytes } from "crypto";
 import { query, initDb } from "@/lib/db";
 import { z } from "zod";
+import { rateLimit } from "@/lib/rate-limit";
+import { requestIp } from "@/lib/security";
+import { hashSessionToken } from "@/lib/auth";
 
 const schema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(12).max(128),
   name: z.string().min(2),
 });
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(`register:${requestIp(req)}`, 5, 60 * 60_000);
+  if (!limited.allowed) {
+    return NextResponse.json({ error: "Příliš mnoho registrací. Zkuste to později." }, {
+      status: 429,
+      headers: { "Retry-After": String(limited.retryAfter) },
+    });
+  }
   await initDb();
 
   const body = await req.json().catch(() => ({}));
@@ -24,7 +34,7 @@ export async function POST(req: NextRequest) {
 
   const { rows: existing } = await query("SELECT id FROM fak_users WHERE email = $1", [emailLower]);
   if (existing.length > 0) {
-    return NextResponse.json({ error: "Tento e-mail je již registrován" }, { status: 409 });
+    return NextResponse.json({ error: "Účet nelze vytvořit s těmito údaji" }, { status: 409 });
   }
 
   const passwordHash = await bcrypt.hash(password, 12);
@@ -44,7 +54,7 @@ export async function POST(req: NextRequest) {
   const expires = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30;
   await query(
     "INSERT INTO fak_sessions (token, user_id, expires_at) VALUES ($1, $2, $3)",
-    [token, userId, expires]
+    [hashSessionToken(token), userId, expires]
   );
 
   const res = NextResponse.json({ ok: true });

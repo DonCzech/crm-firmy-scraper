@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { query } from "@/lib/db";
+import { query, withTransaction } from "@/lib/db";
 import { requireSession, getUserCompany } from "@/lib/auth";
 import { z } from "zod";
 
 const itemSchema = z.object({
   name: z.string().min(1),
-  quantity: z.number().min(0).default(1),
+  quantity: z.number().positive().default(1),
   unit: z.string().optional(),
-  unitPrice: z.number(),
+  unitPrice: z.number().min(0),
   vatRate: z.number().int().min(0).max(21).default(0),
 });
 
@@ -17,13 +17,13 @@ const schema = z.object({
   supplierIco: z.string().optional(),
   number: z.string().optional(),
   variableSymbol: z.string().optional(),
-  currency: z.string().default("CZK"),
-  issueDate: z.string(),
-  dueDate: z.string(),
-  taxableDate: z.string().optional(),
+  currency: z.string().regex(/^[A-Z]{3}$/).default("CZK"),
+  issueDate: z.string().date(),
+  dueDate: z.string().date(),
+  taxableDate: z.string().date().optional(),
   paymentMethod: z.enum(["bank", "card", "cash", "cod", "other"]).default("bank"),
   note: z.string().optional(),
-  items: z.array(itemSchema).min(0),
+  items: z.array(itemSchema).min(1).max(500),
 });
 
 export async function GET(req: NextRequest) {
@@ -76,8 +76,9 @@ export async function POST(req: NextRequest) {
   const vatTotal = calcItems.reduce((s, i) => s + i.totalVat, 0);
   const total = Math.round((subtotal + vatTotal) * 100) / 100;
 
-  const id = randomUUID();
-  await query(
+  const created = await withTransaction(async (client) => {
+    const id = randomUUID();
+    await client.query(
     `INSERT INTO fak_expenses
        (id, company_id, supplier_name, supplier_ico, number, variable_symbol, currency,
         issue_date, due_date, taxable_date, subtotal, vat_total, total, status, payment_method, note)
@@ -85,11 +86,11 @@ export async function POST(req: NextRequest) {
     [id, company.id, d.supplierName ?? null, d.supplierIco ?? null, d.number ?? null,
      d.variableSymbol ?? null, d.currency, d.issueDate, d.dueDate, d.taxableDate ?? null,
      subtotal, vatTotal, total, d.paymentMethod, d.note ?? null]
-  );
+    );
 
-  for (let i = 0; i < calcItems.length; i++) {
-    const item = calcItems[i];
-    await query(
+    for (let i = 0; i < calcItems.length; i++) {
+      const item = calcItems[i];
+      await client.query(
       `INSERT INTO fak_expense_items
          (id, expense_id, name, quantity, unit, unit_price, vat_rate,
           total_without_vat, total_vat, total_with_vat, sort_order)
@@ -97,8 +98,9 @@ export async function POST(req: NextRequest) {
       [randomUUID(), id, item.name, item.quantity, item.unit ?? null,
        item.unitPrice, item.vatRate, item.totalWithoutVat, item.totalVat, item.totalWithVat, i]
     );
-  }
-
-  const { rows } = await query("SELECT * FROM fak_expenses WHERE id = $1", [id]);
-  return NextResponse.json(rows[0], { status: 201 });
+    }
+    const result = await client.query("SELECT * FROM fak_expenses WHERE id = $1 AND company_id = $2", [id, company.id]);
+    return result.rows[0];
+  });
+  return NextResponse.json(created, { status: 201 });
 }

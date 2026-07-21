@@ -29132,8 +29132,9 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           max-height: 420px; box-shadow: 0 14px 40px -22px rgba(27,58,92,.35); }
         .pf01hero-photo-wrap::after { content: ''; position: absolute; inset: 0;
           background: none; pointer-events: none; }
+        .pf01hero-photo-slot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
         .pf01hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-        .pf01sel { position: static; z-index: 2; width: 100%; margin-top: 18px;
+        .pf01sel { position: relative; z-index: 2; width: 100%; margin-top: 18px;
           background: var(--pf-surface, #fff); border: 1px solid var(--pf-border, #E5E1D8);
           border-radius: 12px; padding: 22px 22px 20px; box-shadow: 0 12px 34px -20px rgba(27,58,92,.28); overflow: hidden; }
         .pf01sel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;

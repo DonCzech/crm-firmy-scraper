@@ -52,7 +52,7 @@ const TYPE_LABEL: Record<string, string> = {
   tax_document: "DAŇOVÝ DOKLAD",
 };
 
-export default function InvoicePreview({ company, client, form, items, subtotal, vatTotal, total, isVatPayer }: {
+export default function InvoicePreview({ company, client, form, items, subtotal, vatTotal, isVatPayer }: {
   company: Company;
   client?: Client;
   form: Form;

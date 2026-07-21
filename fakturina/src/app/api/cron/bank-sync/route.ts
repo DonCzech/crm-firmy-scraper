@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { initDb, query } from "@/lib/db";
 import { BankConnection, syncBankConnection } from "@/lib/bank-sync";
+import { hasValidCronSecret } from "@/lib/security";
 
 export const dynamic = "force-dynamic";
 
 async function handle(req: NextRequest) {
-  const cronSecret = process.env.CRON_SECRET;
-  const auth = req.headers.get("authorization");
-  if (cronSecret && auth !== `Bearer ${cronSecret}`) {
+  if (!process.env.CRON_SECRET) {
+    return NextResponse.json({ error: "Cron není nakonfigurován" }, { status: 503 });
+  }
+  if (!hasValidCronSecret(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

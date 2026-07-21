@@ -1,27 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID, randomBytes } from "crypto";
-import { query } from "@/lib/db";
+import { query, withTransaction } from "@/lib/db";
 import { requireSession, getUserCompany } from "@/lib/auth";
 import { z } from "zod";
 
 const itemSchema = z.object({
   name: z.string().min(1),
-  quantity: z.number().min(0).default(1),
+  quantity: z.number().positive().default(1),
   unit: z.string().optional(),
-  unitPrice: z.number(),
+  unitPrice: z.number().min(0),
   vatRate: z.number().int().min(0).max(21).default(0),
 });
 
 const schema = z.object({
   clientId: z.string().optional().nullable(),
-  currency: z.string().default("CZK"),
-  issueDate: z.string(),
-  validUntil: z.string().optional(),
+  currency: z.string().regex(/^[A-Z]{3}$/).default("CZK"),
+  issueDate: z.string().date(),
+  validUntil: z.string().date().optional(),
   language: z.string().default("cs"),
   note: z.string().optional(),
   noteBeforeItems: z.string().optional(),
   footerText: z.string().optional(),
-  items: z.array(itemSchema).min(0),
+  items: z.array(itemSchema).min(1).max(500),
 });
 
 async function validateClient(companyId: string, clientId?: string | null) {
@@ -90,17 +90,13 @@ export async function POST(req: NextRequest) {
   const vatTotal = calcItems.reduce((s, i) => s + i.totalVat, 0);
   const total = Math.round((subtotal + vatTotal) * 100) / 100;
 
-  // Generate quote number
-  const { rows: [{ cnt }] } = await query(
-    "SELECT COUNT(*)::int as cnt FROM fak_quotes WHERE company_id = $1",
-    [company.id]
-  );
-  const number = `NAB${new Date().getFullYear()}-${String(parseInt(cnt) + 1).padStart(4, "0")}`;
-
-  const id = randomUUID();
-  const publicToken = randomBytes(24).toString("hex");
-
-  await query(
+  const created = await withTransaction(async (client) => {
+    await client.query("SELECT pg_advisory_xact_lock(hashtext($1))", [`${company.id}:quotes`]);
+    const count = await client.query("SELECT COUNT(*)::int as cnt FROM fak_quotes WHERE company_id = $1", [company.id]);
+    const number = `NAB${new Date().getFullYear()}-${String(Number(count.rows[0].cnt) + 1).padStart(4, "0")}`;
+    const id = randomUUID();
+    const publicToken = randomBytes(24).toString("hex");
+    await client.query(
     `INSERT INTO fak_quotes
        (id, company_id, client_id, number, status, currency, issue_date, valid_until,
         language, note, note_before_items, footer_text,
@@ -110,11 +106,11 @@ export async function POST(req: NextRequest) {
      d.issueDate, d.validUntil ?? null, d.language,
      d.note ?? null, d.noteBeforeItems ?? null, d.footerText ?? null,
      subtotal, vatTotal, total, publicToken]
-  );
+    );
 
-  for (let i = 0; i < calcItems.length; i++) {
-    const item = calcItems[i];
-    await query(
+    for (let i = 0; i < calcItems.length; i++) {
+      const item = calcItems[i];
+      await client.query(
       `INSERT INTO fak_quote_items
          (id, quote_id, name, quantity, unit, unit_price, vat_rate,
           total_without_vat, total_vat, total_with_vat, sort_order)
@@ -122,8 +118,9 @@ export async function POST(req: NextRequest) {
       [randomUUID(), id, item.name, item.quantity, item.unit ?? null,
        item.unitPrice, item.vatRate, item.totalWithoutVat, item.totalVat, item.totalWithVat, i]
     );
-  }
-
-  const { rows } = await query("SELECT * FROM fak_quotes WHERE id = $1 AND company_id = $2", [id, company.id]);
-  return NextResponse.json(rows[0], { status: 201 });
+    }
+    const result = await client.query("SELECT * FROM fak_quotes WHERE id = $1 AND company_id = $2", [id, company.id]);
+    return result.rows[0];
+  });
+  return NextResponse.json(created, { status: 201 });
 }

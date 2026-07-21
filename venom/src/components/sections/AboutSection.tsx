@@ -11977,15 +11977,13 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
   const body      = String(content.body      ?? "Za naší firmou stojí stabilní tým lidí, kteří dělají svou práci poctivě a srdcem. Každý zákazník je pro nás důležitý — přistupujeme k němu individuálně, nasloucháme potřebám a hledáme řešení na míru.");
   const ctaText   = String(content.ctaText   ?? "Nezávazně poptat úklid");
   const ctaHref   = String(content.ctaHref   ?? "#kontakt");
-  const image     = String(content.image     ?? "/clones/modryzralok/cdn/6839af21457c3480d654bb81_modry_zralok_onas_spolecne.webp");
+  const image     = String(content.image     ?? "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1000&h=1250&fit=crop&auto=format&q=80");
   const feat1Title = String(content.feat1Title ?? "Zkušený tým");
-  const feat1Desc  = String(content.feat1Desc  ?? "Naše dámy na úklid mají praxi, oko pro detail a práci berou s maximální zodpovědností.");
+  const feat1Desc  = String(content.feat1Desc  ?? "Náš tým má praxi, oko pro detail a práci bere s maximální zodpovědností.");
   const feat2Title = String(content.feat2Title ?? "Osobní přístup");
-  const feat2Desc  = String(content.feat2Desc  ?? "Přijedeme za Vámi osobně, probereme vaše potřeby a navrhneme řešení na míru.");
-  const LOGO    = "/clones/modryzralok/cdn/681ca1020afd3d03c53094e1_modry-zralok-logo.svg";
-
-  const NAVY = "#0e0e53";
-  const BLUE = "#019dff";
+  const feat2Desc  = String(content.feat2Desc  ?? "Přijedeme za vámi osobně, probereme vaše potřeby a navrhneme řešení na míru.");
+  const quote      = String(content.quote ?? "Věříme, že i úklid může být služba, na kterou se dá stoprocentně spolehnout.");
+  const quoteAuthor = String(content.quoteAuthor ?? "Jana Ukázková, vedoucí provozu");
 
   const resolve = (href: string) => {
     if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
@@ -11998,115 +11996,115 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
       <style>{`
         .c02ab-section {
           background: #fff;
-          padding: 6rem 5%;
+          padding: clamp(4rem, 8vw, 7rem) 0;
           font-family: 'Onest', sans-serif;
         }
         .c02ab-inner {
-          max-width: 80rem; margin: 0 auto;
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 5rem; align-items: center;
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+          gap: clamp(2.5rem, 6vw, 5.5rem); align-items: center;
         }
-
-        /* left: photo */
+        .c02ab-media { position: relative; }
         .c02ab-photo-wrap {
-          position: relative; border-radius: 16px; overflow: hidden;
-          aspect-ratio: 4/3;
-          box-shadow: 0 24px 60px -12px rgba(14,14,83,0.18);
+          position: relative; border-radius: 20px; overflow: hidden;
+          aspect-ratio: 4/5; background: #E7EBF2;
+          box-shadow: 0 34px 70px -38px rgba(11,21,38,0.4);
         }
         .c02ab-photo-wrap img {
           width: 100%; height: 100%; object-fit: cover; display: block;
         }
-        .c02ab-logo-badge {
-          position: absolute; bottom: 1.25rem; left: 1.25rem;
-          background: #fff; border-radius: 10px;
-          padding: 0.6rem 1rem;
-          box-shadow: 0 4px 20px rgba(14,14,83,0.15);
+        .c02ab-quote {
+          position: absolute; left: clamp(-1.2rem, -2vw, -2rem); bottom: 1.4rem;
+          max-width: min(85%, 20rem);
+          background: #0B1526; color: #fff;
+          border-radius: 16px; padding: 1.15rem 1.3rem;
+          box-shadow: 0 22px 45px -20px rgba(11,21,38,0.55);
         }
-        .c02ab-logo-badge img { height: 2rem; width: auto; display: block; }
-
-        /* right: text */
+        .c02ab-quote p {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 0.98rem; font-weight: 600; line-height: 1.45;
+          letter-spacing: -0.01em; margin: 0 0 0.5rem;
+        }
+        .c02ab-quote cite { font-style: normal; font-size: 0.78rem; color: #9AA7BC; }
         .c02ab-tagline {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
-          text-transform: uppercase; color: ${BLUE};
-          margin-bottom: 0.85rem;
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
+          text-transform: uppercase; color: #1B5BFF;
+          margin-bottom: 1.1rem;
         }
-        .c02ab-tagline-dot { width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; }
+        .c02ab-tagline::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
         .c02ab-h2 {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: clamp(1.6rem, 3vw, 2.4rem);
-          font-weight: 800; color: ${NAVY};
-          line-height: 1.15; margin: 0 0 1.25rem;
-          letter-spacing: -0.02em;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+          font-weight: 750; color: #0B1526;
+          line-height: 1.08; margin: 0 0 1.3rem;
+          letter-spacing: -0.03em; text-wrap: balance;
         }
-        .c02ab-h2 span { color: ${BLUE}; }
         .c02ab-body {
-          font-size: 1.05rem; color: #3d4d7a;
+          font-size: 1.04rem; color: #5B6577;
           line-height: 1.75; margin: 0 0 2rem;
         }
-        .c02ab-body strong { color: ${NAVY}; font-weight: 600; }
-
-        /* 2 mini feature items */
         .c02ab-features {
           display: grid; grid-template-columns: 1fr 1fr;
-          gap: 1.25rem; margin-bottom: 2.25rem;
-        }
-        .c02ab-feat {
-          border: 1px solid #dfecff; border-radius: 10px;
-          padding: 1.1rem 1.25rem;
-          background: #f8fbff;
+          gap: 1.6rem 2rem; margin-bottom: 2.3rem;
+          border-top: 1px solid #E2E8F1; padding-top: 1.8rem;
         }
         .c02ab-feat-title {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: 0.95rem; font-weight: 700;
-          color: ${NAVY}; margin: 0 0 0.35rem;
+          font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em;
+          color: #0B1526; margin: 0 0 0.4rem;
+          display: flex; align-items: center; gap: 0.5rem;
+        }
+        .c02ab-feat-title::before {
+          content: ""; width: 7px; height: 7px; border-radius: 2px; background: #1B5BFF; flex-shrink: 0;
         }
         .c02ab-feat-desc {
-          font-size: 0.85rem; color: #4b5d8a;
-          line-height: 1.55; margin: 0;
+          font-size: 0.9rem; color: #5B6577;
+          line-height: 1.62; margin: 0;
         }
-
         .c02ab-cta {
           display: inline-flex; align-items: center; gap: 0.6rem;
-          padding: 0.9rem 2rem; border-radius: 9999px;
-          background: linear-gradient(100deg, #2bbbff, #1c91ff 40%, #2559e2);
-          color: #fff; font-weight: 700; font-size: 0.95rem;
+          padding: 0.95rem 1.9rem; border-radius: 9999px;
+          background: #0B1526;
+          color: #fff; font-weight: 700; font-size: 0.97rem;
           text-decoration: none;
-          box-shadow: 0 8px 28px -8px rgba(28,120,255,0.45);
-          transition: box-shadow 0.2s, transform 0.2s;
+          transition: background 0.25s, transform 0.25s;
         }
-        .c02ab-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 36px -8px rgba(28,120,255,0.55); }
+        .c02ab-cta:hover { background: #1B5BFF; transform: translateY(-2px); }
 
         @media (max-width: 900px) {
-          .c02ab-inner { grid-template-columns: 1fr; gap: 3rem; }
-          .c02ab-photo-wrap { aspect-ratio: 16/9; }
+          .c02ab-inner { grid-template-columns: 1fr; gap: 2.6rem; }
+          .c02ab-photo-wrap { aspect-ratio: 16/11; }
+          .c02ab-quote { left: 0.9rem; }
         }
         @media (max-width: 500px) {
-          .c02ab-features { grid-template-columns: 1fr; }
+          .c02ab-features { grid-template-columns: 1fr; gap: 1.2rem; }
         }
+        @media (prefers-reduced-motion: reduce) { .c02ab-cta { transition: none; } }
       `}</style>
 
       <section className="c02ab-section" id="onas" data-template="clean-02-about">
         <div className="c02ab-inner">
 
-          {/* left: team photo */}
-          <div className="c02ab-photo-wrap">
-            <img src={image} alt="Tým Clean Garden" loading="lazy" />
-            <div className="c02ab-logo-badge">
-              <img loading="lazy" src={LOGO} alt="Logo" />
+          <div className="c02ab-media">
+            <div className="c02ab-photo-wrap">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Náš tým při práci" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                <img src={image} alt="Náš tým při práci" loading="lazy" />
+              </GenericEditableImage>
             </div>
+            <figure className="c02ab-quote" style={{ margin: 0 }}>
+              <p><GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" /></p>
+              <cite><GenericEditableText sectionId={sectionId} field="quoteAuthor" value={quoteAuthor} tag="span" /></cite>
+            </figure>
           </div>
 
-          {/* right: text */}
           <div>
             <div className="c02ab-tagline">
-              <span className="c02ab-tagline-dot" aria-hidden />
               <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
             </div>
 
             <h2 className="c02ab-h2">
-              Lidský přístup a poctivá práce jsou{" "}
-              <span>u nás standard</span>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
 
             <p className="c02ab-body">
@@ -12114,25 +12112,21 @@ function AboutClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
             </p>
 
             <div className="c02ab-features">
-              <div className="c02ab-feat">
+              <div>
                 <p className="c02ab-feat-title"><GenericEditableText sectionId={sectionId} field="feat1Title" value={feat1Title} tag="span" /></p>
                 <p className="c02ab-feat-desc"><GenericEditableText sectionId={sectionId} field="feat1Desc" value={feat1Desc} tag="span" /></p>
               </div>
-              <div className="c02ab-feat">
+              <div>
                 <p className="c02ab-feat-title"><GenericEditableText sectionId={sectionId} field="feat2Title" value={feat2Title} tag="span" /></p>
                 <p className="c02ab-feat-desc"><GenericEditableText sectionId={sectionId} field="feat2Desc" value={feat2Desc} tag="span" /></p>
               </div>
             </div>
 
             <a href={resolve(ctaHref)} data-btn="primary" className="c02ab-cta">
-              <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden>
-                <g clipPath="url(#cab)">
-                  <path d="M4.129 9.443H4.949C4.949 8.538 5.685 7.802 6.59 7.802V6.982C5.685 6.982 4.949 6.246 4.949 5.341H4.129C4.129 6.246 3.393 6.982 2.488 6.982V7.802C3.393 7.802 4.129 8.538 4.129 9.443Z" fill="currentColor"/>
-                  <path d="M1.668 14.365H2.488C2.488 13.46 3.224 12.724 4.129 12.724V11.904C3.224 11.904 2.488 11.168 2.488 10.264H1.668C1.668 11.168 0.905 11.904 0 11.904V12.724C0.905 12.724 1.668 13.46 1.668 14.365Z" fill="currentColor"/>
-                </g>
-                <defs><clipPath id="cab"><rect width="14" height="14" fill="white" transform="translate(0 0.5)"/></clipPath></defs>
-              </svg>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </a>
           </div>
 

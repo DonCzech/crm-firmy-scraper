@@ -88,14 +88,6 @@ const INVOICE_TYPE_TABS = [
   { value: "advance", label: "Záloha" },
 ];
 
-const INVOICE_TYPES = [
-  { value: "invoice", label: "Faktura" },
-  { value: "proforma", label: "Proforma faktura" },
-  { value: "advance", label: "Zálohová faktura" },
-  { value: "credit_note", label: "Dobropis" },
-  { value: "tax_document", label: "Daňový doklad" },
-];
-
 const LANGUAGES = [
   { value: "cs", label: "Čeština" },
   { value: "en", label: "English" },
@@ -498,7 +490,7 @@ export default function InvoiceForm({ company, clients, defaultClientId, default
                   className={`relative w-10 h-6 rounded-full transition-colors ${form.showAlreadyPaid ? "bg-indigo-600" : "bg-slate-200"}`}>
                   <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${form.showAlreadyPaid ? "translate-x-4" : "translate-x-0.5"}`} />
                 </button>
-                <span className="text-sm font-medium text-slate-700">Zobrazit „Neplatte, již uhrazeno"</span>
+                <span className="text-sm font-medium text-slate-700">Zobrazit „Neplaťte, již uhrazeno“</span>
               </label>
 
               <div>

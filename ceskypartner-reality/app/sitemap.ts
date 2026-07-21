@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { SITE_URL } from "@/lib/seo";
 import { allLocalPages } from "@/lib/localSeo";
+import { allEnglishLocalPages } from "@/lib/localSeoEn";
+import { ARTICLES_EN } from "@/data/articles-en";
+import { INVESTMENT_EN, RENT_EN, SALE_EN } from "@/data/listings-en";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
@@ -17,6 +20,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/kontakt`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE_URL}/blog`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${SITE_URL}/en`, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${SITE_URL}/en/properties/all`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/en/properties/for-sale`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/en/properties/to-let`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/en/properties/investment`, changeFrequency: "daily", priority: 0.8 },
+    { url: `${SITE_URL}/en/sold`, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${SITE_URL}/en/agents`, changeFrequency: "weekly", priority: 0.5 },
+    { url: `${SITE_URL}/en/valuation`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/en/services`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/en/about`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/en/contact`, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/en/journal`, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${SITE_URL}/en/privacy`, changeFrequency: "yearly", priority: 0.1 },
     { url: `${SITE_URL}/ochrana-osobnich-udaju`, changeFrequency: "yearly", priority: 0.1 },
   ];
 
@@ -51,11 +66,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily" as const,
       priority: 0.7,
     })),
+    ...allEnglishLocalPages().map((p) => ({
+      url: `${SITE_URL}/en/real-estate/${p.slug}`,
+      changeFrequency: "daily" as const,
+      priority: 0.7,
+    })),
     ...listings.map((l) => ({
       url: `${SITE_URL}/nemovitost/${l.slug}`,
       lastModified: l.updatedAt,
       changeFrequency: "weekly" as const,
       priority: l.status === "ACTIVE" ? 0.8 : 0.4,
+    })),
+    ...listings.map((l) => ({
+      url: `${SITE_URL}/en/property/${l.slug}`,
+      lastModified: l.updatedAt,
+      changeFrequency: "weekly" as const,
+      priority: l.status === "ACTIVE" ? 0.75 : 0.35,
+    })),
+    ...[...SALE_EN, ...RENT_EN, ...INVESTMENT_EN].map((listing) => ({
+      url: `${SITE_URL}/en/property/${listing.id}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
     })),
     ...posts.map((p) => ({
       url: `${SITE_URL}/blog/${p.slug}`,
@@ -63,8 +94,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.5,
     })),
+    ...ARTICLES_EN.map((article) => ({
+      url: `${SITE_URL}/en/journal/${article.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    })),
     ...agents.map((a) => ({
       url: `${SITE_URL}/makleri/${a.id}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.4,
+    })),
+    ...agents.map((a) => ({
+      url: `${SITE_URL}/en/agents/${a.id}`,
       changeFrequency: "monthly" as const,
       priority: 0.4,
     })),

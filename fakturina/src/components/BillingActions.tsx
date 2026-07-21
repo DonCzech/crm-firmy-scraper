@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Loader2, ArrowUpRight, Settings } from "lucide-react";
 
 export default function BillingActions(
@@ -9,8 +8,6 @@ export default function BillingActions(
     | { mode: "portal" }
 ) {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
-
   async function handleClick() {
     setLoading(true);
     try {

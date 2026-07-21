@@ -2659,100 +2659,81 @@ function StatsSolar03({ content, sectionId }: { content: Record<string, unknown>
   );
 }
 
-// ── clean-02-stats stub (logo trust-strip) ─────────────────────────────────
+// ── clean-02-stats (trust-strip) ──────────────────────────────────────────────
+// Arctic Editorial: bílý pás s labelem vlevo a marquee textových wordmarků
+// demo klientů (žádná cizí loga). `clients` = pole stringů, editovatelné.
 function StatsClean02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const NAVY = "#0e0e53";
-  const BLUE = "#019dff";
-  const title = String(content.title ?? "Mezi naše spokojené zákazníky patří 40+ firem a 40+ SVJ");
-
-  const DEFAULT_LOGOS = [
-    { src: "/clones/modryzralok/cdn/681cae1c20d29c335e1c5296_neeco.webp",              alt: "Neeco" },
-    { src: "/clones/modryzralok/cdn/681cae1c20d29c335e1c5293_rezidence_ostrovni.webp", alt: "Rezidence Ostrovní" },
-    { src: "/clones/modryzralok/cdn/681cae1c843b20affee73c79_prazsky_inovacni_institut.webp", alt: "Pražský inovační institut" },
-    { src: "/clones/modryzralok/cdn/681cae1b7f06e8c199a80fc9_mavericks.webp",          alt: "Mavericks" },
-    { src: "/clones/modryzralok/cdn/681cae1bdcb797cdee4230eb_marinov_partners.webp",   alt: "Marinov Partners" },
-    { src: "/clones/modryzralok/cdn/681cae1b3f8047121580dcf9_epico.svg",               alt: "Epico" },
-    { src: "/clones/modryzralok/cdn/681cae1b1b0a5a67e1c78249_semtex.webp",            alt: "Semtex" },
-    { src: "/clones/modryzralok/cdn/681cae1b25fcbe847140c5fd_luchter_a_luchterova.webp", alt: "Luchter & Luchterová" },
-    { src: "/clones/modryzralok/cdn/681cae1b4ff9148c562c47b5_datasentics.webp",        alt: "Datasentics" },
-    { src: "/clones/modryzralok/cdn/681cae1b174454af7d6d85a1_ebsco.svg",              alt: "EBSCO" },
-    { src: "/clones/modryzralok/cdn/681cae1b9e808d9501e75e05_nfpk.svg",               alt: "NFPK" },
-    { src: "/clones/modryzralok/cdn/681cae1bcceed0bfc512074b_Logo_Praha.svg",          alt: "Praha" },
-    { src: "/clones/modryzralok/cdn/6980de5f0ac51c789eac79a1_modryzralok-eurocz.png", alt: "Euro CZ" },
-    { src: "/clones/modryzralok/cdn/6980de5f9878e93a1738015e_modryzralok-metro-p-500.png", alt: "Metro" },
-  ];
-  // content.logos: [{ url|src, alt }] — přebíjí výchozí sadu
-  const contentLogos = (Array.isArray(content.logos) ? content.logos : []) as Array<{ url?: string; src?: string; alt?: string }>;
-  const LOGOS = contentLogos.length
-    ? contentLogos.map((l) => ({ src: String(l.src ?? l.url ?? ""), alt: String(l.alt ?? "") })).filter((l) => l.src)
-    : DEFAULT_LOGOS;
+  const title = String(content.title ?? "Uklízíme pro 40+ firem a bytových domů v Praze");
+  const DEFAULT_CLIENTS = ["NORDIA OFFICE", "Atelier Sedm", "SVJ Vltavská 12", "PRAGMA advisory", "Kancelář 21", "SVJ Zelený dvůr", "Vektra Group", "Studio Náplavka"];
+  const raw = Array.isArray(content.clients) ? (content.clients as unknown[]) : [];
+  const clients = raw.length
+    ? raw.map((x) => (typeof x === "string" ? x : String((x as Record<string, unknown>)?.name ?? ""))).filter(Boolean)
+    : DEFAULT_CLIENTS;
 
   return (
     <>
       <style>{`
         .c02s-section {
           background: #fff;
-          border-top: 1px solid #dfecff;
-          border-bottom: 1px solid #dfecff;
-          padding: 3.5rem 0 3.75rem;
+          border-top: 1px solid #E2E8F1;
+          border-bottom: 1px solid #E2E8F1;
           font-family: 'Onest', sans-serif;
           overflow: hidden;
         }
+        .c02s-inner {
+          max-width: 76rem; margin: 0 auto; padding: 1.5rem clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2.5rem;
+        }
         .c02s-title {
-          text-align: center;
-          font-size: 1.05rem; font-weight: 500;
-          color: ${NAVY}; margin: 0 auto 2.5rem;
-          max-width: 40rem; padding: 0 1.5rem;
-          line-height: 1.5;
+          font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+          color: #5B6577; margin: 0; max-width: 15rem; line-height: 1.5;
         }
-        .c02s-title strong { color: ${BLUE}; font-weight: 700; }
-
-        /* marquee strip */
-        .c02s-track-wrap {
-          position: relative; overflow: hidden;
-        }
-        /* fade edges */
+        .c02s-track-wrap { position: relative; overflow: hidden; }
         .c02s-track-wrap::before,
         .c02s-track-wrap::after {
-          content: '';
-          position: absolute; top: 0; bottom: 0; width: 8rem; z-index: 2;
-          pointer-events: none;
+          content: ''; position: absolute; top: 0; bottom: 0; width: 6rem; z-index: 2; pointer-events: none;
         }
-        .c02s-track-wrap::before { left: 0;  background: linear-gradient(to right,  #fff, transparent); }
-        .c02s-track-wrap::after  { right: 0; background: linear-gradient(to left, #fff, transparent); }
-
+        .c02s-track-wrap::before { left: 0;  background: linear-gradient(to right, #fff, transparent); }
+        .c02s-track-wrap::after  { right: 0; background: linear-gradient(to left,  #fff, transparent); }
         .c02s-track {
-          display: flex; gap: 3.5rem; align-items: center;
-          width: max-content;
-          animation: c02s-scroll 30s linear infinite;
+          display: flex; gap: 3.2rem; align-items: center; width: max-content;
+          animation: c02s-scroll 36s linear infinite;
         }
         .c02s-track:hover { animation-play-state: paused; }
-        @keyframes c02s-scroll {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-50%); }
+        @keyframes c02s-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .c02s-mark {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
+          color: #98A4B8; white-space: nowrap; flex-shrink: 0;
+          display: inline-flex; align-items: center; gap: 3.2rem;
+          transition: color 0.3s;
         }
-        .c02s-logo {
-          height: 2rem; width: auto; max-width: 130px;
-          object-fit: contain;
-          filter: grayscale(100%); opacity: 0.55;
-          transition: filter 0.3s, opacity 0.3s;
-          flex-shrink: 0;
+        .c02s-mark::after { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #D6DEEA; }
+        .c02s-mark:hover { color: #0B1526; }
+        @media (max-width: 760px) {
+          .c02s-inner { grid-template-columns: 1fr; gap: 1.1rem; padding-top: 1.3rem; padding-bottom: 1.3rem; }
+          .c02s-title { max-width: none; }
         }
-        .c02s-logo:hover { filter: grayscale(0%); opacity: 1; }
-        @media(max-width:600px) { .c02s-section { padding: 2.5rem 0 2.75rem; } .c02s-title { font-size: .95rem; } }
+        @media (prefers-reduced-motion: reduce) { .c02s-track { animation: none; flex-wrap: wrap; } }
       `}</style>
 
       <section className="c02s-section" id={`section-${sectionId}`} data-template="clean-02-stats">
-        <p className="c02s-title">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </p>
-
-        <div className="c02s-track-wrap">
-          {/* duplicated list for seamless loop */}
-          <div className="c02s-track">
-            {[...LOGOS, ...LOGOS].map((l, i) => (
-              <img key={i} src={l.src} alt={l.alt} className="c02s-logo" loading="lazy" />
-            ))}
+        <div className="c02s-inner">
+          <p className="c02s-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </p>
+          <div className="c02s-track-wrap">
+            <div className="c02s-track">
+              {[...clients, ...clients].map((name, i) => (
+                <span key={i} className="c02s-mark">
+                  {i < clients.length ? (
+                    <GenericEditableText sectionId={sectionId} field={`clients.${i}`} value={name} tag="span" />
+                  ) : (
+                    name
+                  )}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

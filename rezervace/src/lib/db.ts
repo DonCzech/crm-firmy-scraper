@@ -162,6 +162,31 @@ async function runMigrations() {
     )
   `
 
+  // Poptávky / přihlášky — režimy widgetu bez pevného slotu (inquiry, course,
+  // table, stay). Na rozdíl od rez_bookings tu není booking_date/start_time jako
+  // povinnost: majitel poptávku potvrzuje ručně. Strukturovaná pole (party_size,
+  // preferred_*, check_in/out) jsou nepovinná a plní se dle režimu.
+  await s`
+    CREATE TABLE IF NOT EXISTS rez_inquiries (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      provider_id UUID NOT NULL REFERENCES rez_users(id) ON DELETE CASCADE,
+      service_id UUID REFERENCES rez_services(id) ON DELETE SET NULL,
+      mode TEXT NOT NULL DEFAULT 'inquiry',
+      subject TEXT DEFAULT '',
+      client_name TEXT NOT NULL,
+      client_email TEXT DEFAULT '',
+      client_phone TEXT DEFAULT '',
+      client_notes TEXT DEFAULT '',
+      party_size INT,
+      preferred_date DATE,
+      preferred_time TEXT DEFAULT '',
+      check_in DATE,
+      check_out DATE,
+      status TEXT NOT NULL DEFAULT 'new',
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `
+
   // Migrations for existing tables
   await s`ALTER TABLE rez_services ADD COLUMN IF NOT EXISTS image_url TEXT DEFAULT ''`
   await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS avatar_url TEXT DEFAULT ''`
@@ -195,4 +220,6 @@ async function runMigrations() {
   await s`CREATE INDEX IF NOT EXISTS idx_availability_user ON rez_availability(user_id)`
   await s`CREATE INDEX IF NOT EXISTS idx_staff_user ON rez_staff(user_id)`
   await s`CREATE INDEX IF NOT EXISTS idx_staff_avail_staff ON rez_staff_availability(staff_id)`
+  await s`CREATE INDEX IF NOT EXISTS idx_inquiries_provider ON rez_inquiries(provider_id)`
+  await s`CREATE INDEX IF NOT EXISTS idx_inquiries_status ON rez_inquiries(status)`
 }

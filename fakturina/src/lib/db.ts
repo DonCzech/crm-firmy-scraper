@@ -1,8 +1,8 @@
-import { Pool } from "pg";
+import { Pool, type PoolClient } from "pg";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: true } : undefined,
   max: 3,
   idleTimeoutMillis: 10_000,
   connectionTimeoutMillis: 15_000,
@@ -24,7 +24,31 @@ export async function query(text: string, params?: unknown[]) {
   }
 }
 
+export async function withTransaction<T>(work: (client: PoolClient) => Promise<T>): Promise<T> {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    const result = await work(client);
+    await client.query("COMMIT");
+    return result;
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 export async function initDb() {
+  if (process.env.NODE_ENV === "production") {
+    const migration = await pool.query(
+      "SELECT version FROM fak_schema_migrations WHERE version = '001_production_hardening'"
+    ).catch(() => ({ rows: [] as unknown[] }));
+    if (!migration.rows[0]) {
+      throw new Error("Databáze není migrována. Před nasazením spusťte npm run db:migrate.");
+    }
+    return;
+  }
   await pool.query(`
     -- Users
     CREATE TABLE IF NOT EXISTS fak_users (

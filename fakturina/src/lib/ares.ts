@@ -20,7 +20,8 @@ export async function lookupCompanyByIco(ico: string): Promise<AresCompany | nul
       }
     );
 
-    if (!res.ok) return getMockCompany(clean);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`ARES vrátil HTTP ${res.status}`);
 
     const data = await res.json();
     const addr = data.sidlo;
@@ -36,19 +37,8 @@ export async function lookupCompanyByIco(ico: string): Promise<AresCompany | nul
       zip: addr?.psc ? String(addr.psc) : "",
       country: "CZ",
     };
-  } catch {
-    return getMockCompany(clean);
+  } catch (error) {
+    console.error("ARES lookup failed", error);
+    return null;
   }
-}
-
-function getMockCompany(ico: string): AresCompany {
-  return {
-    name: "Demo firma s.r.o.",
-    ico,
-    dic: `CZ${ico}`,
-    address: "Příkladná 1",
-    city: "Praha",
-    zip: "11000",
-    country: "CZ",
-  };
 }

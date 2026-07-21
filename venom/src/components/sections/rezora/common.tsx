@@ -1,11 +1,13 @@
 "use client";
 
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
-import { isValidEmail, type RezoraBooking, type useStaffStep } from "./core";
+import { isValidEmail, type RezoraBooking, type useStaffStep, type WidgetMode } from "./core";
 
 export interface DesignProps {
   b: RezoraBooking;
   sectionId: number;
+  /** Slotový režim: `service` (výchozí) nebo `meeting` (konzultace/schůzka). */
+  mode?: WidgetMode;
 }
 
 /** Editovatelný nadpis/podnadpis (v editoru), jinak čistý text. */

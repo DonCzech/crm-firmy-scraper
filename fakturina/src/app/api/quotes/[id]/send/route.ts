@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { rateLimit } from "@/lib/rate-limit";
+import { requestIp } from "@/lib/security";
 import { query } from "@/lib/db";
 import { requireSession, getUserCompany } from "@/lib/auth";
 import { generateQuoteHtml } from "@/lib/quote-render";
@@ -13,6 +15,8 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const limited = rateLimit(`quote-send:${requestIp(req)}`, 20, 60 * 60_000);
+  if (!limited.allowed) return NextResponse.json({ error: "Limit odesílání byl vyčerpán" }, { status: 429, headers: { "Retry-After": String(limited.retryAfter) } });
   const { id } = await params;
   const user = await requireSession().catch(() => null);
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

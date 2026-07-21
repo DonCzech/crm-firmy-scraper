@@ -22,7 +22,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set("X-Request-ID", request.headers.get("x-request-id") ?? crypto.randomUUID());
+  if (pathname.startsWith("/dashboard")) response.headers.set("Cache-Control", "private, no-store");
+  return response;
 }
 
 export const config = {

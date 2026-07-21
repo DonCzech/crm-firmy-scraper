@@ -11314,14 +11314,15 @@ function ServicesMalir01({ content, sectionId, tenantSlug, isAdmin }: ServicesMa
 }
 
 // ── clean-02-services ─────────────────────────────────────────────────────────
+// Arctic Editorial: paper bg, levý editorial header, 3×2 grid bílých karet
+// s foto 4/3 (cover, zoom on hover), hairline bordery, plně editovatelné
+// texty i fotky (GenericEditableImage per item).
 function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const eyebrow = String(content.eyebrow ?? "Naše služby");
-  const title   = String(content.title   ?? "Modrý Žralok pro každý prostor");
-  const sub     = String(content.subtitle ?? "Poskytujeme kompletní úklidový servis od úklidu kanceláří přes úklidy SVJ, generální úklidy, čištění nábytku a strojové čištění garáží.");
+  const title   = String(content.title   ?? "Jedna firma pro každý prostor");
+  const sub     = String(content.subtitle ?? "Kompletní úklidový servis — od kanceláří a bytových domů přes generální úklidy až po strojové čištění garáží a mytí oken.");
+  const linkLabel = String(content.linkLabel ?? "Více o službě");
   const items   = (content.items as Array<{ image?: string; title?: string; name?: string; description?: string; href?: string }>) ?? [];
-
-  const NAVY = "#0e0e53";
-  const BLUE = "#019dff";
 
   const resolve = (href: string) => {
     if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
@@ -11333,107 +11334,104 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
     <>
       <style>{`
         .c02sv-section {
-          background: ${NAVY};
-          padding: 5.5rem 5%;
+          background: #F4F6F9;
+          padding: clamp(4rem, 8vw, 7rem) 0;
           font-family: 'Onest', sans-serif;
-          position: relative; overflow: hidden;
         }
-        /* subtle radial glow */
-        .c02sv-section::before {
-          content: '';
-          position: absolute; inset: 0; pointer-events: none;
-          background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(1,157,255,0.12) 0%, transparent 70%);
+        .c02sv-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .c02sv-head {
+          display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+          gap: 1.5rem 4rem; align-items: end;
+          margin-bottom: clamp(2.2rem, 4.5vw, 3.5rem);
         }
-        .c02sv-inner { max-width: 80rem; margin: 0 auto; position: relative; z-index: 1; }
-
-        /* centered header */
-        .c02sv-head { text-align: center; margin-bottom: 3.5rem; }
         .c02sv-tagline {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
-          text-transform: uppercase; color: ${BLUE};
-          margin-bottom: 0.85rem;
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
+          text-transform: uppercase; color: #1B5BFF;
+          margin-bottom: 1.1rem;
         }
-        .c02sv-tagline-dot { width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; }
+        .c02sv-tagline::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
         .c02sv-h2 {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: clamp(1.75rem, 3.5vw, 2.6rem);
-          font-weight: 800; color: #fff;
-          line-height: 1.15; margin: 0 0 1rem;
-          letter-spacing: -0.02em;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+          font-weight: 750; color: #0B1526;
+          line-height: 1.08; margin: 0;
+          letter-spacing: -0.03em; text-wrap: balance;
         }
-        .c02sv-h2 span { color: ${BLUE}; }
         .c02sv-sub {
-          font-size: 1.05rem; color: rgba(255,255,255,0.7);
-          line-height: 1.65; margin: 0 auto;
-          max-width: 40rem;
+          font-size: 1.02rem; color: #5B6577;
+          line-height: 1.7; margin: 0 0 0.3rem;
         }
-
-        /* 3-col grid */
         .c02sv-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 1.25rem;
+          gap: 1.3rem;
         }
         .c02sv-card {
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 14px;
+          background: #fff;
+          border: 1px solid #E7EBF2;
+          border-radius: 18px;
           overflow: hidden;
-          transition: background 0.25s, border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+          display: flex; flex-direction: column;
+          transition: box-shadow 0.3s, transform 0.3s, border-color 0.3s;
         }
         .c02sv-card:hover {
-          background: rgba(255,255,255,0.09);
-          border-color: rgba(1,157,255,0.4);
-          transform: translateY(-3px);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+          transform: translateY(-4px);
+          border-color: #D7E1F0;
+          box-shadow: 0 30px 55px -30px rgba(11,21,38,0.28);
         }
         .c02sv-img-wrap {
-          width: 100%; aspect-ratio: 1/1; overflow: hidden;
-          background: rgba(255,255,255,0.04);
+          width: 100%; aspect-ratio: 4/3; overflow: hidden;
+          background: #E7EBF2; position: relative;
         }
         .c02sv-img-wrap img {
           width: 100%; height: 100%;
-          object-fit: contain; object-position: center;
+          object-fit: cover; object-position: center;
           display: block;
-          transition: transform 0.4s ease;
-          image-rendering: crisp-edges;
+          transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .c02sv-card:hover .c02sv-img-wrap img { transform: scale(1.06); }
-        .c02sv-body { padding: 1.4rem 1.5rem 1.6rem; }
+        .c02sv-card:hover .c02sv-img-wrap img { transform: scale(1.045); }
+        .c02sv-body { padding: 1.45rem 1.5rem 1.55rem; display: flex; flex-direction: column; flex: 1; }
         .c02sv-card-title {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: 1.05rem; font-weight: 700;
-          color: #fff; margin: 0 0 0.55rem; line-height: 1.3;
+          font-size: 1.18rem; font-weight: 700; letter-spacing: -0.015em;
+          color: #0B1526; margin: 0 0 0.5rem; line-height: 1.25;
         }
-        .c02sv-card-title span { color: ${BLUE}; }
         .c02sv-card-desc {
-          font-size: 0.88rem; color: rgba(255,255,255,0.65);
-          line-height: 1.65; margin: 0 0 1.1rem;
+          font-size: 0.92rem; color: #5B6577;
+          line-height: 1.66; margin: 0 0 1.2rem; flex: 1;
         }
         .c02sv-btn {
-          display: inline-flex; align-items: center; gap: 0.4rem;
-          font-size: 0.85rem; font-weight: 600;
-          color: ${BLUE}; text-decoration: none;
+          display: inline-flex; align-items: center; gap: 0.45rem;
+          font-size: 0.88rem; font-weight: 700;
+          color: #1B5BFF; text-decoration: none;
           transition: gap 0.2s;
+          margin-top: auto;
         }
-        .c02sv-btn:hover { gap: 0.65rem; }
+        .c02sv-btn:hover { gap: 0.7rem; }
 
-        @media (max-width: 900px) { .c02sv-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 550px) { .c02sv-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 960px) {
+          .c02sv-head { grid-template-columns: 1fr; gap: 1.1rem; }
+          .c02sv-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        }
+        @media (max-width: 560px) { .c02sv-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) {
+          .c02sv-card, .c02sv-img-wrap img { transition: none !important; }
+        }
       `}</style>
 
       <section className="c02sv-section" id="sluzby" data-template="clean-02-services">
         <div className="c02sv-inner">
 
           <div className="c02sv-head">
-            <div className="c02sv-tagline">
-              <span className="c02sv-tagline-dot" aria-hidden />
-              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            <div>
+              <div className="c02sv-tagline">
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </div>
+              <h2 className="c02sv-h2">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
             </div>
-            <h2 className="c02sv-h2">
-              Modrý Žralok pro <span>každý prostor</span>
-            </h2>
             <p className="c02sv-sub">
               <GenericEditableText sectionId={sectionId} field="subtitle" value={sub} tag="span" />
             </p>
@@ -11443,10 +11441,12 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
             {items.map((item, i) => {
               const label = item.title ?? item.name ?? "";
               return (
-                <div key={i} className="c02sv-card">
+                <article key={i} className="c02sv-card">
                   {item.image && (
                     <div className="c02sv-img-wrap">
-                      <img src={item.image} alt={label} loading="lazy" />
+                      <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={label} className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                        <img src={item.image} alt={label} loading="lazy" />
+                      </GenericEditableImage>
                     </div>
                   )}
                   <div className="c02sv-body">
@@ -11457,13 +11457,13 @@ function ServicesClean02({ content, sectionId, tenantSlug, isAdmin }: { content:
                       <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
                     </p>
                     <a href={resolve(item.href ?? "#kontakt")} className="c02sv-btn">
-                      O službě
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
+                      {linkLabel}
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </a>
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>

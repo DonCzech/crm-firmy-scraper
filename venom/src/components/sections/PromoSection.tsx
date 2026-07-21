@@ -4409,117 +4409,99 @@ function PromoMalir01({ content, sectionId, isAdmin: _isAdmin }: { content: Reco
   );
 }
 
-// ── clean-02-promo (benefit cards) ────────────────────────────────────────────
+// ── clean-02-promo (výhody) ──────────────────────────────────────────────────
+// Arctic Editorial: editorial header (eyebrow + H2 + subtitle) a 4-col grid
+// bez kartových boxů — hairline dělítka, indexy 01–04, ink hover akcent.
 function PromoClean02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const eyebrow = String(content.eyebrow ?? "Naše výhody");
-  const title   = String(content.title   ?? "Výhody Modrého žraloka");
-  const sub     = String(content.subtitle ?? "Nemusíte se o nic starat – vše zařídíme za vás. Od prvotního kontaktu až po finální kontrolu úklidu. Díky pevným procesům, vyškolenému týmu a férovému přístupu.");
+  const eyebrow = String(content.eyebrow ?? "Proč s námi");
+  const title   = String(content.title   ?? "Úklid bez starostí od začátku do konce");
+  const sub     = String(content.subtitle ?? "Nemusíte se o nic starat — vše zařídíme za vás. Od prvního kontaktu až po finální kontrolu. Pevné procesy, vyškolený tým a férový přístup.");
   const items   = (content.items as Array<{ icon?: string; title?: string; description?: string }>) ?? [];
-
-  const NAVY = "#0e0e53";
-  const BLUE = "#019dff";
 
   return (
     <>
       <style>{`
         .c02p-section {
           background: #fff;
-          padding: 5.5rem 5%;
+          padding: clamp(4rem, 8vw, 7rem) 0;
           font-family: 'Onest', sans-serif;
         }
-        .c02p-inner { max-width: 80rem; margin: 0 auto; }
-
-        /* 2-col header */
+        .c02p-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
         .c02p-header {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 3rem;
-          align-items: end;
-          margin-bottom: 3.5rem;
+          display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+          gap: 2rem 4rem; align-items: end;
+          margin-bottom: clamp(2.5rem, 5vw, 4rem);
         }
         .c02p-tagline {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
-          text-transform: uppercase; color: ${BLUE};
-          margin-bottom: 0.85rem;
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em;
+          text-transform: uppercase; color: #1B5BFF;
+          margin-bottom: 1.1rem;
         }
-        .c02p-tagline-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: ${BLUE}; flex-shrink: 0;
-        }
+        .c02p-tagline::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
         .c02p-h2 {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-          font-weight: 800; color: ${NAVY};
-          line-height: 1.15; margin: 0;
-          letter-spacing: -0.02em;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+          font-weight: 750; color: #0B1526;
+          line-height: 1.08; margin: 0;
+          letter-spacing: -0.03em; text-wrap: balance;
         }
-        .c02p-h2 span { color: ${BLUE}; }
         .c02p-sub {
-          font-size: 1.05rem; color: #3d4d7a;
-          line-height: 1.7; margin: 0;
+          font-size: 1.02rem; color: #5B6577;
+          line-height: 1.7; margin: 0 0 0.3rem;
         }
-        .c02p-sub strong { color: ${NAVY}; font-weight: 600; }
-
-        /* 4-col grid */
         .c02p-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.5rem;
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          border-top: 1px solid #E2E8F1;
         }
-        .c02p-card {
-          border: 1px solid #dfecff;
-          border-radius: 12px;
-          padding: 1.75rem 1.5rem;
-          background: #fff;
-          transition: box-shadow 0.25s, transform 0.2s, border-color 0.2s;
+        .c02p-item {
+          padding: 1.9rem 1.6rem 0.4rem 0;
+          border-right: 1px solid #E2E8F1;
+          position: relative;
         }
-        .c02p-card:hover {
-          box-shadow: 0 12px 40px -12px rgba(1,157,255,0.18);
-          transform: translateY(-3px);
-          border-color: rgba(1,157,255,0.35);
-        }
-        .c02p-img-wrap {
-          width: 72px; height: 72px;
-          border-radius: 10px; overflow: hidden;
-          margin-bottom: 1.25rem;
-          box-shadow: 0 4px 16px rgba(14,14,83,0.08);
-        }
-        .c02p-img-wrap img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        .c02p-card-title {
+        .c02p-item + .c02p-item { padding-left: 1.6rem; }
+        .c02p-item:last-child { border-right: none; padding-right: 0; }
+        .c02p-index {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: 1.1rem; font-weight: 700;
-          color: ${NAVY}; margin: 0 0 0.6rem;
+          font-size: 0.86rem; font-weight: 700; color: #1B5BFF;
+          letter-spacing: 0.04em; display: block; margin-bottom: 1.15rem;
+          font-variant-numeric: tabular-nums;
         }
-        .c02p-card-desc {
-          font-size: 0.9rem; color: #4b5d8a;
-          line-height: 1.65; margin: 0;
+        .c02p-item-title {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: 1.16rem; font-weight: 700; letter-spacing: -0.015em;
+          color: #0B1526; margin: 0 0 0.55rem;
         }
-        .c02p-card-desc strong { color: ${NAVY}; font-weight: 600; }
-
+        .c02p-item-desc {
+          font-size: 0.92rem; color: #5B6577;
+          line-height: 1.68; margin: 0;
+        }
         @media (max-width: 960px) {
-          .c02p-header { grid-template-columns: 1fr; gap: 1.5rem; }
-          .c02p-grid   { grid-template-columns: repeat(2, 1fr); }
+          .c02p-header { grid-template-columns: 1fr; gap: 1.2rem; }
+          .c02p-grid { grid-template-columns: 1fr 1fr; row-gap: 0.6rem; }
+          .c02p-item:nth-child(2n) { border-right: none; }
+          .c02p-item:nth-child(n+3) { border-top: 1px solid #E2E8F1; }
+          .c02p-grid { border-top: none; }
+          .c02p-item { padding: 1.4rem 1.2rem 0.6rem 0; }
+          .c02p-item + .c02p-item { padding-left: 1.2rem; }
+          .c02p-item:nth-child(3) { padding-left: 0; }
         }
         @media (max-width: 500px) {
           .c02p-grid { grid-template-columns: 1fr; }
+          .c02p-item { border-right: none !important; padding: 1.3rem 0 0.5rem !important; }
+          .c02p-item:nth-child(n+2) { border-top: 1px solid #E2E8F1; }
         }
       `}</style>
 
       <section className="c02p-section" id="proc-s-nami" data-template="clean-02-promo">
         <div className="c02p-inner">
-
-          {/* 2-col header */}
           <div className="c02p-header">
             <div>
               <div className="c02p-tagline">
-                <span className="c02p-tagline-dot" aria-hidden />
                 <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
               </div>
               <h2 className="c02p-h2">
-                Úklid <span>bez starostí</span> od začátku do konce
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
               </h2>
             </div>
             <p className="c02p-sub">
@@ -4527,25 +4509,19 @@ function PromoClean02({ content, sectionId }: { content: Record<string, unknown>
             </p>
           </div>
 
-          {/* benefit cards */}
           <div className="c02p-grid">
             {items.map((item, i) => (
-              <div key={i} className="c02p-card">
-                {item.icon && (
-                  <div className="c02p-img-wrap">
-                    <img src={item.icon} alt="" loading="lazy" />
-                  </div>
-                )}
-                <h3 className="c02p-card-title">
+              <div key={i} className="c02p-item">
+                <span className="c02p-index">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="c02p-item-title">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
                 </h3>
-                <p className="c02p-card-desc">
+                <p className="c02p-item-desc">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
                 </p>
               </div>
             ))}
           </div>
-
         </div>
       </section>
     </>

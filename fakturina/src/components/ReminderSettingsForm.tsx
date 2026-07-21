@@ -48,10 +48,9 @@ export default function ReminderSettingsForm({ settings, companyId }: {
     setRunLoading(true);
     setRunResult(null);
     try {
-      const res = await fetch("/api/cron/reminders", {
-        headers: { authorization: `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET ?? ""}` },
-      });
+      const res = await fetch("/api/reminders/run", { method: "POST" });
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Spuštění upomínek selhalo");
       setRunResult({ processed: data.processed ?? 0 });
     } finally {
       setRunLoading(false);

@@ -3,6 +3,9 @@ import bcrypt from "bcryptjs";
 import { randomBytes } from "crypto";
 import { query, initDb } from "@/lib/db";
 import { z } from "zod";
+import { rateLimit } from "@/lib/rate-limit";
+import { requestIp } from "@/lib/security";
+import { hashSessionToken } from "@/lib/auth";
 
 const schema = z.object({
   email: z.string().email(),
@@ -10,6 +13,13 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(`login:${requestIp(req)}`, 10, 15 * 60_000);
+  if (!limited.allowed) {
+    return NextResponse.json({ error: "Příliš mnoho pokusů. Zkuste to později." }, {
+      status: 429,
+      headers: { "Retry-After": String(limited.retryAfter) },
+    });
+  }
   await initDb();
 
   const body = await req.json().catch(() => ({}));
@@ -34,7 +44,7 @@ export async function POST(req: NextRequest) {
 
   const token = randomBytes(32).toString("hex");
   const expires = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30;
-  await query("INSERT INTO fak_sessions (token, user_id, expires_at) VALUES ($1, $2, $3)", [token, user.id, expires]);
+  await query("INSERT INTO fak_sessions (token, user_id, expires_at) VALUES ($1, $2, $3)", [hashSessionToken(token), user.id, expires]);
 
   const res = NextResponse.json({ ok: true, name: user.name });
   res.cookies.set("fak_session", token, {

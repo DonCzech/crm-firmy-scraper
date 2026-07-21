@@ -47,7 +47,7 @@ function PhoneInvoiceList() {
 
 /* ── Mockup: bank logos grid ─────────────────────────────────────────────── */
 function BankGrid() {
-  const banks = ["ČSOB", "Fio banka", "Airbank", "VÚB Banka", "Raiffeisen", "Komerční", "mBank", "Moneta"];
+  const banks = ["Fio banka", "Další banky připravujeme"];
   return (
     <div style={{ position: "relative", width: 300 }}>
       {/* Phone frame */}
@@ -255,7 +255,7 @@ const PRICING = [
   },
   {
     name: "Business", price: 449, desc: "Pro firmy", highlight: false, badge: "",
-    features: ["Více firem", "API přístup", "Webhooky", "Role uživatelů", "Audit log"],
+    features: ["Vše z tarifu Pro", "Prioritní podpora", "Rozšířený audit log", "Firemní onboarding"],
     cta: "Vybrat Business",
   },
 ];
@@ -634,18 +634,15 @@ export default function LandingPage() {
             <div>
               <div className="text-[11px] font-bold tracking-widest uppercase mb-5 text-slate-400">Podpora</div>
               <ul className="space-y-3">
-                {["Nápověda", "Kontakt", "Pro účetní", "API dokumentace"].map(l => (
-                  <li key={l}><Link href="#" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">{l}</Link></li>
-                ))}
+                <li><Link href="/kontakt" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Kontakt</Link></li>
               </ul>
             </div>
             {/* Legal */}
             <div>
               <div className="text-[11px] font-bold tracking-widest uppercase mb-5 text-slate-400">Právní</div>
               <ul className="space-y-3">
-                {["Podmínky použití", "Ochrana soukromí", "GDPR", "Cookies"].map(l => (
-                  <li key={l}><Link href="#" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">{l}</Link></li>
-                ))}
+                <li><Link href="/podminky" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Podmínky použití</Link></li>
+                <li><Link href="/ochrana-soukromi" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Ochrana soukromí a GDPR</Link></li>
               </ul>
             </div>
           </div>

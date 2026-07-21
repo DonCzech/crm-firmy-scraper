@@ -243,6 +243,96 @@ export async function sendBookingNotificationToProvider({
   }
 }
 
+/**
+ * Notifikace poskytovateli o nové poptávce/přihlášce (režimy inquiry, course,
+ * table, stay). Na rozdíl od rezervace tu není pevný termín — majitel poptávku
+ * potvrzuje ručně. `detailRows` jsou už předpřipravené dvojice [popisek, hodnota]
+ * relevantní pro daný režim, takže e-mail nemusí znát jeho sémantiku.
+ */
+const INQUIRY_LABEL: Record<string, string> = {
+  inquiry: 'Nová poptávka',
+  course: 'Nová přihláška',
+  table: 'Rezervace stolu',
+  stay: 'Poptávka pobytu',
+}
+
+export async function sendInquiryNotificationToProvider({
+  providerEmail,
+  providerName,
+  mode,
+  subject,
+  clientName,
+  clientEmail,
+  clientPhone,
+  clientNotes,
+  detailRows,
+}: {
+  providerEmail: string
+  providerName: string
+  mode: string
+  subject: string
+  clientName: string
+  clientEmail: string
+  clientPhone: string
+  clientNotes: string
+  detailRows: [string, string][]
+}) {
+  const heading = INQUIRY_LABEL[mode] || 'Nová poptávka'
+  const row = (label: string, value: string) => `
+          <tr>
+            <td style="padding: 6px 0; color: #9ca3af; font-size: 13px; width: 40%;">${label}</td>
+            <td style="padding: 6px 0; color: #111827; font-size: 14px;">${value}</td>
+          </tr>`
+  const detailHtml = detailRows.filter(([, v]) => v).map(([l, v]) => row(l, v)).join('')
+
+  const html = `
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>${heading}</title>
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; padding: 20px;">
+  <div style="max-width: 560px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="background: #1e40af; padding: 28px 40px;">
+      <h1 style="color: white; margin: 0; font-size: 20px; font-weight: 700;">✉ ${heading}</h1>
+      <p style="color: rgba(255,255,255,0.8); margin: 6px 0 0; font-size: 14px;">Přišla vám nová poptávka z webu${subject ? ` – ${subject}` : ''}</p>
+    </div>
+    <div style="padding: 32px 40px;">
+      <p style="color: #374151; font-size: 16px; margin: 0 0 24px;">Dobrý den, <strong>${providerName}</strong>,</p>
+
+      <h3 style="color: #111827; font-size: 14px; font-weight: 600; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.05em;">Klient</h3>
+      <div style="background: #f8fafc; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+        <table style="width: 100%; border-collapse: collapse;">
+          ${row('Jméno', clientName)}
+          ${clientEmail ? `<tr><td style="padding: 6px 0; color: #9ca3af; font-size: 13px;">E-mail</td><td style="padding: 6px 0; color: #006bff; font-size: 14px;">${clientEmail}</td></tr>` : ''}
+          ${clientPhone ? row('Telefon', clientPhone) : ''}
+          ${clientNotes ? row('Zpráva', clientNotes) : ''}
+        </table>
+      </div>
+
+      ${detailHtml ? `<h3 style="color: #111827; font-size: 14px; font-weight: 600; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.05em;">Detaily</h3>
+      <div style="background: #f8fafc; border-radius: 8px; padding: 16px;">
+        <table style="width: 100%; border-collapse: collapse;">${detailHtml}</table>
+      </div>` : ''}
+    </div>
+  </div>
+</body>
+</html>
+  `
+
+  try {
+    await getResend().emails.send({
+      from: FROM_EMAIL,
+      to: providerEmail,
+      subject: `${heading} – ${clientName}`,
+      html,
+    })
+  } catch (error) {
+    console.error('Failed to send inquiry notification email to provider:', error)
+  }
+}
+
 export async function sendReminderEmail({
   clientEmail,
   clientName,

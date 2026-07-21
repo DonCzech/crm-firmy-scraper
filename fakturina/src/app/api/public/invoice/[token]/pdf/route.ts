@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { query, initDb } from "@/lib/db";
 import { generateInvoiceHtml } from "@/lib/invoice-pdf";
+import { rateLimit } from "@/lib/rate-limit";
+import { requestIp } from "@/lib/security";
 
-export async function GET(_req: NextRequest, { params }: { params: Promise<{ token: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ token: string }> }) {
+  const limited = rateLimit(`public-invoice-pdf:${requestIp(req)}`, 20, 60_000);
+  if (!limited.allowed) return NextResponse.json({ error: "Příliš mnoho PDF požadavků" }, { status: 429, headers: { "Retry-After": String(limited.retryAfter) } });
   const { token } = await params;
   await initDb();
 

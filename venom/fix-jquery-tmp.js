@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const pool = new Pool({ connectionString: 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require', connectionTimeoutMillis: 10000 });
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, connectionTimeoutMillis: 10000 });
 
 async function run() {
   const r = await pool.query('SELECT settings FROM sections WHERE id = 1152');

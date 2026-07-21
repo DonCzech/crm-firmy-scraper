@@ -179,16 +179,12 @@ export async function syncBankConnection(connection: BankConnection) {
   let lastTransactionId = connection.last_transaction_id;
 
   for (const tx of transactions) {
-    const matchedInvoiceId = await matchIncomingPayment(connection.company_id, tx);
-    if (matchedInvoiceId) matched += 1;
-
     const result = await query(
       `INSERT INTO fak_bank_transactions
          (id, company_id, bank_connection_id, provider_transaction_id, booking_date, amount,
           currency, account_number, bank_code, variable_symbol, message, raw, matched_invoice_id)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
-       ON CONFLICT (bank_connection_id, provider_transaction_id) DO UPDATE SET
-         matched_invoice_id = COALESCE(fak_bank_transactions.matched_invoice_id, EXCLUDED.matched_invoice_id)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,NULL)
+       ON CONFLICT (bank_connection_id, provider_transaction_id) DO NOTHING
        RETURNING (xmax = 0) AS inserted`,
       [
         randomUUID(),
@@ -203,10 +199,20 @@ export async function syncBankConnection(connection: BankConnection) {
         tx.variableSymbol,
         tx.message,
         JSON.stringify(tx.raw),
-        matchedInvoiceId,
       ]
     );
-    if (result.rows[0]?.inserted) inserted += 1;
+    if (result.rows[0]?.inserted) {
+      inserted += 1;
+      const matchedInvoiceId = await matchIncomingPayment(connection.company_id, tx);
+      if (matchedInvoiceId) {
+        matched += 1;
+        await query(
+          `UPDATE fak_bank_transactions SET matched_invoice_id = $1
+           WHERE bank_connection_id = $2 AND provider_transaction_id = $3`,
+          [matchedInvoiceId, connection.id, tx.providerTransactionId]
+        );
+      }
+    }
     lastTransactionId = tx.providerTransactionId;
   }
 

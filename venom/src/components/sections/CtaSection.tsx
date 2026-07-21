@@ -3212,13 +3212,15 @@ function CtaClean01({ content, sectionId }: { content: Record<string, unknown>; 
 }
 
 // ── clean-02-cta (process steps) ─────────────────────────────────────────────
+// Arctic Editorial: jediná tmavá (ink) sekce stránky — postup ve 4 krocích
+// jako editorial timeline s hairline dělítky + CTA řádek s telefonem.
 function CtaClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const eyebrow = String(content.eyebrow ?? "Postup spolupráce");
-  const title   = String(content.title ?? "Jak probíhá spolupráce s námi?");
+  const title   = String(content.title ?? "Od poptávky k pravidelnému úklidu ve čtyřech krocích");
   const ctaText = String(content.ctaText ?? "Nezávazně poptat úklid");
   const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const ctaNote = String(content.ctaNote ?? "Ozveme se do 24 hodin v pracovní dny.");
   const steps   = (content.steps as Array<{ number?: string; title?: string; description?: string }>) ?? [];
-  const NAVY = "#0e0e53"; const BLUE = "#019dff";
   const resolve = (href: string) => {
     if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
     const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
@@ -3227,24 +3229,66 @@ function CtaClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
   return (
     <>
       <style>{`
-        .c02ct-section { background: ${NAVY}; padding: 5.5rem 5%; font-family: 'Onest',sans-serif; position: relative; overflow: hidden; }
-        .c02ct-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 110%, rgba(1,157,255,.18) 0%, transparent 70%); pointer-events: none; }
-        .c02ct-inner { max-width: 80rem; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
-        .c02ct-kicker { display: inline-flex; align-items: center; gap: .45rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${BLUE}; margin-bottom: .75rem; }
-        .c02ct-kicker::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; }
-        .c02ct-h2 { font-family: 'Bricolage Grotesque',sans-serif; font-size: clamp(1.65rem,3.2vw,2.5rem); font-weight: 800; color: #fff; margin: 0 0 3.5rem; line-height: 1.2; }
-        .c02ct-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-bottom: 3.5rem; position: relative; }
-        .c02ct-steps::before { content: ''; position: absolute; top: 2.25rem; left: calc(12.5% + 1.5rem); right: calc(12.5% + 1.5rem); height: 2px; background: linear-gradient(90deg, rgba(1,157,255,.6), rgba(37,89,226,.6)); pointer-events: none; }
-        .c02ct-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 1.25rem; }
-        .c02ct-circle { width: 4.5rem; height: 4.5rem; border-radius: 50%; background: linear-gradient(135deg,#2bbbff,#2559e2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; position: relative; z-index: 2; flex-shrink: 0; box-shadow: 0 0 0 6px rgba(1,157,255,.15); }
-        .c02ct-num { font-family: 'Bricolage Grotesque',sans-serif; font-size: 1.3rem; font-weight: 800; color: #fff; line-height: 1; }
-        .c02ct-step h3 { font-family: 'Bricolage Grotesque',sans-serif; font-size: 1rem; font-weight: 700; color: #fff; margin: 0 0 .6rem; line-height: 1.3; }
-        .c02ct-step p { font-size: .85rem; color: rgba(255,255,255,.62); margin: 0; line-height: 1.65; }
-        .c02ct-btn { display: inline-flex; align-items: center; gap: .5rem; padding: .9rem 2.25rem; border-radius: 9999px; background: linear-gradient(100deg,#2bbbff,#1c91ff 40%,#2559e2); color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none; transition: opacity .2s, transform .15s; box-shadow: 0 8px 28px -6px rgba(1,157,255,.55); }
-        .c02ct-btn:hover { opacity: .9; transform: translateY(-2px); }
-        .c02ct-btn svg { width: 18px; height: 18px; }
-        @media(max-width:900px) { .c02ct-steps { grid-template-columns: repeat(2,1fr); gap: 2rem; } .c02ct-steps::before { display: none; } }
-        @media(max-width:500px) { .c02ct-steps { grid-template-columns: 1fr; } }
+        .c02ct-section { background: #0B1526; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02ct-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .c02ct-kicker {
+          display: inline-flex; align-items: center; gap: .55rem;
+          font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #6E9BFF; margin-bottom: 1.1rem;
+        }
+        .c02ct-kicker::before { content: ''; width: 22px; height: 2px; background: #6E9BFF; border-radius: 2px; }
+        .c02ct-h2 {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 750; color: #fff;
+          margin: 0 0 clamp(2.4rem, 5vw, 3.8rem); line-height: 1.1; letter-spacing: -0.03em;
+          max-width: 46rem; text-wrap: balance;
+        }
+        .c02ct-steps {
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          border-top: 1px solid rgba(255,255,255,0.14);
+          margin-bottom: clamp(2.4rem, 5vw, 3.6rem);
+        }
+        .c02ct-step {
+          padding: 1.8rem 1.6rem 0.4rem 0;
+          border-right: 1px solid rgba(255,255,255,0.14);
+        }
+        .c02ct-step + .c02ct-step { padding-left: 1.6rem; }
+        .c02ct-step:last-child { border-right: none; padding-right: 0; }
+        .c02ct-num {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: .86rem; font-weight: 700; color: #6E9BFF;
+          display: block; margin-bottom: 1.1rem; letter-spacing: .04em;
+          font-variant-numeric: tabular-nums;
+        }
+        .c02ct-step h3 {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: 1.14rem; font-weight: 700; color: #fff;
+          margin: 0 0 .55rem; line-height: 1.3; letter-spacing: -0.015em;
+        }
+        .c02ct-step p { font-size: .9rem; color: #9AA7BC; margin: 0; line-height: 1.68; }
+        .c02ct-foot { display: flex; align-items: center; gap: 1.3rem; flex-wrap: wrap; }
+        .c02ct-btn {
+          display: inline-flex; align-items: center; gap: .55rem;
+          padding: 1rem 2rem; border-radius: 9999px;
+          background: #1B5BFF; color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
+          transition: background .25s, transform .25s;
+          box-shadow: 0 16px 34px -16px rgba(27,91,255,.7);
+        }
+        .c02ct-btn:hover { background: #3D74FF; transform: translateY(-2px); }
+        .c02ct-btn svg { width: 16px; height: 16px; }
+        .c02ct-note { font-size: .9rem; color: #9AA7BC; }
+        @media (max-width: 960px) {
+          .c02ct-steps { grid-template-columns: 1fr 1fr; border-top: none; }
+          .c02ct-step { border-top: 1px solid rgba(255,255,255,0.14); padding: 1.4rem 1.2rem 0.6rem 0; }
+          .c02ct-step:nth-child(2n) { border-right: none; }
+          .c02ct-step + .c02ct-step { padding-left: 1.2rem; }
+          .c02ct-step:nth-child(3) { padding-left: 0; }
+        }
+        @media (max-width: 520px) {
+          .c02ct-steps { grid-template-columns: 1fr; }
+          .c02ct-step { border-right: none !important; padding: 1.3rem 0 0.5rem !important; }
+        }
+        @media (prefers-reduced-motion: reduce) { .c02ct-btn { transition: none; } }
       `}</style>
       <section className="c02ct-section" id="postup" data-template="clean-02-cta">
         <div className="c02ct-inner">
@@ -3253,18 +3297,19 @@ function CtaClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
           <div className="c02ct-steps">
             {steps.map((step, i) => (
               <div key={i} className="c02ct-step">
-                <div className="c02ct-circle">
-                  <span className="c02ct-num">{step.number ?? String(i + 1).padStart(2, "0")}</span>
-                </div>
+                <span className="c02ct-num">{step.number ?? String(i + 1).padStart(2, "0")}</span>
                 <h3><GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title ?? ""} tag="span" /></h3>
                 <p><GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={step.description ?? ""} tag="span" /></p>
               </div>
             ))}
           </div>
-          <a href={resolve(ctaHref)} data-btn="primary" className="c02ct-btn">
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
+          <div className="c02ct-foot">
+            <a href={resolve(ctaHref)} data-btn="primary" className="c02ct-btn">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </a>
+            <span className="c02ct-note"><GenericEditableText sectionId={sectionId} field="ctaNote" value={ctaNote} tag="span" /></span>
+          </div>
         </div>
       </section>
     </>

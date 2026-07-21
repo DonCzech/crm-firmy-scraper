@@ -17,11 +17,11 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://connect.facebook.net", // unsafe-inline needed for Next.js + GTM
+      `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://connect.facebook.net`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net",
+      `connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net ${process.env.NEXT_PUBLIC_REZERVACE_ORIGIN || "https://app.rezora.cz"}${process.env.NODE_ENV === "development" ? " http://localhost:3199" : ""}`,
       "frame-src 'self' https://www.google.com https://maps.google.com https://www.youtube.com https://www.youtube-nocookie.com https://www.openstreetmap.org",
       "frame-ancestors 'self'",
       "base-uri 'self'",
@@ -31,7 +31,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  typescript: { ignoreBuildErrors: true },
+  poweredByHeader: false,
   async headers() {
     return [
       {

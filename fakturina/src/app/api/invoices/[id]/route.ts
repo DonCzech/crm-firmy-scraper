@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { query } from "@/lib/db";
+import { query, withTransaction } from "@/lib/db";
 import { requireSession, getUserCompany } from "@/lib/auth";
 import { auditLog } from "@/lib/audit";
 import { z } from "zod";
@@ -8,19 +8,19 @@ import { z } from "zod";
 const itemSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1),
-  quantity: z.number().min(0),
+  quantity: z.number().positive().max(1_000_000),
   unit: z.string().optional(),
-  unitPrice: z.number(),
+  unitPrice: z.number().min(0).max(1_000_000_000),
   vatRate: z.number().int().min(0).max(21),
 });
 
 const schema = z.object({
   clientId: z.string().optional().nullable(),
   type: z.enum(["invoice", "proforma", "advance", "credit_note", "tax_document"]).optional(),
-  currency: z.string().optional(),
-  issueDate: z.string().optional(),
-  dueDate: z.string().optional(),
-  taxableDate: z.string().optional().nullable(),
+  currency: z.string().regex(/^[A-Z]{3}$/).optional(),
+  issueDate: z.string().date().optional(),
+  dueDate: z.string().date().optional(),
+  taxableDate: z.string().date().optional().nullable(),
   note: z.string().optional().nullable(),
   variableSymbol: z.string().optional(),
   paymentMethod: z.enum(["bank", "card", "cash", "cod", "other"]).optional(),
@@ -29,8 +29,8 @@ const schema = z.object({
   footerText: z.string().optional().nullable(),
   language: z.string().optional(),
   reverseCharge: z.boolean().optional(),
-  discountAmount: z.number().optional().nullable(),
-  discountPct: z.number().optional().nullable(),
+  discountAmount: z.number().min(0).optional().nullable(),
+  discountPct: z.number().min(0).max(100).optional().nullable(),
   showAlreadyPaid: z.boolean().optional(),
   showIban: z.string().optional(),
   bankAccountId: z.string().optional().nullable(),
@@ -38,7 +38,7 @@ const schema = z.object({
   invoiceColor: z.string().optional().nullable(),
   tagIds: z.array(z.string()).optional(),
   status: z.enum(["draft", "sent", "viewed", "paid", "overdue", "cancelled"]).optional(),
-  items: z.array(itemSchema).optional(),
+  items: z.array(itemSchema).min(1).max(500).optional(),
 });
 
 async function getOwnedInvoice(invoiceId: string, companyId: string) {
@@ -115,6 +115,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   const isVatPayer = company.vat_status === "vat_payer";
 
+  return withTransaction(async (client) => {
   const fields: string[] = [];
   const vals: unknown[] = [];
   let idx = 1;
@@ -149,7 +150,11 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     addField("status", data.status);
     if (data.status === "paid") addField("paid_at", Math.floor(Date.now() / 1000));
     if (data.status === "sent") addField("sent_at", Math.floor(Date.now() / 1000));
-    await auditLog({ userId: user.id, companyId: company.id, action: `invoice.${data.status}`, entityType: "invoice", entityId: id });
+    await client.query(
+      `INSERT INTO fak_audit_log (id, company_id, user_id, action, entity_type, entity_id)
+       VALUES ($1,$2,$3,$4,'invoice',$5)`,
+      [randomUUID(), company.id, user.id, `invoice.${data.status}`, id]
+    );
   }
 
   if (data.items !== undefined) {
@@ -168,17 +173,17 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const discountValue = discountPct > 0
       ? Math.round(gross * (discountPct / 100) * 100) / 100
       : discountAmount > 0 ? discountAmount : 0;
-    const total = Math.round((gross - discountValue) * 100) / 100;
+    const total = Math.max(0, Math.round((gross - Math.min(discountValue, gross)) * 100) / 100);
 
     addField("subtotal", subtotal);
     addField("vat_total", vatTotal);
     addField("total", total);
     addField("updated_at", Math.floor(Date.now() / 1000));
 
-    await query("DELETE FROM fak_invoice_items WHERE invoice_id = $1", [id]);
+    await client.query("DELETE FROM fak_invoice_items WHERE invoice_id = $1", [id]);
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      await query(
+      await client.query(
         `INSERT INTO fak_invoice_items
            (id, invoice_id, name, quantity, unit, unit_price, vat_rate,
             total_without_vat, total_vat, total_with_vat, sort_order)
@@ -191,25 +196,26 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   if (fields.length > 0) {
     vals.push(id, company.id);
-    await query(`UPDATE fak_invoices SET ${fields.join(", ")} WHERE id = $${idx++} AND company_id = $${idx}`, vals);
+    await client.query(`UPDATE fak_invoices SET ${fields.join(", ")} WHERE id = $${idx++} AND company_id = $${idx}`, vals);
   }
 
   if (data.tagIds !== undefined) {
-    await query("DELETE FROM fak_invoice_tags WHERE invoice_id = $1", [id]);
+    await client.query("DELETE FROM fak_invoice_tags WHERE invoice_id = $1", [id]);
     for (const tagId of data.tagIds) {
-      await query(
+      await client.query(
         "INSERT INTO fak_invoice_tags (invoice_id, tag_id) VALUES ($1, $2) ON CONFLICT DO NOTHING",
         [id, tagId]
       );
     }
   }
 
-  const { rows } = await query("SELECT * FROM fak_invoices WHERE id = $1 AND company_id = $2", [id, company.id]);
-  const { rows: items } = await query(
+  const { rows } = await client.query("SELECT * FROM fak_invoices WHERE id = $1 AND company_id = $2", [id, company.id]);
+  const { rows: items } = await client.query(
     "SELECT * FROM fak_invoice_items WHERE invoice_id = $1 ORDER BY sort_order ASC",
     [id]
   );
   return NextResponse.json({ ...rows[0], items });
+  });
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

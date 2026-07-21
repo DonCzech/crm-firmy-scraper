@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession, getUserCompany } from "@/lib/auth";
 import { query } from "@/lib/db";
-import { Plus, RefreshCw, Pencil, Trash2, Pause, Play } from "lucide-react";
+import { Plus, RefreshCw, Pencil, Pause, Play } from "lucide-react";
 import RecurringDeleteBtn from "@/components/RecurringDeleteBtn";
 
 const PERIOD_LABELS: Record<string, string> = {

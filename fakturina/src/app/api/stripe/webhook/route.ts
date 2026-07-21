@@ -3,6 +3,14 @@ import { randomUUID } from "crypto";
 import { getStripe } from "@/lib/stripe";
 import { query } from "@/lib/db";
 import Stripe from "stripe";
+import { PLANS, type PlanKey } from "@/lib/stripe";
+
+function planForPrice(priceId: string | null): PlanKey | null {
+  if (!priceId) return null;
+  const match = (Object.entries(PLANS) as Array<[PlanKey, (typeof PLANS)[PlanKey]]>)
+    .find(([, plan]) => plan.priceId === priceId);
+  return match?.[0] ?? null;
+}
 
 export async function POST(req: NextRequest) {
   const stripe = getStripe();
@@ -23,12 +31,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  const claimed = await query(
+    `INSERT INTO fak_webhook_events (id, provider, event_type, status)
+     VALUES ($1, 'stripe', $2, 'processing') ON CONFLICT (id) DO NOTHING RETURNING id`,
+    [event.id, event.type]
+  );
+  if (!claimed.rows[0]) return NextResponse.json({ received: true, duplicate: true });
+
   try {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.userId;
-        const plan = session.metadata?.plan ?? "start";
         const customerId = session.customer as string;
         const subscriptionId = session.subscription as string;
 
@@ -44,6 +58,9 @@ export async function POST(req: NextRequest) {
           const sub = await stripe.subscriptions.retrieve(subscriptionId);
           priceId = sub.items.data[0]?.price.id ?? null;
         }
+
+        const plan = planForPrice(priceId);
+        if (!plan) throw new Error(`Neznámé Stripe Price ID: ${priceId ?? "missing"}`);
 
         if (rows.length > 0) {
           await query(
@@ -101,12 +118,20 @@ export async function POST(req: NextRequest) {
         break;
       }
     }
+    await query(
+      "UPDATE fak_webhook_events SET status = 'processed', processed_at = $1 WHERE id = $2",
+      [Math.floor(Date.now() / 1000), event.id]
+    );
   } catch (err) {
     console.error("Webhook handler error:", err);
+    await query(
+      "UPDATE fak_webhook_events SET status = 'error', error = $1 WHERE id = $2",
+      [err instanceof Error ? err.message.slice(0, 1000) : "Unknown error", event.id]
+    ).catch(() => undefined);
+    return NextResponse.json({ error: "Webhook processing failed" }, { status: 500 });
   }
 
   return NextResponse.json({ received: true });
 }
 
 // Raw body is needed for Stripe signature verification — Next.js App Router reads it via req.text()
-

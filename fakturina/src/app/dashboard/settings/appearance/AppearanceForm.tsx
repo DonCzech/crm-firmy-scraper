@@ -94,8 +94,6 @@ export default function AppearanceForm({ initial }: { initial: Config }) {
   const set = (k: keyof Config) => (val: unknown) =>
     setCfg((c) => ({ ...c, [k]: val }));
 
-  const selectedTemplate = TEMPLATES.find((t) => t.value === cfg.invoice_template) ?? TEMPLATES[0];
-
   async function handleSave() {
     setLoading(true);
     await fetch("/api/settings/appearance", {

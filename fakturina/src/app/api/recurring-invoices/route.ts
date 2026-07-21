@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { query } from "@/lib/db";
-import { requireSession, getUserCompany } from "@/lib/auth";
+import { query, withTransaction } from "@/lib/db";
+import { requireSession, getUserCompany, hasFeature } from "@/lib/auth";
 import { z } from "zod";
 
 const itemSchema = z.object({
   name: z.string().min(1),
-  quantity: z.number().min(0).default(1),
+  quantity: z.number().positive().default(1),
   unit: z.string().optional(),
   unitPrice: z.number().default(0),
   vatRate: z.number().int().min(0).max(21).default(0),
@@ -15,15 +15,15 @@ const itemSchema = z.object({
 const schema = z.object({
   name: z.string().min(1),
   clientId: z.string().optional().nullable(),
-  startDate: z.string(),
-  endDate: z.string().optional().nullable(),
+  startDate: z.string().date(),
+  endDate: z.string().date().optional().nullable(),
   period: z.enum(["weekly", "monthly", "quarterly", "yearly"]).default("monthly"),
   sendByEmail: z.boolean().default(false),
   asProforma: z.boolean().default(false),
   dueDays: z.number().int().min(1).max(365).default(14),
   currency: z.string().default("CZK"),
   note: z.string().optional().nullable(),
-  items: z.array(itemSchema).min(0),
+  items: z.array(itemSchema).min(1).max(500),
 });
 
 function calcNextDate(startDate: string, period: string): string {
@@ -71,6 +71,9 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const company = await getUserCompany(user.id);
   if (!company) return NextResponse.json({ error: "No company" }, { status: 400 });
+  if (!(await hasFeature(user.id, "recurring"))) {
+    return NextResponse.json({ error: "Opakované faktury vyžadují tarif Pro nebo Business", code: "PLAN_REQUIRED" }, { status: 403 });
+  }
 
   const body = await req.json().catch(() => ({}));
   const parsed = schema.safeParse(body);
@@ -80,29 +83,30 @@ export async function POST(req: NextRequest) {
   const refError = await validateClient(company.id, d.clientId);
   if (refError) return NextResponse.json({ error: refError }, { status: 400 });
 
-  const id = randomUUID();
-  const nextDate = calcNextDate(d.startDate, d.period);
-
-  await query(
+  const created = await withTransaction(async (client) => {
+    const id = randomUUID();
+    const nextDate = calcNextDate(d.startDate, d.period);
+    await client.query(
     `INSERT INTO fak_recurring_invoices
        (id, company_id, client_id, name, start_date, next_issue_date, end_date,
         period, active, send_by_email, as_proforma, due_days, currency, note)
      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,true,$9,$10,$11,$12,$13)`,
     [id, company.id, d.clientId ?? null, d.name, d.startDate, nextDate,
      d.endDate ?? null, d.period, d.sendByEmail, d.asProforma, d.dueDays, d.currency, d.note ?? null]
-  );
+    );
 
-  for (let i = 0; i < d.items.length; i++) {
-    const item = d.items[i];
-    await query(
+    for (let i = 0; i < d.items.length; i++) {
+      const item = d.items[i];
+      await client.query(
       `INSERT INTO fak_recurring_invoice_items
          (id, recurring_invoice_id, name, quantity, unit, unit_price, vat_rate, sort_order)
        VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
       [randomUUID(), id, item.name, item.quantity, item.unit ?? null,
        item.unitPrice, item.vatRate, i]
     );
-  }
-
-  const { rows } = await query("SELECT * FROM fak_recurring_invoices WHERE id = $1 AND company_id = $2", [id, company.id]);
-  return NextResponse.json(rows[0], { status: 201 });
+    }
+    const result = await client.query("SELECT * FROM fak_recurring_invoices WHERE id = $1 AND company_id = $2", [id, company.id]);
+    return result.rows[0];
+  });
+  return NextResponse.json(created, { status: 201 });
 }

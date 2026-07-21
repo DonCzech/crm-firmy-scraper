@@ -2,10 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { query } from "@/lib/db";
 import { requireSession, getUserCompany } from "@/lib/auth";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
-
-const UPLOAD_DIR = join(process.cwd(), "public", "uploads", "attachments");
+import { deletePublicFile, storePublicFile } from "@/lib/storage";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await requireSession().catch(() => null);
@@ -37,18 +34,23 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const MAX_SIZE = 10 * 1024 * 1024;
   if (file.size > MAX_SIZE) return NextResponse.json({ error: "Soubor je příliš velký (max 10 MB)" }, { status: 400 });
-
-  const ext = file.name.split(".").pop() ?? "";
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const isPdf = buffer.subarray(0, 5).toString("ascii") === "%PDF-";
+  const isPng = buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  const isJpeg = buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff;
+  const isWebp = buffer.subarray(0, 4).toString("ascii") === "RIFF" && buffer.subarray(8, 12).toString("ascii") === "WEBP";
+  if (!isPdf && !isPng && !isJpeg && !isWebp) {
+    return NextResponse.json({ error: "Povoleny jsou pouze PDF, PNG, JPG a WebP" }, { status: 400 });
+  }
+  const ext = isPdf ? "pdf" : isPng ? "png" : isJpeg ? "jpg" : "webp";
+  const mime = isPdf ? "application/pdf" : isPng ? "image/png" : isJpeg ? "image/jpeg" : "image/webp";
   const filename = `${randomUUID()}.${ext}`;
-  await mkdir(UPLOAD_DIR, { recursive: true });
-  const bytes = await file.arrayBuffer();
-  await writeFile(join(UPLOAD_DIR, filename), Buffer.from(bytes));
+  const fileUrl = await storePublicFile(`attachments/${company.id}/${filename}`, buffer, mime);
 
   const attachId = randomUUID();
-  const fileUrl = `/uploads/attachments/${filename}`;
   await query(
     "INSERT INTO fak_invoice_attachments (id, invoice_id, filename, file_url, file_size, mime_type) VALUES ($1, $2, $3, $4, $5, $6)",
-    [attachId, id, file.name, fileUrl, file.size, file.type || null]
+    [attachId, id, file.name.slice(0, 255), fileUrl, file.size, mime]
   );
 
   const { rows } = await query("SELECT * FROM fak_invoice_attachments WHERE id = $1", [attachId]);
@@ -65,12 +67,13 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   const attachId = req.nextUrl.searchParams.get("attachId");
   if (!attachId) return NextResponse.json({ error: "Missing attachId" }, { status: 400 });
 
-  await query(
+  const deleted = await query(
     `DELETE FROM fak_invoice_attachments
-     WHERE id = $1 AND invoice_id IN (
+     WHERE id = $1 AND invoice_id = $3 AND invoice_id IN (
        SELECT id FROM fak_invoices WHERE company_id = $2
-     )`,
-    [attachId, company.id]
+     ) RETURNING file_url`,
+    [attachId, company.id, id]
   );
+  if (deleted.rows[0]?.file_url) await deletePublicFile(deleted.rows[0].file_url).catch(() => undefined);
   return NextResponse.json({ ok: true });
 }

@@ -152,7 +152,7 @@ export function generateReminderText(template: string, vars: Record<string, stri
 }
 
 export const aiInvoiceAssistantService = {
-  async validateInvoiceWithAI(_data: InvoiceData): Promise<string[]> {
+  async validateInvoiceWithAI(): Promise<string[]> {
     return [];
   },
   async generateReminderText(invoiceNumber: string, daysOverdue: number): Promise<string> {
