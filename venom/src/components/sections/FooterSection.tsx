@@ -82,6 +82,7 @@ function demoLogoDataUrl(name: string): string {
 
 export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
 
+  if (variant === "proof-01-footer") return <FooterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "artist-01-footer") return <FooterArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "eshop-05-footer") return <FooterEshop05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "eshop-06-footer") return <FooterEshop06 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -19346,6 +19347,118 @@ function FooterArtist01({ content, sectionId, tenantSlug, isAdmin }: { content: 
         <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="div" className="ar01-footer-copy" />
         <div className="ar01-footer-credit">
           <WeberoCredit />
+        </div>
+      </footer>
+    </>
+  );
+}
+
+
+// ══ PROOF (proof-01) — footer + oblast působnosti ═════════════════════════════
+function FooterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteName = String(content.siteName ?? "Servis Praha");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const tagline  = String(content.tagline ?? "Spolehlivé služby s pevnou cenou a zárukou. Pracujeme po Praze a okolí.");
+  const email    = String(content.email ?? "poptavka@demo.cz");
+  const phone    = String(content.phone ?? "+420 704 123 456");
+  const address  = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
+  const ico      = String(content.ico ?? "12345678");
+  const areaTitle = String(content.areaTitle ?? "Oblast působnosti");
+  const areas = (content.areas as string[] | undefined) ?? [];
+  const navColTitle = String(content.navColTitle ?? "Navigace");
+  const contactColTitle = String(content.contactColTitle ?? "Kontakt");
+  const links = (content.links as Array<{ label: string; href: string }> | undefined) ?? [];
+  const legalLinks = (content.legalLinks as Array<{ label: string; href: string }> | undefined) ?? [];
+  const socials = (content.socials as Array<{ icon: string; href: string; label?: string }> | undefined) ?? [];
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const resolve = (href: string) => (isAdmin ? "#" : (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) ? href : tenantSlug ? `/demo/${tenantSlug}${href.startsWith("/") ? href : "/" + href}` : href);
+
+  return (
+    <>
+      <style>{`
+        .pf01ft { --pf-accent:#E7502E; --pf-ink:#14161B; background:#0F1013; color:#fff; font-family:'Overpass',system-ui,sans-serif;
+          padding:clamp(48px,7vw,80px) clamp(20px,5vw,48px) 28px; }
+        .pf01ft-inner { max-width:1280px; margin:0 auto; }
+        .pf01ft-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr 1.2fr; gap:clamp(28px,4vw,56px); padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.1); }
+        .pf01ft-brand-name { font-size:1.3rem; font-weight:800; letter-spacing:-.01em; margin:0 0 12px; display:flex; align-items:center; gap:10px; }
+        .pf01ft-brand-name img { height:30px; width:auto; }
+        .pf01ft-tag { font-size:.94rem; color:rgba(255,255,255,.55); line-height:1.6; max-width:32em; margin:0; }
+        .pf01ft-col-t { font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); margin:0 0 16px; }
+        .pf01ft-col a, .pf01ft-col li { color:rgba(255,255,255,.72); text-decoration:none; font-size:.94rem; line-height:2; display:block; }
+        .pf01ft-col a:hover { color:var(--pf-accent); }
+        .pf01ft-col ul { list-style:none; padding:0; margin:0; }
+        .pf01ft-areas { display:flex; flex-wrap:wrap; gap:7px; }
+        .pf01ft-area-chip { font-size:.82rem; color:rgba(255,255,255,.72); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:999px; padding:5px 11px; }
+        .pf01ft-bottom { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding-top:24px; }
+        .pf01ft-legal { display:flex; gap:18px; flex-wrap:wrap; }
+        .pf01ft-legal a { color:rgba(255,255,255,.5); text-decoration:none; font-size:.84rem; }
+        .pf01ft-legal a:hover { color:#fff; }
+        .pf01ft-copy { font-size:.84rem; color:rgba(255,255,255,.45); }
+        .pf01ft-social { display:flex; gap:9px; margin-top:16px; }
+        .pf01ft-social a { width:36px; height:36px; border-radius:9px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:#fff; transition:background .2s, border-color .2s; }
+        .pf01ft-social a:hover { background:var(--pf-accent); border-color:var(--pf-accent); }
+        .pf01ft-credit { margin-top:20px; }
+        @media (max-width:900px){ .pf01ft-grid{ grid-template-columns:1fr 1fr; } }
+        @media (max-width:560px){ .pf01ft-grid{ grid-template-columns:1fr; } }
+      `}</style>
+      <footer className="pf01ft" data-template="proof-01">
+        <div className="pf01ft-inner">
+          <div className="pf01ft-grid">
+            <div className="pf01ft-brand">
+              <div className="pf01ft-brand-name">
+                {logoUrl && <img src={logoUrl} alt={siteName} />}
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </div>
+              <p className="pf01ft-tag"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></p>
+              {socials.length > 0 && (
+                <div className="pf01ft-social">
+                  {socials.map((s, i) => (
+                    <a key={i} href={s.href} aria-label={s.label ?? s.icon} target="_blank" rel="noopener noreferrer">
+                      <Es06SocialIcon kind={s.icon} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="pf01ft-col">
+              <p className="pf01ft-col-t"><GenericEditableText sectionId={sectionId} field="navColTitle" value={navColTitle} tag="span" /></p>
+              <ul>
+                {links.map((l, i) => (
+                  <li key={i}><a href={resolve(l.href)}><GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" /></a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="pf01ft-col">
+              <p className="pf01ft-col-t"><GenericEditableText sectionId={sectionId} field="contactColTitle" value={contactColTitle} tag="span" /></p>
+              <ul>
+                <li><a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a></li>
+                <li><a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a></li>
+                <li><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></li>
+                <li style={{ color: "rgba(255,255,255,.4)" }}>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></li>
+              </ul>
+            </div>
+
+            <div className="pf01ft-col">
+              <p className="pf01ft-col-t"><GenericEditableText sectionId={sectionId} field="areaTitle" value={areaTitle} tag="span" /></p>
+              <div className="pf01ft-areas">
+                {areas.map((a, i) => (
+                  <span key={i} className="pf01ft-area-chip"><GenericEditableText sectionId={sectionId} field={`areas.${i}`} value={a} tag="span" /></span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="pf01ft-bottom">
+            <span className="pf01ft-copy"><GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" /></span>
+            <div className="pf01ft-legal">
+              {legalLinks.map((l, i) => (
+                <a key={i} href={resolve(l.href)}><GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label} tag="span" /></a>
+              ))}
+            </div>
+          </div>
+          <div className="pf01ft-credit"><WeberoCredit /></div>
         </div>
       </footer>
     </>

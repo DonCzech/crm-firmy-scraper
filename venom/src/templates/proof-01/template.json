@@ -1,0 +1,310 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "proof-01",
+  "name": "PROOF — Universal Service Engine",
+  "industry": "services",
+  "skeleton": "service-personal",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "description": "Fable Premium V3 — archetyp Universal Service Engine. Confident minimalism (ink #14161B / paper #F5F3EE / ember #E7502E, Overpass + Instrument Serif), výsledkový hero se signature interakcí (interaktivní předvýběr poptávky → orientační odhad), trust band, výběr služby, proces, realizace s before/after posuvníkem, orientační ceník, reference, FAQ, poptávkový formulář se success/error stavem, sticky mobilní CTA lišta. Univerzální pro lokální služby, řemesla, kliniky, autoservisy, poradce a úklid.",
+  "sectionOrderNote": "Navbar → Hero → Trust band → Služby → Proces → Realizace (before/after) → Ceník → Reference → FAQ → Poptávka → Footer",
+  "tags": [
+    "premium-v3",
+    "service",
+    "lead-gen",
+    "universal",
+    "before-after",
+    "sticky-cta"
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "About",
+      "reason": "Příběh firmy je součástí procesu a trust bandu; samostatná about sekce žije na /o-nas, homepage vede rovnou k výběru služby"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Universal Service Engine není postavený na osobě; tým je volitelný na /o-nas, ne na homepage konverzním flow"
+    },
+    {
+      "pos": 9,
+      "name": "CTA strip",
+      "reason": "Primární konverzi nese hero pre-selektor + poptávkový formulář + sticky mobilní CTA lišta; samostatný CTA pás by tříštil fokus"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "name": "Trust band",
+      "reason": "Čísla + certifikace/záruky hned za hero — důkazy před hlavní bariérou rozhodnutí (kritické pro service lead-gen)"
+    },
+    {
+      "type": "services",
+      "name": "Proces (kroky)",
+      "reason": "Číslované kroky procesu spolupráce — druhá services varianta proof-01-process, transparentní cesta od poptávky k hotovu"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": [
+      "cs",
+      "en",
+      "sk"
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "proof-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "proof-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "proof-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "services",
+          "variant": "proof-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "services",
+          "variant": "proof-01-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "gallery",
+          "variant": "proof-01-beforeafter",
+          "contentRef": "realizace"
+        },
+        {
+          "type": "pricing",
+          "variant": "proof-01-pricing",
+          "contentRef": "pricing"
+        },
+        {
+          "type": "testimonials",
+          "variant": "proof-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "faq",
+          "variant": "proof-01-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "contact",
+          "variant": "proof-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "proof-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "proof-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-proof-01-page",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "proof-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "services",
+          "variant": "proof-01-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "pricing",
+          "variant": "proof-01-pricing",
+          "contentRef": "pricing"
+        },
+        {
+          "type": "contact",
+          "variant": "proof-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "proof-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "realizace",
+      "title": "Realizace",
+      "seoTitleKey": "pages.realizace.seoTitle",
+      "seoDescriptionKey": "pages.realizace.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "proof-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-proof-01-page",
+          "contentRef": "pages.realizace.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "proof-01-beforeafter",
+          "contentRef": "realizace"
+        },
+        {
+          "type": "testimonials",
+          "variant": "proof-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "contact",
+          "variant": "proof-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "proof-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "cenik",
+      "title": "Ceník",
+      "seoTitleKey": "pages.cenik.seoTitle",
+      "seoDescriptionKey": "pages.cenik.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "proof-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-proof-01-page",
+          "contentRef": "pages.cenik.hero"
+        },
+        {
+          "type": "pricing",
+          "variant": "proof-01-pricing",
+          "contentRef": "pricing"
+        },
+        {
+          "type": "faq",
+          "variant": "proof-01-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "contact",
+          "variant": "proof-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "proof-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "proof-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-proof-01-page",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "stats",
+          "variant": "proof-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "services",
+          "variant": "proof-01-process",
+          "contentRef": "process"
+        },
+        {
+          "type": "testimonials",
+          "variant": "proof-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "proof-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "proof-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-proof-01-page",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "proof-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "proof-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json",
+    "en": "content/en.json",
+    "sk": "content/sk.json"
+  }
+}

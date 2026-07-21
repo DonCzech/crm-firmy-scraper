@@ -1,0 +1,472 @@
+{
+  "navbar": {
+    "siteName": "Ukázka Servis",
+    "logoUrl": "/templates/proof-01/logo.svg",
+    "phone": "704 123 456",
+    "phoneHref": "tel:+420704123456",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "#poptavka",
+    "mobileCtaCallLabel": "Zavolat",
+    "mobileCtaCallHref": "tel:+420704123456",
+    "mobileCtaLeadLabel": "Poptávka",
+    "mobileCtaLeadHref": "#poptavka",
+    "links": [
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Realizace",
+        "href": "/realizace"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "eyebrow": "Servis, na který se spolehnete",
+    "title": "Vyřešíme to napoprvé —",
+    "subtitle": "Od nezávazné poptávky po hotové dílo. Pevná cena předem, jasné termíny a garantovaná kvalita provedení. Přijedeme, poradíme a uděláme to pořádně.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "#poptavka",
+    "ctaSecondaryText": "Zavolat: 704 123 456",
+    "ctaSecondaryHref": "tel:+420704123456",
+    "bgImage": "",
+    "trust": [
+      "Pevná cena předem",
+      "Záruka 5 let",
+      "Hodnocení 4,9 / 5"
+    ],
+    "selectorTitle": "Spočítejte si orientační cenu",
+    "selectorSubtitle": "Vyberte službu a rozsah — hned uvidíte cenové rozpětí.",
+    "selectorScopeLbl": "Rozsah zakázky",
+    "estimateLabel": "Orientační cena",
+    "selectorCtaText": "Chci přesnou nabídku",
+    "selectorCtaHref": "#poptavka",
+    "services": [
+      {
+        "label": "Drobná oprava",
+        "from": 900,
+        "to": 2500,
+        "unit": "zakázka",
+        "note": "Výjezd technika do 24 h, běžné opravy a údržba."
+      },
+      {
+        "label": "Instalace / montáž",
+        "from": 4500,
+        "to": 18000,
+        "unit": "zakázka",
+        "note": "Dodávka a odborná montáž včetně materiálu."
+      },
+      {
+        "label": "Kompletní realizace",
+        "from": 35000,
+        "to": 220000,
+        "unit": "projekt",
+        "note": "Návrh, realizace a předání na klíč se zárukou."
+      }
+    ],
+    "scopes": [
+      {
+        "label": "Malý",
+        "mult": 0.7
+      },
+      {
+        "label": "Střední",
+        "mult": 1
+      },
+      {
+        "label": "Velký",
+        "mult": 1.6
+      }
+    ],
+    "titleAccent": "bez odkladů a bez překvapení."
+  },
+  "stats": {
+    "items": [
+      {
+        "value": "1 200+",
+        "label": "dokončených zakázek"
+      },
+      {
+        "value": "4,9 / 5",
+        "label": "průměrné hodnocení klientů"
+      },
+      {
+        "value": "24 h",
+        "label": "reakce na poptávku"
+      },
+      {
+        "value": "5 let",
+        "label": "záruka na provedené práce"
+      }
+    ],
+    "badgesLabel": "Certifikace a záruky",
+    "badges": [
+      "Pojištění odpovědnosti 5 mil. Kč",
+      "Certifikovaní technici",
+      "Písemná záruka",
+      "Doklad a faktura"
+    ]
+  },
+  "services": {
+    "eyebrow": "Co pro vás uděláme",
+    "title": "Služby na míru vaší zakázce",
+    "lead": "Vyberte oblast — na detailu služby najdete rozsah prací, orientační ceník a příklady realizací.",
+    "linkLabel": "Zjistit více",
+    "items": [
+      {
+        "name": "Opravy a údržba",
+        "description": "Rychlé řešení poruch a pravidelná údržba. Přijedeme, najdeme příčinu a opravíme — bez zbytečných výměn.",
+        "icon": "wrench",
+        "priceFrom": "od 900 Kč",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Instalace a montáž",
+        "description": "Odborná montáž nových zařízení včetně dodávky materiálu, revize a zaškolení obsluhy.",
+        "icon": "tool",
+        "priceFrom": "od 4 500 Kč",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Rekonstrukce na klíč",
+        "description": "Kompletní realizace od návrhu po předání. Jeden tým, jeden rozpočet, jeden termín.",
+        "icon": "home",
+        "priceFrom": "od 35 000 Kč",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Havarijní výjezd",
+        "description": "Nonstop výjezd k havárii do 90 minut po Praze. Zajistíme, aby se škoda dál nešířila.",
+        "icon": "zap",
+        "priceFrom": "od 1 500 Kč",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Revize a servis",
+        "description": "Zákonné revize a pravidelné servisní prohlídky s protokolem a připomínkou termínu.",
+        "icon": "shield",
+        "priceFrom": "od 1 200 Kč",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Údržba objektů",
+        "description": "Dlouhodobá správa a údržba pro firmy a SVJ. Jeden dodavatel pro celý objekt.",
+        "icon": "truck",
+        "priceFrom": "dle smlouvy",
+        "href": "/sluzby"
+      }
+    ],
+    "services": []
+  },
+  "process": {
+    "eyebrow": "Jak to probíhá",
+    "title": "Čtyři kroky od poptávky k hotovu",
+    "lead": "Transparentní proces bez skrytých kroků. Vždy víte, co bude následovat a kolik to bude stát.",
+    "steps": [
+      {
+        "title": "Nezávazná poptávka",
+        "description": "Napíšete nám, co potřebujete. Do 24 hodin se ozveme s orientační cenou a nejbližším termínem."
+      },
+      {
+        "title": "Prohlídka a nabídka",
+        "description": "Přijedeme, změříme skutečný stav a připravíme pevnou cenovou nabídku bez pozdějších překvapení."
+      },
+      {
+        "title": "Realizace",
+        "description": "Domluvíme termín a odvedeme práci pořádně. Po sobě uklidíme a odvezeme odpad."
+      },
+      {
+        "title": "Předání a záruka",
+        "description": "Vše společně zkontrolujeme, předáme doklady a poskytneme 5letou záruku na provedené práce."
+      }
+    ],
+    "services": []
+  },
+  "realizace": {
+    "eyebrow": "Realizace",
+    "title": "Vidíte rozdíl — přetáhněte posuvník",
+    "lead": "Reálné zakázky před a po. Táhněte středem obrázku, nebo použijte šipky na klávesnici.",
+    "items": [
+      {
+        "beforeImage": "/templates/proof-01/img/ba1-before.webp",
+        "afterImage": "/templates/proof-01/img/ba1-after.webp",
+        "beforeLabel": "Před",
+        "afterLabel": "Po",
+        "caption": "Kompletní rekonstrukce bytu 3+kk — Praha 6, hotovo za 6 týdnů"
+      },
+      {
+        "beforeImage": "/templates/proof-01/img/ba2-before.webp",
+        "afterImage": "/templates/proof-01/img/ba2-after.webp",
+        "beforeLabel": "V průběhu",
+        "afterLabel": "Po",
+        "caption": "Malování a renovace interiéru — rodinný dům Kladno"
+      },
+      {
+        "beforeImage": "/templates/proof-01/img/ba3-before.webp",
+        "afterImage": "/templates/proof-01/img/ba3-after.webp",
+        "beforeLabel": "Hrubá stavba",
+        "afterLabel": "Po",
+        "caption": "Novostavba na klíč — od hrubé stavby po kuchyň, Průhonice"
+      }
+    ],
+    "images": []
+  },
+  "pricing": {
+    "eyebrow": "Orientační ceník",
+    "title": "Balíčky, které dávají smysl",
+    "lead": "Přehledné ceny předem. Přesnou nabídku připravíme po nezávazné konzultaci a prohlídce.",
+    "note": "Ceny jsou orientační včetně DPH. Finální cena vždy dle konkrétního rozsahu zakázky a stavu na místě.",
+    "tiers": [
+      {
+        "name": "Výjezd a oprava",
+        "price": "od 900 Kč",
+        "unit": "/ zakázka",
+        "description": "Pro drobné opravy a rychlá řešení.",
+        "features": [
+          "Výjezd technika do 24 h",
+          "Diagnostika a cenový odhad na místě",
+          "Běžný spojovací materiál v ceně",
+          "Záruka na provedenou opravu"
+        ],
+        "ctaText": "Objednat výjezd",
+        "ctaHref": "#poptavka",
+        "featured": false
+      },
+      {
+        "name": "Instalace na klíč",
+        "price": "od 4 500 Kč",
+        "unit": "/ zakázka",
+        "description": "Nejčastější volba pro montáže a instalace.",
+        "features": [
+          "Dodávka i montáž na jednom místě",
+          "Revize a protokol",
+          "Odvoz a likvidace obalů",
+          "Zaškolení obsluhy",
+          "Záruka 5 let"
+        ],
+        "ctaText": "Chci nabídku",
+        "ctaHref": "#poptavka",
+        "featured": true
+      },
+      {
+        "name": "Kompletní realizace",
+        "price": "individuálně",
+        "unit": "",
+        "description": "Pro rekonstrukce a projekty na míru.",
+        "features": [
+          "Návrh a rozpočet zdarma",
+          "Jeden tým a jeden termín",
+          "Pevná cena bez víceprací navíc",
+          "Průběžné informování o postupu",
+          "Záruka 5 let a servis"
+        ],
+        "ctaText": "Domluvit konzultaci",
+        "ctaHref": "#poptavka",
+        "featured": false
+      }
+    ],
+    "services": []
+  },
+  "testimonials": {
+    "eyebrow": "Reference",
+    "title": "Co říkají klienti",
+    "lead": "Hodnocení z reálných zakázek — bez úprav.",
+    "testimonials": [
+      {
+        "name": "Jana Procházková",
+        "role": "Praha 6",
+        "rating": 5,
+        "text": "Přijeli přesně na čas, cena seděla na korunu podle nabídky. Konečně firma, která dělá to, co slíbí."
+      },
+      {
+        "name": "Martin Dvořák",
+        "role": "Kladno",
+        "rating": 5,
+        "text": "Havárii vody vyřešili v noci do hodiny. Profesionální přístup a po sobě dokonale uklidili."
+      },
+      {
+        "name": "Petra Nováková",
+        "role": "SVJ Průhonice",
+        "rating": 5,
+        "text": "Rekonstrukci koupelny zvládli za devět dní přesně podle harmonogramu. Doporučuji každému."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Časté dotazy",
+    "title": "Na co se klienti nejčastěji ptají",
+    "lead": "Nenašli jste odpověď? Zavolejte na 704 123 456 nebo napište — ozveme se do 24 hodin.",
+    "items": [
+      {
+        "question": "Je poptávka a cenová nabídka opravdu zdarma?",
+        "answer": "Ano. Nezávazná poptávka, konzultace i příprava cenové nabídky jsou zcela zdarma a k ničemu vás nezavazují. Platíte až za skutečně provedenou práci."
+      },
+      {
+        "question": "Jak rychle přijedete?",
+        "answer": "Na běžnou poptávku reagujeme do 24 hodin. U havárií vyjíždíme nonstop, po Praze zpravidla do 90 minut."
+      },
+      {
+        "question": "Držíte cenu, kterou jste nabídli?",
+        "answer": "Ano. Po prohlídce dáváme pevnou cenu. Vícepráce provádíme pouze po vašem odsouhlasení — nikdy vás nepřekvapí faktura, kterou jste nečekali."
+      },
+      {
+        "question": "Jakou dáváte záruku?",
+        "answer": "Na provedené práce poskytujeme písemnou záruku 5 let. Na dodané zařízení platí záruka výrobce. Jsme pojištěni pro případ škody do 5 milionů Kč."
+      },
+      {
+        "question": "V jaké oblasti pracujete?",
+        "answer": "Působíme v Praze a Středočeském kraji do 40 km. Vzdálenější lokality řešíme individuálně — stačí se zeptat."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Poptávka",
+    "heading": "Řekněte nám, co potřebujete",
+    "subheading": "Ozveme se do 24 hodin s orientační cenou a nejbližším volným termínem. Nezávazně a zdarma.",
+    "phone": "+420 704 123 456",
+    "email": "poptavka@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00, So 9:00–14:00",
+    "areaLabel": "Oblast působnosti",
+    "area": "Praha a Středočeský kraj do 40 km",
+    "formTitle": "Nezávazná poptávka",
+    "nameLabel": "Jméno a příjmení",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-mail",
+    "messageLabel": "Popište, s čím vám můžeme pomoci",
+    "consentLabel": "Souhlasím se zpracováním osobních údajů za účelem vyřízení poptávky.",
+    "submitLabel": "Odeslat poptávku",
+    "successTitle": "Děkujeme, poptávka odešla.",
+    "successBody": "Ozveme se vám do 24 hodin. Pro urgentní zakázky nám rovnou zavolejte na 704 123 456."
+  },
+  "footer": {
+    "siteName": "Ukázka Servis",
+    "logoUrl": "/templates/proof-01/logo.svg",
+    "tagline": "Spolehlivé služby s pevnou cenou a zárukou. Pracujeme po Praze a okolí — od drobných oprav po realizace na klíč.",
+    "email": "poptavka@demo.cz",
+    "phone": "+420 704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "navColTitle": "Navigace",
+    "contactColTitle": "Kontakt",
+    "areaTitle": "Oblast působnosti",
+    "areas": [
+      "Praha 1–10",
+      "Kladno",
+      "Kralupy",
+      "Beroun",
+      "Brandýs",
+      "Říčany",
+      "Průhonice"
+    ],
+    "links": [
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Realizace",
+        "href": "/realizace"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Obchodní podmínky",
+        "href": "#podminky"
+      }
+    ],
+    "socials": [
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/demo",
+        "label": "Facebook"
+      },
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com/demo",
+        "label": "Instagram"
+      }
+    ],
+    "copyright": "© 2026 Ukázka Servis. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby | Ukázka Servis",
+      "seoDescription": "Opravy, montáže i rekonstrukce na klíč. Pevná cena předem, záruka 5 let, výjezd do 24 hodin po Praze a okolí.",
+      "hero": {
+        "title": "Naše služby",
+        "subtitle": "Od drobných oprav po realizace na klíč. Vyberte oblast a podívejte se na rozsah prací a orientační ceník.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "realizace": {
+      "seoTitle": "Realizace | Ukázka Servis",
+      "seoDescription": "Prohlédněte si reálné zakázky před a po. Rekonstrukce, montáže a opravy s garantovanou kvalitou provedení.",
+      "hero": {
+        "title": "Realizace",
+        "subtitle": "Reálné zakázky před a po. Posuvníkem si prohlédněte, jak vypadá práce odvedená pořádně.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "cenik": {
+      "seoTitle": "Ceník | Ukázka Servis",
+      "seoDescription": "Orientační ceník služeb s pevnou cenou předem. Výjezd, instalace na klíč i kompletní realizace.",
+      "hero": {
+        "title": "Ceník",
+        "subtitle": "Přehledné ceny předem. Přesnou nabídku připravíme po nezávazné prohlídce.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás | Ukázka Servis",
+      "seoDescription": "Tým certifikovaných techniků s pevnou cenou, zárukou 5 let a pojištěním. Přes 1 200 dokončených zakázek.",
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Jsme tým, který dělá to, co slíbí. Pevná cena, jasné termíny a garantovaná kvalita — už přes 1 200 zakázek.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Ukázka Servis",
+      "seoDescription": "Ozvěte se — nezávazná poptávka zdarma, reakce do 24 hodin. Praha 1, Ukázková 123. Volejte 704 123 456.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Napište nebo zavolejte. Nezávazná poptávka je zdarma a ozveme se do 24 hodin.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    }
+  }
+}

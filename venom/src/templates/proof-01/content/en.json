@@ -1,0 +1,472 @@
+{
+  "navbar": {
+    "siteName": "Ukázka Servis",
+    "logoUrl": "/templates/proof-01/logo.svg",
+    "phone": "704 123 456",
+    "phoneHref": "tel:+420704123456",
+    "ctaText": "Free quote",
+    "ctaHref": "#poptavka",
+    "mobileCtaCallLabel": "Call",
+    "mobileCtaCallHref": "tel:+420704123456",
+    "mobileCtaLeadLabel": "Get quote",
+    "mobileCtaLeadHref": "#poptavka",
+    "links": [
+      {
+        "label": "Services",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Our work",
+        "href": "/realizace"
+      },
+      {
+        "label": "Pricing",
+        "href": "/cenik"
+      },
+      {
+        "label": "About",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Contact",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "eyebrow": "Service you can rely on",
+    "title": "Fixed right the first time —",
+    "subtitle": "From a free quote to the finished job. Fixed price up front, clear deadlines and guaranteed workmanship. We come over, advise you and do it properly.",
+    "ctaText": "Get a free quote",
+    "ctaHref": "#poptavka",
+    "ctaSecondaryText": "Call: 704 123 456",
+    "ctaSecondaryHref": "tel:+420704123456",
+    "bgImage": "",
+    "trust": [
+      "Fixed price up front",
+      "5-year warranty",
+      "Rated 4.9 / 5"
+    ],
+    "selectorTitle": "Estimate your price",
+    "selectorSubtitle": "Pick a service and scope — you'll see the price range instantly.",
+    "selectorScopeLbl": "Job size",
+    "estimateLabel": "Estimated price",
+    "selectorCtaText": "Get an exact quote",
+    "selectorCtaHref": "#poptavka",
+    "services": [
+      {
+        "label": "Minor repair",
+        "from": 900,
+        "to": 2500,
+        "unit": "job",
+        "note": "Technician within 24 h, common repairs and maintenance."
+      },
+      {
+        "label": "Installation / assembly",
+        "from": 4500,
+        "to": 18000,
+        "unit": "job",
+        "note": "Supply and professional installation, materials included."
+      },
+      {
+        "label": "Full turnkey project",
+        "from": 35000,
+        "to": 220000,
+        "unit": "project",
+        "note": "Design, delivery and handover with warranty."
+      }
+    ],
+    "scopes": [
+      {
+        "label": "Small",
+        "mult": 0.7
+      },
+      {
+        "label": "Medium",
+        "mult": 1
+      },
+      {
+        "label": "Large",
+        "mult": 1.6
+      }
+    ],
+    "titleAccent": "no delays, no surprises."
+  },
+  "stats": {
+    "items": [
+      {
+        "value": "1 200+",
+        "label": "completed jobs"
+      },
+      {
+        "value": "4,9 / 5",
+        "label": "average client rating"
+      },
+      {
+        "value": "24 h",
+        "label": "response to every enquiry"
+      },
+      {
+        "value": "5 let",
+        "label": "warranty on workmanship"
+      }
+    ],
+    "badgesLabel": "Certifications & guarantees",
+    "badges": [
+      "Liability insurance CZK 5M",
+      "Certified technicians",
+      "Written warranty",
+      "Invoice & receipt"
+    ]
+  },
+  "services": {
+    "eyebrow": "What we do",
+    "title": "Services tailored to your job",
+    "lead": "Pick an area — each service page lists the scope of work, indicative pricing and examples.",
+    "linkLabel": "Learn more",
+    "items": [
+      {
+        "name": "Repairs & maintenance",
+        "description": "Fast fault fixing and regular maintenance. We find the cause and repair it — no needless replacements.",
+        "icon": "wrench",
+        "priceFrom": "from CZK 900",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Installation & assembly",
+        "description": "Professional installation of new equipment including materials, inspection and training.",
+        "icon": "tool",
+        "priceFrom": "from CZK 4,500",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Turnkey renovations",
+        "description": "Complete delivery from design to handover. One team, one budget, one deadline.",
+        "icon": "home",
+        "priceFrom": "from CZK 35,000",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Emergency call-out",
+        "description": "24/7 emergency response within 90 minutes across Prague. We stop the damage from spreading.",
+        "icon": "zap",
+        "priceFrom": "from CZK 1,500",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Inspections & servicing",
+        "description": "Statutory inspections and regular service visits with a report and deadline reminders.",
+        "icon": "shield",
+        "priceFrom": "from CZK 1,200",
+        "href": "/sluzby"
+      },
+      {
+        "name": "Property maintenance",
+        "description": "Long-term facility care for companies and housing associations. One supplier for the whole building.",
+        "icon": "truck",
+        "priceFrom": "by contract",
+        "href": "/sluzby"
+      }
+    ],
+    "services": []
+  },
+  "process": {
+    "eyebrow": "How it works",
+    "title": "Four steps from enquiry to done",
+    "lead": "A transparent process with no hidden steps. You always know what comes next and what it costs.",
+    "steps": [
+      {
+        "title": "Free enquiry",
+        "description": "Tell us what you need. We reply within 24 hours with an estimate and the earliest date."
+      },
+      {
+        "title": "Site visit & quote",
+        "description": "We measure the real state on site and prepare a fixed quote with no surprises later."
+      },
+      {
+        "title": "The work",
+        "description": "We agree a date and do the job properly. We clean up after ourselves and haul away the waste."
+      },
+      {
+        "title": "Handover & warranty",
+        "description": "We inspect everything together, hand over the documents and give you a 5-year warranty."
+      }
+    ],
+    "services": []
+  },
+  "realizace": {
+    "eyebrow": "Our work",
+    "title": "See the difference — drag the slider",
+    "lead": "Real projects before and after. Drag the middle of the image or use the arrow keys.",
+    "items": [
+      {
+        "beforeImage": "/templates/proof-01/img/ba1-before.webp",
+        "afterImage": "/templates/proof-01/img/ba1-after.webp",
+        "beforeLabel": "Before",
+        "afterLabel": "After",
+        "caption": "Complete apartment renovation — Prague 6, done in 6 weeks"
+      },
+      {
+        "beforeImage": "/templates/proof-01/img/ba2-before.webp",
+        "afterImage": "/templates/proof-01/img/ba2-after.webp",
+        "beforeLabel": "In progress",
+        "afterLabel": "After",
+        "caption": "Painting and interior renovation — family house, Kladno"
+      },
+      {
+        "beforeImage": "/templates/proof-01/img/ba3-before.webp",
+        "afterImage": "/templates/proof-01/img/ba3-after.webp",
+        "beforeLabel": "Before",
+        "afterLabel": "After",
+        "caption": "Turnkey new build — from shell to finished kitchen, Průhonice"
+      }
+    ],
+    "images": []
+  },
+  "pricing": {
+    "eyebrow": "Indicative pricing",
+    "title": "Packages that make sense",
+    "lead": "Clear prices up front. We prepare an exact quote after a free consultation and site visit.",
+    "note": "Prices are indicative, VAT included. The final price always reflects the actual scope on site.",
+    "tiers": [
+      {
+        "name": "Call-out & repair",
+        "price": "from CZK 900",
+        "unit": "/ job",
+        "description": "For small repairs and quick fixes.",
+        "features": [
+          "Technician within 24 h",
+          "Diagnosis and estimate on site",
+          "Common fixings included",
+          "Warranty on the repair"
+        ],
+        "ctaText": "Book a call-out",
+        "ctaHref": "#poptavka",
+        "featured": false
+      },
+      {
+        "name": "Turnkey installation",
+        "price": "from CZK 4,500",
+        "unit": "/ job",
+        "description": "The most popular choice for installations.",
+        "features": [
+          "Supply and installation in one place",
+          "Inspection report",
+          "Packaging removal and disposal",
+          "Operator training",
+          "5-year warranty"
+        ],
+        "ctaText": "Get a quote",
+        "ctaHref": "#poptavka",
+        "featured": true
+      },
+      {
+        "name": "Full renovation",
+        "price": "custom",
+        "unit": "",
+        "description": "For renovations and bespoke projects.",
+        "features": [
+          "Free design and budget",
+          "One team, one deadline",
+          "Fixed price, no surprise extras",
+          "Regular progress updates",
+          "5-year warranty and servicing"
+        ],
+        "ctaText": "Book a consultation",
+        "ctaHref": "#poptavka",
+        "featured": false
+      }
+    ],
+    "services": []
+  },
+  "testimonials": {
+    "eyebrow": "References",
+    "title": "What clients say",
+    "lead": "Ratings from real jobs — unedited.",
+    "testimonials": [
+      {
+        "text": "They arrived exactly on time and the price matched the quote to the crown. Finally a company that does what it promises.",
+        "name": "Jana Procházková",
+        "role": "Prague 6",
+        "rating": 5
+      },
+      {
+        "text": "They fixed a water leak at night within the hour. Professional approach — and they cleaned up perfectly.",
+        "name": "Martin Dvořák",
+        "role": "Kladno",
+        "rating": 5
+      },
+      {
+        "text": "The bathroom renovation took nine days, exactly to schedule. I recommend them to everyone.",
+        "name": "Petra Nováková",
+        "role": "HOA Průhonice",
+        "rating": 5
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "What clients ask most often",
+    "lead": "Can't find your answer? Call 704 123 456 or write to us — we reply within 24 hours.",
+    "items": [
+      {
+        "question": "Is the enquiry and quote really free?",
+        "answer": "Yes. The enquiry, consultation and quote are completely free and non-binding. You only pay for work actually done."
+      },
+      {
+        "question": "How fast can you come?",
+        "answer": "We respond to standard enquiries within 24 hours. For emergencies we operate 24/7 — usually within 90 minutes across Prague."
+      },
+      {
+        "question": "Do you honour the quoted price?",
+        "answer": "Yes. After the site visit the price is fixed. Extra work only happens with your approval — you will never be surprised by an invoice."
+      },
+      {
+        "question": "What warranty do you give?",
+        "answer": "We provide a written 5-year warranty on workmanship. Equipment carries the manufacturer's warranty. We are insured up to CZK 5 million."
+      },
+      {
+        "question": "Which area do you cover?",
+        "answer": "We work in Prague and the Central Bohemia region up to 40 km. More distant locations are handled individually — just ask."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Enquiry",
+    "heading": "Tell us what you need",
+    "subheading": "We reply within 24 hours with an estimate and the earliest available date. Free and non-binding.",
+    "phone": "+420 704 123 456",
+    "email": "poptavka@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Mon–Fri 8:00–18:00, Sat 9:00–14:00",
+    "areaLabel": "Service area",
+    "area": "Prague and Central Bohemia up to 40 km",
+    "formTitle": "Free enquiry",
+    "nameLabel": "Full name",
+    "phoneLabel": "Phone",
+    "emailLabel": "E-mail",
+    "messageLabel": "Describe what we can help you with",
+    "consentLabel": "I agree to the processing of my personal data for the purpose of handling this enquiry.",
+    "submitLabel": "Send enquiry",
+    "successTitle": "Thank you, your enquiry is on its way.",
+    "successBody": "We will get back to you within 24 hours. For urgent jobs, call us directly on 704 123 456."
+  },
+  "footer": {
+    "siteName": "Ukázka Servis",
+    "logoUrl": "/templates/proof-01/logo.svg",
+    "tagline": "Reliable services with a fixed price and warranty. We work across Prague and the surroundings — from small repairs to turnkey projects.",
+    "email": "poptavka@demo.cz",
+    "phone": "+420 704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "navColTitle": "Navigation",
+    "contactColTitle": "Contact",
+    "areaTitle": "Service area",
+    "areas": [
+      "Praha 1–10",
+      "Kladno",
+      "Kralupy",
+      "Beroun",
+      "Brandýs",
+      "Říčany",
+      "Průhonice"
+    ],
+    "links": [
+      {
+        "label": "Services",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Our work",
+        "href": "/realizace"
+      },
+      {
+        "label": "Pricing",
+        "href": "/cenik"
+      },
+      {
+        "label": "About",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Contact",
+        "href": "/kontakt"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Privacy policy",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Terms & conditions",
+        "href": "#podminky"
+      }
+    ],
+    "socials": [
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/demo",
+        "label": "Facebook"
+      },
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com/demo",
+        "label": "Instagram"
+      }
+    ],
+    "copyright": "© 2026 Ukázka Servis. All rights reserved."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Services | Ukázka Servis",
+      "seoDescription": "From small repairs to turnkey projects. Pick an area and see the scope of work and indicative pricing.",
+      "hero": {
+        "title": "Services",
+        "subtitle": "From small repairs to turnkey projects. Pick an area and see the scope of work and indicative pricing.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "realizace": {
+      "seoTitle": "Our work | Ukázka Servis",
+      "seoDescription": "Real projects before and after. Use the slider to see what a job done properly looks like.",
+      "hero": {
+        "title": "Our work",
+        "subtitle": "Real projects before and after. Use the slider to see what a job done properly looks like.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "cenik": {
+      "seoTitle": "Pricing | Ukázka Servis",
+      "seoDescription": "Clear prices up front. We prepare an exact quote after a free site visit.",
+      "hero": {
+        "title": "Pricing",
+        "subtitle": "Clear prices up front. We prepare an exact quote after a free site visit.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "o-nas": {
+      "seoTitle": "About us | Ukázka Servis",
+      "seoDescription": "We are a team that does what it promises. Fixed price, clear deadlines and guaranteed quality — over 1,200 jobs.",
+      "hero": {
+        "title": "About us",
+        "subtitle": "We are a team that does what it promises. Fixed price, clear deadlines and guaranteed quality — over 1,200 jobs.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Contact | Ukázka Servis",
+      "seoDescription": "Write or call. The enquiry is free and we reply within 24 hours.",
+      "hero": {
+        "title": "Contact",
+        "subtitle": "Write or call. The enquiry is free and we reply within 24 hours.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    }
+  }
+}
