@@ -24502,9 +24502,29 @@ const ES03_SEARCH_THEME = {
 // ──────────────────────────────────────────────────────────────────────────────
 type Es03NavCategory = { label: string; slug: string; children?: Array<{ label: string; slug: string }> };
 
+const ES03_MEGA_THEME = {
+  "--wmm-font": "'Nunito', 'Segoe UI', Arial, sans-serif",
+  "--wmm-accent": "#b58a00",
+  "--wmm-accent-dark": "#8a6d00",
+  "--wmm-accent-soft": "rgba(255,197,0,0.16)",
+  "--wmm-underline": "#FFC500",
+  "--wmm-bar-h": "56px",
+  "--wmm-bar-fg": "#000000",
+  "--wmm-bar-hover-fg": "#000000",
+  "--wmm-item-size": "16px",
+  "--wmm-item-weight": "700",
+  "--wmm-underline-h": "2px",
+  "--wmm-radius": "0px",
+  "--wmm-radius-lg": "0px",
+  "--wmm-radius-sm": "0px",
+  "--wmm-img-radius": "0px",
+  "--wmm-btn-radius": "0px",
+  "--wmm-panel-border-top": "2px solid #FFC500",
+  "--wmm-shadow": "0 14px 40px rgba(0,0,0,0.12)",
+} as React.CSSProperties;
+
 function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openCat, setOpenCat] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
@@ -24648,77 +24668,38 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         </div>
 
-        {/* Navigace — bílá lišta s dropdowny */}
-        <nav className="hidden md:block" style={{ borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, background: "#fff" }} onMouseLeave={() => setOpenCat(null)}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 56 }}>
-            <div style={{ display: "flex", alignItems: "center", flex: 1, overflow: "visible" }}>
-              {categories.map((cat, ci) => {
-                const kids = cat.children ?? [];
-                const isOpen = openCat === cat.slug;
-                return (
-                  <div key={cat.slug ?? cat.label} style={{ position: "relative", alignSelf: "stretch", display: "flex" }}
-                    onMouseEnter={() => setOpenCat(kids.length ? cat.slug : null)}>
-                    <a href={catHref(cat.slug)} className="es03-menu-link" style={{
-                      display: "flex", alignItems: "center", gap: 7,
-                      padding: ci === 0 ? "0 16px 0 0" : "0 16px", height: 56,
-                      fontFamily: SANS, fontSize: 16, fontWeight: 700, color: BLACK,
+        {/* Navigace — jednotné megamenu (StorefrontMegaMenu, mode=bar) */}
+        <nav className="hidden md:block" style={{ borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, background: "#fff" }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+            <StorefrontMegaMenu
+              categories={categories}
+              extras={(content as Record<string, unknown>).__megamenu}
+              mode="bar"
+              allLabel="Vše z kategorie"
+              theme={ES03_MEGA_THEME}
+              resolveHref={resolve}
+              trailing={
+                <>
+                  {highlightLinks.map((lk, i) => (
+                    <a key={`hl${i}`} href={catHref(lk.slug)} className="es03-menu-link" style={{
+                      display: "flex", alignItems: "center", padding: "0 16px", height: 56,
+                      fontFamily: SANS, fontSize: 16, fontWeight: 800,
+                      color: lk.tone === "accent" ? SALE : BLACK,
                       textDecoration: "none", whiteSpace: "nowrap",
                     }}>
-                      <span>{cat.label}</span>
-                      {kids.length > 0 && (
-                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none" }}>
-                          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      )}
+                      <span>{lk.label}</span>
                     </a>
-                    {isOpen && kids.length > 0 && (
-                      <div className="es03-dd-enter" style={{
-                        position: "absolute", top: "100%", left: ci === 0 ? -16 : 0, zIndex: 200,
-                        background: "#fff", border: `1px solid ${BORDER}`,
-                        boxShadow: "0 14px 40px rgba(0,0,0,0.12)",
-                        padding: "10px 0", minWidth: 250,
-                      }}>
-                        {kids.map((k) => (
-                          <a key={k.slug} href={catHref(k.slug)} style={{
-                            display: "block", padding: "9px 22px",
-                            fontFamily: SANS, fontSize: 15, fontWeight: 600, color: TEXT,
-                            textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.12s",
-                          }}
-                          onMouseEnter={(e) => (e.currentTarget.style.background = "#f6f6f6")}
-                          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                          >{k.label}</a>
-                        ))}
-                        <a href={catHref(cat.slug)} style={{
-                          display: "block", padding: "11px 22px 5px", marginTop: 6,
-                          borderTop: `1px solid ${BORDER}`,
-                          fontFamily: SANS, fontSize: 14, fontWeight: 800, color: BLACK,
-                          textDecoration: "underline", textUnderlineOffset: 3,
-                        }}>Vše z kategorie</a>
-                      </div>
-                    )}
+                  ))}
+                  <div className="hidden lg:flex" style={{ alignItems: "center", gap: 20, marginLeft: "auto", flexShrink: 0 }}>
+                    {topLinks.map((lk, i) => (
+                      <a key={i} href={resolve(lk.href)} className="es03-hd-link" style={{
+                        fontFamily: SANS, fontSize: 14, fontWeight: 600, color: MUTED, textDecoration: "none", whiteSpace: "nowrap",
+                      }}>{lk.label}</a>
+                    ))}
                   </div>
-                );
-              })}
-              {highlightLinks.map((lk, i) => (
-                <a key={`hl${i}`} href={catHref(lk.slug)} className="es03-menu-link" style={{
-                  display: "flex", alignItems: "center", padding: "0 16px", height: 56,
-                  fontFamily: SANS, fontSize: 16, fontWeight: 800,
-                  color: lk.tone === "accent" ? SALE : BLACK,
-                  textDecoration: "none", whiteSpace: "nowrap",
-                }}>
-                  <span>{lk.label}</span>
-                </a>
-              ))}
-            </div>
-
-            {/* Servisní odkazy vpravo */}
-            <div className="hidden lg:flex" style={{ alignItems: "center", gap: 20, marginLeft: "auto", flexShrink: 0 }}>
-              {topLinks.map((lk, i) => (
-                <a key={i} href={resolve(lk.href)} className="es03-hd-link" style={{
-                  fontFamily: SANS, fontSize: 14, fontWeight: 600, color: MUTED, textDecoration: "none", whiteSpace: "nowrap",
-                }}>{lk.label}</a>
-              ))}
-            </div>
+                </>
+              }
+            />
           </div>
         </nav>
       </header>
@@ -24801,6 +24782,26 @@ const ES04_SEARCH_THEME = {
 // vpravo (hledání rozbalí řádek s modulem SearchAutocomplete). Pod tím menu
 // lišta s dropdowny — hover = lososové #FDBCB4 pozadí přesně dle Samby.
 // ──────────────────────────────────────────────────────────────────────────────
+const ES04_MEGA_THEME = {
+  "--wmm-font": "'Raleway', 'Segoe UI', Arial, sans-serif",
+  "--wmm-accent": "#6883ba",
+  "--wmm-accent-dark": "#566fa3",
+  "--wmm-accent-soft": "rgba(253,188,180,0.28)",
+  "--wmm-underline": "#fdbcb4",
+  "--wmm-underline-h": "2px",
+  "--wmm-bar-h": "52px",
+  "--wmm-bar-fg": "#161616",
+  "--wmm-bar-hover-fg": "#161616",
+  "--wmm-bar-justify": "center",
+  "--wmm-item-size": "14.5px",
+  "--wmm-item-weight": "600",
+  "--wmm-item-px": "20px",
+  "--wmm-item-tt": "uppercase",
+  "--wmm-item-ls": "0.05em",
+  "--wmm-shadow": "0 18px 44px rgba(22,22,22,0.14)",
+  "--wmm-radius-lg": "0 0 10px 10px",
+} as React.CSSProperties;
+
 function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -24821,7 +24822,6 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
     }
     setSearchOpen(true);
   };
-  const [openCat, setOpenCat] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
@@ -25011,53 +25011,31 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         )}
 
-        {/* Menu lišta — lososový hover dle Samby */}
-        <nav className="hidden md:block" style={{ background: "#fff" }} onMouseLeave={() => setOpenCat(null)}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "center", height: 52, flexWrap: "wrap" }}>
-            {categories.map((cat) => {
-              const kids = cat.children ?? [];
-              const isOpen = openCat === cat.slug;
-              return (
-                <div key={cat.slug ?? cat.label} style={{ position: "relative", alignSelf: "stretch", display: "flex" }}
-                  onMouseEnter={() => setOpenCat(kids.length ? cat.slug : null)}>
-                  <a href={catHref(cat.slug)} className="es04-menu-link" style={{
-                    display: "flex", alignItems: "center",
-                    padding: "0 20px", height: 52,
-                    fontFamily: SANS, fontSize: 14.5, fontWeight: 600, color: INK,
-                    textTransform: "uppercase", letterSpacing: "0.05em",
-                    textDecoration: "none", whiteSpace: "nowrap",
-                  }}>
-                    <span>{cat.label}</span>
-                  </a>
-                  {isOpen && kids.length > 0 && (
-                    <div className="es04-dd-enter" style={{
-                      position: "absolute", top: "100%", left: 0, zIndex: 200,
-                      background: "#fff", borderRadius: "0 0 10px 10px",
-                      boxShadow: "0 18px 44px rgba(22,22,22,0.14)",
-                      padding: "8px 0", minWidth: 230, overflow: "hidden",
+        {/* Menu lišta — jednotné megamenu (StorefrontMegaMenu, mode=bar, centrované) */}
+        <nav className="hidden md:block" style={{ background: "#fff" }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+            <StorefrontMegaMenu
+              categories={categories}
+              extras={(content as Record<string, unknown>).__megamenu}
+              mode="bar"
+              allLabel="Vše z kategorie"
+              theme={ES04_MEGA_THEME}
+              resolveHref={resolve}
+              trailing={
+                <>
+                  {links.map((lk, i) => (
+                    <a key={`ln${i}`} href={resolve(lk.href)} className="es04-menu-link" style={{
+                      display: "flex", alignItems: "center", padding: "0 20px", height: 52,
+                      fontFamily: SANS, fontSize: 14.5, fontWeight: 600, color: INK,
+                      textTransform: "uppercase", letterSpacing: "0.05em",
+                      textDecoration: "none", whiteSpace: "nowrap",
                     }}>
-                      {kids.map((k) => (
-                        <a key={k.slug} href={catHref(k.slug)} className="es04-menu-link" style={{
-                          display: "block", padding: "9px 20px",
-                          fontFamily: SANS, fontSize: 13.5, fontWeight: 500, color: INK,
-                          textDecoration: "none", whiteSpace: "nowrap",
-                        }}>{k.label}</a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-            {links.map((lk, i) => (
-              <a key={`ln${i}`} href={resolve(lk.href)} className="es04-menu-link" style={{
-                display: "flex", alignItems: "center", padding: "0 20px", height: 52,
-                fontFamily: SANS, fontSize: 14.5, fontWeight: 600, color: INK,
-                textTransform: "uppercase", letterSpacing: "0.05em",
-                textDecoration: "none", whiteSpace: "nowrap",
-              }}>
-                <span>{lk.label}</span>
-              </a>
-            ))}
+                      <span>{lk.label}</span>
+                    </a>
+                  ))}
+                </>
+              }
+            />
           </div>
         </nav>
       </header>

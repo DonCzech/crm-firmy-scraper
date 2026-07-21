@@ -4,9 +4,9 @@
   "name": "Klempířství Hruška",
   "industry": "klempir",
   "skeleton": "b2b-trade",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "baseTemplate": null,
-  "description": "Klempíř & Pokrývač — solo řemeslník. Transparentní→bílý sticky navbar, video/foto hero 100vh, O mně 2-col (foto+stats), 9 služeb 3-col grid, galerie projektů, sekce historické opravy, recenze 3 karty, kontakt info+form, footer. Inspirováno klempirzprahy.cz. Metalická stříbrná #c0c0c0 + tmavé #3a3a3a, Montserrat.",
+  "description": "Klempíř & pokrývač — solo řemeslník, Brno. Copper & Slate design systém: teplý paper #F5F3EF, slate ink #14171A, měděný akcent #B4622D, Fraunces serif + Manrope, radius 4-6px, hairline dělítka. Full-bleed foto hero (historické střechy) s trust chipy, editorial about se stats mřížkou, 3 featured foto služby + číslované řádky, projektové karty, tmavá historická sekce s badge památkářů, copper recenze s iniciálami, slate kontakt panel + formulář s reálným odesláním, slate footer s Webero creditem. Sticky mobilní CTA lišta.",
   "sectionOrderNote": "Navbar → Hero → About → Services → Gallery → Historical → Testimonials → Contact → Footer",
   "skippedSections": [
     {
@@ -39,6 +39,10 @@
     {
       "type": "promo",
       "reason": "Historické opravy — výrazná promo sekce o specializaci na historické střechy a klempířské prvky"
+    },
+    {
+      "type": "contact",
+      "reason": "Konverzní sekce s reálným formulářem (POST /api/demo/:slug/contact) — klíčová pro poptávky solo řemeslníka"
     }
   ],
   "i18n": {
@@ -113,8 +117,8 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
-          "contentRef": "pages.sluzby.hero"
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroSluzby"
         },
         {
           "type": "services",
@@ -146,8 +150,8 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
-          "contentRef": "pages.reference.hero"
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroReference"
         },
         {
           "type": "gallery",
@@ -178,9 +182,118 @@
           "contentRef": "navbar"
         },
         {
+          "type": "hero",
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroKontakt"
+        },
+        {
           "type": "contact",
           "variant": "klempir-01-contact",
           "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "klempir-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-mne",
+      "title": "O mně",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klempir-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroOmne"
+        },
+        {
+          "type": "about",
+          "variant": "klempir-01-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "footer",
+          "variant": "klempir-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "title": "Galerie",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klempir-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroGalerie"
+        },
+        {
+          "type": "gallery",
+          "variant": "klempir-01-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "klempir-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "historicke",
+      "title": "Historické opravy",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klempir-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroHistoricke"
+        },
+        {
+          "type": "promo",
+          "variant": "klempir-01-historical",
+          "contentRef": "historical"
+        },
+        {
+          "type": "footer",
+          "variant": "klempir-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "recenze",
+      "title": "Recenze",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "klempir-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-klempir-01-page",
+          "contentRef": "heroRecenze"
+        },
+        {
+          "type": "testimonials",
+          "variant": "klempir-01-testimonials",
+          "contentRef": "testimonials"
         },
         {
           "type": "footer",
@@ -192,5 +305,8 @@
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "tags": [
+    "v3"
+  ]
 }

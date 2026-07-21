@@ -4,7 +4,7 @@
   "name": "Modrá vlna",
   "industry": "clean",
   "skeleton": "b2b-trade",
-  "version": "0.2.0",
+  "version": "3.0.0",
   "baseTemplate": null,
   "description": "Úklidová firma Praha — firemní a SVJ úklid. Arctic Editorial design systém: paper #F4F6F9 canvas, ink #0B1526, jediný akcent #1B5BFF, hairline bordery, žádné gradienty. Blur sticky navbar se sticky mobilní CTA lištou, split hero s foto kartou a trust rowem, textový wordmark trust-strip, výhody bez karet s indexy, 3×2 services karty s foto, editorial about s quote kartou, press list, ink proces timeline, Google reference karty, ink kontakt panel + formulář s reálným odesláním, ink footer s Webero creditem. Bricolage Grotesque + Onest.",
   "sectionOrderNote": "Navbar → Hero → Stats → Promo → Services → About → Blog → CTA → Testimonials → Contact → Footer",
@@ -298,5 +298,8 @@
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "tags": [
+    "v3"
+  ]
 }

@@ -1,27 +1,68 @@
 {
   "colors": {
-    "primary":    "#3a3a3a",
-    "secondary":  "#505050",
-    "background": "#ffffff",
-    "surface":    "#f5f5f5",
-    "text":       "#1a1a1a",
-    "textMuted":  "#717171",
-    "accent":     "#c0c0c0",
-    "border":     "#e0e0e0"
+    "primary": "#B4622D",
+    "secondary": "#14171A",
+    "background": "#F5F3EF",
+    "surface": "#FFFFFF",
+    "text": "#191C1F",
+    "textMuted": "#6B6F73",
+    "accent": "#8F4A1E",
+    "border": "#E4E0D8"
   },
   "typography": {
-    "fontHeading": "'Montserrat', sans-serif",
-    "fontBody":    "'Montserrat', sans-serif",
-    "scale":       "comfortable"
+    "fontHeading": "'Fraunces', serif",
+    "fontBody": "'Manrope', sans-serif",
+    "scale": "comfortable"
   },
   "radius": {
-    "sm":   "4px",
-    "md":   "6px",
-    "lg":   "10px",
-    "pill": "50px"
+    "sm": "4px",
+    "md": "6px",
+    "lg": "10px",
+    "pill": "9999px"
   },
   "spacing": {
     "personality": "normal",
-    "section":     "comfortable"
+    "section": "comfortable"
+  },
+  "presets": {
+    "copper": {
+      "label": "Copper — řemeslná klasika (default)",
+      "tokens": {
+        "colorPrimary": "#B4622D",
+        "colorAccent": "#8F4A1E",
+        "colorSecondary": "#14171A",
+        "colorBackground": "#F5F3EF",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#191C1F",
+        "colorTextMuted": "#6B6F73",
+        "colorBorder": "#E4E0D8"
+      }
+    },
+    "zinc": {
+      "label": "Zinc — moderní technický vzhled",
+      "tokens": {
+        "colorPrimary": "#4A6472",
+        "colorAccent": "#37505D",
+        "colorSecondary": "#161A1D",
+        "colorBackground": "#F2F4F5",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#161A1D",
+        "colorTextMuted": "#64707A",
+        "colorBorder": "#DFE4E7"
+      }
+    },
+    "forge": {
+      "label": "Forge — tmavá kovárna s jantarem",
+      "tokens": {
+        "colorPrimary": "#C98F2C",
+        "colorAccent": "#A97821",
+        "colorSecondary": "#101214",
+        "colorBackground": "#F5F4F1",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#15181E",
+        "colorTextMuted": "#67707E",
+        "colorBorder": "#E6E4DF"
+      }
+    }
   }
 }
