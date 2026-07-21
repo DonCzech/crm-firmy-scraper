@@ -37,6 +37,7 @@ export const DESIGN_TREE: DesignGroup[] = [
   {
     label: "OBECNÉ",
     items: [
+      { id: "vzhled.mood", label: "Vzhled šablony — mood presety", panel: P.MoodPresetyPanel, prefixes: ["colorPrimary", "colorSecondary", "colorAccent", "colorBackground", "colorSurface", "colorText", "colorTextMuted", "colorBorder"] },
       {
         id: "hlavicka", label: "Hlavička", children: [
           { id: "hlavicka.obecne",   label: "Obecné",                     panel: P.HlavickaObecne,             prefixes: ["header.", "mobileMenu."] },

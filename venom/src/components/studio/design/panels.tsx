@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BorderField, BreakpointTabs, ColorField, PadField, SelectField, ShadowField, SliderField, SubGroup, TextField, ToggleField, type Bp } from "./controls";
 import { useDesignTokens } from "./DesignTokensContext";
 
@@ -883,5 +883,62 @@ export function OstatniVideo() {
       <ColorField  label="Pozadí"      tokenKey="video.playBtn.bg" defaultValue="rgba(0,0,0,0.6)" />
       <SliderField label="Velikost"    tokenKey="video.playBtn.size" min={24} max={120} defaultValue={50} />
     </SubGroup>
+  );
+}
+
+// ── Mood presety šablony ──────────────────────────────────────────────────────
+// Načte pojmenované sady brand tokenů z theme.json šablony a aplikuje je přes
+// design-tokens store — živý náhled + draft/commit + persistence beze změn.
+export function MoodPresetyPanel() {
+  const { set, tokens } = useDesignTokens();
+  const [presets, setPresets] = useState<Record<string, { label: string; tokens: Record<string, string> }>>({});
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const m = window.location.pathname.match(/\/demo\/([^/]+)\//);
+    const slug = m?.[1];
+    if (!slug) { setLoaded(true); return; }
+    fetch(`/api/demo/${slug}/theme-presets`, { cache: "no-store" })
+      .then(r => r.json())
+      .then(j => setPresets(j.presets ?? {}))
+      .catch(() => {})
+      .finally(() => setLoaded(true));
+  }, []);
+  const names = Object.keys(presets);
+  const activeName = names.find(n => presets[n].tokens.colorPrimary === tokens.colorPrimary);
+  if (!loaded) return <div style={{ padding: 12, fontSize: 12, opacity: .7 }}>Načítám presety…</div>;
+  if (!names.length) return <div style={{ padding: 12, fontSize: 12, opacity: .7 }}>Šablona nemá definované mood presety.</div>;
+  return (
+    <div style={{ display: "grid", gap: 8, padding: 4 }}>
+      {names.map(n => {
+        const pr = presets[n];
+        const dots = [pr.tokens.colorPrimary, pr.tokens.colorSecondary, pr.tokens.colorBackground].filter(Boolean);
+        const active = n === activeName;
+        return (
+          <button
+            key={n}
+            type="button"
+            onClick={() => set(pr.tokens)}
+            style={{
+              display: "flex", alignItems: "center", gap: 10, width: "100%", textAlign: "left",
+              padding: "10px 12px", borderRadius: 8, cursor: "pointer",
+              border: `1px solid ${active ? "var(--vs-accent, #d4d4d8)" : "var(--vs-border-strong, #2d3048)"}`,
+              background: active ? "var(--vs-accent-bg, rgba(212,212,216,.13))" : "var(--vs-surface-2, #1f2131)",
+              color: "var(--vs-text, #f5f5f9)", fontSize: 12.5, fontWeight: 600,
+            }}
+          >
+            <span style={{ display: "inline-flex", gap: 4 }}>
+              {dots.map((c, i) => (
+                <span key={i} style={{ width: 14, height: 14, borderRadius: "50%", background: c, border: "1px solid rgba(255,255,255,.25)" }} />
+              ))}
+            </span>
+            <span style={{ flex: 1 }}>{pr.label}</span>
+            {active && <span style={{ fontSize: 10, opacity: .8 }}>aktivní</span>}
+          </button>
+        );
+      })}
+      <p style={{ margin: "4px 2px 0", fontSize: 11, lineHeight: 1.45, color: "var(--vs-text-muted, #8b8d9e)" }}>
+        Preset koordinovaně přepne barvy celé šablony. Změny potvrdíte tlačítkem Uložit, Esc je vrátí.
+      </p>
+    </div>
   );
 }

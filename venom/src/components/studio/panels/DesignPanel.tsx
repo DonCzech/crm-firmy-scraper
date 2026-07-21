@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown, ChevronRight, RotateCcw } from "@/components/studio/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DESIGN_TREE } from "../design/registry";
 import { DesignPopup } from "../design/DesignPopup";
 import { DesignTokensProvider, useDesignTokens } from "../design/DesignTokensContext";
@@ -27,6 +27,7 @@ export function DesignPanel({ state }: { state: StudioState }) {
     <DesignTokensProvider state={state}>
       <div className="vs-enter flex h-full flex-col">
         <div className="flex-1 overflow-y-auto vs-scroll">
+        <MoodPresetSwitcher tenantSlug={state.tenant.slug} />
         {DESIGN_TREE.map(group => (
           <div key={group.label} className="pt-4 pb-1">
             <div className="px-4 pb-1.5 text-[10px] font-bold tracking-[0.10em] text-[var(--vs-text-dim)] uppercase">
@@ -93,6 +94,102 @@ export function DesignPanel({ state }: { state: StudioState }) {
       </div>
       <DesignPopup openId={openId} onClose={() => setOpenId(null)} />
     </DesignTokensProvider>
+  );
+}
+
+interface MoodPreset {
+  key: string;
+  label: string;
+  description?: string;
+  tokens: Record<string, string | number | boolean>;
+}
+
+/**
+ * Mood preset switcher — V3 engine capability. Šablona deklaruje presety
+ * v template.json (`moodPresets`); jeden klik koordinovaně přepne celou sadu
+ * design tokenů přes existující designTokens pipeline. Struktura i obsah
+ * webu zůstávají beze změny, takže je akce bezpečná a vratná (další preset
+ * nebo „Resetovat celý design").
+ */
+function MoodPresetSwitcher({ tenantSlug }: { tenantSlug: string }) {
+  const { tokens, set } = useDesignTokens();
+  const [presets, setPresets] = useState<MoodPreset[] | null>(null);
+  const [applying, setApplying] = useState<string | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    fetch(`/api/demo/${tenantSlug}/mood-presets`, { cache: "no-store" })
+      .then(r => (r.ok ? r.json() : { presets: [] }))
+      .then(d => { if (alive) setPresets(Array.isArray(d.presets) ? d.presets : []); })
+      .catch(() => { if (alive) setPresets([]); });
+    return () => { alive = false; };
+  }, [tenantSlug]);
+
+  if (!presets || presets.length === 0) return null;
+
+  const activeKey = presets.find(p => {
+    const primary = p.tokens.colorPrimary;
+    return primary !== undefined && String(tokens.colorPrimary ?? "") === String(primary);
+  })?.key;
+
+  function apply(preset: MoodPreset) {
+    setApplying(preset.key);
+    set(preset.tokens as Record<string, string | number | boolean>);
+    window.setTimeout(() => setApplying(null), 700);
+  }
+
+  const dotKeys = ["colorPrimary", "colorSecondary", "colorBackground", "colorSurface"] as const;
+
+  return (
+    <div className="pt-4 pb-1">
+      <div className="px-4 pb-1.5 text-[10px] font-bold tracking-[0.10em] text-[var(--vs-text-dim)] uppercase">
+        Nálada šablony
+      </div>
+      <div className="flex flex-col gap-1.5 px-3 pb-2">
+        {presets.map(preset => {
+          const isActive = preset.key === activeKey;
+          return (
+            <button
+              key={preset.key}
+              type="button"
+              onClick={() => apply(preset)}
+              title={preset.description}
+              aria-pressed={isActive}
+              className={`group flex w-full items-center gap-2.5 rounded-lg border px-2.5 py-2 text-left transition-colors duration-100 ${
+                isActive
+                  ? "border-[var(--vs-accent,#7c3aed)] bg-[var(--vs-surface-2)]"
+                  : "border-[var(--vs-border)] bg-[var(--vs-surface)] hover:border-[var(--vs-border-strong)] hover:bg-[var(--vs-surface-2)]"
+              }`}
+            >
+              <span className="flex shrink-0 -space-x-1">
+                {dotKeys.map(k => (
+                  <span
+                    key={k}
+                    className="h-4 w-4 rounded-full border border-black/10 dark:border-white/20"
+                    style={{ background: String(preset.tokens[k] ?? "#e5e7eb") }}
+                    aria-hidden
+                  />
+                ))}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className={`block truncate text-[12.5px] font-semibold ${isActive ? "text-[var(--vs-text)]" : "text-[var(--vs-text-soft)] group-hover:text-[var(--vs-text)]"}`}>
+                  {preset.label}
+                </span>
+                {preset.description && (
+                  <span className="block truncate text-[10.5px] text-[var(--vs-text-dim)]">{preset.description}</span>
+                )}
+              </span>
+              {applying === preset.key ? (
+                <span className="shrink-0 text-[10px] font-medium text-[var(--vs-text-dim)]">Aplikuji…</span>
+              ) : isActive ? (
+                <span className="shrink-0 text-[10px] font-semibold text-[var(--vs-accent,#7c3aed)]">Aktivní</span>
+              ) : null}
+            </button>
+          );
+        })}
+      </div>
+      <div className="mx-4 border-b border-[var(--vs-border)]" />
+    </div>
   );
 }
 

@@ -34,5 +34,46 @@
     "ease": "cubic-bezier(.22,.68,0,1)",
     "duration": "300ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "signal": {
+      "label": "Signal — řemesla a servis",
+      "tokens": {
+        "colorPrimary": "#C3352B",
+        "colorAccent": "#C3352B",
+        "colorSecondary": "#1B3A5C",
+        "colorBackground": "#F4F1EB",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#1B3A5C",
+        "colorTextMuted": "#5C6B7A",
+        "colorBorder": "#E5E1D8"
+      }
+    },
+    "clinic": {
+      "label": "Clinic — kliniky a poradci",
+      "tokens": {
+        "colorPrimary": "#0E7C6B",
+        "colorAccent": "#0E7C6B",
+        "colorSecondary": "#14323C",
+        "colorBackground": "#F2F7F5",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#14323C",
+        "colorTextMuted": "#587067",
+        "colorBorder": "#DCE8E3"
+      }
+    },
+    "estate": {
+      "label": "Estate — prémiové služby",
+      "tokens": {
+        "colorPrimary": "#B08540",
+        "colorAccent": "#B08540",
+        "colorSecondary": "#101823",
+        "colorBackground": "#F5F2EC",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#1A2230",
+        "colorTextMuted": "#6B7280",
+        "colorBorder": "#E5DFD2"
+      }
+    }
   }
 }

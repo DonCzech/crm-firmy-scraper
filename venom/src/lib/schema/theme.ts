@@ -58,8 +58,16 @@ export const themeAnimationSchema = z
   })
   .strict();
 
+export const themePresetSchema = z
+  .object({
+    label: z.string().min(1),
+    tokens: z.record(z.string(), z.string()),
+  })
+  .strict();
+
 export const themeTokensSchema = z
   .object({
+    presets: z.record(z.string(), themePresetSchema).optional(),
     colors: themeColorsSchema,
     typography: themeTypographySchema,
     radius: themeRadiusSchema.default({
