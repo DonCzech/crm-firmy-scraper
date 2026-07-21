@@ -6049,7 +6049,7 @@ function TestimonialsProof01({ content, sectionId }: { content: Record<string, u
               const name = String(t.name ?? "");
               return (
                 <figure key={i} className="pf01ts-card" style={{ margin: 0 }}>
-                  <div className="pf01ts-stars" aria-label={`Hodnocení ${rating} z 5`}>
+                  <div className="pf01ts-stars" role="img" aria-label={`Hodnocení ${rating} z 5`}>
                     {Array.from({ length: 5 }).map((_, si) => (
                       <svg key={si} width="17" height="17" viewBox="0 0 24 24" fill={si < rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                     ))}

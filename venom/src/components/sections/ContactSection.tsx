@@ -14769,17 +14769,17 @@ function ContactProof01({ content, sectionId, tenantSlug, isAdmin }: { content: 
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .pf01ct-inner { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(32px,5vw,64px); align-items:start; }
         .pf01ct .pf01-eyebrow{ font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
-        .pf01ct .pf01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--pf-accent); }
+        .pf01ct .pf01-eyebrow::before{ content:''; width:32px; height:2px; background:#F0A498; }
         .pf01ct-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.8rem,3.4vw,2.6rem); font-weight:800; letter-spacing:-.02em; line-height:1.1; margin:0 0 14px; }
-        .pf01ct-sub { font-size:1.02rem; color:rgba(255,255,255,.62); line-height:1.6; margin:0 0 30px; }
+        .pf01ct-sub { font-size:1.02rem; color:rgba(255,255,255,.8); line-height:1.6; margin:0 0 30px; }
         .pf01ct-info { display:grid; gap:16px; margin-bottom:26px; }
         .pf01ct-row { display:flex; align-items:flex-start; gap:14px; }
         .pf01ct-row-ic { width:42px; height:42px; border-radius:6px; background:rgba(195,53,43,.16); color:var(--pf-accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-        .pf01ct-row-lbl { font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.45); }
+        .pf01ct-row-lbl { font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.72); }
         .pf01ct-row-val { font-weight:700; color:#fff; text-decoration:none; }
         a.pf01ct-row-val:hover { color:var(--pf-accent); }
         .pf01ct-area { border-top:1px solid rgba(255,255,255,.12); padding-top:20px; }
-        .pf01ct-area-lbl { font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.45); margin:0 0 6px; }
+        .pf01ct-area-lbl { font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.72); margin:0 0 6px; }
         .pf01ct-area-val { font-weight:700; }
         .pf01ct-card { background:var(--pf-surface); border-radius:12px; padding:clamp(24px,3vw,36px); color:var(--pf-ink); box-shadow:0 14px 40px -22px rgba(0,0,0,.35); }
         .pf01ct-card-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:1.2rem; font-weight:800; letter-spacing:-.01em; margin:0 0 20px; }

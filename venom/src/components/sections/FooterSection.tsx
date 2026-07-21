@@ -16370,10 +16370,10 @@ function FooterRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { con
         .rk01ft-links a:hover{color:${AMBER};padding-left:5px;}
         .rk01ft-ct{display:flex;flex-direction:column;gap:12px;font-size:.94rem;}
         .rk01ft-ct a:hover{color:${AMBER};}
-        .rk01ft-ico{display:flex;gap:22px;margin-top:16px;font-size:.82rem;color:rgba(255,255,255,.5);}
+        .rk01ft-ico{display:flex;gap:22px;margin-top:16px;font-size:.82rem;color:rgba(255,255,255,.72);}
         .rk01ft-ico b{color:rgba(255,255,255,.82);font-weight:600;}
         .rk01ft-bottom{border-top:1px solid rgba(255,255,255,.1);}
-        .rk01ft-bottom-in{max-width:1200px;margin:0 auto;padding:22px 32px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font-size:.84rem;color:rgba(255,255,255,.5);}
+        .rk01ft-bottom-in{max-width:1200px;margin:0 auto;padding:22px 32px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;font-size:.84rem;color:rgba(255,255,255,.72);}
         @media(max-width:860px){.rk01ft-grid{grid-template-columns:1fr;gap:36px;}}
       `}</style>
       <div className="rk01ft" style={{ position: "relative" }}>
@@ -19386,8 +19386,8 @@ function FooterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         .pf01ft-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr 1.2fr; gap:clamp(28px,4vw,56px); padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.1); }
         .pf01ft-brand-name { font-size:1.3rem; font-weight:800; letter-spacing:-.01em; margin:0 0 12px; display:flex; align-items:center; gap:10px; }
         .pf01ft-brand-name img { height:30px; width:auto; }
-        .pf01ft-tag { font-size:.94rem; color:rgba(255,255,255,.55); line-height:1.6; max-width:32em; margin:0; }
-        .pf01ft-col-t { font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.4); margin:0 0 16px; }
+        .pf01ft-tag { font-size:.94rem; color:rgba(255,255,255,.78); line-height:1.6; max-width:32em; margin:0; }
+        .pf01ft-col-t { font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.66); margin:0 0 16px; }
         .pf01ft-col a, .pf01ft-col li { color:rgba(255,255,255,.72); text-decoration:none; font-size:.94rem; line-height:2; display:block; }
         .pf01ft-col a:hover { color:var(--pf-accent); }
         .pf01ft-col ul { list-style:none; padding:0; margin:0; }
@@ -19395,9 +19395,9 @@ function FooterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         .pf01ft-area-chip { font-size:.82rem; color:rgba(255,255,255,.72); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:999px; padding:5px 11px; }
         .pf01ft-bottom { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding-top:24px; }
         .pf01ft-legal { display:flex; gap:18px; flex-wrap:wrap; }
-        .pf01ft-legal a { color:rgba(255,255,255,.5); text-decoration:none; font-size:.84rem; }
+        .pf01ft-legal a { color:rgba(255,255,255,.72); text-decoration:none; font-size:.84rem; }
         .pf01ft-legal a:hover { color:#fff; }
-        .pf01ft-copy { font-size:.84rem; color:rgba(255,255,255,.45); }
+        .pf01ft-copy { font-size:.84rem; color:rgba(255,255,255,.72); }
         .pf01ft-social { display:flex; gap:9px; margin-top:16px; }
         .pf01ft-social a { width:36px; height:36px; border-radius:9px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:#fff; transition:background .2s, border-color .2s; }
         .pf01ft-social a:hover { background:var(--pf-accent); border-color:var(--pf-accent); }

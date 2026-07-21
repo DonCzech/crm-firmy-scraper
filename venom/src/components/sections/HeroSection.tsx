@@ -21057,6 +21057,66 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   );
 }
 
+// ── hero-clean-02-page ────────────────────────────────────────────────────────
+// Arctic Editorial podstránkový header: breadcrumb + H1 + subtitle na paper bg
+// s hairline spodní linkou. Kompaktní, konzistentní s homepage herem.
+function HeroClean02Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const title    = String(content.title ?? "Podstránka");
+  const subtitle = String(content.subtitle ?? "");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+
+  const resolve = (href: string) => {
+    if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
+    const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
+    return href === "/" ? base : `${base}${href}`;
+  };
+
+  return (
+    <>
+      <style>{`
+        .c02hp-section {
+          background: #F4F6F9;
+          padding: calc(4.75rem + clamp(2rem, 4.5vw, 3.5rem)) 0 clamp(2.4rem, 5vw, 4rem);
+          border-bottom: 1px solid #E2E8F1;
+          font-family: 'Onest', sans-serif;
+        }
+        .c02hp-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .c02hp-crumbs {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.84rem; color: #98A4B8; margin-bottom: 1.1rem;
+        }
+        .c02hp-crumbs a { color: #5B6577; text-decoration: none; font-weight: 500; }
+        .c02hp-crumbs a:hover { color: #1B5BFF; }
+        .c02hp-crumbs svg { color: #C6CFDD; }
+        .c02hp-h1 {
+          font-family: 'Bricolage Grotesque', sans-serif;
+          font-size: clamp(2.2rem, 4.6vw, 3.6rem);
+          font-weight: 800; color: #0B1526; line-height: 1.04;
+          margin: 0; letter-spacing: -0.035em; text-wrap: balance;
+        }
+        .c02hp-sub {
+          font-size: clamp(0.98rem, 1.5vw, 1.1rem); color: #5B6577;
+          line-height: 1.7; margin: 1rem 0 0; max-width: 40rem;
+        }
+      `}</style>
+      <section className="c02hp-section" data-template="hero-clean-02-page">
+        <div className="c02hp-inner">
+          <nav className="c02hp-crumbs" aria-label="Drobečková navigace">
+            <a href={resolve(breadcrumbHref)}><GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" /></a>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span aria-current="page">{title}</span>
+          </nav>
+          <h1 className="c02hp-h1"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+          {subtitle && (
+            <p className="c02hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
 // ── garden-02-hero ────────────────────────────────────────────────────────────
 // LUXE REDESIGN (polgarden.cz DNA):
 // - 100vh fullscreen, video bg s poster fallback, dual gradient overlay
@@ -29153,10 +29213,10 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           padding: 9px 12px; border-radius: 10px; border: 1.5px solid var(--pf-border, #E5E1D8); background: var(--pf-surface, #fff);
           transition: border-color .18s, background .18s; font-family: inherit; color: inherit; }
         .pf01sel-svc:hover { border-color: #c8c2b4; }
-        .pf01sel-svc[aria-pressed="true"] { border-color: var(--pf-accent, #C3352B); background: rgba(195,53,43,.05); }
+        .pf01sel-svc[aria-checked="true"] { border-color: var(--pf-accent, #C3352B); background: rgba(195,53,43,.05); }
         .pf01sel-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--pf-border, #D8D3C8); flex-shrink: 0; position: relative; transition: border-color .18s; }
-        .pf01sel-svc[aria-pressed="true"] .pf01sel-radio { border-color: var(--pf-accent, #C3352B); }
-        .pf01sel-svc[aria-pressed="true"] .pf01sel-radio::after { content: ''; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--pf-accent, #C3352B); }
+        .pf01sel-svc[aria-checked="true"] .pf01sel-radio { border-color: var(--pf-accent, #C3352B); }
+        .pf01sel-svc[aria-checked="true"] .pf01sel-radio::after { content: ''; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--pf-accent, #C3352B); }
         .pf01sel-svc-label { display: block; font-weight: 700; font-size: .88rem; line-height: 1.25; }
         .pf01sel-svc-note { display: block; font-size: .72rem; color: var(--pf-muted, #6A6E78); line-height: 1.3; }
         .pf01sel-scope-lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--pf-muted, #6A6E78); margin-bottom: 6px; }
@@ -29166,7 +29226,7 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           width: calc((100% - 6px) / var(--pf-n, 3)); transform: translateX(calc(var(--pf-i, 0) * 100%)); }
         .pf01sel-scope { position: relative; z-index: 1; flex: 1; border: none; cursor: pointer; padding: 8px 4px; border-radius: 8px; font-family: inherit;
           font-weight: 700; font-size: .8rem; color: var(--pf-muted, #6A6E78); background: transparent; transition: color .2s; }
-        .pf01sel-scope[aria-pressed="true"] { color: var(--pf-ink, #1B3A5C); }
+        .pf01sel-scope[aria-checked="true"] { color: var(--pf-ink, #1B3A5C); }
         @keyframes pf01price { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
         .pf01sel-result { display: flex; align-items: center; justify-content: space-between; gap: 12px;
           background: var(--pf-ink, #1B3A5C); border-radius: 12px; padding: 13px 16px; color: #fff; }
@@ -29246,7 +29306,7 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
               </p>
               <div className="pf01sel-svcs" role="radiogroup" aria-label="Typ služby">
                 {services.map((s, i) => (
-                  <button key={i} type="button" className="pf01sel-svc" role="radio" aria-checked={svcIdx === i} aria-pressed={svcIdx === i} onClick={() => setSvcIdx(i)}>
+                  <button key={i} type="button" className="pf01sel-svc" role="radio" aria-checked={svcIdx === i} onClick={() => setSvcIdx(i)}>
                     <span className="pf01sel-radio" aria-hidden="true" />
                     <span style={{ minWidth: 0 }}>
                       <span className="pf01sel-svc-label">
@@ -29266,7 +29326,7 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
                 style={{ ["--pf-n" as string]: scopes.length, ["--pf-i" as string]: Math.min(scopeIdx, scopes.length - 1) }}>
                 <span className="pf01sel-scopes-thumb" aria-hidden="true" />
                 {scopes.map((s, i) => (
-                  <button key={i} type="button" className="pf01sel-scope" role="radio" aria-checked={scopeIdx === i} aria-pressed={scopeIdx === i} onClick={() => setScopeIdx(i)}>
+                  <button key={i} type="button" className="pf01sel-scope" role="radio" aria-checked={scopeIdx === i} onClick={() => setScopeIdx(i)}>
                     {String(s.label ?? "")}
                   </button>
                 ))}

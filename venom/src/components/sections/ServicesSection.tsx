@@ -16043,10 +16043,10 @@ function ProcessProof01({ content, sectionId }: { content: Record<string, unknow
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .pf01proc-inner { max-width:1280px; margin:0 auto; }
         .pf01proc-head { max-width:640px; margin-bottom:clamp(36px,5vw,60px); }
-        .pf01proc .pf01-eyebrow { font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
-        .pf01proc .pf01-eyebrow::before { content:''; width:32px; height:2px; background:var(--pf-accent); }
+        .pf01proc .pf01-eyebrow { font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:#F0A498; margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .pf01proc .pf01-eyebrow::before { content:''; width:32px; height:2px; background:#F0A498; }
         .pf01proc-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
-        .pf01proc-lead { font-size:1.05rem; color:rgba(255,255,255,.62); line-height:1.6; margin:0; }
+        .pf01proc-lead { font-size:1.05rem; color:rgba(255,255,255,.78); line-height:1.6; margin:0; }
         .pf01proc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.1); border-radius:10px; overflow:hidden; }
         .pf01proc-step { background:var(--pf-ink); padding:34px 26px 30px; position:relative;
           opacity:0; transform:translateY(18px);
@@ -16060,7 +16060,7 @@ function ProcessProof01({ content, sectionId }: { content: Record<string, unknow
           font-size:2.2rem; line-height:1; color:var(--pf-accent); margin-bottom:18px; }
         .pf01proc-num::after { content:''; width:26px; height:1px; background:rgba(195,53,43,.5); align-self:center; }
         .pf01proc-step h3 { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:1.13rem; font-weight:800; margin:0 0 8px; letter-spacing:-.01em; }
-        .pf01proc-step p { font-size:.92rem; color:rgba(255,255,255,.62); line-height:1.58; margin:0; }
+        .pf01proc-step p { font-size:.92rem; color:rgba(255,255,255,.78); line-height:1.58; margin:0; }
         @media (prefers-reduced-motion: reduce){ .pf01proc-step{ opacity:1; transform:none; transition:none; } .pf01proc-step::before{ transform:scaleX(1); transition:none; } }
       `}</style>
       <section className="pf01proc" data-template="proof-01" id="postup">
