@@ -28,6 +28,44 @@ input, textarea, select {
   font-size: 16px;
 }
 
+/* ── Hover-zoom compositing (fixes card/gallery image stutter) ───────────────
+   Cards, galleries and product tiles across every template zoom a full-bleed
+   image on hover (`group-hover:scale-*` / `hover:scale-*`). We give the IMAGE
+   itself its own GPU compositor layer so the scale is a pure composite instead
+   of a per-frame repaint. Promoting the animating image (not every wrapper)
+   keeps the layer count bounded on grids with dozens of cards.
+
+   NOTE: promotion alone is NOT enough if a `backdrop-filter` element overlays
+   the image (e.g. a blurred category badge): the filter has to re-sample the
+   image every frame it moves, which drags the zoom back onto the main thread.
+   Such overlays must drop `backdrop-filter` — see PostCard / storefront cards. */
+img[class*="hover:scale"] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.group:hover img[class*="group-hover:scale"],
+img[class*="hover:scale"]:hover {
+  will-change: transform;
+}
+
+/* ── Hover-zoom TIMING — the actual reason the zoom looks like it stutters ────
+   Templates animate a ~4% scale over 700ms with `ease-out`. On a ~646px image
+   that is only ~13px of edge travel, and ease-out spends its last ~500ms
+   crawling at well under 0.1px PER FRAME. Sub-pixel crawl cannot render as
+   smooth motion — the image snaps between sub-pixel positions and shimmers,
+   which reads as "lag" even at a locked 60fps. Nothing about compositing can
+   fix that; the animation itself has to move decisively.
+
+   Shorter duration + a curve without a long asymptotic tail keeps per-frame
+   travel above the judder threshold, so the zoom feels crisp and intentional.
+   Unlayered, so it wins over Tailwind's `duration-*` utilities (which live in
+   @layer utilities) without needing !important. */
+img[class*="hover:scale"] {
+  transition-property: transform, translate, scale, rotate;
+  transition-duration: 340ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* ── Scroll-hint pill animation (for live device previews) ───────────── */
 @keyframes scrollHintBounce {
   0%, 100% { transform: translateY(0); }

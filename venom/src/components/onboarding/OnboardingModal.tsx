@@ -731,131 +731,114 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex h-full flex-col bg-[#0c0c14]"
           >
-            {/* Jemné pozadí — dvě barevné záře */}
+            {/* Jemné barevné záře v pozadí (navazuje na tmavé další kroky) */}
             <div className="pointer-events-none absolute -left-40 top-[-180px] h-[420px] w-[560px] rounded-full bg-[#2563eb]/12 blur-[130px]" />
-            <div className="pointer-events-none absolute -right-40 bottom-[-200px] h-[420px] w-[560px] rounded-full bg-violet-600/12 blur-[130px]" />
+            <div className="pointer-events-none absolute -right-40 top-[-140px] h-[420px] w-[560px] rounded-full bg-violet-600/12 blur-[130px]" />
+            <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[360px] w-[560px] -translate-x-1/2 rounded-full bg-amber-500/8 blur-[130px]" />
 
             {closeBtn}
 
             {/* Heading */}
-            <div className="relative flex-shrink-0 px-6 pb-5 pt-9 text-center md:pt-11">
+            <div className="relative flex-shrink-0 px-6 pb-4 pt-7 text-center md:pt-8">
               <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/45">{copy.choiceKicker}</p>
-              <h1 className="mt-2 font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(24px, 3vw, 40px)" }}>
+              <h1 className="mt-1.5 font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(23px, 2.8vw, 38px)" }}>
                 {copy.choiceTitle}
               </h1>
-              <p className="mx-auto mt-2 max-w-md text-[13.5px] leading-relaxed text-white/40">{copy.choiceSub}</p>
+              <p className="mx-auto mt-1.5 max-w-md text-[13.5px] leading-relaxed text-white/45">{copy.choiceSub}</p>
             </div>
 
-            {/* Content */}
-            <div className="relative flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-5 pb-5 md:gap-4 md:px-8 lg:px-14">
+            {/* Content — skleněné karty přes plné náhledy šablon (desktop bez scrollu) */}
+            <div className="relative flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-5 pb-5 md:gap-3.5 md:overflow-hidden md:px-8 lg:px-14">
 
               {/* Řada tří self-serve karet */}
-              <div className="flex flex-col gap-3 md:min-h-0 md:flex-[3] md:flex-row md:gap-4">
+              <div className="grid grid-cols-1 gap-3.5 md:min-h-0 md:flex-1 md:grid-cols-3 md:grid-rows-1 md:gap-4">
 
                 {/* WEB */}
                 <ChoiceCard
                   onClick={() => { setFlow("diy"); setKind("web"); setCategory("all"); setStep("templates"); }}
                   accent="#2563eb"
                   tag={copy.webTag}
-                  tagDot="#60a5fa"
                   title={copy.webTitle}
                   text={copy.webText}
                   meta={copy.webMeta}
                   cta={copy.webCta}
-                  image="/images/onboarding-diy.webp"
+                  image="/images/onboarding-card-web.jpg"
                   icon={
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg>
                   }
                 />
 
                 {/* E-SHOP */}
                 <ChoiceCard
                   onClick={() => { setFlow("diy"); setKind("eshop"); setCategory("all"); setStep("templates"); }}
-                  accent="#10b981"
+                  accent="#059669"
                   tag={copy.eshopTag}
-                  tagDot="#34d399"
                   title={copy.eshopTitle}
                   text={copy.eshopText}
                   meta={copy.eshopMeta}
                   cta={copy.eshopCta}
-                  image="/templates/eshop-01/showcase/desktop-full.webp"
-                  imagePosition="top"
+                  image="/images/onboarding-card-eshop.jpg"
                   icon={
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 10V6a3 3 0 016 0v4"/></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 10V6a3 3 0 016 0v4"/></svg>
                   }
                 />
 
-                {/* WEBERO BUILDER — AI */}
-                <button
-                  type="button"
+                {/* WEBERO BUILDER — AI, reálný screenshot builderu */}
+                <ChoiceCard
                   onClick={() => { setFlow("builder"); setStep("ai-brief"); }}
-                  className="group relative flex min-h-[200px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-violet-500/40 text-left outline-none transition-all duration-300 hover:border-violet-400/80 hover:shadow-[0_0_0_1px_rgba(167,139,250,0.35),0_24px_60px_rgba(88,28,135,0.55)] focus-visible:ring-2 focus-visible:ring-violet-400/60"
-                >
-                  <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_80%_0%,#4c1d95_0%,#312e81_45%,#14141e_100%)]" />
-                  <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-violet-500/30 opacity-60 blur-3xl transition-opacity duration-700 group-hover:opacity-100" />
-                  <svg aria-hidden className="absolute right-6 top-6 h-8 w-8 text-violet-300/70 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
-                  <svg aria-hidden className="absolute right-14 top-14 h-4 w-4 text-indigo-300/60 transition-transform duration-500 group-hover:-rotate-12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
-                  <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-violet-300/40 transition-opacity duration-300 group-hover:opacity-100" />
-
-                  <div className="relative z-10 mt-auto w-full p-6 md:p-7">
-                    <span className="mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-violet-300/30 bg-violet-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-violet-100 backdrop-blur-sm">
-                      <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
-                      {copy.aiTag}
-                      <span className="ml-1 rounded-full bg-gradient-to-r from-violet-400 to-indigo-400 px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-white">{copy.aiBadge}</span>
-                    </span>
-                    <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(21px, 2.3vw, 30px)" }}>
-                      {copy.aiTitle}
-                    </h2>
-                    <p className="mt-2 text-[13.5px] leading-relaxed text-white/75">
-                      {copy.aiText}
-                    </p>
-                    <p className="mt-2.5 text-[12px] font-medium text-violet-200/80">{copy.aiMeta}</p>
-                    <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-violet-500 group-hover:to-indigo-500 group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(139,92,246,0.55)]">
-                      {copy.aiCta}
-                      <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-                    </div>
-                  </div>
-                </button>
+                  accent="#7c3aed"
+                  tag={copy.aiTag}
+                  badge={copy.aiBadge}
+                  title={copy.aiTitle}
+                  text={copy.aiText}
+                  meta={copy.aiMeta}
+                  cta={copy.aiCta}
+                  image="/images/onboarding-card-ai.jpg"
+                  icon={
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                  }
+                />
               </div>
 
-              {/* PROFÍCI — horizontální pás „Uděláme to za vás" */}
+              {/* PROFÍCI — světlý pás „Uděláme to za vás" */}
               <button
                 type="button"
                 onClick={() => { setAgStep(0); setAgSent(false); setAgError(""); setStep("agency"); }}
-                className="group relative flex min-h-[110px] w-full flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-amber-500/25 text-left outline-none transition-all duration-300 hover:border-amber-400/60 hover:shadow-[0_0_0_1px_rgba(251,191,36,0.25),0_20px_50px_rgba(120,53,15,0.45)] focus-visible:ring-2 focus-visible:ring-amber-400/60 md:min-h-[120px]"
+                className="group relative flex w-full flex-shrink-0 cursor-pointer items-stretch overflow-hidden rounded-2xl bg-white text-left outline-none shadow-[0_8px_28px_rgba(15,15,25,0.1)] ring-1 ring-black/[0.06] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_50px_rgba(15,15,25,0.18)] focus-visible:ring-2 focus-visible:ring-amber-400"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/onboarding-team.webp"
-                  alt=""
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                  className="absolute inset-0 h-full w-full object-cover object-[center_30%] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#0c0c14] via-[#0c0c14]/88 to-[#0c0c14]/35" />
-                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-amber-300/30 transition-opacity duration-300 group-hover:opacity-100" />
-
-                <div className="relative z-10 flex w-full flex-col justify-center gap-3 p-5 sm:flex-row sm:items-center sm:gap-6 md:px-8">
+                <div className="relative z-10 flex flex-1 flex-col justify-center gap-2 p-4 sm:flex-row sm:items-center sm:gap-6 md:px-7 md:py-5">
                   <div className="min-w-0 flex-1">
-                    <span className="mb-1.5 inline-flex items-center gap-1.5 rounded-full border border-amber-300/25 bg-amber-400/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-amber-200">
-                      <span className="h-1.5 w-1.5 rounded-full bg-amber-300" />
+                    <span className="mb-1.5 inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-700 ring-1 ring-amber-200">
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                       {copy.proTag}
                     </span>
                     <div className="flex flex-wrap items-baseline gap-x-3">
-                      <h2 className="text-[19px] font-bold tracking-tight text-white md:text-[22px]">{copy.proTitle}</h2>
-                      <span className="hidden text-[12px] font-medium text-amber-200/70 sm:inline">{copy.proMeta}</span>
+                      <h2 className="text-[19px] font-bold tracking-tight text-[#0f0f14] md:text-[22px]">{copy.proTitle}</h2>
+                      <span className="hidden text-[12px] font-semibold text-amber-600 sm:inline">{copy.proMeta}</span>
                     </div>
-                    <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-white/60">{copy.proText}</p>
+                    <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-gray-500">{copy.proText}</p>
                   </div>
                   <div className="flex-shrink-0">
-                    <div className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-amber-400 group-hover:shadow-[0_8px_24px_rgba(251,191,36,0.45)]">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-[#0f0f14] px-5 py-2.5 text-[13px] font-bold text-white shadow-sm transition-all duration-300 group-hover:bg-amber-500 group-hover:text-[#1c1917] group-hover:shadow-[0_8px_24px_rgba(245,158,11,0.4)]">
                       {copy.proCta}
                       <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
                     </div>
                   </div>
                 </div>
+                {/* Foto týmu vpravo (bright), plynulý přechod do bílé */}
+                <div className="relative hidden w-[30%] max-w-[320px] flex-shrink-0 overflow-hidden md:block">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/onboarding-team.webp"
+                    alt=""
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                    className="absolute inset-0 h-full w-full object-cover object-[center_28%] transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white via-white/25 to-transparent" />
+                </div>
               </button>
 
-              <p className="flex-shrink-0 pb-1 text-center text-[11.5px] text-white/30">{copy.trialNote}</p>
+              <p className="flex-shrink-0 pb-1 text-center text-[11.5px] font-medium text-white/40">{copy.trialNote}</p>
             </div>
           </motion.div>
         )}
@@ -1612,62 +1595,63 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
   );
 }
 
-/* ─── ChoiceCard — foto karta cesty (Web / E-shop) ─── */
+/* ─── ChoiceCard — skleněná karta: šablona vyplní kartu, text na matném skle ─── */
 function ChoiceCard({
-  onClick, accent, tag, tagDot, title, text, meta, cta, image, imagePosition = "center", icon,
+  onClick, accent, tag, badge, title, text, meta, cta, image, icon,
 }: {
   onClick: () => void;
   accent: string;
   tag: string;
-  tagDot: string;
+  badge?: string;
   title: string;
   text: string;
   meta: string;
   cta: string;
   image: string;
-  imagePosition?: "center" | "top";
   icon: React.ReactNode;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="group relative flex min-h-[200px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
-      style={{ ["--accent" as string]: accent, ["--accent-glow" as string]: `${accent}59` }}
+      className="group relative flex aspect-[6/5] cursor-pointer flex-col overflow-hidden rounded-2xl text-left outline-none ring-1 ring-black/10 shadow-[0_10px_30px_rgba(15,15,25,0.35)] transition-all duration-300 hover:-translate-y-1.5 hover:ring-2 hover:ring-[color:var(--accent)] hover:shadow-[0_30px_64px_var(--accent-glow)] focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] md:aspect-auto md:h-full"
+      style={{ ["--accent" as string]: accent, ["--accent-glow" as string]: `${accent}66`, ["--accent-tint" as string]: `${accent}1f` }}
     >
+      {/* Šablona vyplní celou kartu */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={image}
         alt=""
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-        className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] ${imagePosition === "top" ? "object-top" : "object-center"}`}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.background = "#e5e7eb"; }}
+        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/35 to-black/10" />
-      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-white/30 transition-opacity duration-300 group-hover:opacity-100" />
+      {/* Jemné zesvětlení odspodu pod sklo, ať sklo dobře sedí */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
 
-      {/* Ikona kategorie */}
-      <span
-        className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl border border-white/15 bg-black/35 text-white/80 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:text-white"
-        style={{ boxShadow: `0 0 0 0 ${accent}00` }}
-      >
-        {icon}
-      </span>
-
-      <div className="relative z-10 mt-auto w-full p-6 md:p-7">
-        <span className="mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">
-          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: tagDot }} />
-          {tag}
-        </span>
-        <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(21px, 2.3vw, 30px)" }}>
-          {title}
-        </h2>
-        <p className="mt-2 text-[13.5px] leading-relaxed text-white/75">
-          {text}
+      {/* Skleněný informační panel — dole, hero šablony svítí nad ním */}
+      <div className="relative z-10 mx-2 mb-2 mt-auto rounded-2xl border border-white/50 bg-white/70 p-3.5 shadow-[0_8px_28px_rgba(15,15,25,0.18)] backdrop-blur-2xl md:mx-3 md:mb-3 md:p-[18px]">
+        {/* Štítek s ikonou */}
+        <div className="mb-1.5 flex items-center gap-2 md:mb-2">
+          <span className="grid h-5 w-5 place-items-center rounded-md md:h-6 md:w-6 md:rounded-lg" style={{ backgroundColor: "var(--accent-tint)", color: accent }}>{icon}</span>
+          <span className="text-[10.5px] font-bold uppercase tracking-wider md:text-[11px]" style={{ color: accent }}>{tag}</span>
+          {badge && (
+            <span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white" style={{ backgroundColor: accent }}>{badge}</span>
+          )}
+        </div>
+        <h2 className="text-[17px] font-bold leading-tight tracking-tight text-[#0f0f14] md:text-[21px]">{title}</h2>
+        <p className="mt-1 text-[12px] leading-snug text-gray-600 md:text-[12.5px] md:leading-relaxed">{text}</p>
+        <p className="mt-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-gray-500 md:text-[11.5px]">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          {meta}
         </p>
-        <p className="mt-2.5 text-[12px] font-medium text-white/55">{meta}</p>
-        <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_24px_var(--accent-glow)]">
+
+        {/* CTA — jasný click target */}
+        <div
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-[13px] font-bold text-white shadow-sm transition-all duration-300 group-hover:gap-3 group-hover:shadow-[0_12px_28px_var(--accent-glow)] md:mt-3.5 md:py-3 md:text-[13.5px]"
+          style={{ backgroundColor: accent }}
+        >
           {cta}
-          <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+          <svg className="transition-transform duration-300 group-hover:translate-x-1" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
         </div>
       </div>
     </button>

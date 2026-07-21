@@ -229,21 +229,28 @@ export default async function BlogListPage({ params, searchParams }: Props) {
         {heroPost && (
             <Link
               href={`${base}/blog/${heroPost.slug}`}
-              className="group grid md:grid-cols-5 gap-6 md:gap-10 items-center mb-14 md:mb-20"
+              className="group grid md:grid-cols-5 gap-6 md:gap-10 items-center mb-14 md:mb-20 transition-transform duration-300 ease-out hover:-translate-y-1"
             >
               <div
                 className="relative md:col-span-3 overflow-hidden"
                 style={{ aspectRatio: "16/10", borderRadius: "var(--blog-radius-lg)", backgroundColor: "var(--blog-surface)" }}
               >
                 {heroPost.featured_image ? (
-                  <Image
-                    src={heroPost.featured_image}
-                    alt={heroPost.title}
-                    fill
-                    priority
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                    sizes="(max-width: 768px) 100vw, 640px"
-                  />
+                  <>
+                    <Image
+                      src={heroPost.featured_image}
+                      alt={heroPost.title}
+                      fill
+                      priority
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 640px"
+                    />
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+                      style={{ background: "linear-gradient(to top, rgba(0,0,0,.42), transparent 55%)" }}
+                    />
+                  </>
                 ) : (
                   <div
                     className="absolute inset-0 flex items-center justify-center text-6xl font-bold opacity-20"
@@ -281,10 +288,11 @@ export default async function BlogListPage({ params, searchParams }: Props) {
                   </p>
                 )}
                 <span
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all duration-200 group-hover:gap-3"
+                  className="inline-flex items-center gap-2 text-sm font-semibold"
                   style={{ color: "var(--blog-primary)" }}
                 >
-                  Přečíst celý článek <span aria-hidden>→</span>
+                  Přečíst celý článek{" "}
+                  <span aria-hidden className="transition-transform duration-200 ease-out group-hover:translate-x-1.5">→</span>
                 </span>
               </div>
             </Link>

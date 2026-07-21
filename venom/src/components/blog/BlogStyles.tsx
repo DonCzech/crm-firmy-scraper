@@ -21,17 +21,6 @@ export function BlogStyles() {
   font-weight: 700;
   color: var(--blog-primary);
 }
-/*
-  Hover zoom on cards/galleries animates a full-bleed next/image bitmap. Without
-  a compositor layer the browser re-rasterises that large image every frame,
-  which is the stutter you feel on hover. Promoting the image (and only the
-  image) makes the scale a pure GPU composite.
-*/
-.blog-root img {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
 @media (prefers-reduced-motion: reduce) {
   .blog-root * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

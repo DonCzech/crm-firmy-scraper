@@ -56,20 +56,33 @@ export function SearchAutocomplete({ tenantSlug, theme, initialData, inlineResul
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const topCache = useRef<Suggestions | null>(initialData ?? null);
   const reqSeq = useRef(0);
+  // Cache výsledků podle dotazu → psaní dál / mazání zpět je okamžité (0 requestů).
+  const queryCache = useRef<Map<string, Suggestions>>(new Map());
 
   const base = `/demo/${tenantSlug}/obchod`;
   const api = `/api/demo/${tenantSlug}/shop/search`;
 
   const search = useCallback(async (query: string) => {
-    const isTop = query.trim().length < 2;
+    const trimmed = query.trim();
+    const isTop = trimmed.length < 2;
     if (isTop && topCache.current) { setData(topCache.current); setOpen(true); return; }
+    const key = trimmed.toLowerCase();
+    if (!isTop) {
+      const cached = queryCache.current.get(key);
+      if (cached) { setData(cached); setOpen(true); return; }   // okamžitě, bez sítě
+    }
     const seq = ++reqSeq.current;
     setLoading(true);
     try {
-      const res = await fetch(`${api}?q=${encodeURIComponent(query.trim())}`);
+      const res = await fetch(`${api}?q=${encodeURIComponent(trimmed)}`);
       const payload: Suggestions = await res.json();
       if (seq !== reqSeq.current) return;
-      if (isTop) topCache.current = payload;
+      if (isTop) {
+        topCache.current = payload;
+      } else {
+        if (queryCache.current.size > 50) queryCache.current.clear();
+        queryCache.current.set(key, payload);
+      }
       setData(payload);
       setOpen(true);
     } catch { /* síť — necháme poslední stav */ }
@@ -79,7 +92,10 @@ export function SearchAutocomplete({ tenantSlug, theme, initialData, inlineResul
   function onChange(val: string) {
     setQ(val);
     clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => search(val), 220);
+    // Máme-li výsledek v cache, ukaž ho hned (bez debounce); jinak krátký debounce.
+    const key = val.trim().toLowerCase();
+    if (key.length >= 2 && queryCache.current.has(key)) { search(val); return; }
+    timerRef.current = setTimeout(() => search(val), 130);
   }
 
   useEffect(() => {

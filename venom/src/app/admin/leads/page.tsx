@@ -58,7 +58,7 @@ export default function AdminLeadsPage() {
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-white">Poptávky „Uděláme to za vás"</h1>
+        <h1 className="text-2xl font-bold text-white">Poptávky &bdquo;Uděláme to za vás&ldquo;</h1>
         <span className="text-sm text-gray-400">{leads.length} celkem</span>
       </div>
 

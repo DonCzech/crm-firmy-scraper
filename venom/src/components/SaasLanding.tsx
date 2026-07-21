@@ -1977,12 +1977,13 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
     setShowModal(true);
   }
 
-  // Deep-link z dashboardu: /?onboarding=builder | templates otevře modal
+  // Deep-link z dashboardu: /?onboarding=builder | templates | eshop otevře modal
   // rovnou na správném kroku (nový projekt pod existujícím účtem).
-  const [entryStep, setEntryStep] = useState<"ai-brief" | "templates" | undefined>(undefined);
+  const [entryStep, setEntryStep] = useState<"ai-brief" | "templates" | "templates-eshop" | undefined>(undefined);
   useEffect(() => {
     const entry = new URLSearchParams(window.location.search).get("onboarding");
     if (entry === "builder") { setEntryStep("ai-brief"); setShowModal(true); }
+    else if (entry === "eshop") { setEntryStep("templates-eshop"); setShowModal(true); }
     else if (entry === "templates") { setEntryStep("templates"); setShowModal(true); }
   }, []);
 

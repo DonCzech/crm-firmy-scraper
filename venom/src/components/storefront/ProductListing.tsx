@@ -122,15 +122,15 @@ export function ProductCard({ p, basePath, currency }: { p: ProductItem; basePat
           )}
         </div>
         {soldOut && (
-          <div className="absolute inset-x-0 bottom-0 bg-neutral-950/80 py-1.5 text-center text-[11px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
+          <div className="absolute inset-x-0 bottom-0 bg-neutral-950/85 py-1.5 text-center text-[11px] font-bold uppercase tracking-widest text-white">
             Vyprodáno
           </div>
         )}
 
         {/* Hover CTA */}
         {!soldOut && (
-          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-            <span className="flex h-10 items-center justify-center rounded-xl bg-neutral-950/90 text-[13px] font-semibold text-white shadow-lg backdrop-blur-sm">
+          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 transition-[transform,opacity] duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+            <span className="flex h-10 items-center justify-center rounded-xl bg-neutral-950/95 text-[13px] font-semibold text-white shadow-lg">
               Zobrazit detail
             </span>
           </div>

@@ -21,7 +21,11 @@ export function PostCard({ post, base, skin, size = "default" }: Props) {
   const large = size === "large";
 
   return (
-    <article className="group h-full">
+    // Hover animation is deliberately transform+opacity ONLY. Scaling the photo
+    // itself (the old `group-hover:scale`) resamples a large bitmap every frame
+    // and stutters; a card lift plus an opacity veil is composited on the GPU
+    // and cannot judder.
+    <article className="group h-full transition-transform duration-300 ease-out hover:-translate-y-1">
       <Link href={href} className="flex flex-col h-full">
         <div
           className="relative overflow-hidden mb-4"
@@ -32,13 +36,20 @@ export function PostCard({ post, base, skin, size = "default" }: Props) {
           }}
         >
           {post.featured_image ? (
-            <Image
-              src={post.featured_image}
-              alt={post.title}
-              fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-              sizes={large ? "(max-width: 768px) 100vw, 640px" : "(max-width: 768px) 100vw, 400px"}
-            />
+            <>
+              <Image
+                src={post.featured_image}
+                alt={post.title}
+                fill
+                className="object-cover"
+                sizes={large ? "(max-width: 768px) 100vw, 640px" : "(max-width: 768px) 100vw, 400px"}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
+                style={{ background: "linear-gradient(to top, rgba(0,0,0,.42), transparent 55%)" }}
+              />
+            </>
           ) : (
             <div
               className="absolute inset-0 flex items-center justify-center text-4xl font-bold opacity-20"
@@ -49,9 +60,13 @@ export function PostCard({ post, base, skin, size = "default" }: Props) {
           )}
           {post.category && (
             <span
-              className="absolute top-3 left-3 px-3 py-1 text-[11px] font-bold uppercase tracking-wide backdrop-blur-sm"
+              className="absolute top-3 left-3 px-3 py-1 text-[11px] font-bold uppercase tracking-wide"
               style={{
-                backgroundColor: skin === "magazine" ? "var(--blog-primary)" : "rgba(0,0,0,.55)",
+                // Solid background (no backdrop-filter): a blur over the image
+                // forces it to re-rasterise every frame of the hover zoom and
+                // kills GPU compositing → the stutter. Slightly darker bg keeps
+                // the white text readable without needing the blur.
+                backgroundColor: skin === "magazine" ? "var(--blog-primary)" : "rgba(0,0,0,.62)",
                 color: skin === "magazine" ? "var(--blog-on-primary)" : "#fff",
                 borderRadius: "var(--blog-radius-md)",
               }}
@@ -90,10 +105,11 @@ export function PostCard({ post, base, skin, size = "default" }: Props) {
         )}
 
         <span
-          className="mt-auto pt-3 inline-flex items-center gap-1 text-sm font-semibold transition-all duration-200 group-hover:gap-2"
+          className="mt-auto pt-3 inline-flex items-center gap-1.5 text-sm font-semibold"
           style={{ color: "var(--blog-primary)" }}
         >
-          Číst článek <span aria-hidden>→</span>
+          Číst článek{" "}
+          <span aria-hidden className="transition-transform duration-200 ease-out group-hover:translate-x-1">→</span>
         </span>
       </Link>
     </article>
