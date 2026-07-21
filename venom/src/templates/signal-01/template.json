@@ -1,0 +1,272 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "signal-01",
+  "name": "SIGNAL — B2B Authority",
+  "industry": "consulting",
+  "skeleton": "professional",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "description": "Fable Premium V3 — archetyp B2B Authority. Swiss authority (charcoal #101418 / electric blue #2563EB / ledová šedá #F3F5F7, Oswald + Overpass + mono akcenty), cinematic hero se signature interakcí (přepínač rolí CEO/CFO/IT/HR → živé benefity a case metrika), trust pás s count-up čísly, řešení s fotokartami, metodika na charcoal, case studies s měřitelnými výsledky a CMS detailem, reference, FAQ s CTA na konzultaci, formulář s polem Společnost a selectem Co řešíte, sticky mobilní CTA lišta. Pro consulting, IT/cybersecurity, finance, právo, HR, logistiku, výrobu a energetiku.",
+  "sectionOrderNote": "Navbar → Hero (role switcher) → Trust pás → Řešení → Metodika → Case studies → Reference → FAQ → Konzultace → Footer",
+  "tags": [
+    "premium-v3",
+    "b2b",
+    "authority",
+    "lead-gen",
+    "case-studies",
+    "sticky-cta"
+  ],
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "About/Team",
+      "reason": "Tým žije na /o-firme — homepage drží konverzní flow k rezervaci konzultace, autoritu nesou čísla a case studies"
+    },
+    {
+      "pos": 6,
+      "name": "Process",
+      "reason": "Metodika je řešena druhou services variantou signal-01-method na charcoal — číslované fáze s durací místo obecné about sekce"
+    },
+    {
+      "pos": 7,
+      "name": "CTA strip",
+      "reason": "Konverzi nese hero přepínač rolí + FAQ CTA + formulář konzultace + sticky mobilní CTA lišta; samostatný CTA pás by tříštil fokus"
+    },
+    {
+      "pos": 9,
+      "name": "Insights",
+      "reason": "Roli obsahové autority plní case studies s metrikami a CMS detailem; blog modul lze aktivovat dodatečně"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "name": "Trust pás",
+      "reason": "Velká čísla s count-up + certifikace hned za hero — B2B klient potřebuje důkazy dřív, než čte detail nabídky"
+    },
+    {
+      "type": "services",
+      "name": "Metodika",
+      "reason": "Číslované fáze spolupráce s durací na charcoal — druhá services varianta signal-01-method, transparentní proces je u konzultací klíčová námitka"
+    },
+    {
+      "type": "contact",
+      "name": "Konzultace",
+      "reason": "Skeleton professional má na pozici 7 obecný CTA pás; SIGNAL konverzi řeší plnohodnotnou contact sekcí s formulářem (Společnost + select Co řešíte) na #konzultace"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": [
+      "cs",
+      "en",
+      "sk"
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "signal-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "signal-01-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "stats",
+          "variant": "signal-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "services",
+          "variant": "signal-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "services",
+          "variant": "signal-01-method",
+          "contentRef": "method"
+        },
+        {
+          "type": "gallery",
+          "variant": "signal-01-cases",
+          "contentRef": "cases"
+        },
+        {
+          "type": "testimonials",
+          "variant": "signal-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "faq",
+          "variant": "signal-01-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "contact",
+          "variant": "signal-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "signal-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "reseni",
+      "title": "Řešení",
+      "seoTitleKey": "pages.reseni.seoTitle",
+      "seoDescriptionKey": "pages.reseni.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "signal-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-signal-01-page",
+          "contentRef": "pages.reseni.hero"
+        },
+        {
+          "type": "services",
+          "variant": "signal-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "services",
+          "variant": "signal-01-method",
+          "contentRef": "method"
+        },
+        {
+          "type": "contact",
+          "variant": "signal-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "signal-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "case-studies",
+      "title": "Case studies",
+      "seoTitleKey": "pages.case-studies.seoTitle",
+      "seoDescriptionKey": "pages.case-studies.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "signal-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-signal-01-page",
+          "contentRef": "pages.case-studies.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "signal-01-cases",
+          "contentRef": "cases"
+        },
+        {
+          "type": "testimonials",
+          "variant": "signal-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "contact",
+          "variant": "signal-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "signal-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-firme",
+      "title": "O firmě",
+      "seoTitleKey": "pages.o-firme.seoTitle",
+      "seoDescriptionKey": "pages.o-firme.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "signal-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-signal-01-page",
+          "contentRef": "pages.o-firme.hero"
+        },
+        {
+          "type": "stats",
+          "variant": "signal-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "team",
+          "variant": "signal-01-team",
+          "contentRef": "team"
+        },
+        {
+          "type": "testimonials",
+          "variant": "signal-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "signal-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "signal-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-signal-01-page",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "signal-01-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "signal-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json",
+    "en": "content/en.json",
+    "sk": "content/sk.json"
+  }
+}

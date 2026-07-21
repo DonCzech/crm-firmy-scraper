@@ -1,0 +1,443 @@
+{
+  "navbar": {
+    "siteName": "Ukázka Consulting",
+    "logoUrl": "/templates/signal-01/logo.svg",
+    "phone": "704 123 456",
+    "phoneHref": "tel:+420704123456",
+    "ctaText": "Rezervovať konzultáciu",
+    "ctaHref": "#konzultace",
+    "mobileCtaCallLabel": "Zavolať",
+    "mobileCtaCallHref": "tel:+420704123456",
+    "mobileCtaLeadLabel": "Konzultácia",
+    "mobileCtaLeadHref": "#konzultace",
+    "links": [
+      {
+        "label": "Riešenia",
+        "href": "/reseni"
+      },
+      {
+        "label": "Case studies",
+        "href": "/case-studies"
+      },
+      {
+        "label": "O firme",
+        "href": "/o-firme"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "eyebrow": "Consulting pre merateľné výsledky",
+    "title": "Rozhodnutia podložené dátami,",
+    "titleAccent": "výsledky podložené číslami.",
+    "subtitle": "Pomáhame vedeniu stredných a väčších firiem doručiť stratégiu do prevádzky. Pevný rozsah, seniori s manažérskou praxou a metrika úspechu dohodnutá vopred.",
+    "ctaText": "Rezervovať konzultáciu",
+    "ctaHref": "#konzultace",
+    "ctaSecondaryText": "Zavolať: 704 123 456",
+    "ctaSecondaryHref": "tel:+420704123456",
+    "photo": "/templates/signal-01/img/hero.webp",
+    "photoAlt": "Korporátne budovy v hmle",
+    "trust": [
+      "120+ dokončených projektov",
+      "ISO 9001 / 27001",
+      "NPS 74"
+    ],
+    "selectorTitle": "Vyberte svoju rolu",
+    "selectorSubtitle": "Ukážeme vám, čo najčastejšie riešime pre ľudí vo vašej pozícii.",
+    "metricEyebrow": "Typický výsledok",
+    "selectorCtaText": "Rezervovať konzultáciu",
+    "selectorCtaHref": "#konzultace",
+    "selectorCtaNote": "Prvých 30 minút zadarmo · bez záväzku",
+    "roles": [
+      {
+        "label": "CEO",
+        "benefits": [
+          "Stratégia rastu s jasnou metrikou",
+          "Prevádzkový model, ktorý škáluje",
+          "Board reporting na jednej stránke"
+        ],
+        "metric": "+18 %",
+        "metricLabel": "rast EBITDA do 18 mesiacov",
+        "note": "Výrobná skupina, 240 zamestnancov"
+      },
+      {
+        "label": "CFO",
+        "benefits": [
+          "Controlling a riadenie cashflow",
+          "Zníženie prevádzkových nákladov",
+          "Automatizovaný mesačný reporting"
+        ],
+        "metric": "−23 %",
+        "metricLabel": "prevádzkových nákladov za 12 mesiacov",
+        "note": "Obchodná skupina, 5 pobočiek"
+      },
+      {
+        "label": "IT riaditeľ",
+        "benefits": [
+          "Audit bezpečnosti a infraštruktúry",
+          "Plán odolnosti a obnovy prevádzky",
+          "Automatizácia bez závislosti na dodávateľovi"
+        ],
+        "metric": "99,98 %",
+        "metricLabel": "dostupnosť kritických systémov",
+        "note": "Fintech platforma, 180 tis. používateľov"
+      },
+      {
+        "label": "HR",
+        "benefits": [
+          "Kompetenčný model a kariérne cesty",
+          "Systém odmeňovania podľa výkonu",
+          "Nábor kľúčových seniorných rolí"
+        ],
+        "metric": "−31 %",
+        "metricLabel": "fluktuácia kľúčových ľudí za rok",
+        "note": "Logistický líder, 850 zamestnancov"
+      }
+    ]
+  },
+  "stats": {
+    "items": [
+      {
+        "value": "120+",
+        "label": "dokončených projektov"
+      },
+      {
+        "value": "9 rokov",
+        "label": "na trhu bez jedinej arbitráže"
+      },
+      {
+        "value": "74",
+        "label": "NPS skóre našich klientov"
+      },
+      {
+        "value": "98 %",
+        "label": "projektov v termíne a rozpočte"
+      }
+    ],
+    "badges": [
+      "Certifikácia ISO 9001 / 27001",
+      "Poistenie zodpovednosti 50 mil. Kč",
+      "Seniori s praxou 10+ rokov",
+      "Mlčanlivosť zmluvne (NDA)"
+    ]
+  },
+  "services": {
+    "eyebrow": "Riešenia",
+    "title": "Oblasti, v ktorých doručujeme čísla",
+    "lead": "Každé riešenie má pevný rozsah, menovitý tím a metriku úspechu, na ktorej sa dohodneme vopred — žiadne hodinovky bez konca.",
+    "linkLabel": "Zistiť viac",
+    "items": [
+      {
+        "name": "Stratégia a rast",
+        "description": "Growth stratégia, vstup na nové trhy a prevádzkový model, ktorý rast unesie. Od analýzy po exekúciu s vedením firmy.",
+        "tag": "Stratégia",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-strategie.webp"
+      },
+      {
+        "name": "Financie a controlling",
+        "description": "Nákladová optimalizácia, riadenie cashflow a reporting, ktorý dáva vedeniu odpovede, nie tabuľky.",
+        "tag": "Financie",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-finance.webp"
+      },
+      {
+        "name": "Compliance a právo",
+        "description": "Zmluvná architektúra, regulatórna compliance a príprava na audity — bez spomalenia obchodu.",
+        "tag": "Compliance",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-compliance.webp"
+      },
+      {
+        "name": "Procesy a prevádzka",
+        "description": "Zoštíhlenie procesov, automatizácia a dodávateľská stratégia. Meriame priechodnosť, nie počet workshopov.",
+        "tag": "Prevádzka",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-provoz.webp"
+      }
+    ],
+    "services": []
+  },
+  "method": {
+    "eyebrow": "Metodika",
+    "title": "Od diagnostiky k merateľnému výsledku",
+    "lead": "Žiadne nekonečné analýzy. Pevné fázy s pevnými výstupmi — a metrika úspechu dohodnutá skôr, než začneme.",
+    "steps": [
+      {
+        "title": "Diagnostika",
+        "duration": "10 dní",
+        "description": "Dáta, rozhovory s kľúčovými ľuďmi a shadowing prevádzky. Výstupom je mapa problémov s vyčísleným dopadom."
+      },
+      {
+        "title": "Návrh riešenia",
+        "duration": "2–3 týždne",
+        "description": "Varianty riešenia s biznis casom, rizikami a nárokmi na tím. Vedenie vyberá z čísel, nie z dojmov."
+      },
+      {
+        "title": "Implementácia",
+        "duration": "3–9 mesiacov",
+        "description": "Náš tím pracuje vo vnútri vášho. Týždenný rytmus, viditeľný postup a eskalácie bez odkladov."
+      },
+      {
+        "title": "Meranie a odovzdanie",
+        "duration": "priebežne",
+        "description": "Výsledok meriame proti dohodnutej metrike. Odovzdávame know-how tak, aby zmena prežila náš odchod."
+      }
+    ],
+    "services": []
+  },
+  "cases": {
+    "eyebrow": "Case studies",
+    "title": "Výsledky, ktoré si môžete premerať",
+    "lead": "Každý projekt končí číslom, nie prezentáciou. Vybrané case studies s merateľným dopadom na hospodárenie klienta.",
+    "linkLabel": "Celá case study",
+    "items": [
+      {
+        "slug": "snizeni-provoznich-nakladu-vyrobni-skupiny",
+        "industry": "Výroba",
+        "metric": "−23 %",
+        "metricLabel": "prevádzkových nákladov za 12 mesiacov",
+        "title": "Zníženie prevádzkových nákladov výrobnej skupiny",
+        "excerpt": "Nákladová diagnostika troch závodov, nová dodávateľská stratégia a controlling, ktorý drží úspory aj po našom odchode.",
+        "body": "Skupina s tromi závodmi a 240 zamestnancami rástla akvizíciami a náklady rástli rýchlejšie než tržby. Diagnostika odhalila duplicitný nákup, nevýhodné energetické kontrakty a výrobné nadčasy kryjúce zlé plánovanie.\n\nPočas dvanástich mesiacov sme zjednotili nákup pod jedno vyjednávanie, presúťažili energie a zaviedli plánovací rytmus S&OP. Controlling teraz mesačne reportuje úsporu proti baseline — po roku −23 % prevádzkových nákladov pri zachovaní objemu výroby.",
+        "photo": "/templates/signal-01/img/case-finance.webp"
+      },
+      {
+        "slug": "kyberneticka-odolnost-fintech-platformy",
+        "industry": "IT / Fintech",
+        "metric": "99,98 %",
+        "metricLabel": "dostupnosť kritických systémov",
+        "title": "Kybernetická odolnosť fintech platformy",
+        "excerpt": "Bezpečnostný audit, plán obnovy prevádzky a automatizácia nasadenia pre platformu so 180 tisícami používateľov.",
+        "body": "Platforma spracúvajúca platby pre 180 tisíc používateľov rástla rýchlejšie než jej infraštruktúra. Výpadky ohrozovali licenciu aj dôveru klientov. Audit odhalil jediný bod zlyhania v kritickej databáze a nasadzovanie zmien bez možnosti rýchleho návratu.\n\nZaviedli sme redundantnú architektúru, automatizované nasadenie s okamžitým rollbackom a pravidelné testy obnovy prevádzky. Dostupnosť kritických systémov sa za pol roka zdvihla na 99,98 % a regulatórny audit prešiel bez nálezu.",
+        "photo": "/templates/signal-01/img/case-it.webp"
+      },
+      {
+        "slug": "stabilizace-tymu-logistickeho-lidra",
+        "industry": "Logistika / HR",
+        "metric": "−31 %",
+        "metricLabel": "fluktuácia kľúčových ľudí za rok",
+        "title": "Stabilizácia tímu logistického lídra",
+        "excerpt": "Kompetenčný model, výkonové odmeňovanie a kariérne cesty pre 850 zamestnancov v trojzmennej prevádzke.",
+        "body": "Logistická firma s 850 zamestnancami strácala ročne tretinu zmenových majstrov a dispečerov — nábor nestíhal a kvalita prevádzky kolísala. Diagnostika ukázala, že odchody neťahá mzda, ale nejasné kariérne cesty a odmeňovanie odtrhnuté od výkonu.\n\nPostavili sme kompetenčný model pre kľúčové role, naviazali odmeny na merateľné ukazovatele zmeny a otvorili interné kariérne cesty. Fluktuácia kľúčových ľudí klesla za rok o 31 % a doba zaučenia nového majstra sa skrátila na polovicu.",
+        "photo": "/templates/signal-01/img/case-hr.webp"
+      }
+    ],
+    "images": []
+  },
+  "team": {
+    "eyebrow": "Tím",
+    "title": "Seniori, ktorí už firmy viedli",
+    "lead": "Žiadni juniori na faktúre. Na projekte pracujú ľudia, ktorí majú vlastné manažérske výsledky za sebou.",
+    "members": [
+      {
+        "name": "Ing. Petr Ukázka, MBA",
+        "role": "Managing Partner",
+        "bio": "15 rokov vo vedení výrobných firiem, naposledy ako CEO skupiny s obratom 2 mld. Kč. Vedie strategické projekty.",
+        "image": "/templates/signal-01/img/team-1.webp"
+      },
+      {
+        "name": "Mgr. Jana Vzorová",
+        "role": "Partner · Financie",
+        "bio": "Bývalá CFO obchodnej skupiny s 5 pobočkami. Špecializácia na controlling, cashflow a nákladové programy.",
+        "image": "/templates/signal-01/img/team-2.webp"
+      },
+      {
+        "name": "Bc. Tomáš Demo",
+        "role": "Head of Technology",
+        "bio": "10 rokov v enterprise IT a kybernetickej bezpečnosti. Viedol modernizáciu infraštruktúry pre finančné inštitúcie.",
+        "image": "/templates/signal-01/img/team-3.webp"
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Referencie",
+    "title": "Čo hovoria klienti",
+    "lead": "Referencie od ľudí, ktorí zodpovedajú za výsledok — konatelia, finanční a IT riaditelia.",
+    "testimonials": [
+      {
+        "name": "Martin Vzor",
+        "role": "CEO · strojárska skupina, 240 zamestnancov",
+        "rating": 5,
+        "text": "Prvýkrát nám poradcovia neodovzdali prezentáciu, ale výsledok. Úspora 23 % nákladov je rok po projekte stále vidieť vo výsledovke."
+      },
+      {
+        "name": "Ing. Lucie Ukázková",
+        "role": "CFO · obchodná skupina, 5 pobočiek",
+        "rating": 5,
+        "text": "Reporting, ktorý sme spolu postavili, mi skrátil závierku o týždeň. A board dostáva odpovede namiesto päťdesiatich tabuliek."
+      },
+      {
+        "name": "Tomáš Príklad",
+        "role": "IT riaditeľ · fintech platforma",
+        "rating": 5,
+        "text": "Audit bol nekompromisný a presne preto fungoval. Od nasadenia novej architektúry sme nemali jediný vážny výpadok."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Časté otázky",
+    "title": "Na čo sa klienti pýtajú pred spoluprácou",
+    "lead": "Nenašli ste odpoveď? Rezervujte si 30 minút s partnerom — prvá konzultácia je zadarmo a bez záväzku.",
+    "items": [
+      {
+        "question": "Koľko spolupráca stojí a ako sa platí?",
+        "answer": "Pracujeme s pevnou cenou za fázu, nie s otvorenou hodinovkou. Po diagnostike dostanete ponuku s rozsahom, cenou a metrikou úspechu — časť odmeny vieme naviazať na dosiahnutý výsledok."
+      },
+      {
+        "question": "Ako rýchlo spoznáme prvé výsledky?",
+        "answer": "Diagnostika trvá desať pracovných dní a už jej výstup má hodnotu — mapu problémov s vyčísleným dopadom. Prvé merateľné úspory sa pri nákladových projektoch typicky prejavia do troch mesiacov."
+      },
+      {
+        "question": "Ako meriate úspech projektu?",
+        "answer": "Pred štartom sa dohodneme na jednej hlavnej metrike (napr. prevádzkové náklady, dostupnosť systémov, fluktuácia) a baseline. Postup proti metrike reportujeme každý mesiac a výsledok je súčasťou odovzdania."
+      },
+      {
+        "question": "Ako je to s dôvernosťou dát?",
+        "answer": "Mlčanlivosť dojednávame zmluvne (NDA) pred prvou výmenou podkladov. Sme certifikovaní podľa ISO 27001 a dáta klientov spracúvame výhradne v EÚ."
+      },
+      {
+        "question": "Pre koho spolupráca dáva zmysel?",
+        "answer": "Pre stredné a väčšie firmy — typicky od 50 zamestnancov alebo 100 mil. Kč obratu — kde už má merateľný výsledok väčšiu hodnotu než náklad na seniorný tím. Menším firmám odporučíme jednorazovú konzultáciu."
+      }
+    ],
+    "ctaText": "Rezervovať konzultáciu",
+    "ctaHref": "#konzultace"
+  },
+  "contact": {
+    "eyebrow": "Konzultácia",
+    "heading": "Rezervujte si 30 minút s partnerom",
+    "subheading": "Popíšete situáciu, my povieme, ako by sme postupovali a aký výsledok by to prinieslo. Prvých 30 minút zadarmo a bez záväzku.",
+    "phone": "+420 704 123 456",
+    "email": "poptavka@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pia 9:00–18:00",
+    "icoLabel": "Fakturačné údaje",
+    "ico": "IČO 12345678 · Ukázka Consulting s.r.o.",
+    "formTitle": "Nezáväzná konzultácia",
+    "nameLabel": "Meno a priezvisko",
+    "companyLabel": "Spoločnosť",
+    "emailLabel": "Pracovný e-mail",
+    "phoneLabel": "Telefón",
+    "topicLabel": "Čo riešite",
+    "topics": [
+      "Stratégia a rast",
+      "Financie a controlling",
+      "Compliance a právo",
+      "Procesy a prevádzka",
+      "Iné"
+    ],
+    "messageLabel": "Stručne popíšte situáciu",
+    "consentLabel": "Súhlasím so spracovaním osobných údajov za účelom vybavenia dopytu.",
+    "submitLabel": "Rezervovať konzultáciu",
+    "successTitle": "Ďakujeme, dopyt odišiel.",
+    "successBody": "Do 24 hodín sa ozve partner zodpovedný za vašu oblasť a dohodnete si termín konzultácie."
+  },
+  "footer": {
+    "siteName": "Ukázka Consulting",
+    "logoUrl": "/templates/signal-01/logo-white.svg",
+    "tagline": "Consulting pre merateľné výsledky. Stratégia, financie, compliance a prevádzka pre stredné a väčšie firmy v Česku a na Slovensku.",
+    "email": "email@demo.cz",
+    "phone": "+420 704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "navColTitle": "Navigácia",
+    "contactColTitle": "Kontakt",
+    "industriesTitle": "Odvetvia",
+    "industries": [
+      "Výroba",
+      "IT & Fintech",
+      "Financie",
+      "Právo",
+      "Logistika",
+      "Energetika",
+      "HR"
+    ],
+    "links": [
+      {
+        "label": "Riešenia",
+        "href": "/reseni"
+      },
+      {
+        "label": "Case studies",
+        "href": "/case-studies"
+      },
+      {
+        "label": "O firme",
+        "href": "/o-firme"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Ochrana osobných údajov",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Obchodné podmienky",
+        "href": "#podminky"
+      }
+    ],
+    "socials": [
+      {
+        "icon": "linkedin",
+        "href": "https://linkedin.com/company/demo",
+        "label": "LinkedIn"
+      },
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/demo",
+        "label": "Facebook"
+      }
+    ],
+    "copyright": "© 2026 Ukázka Consulting s.r.o. Všetky práva vyhradené."
+  },
+  "pages": {
+    "reseni": {
+      "seoTitle": "Riešenia | Ukázka Consulting",
+      "seoDescription": "Stratégia, financie, compliance a prevádzka — poradenské riešenia s pevným rozsahom a metrikou úspechu dohodnutou vopred.",
+      "hero": {
+        "title": "Riešenia",
+        "subtitle": "Štyri oblasti, v ktorých doručujeme merateľné čísla. Pevný rozsah, menovitý tím a metrika úspechu vopred.",
+        "breadcrumb": "Domov",
+        "breadcrumbHref": "/"
+      }
+    },
+    "case-studies": {
+      "seoTitle": "Case studies | Ukázka Consulting",
+      "seoDescription": "Vybrané projekty s merateľným dopadom: −23 % nákladov, 99,98% dostupnosť systémov, −31 % fluktuácia kľúčových ľudí.",
+      "hero": {
+        "title": "Case studies",
+        "subtitle": "Každý projekt končí číslom, nie prezentáciou. Prezrite si vybrané projekty s merateľným dopadom.",
+        "breadcrumb": "Domov",
+        "breadcrumbHref": "/"
+      }
+    },
+    "o-firme": {
+      "seoTitle": "O firme | Ukázka Consulting",
+      "seoDescription": "Seniori s manažérskou praxou, 120+ dokončených projektov, NPS 74. Spoznajte tím a čísla, ktoré za nami stoja.",
+      "hero": {
+        "title": "O firme",
+        "subtitle": "Konzultanti, ktorí už firmy viedli. Autoritu nestaviame na prezentáciách, ale na číslach našich klientov.",
+        "breadcrumb": "Domov",
+        "breadcrumbHref": "/"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Ukázka Consulting",
+      "seoDescription": "Rezervujte si 30 minút s partnerom zadarmo. Praha 1, Ukázková 123 · 704 123 456 · poptavka@demo.cz.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Napíšte alebo zavolajte. Prvých 30 minút konzultácie je zadarmo a bez záväzku.",
+        "breadcrumb": "Domov",
+        "breadcrumbHref": "/"
+      }
+    }
+  }
+}

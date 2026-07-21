@@ -1,0 +1,79 @@
+{
+  "colors": {
+    "primary": "#2563EB",
+    "secondary": "#101418",
+    "background": "#F3F5F7",
+    "surface": "#FFFFFF",
+    "text": "#111827",
+    "textMuted": "#5B6472",
+    "accent": "#2563EB",
+    "border": "#E3E7EB"
+  },
+  "typography": {
+    "fontHeading": "var(--font-oswald), 'Oswald', system-ui, sans-serif",
+    "fontBody": "var(--font-overpass), 'Overpass', system-ui, sans-serif",
+    "fontMono": "var(--font-overpass-mono), ui-monospace, monospace",
+    "scale": "display"
+  },
+  "radius": {
+    "sm": "4px",
+    "md": "6px",
+    "lg": "12px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section": "airy"
+  },
+  "shadows": {
+    "sm": "0 1px 3px rgba(16,20,24,0.06)",
+    "md": "0 8px 24px -12px rgba(16,20,24,0.15)",
+    "lg": "0 14px 40px -22px rgba(16,20,24,0.25)"
+  },
+  "animation": {
+    "ease": "cubic-bezier(.22,.68,0,1)",
+    "duration": "300ms",
+    "intensity": "subtle"
+  },
+  "presets": {
+    "corporate": {
+      "label": "Corporate — consulting a IT",
+      "tokens": {
+        "colorPrimary": "#2563EB",
+        "colorAccent": "#2563EB",
+        "colorSecondary": "#101418",
+        "colorBackground": "#F3F5F7",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#111827",
+        "colorTextMuted": "#5B6472",
+        "colorBorder": "#E3E7EB"
+      }
+    },
+    "counsel": {
+      "label": "Counsel — právo a finance",
+      "tokens": {
+        "colorPrimary": "#0E6B4F",
+        "colorAccent": "#0E6B4F",
+        "colorSecondary": "#12201A",
+        "colorBackground": "#F2F6F4",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#12201A",
+        "colorTextMuted": "#58685F",
+        "colorBorder": "#DCE6E0"
+      }
+    },
+    "industrial": {
+      "label": "Industrial — výroba a energetika",
+      "tokens": {
+        "colorPrimary": "#D97706",
+        "colorAccent": "#D97706",
+        "colorSecondary": "#0C0F12",
+        "colorBackground": "#F5F3EF",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#14161B",
+        "colorTextMuted": "#6A6E76",
+        "colorBorder": "#E7E3DB"
+      }
+    }
+  }
+}

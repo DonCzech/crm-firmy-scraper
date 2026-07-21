@@ -1,0 +1,443 @@
+{
+  "navbar": {
+    "siteName": "Ukázka Consulting",
+    "logoUrl": "/templates/signal-01/logo.svg",
+    "phone": "704 123 456",
+    "phoneHref": "tel:+420704123456",
+    "ctaText": "Book a consultation",
+    "ctaHref": "#konzultace",
+    "mobileCtaCallLabel": "Call us",
+    "mobileCtaCallHref": "tel:+420704123456",
+    "mobileCtaLeadLabel": "Consultation",
+    "mobileCtaLeadHref": "#konzultace",
+    "links": [
+      {
+        "label": "Solutions",
+        "href": "/reseni"
+      },
+      {
+        "label": "Case studies",
+        "href": "/case-studies"
+      },
+      {
+        "label": "About us",
+        "href": "/o-firme"
+      },
+      {
+        "label": "Contact",
+        "href": "/kontakt"
+      }
+    ]
+  },
+  "hero": {
+    "eyebrow": "Consulting for measurable results",
+    "title": "Decisions backed by data,",
+    "titleAccent": "results backed by numbers.",
+    "subtitle": "We help leadership teams of mid-sized and larger companies turn strategy into operations. Fixed scope, senior consultants with management experience and a success metric agreed upfront.",
+    "ctaText": "Book a consultation",
+    "ctaHref": "#konzultace",
+    "ctaSecondaryText": "Call: 704 123 456",
+    "ctaSecondaryHref": "tel:+420704123456",
+    "photo": "/templates/signal-01/img/hero.webp",
+    "photoAlt": "Corporate towers in fog",
+    "trust": [
+      "120+ completed projects",
+      "ISO 9001 / 27001",
+      "NPS 74"
+    ],
+    "selectorTitle": "Choose your role",
+    "selectorSubtitle": "See what we most often solve for people in your position.",
+    "metricEyebrow": "Typical result",
+    "selectorCtaText": "Book a consultation",
+    "selectorCtaHref": "#konzultace",
+    "selectorCtaNote": "First 30 minutes free · no commitment",
+    "roles": [
+      {
+        "label": "CEO",
+        "benefits": [
+          "Growth strategy with a clear metric",
+          "An operating model that scales",
+          "Board reporting on a single page"
+        ],
+        "metric": "+18 %",
+        "metricLabel": "EBITDA growth within 18 months",
+        "note": "Manufacturing group, 240 employees"
+      },
+      {
+        "label": "CFO",
+        "benefits": [
+          "Controlling and cashflow management",
+          "Operating cost reduction",
+          "Automated monthly reporting"
+        ],
+        "metric": "−23 %",
+        "metricLabel": "operating costs within 12 months",
+        "note": "Trading group, 5 branches"
+      },
+      {
+        "label": "CIO",
+        "benefits": [
+          "Security and infrastructure audit",
+          "Resilience and recovery plan",
+          "Automation without vendor lock-in"
+        ],
+        "metric": "99.98 %",
+        "metricLabel": "critical systems availability",
+        "note": "Fintech platform, 180k users"
+      },
+      {
+        "label": "HR",
+        "benefits": [
+          "Competency model and career paths",
+          "Performance-based compensation",
+          "Hiring for key senior roles"
+        ],
+        "metric": "−31 %",
+        "metricLabel": "key-people attrition per year",
+        "note": "Logistics leader, 850 employees"
+      }
+    ]
+  },
+  "stats": {
+    "items": [
+      {
+        "value": "120+",
+        "label": "completed projects"
+      },
+      {
+        "value": "9 yrs",
+        "label": "on the market without a single dispute"
+      },
+      {
+        "value": "74",
+        "label": "client NPS score"
+      },
+      {
+        "value": "98 %",
+        "label": "projects on time and on budget"
+      }
+    ],
+    "badges": [
+      "ISO 9001 / 27001 certified",
+      "Liability insurance CZK 50m",
+      "Seniors with 10+ years of practice",
+      "Confidentiality by contract (NDA)"
+    ]
+  },
+  "services": {
+    "eyebrow": "Solutions",
+    "title": "Areas where we deliver numbers",
+    "lead": "Every engagement has a fixed scope, a named team and a success metric agreed upfront — no open-ended hourly billing.",
+    "linkLabel": "Learn more",
+    "items": [
+      {
+        "name": "Strategy & growth",
+        "description": "Growth strategy, new market entry and an operating model that can carry the growth. From analysis to execution with your leadership.",
+        "tag": "Strategy",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-strategie.webp"
+      },
+      {
+        "name": "Finance & controlling",
+        "description": "Cost optimisation, cashflow management and reporting that gives leadership answers, not spreadsheets.",
+        "tag": "Finance",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-finance.webp"
+      },
+      {
+        "name": "Compliance & legal",
+        "description": "Contract architecture, regulatory compliance and audit readiness — without slowing your business down.",
+        "tag": "Compliance",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-compliance.webp"
+      },
+      {
+        "name": "Processes & operations",
+        "description": "Process streamlining, automation and supplier strategy. We measure throughput, not the number of workshops.",
+        "tag": "Operations",
+        "href": "/reseni",
+        "photo": "/templates/signal-01/img/svc-provoz.webp"
+      }
+    ],
+    "services": []
+  },
+  "method": {
+    "eyebrow": "Methodology",
+    "title": "From diagnostics to a measurable result",
+    "lead": "No endless analyses. Fixed phases with fixed deliverables — and a success metric agreed before we start.",
+    "steps": [
+      {
+        "title": "Diagnostics",
+        "duration": "10 days",
+        "description": "Data, interviews with key people and operations shadowing. The output is a problem map with quantified impact."
+      },
+      {
+        "title": "Solution design",
+        "duration": "2–3 weeks",
+        "description": "Solution options with a business case, risks and team requirements. Leadership chooses from numbers, not impressions."
+      },
+      {
+        "title": "Implementation",
+        "duration": "3–9 months",
+        "description": "Our team works inside yours. Weekly rhythm, visible progress and escalations without delay."
+      },
+      {
+        "title": "Measure & handover",
+        "duration": "ongoing",
+        "description": "Results are measured against the agreed metric. We hand over the know-how so the change survives our departure."
+      }
+    ],
+    "services": []
+  },
+  "cases": {
+    "eyebrow": "Case studies",
+    "title": "Results you can re-measure",
+    "lead": "Every project ends with a number, not a presentation. Selected case studies with measurable impact on the client's P&L.",
+    "linkLabel": "Full case study",
+    "items": [
+      {
+        "slug": "snizeni-provoznich-nakladu-vyrobni-skupiny",
+        "industry": "Manufacturing",
+        "metric": "−23 %",
+        "metricLabel": "operating costs within 12 months",
+        "title": "Cutting operating costs of a manufacturing group",
+        "excerpt": "Cost diagnostics across three plants, a new supplier strategy and controlling that keeps the savings after we leave.",
+        "body": "A group with three plants and 240 employees grew through acquisitions — and costs grew faster than revenue. Diagnostics revealed duplicated purchasing, unfavourable energy contracts and production overtime covering poor planning.\n\nWithin twelve months we unified purchasing under one negotiation, re-tendered energy and introduced an S&OP planning rhythm. Controlling now reports savings against the baseline every month — after a year, operating costs are down 23 % at the same production volume.",
+        "photo": "/templates/signal-01/img/case-finance.webp"
+      },
+      {
+        "slug": "kyberneticka-odolnost-fintech-platformy",
+        "industry": "IT / Fintech",
+        "metric": "99.98 %",
+        "metricLabel": "critical systems availability",
+        "title": "Cyber resilience of a fintech platform",
+        "excerpt": "Security audit, business continuity plan and deployment automation for a platform with 180k users.",
+        "body": "A platform processing payments for 180k users grew faster than its infrastructure. Outages threatened both the licence and client trust. The audit revealed a single point of failure in the critical database and deployments with no fast rollback.\n\nWe introduced a redundant architecture, automated deployments with instant rollback and regular recovery testing. Critical systems availability rose to 99.98 % within six months and the regulatory audit passed without findings.",
+        "photo": "/templates/signal-01/img/case-it.webp"
+      },
+      {
+        "slug": "stabilizace-tymu-logistickeho-lidra",
+        "industry": "Logistics / HR",
+        "metric": "−31 %",
+        "metricLabel": "key-people attrition per year",
+        "title": "Stabilising the team of a logistics leader",
+        "excerpt": "Competency model, performance-based pay and career paths for 850 employees in a three-shift operation.",
+        "body": "A logistics company with 850 employees was losing a third of its shift foremen and dispatchers every year — hiring couldn't keep up and operational quality fluctuated. Diagnostics showed that departures weren't driven by pay, but by unclear career paths and compensation detached from performance.\n\nWe built a competency model for key roles, tied rewards to measurable shift KPIs and opened internal career paths. Key-people attrition fell by 31 % in a year and onboarding time for a new foreman halved.",
+        "photo": "/templates/signal-01/img/case-hr.webp"
+      }
+    ],
+    "images": []
+  },
+  "team": {
+    "eyebrow": "Team",
+    "title": "Seniors who have run companies",
+    "lead": "No juniors on the invoice. Your project is staffed by people with their own management track record.",
+    "members": [
+      {
+        "name": "Ing. Petr Ukázka, MBA",
+        "role": "Managing Partner",
+        "bio": "15 years leading manufacturing companies, most recently as CEO of a group with CZK 2bn revenue. Leads strategy projects.",
+        "image": "/templates/signal-01/img/team-1.webp"
+      },
+      {
+        "name": "Mgr. Jana Vzorová",
+        "role": "Partner · Finance",
+        "bio": "Former CFO of a trading group with 5 branches. Specialises in controlling, cashflow and cost programmes.",
+        "image": "/templates/signal-01/img/team-2.webp"
+      },
+      {
+        "name": "Bc. Tomáš Demo",
+        "role": "Head of Technology",
+        "bio": "10 years in enterprise IT and cybersecurity. Led infrastructure modernisation for financial institutions.",
+        "image": "/templates/signal-01/img/team-3.webp"
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "References",
+    "title": "What our clients say",
+    "lead": "References from people accountable for the result — CEOs, CFOs and IT directors.",
+    "testimonials": [
+      {
+        "name": "Martin Vzor",
+        "role": "CEO · engineering group, 240 employees",
+        "rating": 5,
+        "text": "For the first time, consultants delivered a result instead of a presentation. The 23 % cost saving is still visible in our P&L a year after the project."
+      },
+      {
+        "name": "Ing. Lucie Ukázková",
+        "role": "CFO · trading group, 5 branches",
+        "rating": 5,
+        "text": "The reporting we built together cut my closing by a week. And the board gets answers instead of fifty spreadsheets."
+      },
+      {
+        "name": "Tomáš Příklad",
+        "role": "IT Director · fintech platform",
+        "rating": 5,
+        "text": "The audit was uncompromising and that's exactly why it worked. We haven't had a single serious outage since the new architecture went live."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "What clients ask before working with us",
+    "lead": "Didn't find your answer? Book 30 minutes with a partner — the first consultation is free and without commitment.",
+    "items": [
+      {
+        "question": "How much does an engagement cost and how is it billed?",
+        "answer": "We work with a fixed price per phase, not open-ended hourly billing. After diagnostics you receive a proposal with scope, price and a success metric — part of our fee can be tied to the achieved result."
+      },
+      {
+        "question": "How quickly will we see first results?",
+        "answer": "Diagnostics takes ten working days and its output alone has value — a problem map with quantified impact. For cost projects, first measurable savings typically appear within three months."
+      },
+      {
+        "question": "How do you measure project success?",
+        "answer": "Before we start, we agree on one main metric (e.g. operating costs, systems availability, attrition) and a baseline. Progress against the metric is reported monthly and the result is part of the handover."
+      },
+      {
+        "question": "How do you handle data confidentiality?",
+        "answer": "Confidentiality is agreed contractually (NDA) before the first exchange of materials. We are ISO 27001 certified and process client data exclusively within the EU."
+      },
+      {
+        "question": "Who is the engagement a good fit for?",
+        "answer": "Mid-sized and larger companies — typically from 50 employees or CZK 100m revenue — where a measurable result is worth more than the cost of a senior team. For smaller companies we recommend a one-off consultation."
+      }
+    ],
+    "ctaText": "Book a consultation",
+    "ctaHref": "#konzultace"
+  },
+  "contact": {
+    "eyebrow": "Consultation",
+    "heading": "Book 30 minutes with a partner",
+    "subheading": "You describe the situation, we tell you how we would proceed and what result it would bring. The first 30 minutes are free and without commitment.",
+    "phone": "+420 704 123 456",
+    "email": "poptavka@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Mon–Fri 9:00–18:00",
+    "icoLabel": "Billing details",
+    "ico": "Company ID 12345678 · Ukázka Consulting s.r.o.",
+    "formTitle": "Free consultation",
+    "nameLabel": "Full name",
+    "companyLabel": "Company",
+    "emailLabel": "Work e-mail",
+    "phoneLabel": "Phone",
+    "topicLabel": "What are you solving",
+    "topics": [
+      "Strategy & growth",
+      "Finance & controlling",
+      "Compliance & legal",
+      "Processes & operations",
+      "Other"
+    ],
+    "messageLabel": "Briefly describe your situation",
+    "consentLabel": "I agree to the processing of my personal data for the purpose of handling this enquiry.",
+    "submitLabel": "Book a consultation",
+    "successTitle": "Thank you, your enquiry has been sent.",
+    "successBody": "The partner responsible for your area will get back to you within 24 hours to arrange the consultation."
+  },
+  "footer": {
+    "siteName": "Ukázka Consulting",
+    "logoUrl": "/templates/signal-01/logo-white.svg",
+    "tagline": "Consulting for measurable results. Strategy, finance, compliance and operations for mid-sized and larger companies in the Czech Republic and Slovakia.",
+    "email": "email@demo.cz",
+    "phone": "+420 704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "navColTitle": "Navigation",
+    "contactColTitle": "Contact",
+    "industriesTitle": "Industries",
+    "industries": [
+      "Manufacturing",
+      "IT & Fintech",
+      "Finance",
+      "Legal",
+      "Logistics",
+      "Energy",
+      "HR"
+    ],
+    "links": [
+      {
+        "label": "Solutions",
+        "href": "/reseni"
+      },
+      {
+        "label": "Case studies",
+        "href": "/case-studies"
+      },
+      {
+        "label": "About us",
+        "href": "/o-firme"
+      },
+      {
+        "label": "Contact",
+        "href": "/kontakt"
+      }
+    ],
+    "legalLinks": [
+      {
+        "label": "Privacy policy",
+        "href": "#gdpr"
+      },
+      {
+        "label": "Terms & conditions",
+        "href": "#podminky"
+      }
+    ],
+    "socials": [
+      {
+        "icon": "linkedin",
+        "href": "https://linkedin.com/company/demo",
+        "label": "LinkedIn"
+      },
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/demo",
+        "label": "Facebook"
+      }
+    ],
+    "copyright": "© 2026 Ukázka Consulting s.r.o. All rights reserved."
+  },
+  "pages": {
+    "reseni": {
+      "seoTitle": "Solutions | Ukázka Consulting",
+      "seoDescription": "Strategy, finance, compliance and operations — consulting engagements with fixed scope and a success metric agreed upfront.",
+      "hero": {
+        "title": "Solutions",
+        "subtitle": "Four areas where we deliver measurable numbers. Fixed scope, a named team and a success metric upfront.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "case-studies": {
+      "seoTitle": "Case studies | Ukázka Consulting",
+      "seoDescription": "Selected projects with measurable impact: −23 % costs, 99.98 % systems availability, −31 % key-people attrition.",
+      "hero": {
+        "title": "Case studies",
+        "subtitle": "Every project ends with a number, not a presentation. Browse selected projects with measurable impact.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "o-firme": {
+      "seoTitle": "About us | Ukázka Consulting",
+      "seoDescription": "Seniors with management experience, 120+ completed projects, NPS 74. Meet the team and the numbers behind us.",
+      "hero": {
+        "title": "About us",
+        "subtitle": "Consultants who have run companies. We build authority on our clients' numbers, not on presentations.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Contact | Ukázka Consulting",
+      "seoDescription": "Book 30 minutes with a partner for free. Praha 1, Ukázková 123 · 704 123 456 · poptavka@demo.cz.",
+      "hero": {
+        "title": "Contact",
+        "subtitle": "Write or call. The first 30 minutes of consultation are free and without commitment.",
+        "breadcrumb": "Home",
+        "breadcrumbHref": "/"
+      }
+    }
+  }
+}
