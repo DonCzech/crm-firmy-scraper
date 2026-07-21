@@ -13382,12 +13382,12 @@ function FooterGarden01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 
 // ── clean-02-footer ───────────────────────────────────────────────────────────
 function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string }) {
-  const NAVY    = "#0e0e53";
-  const PRIMARY = "#019dff";
+  const NAVY    = "#0B1526";
+  const PRIMARY = "#6E9BFF";
   const FONT_H  = "'Bricolage Grotesque', sans-serif";
   const FONT_B  = "'Onest', sans-serif";
 
-  const siteName     = String(content.siteName     ?? "Demo Modrý Žralok s.r.o.");
+  const siteName     = String(content.siteName     ?? "Modrá vlna s.r.o.");
   const tagline      = String(content.tagline      ?? "Profesionální úklidová firma Praha");
   const address      = String(content.address      ?? "Ukázková 123, 110 00 Praha 1");
   const phone        = String(content.phone        ?? "+420 704 123 456");
@@ -13414,10 +13414,14 @@ function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<str
     <>
       <style>{`
         .c02ft-footer { font-family: ${FONT_B}; background: ${NAVY}; color: rgba(255,255,255,0.8); }
-        .c02ft-top-bar { height: 5px; background: linear-gradient(90deg,#2bbbff,#1c91ff 40%,#2559e2); }
-        .c02ft-main { max-width: 80rem; margin: 0 auto; padding: 4rem 5% 3rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
-        .c02ft-logo { font-family: ${FONT_H}; font-size: 1.35rem; font-weight: 800; color: #fff; margin: 0 0 .3rem; display: flex; align-items: center; gap: .5rem; }
-        .c02ft-logo-dot { width: 8px; height: 8px; border-radius: 50%; background: ${PRIMARY}; flex-shrink: 0; }
+        .c02ft-top-bar { height: 1px; background: rgba(255,255,255,0.1); display: none; }
+        .c02ft-main { max-width: 76rem; margin: 0 auto; padding: clamp(3rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem) 2.8rem; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 3rem; }
+        .c02ft-logo { font-family: ${FONT_H}; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; margin: 0 0 .3rem; display: flex; align-items: center; gap: .6rem; }
+        .c02ft-logo-dot {
+          width: 28px; height: 28px; border-radius: 8px; background: #1B5BFF; flex-shrink: 0;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18'%3E%3Cpath d='M1.5 11.5c2.2-3 4.3-3 6.5 0s4.3 3 6.5 0' stroke='%23fff' stroke-width='1.9' stroke-linecap='round' fill='none'/%3E%3Cpath d='M1.5 6.5c2.2-3 4.3-3 6.5 0s4.3 3 6.5 0' stroke='%239BC0FF' stroke-width='1.9' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+          background-repeat: no-repeat; background-position: center;
+        }
         .c02ft-tagline { font-size: .84rem; color: rgba(255,255,255,.45); margin: 0 0 1.75rem; }
         .c02ft-row { display: flex; align-items: flex-start; gap: .65rem; margin-bottom: .8rem; font-size: .875rem; color: rgba(255,255,255,.7); text-decoration: none; }
         a.c02ft-row:hover { color: ${PRIMARY}; }
@@ -13496,7 +13500,7 @@ function FooterClean02({ content, sectionId, tenantSlug }: { content: Record<str
         <div className="c02ft-bottom">
           <div className="c02ft-bottom-inner">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-            <span>Vytvořeno s Webero</span>
+            <WeberoCredit />
           </div>
         </div>
       </footer>

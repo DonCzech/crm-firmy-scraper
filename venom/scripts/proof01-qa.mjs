@@ -38,6 +38,7 @@ try {
   page.on("console", (m) => { if (m.type() === "error") consoleErrors.push(`[ix] ${m.text().slice(0, 200)}`); });
   page.on("pageerror", (e) => consoleErrors.push(`[ix pageerror] ${String(e).slice(0, 200)}`));
   await page.goto(HOME, { waitUntil: "networkidle", timeout: 60000 });
+  try { await page.getByText("Accept all").click({ timeout: 2500 }); } catch {}
 
   // hero selector: click 3rd service, check price changed
   const price1 = await page.locator(".pf01sel-result-val").innerText();
@@ -73,6 +74,7 @@ try {
   await page.locator(".pf01ct-submit").scrollIntoViewIfNeeded();
   await page.fill(".pf01ct-card input[name=name]", "QA Test");
   await page.fill(".pf01ct-card input[name=email]", "qa@test.cz");
+  await page.fill(".pf01ct-card textarea[name=message]", "QA testovací poptávka — oprava kohoutku.");
   await page.locator(".pf01ct-submit").click();
   await page.waitForTimeout(500);
   const err = await page.locator(".pf01ct-err").count();
@@ -106,6 +108,7 @@ try {
   const mctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const mpage = await mctx.newPage();
   await mpage.goto(HOME, { waitUntil: "networkidle", timeout: 60000 });
+  try { await mpage.getByText("Accept all").click({ timeout: 2500 }); } catch {}
   const barVisible = await mpage.locator(".pf01nav-mobar").isVisible();
   results.push(`${barVisible ? "ok" : "FAIL"} sticky mobile CTA bar visible @390`);
   // drawer opens

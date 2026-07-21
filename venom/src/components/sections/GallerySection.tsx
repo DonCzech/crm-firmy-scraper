@@ -8469,7 +8469,7 @@ function BeforeAfterProof01({ content, sectionId }: { content: Record<string, un
         .pf01ba-head { max-width:640px; margin-bottom:clamp(32px,5vw,52px); }
         .pf01ba-title { font-family: var(--font-heading, system-ui, sans-serif); color: var(--pf-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
         .pf01ba-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
-        .pf01ba-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px; }
+        .pf01ba-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:22px; }
         .pf01ba-card { margin:0; }
         .pf01ba-stage { position:relative; border-radius:10px; overflow:hidden; aspect-ratio:4/3; background:#ddd; border:1px solid var(--pf-border); user-select:none; touch-action:pan-y; cursor:ew-resize; }
         .pf01ba-imgslot { position:absolute; inset:0; width:100%; height:100%; display:block; }

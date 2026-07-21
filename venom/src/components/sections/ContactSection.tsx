@@ -11139,9 +11139,10 @@ function ContactGarden02({ content, sectionId, tenantSlug, isAdmin }: { content:
 }
 
 // ── clean-02-contact ──────────────────────────────────────────────────────────
-function ContactClean02({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: _isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const [sending, setSending] = React.useState(false);
-  const [sent, setSent] = React.useState(false);
+// Arctic Editorial: ink info panel + bílý formulář; reálné odeslání na
+// /api/demo/:slug/contact (fallback /api/contact) se stavy sending/success/error.
+function ContactClean02({ content, sectionId, tenantSlug, isAdmin: _isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const [status, setStatus] = React.useState<"idle" | "sending" | "ok" | "err">("idle");
   const eyebrow = String(content.eyebrow ?? "Nezávazná poptávka");
   const title   = String(content.title ?? "Připravíme vám cenovou nabídku");
   const sub     = String(content.subtitle ?? "Na zprávy i hovory reagujeme bez zbytečných prodlev. S námi se domluvíte rychle a jasně.");
@@ -11150,56 +11151,105 @@ function ContactClean02({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: 
   const address = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
   const hours   = String(content.openingHours ?? "Po–Pá 8:00–16:00");
   const services = (content.services as string[]) ?? [];
-  const NAVY = "#0e0e53"; const BLUE = "#019dff";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSending(true);
-    await new Promise(r => setTimeout(r, 900));
-    setSending(false);
-    setSent(true);
+    setStatus("sending");
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      sectionId,
+      name: String(fd.get("name") ?? ""),
+      phone: String(fd.get("phone") ?? ""),
+      email: String(fd.get("email") ?? ""),
+      service: String(fd.get("service") ?? ""),
+      message: String(fd.get("message") ?? ""),
+    };
+    try {
+      const url = tenantSlug ? `/api/demo/${tenantSlug}/contact` : "/api/contact";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      setStatus(res.ok ? "ok" : "err");
+    } catch {
+      setStatus("err");
+    }
   };
 
   return (
     <>
       <style>{`
-        .c02co-section { background: #f3f9ff; padding: 5.5rem 5%; font-family: 'Onest',sans-serif; }
-        .c02co-inner { max-width: 80rem; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.5fr; gap: 2.5rem; align-items: start; }
-        .c02co-panel { background: ${NAVY}; border-radius: 20px; padding: 2.75rem 2.25rem; position: relative; overflow: hidden; }
-        .c02co-panel::before { content: ''; position: absolute; bottom: -60px; right: -60px; width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, rgba(1,157,255,.18) 0%, transparent 70%); pointer-events: none; }
-        .c02co-kicker { display: inline-flex; align-items: center; gap: .45rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${BLUE}; margin-bottom: .75rem; }
-        .c02co-kicker::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; }
-        .c02co-h2 { font-family: 'Bricolage Grotesque',sans-serif; font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 800; color: #fff; margin: 0 0 .75rem; line-height: 1.25; }
-        .c02co-sub { font-size: .9rem; color: rgba(255,255,255,.65); line-height: 1.65; margin: 0 0 2rem; }
-        .c02co-divider { border: none; border-top: 1px solid rgba(255,255,255,.12); margin: 0 0 2rem; }
-        .c02co-row { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
+        .c02co-section { background: #F4F6F9; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02co-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.3rem; align-items: stretch;
+        }
+        .c02co-panel {
+          background: #0B1526; border-radius: 20px; padding: clamp(1.9rem, 3.5vw, 2.9rem);
+          display: flex; flex-direction: column;
+        }
+        .c02co-kicker {
+          display: inline-flex; align-items: center; gap: .55rem;
+          font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #6E9BFF; margin-bottom: 1.1rem;
+        }
+        .c02co-kicker::before { content: ''; width: 22px; height: 2px; background: #6E9BFF; border-radius: 2px; }
+        .c02co-h2 {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 750; color: #fff;
+          margin: 0 0 .8rem; line-height: 1.15; letter-spacing: -0.025em;
+        }
+        .c02co-sub { font-size: .93rem; color: #9AA7BC; line-height: 1.68; margin: 0 0 2rem; }
+        .c02co-divider { border: none; border-top: 1px solid rgba(255,255,255,.12); margin: 0 0 1.8rem; }
+        .c02co-row { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.3rem; }
         .c02co-row:last-child { margin-bottom: 0; }
-        .c02co-icon-box { width: 40px; height: 40px; border-radius: 10px; background: rgba(1,157,255,.18); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .c02co-icon-box svg { width: 18px; height: 18px; color: ${BLUE}; }
-        .c02co-row-label { font-size: .72rem; font-weight: 600; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 2px; }
-        .c02co-row-val { font-size: .9rem; font-weight: 600; color: #fff; }
+        .c02co-icon-box {
+          width: 40px; height: 40px; border-radius: 12px; background: rgba(110,155,255,.14);
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .c02co-icon-box svg { width: 17px; height: 17px; color: #6E9BFF; }
+        .c02co-row-label { font-size: .7rem; font-weight: 700; color: #64738C; text-transform: uppercase; letter-spacing: .09em; margin-bottom: 2px; }
+        .c02co-row-val { font-size: .95rem; font-weight: 600; color: #fff; }
         .c02co-row-val a { color: #fff; text-decoration: none; }
-        .c02co-row-val a:hover { color: ${BLUE}; }
-        .c02co-form-wrap { background: #fff; border: 1px solid #dfecff; border-radius: 20px; padding: 2.5rem; }
-        .c02co-form-title { font-family: 'Bricolage Grotesque',sans-serif; font-size: 1.35rem; font-weight: 800; color: ${NAVY}; margin: 0 0 1.75rem; }
+        .c02co-row-val a:hover { color: #6E9BFF; }
+        .c02co-form-wrap { background: #fff; border: 1px solid #E7EBF2; border-radius: 20px; padding: clamp(1.9rem, 3.5vw, 2.9rem); }
+        .c02co-form-title {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: 1.4rem; font-weight: 750; letter-spacing: -0.02em; color: #0B1526; margin: 0 0 1.6rem;
+        }
         .c02co-form { display: flex; flex-direction: column; gap: 1.1rem; }
         .c02co-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .c02co-field label { font-size: .78rem; font-weight: 700; color: ${NAVY}; display: block; margin-bottom: .35rem; letter-spacing: .02em; }
+        .c02co-field label { font-size: .8rem; font-weight: 700; color: #22304A; display: block; margin-bottom: .38rem; letter-spacing: .01em; }
         .c02co-field input, .c02co-field select, .c02co-field textarea {
-          width: 100%; padding: .8rem 1rem; border: 1.5px solid #dfecff; border-radius: 10px; box-sizing: border-box;
-          font-family: 'Onest',sans-serif; font-size: .9rem; color: ${NAVY}; background: #fafcff; outline: none;
-          transition: border-color .2s, box-shadow .2s;
+          width: 100%; padding: .82rem 1rem; border: 1px solid #D6DEEA; border-radius: 12px; box-sizing: border-box;
+          font-family: 'Onest',sans-serif; font-size: .93rem; color: #0B1526; background: #FAFBFD; outline: none;
+          transition: border-color .2s, box-shadow .2s, background .2s;
         }
-        .c02co-field input:focus, .c02co-field select:focus, .c02co-field textarea:focus { border-color: ${BLUE}; box-shadow: 0 0 0 3px rgba(1,157,255,.12); background: #fff; }
-        .c02co-field textarea { min-height: 110px; resize: vertical; }
-        .c02co-submit { width: 100%; padding: .95rem 2rem; border-radius: 9999px; border: none; background: linear-gradient(100deg,#2bbbff,#1c91ff 40%,#2559e2); color: #fff; font-family: 'Onest',sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: opacity .2s, transform .15s; box-shadow: 0 8px 24px -6px rgba(1,157,255,.4); }
-        .c02co-submit:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+        .c02co-field input:focus, .c02co-field select:focus, .c02co-field textarea:focus {
+          border-color: #1B5BFF; box-shadow: 0 0 0 3px rgba(27,91,255,.14); background: #fff;
+        }
+        .c02co-field textarea { min-height: 112px; resize: vertical; }
+        .c02co-submit {
+          width: 100%; padding: 1rem 2rem; border-radius: 9999px; border: none;
+          background: #1B5BFF; color: #fff;
+          font-family: 'Onest',sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer;
+          transition: background .25s, transform .2s;
+          box-shadow: 0 14px 30px -14px rgba(27,91,255,.55);
+        }
+        .c02co-submit:hover:not(:disabled) { background: #0E44D6; transform: translateY(-1px); }
         .c02co-submit:disabled { opacity: .7; cursor: default; }
-        .c02co-success { background: #ecfdf5; border: 1.5px solid #6ee7b7; border-radius: 12px; padding: 1.5rem; text-align: center; }
-        .c02co-success-icon { font-size: 2rem; margin-bottom: .5rem; }
-        .c02co-success p { font-size: .95rem; color: #065f46; font-weight: 600; margin: 0; }
-        @media(max-width:960px) { .c02co-inner { grid-template-columns: 1fr; } }
-        @media(max-width:520px) { .c02co-row2 { grid-template-columns: 1fr; } .c02co-form-wrap { padding: 1.75rem 1.25rem; } }
+        .c02co-note { font-size: .78rem; color: #98A4B8; text-align: center; margin: 0; }
+        .c02co-success { background: #F0FBF5; border: 1px solid #B9E7CD; border-radius: 14px; padding: 1.6rem; text-align: center; }
+        .c02co-success-icon {
+          width: 44px; height: 44px; border-radius: 50%; background: #16A34A; color: #fff;
+          display: grid; place-items: center; margin: 0 auto .7rem; font-size: 1.3rem;
+        }
+        .c02co-success p { font-size: .95rem; color: #14532D; font-weight: 600; margin: 0; }
+        .c02co-error { margin: 0; font-size: .85rem; font-weight: 600; color: #B91C1C; text-align: center; }
+        @media (max-width: 960px) { .c02co-inner { grid-template-columns: 1fr; } }
+        @media (max-width: 520px) { .c02co-row2 { grid-template-columns: 1fr; } .c02co-form-wrap { padding: 1.6rem 1.2rem; } }
+        @media (prefers-reduced-motion: reduce) { .c02co-submit { transition: none; } }
       `}</style>
       <section className="c02co-section" id="kontakt" data-template="clean-02-contact">
         <div className="c02co-inner">
@@ -11250,42 +11300,44 @@ function ContactClean02({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: 
           {/* Right: form */}
           <div className="c02co-form-wrap">
             <h3 className="c02co-form-title"><GenericEditableText sectionId={sectionId} field="formTitle" value={String(content.formTitle ?? "Poptat úklid")} tag="span" /></h3>
-            {sent ? (
-              <div className="c02co-success">
-                <div className="c02co-success-icon">✓</div>
-                <p>Zpráva odeslána! Ozveme se vám do 24 hodin.</p>
+            {status === "ok" ? (
+              <div className="c02co-success" role="status">
+                <div className="c02co-success-icon" aria-hidden="true">✓</div>
+                <p>Poptávka odeslána! Ozveme se vám do 24 hodin v pracovní dny.</p>
               </div>
             ) : (
               <form className="c02co-form" onSubmit={handleSubmit}>
                 <div className="c02co-row2">
                   <div className="c02co-field">
-                    <label>Jméno a příjmení *</label>
-                    <input type="text" name="name" required placeholder="Jan Novák" />
+                    <label htmlFor={`c02-name-${sectionId}`}>Jméno a příjmení *</label>
+                    <input id={`c02-name-${sectionId}`} type="text" name="name" required autoComplete="name" placeholder="Jan Novák" />
                   </div>
                   <div className="c02co-field">
-                    <label>Telefonní číslo *</label>
-                    <input type="tel" name="phone" required placeholder="+420 704 123 456" />
+                    <label htmlFor={`c02-phone-${sectionId}`}>Telefonní číslo *</label>
+                    <input id={`c02-phone-${sectionId}`} type="tel" name="phone" required autoComplete="tel" placeholder="+420 704 123 456" />
                   </div>
                 </div>
                 <div className="c02co-field">
-                  <label>E-mail *</label>
-                  <input type="email" name="email" required placeholder="jan@firma.cz" />
+                  <label htmlFor={`c02-email-${sectionId}`}>E-mail *</label>
+                  <input id={`c02-email-${sectionId}`} type="email" name="email" required autoComplete="email" placeholder="jan@firma.cz" />
                 </div>
                 {services.length > 0 && (
                   <div className="c02co-field">
-                    <label>Typ poptávky</label>
-                    <select name="service">
+                    <label htmlFor={`c02-service-${sectionId}`}>Typ poptávky</label>
+                    <select id={`c02-service-${sectionId}`} name="service">
                       {services.map((s, i) => <option key={i} value={s}>{s}</option>)}
                     </select>
                   </div>
                 )}
                 <div className="c02co-field">
-                  <label>Zpráva</label>
-                  <textarea name="message" placeholder="Popište prostor, který potřebujete uklidit — velikost, frekvenci, případné zvláštní požadavky…" />
+                  <label htmlFor={`c02-msg-${sectionId}`}>Zpráva</label>
+                  <textarea id={`c02-msg-${sectionId}`} name="message" placeholder="Popište prostor, který potřebujete uklidit — velikost, frekvenci, případné zvláštní požadavky…" />
                 </div>
-                <button type="submit" className="c02co-submit" disabled={sending}>
-                  {sending ? "Odesílám…" : "Odeslat poptávku"}
+                <button type="submit" className="c02co-submit" disabled={status === "sending"}>
+                  {status === "sending" ? "Odesílám…" : "Odeslat poptávku"}
                 </button>
+                {status === "err" && <p className="c02co-error" role="alert">Odeslání se nepovedlo. Zkuste to prosím znovu, nebo nám zavolejte.</p>}
+                <p className="c02co-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
               </form>
             )}
           </div>
@@ -14683,6 +14735,7 @@ function ContactProof01({ content, sectionId, tenantSlug, isAdmin }: { content: 
     if (isAdmin) return;
     if (honeypot) return;
     if (!consent) { setErrorMsg("Pro odeslání potvrďte souhlas se zpracováním údajů."); setStatus("error"); return; }
+    if (!message.trim()) { setErrorMsg("Popište prosím, s čím vám můžeme pomoci."); setStatus("error"); return; }
     if (!tenantSlug) { setStatus("success"); return; }
     setStatus("sending");
     setErrorMsg("");
@@ -14806,7 +14859,7 @@ function ContactProof01({ content, sectionId, tenantSlug, isAdmin }: { content: 
                 </div>
                 <div className="pf01ct-field">
                   <label htmlFor={`pf01-msg-${sectionId}`}><GenericEditableText sectionId={sectionId} field="messageLabel" value={messageLabel} tag="span" /></label>
-                  <textarea id={`pf01-msg-${sectionId}`} name="message" value={message} onChange={(e) => setMessage(e.target.value)} />
+                  <textarea id={`pf01-msg-${sectionId}`} name="message" value={message} onChange={(e) => setMessage(e.target.value)} required />
                 </div>
                 <div className="pf01ct-hp" aria-hidden="true">
                   <label>Web<input type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} /></label>

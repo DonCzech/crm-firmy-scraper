@@ -4888,34 +4888,56 @@ function TestimonialsClean02({ content, sectionId }: { content: Record<string, u
   const eyebrow = String(content.eyebrow ?? "Reference");
   const title   = String(content.title ?? "Co o nás říkají zákazníci");
   const items   = (content.items as Array<{ rating?: number; text?: string; author?: string; date?: string }>) ?? [];
-  const NAVY = "#0e0e53"; const BLUE = "#019dff"; const GRAY = "#6b77a4";
-  const AVATAR_COLORS = ["#2559e2","#019dff","#6b77a4","#0e0e53","#2bbbff"];
   const initials = (name: string) => name.trim().split(/\s+/).map(w => w[0]).slice(0,2).join("").toUpperCase();
   return (
     <>
       <style>{`
-        .c02tm-section { background: #fff; padding: 5.5rem 5%; font-family: 'Onest',sans-serif; }
-        .c02tm-inner { max-width: 80rem; margin: 0 auto; }
-        .c02tm-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 3.5rem; }
-        .c02tm-kicker { display: inline-flex; align-items: center; gap: .45rem; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${BLUE}; margin-bottom: .75rem; }
-        .c02tm-kicker::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; }
-        .c02tm-h2 { font-family: 'Bricolage Grotesque',sans-serif; font-size: clamp(1.65rem,3.2vw,2.5rem); font-weight: 800; color: ${NAVY}; margin: 0; line-height: 1.2; }
-        .c02tm-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.75rem; }
-        .c02tm-card { background: #f3f9ff; border: 1px solid #dfecff; border-radius: 16px; padding: 2rem 1.75rem 1.75rem; display: flex; flex-direction: column; gap: 1rem; position: relative; transition: box-shadow .25s, transform .25s; }
-        .c02tm-card:hover { box-shadow: 0 12px 40px -10px rgba(1,157,255,.15); transform: translateY(-2px); }
-        .c02tm-quote { font-family: Georgia,serif; font-size: 4rem; line-height: .8; color: ${BLUE}; opacity: .2; position: absolute; top: 1.25rem; right: 1.5rem; user-select: none; }
-        .c02tm-stars { display: flex; gap: 3px; }
-        .c02tm-star { width: 16px; height: 16px; }
-        .c02tm-text { font-size: .9rem; color: #3a4466; line-height: 1.75; margin: 0; flex: 1; font-style: italic; }
-        .c02tm-divider { border: none; border-top: 1px solid #dfecff; margin: 0; }
-        .c02tm-footer { display: flex; align-items: center; gap: .85rem; }
-        .c02tm-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque',sans-serif; font-size: .8rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+        .c02tm-section { background: #F4F6F9; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Onest',sans-serif; }
+        .c02tm-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .c02tm-header { margin-bottom: clamp(2.2rem, 4.5vw, 3.2rem); }
+        .c02tm-kicker {
+          display: inline-flex; align-items: center; gap: .55rem;
+          font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+          color: #1B5BFF; margin-bottom: 1.1rem;
+        }
+        .c02tm-kicker::before { content: ''; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
+        .c02tm-h2 {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 750; color: #0B1526;
+          margin: 0; line-height: 1.08; letter-spacing: -0.03em;
+        }
+        .c02tm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; }
+        .c02tm-card {
+          background: #fff; border: 1px solid #E7EBF2; border-radius: 18px;
+          padding: 1.9rem 1.8rem 1.7rem;
+          display: flex; flex-direction: column; gap: 1.1rem;
+          transition: box-shadow .3s, transform .3s, border-color .3s;
+        }
+        .c02tm-card:hover {
+          transform: translateY(-4px); border-color: #D7E1F0;
+          box-shadow: 0 30px 55px -30px rgba(11,21,38,0.25);
+        }
+        .c02tm-toprow { display: flex; align-items: center; justify-content: space-between; }
+        .c02tm-stars { display: flex; gap: 2px; }
+        .c02tm-star { width: 15px; height: 15px; }
+        .c02tm-google { width: 19px; height: 19px; flex-shrink: 0; opacity: .9; }
+        .c02tm-text {
+          font-family: 'Bricolage Grotesque',sans-serif;
+          font-size: 1.05rem; font-weight: 600; letter-spacing: -0.012em;
+          color: #22304A; line-height: 1.55; margin: 0; flex: 1;
+        }
+        .c02tm-footer { display: flex; align-items: center; gap: .8rem; border-top: 1px solid #EDF1F7; padding-top: 1.15rem; }
+        .c02tm-avatar {
+          width: 38px; height: 38px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Bricolage Grotesque',sans-serif; font-size: .78rem; font-weight: 800;
+          color: #1B5BFF; background: #EAF1FF; flex-shrink: 0;
+        }
         .c02tm-info { flex: 1; min-width: 0; }
-        .c02tm-author { font-weight: 700; color: ${NAVY}; font-size: .875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .c02tm-date { font-size: .72rem; color: ${GRAY}; margin-top: 2px; }
-        .c02tm-google { width: 20px; height: 20px; flex-shrink: 0; }
-        @media(max-width:900px) { .c02tm-grid { grid-template-columns: repeat(2,1fr); } }
-        @media(max-width:550px) { .c02tm-grid { grid-template-columns: 1fr; } }
+        .c02tm-author { font-weight: 700; color: #0B1526; font-size: .89rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .c02tm-date { font-size: .74rem; color: #98A4B8; margin-top: 2px; font-variant-numeric: tabular-nums; }
+        @media (max-width: 900px) { .c02tm-grid { grid-template-columns: 1fr; gap: 1rem; } }
+        @media (prefers-reduced-motion: reduce) { .c02tm-card { transition: none; } }
       `}</style>
       <section className="c02tm-section" id="reference" data-template="clean-02-testimonials">
         <div className="c02tm-inner">
@@ -4925,31 +4947,31 @@ function TestimonialsClean02({ content, sectionId }: { content: Record<string, u
           </div>
           <div className="c02tm-grid">
             {items.map((item, i) => (
-              <div key={i} className="c02tm-card">
-                <span className="c02tm-quote">&ldquo;</span>
-                <div className="c02tm-stars">
-                  {Array.from({ length: item.rating ?? 5 }).map((_, s) => (
-                    <svg key={s} className="c02tm-star" viewBox="0 0 20 20" fill="#f59e0b"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                  ))}
-                </div>
-                <p className="c02tm-text"><GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text ?? ""} tag="span" /></p>
-                <hr className="c02tm-divider" />
-                <div className="c02tm-footer">
-                  <div className="c02tm-avatar" style={{ background: AVATAR_COLORS[i % AVATAR_COLORS.length] }}>
-                    {initials(item.author ?? "?")}
+              <figure key={i} className="c02tm-card" style={{ margin: 0 }}>
+                <div className="c02tm-toprow">
+                  <div className="c02tm-stars" aria-label={`${item.rating ?? 5} z 5 hvězdiček`}>
+                    {Array.from({ length: item.rating ?? 5 }).map((_, s) => (
+                      <svg key={s} className="c02tm-star" viewBox="0 0 20 20" fill="#F5A623" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    ))}
                   </div>
-                  <div className="c02tm-info">
-                    <div className="c02tm-author"><GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author ?? ""} tag="span" /></div>
-                    <div className="c02tm-date"><GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={item.date ?? ""} tag="span" /></div>
-                  </div>
-                  <svg className="c02tm-google" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="c02tm-google" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Recenze Google">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                     <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                   </svg>
                 </div>
-              </div>
+                <blockquote className="c02tm-text" style={{ margin: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text ?? ""} tag="span" />
+                </blockquote>
+                <figcaption className="c02tm-footer">
+                  <div className="c02tm-avatar" aria-hidden="true">{initials(item.author ?? "?")}</div>
+                  <div className="c02tm-info">
+                    <div className="c02tm-author"><GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author ?? ""} tag="span" /></div>
+                    <div className="c02tm-date"><GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={item.date ?? ""} tag="span" /></div>
+                  </div>
+                </figcaption>
+              </figure>
             ))}
           </div>
         </div>

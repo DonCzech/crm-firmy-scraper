@@ -65,6 +65,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-garden-02-page") return <HeroGarden02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "arbo-01-hero")   return <HeroArbo01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-hero") return <HeroClean02 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-clean-02-page") return <HeroClean02Page content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ddd-01-hero")   return <HeroDdd01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-ddd-01-page") return <HeroDdd01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-hero") return <HeroProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
