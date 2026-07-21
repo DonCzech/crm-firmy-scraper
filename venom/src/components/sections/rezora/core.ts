@@ -125,6 +125,15 @@ export function addMinutes(time: string, minutes: number) {
 
 export type RezStep = 0 | 1 | 2 | 3 | 4;
 
+/**
+ * Režim widgetu. Slotové režimy (`service`, `meeting`) běží na `useRezoraBooking`
+ * a rezervují konkrétní termín. Poptávkové (`inquiry`, `course`, `table`, `stay`)
+ * běží na `useRezoraInquiry` a posílají nezávaznou poptávku — nemají kalendář
+ * dostupnosti. Dispatch podle režimu žije v `index.tsx`.
+ */
+export type WidgetMode = "service" | "meeting" | "inquiry" | "course" | "table" | "stay";
+export const INQUIRY_MODES: ReadonlySet<WidgetMode> = new Set(["inquiry", "course", "table", "stay"]);
+
 export interface RezoraBooking {
   // config
   apiBase: string;

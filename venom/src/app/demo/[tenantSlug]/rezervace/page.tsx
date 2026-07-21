@@ -71,10 +71,21 @@ export default async function TenantBookingPage({ params, searchParams }: Props)
   if (!widget) return notFound();
 
   // Ze stránky ponecháme jen navbar (singleton), widget a footer (singleton).
-  // Navbar a footer si TenantPublicView vytahuje sám podle typu, widget přidáme
-  // jako jedinou obsahovou sekci na začátek (order_index nízké → nad footer).
-  const navbar = sections.find((s) => s.section_type === "navbar");
+  const rawNavbar = sections.find((s) => s.section_type === "navbar");
   const footer = sections.find((s) => s.section_type === "footer");
+
+  const navbar = rawNavbar
+    ? {
+        ...rawNavbar,
+        settings: {
+          ...rawNavbar.settings,
+          content: {
+            ...((rawNavbar.settings?.content ?? {}) as Record<string, unknown>),
+            __solidHeader: true,
+          },
+        },
+      }
+    : undefined;
   // `?preset=sharp|soft|clinical|editorial` přepne widget na konsolidovaný
   // tvarový preset — slouží k porovnání proti stávajícímu bespoke designu,
   // aniž by se cokoli měnilo v databázi.

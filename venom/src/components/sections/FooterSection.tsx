@@ -19376,7 +19376,7 @@ function FooterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: R
   return (
     <>
       <style>{`
-        .pf01ft { --pf-accent:#E7502E; --pf-ink:#14161B; background:#0F1013; color:#fff; font-family:'Overpass',system-ui,sans-serif;
+        .pf01ft { --pf-accent:#C3352B; --pf-ink:#1B3A5C; background:#16304A; color:#fff; font-family:'Overpass',system-ui,sans-serif;
           padding:clamp(48px,7vw,80px) clamp(20px,5vw,48px) 28px; }
         .pf01ft-inner { max-width:1280px; margin:0 auto; }
         .pf01ft-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr 1.2fr; gap:clamp(28px,4vw,56px); padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.1); }

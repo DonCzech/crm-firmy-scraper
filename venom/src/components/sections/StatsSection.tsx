@@ -19,6 +19,7 @@ export function StatsSection({ content, variant, sectionId, isAdmin }: Props) {
   const lead = String(content.lead ?? "");
   const items = ((content.items as StatItem[]) ?? []).slice(0, 8);
 
+  if (variant === "proof-01-stats") return <StatsProof01 content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "florist-01-stats") return <StatsFlorist01 content={content} sectionId={sectionId} />;
   if (variant === "sweet-01-usp") return <StatsSweet01 content={content} sectionId={sectionId} />;
   if (variant === "rekonstrukce-01-usp") return <StatsRekonstrukce01Usp content={content} sectionId={sectionId} />;
@@ -3286,5 +3287,100 @@ function StatsRekonstrukce01Usp({ content, sectionId }: { content: Record<string
         ))}
       </div>
     </section>
+  );
+}
+
+// ══ PROOF (proof-01) — trust band (count-up čísla + certifikace) ═══════════════
+// Count-up jen na veřejném webu; ve Studiu zůstává editovatelný text.
+function Pf01CountUp({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [display, setDisplay] = useState(value);
+  useEffect(() => {
+    const m = value.match(/^([\d\s ]+(?:,\d+)?)([\s\S]*)$/);
+    if (!m) { setDisplay(value); return; }
+    const numStr = m[1].trim();
+    const suffix = m[2] ?? "";
+    const target = parseFloat(numStr.replace(/[\s ]/g, "").replace(",", "."));
+    if (!isFinite(target)) { setDisplay(value); return; }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setDisplay(value); return; }
+    const el = ref.current;
+    if (!el) return;
+    const decimals = numStr.includes(",") ? (numStr.split(",")[1] ?? "").length : 0;
+    const fmtN = (v: number) => v.toLocaleString("cs-CZ", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    let raf = 0;
+    let started = false;
+    setDisplay(fmtN(0) + suffix);
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || started) return;
+      started = true;
+      io.disconnect();
+      const t0 = performance.now();
+      const dur = 1200;
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        if (p < 1) { setDisplay(fmtN(target * eased) + suffix); raf = requestAnimationFrame(tick); }
+        else setDisplay(value);
+      };
+      raf = requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); };
+  }, [value]);
+  return <span ref={ref} style={{ fontVariantNumeric: "tabular-nums" }}>{display}</span>;
+}
+
+function StatsProof01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
+  const items = (content.items as Array<{ value?: string; label?: string }> | undefined) ?? [];
+  const rawBadges = content.badges as string[] | undefined;
+  const badges = rawBadges && rawBadges.length ? rawBadges : [];
+  const badgesLabel = String(content.badgesLabel ?? "Certifikace a záruky");
+  return (
+    <>
+      <style>{`
+        .pf01st { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#6A6E78; --pf-border:#E5E1D8;
+          background:var(--pf-paper,#F4F1EB); font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
+          padding:clamp(40px,5vw,64px) clamp(20px,5vw,48px); border-top:1px solid var(--pf-border); border-bottom:1px solid var(--pf-border); }
+        .pf01st-inner { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1.3fr 1fr; gap:clamp(28px,5vw,64px); align-items:center; }
+        .pf01st-nums { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:clamp(20px,3vw,40px); }
+        .pf01st-num b { display:block; font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(2rem,4vw,3rem); font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--pf-ink); }
+        .pf01st-num span { display:block; font-size:.88rem; color:var(--pf-muted); margin-top:8px; line-height:1.35; }
+        .pf01st-badges { border-left:1px solid var(--pf-border); padding-left:clamp(20px,3vw,40px); }
+        .pf01st-badges-lbl { font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--pf-muted); margin:0 0 14px; }
+        .pf01st-chips { display:flex; flex-wrap:wrap; gap:9px; }
+        .pf01st-chip { display:inline-flex; align-items:center; gap:7px; padding:8px 13px; background:#fff; border:1px solid var(--pf-border); border-radius:999px; font-size:.85rem; font-weight:600; }
+        .pf01st-chip svg { color:var(--pf-accent); flex-shrink:0; }
+        @media (max-width:820px){ .pf01st-inner{ grid-template-columns:1fr; } .pf01st-badges{ border-left:none; border-top:1px solid var(--pf-border); padding-left:0; padding-top:24px; } }
+      `}</style>
+      <section className="pf01st" data-template="proof-01">
+        <div className="pf01st-inner">
+          <div className="pf01st-nums">
+            {items.map((it, i) => (
+              <div key={i} className="pf01st-num">
+                <b>
+                  {isAdmin
+                    ? <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(it.value ?? "")} tag="span" />
+                    : <Pf01CountUp value={String(it.value ?? "")} />}
+                </b>
+                <span><GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(it.label ?? "")} tag="span" /></span>
+              </div>
+            ))}
+          </div>
+          {badges.length > 0 && (
+            <div className="pf01st-badges">
+              <p className="pf01st-badges-lbl"><GenericEditableText sectionId={sectionId} field="badgesLabel" value={badgesLabel} tag="span" /></p>
+              <div className="pf01st-chips">
+                {badges.map((b, i) => (
+                  <span key={i} className="pf01st-chip">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                    <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   );
 }

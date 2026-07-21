@@ -25,6 +25,7 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
   // za běhu měnila počet hooks a React by spadl.
   const [active, setActive] = useState(0);
 
+  if (variant === "proof-01-testimonials") return <TestimonialsProof01 content={content} sectionId={sectionId} />;
   if (variant === "eshop-02-testimonials") return <TestimonialsEshop02 content={content} sectionId={sectionId} />;
   if (variant === "eshop-07-reviews") return <TestimonialsEshop07 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-03-testimonials") return <TestimonialsStavba03 content={content} sectionId={sectionId} />;
@@ -5972,4 +5973,81 @@ function TestimonialsBarberDark3col({ content, testimonials, title, sectionId }:
         </div>
       </section>
     );
+}
+
+// ══ PROOF (proof-01) — reference (editorial featured layout) ═══════════════════
+function TestimonialsProof01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Reference");
+  const title   = String(content.title   ?? "Co říkají klienti");
+  const lead    = String(content.lead    ?? "Hodnocení z reálných zakázek — bez úprav.");
+  type T = { text?: string; quote?: string; name?: string; role?: string; rating?: number };
+  const items = (content.testimonials as T[] | undefined) ?? (content.items as T[] | undefined) ?? [];
+  return (
+    <>
+      <style>{`
+        .pf01ts { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#6A6E78; --pf-border:#E5E1D8; --pf-surface:#fff;
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .pf01ts-inner { max-width:1180px; margin:0 auto; }
+        .pf01ts-head { max-width:640px; margin-bottom:clamp(32px,5vw,52px); }
+        .pf01ts .pf01-eyebrow{ font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .pf01ts .pf01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--pf-accent); }
+        .pf01ts-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01ts-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
+        .pf01ts-grid { display:grid; grid-template-columns:1.15fr 1fr; gap:18px; }
+        .pf01ts-card { display:flex; flex-direction:column; background:var(--pf-surface); border:1px solid var(--pf-border); border-radius:10px; padding:28px;
+          transition:transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s; }
+        .pf01ts-card:hover { transform:translateY(-4px); box-shadow:0 10px 24px -16px rgba(27,58,92,.22); }
+        .pf01ts-card:first-child { grid-row:span 2; background:var(--pf-ink); border-color:var(--pf-ink); color:#fff; justify-content:center; padding:36px 32px; position:relative; overflow:hidden; }
+        .pf01ts-card:first-child::after { content:''; position:absolute; bottom:-70px; left:-70px; width:220px; height:220px; border-radius:50%;
+          background:none; pointer-events:none; }
+        .pf01ts-card:first-child .pf01ts-quote { font-weight:600; font-style:italic; font-size:1.3rem; line-height:1.5; }
+        .pf01ts-card:first-child .pf01ts-role { color:rgba(255,255,255,.55); }
+        .pf01ts-card:first-child .pf01ts-av { background:var(--pf-accent); }
+        .pf01ts-stars { display:flex; gap:3px; margin-bottom:16px; color:var(--pf-accent); }
+        .pf01ts-quote { font-size:1.05rem; line-height:1.6; margin:0 0 22px; flex:none; }
+        .pf01ts-quote::before { content:'\\201C'; color:var(--pf-accent); font-size:2rem; line-height:0; vertical-align:-.35em; margin-right:4px; }
+        .pf01ts-meta { display:flex; align-items:center; gap:12px; }
+        .pf01ts-av { width:44px; height:44px; border-radius:50%; background:var(--pf-ink); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+        .pf01ts-name { font-weight:800; font-size:.96rem; }
+        .pf01ts-role { font-size:.84rem; color:var(--pf-muted); }
+        @media (max-width:820px){ .pf01ts-grid{ grid-template-columns:1fr; } .pf01ts-card:first-child{ grid-row:auto; } }
+        @media (prefers-reduced-motion: reduce){ .pf01ts-card{ transition:none; } }
+      `}</style>
+      <section className="pf01ts" data-template="proof-01" id="reference">
+        <div className="pf01ts-inner">
+          <div className="pf01ts-head">
+            <p className="pf01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="pf01ts-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="pf01ts-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="pf01ts-grid">
+            {items.map((t, i) => {
+              const rating = Math.max(1, Math.min(5, Number(t.rating ?? 5)));
+              const name = String(t.name ?? "");
+              return (
+                <figure key={i} className="pf01ts-card" style={{ margin: 0 }}>
+                  <div className="pf01ts-stars" aria-label={`Hodnocení ${rating} z 5`}>
+                    {Array.from({ length: 5 }).map((_, si) => (
+                      <svg key={si} width="17" height="17" viewBox="0 0 24 24" fill={si < rating ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    ))}
+                  </div>
+                  <blockquote className="pf01ts-quote" style={{ margin: 0 }}>
+                    <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={String(t.text ?? t.quote ?? "")} tag="span" />
+                  </blockquote>
+                  <figcaption className="pf01ts-meta">
+                    <span className="pf01ts-av" aria-hidden="true">{name.charAt(0) || "?"}</span>
+                    <span>
+                      <span className="pf01ts-name" style={{ display: "block" }}><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.name`} value={name} tag="span" /></span>
+                      <span className="pf01ts-role"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={String(t.role ?? "")} tag="span" /></span>
+                    </span>
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="44" viewBox="0 0 200 44" fill="none">
-  <!-- Navy cross icon -->
-  <circle cx="18" cy="22" r="17" fill="#f5f3ee"/>
-  <rect x="11" y="19" width="14" height="6" rx="2" fill="#c9a84c"/>
-  <rect x="15" y="13" width="6" height="18" rx="2" fill="#c9a84c"/>
-  <!-- Wordmark: American Clinic -->
-  <text x="42" y="20" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="15.6" font-weight="700" fill="#1a2e4a" letter-spacing="-0.2">AMERICAN</text>
-  <text x="42" y="36" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#c9a84c" letter-spacing="-0.2">CLINIC</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="196" height="44" viewBox="0 0 196 44" fill="none">
+  <!-- Movia motion mark: teal disc + light-teal range-of-motion arc + navy dot -->
+  <circle cx="20" cy="22" r="20" fill="#29a3a4"/>
+  <path d="M11 27a11 11 0 0 1 18-11.5" fill="none" stroke="#a1d5cf" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M29 17a11 11 0 0 1-4 15" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round"/>
+  <circle cx="20" cy="22" r="3.4" fill="#ffffff"/>
+  <!-- Wordmark: Movia -->
+  <text x="50" y="27" font-family="'DM Serif Display', Georgia, serif" font-size="22" fill="#092029">Movia</text>
+  <text x="51" y="38" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-size="7" font-weight="600" fill="#29a3a4" letter-spacing="2.6">FYZIOTERAPIE</text>
 </svg>

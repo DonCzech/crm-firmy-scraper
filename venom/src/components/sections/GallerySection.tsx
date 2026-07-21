@@ -8462,34 +8462,34 @@ function BeforeAfterProof01({ content, sectionId }: { content: Record<string, un
   return (
     <>
       <style>{`
-        .pf01ba { --pf-accent:#E7502E; --pf-ink:#14161B; --pf-muted:#6A6E78; --pf-border:#E4E0D8;
-          background:var(--pf-paper,#F5F3EE); font-family:'Overpass',system-ui,sans-serif; color:var(--pf-ink);
+        .pf01ba { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#6A6E78; --pf-border:#E5E1D8;
+          background:var(--pf-paper,#F4F1EB); font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .pf01ba-inner { max-width:1280px; margin:0 auto; }
         .pf01ba-head { max-width:640px; margin-bottom:clamp(32px,5vw,52px); }
-        .pf01ba-title { font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01ba-title { font-family: var(--font-heading, system-ui, sans-serif); color: var(--pf-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
         .pf01ba-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
         .pf01ba-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px; }
         .pf01ba-card { margin:0; }
-        .pf01ba-stage { position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/3; background:#ddd; border:1px solid var(--pf-border); user-select:none; touch-action:pan-y; cursor:ew-resize; }
+        .pf01ba-stage { position:relative; border-radius:10px; overflow:hidden; aspect-ratio:4/3; background:#ddd; border:1px solid var(--pf-border); user-select:none; touch-action:pan-y; cursor:ew-resize; }
         .pf01ba-imgslot { position:absolute; inset:0; width:100%; height:100%; display:block; }
         .pf01ba-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
         .pf01ba-before { position:absolute; inset:0; }
-        .pf01ba-tag { position:absolute; top:14px; font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:rgba(20,22,27,.7); padding:5px 11px; border-radius:999px; transition:opacity .2s; pointer-events:none; }
+        .pf01ba-tag { position:absolute; top:14px; font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#fff; background:rgba(27,58,92,.7); padding:5px 11px; border-radius:999px; transition:opacity .2s; pointer-events:none; }
         .pf01ba-tag-before { left:14px; } .pf01ba-tag-after { right:14px; background:var(--pf-accent); }
-        .pf01ba-divider { position:absolute; top:0; bottom:0; width:3px; background:#fff; box-shadow:0 0 0 1px rgba(20,22,27,.15); transform:translateX(-50%); pointer-events:none; }
-        .pf01ba-handle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:#fff; color:var(--pf-ink); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(20,22,27,.4); transition:transform .2s cubic-bezier(.22,.68,0,1), box-shadow .2s; }
-        .pf01ba-stage:hover .pf01ba-handle { transform:translate(-50%,-50%) scale(1.08); box-shadow:0 0 0 6px rgba(231,80,46,.18), 0 6px 18px rgba(20,22,27,.45); }
+        .pf01ba-divider { position:absolute; top:0; bottom:0; width:3px; background:#fff; box-shadow:0 0 0 1px rgba(27,58,92,.15); transform:translateX(-50%); pointer-events:none; }
+        .pf01ba-handle { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:#fff; color:var(--pf-ink); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(27,58,92,.4); transition:transform .2s cubic-bezier(.22,.68,0,1), box-shadow .2s; }
+        .pf01ba-stage:hover .pf01ba-handle { transform:translate(-50%,-50%) scale(1.08); box-shadow:0 0 0 6px rgba(195,53,43,.18), 0 6px 18px rgba(27,58,92,.45); }
         .pf01ba-stage:active .pf01ba-handle { transform:translate(-50%,-50%) scale(1.14); }
         .pf01ba-range { position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:ew-resize; }
-        .pf01ba-stage:focus-within .pf01ba-handle { box-shadow:0 0 0 4px rgba(231,80,46,.4), 0 4px 14px rgba(20,22,27,.35); }
+        .pf01ba-stage:focus-within .pf01ba-handle { box-shadow:0 0 0 4px rgba(195,53,43,.4), 0 4px 14px rgba(27,58,92,.35); }
         .pf01ba-cap { font-size:.92rem; font-weight:600; color:var(--pf-ink); margin-top:12px; }
         @media (prefers-reduced-motion: reduce){ .pf01ba-handle{ transition:none; } }
       `}</style>
       <section className="pf01ba" data-template="proof-01" id="realizace">
         <div className="pf01ba-inner">
           <div className="pf01ba-head">
-            <p className="pf01-eyebrow" style={{ fontFamily: "'Instrument Serif',Georgia,serif", fontStyle: "italic", fontSize: "1.2rem", color: "var(--pf-accent)", margin: "0 0 12px", display: "inline-flex", alignItems: "center", gap: 12 }}>
+            <p className="pf01-eyebrow" style={{ fontWeight: 800, letterSpacing: ".16em", textTransform: "uppercase" as const, fontSize: ".78rem", color: "var(--pf-accent)", margin: "0 0 12px", display: "inline-flex", alignItems: "center", gap: 12 }}>
               <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
             </p>
             <h2 className="pf01ba-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>

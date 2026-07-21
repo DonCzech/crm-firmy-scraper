@@ -16,6 +16,7 @@ interface Props {
 }
 
 export function FaqSection({ content, variant, sectionId }: Props) {
+  if (variant === "proof-01-faq")     return <FaqProof01 content={content} sectionId={sectionId} />;
   if (variant === "eshop-02-faq")     return <FaqEshop02 content={content} sectionId={sectionId} />;
   if (variant === "stavba-01-faq")    return <FaqStavba01 content={content} sectionId={sectionId} />;
   if (variant === "ortho-01-faq")     return <FaqOrtho01 content={content} sectionId={sectionId} />;
@@ -1260,5 +1261,73 @@ function FaqEshop02({ content, sectionId }: {
         </div>
       </div>
     </section>
+  );
+}
+
+// ══ PROOF (proof-01) — FAQ (2-col sticky header + accordion) ═══════════════════
+function FaqProof01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Časté dotazy");
+  const title   = String(content.title   ?? "Na co se klienti nejčastěji ptají");
+  const lead    = String(content.lead    ?? "Nenašli jste odpověď? Zavolejte nebo napište — ozveme se do 24 hodin.");
+  const faq = (
+    (content as { items?: FaqItem[] }).items ??
+    ((content as { faq?: Array<{ question?: string; answer?: string }> }).faq ?? []).map(
+      (i) => ({ question: i.question ?? "", answer: i.answer ?? "" })
+    )
+  );
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <>
+      <style>{`
+        .pf01fq { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#6A6E78; --pf-border:#E5E1D8;
+          background:var(--pf-paper,#F4F1EB); font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .pf01fq-inner { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(32px,5vw,72px); align-items:start; }
+        .pf01fq-head { position:sticky; top:96px; }
+        .pf01fq .pf01-eyebrow{ font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .pf01fq .pf01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--pf-accent); }
+        .pf01fq-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.7rem,3.2vw,2.5rem); font-weight:800; letter-spacing:-.02em; line-height:1.1; margin:0 0 14px; }
+        .pf01fq-lead { font-size:1rem; color:var(--pf-muted); line-height:1.6; margin:0; }
+        .pf01fq-list { display:flex; flex-direction:column; gap:10px; }
+        .pf01fq-item { border:1px solid var(--pf-border); border-radius:10px; overflow:hidden; background:#fff; transition:border-color .2s; }
+        .pf01fq-item[data-open="true"] { border-color:var(--pf-ink); }
+        .pf01fq-q { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 22px; background:none; border:none; cursor:pointer; text-align:left; font-family:inherit; color:var(--pf-ink); }
+        .pf01fq-q-text { font-size:1rem; font-weight:700; line-height:1.4; }
+        .pf01fq-tog { flex-shrink:0; width:30px; height:30px; border-radius:50%; background:rgba(195,53,43,.1); color:var(--pf-accent); display:flex; align-items:center; justify-content:center; transition:background .2s, color .2s, transform .3s; }
+        .pf01fq-item[data-open="true"] .pf01fq-tog { background:var(--pf-accent); color:#fff; transform:rotate(45deg); }
+        .pf01fq-a { display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s cubic-bezier(.22,.68,0,1); }
+        .pf01fq-item[data-open="true"] .pf01fq-a { grid-template-rows:1fr; }
+        .pf01fq-a-inner { overflow:hidden; }
+        .pf01fq-a-inner p { margin:0; padding:0 22px 22px; font-size:.95rem; color:var(--pf-muted); line-height:1.7; }
+        @media (max-width:820px){ .pf01fq-inner{ grid-template-columns:1fr; } .pf01fq-head{ position:static; } }
+        @media (prefers-reduced-motion: reduce){ .pf01fq-a,.pf01fq-tog{ transition:none; } }
+      `}</style>
+      <section className="pf01fq" data-template="proof-01" id="faq">
+        <div className="pf01fq-inner">
+          <div className="pf01fq-head">
+            <p className="pf01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="pf01fq-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="pf01fq-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="pf01fq-list">
+            {faq.map((item, i) => (
+              <div key={i} className="pf01fq-item" data-open={open === i}>
+                <button type="button" className="pf01fq-q" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
+                  <span className="pf01fq-q-text"><GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" /></span>
+                  <span className="pf01fq-tog" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </span>
+                </button>
+                <div className="pf01fq-a">
+                  <div className="pf01fq-a-inner">
+                    <p><GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" /></p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

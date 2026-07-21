@@ -20110,8 +20110,9 @@ function NavbarArbo01(props: Props) {
 }
 
 // ── clean-02-navbar ───────────────────────────────────────────────────────────
-// Bílý sticky navbar: logo vlevo | nav links střed | tel + CTA vpravo
-// Sizes +25% oproti base designu
+// Arctic Editorial: bílý blur navbar s hairline, underline-slide linky,
+// ink CTA pill, fullscreen overlay menu se scroll-lockem
+// + sticky mobilní CTA lišta (Zavolat / Poptávka) se safe-area paddingem
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);
@@ -20126,15 +20127,19 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
   useEffect(() => {
     if (!open) return;
+    document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handler);
+    };
   }, [open]);
 
-  const siteName = String(content.siteName ?? "Clean Garden");
+  const siteName = String(content.siteName ?? "Modrá vlna");
   const logoUrl  = String(content.logoUrl  ?? "");
   const phone    = String(content.phone    ?? "+420 704 123 456");
-  const ctaText  = String(content.ctaText  ?? "Poptat úklid");
+  const ctaText  = String(content.ctaText  ?? "Nezávazná poptávka");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
 
@@ -20144,88 +20149,138 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
     return href === "/" ? base : `${base}${href}`;
   };
 
-  const BLUE = "#1c91ff";
-  const NAVY = "#0e0e53";
-  const boxShadow = scrolled ? "0 2px 24px rgba(28,145,255,0.12)" : "0 15px 20px -15px rgba(28,120,255,0.10)";
-
   return (
     <>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <style>{`
         .c02-nav {
           font-family: 'Onest', sans-serif;
           position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          background: #fff;
-          border-bottom: 1px solid #dfecff;
-          transition: box-shadow 0.3s;
+          background: rgba(255,255,255,0.86);
+          -webkit-backdrop-filter: saturate(160%) blur(14px);
+          backdrop-filter: saturate(160%) blur(14px);
+          border-bottom: 1px solid ${scrolled ? "#E2E8F1" : "transparent"};
+          transition: border-color 0.3s, background 0.3s;
         }
         .c02-inner {
-          max-width: 80rem; margin: 0 auto; padding: 0 5%;
-          height: 5.625rem; display: flex; align-items: center; justify-content: space-between; gap: 1.7rem;
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          height: 4.75rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
         }
-        .c02-logo { display: flex; align-items: center; flex-shrink: 0; text-decoration: none; }
-        .c02-logo img { height: 2.475rem; width: auto; }
+        .c02-logo { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; text-decoration: none; }
+        .c02-logo img { height: 2.35rem; width: auto; }
+        .c02-logo-mark { width: 30px; height: 30px; border-radius: 9px; background: #1B5BFF; display: grid; place-items: center; flex-shrink: 0; }
+        .c02-logo-mark svg { display: block; }
         .c02-logo-text {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-weight: 700; font-size: 1.24rem; color: ${NAVY}; white-space: nowrap;
+          font-weight: 800; font-size: 1.22rem; letter-spacing: -0.02em; color: #0B1526; white-space: nowrap;
         }
-        .c02-links { display: flex; align-items: center; gap: 0.27rem; list-style: none; margin: 0; padding: 0; }
+        .c02-links { display: flex; align-items: center; gap: 1.55rem; list-style: none; margin: 0; padding: 0; }
         .c02-links a {
-          font-size: 1.01rem; font-weight: 500; color: ${NAVY}; text-decoration: none;
-          padding: 0.45rem 0.85rem; border-radius: 6px; transition: color 0.2s, background 0.2s;
+          position: relative; font-size: 0.94rem; font-weight: 500; color: #3D4B63; text-decoration: none;
+          padding: 0.35rem 0; letter-spacing: 0.005em; transition: color 0.2s;
         }
-        .c02-links a:hover { color: ${BLUE}; background: #f0f7ff; }
-        .c02-right { display: flex; align-items: center; gap: 1.125rem; flex-shrink: 0; }
+        .c02-links a::after {
+          content: ""; position: absolute; left: 0; right: 100%; bottom: -1px; height: 2px;
+          background: #1B5BFF; transition: right 0.25s cubic-bezier(0.65,0,0.35,1);
+        }
+        .c02-links a:hover { color: #0B1526; }
+        .c02-links a:hover::after { right: 0; }
+        .c02-right { display: flex; align-items: center; gap: 1.35rem; flex-shrink: 0; }
         .c02-phone {
-          font-size: 0.985rem; font-weight: 500; color: ${NAVY};
-          text-decoration: none; white-space: nowrap;
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          font-size: 0.94rem; font-weight: 600; color: #0B1526;
+          text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums;
         }
-        .c02-phone:hover { color: ${BLUE}; }
+        .c02-phone svg { color: #1B5BFF; }
+        .c02-phone:hover { color: #1B5BFF; }
         .c02-cta {
-          display: inline-flex; align-items: center; gap: 0.56rem;
-          padding: 0.72rem 1.575rem; border-radius: 9999px;
-          background: linear-gradient(90deg, #2bbbff, #2559e2);
-          color: #fff; font-size: 0.985rem; font-weight: 600;
-          text-decoration: none; white-space: nowrap;
-          transition: opacity 0.2s, transform 0.2s;
-          box-shadow: 0 8px 25px -15px rgba(28,120,255,0.4);
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          padding: 0.68rem 1.4rem; border-radius: 9999px;
+          background: #0B1526; color: #fff; font-size: 0.92rem; font-weight: 600;
+          text-decoration: none; white-space: nowrap; letter-spacing: 0.01em;
+          transition: background 0.25s, transform 0.25s;
         }
-        .c02-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+        .c02-cta:hover { background: #1B5BFF; transform: translateY(-1px); }
         .c02-hamburger {
-          display: none; background: none; border: none; cursor: pointer; padding: 4.5px;
-          color: ${NAVY};
+          display: none; background: none; border: none; cursor: pointer; padding: 6px;
+          color: #0B1526;
         }
         .c02-overlay {
-          display: none; position: fixed; inset: 0; background: #fff; z-index: 200;
-          flex-direction: column; padding: 2.25rem 1.7rem; gap: 1.35rem;
+          position: fixed; inset: 0; background: #F4F6F9; z-index: 200;
+          display: flex; flex-direction: column; padding: 1.1rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
         }
-        .c02-overlay.c02-open { display: flex; }
+        .c02-overlay.c02-open { opacity: 1; pointer-events: auto; }
+        .c02-ov-head { display: flex; align-items: center; justify-content: space-between; height: 3.4rem; }
         .c02-ov-close {
-          align-self: flex-end; background: none; border: none; font-size: 2.25rem;
-          cursor: pointer; color: ${NAVY}; margin-bottom: 0.56rem; line-height: 1;
+          background: #fff; border: 1px solid #E2E8F1; border-radius: 9999px;
+          width: 44px; height: 44px; display: grid; place-items: center;
+          font-size: 1.5rem; cursor: pointer; color: #0B1526; line-height: 1;
         }
-        .c02-overlay a {
+        .c02-ov-links { display: flex; flex-direction: column; margin-top: 1.6rem; flex: 1; overflow-y: auto; }
+        .c02-ov-links a {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: 1.4rem; font-weight: 600; color: ${NAVY}; text-decoration: none;
-          padding: 0.56rem 0; border-bottom: 1px solid #dfecff;
+          font-size: clamp(1.7rem, 6.5vw, 2.2rem); font-weight: 700; letter-spacing: -0.025em;
+          color: #0B1526; text-decoration: none;
+          padding: 0.72rem 0; border-bottom: 1px solid #E2E8F1;
+          display: flex; align-items: center; justify-content: space-between;
+          opacity: 0; transform: translateY(10px); transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .c02-ov-links a::after { content: "→"; font-size: 1.1rem; color: #1B5BFF; }
+        .c02-open .c02-ov-links a { opacity: 1; transform: none; }
+        ${Array.from({ length: 8 }, (_, i) => `.c02-open .c02-ov-links a:nth-child(${i + 1}) { transition-delay: ${60 + i * 45}ms; }`).join("\n")}
+        .c02-ov-foot { display: flex; flex-direction: column; gap: 0.8rem; padding-top: 1.4rem; }
+        .c02-ov-phone {
+          text-align: center; font-size: 1.05rem; font-weight: 700; color: #0B1526; text-decoration: none;
+          padding: 0.95rem 2rem; border-radius: 9999px; border: 1px solid #D6DEEA; background: #fff;
         }
         .c02-ov-cta {
-          margin-top: 1.125rem; display: inline-block; padding: 0.9rem 2rem;
-          border-radius: 9999px; background: linear-gradient(90deg, #2bbbff, #2559e2);
-          color: #fff; font-weight: 600; text-align: center; text-decoration: none;
+          display: block; padding: 1rem 2rem; text-align: center;
+          border-radius: 9999px; background: #1B5BFF;
+          color: #fff; font-weight: 700; font-size: 1.02rem; text-decoration: none;
         }
+        .c02-mobilebar {
+          display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          background: rgba(255,255,255,0.92);
+          -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+          border-top: 1px solid #E2E8F1;
+          padding: 0.6rem 0.9rem calc(0.6rem + env(safe-area-inset-bottom));
+          grid-template-columns: 1fr 1.4fr; gap: 0.6rem;
+          font-family: 'Onest', sans-serif;
+        }
+        .c02-mb-call, .c02-mb-cta {
+          display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+          border-radius: 9999px; font-size: 0.95rem; font-weight: 700; text-decoration: none;
+          padding: 0.78rem 0.5rem;
+        }
+        .c02-mb-call { border: 1px solid #D6DEEA; color: #0B1526; background: #fff; }
+        .c02-mb-cta { background: #1B5BFF; color: #fff; }
         @media (max-width: 1050px) {
-          .c02-links, .c02-phone { display: none; }
+          .c02-links, .c02-phone, .c02-cta { display: none; }
           .c02-hamburger { display: block; }
+          .c02-mobilebar { display: grid; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .c02-overlay, .c02-ov-links a, .c02-links a::after, .c02-cta { transition: none !important; }
         }
       `}</style>
 
-      <nav className="c02-nav" data-template="clean-02-navbar" style={{ boxShadow }}>
+      <nav className="c02-nav" data-template="clean-02-navbar" style={{ boxShadow: scrolled ? "0 10px 34px -22px rgba(11,21,38,0.18)" : "none" }}>
         <div className="c02-inner">
           <a href={resolve("/")} className="c02-logo" aria-label={siteName}>
             {logoUrl ? (
               <img loading="eager" src={logoUrl} alt={siteName} />
             ) : (
-              <span className="c02-logo-text"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+              <>
+                <span className="c02-logo-mark" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M1.5 11.5c2.2-3 4.3-3 6.5 0s4.3 3 6.5 0" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" fill="none"/>
+                    <path d="M1.5 6.5c2.2-3 4.3-3 6.5 0s4.3 3 6.5 0" stroke="#9BC0FF" strokeWidth="1.9" strokeLinecap="round" fill="none"/>
+                  </svg>
+                </span>
+                <span className="c02-logo-text"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+              </>
             )}
           </a>
 
@@ -20241,6 +20296,7 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
           <div className="c02-right">
             <a href={`tel:${phone.replace(/\s/g, "")}`} className="c02-phone">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
             <a href={resolve(ctaHref)} data-btn="primary" className="c02-cta">
@@ -20249,22 +20305,37 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
 
           <button className="c02-hamburger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
-            <svg width="28" height="24" viewBox="0 0 28 24" fill="none" aria-hidden="true">
-              <rect y="0"    width="28" height="3" rx="1.5" fill="currentColor"/>
-              <rect y="10.5" width="28" height="3" rx="1.5" fill="currentColor"/>
-              <rect y="21"   width="28" height="3" rx="1.5" fill="currentColor"/>
+            <svg width="26" height="18" viewBox="0 0 26 18" fill="none" aria-hidden="true">
+              <rect y="0"    width="26" height="2.4" rx="1.2" fill="currentColor"/>
+              <rect y="7.8"  width="18" height="2.4" rx="1.2" fill="currentColor"/>
+              <rect y="15.6" width="26" height="2.4" rx="1.2" fill="currentColor"/>
             </svg>
           </button>
         </div>
       </nav>
 
       <div className={`c02-overlay${open ? " c02-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
-        <button className="c02-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
-        {links.map((link, i) => (
-          <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
-        ))}
-        <a href={`tel:${phone.replace(/\s/g, "")}`} onClick={() => setOpen(false)} style={{ borderBottom: "none" }}>{phone}</a>
-        <a href={resolve(ctaHref)} data-btn="primary" className="c02-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+        <div className="c02-ov-head">
+          <span className="c02-logo-text" style={{ fontSize: "1.15rem" }}>{siteName}</span>
+          <button className="c02-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+        </div>
+        <div className="c02-ov-links">
+          {links.map((link, i) => (
+            <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
+          ))}
+        </div>
+        <div className="c02-ov-foot">
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="c02-ov-phone" onClick={() => setOpen(false)}>{phone}</a>
+          <a href={resolve(ctaHref)} data-btn="primary" className="c02-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+        </div>
+      </div>
+
+      <div className="c02-mobilebar" aria-hidden={open}>
+        <a href={`tel:${phone.replace(/\s/g, "")}`} className="c02-mb-call">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
+          Zavolat
+        </a>
+        <a href={resolve(ctaHref)} className="c02-mb-cta">{ctaText}</a>
       </div>
     </>
   );
@@ -36072,7 +36143,7 @@ function NavbarProof01({ content, isAdmin, tenantSlug, sectionId }: Props) {
   return (
     <>
       <style>{`
-        .pf01nav-wrap { --pf-accent: #E7502E; --pf-ink: #14161B; --pf-border: #E4E0D8; font-family: 'Overpass', system-ui, sans-serif; }
+        .pf01nav-wrap { --pf-accent: #C3352B; --pf-ink: #1B3A5C; --pf-border: #E5E1D8; font-family: var(--font-body, system-ui, -apple-system, sans-serif); }
         .pf01nav { position: sticky; top: 0; z-index: 60; background: rgba(245,243,238,.86);
           backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
           border-bottom: 1px solid var(--pf-border); }
@@ -36084,19 +36155,19 @@ function NavbarProof01({ content, isAdmin, tenantSlug, sectionId }: Props) {
         .pf01nav-links { display: flex; align-items: center; gap: 4px; }
         .pf01nav-links a { padding: 8px 14px; font-size: .93rem; font-weight: 600; color: var(--pf-ink); text-decoration: none;
           border-radius: 8px; transition: background .18s, color .18s; }
-        .pf01nav-links a:hover { background: rgba(20,22,27,.05); color: var(--pf-accent); }
+        .pf01nav-links a:hover { background: rgba(27,58,92,.05); color: var(--pf-accent); }
         .pf01nav-right { display: flex; align-items: center; gap: 12px; }
         .pf01nav-phone { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; font-size: .93rem; color: var(--pf-ink); text-decoration: none; white-space: nowrap; }
         .pf01nav-phone svg { color: var(--pf-accent); }
         .pf01nav-cta { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; background: var(--pf-accent);
           color: #fff; font-weight: 700; font-size: .92rem; text-decoration: none; border-radius: 9px; white-space: nowrap; transition: transform .2s, box-shadow .2s; }
-        .pf01nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(231,80,46,.7); }
+        .pf01nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(195,53,43,.7); }
         .pf01nav-burger { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--pf-border);
           border-radius: 9px; background: #fff; cursor: pointer; color: var(--pf-ink); }
         /* mobile drawer */
-        .pf01nav-drawer { position: fixed; inset: 0; z-index: 70; background: rgba(20,22,27,.5); opacity: 0; pointer-events: none; transition: opacity .25s; }
+        .pf01nav-drawer { position: fixed; inset: 0; z-index: 70; background: rgba(27,58,92,.5); opacity: 0; pointer-events: none; transition: opacity .25s; }
         .pf01nav-drawer[data-open="true"] { opacity: 1; pointer-events: auto; }
-        .pf01nav-panel { position: absolute; top: 0; right: 0; height: 100%; width: min(84vw, 340px); background: #F5F3EE;
+        .pf01nav-panel { position: absolute; top: 0; right: 0; height: 100%; width: min(84vw, 340px); background: #F4F1EB;
           transform: translateX(100%); transition: transform .3s cubic-bezier(.22,.68,0,1); display: flex; flex-direction: column; padding: 20px; }
         .pf01nav-drawer[data-open="true"] .pf01nav-panel { transform: translateX(0); }
         .pf01nav-panel-close { align-self: flex-end; width: 44px; height: 44px; border: 1px solid var(--pf-border); border-radius: 9px; background: #fff; font-size: 1.4rem; cursor: pointer; color: var(--pf-ink); }
