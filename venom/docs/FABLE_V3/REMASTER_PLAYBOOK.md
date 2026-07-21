@@ -17,7 +17,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 1 | clean-02 | clean-02-demo | 1119 (+showcase 1091) | kompletně + fotky | ✅ DONE |
 | 2 | klempir-01 | klempir-01-demo | 1086 | kompletně + fotky | ✅ DONE |
 | 3 | ortho-01 | ortho-01-v2 | 684 | kompletně + VŠECHNY obrázky | ✅ DONE |
-| 4 | hair-01 | hair-01-v2 | 401 | kompletně | ⏳ |
+| 4 | hair-01 | hair-01-v2 | 401 | kompletně | ✅ DONE |
 | 5 | hair-02 | hair-02-demo | 414 | kompletně | ⏳ |
 | 6 | hair-03 | hair-03-v2 | 407 | kompletně | ⏳ |
 | 7 | hair-04 | hair-04-v2 | 419 | kompletně | ⏳ |
@@ -207,7 +207,25 @@ var(--color-*) od začátku). tsc PASS. NIC dalšího zatím neměněno.
 - Lékař portrét (Dr. Demo): `1545167622-3a6ac756afa4` (vousatý muž, úsměv)
 - Děti/každý věk: `1503454537195-1dcabb73ffb9` (smějící se dítě — pozor, od barev umazané; použij jen malé)
 
-## 6. DALŠÍCH 8 ŠABLON — směr (rozpracuj brief per šablona před stavbou, 10 min max)
+## 5b. HAIR-01 — ✅ DONE (2026-07-21, commity c233a3d4 + 475f7f4a)
+
+„Ivory & Brass" editorial luxe: bg `#F6F3EE`, noir `#14100B`, brass `#A07C33` (hover `#7D6026`),
+border `#E6DDD0`, muted `#756A5D`; Libre Caslon Display + Hanken Grotesk; radius 2px. 10 variant
+(topbar, fullbleed hero, page hero, about split s brass rámem, foto služby, CTA pás, noir values,
+tým 3/4 portréty + mobil scroll-snap, iniciálové recenze, noir footer + WeberoCredit). DB tenant 401:
+pořadí home opraveno (hero bylo na pozici 3!), navbar fyzio-01-navbar→hair-01-topbar, junk stránka
+`test` smazána, + stránky sluzby/tym/kontakt (kontakt = rezora widget), presets brass/rosewood/graphite.
+**NOVÉ PASTI:**
+- **GenericEditableImage wrapper dostává inline `position: style?.position ?? "relative"`** — CSS
+  třída s `position:absolute` NIKDY nevyhraje. Fullbleed obrázek ⇒ předat `style={{position:"absolute",
+  inset:0,width:"100%",height:"100%"}}` PROP + inline styly na vnitřní `<img>`. Jinak img h=0 a
+  wrapper v toku odsune obsah (text najednou vpravo).
+- Brace-match splice na `function X({...}: Props)` chytne destrukturaci — matchovat od `(` po
+  first-column `}`, ne první `{`.
+- (page_id, order_index) má UNIQUE — přeuspořádání sekcí dvoufázově (přes +100 offsety).
+- Paralelní session vkládá vlastní bloky (esMegaNode duplikát) — po jejích zásazích tsc + dedupe.
+
+## 6. DALŠÍCH 7 ŠABLON — směr (rozpracuj brief per šablona před stavbou, 10 min max)
 
 Každá NOVÁ paleta + fontová dvojice (neopakovat: Bricolage+Onest, Fraunces+Manrope,
 Young Serif+Outfit). Kandidátní fonty na Google Fonts: Sora, Space Grotesk, Libre Caslon,
