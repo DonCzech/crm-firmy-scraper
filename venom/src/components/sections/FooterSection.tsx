@@ -32,11 +32,12 @@ function appendBlogLink<T extends { label?: string; href?: string }>(
   label = "Blog"
 ): T[] {
   if (!content.__withBlog) return list;
+  const blogHref = (content.__blogHref as string) || "/blog";
   const has = list.some((l) => {
     const href = (l?.href ?? "").toLowerCase();
     return href === "/blog" || href.endsWith("/blog") || (l?.label ?? "").toLowerCase() === "blog";
   });
-  return has ? list : [...list, { label, href: "/blog" } as unknown as T];
+  return has ? list : [...list, { label, href: blogHref } as unknown as T];
 }
 
 /**
@@ -68,8 +69,9 @@ function appendBlogToColumns<
   if (idx === -1) idx = columns.findIndex((c) => c.links?.length);
   if (idx === -1) return columns;
 
+  const blogHref = (content.__blogHref as string) || "/blog";
   return columns.map((c, i) =>
-    i === idx ? { ...c, links: [...(c.links ?? []), { label, href: "/blog" }] } : c
+    i === idx ? { ...c, links: [...(c.links ?? []), { label, href: blogHref }] } : c
   );
 }
 
@@ -2203,6 +2205,7 @@ function FooterMassage01({ content, sectionId }: { content: Record<string, unkno
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href.startsWith("/demo/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }
@@ -17226,9 +17229,7 @@ function FooterEshop08({ content, tenantSlug, isAdmin }: { content: Record<strin
       </div>
 
       <div style={{ textAlign: "center", padding: "8px 0 12px", borderTop: `1px solid ${BORDER}` }}>
-        <span style={{ fontSize: 11, color: MUTED, fontWeight: 400 }}>
-          Vytvořeno na <a href="https://webero.cz" target="_blank" rel="noopener noreferrer" style={{ color: GREEN, fontWeight: 600, textDecoration: "none" }}>Webero.cz</a>
-        </span>
+        <WeberoCredit />
       </div>
     </footer>
   );
@@ -17987,8 +17988,9 @@ function FooterEshop14({ content, tenantSlug, isAdmin }: { content: Record<strin
           )}
         </div>
 
-        <div style={{ borderTop: "1px solid rgba(250,247,240,0.12)", padding: "18px 0 26px", textAlign: "center", fontSize: 12.5, color: "rgba(250,247,240,0.45)" }}>
-          {copyright}
+        <div style={{ borderTop: "1px solid rgba(250,247,240,0.12)", padding: "18px 0 26px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", fontSize: 12.5, color: "rgba(250,247,240,0.45)" }}>
+          <span>{copyright}</span>
+          <WeberoCredit />
         </div>
       </div>
     </footer>
@@ -18355,7 +18357,7 @@ function FooterEshop13({ content, sectionId, tenantSlug, isAdmin }: { content: R
               <a href={resolve(l.href)}>{l.label}</a>
             </span>
           ))}
-          <span style={{ marginLeft: "auto", color: MUTED, fontSize: 12.5 }}>Vytvořeno na platformě <strong style={{ fontWeight: 700 }}>Webero</strong></span>
+          <span style={{ marginLeft: "auto" }}><WeberoCredit /></span>
         </div>
       </div>
     </footer>
@@ -18724,6 +18726,9 @@ function FooterEshop17({ content, tenantSlug, isAdmin }: { content: Record<strin
             {copyright}
           </div>
         )}
+        <div style={{ borderTop: `1px solid ${LINE}`, padding: "12px 0 20px", textAlign: "center" }}>
+          <WeberoCredit />
+        </div>
       </div>
     </footer>
   );

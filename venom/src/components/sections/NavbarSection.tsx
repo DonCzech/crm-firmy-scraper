@@ -3288,6 +3288,7 @@ function NavbarFitness01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
 // Main exported dispatch — must be after all variant functions
 export function NavbarSection(props: Props) {
+  if (props.variant === "proof-01-navbar") return <NavbarProof01 {...props} />;
   if (props.variant === "hair-01-topbar") return <NavbarHair01Topbar {...props} />;
   if (props.variant === "hair-02-navbar") return <NavbarHair02 {...props} />;
   if (props.variant === "hair-03-navbar") return <NavbarHair03 {...props} />;
@@ -5503,6 +5504,7 @@ function NavbarTattoo02(props: Props) {
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href.startsWith("/demo/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }
@@ -36037,6 +36039,144 @@ function NavbarArtist01(props: Props) {
           </nav>
         </div>
       )}
+    </>
+  );
+}
+
+// ── proof-01-navbar — sticky minimal header + sticky mobilní CTA lišta ─────────
+function NavbarProof01({ content, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, [open]);
+
+  const siteName = String(content.siteName ?? "Servis Praha");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const logoSrc  = logoUrl || demoLogoDataUrl(siteName);
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const ctaText = String(content.ctaText ?? "Nezávazná poptávka");
+  const ctaHref = String(content.ctaHref ?? "#poptavka");
+  const phone   = String(content.phone ?? "704 123 456");
+  const phoneHref = String(content.phoneHref ?? "tel:+420704123456");
+  const mCallLabel = String(content.mobileCtaCallLabel ?? "Zavolat");
+  const mCallHref  = String(content.mobileCtaCallHref ?? phoneHref);
+  const mLeadLabel = String(content.mobileCtaLeadLabel ?? "Poptávka");
+  const mLeadHref  = String(content.mobileCtaLeadHref ?? ctaHref);
+
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  return (
+    <>
+      <style>{`
+        .pf01nav-wrap { --pf-accent: #E7502E; --pf-ink: #14161B; --pf-border: #E4E0D8; font-family: 'Overpass', system-ui, sans-serif; }
+        .pf01nav { position: sticky; top: 0; z-index: 60; background: rgba(245,243,238,.86);
+          backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+          border-bottom: 1px solid var(--pf-border); }
+        .pf01nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px); height: 72px;
+          display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+        .pf01nav-brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; color: var(--pf-ink); min-width: 0; }
+        .pf01nav-brand img { height: 34px; width: auto; display: block; }
+        .pf01nav-brand-name { font-weight: 800; font-size: 1.08rem; letter-spacing: -.01em; white-space: nowrap; }
+        .pf01nav-links { display: flex; align-items: center; gap: 4px; }
+        .pf01nav-links a { padding: 8px 14px; font-size: .93rem; font-weight: 600; color: var(--pf-ink); text-decoration: none;
+          border-radius: 8px; transition: background .18s, color .18s; }
+        .pf01nav-links a:hover { background: rgba(20,22,27,.05); color: var(--pf-accent); }
+        .pf01nav-right { display: flex; align-items: center; gap: 12px; }
+        .pf01nav-phone { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; font-size: .93rem; color: var(--pf-ink); text-decoration: none; white-space: nowrap; }
+        .pf01nav-phone svg { color: var(--pf-accent); }
+        .pf01nav-cta { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; background: var(--pf-accent);
+          color: #fff; font-weight: 700; font-size: .92rem; text-decoration: none; border-radius: 9px; white-space: nowrap; transition: transform .2s, box-shadow .2s; }
+        .pf01nav-cta:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -10px rgba(231,80,46,.7); }
+        .pf01nav-burger { display: none; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--pf-border);
+          border-radius: 9px; background: #fff; cursor: pointer; color: var(--pf-ink); }
+        /* mobile drawer */
+        .pf01nav-drawer { position: fixed; inset: 0; z-index: 70; background: rgba(20,22,27,.5); opacity: 0; pointer-events: none; transition: opacity .25s; }
+        .pf01nav-drawer[data-open="true"] { opacity: 1; pointer-events: auto; }
+        .pf01nav-panel { position: absolute; top: 0; right: 0; height: 100%; width: min(84vw, 340px); background: #F5F3EE;
+          transform: translateX(100%); transition: transform .3s cubic-bezier(.22,.68,0,1); display: flex; flex-direction: column; padding: 20px; }
+        .pf01nav-drawer[data-open="true"] .pf01nav-panel { transform: translateX(0); }
+        .pf01nav-panel-close { align-self: flex-end; width: 44px; height: 44px; border: 1px solid var(--pf-border); border-radius: 9px; background: #fff; font-size: 1.4rem; cursor: pointer; color: var(--pf-ink); }
+        .pf01nav-panel a { padding: 14px 8px; font-size: 1.05rem; font-weight: 700; color: var(--pf-ink); text-decoration: none; border-bottom: 1px solid var(--pf-border); }
+        .pf01nav-panel-cta { margin-top: 18px; text-align: center; background: var(--pf-accent); color: #fff !important; border-radius: 10px; border-bottom: none !important; }
+        /* sticky mobile CTA bar */
+        .pf01nav-mobar { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+          padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); gap: 10px; background: rgba(245,243,238,.94);
+          backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--pf-border); }
+        .pf01nav-mobar a { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px;
+          font-weight: 700; font-size: .95rem; text-decoration: none; border-radius: 11px; }
+        .pf01nav-mobar-call { background: #fff; color: var(--pf-ink); border: 1.5px solid var(--pf-border); }
+        .pf01nav-mobar-lead { background: var(--pf-accent); color: #fff; }
+        @media (max-width: 860px) {
+          .pf01nav-links, .pf01nav-phone, .pf01nav-cta { display: none; }
+          .pf01nav-burger { display: inline-flex; }
+          .pf01nav-mobar { display: flex; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .pf01nav-drawer, .pf01nav-panel, .pf01nav-cta { transition: none; }
+        }
+      `}</style>
+
+      <div className="pf01nav-wrap" data-template="proof-01">
+        <header className="pf01nav">
+          <div className="pf01nav-inner">
+            <a href={homeHref} className="pf01nav-brand" aria-label={siteName}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="pf01nav-logoslot">
+                <img src={logoSrc} alt={siteName} />
+              </GenericEditableImage>
+              <span className="pf01nav-brand-name">
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
+            </a>
+
+            <nav className="pf01nav-links" aria-label="Hlavní navigace">
+              {links.map((l, i) => (
+                <a key={i} href={resolve(l.href)}>
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+
+            <div className="pf01nav-right">
+              <a href={phoneHref} className="pf01nav-phone">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <a href={resolve(ctaHref)} className="pf01nav-cta" data-btn="primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+              <button className="pf01nav-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div className="pf01nav-drawer" data-open={open} onClick={() => setOpen(false)}>
+          <div className="pf01nav-panel" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Navigace">
+            <button className="pf01nav-panel-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+            <nav>
+              {links.map((l, i) => (
+                <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)} style={{ display: "block" }}>{l.label}</a>
+              ))}
+            </nav>
+            <a href={resolve(ctaHref)} className="pf01nav-panel-cta" style={{ display: "block", padding: "14px" }} onClick={() => setOpen(false)}>{ctaText}</a>
+          </div>
+        </div>
+
+        <nav className="pf01nav-mobar" aria-label="Rychlý kontakt">
+          <a href={mCallHref} className="pf01nav-mobar-call">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <GenericEditableText sectionId={sectionId} field="mobileCtaCallLabel" value={mCallLabel} tag="span" />
+          </a>
+          <a href={resolve(mLeadHref)} className="pf01nav-mobar-lead" data-btn="primary">
+            <GenericEditableText sectionId={sectionId} field="mobileCtaLeadLabel" value={mLeadLabel} tag="span" />
+          </a>
+        </nav>
+      </div>
     </>
   );
 }

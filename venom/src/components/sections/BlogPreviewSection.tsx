@@ -8,6 +8,7 @@ import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href.startsWith("/demo/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
   if (href.startsWith("/#")) return href.slice(1);
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;

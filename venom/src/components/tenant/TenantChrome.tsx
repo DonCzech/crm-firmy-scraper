@@ -39,7 +39,7 @@ export async function TenantChrome({
 
   // On a blog page the blog module is by definition active — inject the Blog
   // nav entry into both singletons.
-  const footer = rawFooter ? withBlogNavLink(rawFooter, true) : undefined;
+  const footer = rawFooter ? withBlogNavLink(rawFooter, true, "Blog", tenant.slug) : undefined;
 
   // Overlay navbars are designed to float over the homepage hero: transparent
   // background, white text, dark scrim. A blog page has no hero, so that same
@@ -57,7 +57,9 @@ export async function TenantChrome({
             },
           },
         },
-        true
+        true,
+        "Blog",
+        tenant.slug,
       )
     : undefined;
 

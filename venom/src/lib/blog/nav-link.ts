@@ -48,14 +48,25 @@ function isLinkArray(v: unknown): v is Array<Record<string, unknown>> {
   );
 }
 
-export function withBlogNavLink(section: Section, hasBlog: boolean, label = "Blog"): Section {
+export function withBlogNavLink(
+  section: Section,
+  hasBlog: boolean,
+  label = "Blog",
+  tenantSlug?: string,
+): Section {
   if (!hasBlog) return section;
   const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+
+  const blogHref = tenantSlug ? `/demo/${tenantSlug}/blog` : "/blog";
 
   // Variants that build their link list in code (hardcoded fallback, navGroups…)
   // can't be reached through data at all. They read this flag and append the
   // entry themselves via appendBlogLink() in FooterSection.tsx.
-  const flagged: Record<string, unknown> = { ...content, __withBlog: true };
+  const flagged: Record<string, unknown> = {
+    ...content,
+    __withBlog: true,
+    __blogHref: blogHref,
+  };
 
   const targetKey = NAV_ARRAY_KEYS.find((k) => isLinkArray(content[k]));
   if (!targetKey) {
@@ -72,12 +83,11 @@ export function withBlogNavLink(section: Section, hasBlog: boolean, label = "Blo
 
   let nextLinks: Array<Record<string, unknown>>;
   if (links.some(isBlog)) {
-    // Normalise an existing (possibly anchor-only) Blog link to the real route.
     nextLinks = links.map((l) =>
-      isBlog(l) ? { ...(l as Record<string, unknown>), href: "/blog", label } : (l as Record<string, unknown>)
+      isBlog(l) ? { ...(l as Record<string, unknown>), href: blogHref, label } : (l as Record<string, unknown>)
     );
   } else {
-    nextLinks = [...(links as Array<Record<string, unknown>>), { label, href: "/blog" }];
+    nextLinks = [...(links as Array<Record<string, unknown>>), { label, href: blogHref }];
   }
 
   return {

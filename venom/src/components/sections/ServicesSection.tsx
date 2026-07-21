@@ -10,6 +10,7 @@ import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href.startsWith("/demo/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
   if (href.startsWith("/#")) return href.slice(1);
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
@@ -47,6 +48,9 @@ interface Props {
 
 export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdmin }: Props) {
 
+  if (variant === "proof-01-services") return <ServicesProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "proof-01-process")  return <ProcessProof01 content={content} sectionId={sectionId} />;
+  if (variant === "proof-01-pricing")  return <PricingProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "pricing-photo-01")   return <PricingPhoto01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "artist-01-concerts") return <ConcertsArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "eshop-16-benefits")  return <BenefitsEshop16 content={content} sectionId={sectionId} />;
@@ -15910,4 +15914,212 @@ function PricingTableVideo({ content, title, sectionId }: { content: Record<stri
         </div>
       </section>
     );
+}
+
+// ══ PROOF (proof-01) — services / process / pricing ═══════════════════════════
+type Pf01Svc = { name?: string; description?: string; icon?: string; priceFrom?: string; href?: string };
+
+function Pf01Icon({ name }: { name?: string }) {
+  const p: Record<string, React.ReactNode> = {
+    wrench: <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>,
+    home: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>,
+    shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>,
+    zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>,
+    droplet: <path d="M12 2.7l5.66 5.66a8 8 0 1 1-11.31 0z"/>,
+    leaf: <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10zM2 21c0-3 1.85-5.36 5.08-6"/>,
+    truck: <><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></>,
+    tool: <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>,
+  };
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      {p[name ?? "wrench"] ?? p.wrench}
+    </svg>
+  );
+}
+
+function ServicesProof01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow = String(content.eyebrow ?? "Co pro vás uděláme");
+  const title   = String(content.title   ?? "Služby na míru vaší zakázce");
+  const lead    = String(content.lead    ?? "Vyberte oblast — na detailu služby najdete rozsah, ceník a příklady realizací.");
+  const items = (content.items as Pf01Svc[] | undefined) ?? [];
+  const linkLabel = String(content.linkLabel ?? "Zjistit více");
+  return (
+    <>
+      <style>{`
+        .pf01svc { --pf-accent:#E7502E; --pf-ink:#14161B; --pf-muted:#6A6E78; --pf-border:#E4E0D8; --pf-surface:#fff;
+          background: var(--pf-paper,#F5F3EE); font-family:'Overpass',system-ui,sans-serif; color:var(--pf-ink);
+          padding: clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .pf01svc-inner { max-width: 1280px; margin: 0 auto; }
+        .pf01svc-head { max-width: 640px; margin-bottom: clamp(32px,5vw,56px); }
+        .pf01-eyebrow { font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-size:1.2rem; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .pf01-eyebrow::before { content:''; width:32px; height:2px; background:var(--pf-accent); }
+        .pf01svc-title { font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01svc-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
+        .pf01svc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+        .pf01svc-card { position:relative; display:flex; flex-direction:column; gap:14px; background:var(--pf-surface); border:1px solid var(--pf-border);
+          border-radius:16px; padding:26px; text-decoration:none; color:inherit; transition:transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s, border-color .25s; overflow:hidden; }
+        .pf01svc-card::after { content:''; position:absolute; left:0; top:0; height:100%; width:3px; background:var(--pf-accent); transform:scaleY(0); transform-origin:top; transition:transform .3s cubic-bezier(.22,.68,0,1); }
+        .pf01svc-card:hover { transform:translateY(-4px); box-shadow:0 24px 44px -26px rgba(20,22,27,.4); border-color:#d4cec1; }
+        .pf01svc-card:hover::after { transform:scaleY(1); }
+        .pf01svc-ic { width:52px; height:52px; border-radius:13px; background:rgba(231,80,46,.1); color:var(--pf-accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .pf01svc-name { font-size:1.18rem; font-weight:800; letter-spacing:-.01em; margin:0; }
+        .pf01svc-desc { font-size:.94rem; color:var(--pf-muted); line-height:1.55; margin:0; flex:1; }
+        .pf01svc-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:4px; }
+        .pf01svc-price { font-weight:800; font-size:.98rem; }
+        .pf01svc-price span { color:var(--pf-muted); font-weight:600; font-size:.82rem; }
+        .pf01svc-more { display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:.88rem; color:var(--pf-accent); }
+        .pf01svc-more svg { transition:transform .25s; } .pf01svc-card:hover .pf01svc-more svg { transform:translateX(4px); }
+        @media (prefers-reduced-motion: reduce){ .pf01svc-card,.pf01svc-card::after,.pf01svc-more svg{ transition:none; } }
+      `}</style>
+      <section className="pf01svc" data-template="proof-01" id="sluzby">
+        <div className="pf01svc-inner">
+          <div className="pf01svc-head">
+            <p className="pf01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="pf01svc-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="pf01svc-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="pf01svc-grid">
+            {items.map((s, i) => (
+              <a key={i} className="pf01svc-card" href={resolveDemoHref(String(s.href ?? "/sluzby"), tenantSlug, isAdmin)}>
+                <span className="pf01svc-ic"><Pf01Icon name={s.icon} /></span>
+                <h3 className="pf01svc-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(s.name ?? "")} tag="span" /></h3>
+                <p className="pf01svc-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(s.description ?? "")} tag="span" /></p>
+                <div className="pf01svc-foot">
+                  <span className="pf01svc-price"><GenericEditableText sectionId={sectionId} field={`items.${i}.priceFrom`} value={String(s.priceFrom ?? "")} tag="span" /> <span>od</span></span>
+                  <span className="pf01svc-more">
+                    <GenericEditableText sectionId={sectionId} field="linkLabel" value={linkLabel} tag="span" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function ProcessProof01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Jak to probíhá");
+  const title   = String(content.title   ?? "Čtyři kroky od poptávky k hotovu");
+  const lead    = String(content.lead    ?? "Transparentní proces bez skrytých kroků. Vždy víte, co bude následovat.");
+  const steps = (content.steps as Array<{ title?: string; description?: string }> | undefined) ?? [];
+  return (
+    <>
+      <style>{`
+        .pf01proc { --pf-accent:#E7502E; --pf-ink:#14161B; --pf-muted:#6A6E78; --pf-border:#E4E0D8;
+          background:var(--pf-ink); color:#fff; font-family:'Overpass',system-ui,sans-serif;
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .pf01proc-inner { max-width:1280px; margin:0 auto; }
+        .pf01proc-head { max-width:640px; margin-bottom:clamp(36px,5vw,60px); }
+        .pf01proc .pf01-eyebrow { color:var(--pf-accent); }
+        .pf01proc-title { font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01proc-lead { font-size:1.05rem; color:rgba(255,255,255,.62); line-height:1.6; margin:0; }
+        .pf01proc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.1); border-radius:16px; overflow:hidden; }
+        .pf01proc-step { background:var(--pf-ink); padding:32px 26px; position:relative; }
+        .pf01proc-num { font-family:'Instrument Serif',Georgia,serif; font-size:2.6rem; line-height:1; color:var(--pf-accent); margin-bottom:16px; }
+        .pf01proc-step h3 { font-size:1.12rem; font-weight:800; margin:0 0 8px; letter-spacing:-.01em; }
+        .pf01proc-step p { font-size:.92rem; color:rgba(255,255,255,.6); line-height:1.55; margin:0; }
+        .pf01proc-step::after { content:''; position:absolute; top:38px; right:-13px; width:22px; height:22px; color:var(--pf-accent);
+          background:none; }
+      `}</style>
+      <section className="pf01proc" data-template="proof-01" id="postup">
+        <div className="pf01proc-inner">
+          <div className="pf01proc-head">
+            <p className="pf01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="pf01proc-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="pf01proc-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="pf01proc-grid">
+            {steps.map((s, i) => (
+              <div key={i} className="pf01proc-step">
+                <div className="pf01proc-num">{String(i + 1).padStart(2, "0")}</div>
+                <h3><GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={String(s.title ?? "")} tag="span" /></h3>
+                <p><GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={String(s.description ?? "")} tag="span" /></p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function PricingProof01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow = String(content.eyebrow ?? "Orientační ceník");
+  const title   = String(content.title   ?? "Balíčky, které dávají smysl");
+  const lead    = String(content.lead    ?? "Přehledné ceny předem. Přesnou nabídku připravíme po nezávazné konzultaci.");
+  const note    = String(content.note    ?? "Ceny jsou orientační vč. DPH. Finální cena dle konkrétního rozsahu zakázky.");
+  type Tier = { name?: string; price?: string; unit?: string; description?: string; features?: string[]; ctaText?: string; ctaHref?: string; featured?: boolean };
+  const tiers = (content.tiers as Tier[] | undefined) ?? [];
+  return (
+    <>
+      <style>{`
+        .pf01pr { --pf-accent:#E7502E; --pf-ink:#14161B; --pf-muted:#6A6E78; --pf-border:#E4E0D8; --pf-surface:#fff;
+          background:var(--pf-paper,#F5F3EE); font-family:'Overpass',system-ui,sans-serif; color:var(--pf-ink);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .pf01pr-inner { max-width:1180px; margin:0 auto; }
+        .pf01pr-head { max-width:640px; margin-bottom:clamp(32px,5vw,52px); }
+        .pf01pr-title { font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01pr-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
+        .pf01pr-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; align-items:stretch; }
+        .pf01pr-card { display:flex; flex-direction:column; background:var(--pf-surface); border:1px solid var(--pf-border); border-radius:18px; padding:30px 26px; transition:transform .25s, box-shadow .25s; }
+        .pf01pr-card[data-featured="true"] { border-color:var(--pf-ink); box-shadow:0 30px 60px -34px rgba(20,22,27,.5); position:relative; }
+        .pf01pr-card:hover { transform:translateY(-4px); box-shadow:0 26px 48px -28px rgba(20,22,27,.42); }
+        .pf01pr-badge { position:absolute; top:-12px; left:26px; background:var(--pf-accent); color:#fff; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:5px 11px; border-radius:999px; }
+        .pf01pr-name { font-size:1.05rem; font-weight:800; letter-spacing:.01em; margin:0 0 10px; }
+        .pf01pr-price { display:flex; align-items:baseline; gap:6px; margin-bottom:6px; }
+        .pf01pr-price b { font-size:2rem; font-weight:800; letter-spacing:-.02em; }
+        .pf01pr-price span { color:var(--pf-muted); font-weight:600; font-size:.86rem; }
+        .pf01pr-desc { font-size:.9rem; color:var(--pf-muted); line-height:1.5; margin:0 0 20px; }
+        .pf01pr-feats { list-style:none; padding:0; margin:0 0 24px; display:grid; gap:10px; flex:1; }
+        .pf01pr-feats li { display:flex; align-items:flex-start; gap:9px; font-size:.92rem; line-height:1.4; }
+        .pf01pr-feats svg { flex-shrink:0; color:var(--pf-accent); margin-top:2px; }
+        .pf01pr-cta { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:13px; border-radius:10px; font-weight:700; font-size:.94rem; text-decoration:none; transition:transform .2s, box-shadow .2s, background .2s; }
+        .pf01pr-cta-solid { background:var(--pf-accent); color:#fff; } .pf01pr-cta-solid:hover { transform:translateY(-1px); box-shadow:0 12px 24px -12px rgba(231,80,46,.7); }
+        .pf01pr-cta-out { background:transparent; color:var(--pf-ink); border:1.5px solid var(--pf-border); } .pf01pr-cta-out:hover { border-color:var(--pf-ink); }
+        .pf01pr-note { font-size:.82rem; color:var(--pf-muted); margin:22px 0 0; text-align:center; }
+        @media (prefers-reduced-motion: reduce){ .pf01pr-card,.pf01pr-cta{ transition:none; } }
+      `}</style>
+      <section className="pf01pr" data-template="proof-01" id="cenik">
+        <div className="pf01pr-inner">
+          <div className="pf01pr-head">
+            <p className="pf01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="pf01pr-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="pf01pr-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>
+          </div>
+          <div className="pf01pr-grid">
+            {tiers.map((t, i) => {
+              const feats = (t.features as string[] | undefined) ?? [];
+              const featured = Boolean(t.featured);
+              return (
+                <div key={i} className="pf01pr-card" data-featured={featured}>
+                  {featured && <span className="pf01pr-badge">Nejoblíbenější</span>}
+                  <h3 className="pf01pr-name"><GenericEditableText sectionId={sectionId} field={`tiers.${i}.name`} value={String(t.name ?? "")} tag="span" /></h3>
+                  <div className="pf01pr-price">
+                    <b><GenericEditableText sectionId={sectionId} field={`tiers.${i}.price`} value={String(t.price ?? "")} tag="span" /></b>
+                    <span><GenericEditableText sectionId={sectionId} field={`tiers.${i}.unit`} value={String(t.unit ?? "")} tag="span" /></span>
+                  </div>
+                  <p className="pf01pr-desc"><GenericEditableText sectionId={sectionId} field={`tiers.${i}.description`} value={String(t.description ?? "")} tag="span" /></p>
+                  <ul className="pf01pr-feats">
+                    {feats.map((f, fi) => (
+                      <li key={fi}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                        <GenericEditableText sectionId={sectionId} field={`tiers.${i}.features.${fi}`} value={f} tag="span" />
+                      </li>
+                    ))}
+                  </ul>
+                  <a href={resolveDemoHref(String(t.ctaHref ?? "#poptavka"), tenantSlug, isAdmin)} className={`pf01pr-cta ${featured ? "pf01pr-cta-solid" : "pf01pr-cta-out"}`} data-btn={featured ? "primary" : undefined}>
+                    <GenericEditableText sectionId={sectionId} field={`tiers.${i}.ctaText`} value={String(t.ctaText ?? "Poptat")} tag="span" />
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+          <p className="pf01pr-note"><GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" /></p>
+        </div>
+      </section>
+    </>
+  );
 }

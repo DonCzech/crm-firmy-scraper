@@ -13,6 +13,7 @@ function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   const slug = tenantSlug ?? "";
   if (href.startsWith("#")) return href;
   const clean = href.startsWith("/") ? href : `/${href}`;
+  if (clean.startsWith("/demo/")) return clean;
   return slug ? `/demo/${slug}${clean}` : clean;
 }
 
@@ -58,6 +59,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} />;
   if (variant === "gallery-universal") {
     return <GalleryUniversal
       content={content}

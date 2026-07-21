@@ -164,10 +164,10 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
   const hasBlogModule = (tenant.active_modules ?? []).includes("blog");
   const injectBlog = hasBlogModule && !genericEditorEnabled;
   const navbarToRender = injectBlog && navbarSections[0]
-    ? withBlogNavLink(navbarSections[0], true)
+    ? withBlogNavLink(navbarSections[0], true, "Blog", tenant.slug)
     : navbarSections[0];
   const footerToRender = injectBlog && footerSections[0]
-    ? withBlogNavLink(footerSections[0], true)
+    ? withBlogNavLink(footerSections[0], true, "Blog", tenant.slug)
     : footerSections[0];
   const mainSections = visibleSections.filter(
     (s) => s.section_type !== "navbar" && s.section_type !== "footer"

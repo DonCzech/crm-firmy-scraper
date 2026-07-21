@@ -9,6 +9,7 @@ import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href.startsWith("/demo/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }

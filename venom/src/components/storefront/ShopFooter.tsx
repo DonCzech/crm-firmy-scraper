@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { WeberoCredit } from "@/components/WeberoCredit";
 
 interface FooterCategory {
   slug: string;
@@ -206,6 +207,7 @@ export function ShopFooter({ tenantSlug, shopName, categories, moduleLinks = [],
           <p className="text-[13px] text-neutral-500">
             © {year} {shopName}. Všechna práva vyhrazena.
           </p>
+          {tenantSlug === "eshop-01-v2" && <WeberoCredit />}
           <div className="flex flex-wrap items-center justify-center gap-2">
             {PAYMENT_LOGOS.map((payment) => (
               <PaymentBadge key={payment.label} payment={payment} />
