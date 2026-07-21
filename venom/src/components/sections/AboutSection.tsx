@@ -11485,12 +11485,8 @@ function AboutSolar02({ content, sectionId, isAdmin }: { content: Record<string,
 }
 
 // ── klempir-01-about ─────────────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz:
-// - White bg, section padding 80px 0
-// - H2 "O mně" centered 36px + silver underline
-// - 2-col: left 38% portrait photo (border-radius 8px, box-shadow) | right 58% text
-//   - body paragraph, highlights list (4 items: label bold + value), about-cta paragraph
-// ─────────────────────────────────────────────────────────────────────────────
+// Copper & Slate: paper bg, grid 5/7 — foto karta řemeslníka s copper linkou
+// vlevo; kicker + Fraunces H2 + body + 2×2 stats s hairlines + telefonní CTA.
 interface AboutK01Props {
   content: Record<string, unknown>;
   sectionId: number;
@@ -11498,100 +11494,109 @@ interface AboutK01Props {
   isAdmin: boolean;
 }
 
-function AboutKlempir01({ content, sectionId, tenantSlug, isAdmin }: AboutK01Props) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const MEDIUM = "#3a3a3a";
-
-  const kicker    = String(content.kicker    ?? "O mně");
-  const title     = String(content.title     ?? "Řemeslo s tradicí a precizností");
-  const body      = String(content.body      ?? "");
-  const image     = String(content.image     ?? "/clones/klempirzprahy/images/klempir-portrait.jpg");
-  const phone     = String(content.phone     ?? "+420 704 123 456");
-  const phoneLabel = String(content.phoneLabel ?? "Osobní přístup k projektu");
-  const rawStats  = Array.isArray(content.stats) ? content.stats as Array<{ label: string; value: string }> : [];
+function AboutKlempir01({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: _isAdmin }: AboutK01Props) {
+  const kicker = String(content.kicker ?? "O mně");
+  const title  = String(content.title ?? "Pečlivá práce s důrazem na detail");
+  const body   = String(content.body ?? "");
+  const image  = String(content.image ?? "https://images.unsplash.com/photo-1632759145351-1d592919f522?w=1000&h=1250&fit=crop&auto=format&q=80");
+  const phone  = String(content.phone ?? "+420 704 123 456");
+  const phoneLabel = String(content.phoneLabel ?? "Zavolejte pro nezávaznou konzultaci");
+  const stats  = (content.stats as Array<{ label?: string; value?: string }>) ?? [];
 
   return (
     <>
       <style>{`
-        .k01-about { background: #ffffff; padding: 80px 0; position: relative; font-family: ${FONT}; }
-        .k01-about::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.05); }
-        .k01-about-container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .k01-about-h2 { font-size: 36px; font-weight: 600; color: ${DARK}; text-align: center; margin-bottom: 50px; position: relative; font-family: ${FONT}; }
-        .k01-about-h2::after { content: ''; display: block; width: 80px; height: 3px; background: ${SILVER}; margin: 15px auto 0; }
-        .k01-about-content { display: flex; align-items: flex-start; gap: 50px; }
-        .k01-about-img-wrap { flex: 0 0 38%; }
-        .k01-about-portrait { border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.12); display: block; width: 100%; height: auto; }
-        .k01-about-text { flex: 0 0 58%; display: flex; flex-direction: column; justify-content: center; }
-        .k01-about-text h3 { font-size: 24px; font-weight: 600; color: ${DARK}; margin-bottom: 20px; font-family: ${FONT}; position: relative; display: inline-block; }
-        .k01-about-text h3::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 3px; background: ${SILVER}; border-radius: 2px; }
-        .k01-about-body { margin-bottom: 25px; line-height: 1.8; color: #444; font-size: 15px; }
-        .k01-about-highlights { list-style: none; padding: 0; margin: 30px 0; }
-        .k01-about-highlights li { position: relative; padding-left: 20px; margin-bottom: 15px; line-height: 1.5; font-size: 15px; color: #444; }
-        .k01-about-highlights li::before { content: '▪'; position: absolute; left: 0; color: ${SILVER}; font-size: 14px; top: 0; }
-        .k01-about-hl-title { font-weight: 600; color: ${MEDIUM}; }
-        .k01-about-cta-text { font-weight: 500; font-size: 15px; color: #444; line-height: 1.7; margin-top: 10px; }
-        .k01-about-phone { display: flex; align-items: center; gap: 14px; margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(0,0,0,0.1); }
-        .k01-about-phone-label { font-size: 13px; color: #777; font-weight: 500; }
-        .k01-about-phone-num { font-size: 20px; font-weight: 700; color: ${MEDIUM}; text-decoration: none; }
-        .k01-about-phone-num:hover { color: ${SILVER}; }
-        @media (max-width: 900px) {
-          .k01-about-content { flex-direction: column; }
-          .k01-about-img-wrap { flex: none; width: 100%; max-width: 380px; margin: 0 auto 30px; }
-          .k01-about-text { flex: none; width: 100%; }
+        .k01ab-section { background: #F5F3EF; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Manrope', sans-serif; }
+        .k01ab-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+          gap: clamp(2.5rem, 6vw, 5.5rem); align-items: center;
         }
+        .k01ab-media { position: relative; }
+        .k01ab-photo {
+          position: relative; overflow: hidden; border-radius: 6px;
+          aspect-ratio: 4/5; background: #E4E0D8;
+          box-shadow: 0 30px 60px -35px rgba(20,23,26,0.45);
+        }
+        .k01ab-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .k01ab-photo::after {
+          content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: #B4622D;
+        }
+        .k01ab-kicker {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #B4622D; margin-bottom: 1.1rem;
+        }
+        .k01ab-kicker::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01ab-h2 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(1.9rem, 3.4vw, 2.8rem);
+          font-weight: 600; color: #191C1F; line-height: 1.1;
+          margin: 0 0 1.2rem; letter-spacing: -0.02em; text-wrap: balance;
+        }
+        .k01ab-body { font-size: 1.02rem; color: #6B6F73; line-height: 1.75; margin: 0 0 1.9rem; }
+        .k01ab-stats {
+          display: grid; grid-template-columns: 1fr 1fr;
+          border-top: 1px solid #E4E0D8; border-left: 1px solid #E4E0D8;
+          margin-bottom: 1.9rem;
+        }
+        .k01ab-stat {
+          padding: 1.1rem 1.3rem;
+          border-bottom: 1px solid #E4E0D8; border-right: 1px solid #E4E0D8;
+        }
+        .k01ab-stat-label {
+          display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+          text-transform: uppercase; color: #9B9F9F; margin-bottom: 0.3rem;
+        }
+        .k01ab-stat-value {
+          font-family: 'Fraunces', serif; font-size: 1.08rem; font-weight: 600; color: #191C1F;
+        }
+        .k01ab-call { display: flex; align-items: center; gap: 1rem; }
+        .k01ab-call-btn {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          padding: 0.95rem 1.7rem; border-radius: 4px;
+          background: #191C1F; color: #fff; font-weight: 700; font-size: 0.98rem; text-decoration: none;
+          font-variant-numeric: tabular-nums;
+          transition: background 0.25s;
+        }
+        .k01ab-call-btn:hover { background: #B4622D; }
+        .k01ab-call-label { font-size: 0.88rem; color: #6B6F73; max-width: 13rem; line-height: 1.45; }
+        @media (max-width: 900px) {
+          .k01ab-inner { grid-template-columns: 1fr; gap: 2.4rem; }
+          .k01ab-photo { aspect-ratio: 16/11; }
+        }
+        @media (max-width: 480px) { .k01ab-stats { grid-template-columns: 1fr; } }
       `}</style>
 
-      <section id="o-mne" className="k01-about" data-template="klempir-01">
-        <div className="k01-about-container">
-          <h2 className="k01-about-h2">
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </h2>
-
-          <div className="k01-about-content">
-            {/* Left: portrait */}
-            <div className="k01-about-img-wrap">
-              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Klempíř z Prahy" style={{}}>
-                <img loading="lazy" src={image} alt="Klempíř z Prahy" className="k01-about-portrait" />
+      <section className="k01ab-section" id="o-mne" data-template="klempir-01-about">
+        <div className="k01ab-inner">
+          <div className="k01ab-media">
+            <div className="k01ab-photo">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Klempíř při práci na střeše" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                <img src={image} alt="Klempíř při práci na střeše" loading="lazy" />
               </GenericEditableImage>
             </div>
-
-            {/* Right: text */}
-            <div className="k01-about-text">
-              <h3>
-                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-              </h3>
-
-              <p className="k01-about-body" style={{ marginTop: 30 }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-
-              {rawStats.length > 0 && (
-                <ul className="k01-about-highlights">
-                  {rawStats.map((s, i) => (
-                    <li key={i}>
-                      <span className="k01-about-hl-title">
-                        <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
-                        :
-                      </span>{" "}
-                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {/* Phone CTA */}
-              <div className="k01-about-phone">
-                <div>
-                  <div className="k01-about-phone-label">
-                    <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />
+          </div>
+          <div>
+            <p className="k01ab-kicker"><GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" /></p>
+            <h2 className="k01ab-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="k01ab-body"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>
+            {stats.length > 0 && (
+              <div className="k01ab-stats">
+                {stats.map((s, i) => (
+                  <div key={i} className="k01ab-stat">
+                    <span className="k01ab-stat-label"><GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label ?? ""} tag="span" /></span>
+                    <span className="k01ab-stat-value"><GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value ?? ""} tag="span" /></span>
                   </div>
-                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="k01-about-phone-num">
-                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                  </a>
-                </div>
+                ))}
               </div>
+            )}
+            <div className="k01ab-call">
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="k01ab-call-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" fill="currentColor"/></svg>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <span className="k01ab-call-label"><GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" /></span>
             </div>
           </div>
         </div>
@@ -11599,6 +11604,7 @@ function AboutKlempir01({ content, sectionId, tenantSlug, isAdmin }: AboutK01Pro
     </>
   );
 }
+
 
 // ── malir-01-about ────────────────────────────────────────────────────────────
 // VYLEPŠENO (luxe malíř):

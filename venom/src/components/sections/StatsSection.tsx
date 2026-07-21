@@ -3387,7 +3387,7 @@ function StatsSignal01({ content, sectionId, isAdmin }: { content: Record<string
         .sg01st-num + .sg01st-num { border-left:1px solid var(--sg-border); }
         .sg01st-num:first-child { padding-left:0; }
         .sg01st-num b { display:block; font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(2rem,3.6vw,3.1rem); font-weight:600; letter-spacing:0; line-height:1; color:var(--sg-ink); }
-        .sg01st-num > span { display:block; font-family:var(--font-mono, ui-monospace, monospace); font-size:.8rem; color:var(--sg-muted); margin-top:9px; line-height:1.4; }
+        .sg01st-num > span { display:block; font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.8rem; color:var(--sg-muted); margin-top:9px; line-height:1.4; }
         .sg01st-num b span { font-size:inherit; }
         .sg01st-badges { display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; margin-top:clamp(22px,3vw,32px); padding-top:clamp(18px,2.5vw,24px); border-top:1px solid var(--sg-border); }
         .sg01st-chip { display:inline-flex; align-items:center; gap:8px; font-size:.88rem; font-weight:600; color:var(--sg-ink); }

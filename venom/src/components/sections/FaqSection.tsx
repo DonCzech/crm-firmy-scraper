@@ -1367,7 +1367,7 @@ function FaqSignal01({ content, sectionId }: { content: Record<string, unknown>;
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .sg01fq-inner { max-width:760px; margin:0 auto; }
         .sg01fq-head { text-align:center; margin-bottom:clamp(28px,4vw,44px); }
-        .sg01fq .sg01-eyebrow{ font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01fq .sg01-eyebrow{ font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .sg01fq-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.7rem,3.2vw,2.5rem); font-weight:600; letter-spacing:.01em; line-height:1.1; margin:0 0 12px; }
         .sg01fq-lead { font-size:1rem; color:var(--sg-muted); line-height:1.6; margin:0; }
         .sg01fq-list { border-top:1px solid var(--sg-border); }

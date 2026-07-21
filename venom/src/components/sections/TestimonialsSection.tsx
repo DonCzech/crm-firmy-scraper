@@ -6061,7 +6061,7 @@ function TestimonialsSignal01({ content, sectionId }: { content: Record<string, 
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .sg01ts-inner { max-width:1180px; margin:0 auto; }
         .sg01ts-head { max-width:660px; margin-bottom:clamp(32px,5vw,52px); }
-        .sg01ts .sg01-eyebrow{ font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01ts .sg01-eyebrow{ font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .sg01ts .sg01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--sg-accent); }
         .sg01ts-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
         .sg01ts-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
@@ -6081,7 +6081,7 @@ function TestimonialsSignal01({ content, sectionId }: { content: Record<string, 
         .sg01ts-meta { display:flex; align-items:center; gap:12px; }
         .sg01ts-av { width:44px; height:44px; border-radius:50%; background:var(--sg-ink); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
         .sg01ts-name { font-weight:800; font-size:.96rem; }
-        .sg01ts-role { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; color:var(--sg-muted); }
+        .sg01ts-role { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; color:var(--sg-muted); }
         @media (max-width:820px){ .sg01ts-grid{ grid-template-columns:1fr; } .sg01ts-card:first-child{ grid-row:auto; } }
         @media (prefers-reduced-motion: reduce){ .sg01ts-card{ transition:none; } }
       `}</style>

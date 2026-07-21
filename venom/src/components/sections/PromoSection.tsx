@@ -4211,100 +4211,88 @@ function ProcessSolar02({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── klempir-01-historical ──────────────────────────────────────────────────────
-// 1:1 klempirzprahy.cz historical-gallery section:
-// - #f5f5f5 bg, padding 80px 0
-// - H2 "Specialista na historické opravy" centered + silver underline
-// - Section-intro: h3 subtitle centered, p body text (max-width 800px)
-// - Gallery grid: repeat(auto-fill, minmax(300px, 1fr)), gap 20px
-//   Each item: 250px height, radius 8px, shadow, hover lift + scale(1.08)
-// - Footer: italic quote with CSS ::before/::after decorative lines
-// ─────────────────────────────────────────────────────────────────────────────
+// Copper & Slate: tmavá slate sekce — grid 6/6: vlevo Fraunces statement +
+// body + badge „Spolupráce s památkáři"; vpravo velké foto s copper rámem.
 interface HistoricalK01Props {
   content: Record<string, unknown>;
   sectionId: number;
   tenantSlug?: string;
   isAdmin: boolean;
 }
-type K01HistImg = { url?: string; alt?: string };
 
-function HistoricalKlempir01({ content, sectionId, tenantSlug, isAdmin }: HistoricalK01Props) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#1a1a1a";
-  const MEDIUM = "#3a3a3a";
-  const GRAY   = "#717171";
-
-  const title    = String(content.title    ?? "Specialista na historické opravy");
-  const subtitle = String(content.subtitle ?? "Tradice a preciznost v každém detailu");
-  const body     = String(content.body     ?? "");
-  const footer   = "Každý projekt je jedinečný a vyžaduje individuální přístup";
-  const images   = (Array.isArray(content.images) ? content.images : []) as K01HistImg[];
+function HistoricalKlempir01({ content, sectionId, tenantSlug: _tenantSlug, isAdmin: _isAdmin }: HistoricalK01Props) {
+  const title = String(content.title ?? "Historické opravy jsou moje vášeň");
+  const subtitle = String(content.subtitle ?? "Řemeslná tradice v moderním provedení");
+  const body = String(content.body ?? "");
+  const badge = String(content.badge ?? "Spolupracuji s památkáři a architekty");
+  const images = (content.images as Array<{ url?: string; alt?: string }>) ?? [];
+  const mainImage = String(content.mainImage ?? images[0]?.url ?? "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=1200&h=1400&fit=crop&auto=format&q=80");
 
   return (
     <>
       <style>{`
-        .k01-hist { background: #f5f5f5; padding: 80px 0; position: relative; font-family: ${FONT}; }
-        .k01-hist::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.05); }
-        .k01-hist-container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .k01-hist-h2 { font-size: 36px; font-weight: 600; color: ${DARK}; text-align: center; margin-bottom: 50px; position: relative; font-family: ${FONT}; }
-        .k01-hist-h2::after { content: ''; display: block; width: 80px; height: 3px; background: ${SILVER}; margin: 15px auto 0; }
-        .k01-hist-intro { text-align: center; max-width: 800px; margin: 0 auto 50px; }
-        .k01-hist-intro h3 { font-size: 22px; color: ${MEDIUM}; margin-bottom: 15px; font-weight: 600; font-family: ${FONT}; }
-        .k01-hist-intro p { color: ${GRAY}; font-size: 16px; line-height: 1.7; white-space: pre-line; }
-        .k01-hist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .k01-hist-item { border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); position: relative; height: 250px; transition: all 0.3s ease; }
-        .k01-hist-item:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
-        .k01-hist-item img { width: 100%; height: 100%; object-fit: cover; transition: all 0.5s ease; display: block; }
-        .k01-hist-item:hover img { transform: scale(1.08); }
-        .k01-hist-footer { text-align: center; margin-top: 40px; }
-        .k01-hist-footer p { font-style: italic; color: ${GRAY}; position: relative; display: inline-block; padding: 0 20px; font-size: 18px; line-height: 1.5; }
-        .k01-hist-footer p::before, .k01-hist-footer p::after { content: ''; display: inline-block; width: 40px; height: 1px; background: ${GRAY}; vertical-align: middle; margin: 0 15px; }
-        @media (max-width: 992px) {
-          .k01-hist-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+        .k01hi-section { background: #14171A; padding: clamp(4rem, 8vw, 7rem) 0; font-family: 'Manrope', sans-serif; }
+        .k01hi-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+          gap: clamp(2.5rem, 6vw, 5rem); align-items: center;
         }
-        @media (max-width: 768px) {
-          .k01-hist-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-          .k01-hist-item { height: 200px; }
+        .k01hi-kicker {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #D98E55; margin-bottom: 1.2rem;
+        }
+        .k01hi-kicker::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01hi-h2 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(2rem, 3.8vw, 3.1rem); font-weight: 600;
+          color: #F7F4EF; line-height: 1.08; margin: 0 0 1.4rem; letter-spacing: -0.02em; text-wrap: balance;
+        }
+        .k01hi-body { font-size: 1rem; color: rgba(247,244,239,0.72); line-height: 1.78; margin: 0 0 1.9rem; white-space: pre-line; }
+        .k01hi-badge {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          border: 1px solid rgba(217,142,85,0.4); border-radius: 4px;
+          padding: 0.8rem 1.1rem; font-size: 0.9rem; font-weight: 600; color: #D98E55;
+        }
+        .k01hi-badge svg { flex-shrink: 0; }
+        .k01hi-media { position: relative; }
+        .k01hi-photo {
+          position: relative; overflow: hidden; border-radius: 6px;
+          aspect-ratio: 4/4.6; background: #23262A;
+          box-shadow: 0 34px 70px -38px rgba(0,0,0,0.7);
+        }
+        .k01hi-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .k01hi-photo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: #B4622D; }
+        @media (max-width: 900px) {
+          .k01hi-inner { grid-template-columns: 1fr; gap: 2.4rem; }
+          .k01hi-photo { aspect-ratio: 16/11; }
         }
       `}</style>
 
-      <section id="historicke" className="k01-hist" data-template="klempir-01">
-        <div className="k01-hist-container">
-          <h2 className="k01-hist-h2">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-
-          <div className="k01-hist-intro">
-            <h3>
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </h3>
-            <p>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
+      <section className="k01hi-section" id="historicke" data-template="klempir-01-historical">
+        <div className="k01hi-inner">
+          <div>
+            <p className="k01hi-kicker"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+            <h2 className="k01hi-h2"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            <p className="k01hi-body"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>
+            <span className="k01hi-badge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l8 3.5v5.1c0 5-3.4 9.6-8 10.9-4.6-1.3-8-5.9-8-10.9V5.5L12 2z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/></svg>
+              <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
+            </span>
           </div>
-
-          <div className="k01-hist-grid">
-            {images.map((img, i) => {
-              const src = String(img.url ?? "");
-              const alt = String(img.alt ?? "");
-              return (
-                <div key={i} className="k01-hist-item">
-                  <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={src} alt={alt} style={{}}>
-                    <img src={src} alt={alt} loading="lazy" />
-                  </GenericEditableImage>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="k01-hist-footer">
-            <p>{footer}</p>
+          <div className="k01hi-media">
+            <div className="k01hi-photo">
+              <GenericEditableImage sectionId={sectionId} field="mainImage" src={mainImage} alt="Historické střechy" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                <img src={mainImage} alt="Historické střechy" loading="lazy" />
+              </GenericEditableImage>
+            </div>
           </div>
         </div>
       </section>
     </>
   );
 }
+
 
 // ── malir-01-promo ────────────────────────────────────────────────────────────
 // VYLEPŠENO (luxe malíř):

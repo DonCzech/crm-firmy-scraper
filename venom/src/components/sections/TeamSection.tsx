@@ -1524,7 +1524,7 @@ function TeamSignal01({ content, sectionId }: { content: Record<string, unknown>
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .sg01tm-inner { max-width:1180px; margin:0 auto; }
         .sg01tm-head { max-width:660px; margin-bottom:clamp(32px,5vw,52px); }
-        .sg01tm .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01tm .sg01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .sg01tm .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent); }
         .sg01tm-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
         .sg01tm-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
@@ -1537,7 +1537,7 @@ function TeamSignal01({ content, sectionId }: { content: Record<string, unknown>
         .sg01tm-card:hover .sg01tm-photo img { transform:scale(1.04); }
         .sg01tm-body { padding:20px 22px 22px; }
         .sg01tm-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.12rem; font-weight:600; letter-spacing:.01em; margin:0 0 4px; }
-        .sg01tm-role { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 10px; }
+        .sg01tm-role { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 10px; }
         .sg01tm-bio { font-size:.9rem; color:var(--sg-muted); line-height:1.55; margin:0; }
         @media (prefers-reduced-motion: reduce){ .sg01tm-card,.sg01tm-photo img{ transition:none; } }
       `}</style>

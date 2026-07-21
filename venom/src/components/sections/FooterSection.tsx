@@ -19496,7 +19496,7 @@ function FooterSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: 
         .sg01ft-brand-name { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:1.25rem; font-weight:600; letter-spacing:.02em; margin:0 0 12px; display:flex; align-items:center; gap:10px; }
         .sg01ft-brand-name img { height:28px; width:auto; }
         .sg01ft-tag { font-size:.94rem; color:rgba(255,255,255,.78); line-height:1.6; max-width:32em; margin:0; }
-        .sg01ft-col-t { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.66); margin:0 0 16px; }
+        .sg01ft-col-t { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.66); margin:0 0 16px; }
         .sg01ft-col a, .sg01ft-col li { color:rgba(255,255,255,.72); text-decoration:none; font-size:.94rem; line-height:2; display:block; }
         .sg01ft-col a:hover { color:var(--sg-accent-lt); }
         .sg01ft-col ul { list-style:none; padding:0; margin:0; }

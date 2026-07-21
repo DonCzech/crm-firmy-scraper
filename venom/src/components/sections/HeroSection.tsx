@@ -29417,7 +29417,7 @@ function HeroSignal01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         .sg01hero-left > *:nth-child(3) { animation-delay: .22s; }
         .sg01hero-left > *:nth-child(4) { animation-delay: .32s; }
         .sg01hero-left > *:nth-child(5) { animation-delay: .44s; }
-        .sg01hero-eyebrow { font-family: var(--font-mono, ui-monospace, monospace); font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #6EA8FE; margin: 0 0 20px;
+        .sg01hero-eyebrow { font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #6EA8FE; margin: 0 0 20px;
           display: inline-flex; align-items: center; gap: 12px; }
         .sg01hero-eyebrow::before { content: ''; width: 40px; height: 2px; background: #6EA8FE; }
         .sg01hero-h1 { font-family: var(--font-heading, system-ui, sans-serif); color: #fff;
@@ -29468,18 +29468,18 @@ function HeroSignal01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         .sg01sel-benefit:nth-child(3) { animation-delay: .1s; }
         .sg01sel-benefit svg { flex-shrink: 0; color: #6EA8FE; }
         .sg01sel-metric { padding: 4px 0 0; animation: sg01fade .32s cubic-bezier(.22,.68,0,1) both; }
-        .sg01sel-metric-lbl { font-family: var(--font-mono, ui-monospace, monospace); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 6px; }
+        .sg01sel-metric-lbl { font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 6px; }
         .sg01sel-metric-val { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
         .sg01sel-metric-val > b { font-family: var(--font-heading, system-ui, sans-serif); font-size: clamp(2.1rem, 2.6vw, 2.7rem); font-weight: 600; line-height: 1; color: #6EA8FE;
           font-variant-numeric: tabular-nums; white-space: nowrap; }
         .sg01sel-metric-val b span { font-size: inherit; }
         .sg01sel-metric-val > span { font-size: .88rem; color: rgba(255,255,255,.85); font-weight: 600; max-width: 16em; line-height: 1.35; }
-        .sg01sel-metric-note { font-family: var(--font-mono, ui-monospace, monospace); font-size: .72rem; color: rgba(255,255,255,.5); margin-top: 8px; }
+        .sg01sel-metric-note { font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .72rem; color: rgba(255,255,255,.5); margin-top: 8px; }
         .sg01sel-cta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; width: 100%;
           padding: 15px; background: #2563EB; color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none;
           border-radius: 6px; transition: filter .2s, transform .2s; box-shadow: 0 10px 30px -10px rgba(37,99,235,.6); }
         .sg01sel-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
-        .sg01sel-cta-note { font-family: var(--font-mono, ui-monospace, monospace); text-align: center; font-size: .7rem; color: rgba(255,255,255,.5); margin-top: 10px; }
+        .sg01sel-cta-note { font-family: var(--font-overpass-mono, ui-monospace, monospace); text-align: center; font-size: .7rem; color: rgba(255,255,255,.5); margin-top: 10px; }
         @media (max-width: 1000px) {
           .sg01hero { min-height: 0; }
           .sg01hero-inner { grid-template-columns: 1fr; padding-top: 96px; }
@@ -29598,7 +29598,7 @@ function HeroSignal01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         .sg01pb { position: relative; background: #101418; color: #fff;
           font-family: var(--font-body, system-ui, -apple-system, sans-serif); overflow: hidden; }
         .sg01pb-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: clamp(44px, 6vw, 76px) clamp(20px, 5vw, 48px); }
-        .sg01pb-crumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono, ui-monospace, monospace); font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 16px; }
+        .sg01pb-crumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 16px; }
         .sg01pb-crumb a { color: rgba(255,255,255,.55); text-decoration: none; transition: color .2s; }
         .sg01pb-crumb a:hover { color: #6EA8FE; }
         .sg01pb-crumb .cur { color: #fff; }

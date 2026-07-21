@@ -16254,7 +16254,7 @@ function ServicesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .sg01svc-inner { max-width:1280px; margin:0 auto; }
         .sg01svc-head { max-width:660px; margin-bottom:clamp(32px,5vw,56px); }
-        .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent); }
         .sg01svc-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
         .sg01svc-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
@@ -16270,9 +16270,9 @@ function ServicesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content
         .sg01svc-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.22,.68,0,1); }
         .sg01svc-card:hover .sg01svc-photo img { transform:scale(1.05); }
         .sg01svc-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(13,17,22,.5)); }
-        .sg01svc-num { position:absolute; left:16px; bottom:12px; z-index:1; color:#fff; font-family:var(--font-mono, ui-monospace, monospace); font-weight:700; font-size:.78rem; letter-spacing:.14em; }
+        .sg01svc-num { position:absolute; left:16px; bottom:12px; z-index:1; color:#fff; font-family:var(--font-overpass-mono, ui-monospace, monospace); font-weight:700; font-size:.78rem; letter-spacing:.14em; }
         .sg01svc-body { display:flex; flex-direction:column; gap:10px; padding:22px 24px 24px; flex:1; }
-        .sg01svc-tag { font-family:var(--font-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sg-accent); }
+        .sg01svc-tag { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sg-accent); }
         .sg01svc-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:1.2rem; font-weight:600; letter-spacing:.01em; margin:0; }
         .sg01svc-desc { font-size:.94rem; color:var(--sg-muted); line-height:1.55; margin:0; flex:1; }
         .sg01svc-more { display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:.88rem; color:var(--sg-accent); margin-top:4px; }
@@ -16335,7 +16335,7 @@ function MethodSignal01({ content, sectionId }: { content: Record<string, unknow
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .sg01mt-inner { max-width:1280px; margin:0 auto; }
         .sg01mt-head { max-width:660px; margin-bottom:clamp(36px,5vw,60px); }
-        .sg01mt .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent-lt); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01mt .sg01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent-lt); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .sg01mt .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent-lt); }
         .sg01mt-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
         .sg01mt-lead { font-size:1.05rem; color:rgba(255,255,255,.78); line-height:1.6; margin:0; }
@@ -16349,10 +16349,10 @@ function MethodSignal01({ content, sectionId }: { content: Record<string, unknow
           transform:scaleX(0); transform-origin:left; transition:transform .6s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 110ms + 250ms); }
         .sg01mt-step.sg01-vis::before { transform:scaleX(1); }
         .sg01mt-toprow { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:18px; }
-        .sg01mt-num { display:inline-flex; align-items:baseline; gap:8px; font-family:var(--font-mono, ui-monospace, monospace); font-weight:700;
+        .sg01mt-num { display:inline-flex; align-items:baseline; gap:8px; font-family:var(--font-overpass-mono, ui-monospace, monospace); font-weight:700;
           font-size:1.7rem; line-height:1; color:var(--sg-accent-lt); }
         .sg01mt-num::after { content:''; width:26px; height:1px; background:rgba(110,168,254,.45); align-self:center; }
-        .sg01mt-dur { font-family:var(--font-mono, ui-monospace, monospace); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.72); }
+        .sg01mt-dur { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.72); }
         .sg01mt-step h3 { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:1.14rem; font-weight:600; margin:0 0 8px; letter-spacing:.01em; }
         .sg01mt-step p { font-size:.92rem; color:rgba(255,255,255,.78); line-height:1.58; margin:0; }
         @media (prefers-reduced-motion: reduce){ .sg01mt-step{ opacity:1; transform:none; transition:none; } .sg01mt-step::before{ transform:scaleX(1); transition:none; } }

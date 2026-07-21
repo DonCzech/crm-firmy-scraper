@@ -8537,7 +8537,7 @@ function CasesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: R
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
         .sg01cs-inner { max-width:1280px; margin:0 auto; }
         .sg01cs-head { max-width:660px; margin-bottom:clamp(32px,5vw,52px); }
-        .sg01cs .sg01-eyebrow { font-family:var(--font-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .sg01cs .sg01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--sg-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .sg01cs .sg01-eyebrow::before { content:''; width:32px; height:2px; background:var(--sg-accent); }
         .sg01cs-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--sg-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:600; letter-spacing:.01em; line-height:1.08; margin:0 0 14px; }
         .sg01cs-lead { font-size:1.05rem; color:var(--sg-muted); line-height:1.6; margin:0; }
@@ -8552,7 +8552,7 @@ function CasesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         .sg01cs-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.22,.68,0,1); }
         .sg01cs-card:hover .sg01cs-photo img { transform:scale(1.05); }
         .sg01cs-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(13,17,22,.5)); }
-        .sg01cs-ind { position:absolute; left:14px; top:14px; z-index:1; font-family:var(--font-mono, ui-monospace, monospace); font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+        .sg01cs-ind { position:absolute; left:14px; top:14px; z-index:1; font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
           color:#fff; background:rgba(13,17,22,.72); padding:5px 10px; border-radius:4px; backdrop-filter:blur(6px); }
         .sg01cs-body { display:flex; flex-direction:column; gap:8px; padding:22px 24px 24px; flex:1; }
         .sg01cs-metric { display:flex; align-items:baseline; gap:10px; padding-bottom:12px; border-bottom:1px solid var(--sg-border); margin-bottom:6px; }
