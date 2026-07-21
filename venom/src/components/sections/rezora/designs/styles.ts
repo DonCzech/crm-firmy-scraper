@@ -14,7 +14,7 @@ export const RZ_CSS = `
   --rz-row-y:16px; --rz-row-x:18px;
   padding:80px 24px; font-family:var(--font-body,inherit);
 }
-.rz *{box-sizing:border-box}
+.rz,.rz *{box-sizing:border-box}
 
 /* ── presety ─────────────────────────────────────────────────────────── */
 .rz--sharp{
@@ -45,7 +45,7 @@ export const RZ_CSS = `
    aby widget lícoval s patičkou i zbytkem stránky. */
 .rz-grid{max-width:1040px;margin:0 auto;display:grid;
   grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:48px;align-items:start}
-@media(max-width:920px){.rz-grid{grid-template-columns:1fr;gap:30px}}
+@media(max-width:920px){.rz-grid{grid-template-columns:minmax(0,1fr);gap:30px}}
 .rz-aside{position:sticky;top:32px}
 @media(max-width:880px){.rz-aside{position:static}}
 .rz-panel{min-height:300px;background:var(--rz-panel-bg);padding:var(--rz-panel-pad);

@@ -18,7 +18,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 2 | klempir-01 | klempir-01-demo | 1086 | kompletně + fotky | ✅ DONE |
 | 3 | ortho-01 | ortho-01-v2 | 684 | kompletně + VŠECHNY obrázky | ✅ DONE |
 | 4 | hair-01 | hair-01-v2 | 401 | kompletně | ✅ DONE |
-| 5 | hair-02 | hair-02-demo | 414 (+showcase 415) | kompletně | ⏳ |
+| 5 | hair-02 | hair-02-demo | 414 (+showcase 415) | kompletně | ✅ DONE |
 | 6 | hair-03 | hair-03-v2 | 407 (+showcase 420) | kompletně | ⏳ |
 | 7 | hair-04 | hair-04-v2 | 419 | kompletně | ⏳ |
 | 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
@@ -255,3 +255,35 @@ Hanken Grotesk, Crimson Pro, Newsreader.
 - Po dokončení šablony aktualizuj §0 tabulku + memory `project_venom_v3_remaster_run.md`.
 - Neopakuj průzkum: vše o enginu je v tomto souboru + V3_PLAYBOOK.md. Sekce-soubory greppuj,
   nečti celé. Screenshotuj po celcích, ne až na konci.
+
+## 5c. HAIR-02 — ✅ DONE (2026-07-21)
+
+„Blush & Clay" soft pastel: paper `#FBF6F3`, ink `#2A211E`, clay rose `#C0685C`
+(hover `#9E5147`), wash `#F3E3DC`, border `#EADDD6`, muted `#7C6B64`; **Newsreader +
+Schibsted Grotesk**; radius 20 + pill CTA (vědomý protiklad ostrého hair-01). 10 variant
+(`h02n/h02h/h02hp/h02ab/h02ct/h02sv/h02g/h02tm/h02co/h02ft-*`). Presety blush/sage/plum.
+Pořadí home přerovnáno na rytmus světlá/tmavá; kontakt dostal REÁLNÝ formulář místo
+prázdného bílého boxu; `recenze` doplněna do manifestu; všechny fotky nové.
+
+**NOVÉ NÁSTROJE (použij u zbylých šablon, nepiš znovu):**
+- `scripts/_align-tenant-sections.mjs <key> [--keep-overrides v1,v2] [--dry]` — srovná
+  sekce VŠECH tenantů šablony podle template.json (varianty, pořadí, chybějící/přebývající),
+  resetne overrides a nastaví designTokens z theme.json. Řeší UNIQUE (page_id, order_index)
+  dvoufázově přes +1000 offset.
+- `scripts/_console-check.mjs <slug> [subpath]` — pageerror/console.error + overflow
+  na 320/390/768/1024/1440.
+
+**NOVÉ PASTI:**
+- **hair-02 si půjčovalo `hair-01-*` varianty** (testimonials, footer) — po remasteru hair-01
+  se do něj propsala cizí identita. U KAŽDÉ šablony zkontroluj `section_variant` cizích prefixů.
+- **Rezora `editorial`/`sharp`/`soft`/`clinical` NEBYLY v SECTION_VARIANTS**, přestože je
+  používá 114 sekcí v DB → validator FAIL a Studio je neumělo přepnout. Doregistrovány jako
+  `industries: ["*"]`. Manifesty starých šablon drží mrtvé bespoke klíče (`hair-02`, `ortho-01`…) —
+  při remasteru přepiš na preset, který je reálně v DB.
+- **Platformní bugy odhalené QA** (opraveny, týkaly se všech šablon): `fetchpriority` →
+  `fetchPriority` v `GenericEditableImage` (invalid DOM property, React error v konzoli);
+  `.rz *{box-sizing}` nezahrnovalo `.rz` samotné + mobilní `grid-template-columns:1fr`
+  způsobovalo grid blowout ⇒ +20px horizontální overflow na 320px u KAŽDÉ šablony s widgetem.
+- Unsplash `&crop=faces` zachrání fotku, kde by centrální ořez ukázal nesmysl (u nás věšák
+  s pláštěnkami místo klientky).
+- Mřížka galerie se `span 2` výjimkami dělá díry a nerovné řady — jednotné dlaždice 4×2 vyhrály.

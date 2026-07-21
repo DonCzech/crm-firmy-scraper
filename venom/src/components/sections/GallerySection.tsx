@@ -8734,16 +8734,12 @@ function GalleryHair02({ content, sectionId }: { content: Record<string, unknown
         .h02g-item {
           border-radius: 20px; overflow: hidden; aspect-ratio: 3 / 4; display: block; background: #F3E3DC;
         }
-        .h02g-item:nth-child(1), .h02g-item:nth-child(6) { grid-column: span 2; aspect-ratio: 3 / 2; }
         .h02g-item img {
           width: 100%; height: 100%; object-fit: cover; display: block;
           transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
         }
         .h02g-item:hover img { transform: scale(1.05); }
-        @media (max-width: 899px) {
-          .h02g-grid { grid-template-columns: repeat(2, 1fr); }
-          .h02g-item:nth-child(1), .h02g-item:nth-child(6) { grid-column: span 2; }
-        }
+        @media (max-width: 899px) { .h02g-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (prefers-reduced-motion: reduce) { .h02g-item img { transition: none; } }
       `}</style>
       <div className="h02g-inner">

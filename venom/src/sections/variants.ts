@@ -1136,6 +1136,11 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
     { key: "barber-dark", label: "Rezervace CTA – tmavá", description: "Tmavá CTA pro barber",          industries: ["barber"] },
   ],
   "rezora-widget": [
+    // 4 adaptivní presety — barvy dědí z motivu tenanta; reálně je používá 114 sekcí v DB
+    { key: "sharp", label: "Rezervace – Sharp (ostrý grid)", description: "Ostré hrany, výrazná typografie a přehledná mřížka kroků; barvy dědí z motivu šablony.", industries: ["*"] },
+    { key: "soft", label: "Rezervace – Soft (oblé karty)", description: "Měkké oblé karty s jemnými stíny a vzdušným krokováním; barvy dědí z motivu šablony.", industries: ["*"] },
+    { key: "clinical", label: "Rezervace – Clinical (klidný a věcný)", description: "Střídmý klinický layout s důrazem na čitelnost termínů; barvy dědí z motivu šablony.", industries: ["*"] },
+    { key: "editorial", label: "Rezervace – Editorial (magazínový split)", description: "Magazínový split s obrazovým panelem a živým souhrnem vedle toku rezervace; barvy dědí z motivu šablony.", industries: ["*"] },
     { key: "klempir-01-gallery", label: "Galerie realizací – 3 project karty s foto + H3 + popis (klempir-01)", description: "#ffffff bg py-20; centrovaný stříbrný kicker + tmavý Montserrat H2; 3-col grid karet: bg foto (aspect 16:9 object-cover) + tmavý overlay + H3 bílý + popis bílý dole; hover: silver border — klempir-01 Demo Klempíř z Prahy", industries: ["klempir"] },
     { key: "klempir-01-testimonials", label: "Recenze – 3 karty s avatarem + hvězdičky + text (klempir-01)", description: "Bílé bg py-20; centrovaný stříbrný kicker + tmavý Montserrat H2 + Google rating; 3-col grid: kruhový avatar foto + H4 jméno + 5 zlatých hvězdiček + italic text v uvozovkách; hover shadow — klempir-01 Demo Klempíř z Prahy", industries: ["klempir"] },
     { key: "barber-01", label: "Rezervace – Luxe editoriál (barber-01)", description: "Tmavý dvousloupec: vlevo serif titul, vertikální stepper a živý souhrn, vpravo tok. Zlaté akcenty, samostatný krok výběru barbera.", industries: ["barber"] },

@@ -56,7 +56,7 @@ template = {
                 {"type": "cta", "variant": "cta-hair-02-promo", "contentRef": "promo"},
                 {"type": "gallery", "variant": "hair-02-gallery", "contentRef": "gallery"},
                 {"type": "testimonials", "variant": "hair-02-testimonials", "contentRef": "testimonials"},
-                {"type": "rezora-widget", "variant": "hair-02", "contentRef": "home.rezervace"},
+                {"type": "rezora-widget", "variant": "editorial", "contentRef": "home.rezervace"},
                 {"type": "contact", "variant": "contact-hair-02-location", "contentRef": "contact-location"},
                 footer(),
             ],

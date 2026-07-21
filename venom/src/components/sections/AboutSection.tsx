@@ -21631,6 +21631,11 @@ function AboutHair02Story({ content, sectionId, tenantSlug, isAdmin }: { content
           .h02ab-grid { grid-template-columns: 1fr; gap: 3rem; }
           .h02ab-media::before { inset: 1rem -1rem -1rem 1rem; }
         }
+        @media (max-width: 639px) {
+          .h02ab-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+          .h02ab-stat { padding-left: 0.9rem; }
+          .h02ab-stat-l { font-size: 0.78rem; }
+        }
       `}</style>
       <div className="h02ab-inner">
         <div className="h02ab-grid">

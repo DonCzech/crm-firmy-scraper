@@ -10,8 +10,9 @@ CS = ROOT / "src/templates/hair-02/content/cs.json"
 U = "https://images.unsplash.com/photo-"
 
 
-def img(pid, w, h):
-    return "%s%s?w=%d&h=%d&fit=crop&auto=format&q=80" % (U, pid, w, h)
+def img(pid, w, h, crop=None):
+    base = "%s%s?w=%d&h=%d&fit=crop&auto=format&q=80" % (U, pid, w, h)
+    return base + ("&crop=" + crop if crop else "")
 
 
 # Vizuálně ověřeno přes montage grid (REMASTER_PLAYBOOK §2.3) — 2026-07-21
@@ -139,7 +140,7 @@ data = {
             {"name": "Melír & balayage", "description": "Měkký přechod bez ostrého odrostu — vydrží tři měsíce i déle.",
              "price": "od 2 290 Kč", "duration": "180 min", "image": img(P_PINKHAIR, 900, 600)},
             {"name": "Keratinové ošetření", "description": "Regenerace poškozených vlasů, uhlazení krepatění na několik týdnů.",
-             "price": "od 1 890 Kč", "duration": "90 min", "image": img(P_WASH, 900, 600)},
+             "price": "od 1 890 Kč", "duration": "90 min", "image": img(P_WASH, 900, 600, "faces")},
             {"name": "Svatební & společenský účes", "description": "Zkouška předem, v den akce účes i s fixací na celý den.",
              "price": "od 1 290 Kč", "duration": "75 min", "image": img(P_UPDO, 900, 600)},
         ],
