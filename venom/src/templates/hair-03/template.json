@@ -1,53 +1,52 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "hair-03",
-  "name": "Petra Studio",
+  "name": "Ateliér Noir",
   "industry": "hair",
   "skeleton": "service-personal",
-  "version": "0.1.0",
+  "version": "3.0.0",
+  "tags": [
+    "v3"
+  ],
   "baseTemplate": null,
-  "description": "Kadeřnický salon s espresso paletou (#2f201a), Lato, bílé pozadí — 2-col hero, founder story, kruhové portréty týmu, masonry galerie. Inspirováno petramechurova.cz.",
-  "sectionOrderNote": "Originál má navbar → hero (2-col split) → about (founder story) → team (circles) → blog-preview → gallery (masonry) → footer; pořadí odpovídá service-personal kostře.",
+  "description": "V3 „Noir & Oxblood“ — kadeřnický ateliér v tmavé editoriální paletě (oxblood #8E2B36, bone #F1EEEA, noir #141110), Archivo + Gantari, ostré hrany bez zaoblení. Noir cinematic hero, editoriální ceník na hairline řádcích, tmavá galerie s grayscale zoomem, tým v portrétech, blog modul a kontakt s reálným formulářem.",
+  "sectionOrderNote": "Rytmus dle V3_PLAYBOOK §1: hero (tmavý) → o ateliéru (bone) → ceník (bílá) → tým (bone) → galerie (TMAVÁ) → blog (bone) → recenze (bílá) → rezervace → kontakt (bone) → patička (tmavá). Žádné dvě tmavé sekce vedle sebe.",
   "skippedSections": [
-    {
-      "pos": 4,
-      "name": "Services",
-      "reason": "originál nemá sekci služeb na homepage — přehled služeb je dostupný přes nav dropdown"
-    },
     {
       "pos": 5,
       "name": "Pricing",
-      "reason": "originál nemá ceník na homepage"
-    },
-    {
-      "pos": 8,
-      "name": "Testimonials",
-      "reason": "originál nemá recenze na homepage"
+      "reason": "ceny jsou přímo v editoriálním ceníku služeb"
     },
     {
       "pos": 9,
-      "name": "CTA",
-      "reason": "CTA je součástí hero sekce a kontakt stránky"
-    },
-    {
-      "pos": 10,
-      "name": "Locations",
-      "reason": "originál má kontakt na samostatné stránce, ne jako homepage sekci"
+      "name": "Booking/CTA",
+      "reason": "konverzi nese rezervační widget Rezora přímo na homepage plus sticky mobilní CTA lišta v navigaci"
     },
     {
       "pos": 11,
       "name": "FAQ",
-      "reason": "originál nemá FAQ sekci"
+      "reason": "dotazy řeší rezervační widget a kontaktní formulář"
     }
   ],
   "extraSections": [
     {
       "type": "blog-preview",
-      "reason": "originál má blog-preview sekci před galerií — klíčový element šablony petramechurova.cz"
+      "variant": "hair-03-blog-cards",
+      "reason": "ateliér provozuje magazín o péči o vlasy — modul blogu je součástí šablony"
     },
     {
       "type": "rezora-widget",
-      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+      "reason": "inline rezervační widget Rezora — objednání přímo na stránce"
+    },
+    {
+      "type": "contact",
+      "variant": "hair-03-contact",
+      "reason": "kostra service-personal nemá kontaktní sekci s formulářem; ateliér ji potřebuje pro poptávky mimo rezervační okno"
+    },
+    {
+      "type": "testimonials",
+      "variant": "hair-03-testimonials",
+      "reason": "recenze chyběly úplně — bez sociálního důkazu šablona neprodává"
     }
   ],
   "i18n": {
@@ -78,14 +77,14 @@
           "contentRef": "about"
         },
         {
+          "type": "services",
+          "variant": "hair-03-services",
+          "contentRef": "services"
+        },
+        {
           "type": "team",
           "variant": "hair-03-circles",
           "contentRef": "team"
-        },
-        {
-          "type": "blog-preview",
-          "variant": "hair-03-blog-cards",
-          "contentRef": "blog"
         },
         {
           "type": "gallery",
@@ -93,9 +92,55 @@
           "contentRef": "gallery"
         },
         {
+          "type": "blog-preview",
+          "variant": "hair-03-blog-cards",
+          "contentRef": "blog"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-03-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
           "type": "rezora-widget",
-          "variant": "hair-03",
+          "variant": "editorial",
           "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "hair-03-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-03-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O ateliéru",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-03-page",
+          "contentRef": "pages.o-nas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "about-hair-03-founder",
+          "contentRef": "about"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-03-testimonials",
+          "contentRef": "testimonials"
         },
         {
           "type": "footer",
@@ -115,7 +160,7 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-hair-03-page",
           "contentRef": "pages.tym.hero"
         },
         {
@@ -141,12 +186,12 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-hair-03-page",
           "contentRef": "pages.kolekce.hero"
         },
         {
           "type": "gallery",
-          "variant": "masonry",
+          "variant": "hair-03-gallery-slider",
           "contentRef": "gallery"
         },
         {
@@ -166,8 +211,13 @@
           "contentRef": "navbar"
         },
         {
+          "type": "hero",
+          "variant": "hero-hair-03-page",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
           "type": "contact",
-          "variant": "default",
+          "variant": "hair-03-contact",
           "contentRef": "contact"
         },
         {

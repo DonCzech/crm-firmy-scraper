@@ -71,6 +71,9 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "contact-hair-02-location") {
     return <ContactHair02Location content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hair-03-contact") {
+    return <ContactHair03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "tattoo-01-contact") {
     return <ContactTattoo01 content={content} sectionId={sectionId} />;
   }
@@ -15238,5 +15241,132 @@ function ContactSignal01({ content, sectionId, tenantSlug, isAdmin }: { content:
         </div>
       </section>
     </>
+  );
+}
+
+// hair-03-contact — V3: bone bg; vlevo hairline kontaktní řádky + otevírací doba + foto,
+// vpravo REÁLNÝ formulář (POST /api/demo/<slug>/contact) se stavy a honeypotem.
+// Pole: tagline/title/body/phone/email/address/image, hours[].{days,time}.
+function ContactHair03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const tagline = String(content.tagline ?? "Kontakt");
+  const title = String(content.title ?? "Ozvěte se nám");
+  const body = String(content.body ?? "");
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const image = String(content.image ?? "");
+  const hours = (content.hours as Array<{ days?: string; time?: string }>) ?? [];
+
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [tel, setTel] = useState("");
+  const [message, setMessage] = useState("");
+  const [hp, setHp] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin || hp || !tenantSlug) return;
+    setStatus("sending"); setErrorMsg("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email: mail, phone: tel, message, website: hp }),
+      });
+      const json = (await res.json()) as { error?: string };
+      if (!res.ok) { setErrorMsg(json.error ?? "Nepodařilo se odeslat zprávu."); setStatus("error"); }
+      else { setStatus("success"); setName(""); setMail(""); setTel(""); setMessage(""); }
+    } catch { setErrorMsg("Nepodařilo se odeslat zprávu. Zkuste to znovu."); setStatus("error"); }
+  }
+
+  return (
+    <section id="kontakt" data-section-type="contact" data-variant="hair-03-contact" className="h03co-section" data-template="hair-03">
+      <style>{`
+        .h03co-section {
+          background: var(--color-bg, #F1EEEA); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03co-inner { max-width: 82rem; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start; }
+        .h03-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary, #8E2B36);
+        }
+        .h03-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03co-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: var(--color-text, #141110); margin: 0 0 1rem; text-wrap: balance;
+        }
+        .h03co-body { font-size: 1rem; line-height: 1.68; color: var(--color-text-muted, #6E645D); margin: 0 0 1.8rem; max-width: 46ch; }
+        .h03co-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--color-border, #E0D9D2); }
+        .h03co-row:first-of-type { border-top: 1px solid var(--color-border, #E0D9D2); }
+        .h03co-k { font-family: 'Archivo', sans-serif; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted, #6E645D); }
+        .h03co-v { font-size: 0.98rem; font-weight: 600; color: var(--color-text, #141110); text-align: right; text-decoration: none; }
+        a.h03co-v:hover { color: var(--color-primary, #8E2B36); }
+        .h03co-photo { margin-top: 1.8rem; aspect-ratio: 16 / 10; overflow: hidden; display: block; background: #E7E1DB; }
+        .h03co-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h03co-form { background: var(--color-surface, #fff); padding: clamp(1.6rem, 3vw, 2.4rem); border: 1px solid var(--color-border, #E0D9D2); }
+        .h03co-form h3 { font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 0.04em; color: var(--color-text, #141110); margin: 0 0 1.4rem; }
+        .h03co-f { margin-bottom: 1rem; }
+        .h03co-f label { display: block; font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted, #6E645D); margin-bottom: 0.4rem; }
+        .h03co-f input, .h03co-f textarea {
+          width: 100%; padding: 0.8rem 1rem; box-sizing: border-box; border-radius: 0;
+          border: 1px solid var(--color-border, #E0D9D2); background: var(--color-bg, #F1EEEA);
+          color: var(--color-text, #141110); font-family: inherit; font-size: 0.95rem;
+        }
+        .h03co-f input:focus, .h03co-f textarea:focus { outline: 2px solid var(--color-primary, #8E2B36); outline-offset: 1px; }
+        .h03co-f textarea { min-height: 7rem; resize: vertical; }
+        .h03co-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+        .h03co-submit {
+          width: 100%; padding: 1rem 1.5rem; border: none; border-radius: 0; cursor: pointer;
+          background: var(--color-primary, #8E2B36); color: #fff; font-family: 'Archivo', sans-serif;
+          font-size: 0.84rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.25s;
+        }
+        .h03co-submit:hover:not(:disabled) { background: var(--color-accent, #6E1F28); }
+        .h03co-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .h03co-note { font-size: 0.79rem; line-height: 1.5; color: var(--color-text-muted, #6E645D); margin: 0.9rem 0 0; }
+        .h03co-msg { font-size: 0.9rem; margin: 0.9rem 0 0; padding: 0.75rem 1rem; }
+        .h03co-msg[data-kind="success"] { background: #E4F0E8; color: #1F5133; }
+        .h03co-msg[data-kind="error"] { background: #F6DEDE; color: #7E2229; }
+        @media (max-width: 899px) { .h03co-inner { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="h03co-inner">
+        <div>
+          <span className="h03-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h03co-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {body && <p className="h03co-body"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>}
+          {phone && <div className="h03co-row"><span className="h03co-k">Telefon</span><a className="h03co-v" href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a></div>}
+          {email && <div className="h03co-row"><span className="h03co-k">E-mail</span><a className="h03co-v" href={`mailto:${email}`}>{email}</a></div>}
+          {address && <div className="h03co-row"><span className="h03co-k">Adresa</span><span className="h03co-v"><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></span></div>}
+          {hours.map((h, i) => (
+            <div className="h03co-row" key={i}>
+              <span className="h03co-k"><GenericEditableText sectionId={sectionId} field={`hours.${i}.days`} value={h.days ?? ""} tag="span" /></span>
+              <span className="h03co-v"><GenericEditableText sectionId={sectionId} field={`hours.${i}.time`} value={h.time ?? ""} tag="span" /></span>
+            </div>
+          ))}
+          {image && (
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="h03co-photo">
+              <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          )}
+        </div>
+        <form className="h03co-form" onSubmit={handleSubmit} style={{ position: "relative" }}>
+          <h3>Napište nám</h3>
+          <div className="h03co-f"><label htmlFor={`h03-n-${sectionId}`}>Jméno *</label><input id={`h03-n-${sectionId}`} required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" /></div>
+          <div className="h03co-f"><label htmlFor={`h03-e-${sectionId}`}>E-mail *</label><input id={`h03-e-${sectionId}`} type="email" required value={mail} onChange={(e) => setMail(e.target.value)} autoComplete="email" /></div>
+          <div className="h03co-f"><label htmlFor={`h03-t-${sectionId}`}>Telefon</label><input id={`h03-t-${sectionId}`} value={tel} onChange={(e) => setTel(e.target.value)} autoComplete="tel" /></div>
+          <div className="h03co-f"><label htmlFor={`h03-m-${sectionId}`}>Zpráva *</label><textarea id={`h03-m-${sectionId}`} required value={message} onChange={(e) => setMessage(e.target.value)} /></div>
+          <div className="h03co-hp" aria-hidden>
+            <label htmlFor={`h03-w-${sectionId}`}>Nevyplňujte</label>
+            <input id={`h03-w-${sectionId}`} tabIndex={-1} autoComplete="off" value={hp} onChange={(e) => setHp(e.target.value)} />
+          </div>
+          <button type="submit" className="h03co-submit" disabled={status === "sending"}>{status === "sending" ? "Odesílám…" : "Odeslat zprávu"}</button>
+          {status === "success" && <p className="h03co-msg" data-kind="success" role="status">Děkujeme, ozveme se vám do 24 hodin.</p>}
+          {status === "error" && <p className="h03co-msg" data-kind="error" role="alert">{errorMsg}</p>}
+          <p className="h03co-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
+        </form>
+      </div>
+    </section>
   );
 }

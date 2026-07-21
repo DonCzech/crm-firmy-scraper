@@ -71,105 +71,7 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
 
   // hair-03: white bg, H1 40px Helvetica 400, 3-col cards, solid dark CTA
   if (variant === "hair-03-blog-cards") {
-    const DARK = "#2f201a";
-    const SANS = "Helvetica, Arial, sans-serif";
-    const posts = c.posts ?? [];
-    const btnText = c.buttonText ?? "Ostatní články";
-    return (
-      <section id="blog" style={{ backgroundColor: "#ffffff", padding: "80px 0" }} data-template="hair-03">
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 60px" }}>
-          <h1
-            style={{
-              fontFamily: SANS,
-              fontSize: 40,
-              fontWeight: 400,
-              color: DARK,
-              textAlign: "center",
-              margin: "0 0 60px 0",
-              lineHeight: 1.2,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={c.title || "Z blogu"} tag="span" />
-          </h1>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
-            {posts.map((post, i) => (
-              <article key={i} style={{ display: "flex", flexDirection: "column" }}>
-                {post.image && (
-                  <GenericEditableImage
-                    sectionId={sectionId}
-                    field={`posts.${i}.image`}
-                    src={post.image}
-                    alt={post.title}
-                    className="relative overflow-hidden"
-                    style={{ aspectRatio: "382/320", width: "100%", flexShrink: 0 }}
-                  >
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1300px) 33vw, 400px"
-                    />
-                  </GenericEditableImage>
-                )}
-                <div style={{ paddingTop: 20, display: "flex", flexDirection: "column", flex: 1 }}>
-                  <h2 style={{ fontFamily: SANS, fontSize: 24, fontWeight: 400, color: DARK, margin: "0 0 12px 0", lineHeight: 1.3 }}>
-                    <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="span" />
-                  </h2>
-                  {post.excerpt && (
-                    <p style={{ fontFamily: SANS, fontSize: 16, fontWeight: 400, color: "#2b2b2b", lineHeight: 1.6, margin: "0 0 20px 0" }}>
-                      <GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={post.excerpt} tag="span" />
-                    </p>
-                  )}
-                  <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: "auto" }}>
-                    <a
-                      href={post.href ?? "#"}
-                      style={{
-                        fontFamily: SANS,
-                        fontSize: 16,
-                        fontWeight: 500,
-                        color: "#ffffff",
-                        backgroundColor: DARK,
-                        padding: "7px 24px",
-                        textDecoration: "none",
-                        display: "inline-block",
-                        flexShrink: 0,
-                      }}
-                    >
-                      <GenericEditableText sectionId={sectionId} field={`posts.${i}.cta`} value="Celý článek" tag="span" />
-                    </a>
-                    {post.date && (
-                      <span style={{ fontFamily: SANS, fontSize: 14, color: "#888", fontWeight: 400 }}>
-                        <GenericEditableText sectionId={sectionId} field={`posts.${i}.date`} value={post.date} tag="span" />
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <div style={{ marginTop: 48 }}>
-            <a
-              href="#blog"
-              style={{
-                fontFamily: SANS,
-                fontSize: 16,
-                fontWeight: 500,
-                color: "#ffffff",
-                backgroundColor: DARK,
-                padding: "7px 24px",
-                textDecoration: "none",
-                display: "inline-block",
-              }}
-            >
-              <GenericEditableText sectionId={sectionId} field="buttonText" value={btnText} tag="span" />
-            </a>
-          </div>
-        </div>
-      </section>
-    );
+    return <BlogHair03 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   return <BlogPreviewDefault content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 }
@@ -2004,5 +1906,81 @@ function NewsArtist01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         </div>
       </section>
     </>
+  );
+}
+
+// hair-03-blog-cards — V3: bone bg, editoriální karty s datem nad titulkem a hairline,
+// hover zoom fotky. Pole: tagline/title, posts[].{title,excerpt,image,href,date}, buttonText.
+function BlogHair03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type P = { title?: string; excerpt?: string; image?: string; href?: string; date?: string };
+  const tagline = String(content.tagline ?? "Magazín");
+  const title = String(content.title ?? "");
+  const posts = (content.posts as P[]) ?? [];
+  const buttonText = String(content.buttonText ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="blog" data-section-type="blog-preview" data-variant="hair-03-blog-cards" className="h03bl-section" data-template="hair-03">
+      <style>{`
+        .h03bl-section {
+          background: var(--color-bg, #F1EEEA); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03bl-inner { max-width: 82rem; margin: 0 auto; }
+        .h03bl-head { max-width: 44rem; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h03-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary, #8E2B36);
+        }
+        .h03-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03bl-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: var(--color-text, #141110);
+          margin: 0; text-wrap: balance;
+        }
+        .h03bl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 2.6vw, 2.2rem); }
+        .h03bl-card { display: flex; flex-direction: column; text-decoration: none; }
+        .h03bl-photo { aspect-ratio: 3 / 2; overflow: hidden; display: block; background: #E7E1DB; margin-bottom: 1.1rem; }
+        .h03bl-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .h03bl-card:hover .h03bl-photo img { transform: scale(1.05); }
+        .h03bl-date { font-family: 'Archivo', sans-serif; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-primary, #8E2B36); display: block; margin-bottom: 0.5rem; }
+        .h03bl-h { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1.14rem; line-height: 1.3; color: var(--color-text, #141110); margin: 0 0 0.6rem; }
+        .h03bl-x { font-size: 0.93rem; line-height: 1.62; color: var(--color-text-muted, #6E645D); margin: 0 0 1rem; flex: 1; }
+        .h03bl-more { font-family: 'Archivo', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text, #141110); padding-top: 0.8rem; border-top: 1px solid var(--color-border, #E0D9D2); }
+        .h03bl-card:hover .h03bl-more { color: var(--color-primary, #8E2B36); }
+        .h03bl-all {
+          display: inline-flex; align-items: center; margin-top: clamp(2.2rem, 4vw, 3rem); padding: 0.95rem 2rem;
+          background: var(--color-text, #141110); color: #fff; font-family: 'Archivo', sans-serif;
+          font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+          text-decoration: none; transition: background 0.25s, transform 0.25s;
+        }
+        .h03bl-all:hover { background: var(--color-primary, #8E2B36); transform: translateY(-2px); }
+        @media (max-width: 899px) { .h03bl-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .h03bl-photo img { transition: none; } }
+      `}</style>
+      <div className="h03bl-inner">
+        <div className="h03bl-head">
+          <span className="h03-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h03bl-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+        </div>
+        <div className="h03bl-grid">
+          {posts.map((p, i) => (
+            <a className="h03bl-card" key={i} href={resolve(p.href ?? "/blog")}>
+              {p.image && (
+                <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={p.image} alt={p.title ?? ""} className="h03bl-photo">
+                  <img src={p.image} alt={p.title ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              )}
+              <span className="h03bl-date"><GenericEditableText sectionId={sectionId} field={`posts.${i}.date`} value={p.date ?? ""} tag="span" /></span>
+              <h3 className="h03bl-h"><GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={p.title ?? ""} tag="span" /></h3>
+              <p className="h03bl-x"><GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={p.excerpt ?? ""} tag="span" /></p>
+              <span className="h03bl-more">Číst dál</span>
+            </a>
+          ))}
+        </div>
+        {buttonText && <a href={resolve("/blog")} className="h03bl-all">{buttonText}</a>}
+      </div>
+    </section>
   );
 }

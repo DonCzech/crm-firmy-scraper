@@ -213,67 +213,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   // H2: 40px Helvetica weight 400 color #2f201a. Text: 16px weight 500 color #2b2b2b.
   // Žádný gold label.
   if (variant === "about-hair-03-founder") {
-    const title      = String(content.title ?? "Petra Studio");
-    const body       = String(content.body ?? "");
-    const paragraphs = (content.paragraphs as string[]) ?? [];
-    const image      = String(content.image ?? "");
-    const DARK       = "#2f201a";
-    const TEXT       = "#2b2b2b";
-    const SANS       = "Helvetica, Arial, sans-serif";
-
-    return (
-      <section id="o-nas" style={{ backgroundColor: "#ffffff", padding: "88px 0" }} data-template="hair-03">
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 75px", display: "flex", alignItems: "flex-start", gap: 66 }}>
-          {/* Foto vlevo — +10%: 463×583px, ostré rohy, žádný shadow */}
-          {image && (
-            <div style={{ flex: "0 0 auto", width: 463, height: 583, position: "relative", flexShrink: 0 }}>
-              <GenericEditableImage
-                sectionId={sectionId}
-                field="image"
-                src={image}
-                alt={title}
-                className="absolute inset-0 w-full h-full"
-                style={{ position: "absolute" }}
-              >
-                <Image
-                  src={image}
-                  alt={title}
-                  fill
-                  className="object-cover object-top"
-                  sizes="463px"
-                  unoptimized={shouldSkipNextImageOptimization(image)}
-                />
-              </GenericEditableImage>
-            </div>
-          )}
-
-          {/* Text vpravo */}
-          <div style={{ flex: 1, minWidth: 0, paddingTop: 18 }}>
-            <GenericEditableText
-              sectionId={sectionId}
-              field="title"
-              value={title}
-              tag="h2"
-              style={{ fontFamily: SANS, fontSize: 44, fontWeight: 400, color: DARK, lineHeight: 1.2, margin: "0 0 26px 0" }}
-            />
-            {body && (
-              <GenericEditableText
-                sectionId={sectionId}
-                field="body"
-                value={body}
-                tag="p"
-                style={{ fontFamily: SANS, fontSize: 18, fontWeight: 500, color: TEXT, lineHeight: 1.75, margin: "0 0 22px 0" }}
-              />
-            )}
-            {paragraphs.map((p, i) => (
-              <p key={`h3-ab-p-${i}`} style={{ fontFamily: SANS, fontSize: 18, fontWeight: 500, color: TEXT, lineHeight: 1.75, margin: "0 0 18px 0" }}>
-                <GenericEditableText sectionId={sectionId} field={`paragraphs.${i}`} value={p} tag="span" />
-              </p>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
+    return <AboutHair03Founder content={content as Record<string, unknown>} sectionId={sectionId} />;
   }
 
   // hair-01: 2-col dark left (label+lead+body+3 stats) / gold right (#8a6f28, portrait+CTA)
@@ -21689,6 +21629,81 @@ function AboutHair02Story({ content, sectionId, tenantSlug, isAdmin }: { content
             ))}
           </div>
         )}
+      </div>
+    </section>
+  );
+}
+
+// about-hair-03-founder — V3: bone bg, vlevo portrét zakladatelky s oxblood rámem,
+// vpravo eyebrow + Archivo H2 + odstavce + podpis. Pole: tagline/title/body/paragraphs/
+// image/signature/signatureRole.
+function AboutHair03Founder({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const tagline = String(content.tagline ?? "O ateliéru");
+  const title = String(content.title ?? "");
+  const body = String(content.body ?? "");
+  const paragraphs = (content.paragraphs as string[]) ?? [];
+  const image = String(content.image ?? "");
+  const signature = String(content.signature ?? "");
+  const signatureRole = String(content.signatureRole ?? "");
+
+  return (
+    <section id="o-nas" data-section-type="about" data-variant="about-hair-03-founder" className="h03ab-section" data-template="hair-03">
+      <style>{`
+        .h03ab-section {
+          background: var(--color-bg, #F1EEEA); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03ab-inner {
+          max-width: 82rem; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.15fr;
+          gap: clamp(2.5rem, 6vw, 5rem); align-items: center;
+        }
+        .h03ab-media { position: relative; }
+        .h03ab-media::before {
+          content: ""; position: absolute; inset: -1.2rem -1.2rem 1.2rem 1.2rem;
+          border: 2px solid var(--color-primary, #8E2B36); z-index: 0;
+        }
+        .h03ab-photo { position: relative; z-index: 1; aspect-ratio: 4 / 5; display: block; overflow: hidden; background: #DED7D0; }
+        .h03ab-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1); }
+                .h03-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary, #8E2B36);
+        }
+        .h03-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03ab-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: var(--color-text, #141110);
+          margin: 0 0 1.3rem; text-wrap: balance;
+        }
+        .h03ab-lead { font-size: 1.1rem; line-height: 1.6; color: var(--color-text, #141110); margin: 0 0 1.3rem; max-width: 50ch; }
+        .h03ab-p { font-size: 0.99rem; line-height: 1.75; color: var(--color-text-muted, #6E645D); margin: 0 0 1rem; max-width: 56ch; }
+        .h03ab-sign { margin-top: 2rem; padding-top: 1.3rem; border-top: 1px solid var(--color-border, #E0D9D2); }
+        .h03ab-sign-n { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1rem; color: var(--color-text, #141110); display: block; }
+        .h03ab-sign-r { font-size: 0.85rem; color: var(--color-text-muted, #6E645D); }
+        @media (max-width: 899px) { .h03ab-inner { grid-template-columns: 1fr; gap: 3rem; } }
+      `}</style>
+      <div className="h03ab-inner">
+        {image && (
+          <div className="h03ab-media">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={signature || title} className="h03ab-photo">
+              <img src={image} alt={signature || title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "grayscale(1)" }} />
+            </GenericEditableImage>
+          </div>
+        )}
+        <div>
+          <span className="h03-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h03ab-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {body && <p className="h03ab-lead"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>}
+          {paragraphs.map((p, i) => (
+            <p className="h03ab-p" key={i}><GenericEditableText sectionId={sectionId} field={`paragraphs.${i}`} value={p} tag="span" /></p>
+          ))}
+          {signature && (
+            <div className="h03ab-sign">
+              <span className="h03ab-sign-n"><GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" /></span>
+              <span className="h03ab-sign-r"><GenericEditableText sectionId={sectionId} field="signatureRole" value={signatureRole} tag="span" /></span>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

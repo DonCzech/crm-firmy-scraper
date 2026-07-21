@@ -258,6 +258,9 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
     if (variant === "hair-02-testimonials") {
     return <TestimonialsHair02 content={content} sectionId={sectionId} />;
   }
+    if (variant === "hair-03-testimonials") {
+    return <TestimonialsHair03 content={content} sectionId={sectionId} />;
+  }
 
   if (variant === "testimonials-peak-cut-grid") {
     // peak-cut (aka barber-05) — Brutalist Atelier White testimonials
@@ -6275,6 +6278,94 @@ function TestimonialsHair02({ content, sectionId }: { content: Record<string, un
                   <span className="h02tm-role">
                     <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={t.role ?? ""} tag="span" />
                   </span>
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// hair-03-testimonials — V3: bílá sekce, velký Archivo citát, iniciálové avatary
+// (NIKDY stock portréty), oxblood hvězdy. Pole: tagline/title/rating/ratingLabel,
+// testimonials[].{author,role,rating,text}.
+function TestimonialsHair03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type T = { author?: string; role?: string; rating?: string; text?: string };
+  const tagline = String(content.tagline ?? "Recenze");
+  const title = String(content.title ?? "Co říkají klienti");
+  const rating = String(content.rating ?? "");
+  const ratingLabel = String(content.ratingLabel ?? "");
+  const items = (content.testimonials as T[]) ?? [];
+  const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+
+  return (
+    <section id="recenze" data-section-type="testimonials" data-variant="hair-03-testimonials" className="h03rv-section" data-template="hair-03">
+      <style>{`
+        .h03rv-section {
+          background: var(--color-surface, #FFFFFF); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03rv-inner { max-width: 82rem; margin: 0 auto; }
+        .h03rv-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h03-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary, #8E2B36);
+        }
+        .h03-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03rv-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: var(--color-text, #141110); margin: 0; text-wrap: balance;
+        }
+        .h03rv-score { text-align: right; }
+        .h03rv-score-v { font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(2.2rem, 4.5vw, 3rem); color: var(--color-primary, #8E2B36); line-height: 1; display: block; }
+        .h03rv-score-l { font-size: 0.84rem; color: var(--color-text-muted, #6E645D); }
+        .h03rv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+        .h03rv-item { padding: 0 clamp(1.2rem, 2.4vw, 2.2rem); border-left: 1px solid var(--color-border, #E0D9D2); }
+        .h03rv-item:first-child { padding-left: 0; border-left: none; }
+        .h03rv-item:last-child { padding-right: 0; }
+        .h03rv-stars { color: var(--color-primary, #8E2B36); font-size: 0.92rem; letter-spacing: 0.16em; margin-bottom: 1rem; }
+        .h03rv-text { font-size: 1.02rem; line-height: 1.7; color: var(--color-text, #141110); margin: 0 0 1.5rem; }
+        .h03rv-who { display: flex; align-items: center; gap: 0.85rem; }
+        .h03rv-av {
+          width: 2.7rem; height: 2.7rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+          background: var(--color-text, #141110); color: #fff; font-family: 'Archivo', sans-serif;
+          font-size: 0.85rem; font-weight: 700; letter-spacing: 0.04em;
+        }
+        .h03rv-name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 0.96rem; color: var(--color-text, #141110); display: block; }
+        .h03rv-role { font-size: 0.83rem; color: var(--color-text-muted, #6E645D); }
+        @media (max-width: 899px) {
+          .h03rv-grid { grid-template-columns: 1fr; gap: 2rem; }
+          .h03rv-item { padding: 2rem 0 0; border-left: none; border-top: 1px solid var(--color-border, #E0D9D2); }
+          .h03rv-item:first-child { padding-top: 0; border-top: none; }
+          .h03rv-score { text-align: left; }
+        }
+      `}</style>
+      <div className="h03rv-inner">
+        <div className="h03rv-head">
+          <div>
+            <span className="h03-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+            <h2 className="h03rv-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          </div>
+          {rating && (
+            <div className="h03rv-score">
+              <span className="h03rv-score-v"><GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" /></span>
+              <span className="h03rv-score-l"><GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span" /></span>
+            </div>
+          )}
+        </div>
+        <div className="h03rv-grid">
+          {items.map((t, i) => (
+            <figure className="h03rv-item" key={i}>
+              <div className="h03rv-stars" role="img" aria-label={`Hodnocení ${t.rating ?? "5"} z 5`}>{"★".repeat(Number(t.rating ?? 5) || 5)}</div>
+              <blockquote className="h03rv-text"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={t.text ?? ""} tag="span" /></blockquote>
+              <figcaption className="h03rv-who">
+                <span className="h03rv-av" aria-hidden>{initials(t.author ?? "")}</span>
+                <span>
+                  <span className="h03rv-name"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={t.author ?? ""} tag="span" /></span>
+                  <span className="h03rv-role"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={t.role ?? ""} tag="span" /></span>
                 </span>
               </figcaption>
             </figure>

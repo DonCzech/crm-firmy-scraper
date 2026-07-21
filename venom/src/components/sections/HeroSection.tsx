@@ -101,113 +101,13 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   // hair-03: 2-col split — levý sloupec 50% s paddingem, pravý sloupec 50% foto edge-to-edge.
   // BG #ebebeb sjednocený s navbarem. H1: 96px Helvetica dark. CTA: solid dark square.
   if (variant === "hero-hair-03-split") {
-    const image    = String((content as Record<string,unknown>).image ?? "");
-    const title    = String((content as Record<string,unknown>).title ?? "S LÁSKOU K VLASŮM");
-    const subtitle = String((content as Record<string,unknown>).subtitle ?? "Jsme profesionální kadeřnický salon v samém srdci Prahy.");
-    const ctaText  = String((content as Record<string,unknown>).ctaText ?? "Chci se objednat");
-    const ctaHref  = String((content as Record<string,unknown>).ctaHref ?? "#kontakt");
-    const DARK     = "#2f201a";
-    const BG       = "#ebebeb";
-    const SANS     = "Helvetica, Arial, sans-serif";
-
-    return (
-      <section
-        id="uvod"
-        className="w-full"
-        style={{ backgroundColor: BG }}
-        data-template="hair-03"
-      >
-        <div style={{ display: "flex", flexDirection: "row", minHeight: 779 }}>
-          {/* Levý sloupec — text */}
-          <div
-            style={{
-              flex: "0 0 50%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              padding: "64px 60px 64px 90px",
-            }}
-          >
-            <GenericEditableText
-              sectionId={sectionId}
-              field="title"
-              value={title}
-              tag="h1"
-              style={{
-                fontFamily: SANS,
-                fontSize: 96,
-                fontWeight: 400,
-                color: DARK,
-                lineHeight: 1.05,
-                letterSpacing: "1px",
-                margin: "0 0 28px 0",
-              }}
-            />
-            <GenericEditableText
-              sectionId={sectionId}
-              field="subtitle"
-              value={subtitle}
-              tag="p"
-              style={{
-                fontFamily: SANS,
-                fontSize: 16,
-                fontWeight: 400,
-                color: DARK,
-                lineHeight: 1.6,
-                maxWidth: 380,
-                margin: "0 0 36px 0",
-              }}
-            />
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{
-                display: "inline-block",
-                alignSelf: "flex-start",
-                fontFamily: SANS,
-                fontSize: 16,
-                fontWeight: 400,
-                color: "#ffffff",
-                backgroundColor: DARK,
-                padding: "14px 32px",
-                borderRadius: 0,
-                textDecoration: "none",
-                letterSpacing: "0.01em",
-                transition: "background 0.15s",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#4a3428"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-          </div>
-
-          {/* Pravý sloupec — foto vyplňuje celou pravou půlku */}
-          {image && (
-            <div style={{ flex: "0 0 50%", position: "relative", minHeight: 651 }}>
-              <GenericEditableImage
-                sectionId={sectionId}
-                field="image"
-                src={image}
-                alt={title}
-                className="absolute inset-0 w-full h-full"
-                style={{ position: "absolute" }}
-              >
-                <Image
-                  src={image}
-                  alt={title}
-                  fill
-                  className="object-cover object-top"
-                  priority
-                  sizes="50vw"
-                  unoptimized={shouldSkipNextImageOptimization(image)}
-                />
-              </GenericEditableImage>
-            </div>
-          )}
-        </div>
-      </section>
-    );
+    return <HeroHair03 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-hair-03-page") {
+    return <HeroHair03Page content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-hair-03-page") {
+    return <HeroHair03Page content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-04: navbar embedded v hero — 1:1 kim-impressive.cz
@@ -30253,5 +30153,150 @@ function HeroOrbit01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props
         </div>
       </section>
     </>
+  );
+}
+
+// hero-hair-03-split — V3 noir cinematic: fullbleed tmavá fotka, silný scrim,
+// Archivo uppercase H1 s oxblood pravítkem, CTA pár, meta pás dole.
+// Pole: image, title, subtitle, ctaText/Href, eyebrow, ctaSecondaryText/Href, meta[].
+function HeroHair03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const image = String(content.image ?? "");
+  const eyebrow = String(content.eyebrow ?? "Kadeřnický ateliér · Praha");
+  const title = String(content.title ?? "S LÁSKOU K VLASŮM");
+  const subtitle = String(content.subtitle ?? "");
+  const ctaText = String(content.ctaText ?? "Chci se objednat");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const cta2Text = String(content.ctaSecondaryText ?? "Naše kolekce");
+  const cta2Href = String(content.ctaSecondaryHref ?? "/kolekce");
+  const meta = (content.meta as Array<{ value: string; label: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="uvod" className="h03h-hero" data-template="hair-03">
+      <style>{`
+        .h03h-hero {
+          position: relative; min-height: 94vh; display: flex; align-items: flex-end;
+          overflow: hidden; background: var(--color-secondary, #141110); font-family: 'Gantari', sans-serif;
+        }
+        .h03h-photo { position: absolute; inset: 0; }
+        .h03h-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h03h-scrim {
+          position: absolute; inset: 0;
+          background: linear-gradient(180deg, rgba(20,17,16,0.62) 0%, rgba(20,17,16,0.34) 40%, rgba(20,17,16,0.9) 100%);
+        }
+        .h03h-inner {
+          position: relative; z-index: 2; width: 100%; max-width: 82rem; margin: 0 auto;
+          padding: 0 clamp(1.25rem, 4vw, 2.75rem) clamp(3rem, 6vw, 4.5rem);
+        }
+        .h03h-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.3rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: #E9A7AE;
+        }
+        .h03h-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03h-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800;
+          font-size: clamp(2.6rem, 7.4vw, 5.6rem); line-height: 0.98; letter-spacing: -0.01em;
+          text-transform: uppercase; color: #fff; margin: 0 0 1.3rem; text-wrap: balance; max-width: 15ch;
+        }
+        .h03h-sub { font-size: clamp(1rem, 1.4vw, 1.12rem); line-height: 1.65; color: rgba(255,255,255,0.84); max-width: 46ch; margin: 0 0 2.1rem; }
+        .h03h-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+        .h03h-btn {
+          display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.84rem; font-weight: 700; letter-spacing: 0.12em;
+          text-transform: uppercase; text-decoration: none; transition: transform 0.25s, background 0.25s;
+        }
+        .h03h-btn-p { background: var(--color-primary, #8E2B36); color: #fff; }
+        .h03h-btn-p:hover { background: var(--color-accent, #6E1F28); transform: translateY(-2px); }
+        .h03h-btn-g { color: #fff; border: 1px solid rgba(255,255,255,0.45); }
+        .h03h-btn-g:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+        .h03h-meta {
+          display: flex; flex-wrap: wrap; gap: clamp(1.5rem, 4vw, 3.2rem); margin-top: clamp(2.4rem, 5vw, 3.4rem);
+          padding-top: 1.6rem; border-top: 1px solid rgba(255,255,255,0.18);
+        }
+        .h03h-meta-v { font-family: 'Archivo', sans-serif; font-size: 1.7rem; font-weight: 700; color: #fff; display: block; line-height: 1; margin-bottom: 0.3rem; }
+        .h03h-meta-l { font-size: 0.82rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.68); }
+        @media (max-width: 767px) { .h03h-hero { min-height: 90vh; } .h03h-btn { flex: 1 1 auto; } }
+        @media (prefers-reduced-motion: reduce) { .h03h-btn { transition: none; } }
+      `}</style>
+
+      {image && (
+        <GenericEditableImage
+          sectionId={sectionId} field="image" src={image} alt={title} className="h03h-photo"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
+          priority
+        >
+          <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        </GenericEditableImage>
+      )}
+      <div className="h03h-scrim" aria-hidden />
+
+      <div className="h03h-inner">
+        <span className="h03h-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+        <h1 className="h03h-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="h03h-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        <div className="h03h-ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="h03h-btn h03h-btn-p">{ctaText}</a>
+          <a href={resolve(cta2Href)} className="h03h-btn h03h-btn-g">{cta2Text}</a>
+        </div>
+        {meta.length > 0 && (
+          <div className="h03h-meta">
+            {meta.map((m, i) => (
+              <div key={i}>
+                <span className="h03h-meta-v"><GenericEditableText sectionId={sectionId} field={`meta.${i}.value`} value={m.value} tag="span" /></span>
+                <span className="h03h-meta-l"><GenericEditableText sectionId={sectionId} field={`meta.${i}.label`} value={m.label} tag="span" /></span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// hero-hair-03-page — podstránkový hero (Noir & Oxblood): tmavý pás s drobečky
+// a Archivo uppercase H1. Pole: title, subtitle, backgroundImage.
+function HeroHair03Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section className="h03hp-wrap" data-template="hair-03">
+      <style>{`
+        .h03hp-wrap {
+          position: relative; background: var(--color-secondary, #141110); overflow: hidden;
+          font-family: 'Gantari', sans-serif;
+          padding: calc(4.8rem + clamp(3rem, 7vw, 5rem)) clamp(1.25rem, 4vw, 2.75rem) clamp(3rem, 7vw, 5rem);
+        }
+        .h03hp-photo { position: absolute; inset: 0; opacity: 0.42; }
+        .h03hp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h03hp-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,17,16,0.72), rgba(20,17,16,0.88)); }
+        .h03hp-inner { position: relative; z-index: 2; max-width: 82rem; margin: 0 auto; }
+        .h03hp-crumb { font-size: 0.8rem; letter-spacing: 0.05em; color: rgba(241,238,234,0.66); margin-bottom: 1rem; }
+        .h03hp-crumb a { color: rgba(241,238,234,0.66); text-decoration: none; }
+        .h03hp-crumb a:hover { color: #E9A7AE; }
+        .h03hp-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(2.1rem, 5.2vw, 3.8rem); line-height: 1.02; color: #fff; margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h03hp-sub { font-size: 1.02rem; line-height: 1.65; color: rgba(241,238,234,0.78); max-width: 52ch; margin: 0; }
+      `}</style>
+      {image && (
+        <GenericEditableImage
+          sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="h03hp-photo"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: 0.42 }}
+        >
+          <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        </GenericEditableImage>
+      )}
+      <div className="h03hp-scrim" aria-hidden />
+      <div className="h03hp-inner">
+        <div className="h03hp-crumb"><a href={resolve("/")}>Domů</a> <span aria-hidden>/</span> {title}</div>
+        <h1 className="h03hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="h03hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+      </div>
+    </section>
   );
 }

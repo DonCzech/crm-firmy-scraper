@@ -294,6 +294,9 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "hair-02-services") {
     return <ServicesHair02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hair-03-services") {
+    return <ServicesHair03 content={content} sectionId={sectionId} />;
+  }
 
   // Support both field name conventions: services[] and items[] (generator/pricing section)
   const services = (
@@ -16795,6 +16798,89 @@ function ServicesHair02({ content, sectionId, tenantSlug, isAdmin }: { content: 
             </article>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// hair-03-services — V3 editoriální ceník: číslované hairline řádky s malým náhledem,
+// cena vpravo (vědomě jiný jazyk než foto karty hair-02). Pole: tagline/title/subtitle,
+// services[].{name,description,price,duration,image}.
+function ServicesHair03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type Item = { name?: string; description?: string; price?: string; duration?: string; image?: string };
+  const tagline = String(content.tagline ?? "Ceník");
+  const title = String(content.title ?? "Co u nás zvládneme");
+  const subtitle = String(content.subtitle ?? "");
+  const items = ((content.services ?? content.items) as Item[]) ?? [];
+
+  return (
+    <section id="sluzby" data-section-type="services" data-variant="hair-03-services" className="h03sv-section" data-template="hair-03">
+      <style>{`
+        .h03sv-section {
+          background: var(--color-surface, #FFFFFF); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03sv-inner { max-width: 82rem; margin: 0 auto; }
+        .h03sv-head { max-width: 44rem; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h03-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary, #8E2B36);
+        }
+        .h03-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03sv-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: var(--color-text, #141110);
+          margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h03sv-sub { font-size: 1rem; line-height: 1.65; color: var(--color-text-muted, #6E645D); margin: 0; }
+        .h03sv-row {
+          display: grid; grid-template-columns: 3.2rem 5.5rem 1fr auto; gap: clamp(1rem, 2.4vw, 2rem);
+          align-items: center; padding: 1.5rem 0; border-top: 1px solid var(--color-border, #E0D9D2);
+          transition: background 0.25s;
+        }
+        .h03sv-row:last-child { border-bottom: 1px solid var(--color-border, #E0D9D2); }
+        .h03sv-row:hover { background: rgba(142,43,54,0.035); }
+        .h03sv-num { font-family: 'Archivo', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; color: var(--color-primary, #8E2B36); }
+        .h03sv-thumb { width: 5.5rem; aspect-ratio: 1 / 1; overflow: hidden; display: block; background: #E7E1DB; }
+        .h03sv-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1); transition: filter 0.4s ease; }
+        .h03sv-row:hover .h03sv-thumb img { filter: grayscale(0); }
+        .h03sv-name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1.16rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-text, #141110); margin: 0 0 0.3rem; }
+        .h03sv-desc { font-size: 0.93rem; line-height: 1.6; color: var(--color-text-muted, #6E645D); margin: 0; max-width: 52ch; }
+        .h03sv-meta { text-align: right; white-space: nowrap; }
+        .h03sv-price { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--color-text, #141110); display: block; }
+        .h03sv-dur { font-size: 0.82rem; color: var(--color-text-muted, #6E645D); }
+        @media (max-width: 767px) {
+          .h03sv-row { grid-template-columns: 3rem 1fr; grid-template-areas: "num name" "thumb name" "meta meta"; row-gap: 0.7rem; }
+          .h03sv-num { grid-area: num; } .h03sv-thumb { grid-area: thumb; width: 3rem; }
+          .h03sv-body { grid-area: name; } .h03sv-meta { grid-area: meta; text-align: left; }
+        }
+        @media (prefers-reduced-motion: reduce) { .h03sv-thumb img, .h03sv-row { transition: none; } }
+      `}</style>
+      <div className="h03sv-inner">
+        <div className="h03sv-head">
+          <span className="h03-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h03sv-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {subtitle && <p className="h03sv-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        </div>
+        {items.map((it, i) => (
+          <div className="h03sv-row" key={i}>
+            <span className="h03sv-num">{String(i + 1).padStart(2, "0")}</span>
+            {it.image ? (
+              <GenericEditableImage sectionId={sectionId} field={`services.${i}.image`} src={it.image} alt={it.name ?? ""} className="h03sv-thumb">
+                <img src={it.image} alt={it.name ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "grayscale(1)" }} />
+              </GenericEditableImage>
+            ) : <span />}
+            <div className="h03sv-body">
+              <h3 className="h03sv-name"><GenericEditableText sectionId={sectionId} field={`services.${i}.name`} value={it.name ?? ""} tag="span" /></h3>
+              <p className="h03sv-desc"><GenericEditableText sectionId={sectionId} field={`services.${i}.description`} value={it.description ?? ""} tag="span" /></p>
+            </div>
+            <div className="h03sv-meta">
+              <span className="h03sv-price"><GenericEditableText sectionId={sectionId} field={`services.${i}.price`} value={it.price ?? ""} tag="span" /></span>
+              <span className="h03sv-dur"><GenericEditableText sectionId={sectionId} field={`services.${i}.duration`} value={it.duration ?? ""} tag="span" /></span>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

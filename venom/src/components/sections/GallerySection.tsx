@@ -155,102 +155,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
 
   // hair-03: white bg, centered H2 40px, large main slide + thumbnail strip
   if (variant === "hair-03-gallery-slider") {
-    const c2 = content as { title?: string };
-    const DARK = "#2f201a";
-    const SANS = "Helvetica, Arial, sans-serif";
-    const currentImg = images[slideIndex];
-    return (
-      <section id="galerie" style={{ backgroundColor: "#ffffff", padding: "80px 0" }} data-template="hair-03">
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 60px" }}>
-          <h2
-            style={{
-              fontFamily: SANS,
-              fontSize: 40,
-              fontWeight: 400,
-              color: DARK,
-              textAlign: "center",
-              margin: "0 0 40px 0",
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={c2.title || "Galerie"} tag="span" />
-          </h2>
-
-          {/* Main slide */}
-          {currentImg?.url && (
-            <div
-              style={{ position: "relative", width: "100%", aspectRatio: "16/10", overflow: "hidden", cursor: "zoom-in" }}
-              onClick={() => setActiveImage(currentImg)}
-            >
-              <Image
-                src={currentImg.url}
-                alt={currentImg.alt ?? `Slide ${slideIndex + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1200px) 100vw, 1080px"
-                priority={slideIndex === 0}
-                unoptimized={shouldSkipNextImageOptimization(currentImg.url)}
-              />
-            </div>
-          )}
-
-          {/* Thumbnail strip */}
-          {images.length > 1 && (
-            <div style={{ display: "flex", gap: 8, marginTop: 8, overflowX: "auto", scrollbarWidth: "none" }}>
-              {images.map((img, i) => (
-                <GenericEditableImage
-                  key={i}
-                  sectionId={sectionId}
-                  field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
-                  src={img.url!}
-                  alt={img.alt ?? `Thumb ${i + 1}`}
-                  className="relative flex-shrink-0 overflow-hidden"
-                  style={{
-                    width: 140,
-                    height: 93,
-                    cursor: "pointer",
-                    outline: i === slideIndex ? `2px solid ${DARK}` : "none",
-                    outlineOffset: -2,
-                    opacity: i === slideIndex ? 1 : 0.65,
-                    transition: "opacity 0.2s",
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setSlideIndex(i)}
-                    style={{ border: 0, padding: 0, background: "none", display: "block", width: 140, height: 93, position: "relative", cursor: "pointer" }}
-                    aria-label={`Snímek ${i + 1}`}
-                  >
-                    <Image
-                      src={img.url!}
-                      alt={img.alt ?? `Thumb ${i + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="140px"
-                      unoptimized={shouldSkipNextImageOptimization(img.url!)}
-                    />
-                  </button>
-                </GenericEditableImage>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Lightbox */}
-        {activeImage?.url && (
-          <button className="gallery-lightbox" type="button" onClick={() => setActiveImage(null)} aria-label="Zavřít náhled">
-            <span className="gallery-lightbox-frame">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt || ""} />
-            </span>
-          </button>
-        )}
-        <style>{`
-          .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;border:0;background:rgba(0,0,0,0.88);cursor:zoom-out;}
-          .gallery-lightbox-frame{display:block;max-width:min(1100px,94vw);max-height:88vh;}
-          .gallery-lightbox-frame img{display:block;max-width:100%;max-height:88vh;width:auto;height:auto;object-fit:contain;box-shadow:0 24px 80px rgba(0,0,0,0.5);}
-        `}</style>
-      </section>
-    );
+    return <GalleryHair03 content={content as Record<string, unknown>} sectionId={sectionId} />;
   }
 
   // beauty-01: horizontal scroll carousel, landscape 960×540, white bg
@@ -8760,6 +8665,64 @@ function GalleryHair02({ content, sectionId }: { content: Record<string, unknown
           {images.map((im, i) => (
             <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h02g-item">
               <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// hair-03-gallery-slider — V3 noir: tmavá sekce (rytmus), mřížka 3 sloupce s hover
+// zoomem a grayscale→barva. Nahrazuje rozbitý slider s mikro-náhledy.
+// Pole: tagline/title/subtitle, images[].{url,alt}.
+function GalleryHair03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type Img = { url?: string; alt?: string };
+  const tagline = String(content.tagline ?? "Kolekce");
+  const title = String(content.title ?? "Jak to u nás vypadá");
+  const subtitle = String(content.subtitle ?? "");
+  const images = ((content.images as Img[]) ?? []).filter((i) => i && i.url);
+
+  return (
+    <section id="galerie" data-section-type="gallery" data-variant="hair-03-gallery-slider" className="h03g-section" data-template="hair-03">
+      <style>{`
+        .h03g-section {
+          background: var(--color-secondary, #141110); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03g-inner { max-width: 82rem; margin: 0 auto; }
+        .h03g-head { max-width: 44rem; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h03g-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: #E9A7AE;
+        }
+        .h03g-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03g-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: #fff; margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h03g-sub { font-size: 1rem; line-height: 1.65; color: rgba(241,238,234,0.72); margin: 0; }
+        .h03g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.5vw, 1.2rem); }
+        .h03g-item { aspect-ratio: 4 / 5; overflow: hidden; display: block; background: #23201E; }
+        .h03g-item img {
+          width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1);
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease;
+        }
+        .h03g-item:hover img { transform: scale(1.05); filter: grayscale(0); }
+        @media (max-width: 899px) { .h03g-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (prefers-reduced-motion: reduce) { .h03g-item img { transition: none; } }
+      `}</style>
+      <div className="h03g-inner">
+        <div className="h03g-head">
+          <span className="h03g-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h03g-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {subtitle && <p className="h03g-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        </div>
+        <div className="h03g-grid">
+          {images.map((im, i) => (
+            <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h03g-item">
+              <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "grayscale(1)" }} />
             </GenericEditableImage>
           ))}
         </div>

@@ -208,72 +208,7 @@ export function TeamSection({ content, variant, sectionId, isAdmin, tenantSlug }
   // Reference: H1 40px Helvetica weight 400 #2f201a centered, fotky 300×300 circle,
   // name 16px weight 500 #2f201a, role 16px weight 500 #525252, outline button
   if (variant === "hair-03-circles") {
-    const DARK = "#2f201a";
-    const MUTED = "#525252";
-    const SANS = "Helvetica, Arial, sans-serif";
-    return (
-      <section id="tym" style={{ backgroundColor: "#ebebeb", padding: "80px 0" }} data-template="hair-03">
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 60px" }}>
-          <h2 style={{ fontFamily: SANS, fontSize: 40, fontWeight: 400, color: DARK, textAlign: "center", margin: "0 0 60px 0" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-
-          <div style={{ display: "flex", justifyContent: "center", gap: 60 }}>
-            {(members.length === 0 ? [
-              { name: "Demo Majitelka", role: "Majitelka", image: "" },
-              { name: "Demo Stylistka", role: "Top Stylist", image: "" },
-              { name: "Demo Koloristka", role: "Top Stylist", image: "" },
-            ] : members).map((m, i) => (
-              <div key={`h3-tm-${i}`} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-                {/* Kruhový portrét 300×300px */}
-                <div style={{ width: 300, height: 300, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}>
-                  {m.image ? (
-                    <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image} alt={m.name} className="relative w-full h-full" style={{ width: "100%", height: "100%" }}>
-                      <Image src={m.image} alt={m.name} fill className="object-cover" sizes="300px" unoptimized={shouldSkipNextImageOptimization(m.image)} />
-                    </GenericEditableImage>
-                  ) : (
-                    <div style={{ width: "100%", height: "100%", backgroundColor: "#d0ccc8", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 56, color: DARK }}>
-                      {m.name.charAt(0)}
-                    </div>
-                  )}
-                </div>
-                <p style={{ fontFamily: SANS, fontSize: 16, fontWeight: 500, color: DARK, margin: "8px 0 0 0", textAlign: "center" }}>
-                  <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name} tag="span" />
-                </p>
-                <p style={{ fontFamily: SANS, fontSize: 16, fontWeight: 500, color: MUTED, margin: 0, textAlign: "center" }}>
-                  <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role} tag="span" />
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {ctaText && (
-            <div style={{ display: "flex", justifyContent: "center", marginTop: 48 }}>
-              <a
-                href={ctaHref}
-                data-btn="inverse"
-                style={{
-                  fontFamily: SANS,
-                  fontSize: 16,
-                  fontWeight: 400,
-                  color: DARK,
-                  border: `1px solid ${DARK}`,
-                  backgroundColor: "transparent",
-                  padding: "10px 28px",
-                  textDecoration: "none",
-                  transition: "background 0.15s, color 0.15s",
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = DARK; (e.currentTarget as HTMLElement).style.color = "#fff"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; (e.currentTarget as HTMLElement).style.color = DARK; }}
-              >
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-                {" >"}
-              </a>
-            </div>
-          )}
-        </div>
-      </section>
-    );
+    return <TeamHair03 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "team-barber-03-luxury") {
@@ -1580,4 +1515,91 @@ function TeamHair01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
       </div>
     </section>
   );
+}
+
+// hair-03-circles — V3: editoriální portréty (hranaté 3/4, grayscale → barva na hover),
+// jméno + role + specializace na hairline. Pole: tagline/title/ctaText/ctaHref,
+// members[].{name,role,image,specialty}.
+function TeamHair03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type M = { name?: string; role?: string; image?: string; specialty?: string };
+  const tagline = String(content.tagline ?? "Tým");
+  const title = String(content.title ?? "Kdo se o vás postará");
+  const ctaText = String(content.ctaText ?? "");
+  const ctaHref = String(content.ctaHref ?? "/tym");
+  const members = (content.members as M[]) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="tym" data-section-type="team" data-variant="hair-03-circles" className="h03tm-section" data-template="hair-03">
+      <style>{`
+        .h03tm-section {
+          background: var(--color-surface, #FFFFFF); font-family: 'Gantari', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem);
+        }
+        .h03tm-inner { max-width: 82rem; margin: 0 auto; }
+        .h03tm-head { margin-bottom: clamp(2.4rem, 5vw, 3.4rem); max-width: 42rem; }
+                .h03-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700;
+          letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-primary, #8E2B36);
+        }
+        .h03-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03tm-title {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 3.8vw, 2.9rem); line-height: 1.06; color: var(--color-text, #141110);
+          margin: 0; text-wrap: balance;
+        }
+        .h03tm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 2.6vw, 2.2rem); }
+        .h03tm-card { display: flex; flex-direction: column; }
+        .h03tm-photo { aspect-ratio: 3 / 4; overflow: hidden; display: block; background: #E7E1DB; margin-bottom: 1.1rem; }
+        .h03tm-photo img {
+          width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1);
+          transition: filter 0.5s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .h03tm-card:hover .h03tm-photo img { filter: grayscale(0); transform: scale(1.04); }
+        .h03tm-name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 1.12rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text, #141110); margin: 0 0 0.35rem; }
+        .h03tm-role { font-size: 0.86rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary, #8E2B36); font-weight: 600; }
+        .h03tm-spec { font-size: 0.92rem; line-height: 1.6; color: var(--color-text-muted, #6E645D); margin: 0.7rem 0 0; padding-top: 0.7rem; border-top: 1px solid var(--color-border, #E0D9D2); }
+        .h03tm-cta {
+          display: inline-flex; align-items: center; margin-top: clamp(2.2rem, 4vw, 3rem); padding: 0.95rem 2rem;
+          background: var(--color-text, #141110); color: #fff; font-family: 'Archivo', sans-serif;
+          font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+          text-decoration: none; transition: background 0.25s, transform 0.25s;
+        }
+        .h03tm-cta:hover { background: var(--color-primary, #8E2B36); transform: translateY(-2px); }
+        @media (max-width: 899px) { .h03tm-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 559px) { .h03tm-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .h03tm-photo img { transition: none; } }
+      `}</style>
+      <div className="h03tm-inner">
+        <div className="h03tm-head">
+          <span className="h03-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h03tm-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+        </div>
+        <div className="h03tm-grid">
+          {members.map((m, i) => (
+            <article className="h03tm-card" key={i}>
+              {m.image && (
+                <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image} alt={m.name ?? ""} className="h03tm-photo">
+                  <img src={m.image} alt={m.name ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "grayscale(1)" }} />
+                </GenericEditableImage>
+              )}
+              <h3 className="h03tm-name"><GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name ?? ""} tag="span" /></h3>
+              <span className="h03tm-role"><GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role ?? ""} tag="span" /></span>
+              {m.specialty && <p className="h03tm-spec"><GenericEditableText sectionId={sectionId} field={`members.${i}.specialty`} value={m.specialty} tag="span" /></p>}
+            </article>
+          ))}
+        </div>
+        {ctaText && <a href={resolve(ctaHref)} className="h03tm-cta">{ctaText}</a>}
+      </div>
+    </section>
+  );
+}
+
+function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
+  if (!tenantSlug || !href.startsWith("/")) return href;
+  if (href.startsWith("/demo/")) return href;
+  if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
+  if (href.startsWith("/#")) return href.slice(1);
+  return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }

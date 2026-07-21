@@ -1,23 +1,23 @@
 {
   "colors": {
-    "primary":    "#2f201a",
-    "secondary":  "#4a3428",
-    "background": "#ffffff",
-    "surface":    "#f8f8f8",
-    "text":       "#2f201a",
-    "textMuted":  "#636363",
-    "accent":     "#c8a97e",
-    "border":     "rgba(47,32,26,0.15)"
+    "primary": "#8E2B36",
+    "secondary": "#141110",
+    "background": "#F1EEEA",
+    "surface": "#FFFFFF",
+    "text": "#141110",
+    "textMuted": "#6E645D",
+    "accent": "#6E1F28",
+    "border": "#E0D9D2"
   },
   "typography": {
-    "fontHeading": "'Lato', sans-serif",
-    "fontBody":    "'Lato', sans-serif",
+    "fontHeading": "'Archivo', sans-serif",
+    "fontBody": "'Gantari', sans-serif",
     "scale": "comfortable"
   },
   "radius": {
-    "sm":   "0px",
-    "md":   "0px",
-    "lg":   "4px",
+    "sm": "0px",
+    "md": "0px",
+    "lg": "0px",
     "pill": "0px"
   },
   "spacing": {
@@ -25,13 +25,54 @@
     "section": "comfortable"
   },
   "shadows": {
-    "sm": "0 1px 3px rgba(0,0,0,0.08)",
-    "md": "0 4px 16px rgba(0,0,0,0.10)",
-    "lg": "0 12px 40px rgba(0,0,0,0.14)"
+    "sm": "0 1px 3px rgba(20,17,16,0.08)",
+    "md": "0 8px 24px rgba(20,17,16,0.12)",
+    "lg": "0 18px 48px rgba(20,17,16,0.16)"
   },
   "animation": {
-    "ease": "cubic-bezier(0.4,0,0.2,1)",
-    "duration": "250ms",
+    "ease": "cubic-bezier(0.22,1,0.36,1)",
+    "duration": "280ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "oxblood": {
+      "label": "Oxblood — tmavý editorial (default)",
+      "tokens": {
+        "colorPrimary": "#8E2B36",
+        "colorAccent": "#6E1F28",
+        "colorSecondary": "#141110",
+        "colorBackground": "#F1EEEA",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#141110",
+        "colorTextMuted": "#6E645D",
+        "colorBorder": "#E0D9D2"
+      }
+    },
+    "brass": {
+      "label": "Brass — teplý mosazný noir",
+      "tokens": {
+        "colorPrimary": "#A8762A",
+        "colorAccent": "#845A1D",
+        "colorSecondary": "#17130E",
+        "colorBackground": "#F3F0EA",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#17130E",
+        "colorTextMuted": "#6F6558",
+        "colorBorder": "#E2DBCF"
+      }
+    },
+    "steel": {
+      "label": "Steel — chladná ocelová",
+      "tokens": {
+        "colorPrimary": "#3C6E86",
+        "colorAccent": "#2B5568",
+        "colorSecondary": "#111619",
+        "colorBackground": "#EFF1F2",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#111619",
+        "colorTextMuted": "#636B70",
+        "colorBorder": "#DCE0E2"
+      }
+    }
   }
 }

@@ -2428,189 +2428,154 @@ function NavbarHair02({ content, variant: _v, isAdmin, tenantSlug, sectionId }: 
   );
 }
 
-// hair-03-navbar — Petra Studio
-// Reference: petramechurova-demo — světlé #ebebeb pozadí (sjednocené s hero),
-// position relative (ne fixed), SVG logo BEZ tmavého obdélníku (text přímo na světlém bg),
-// nav linky centrálně, E-SHOP outline + ONLINE REZERVACE solid dark
-// hair-03-navbar — Petra Studio
+// hair-03-navbar — Ateliér Noir · V3 „Noir & Oxblood": průhledný blur bar (na tmavém
+// heru inverzní), Archivo wordmark, underline-slide linky, oxblood hranaté CTA,
+// overlay menu + sticky mobilní CTA lišta.
 function NavbarHair03({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const siteName = String(content.siteName ?? "Petra Studio");
-  const logoUrl  = String(content.logoUrl ?? "");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  const DARK   = "#2f201a";
-  const GOLD   = "#c8a97e";
-  const SERIF  = "Georgia, 'Times New Roman', serif";
-  const SANS   = "system-ui, -apple-system, sans-serif";
-  const BG     = "#ebebeb";
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  // Logo bez tmavého rect — text přímo na světlém pozadí navbaru
-  const LogoSvg = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 62" width="200" height="44" aria-label={siteName}>
-      <text x="4" y="16" fontFamily={SERIF} fontSize="10" fill={GOLD} letterSpacing="4">HAIR MAKING</text>
-      <text x="4" y="44" fontFamily={SERIF} fontSize="26" fontWeight="400" fill={DARK} letterSpacing="2">petra</text>
-      <text x="98" y="44" fontFamily={SERIF} fontSize="26" fill={GOLD} letterSpacing="2"> studio</text>
-      <line x1="4" y1="50" x2="276" y2="50" stroke={GOLD} strokeWidth="0.8" />
-    </svg>
-  );
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", h); };
+  }, [open]);
+
+  const siteName = String(content.siteName ?? "Ateliér Noir");
+  const phone = String(content.phone ?? "+420 704 123 456");
+  const ctaText = String(content.ctaText ?? "Rezervace");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <header
-      className="w-full"
-      style={{ backgroundColor: BG, borderBottom: "1px solid rgba(0,0,0,0.06)" }}
-      data-template="hair-03"
-    >
-      {/* ── Desktop ── */}
-      <div
-        className="hidden lg:flex items-center"
-        style={{ maxWidth: 1400, margin: "0 auto", height: 76, padding: "0 24px", gap: 0 }}
-      >
-        {/* Logo vlevo */}
-        <a
-          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
-          className="shrink-0 flex items-center"
-          style={{ marginRight: 32, textDecoration: "none" }}
-          aria-label={siteName}
-        >
-          <GenericEditableImage
-            sectionId={sectionId}
-            field="logoUrl"
-            src={logoUrl}
-            alt={siteName}
-            className="relative"
-            style={{ width: 200, height: 44 }}
-          >
-            {logoUrl
-              ? <img loading="eager" src={logoUrl} alt={siteName} style={{ width: 200, height: 44, objectFit: "contain" }} />
-              : <LogoSvg />
-            }
-          </GenericEditableImage>
-        </a>
+    <>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Gantari:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style>{`
+        .h03n-bar {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100; font-family: 'Gantari', sans-serif;
+          background: rgba(241,238,234,${scrolled ? "0.96" : "0.9"});
+          -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--color-border, #E0D9D2); transition: background 0.3s;
+        }
+        .h03n-inner {
+          max-width: 82rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.75rem);
+          height: 4.8rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+        }
+        .h03n-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; flex-shrink: 0; }
+        .h03n-word {
+          font-family: 'Archivo', sans-serif; font-size: 1.18rem; font-weight: 800;
+          letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-text, #141110); line-height: 1;
+        }
+        .h03n-rule { width: 26px; height: 2px; background: var(--color-primary, #8E2B36); }
+        .h03n-links { display: flex; align-items: center; gap: 1.7rem; list-style: none; margin: 0; padding: 0; }
+        .h03n-links a {
+          position: relative; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em;
+          text-transform: uppercase; color: #4A423C; text-decoration: none; padding: 0.35rem 0; transition: color 0.2s;
+        }
+        .h03n-links a::after {
+          content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+          background: var(--color-primary, #8E2B36); transition: right 0.28s cubic-bezier(0.22,1,0.36,1);
+        }
+        .h03n-links a:hover { color: var(--color-text, #141110); }
+        .h03n-links a:hover::after { right: 0; }
+        .h03n-right { display: flex; align-items: center; gap: 1.1rem; }
+        .h03n-phone { font-size: 0.9rem; font-weight: 600; color: var(--color-text, #141110); text-decoration: none; white-space: nowrap; }
+        .h03n-cta {
+          display: inline-flex; align-items: center; padding: 0.72rem 1.6rem; border-radius: 0;
+          background: var(--color-primary, #8E2B36); color: #fff; font-family: 'Archivo', sans-serif;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+          text-decoration: none; white-space: nowrap; transition: background 0.25s, transform 0.25s;
+        }
+        .h03n-cta:hover { background: var(--color-accent, #6E1F28); transform: translateY(-1px); }
+        .h03n-burger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--color-text, #141110); }
+        .h03n-ov {
+          position: fixed; inset: 0; background: var(--color-secondary, #141110); z-index: 200;
+          display: flex; flex-direction: column; padding: 1.1rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease; font-family: 'Gantari', sans-serif;
+        }
+        .h03n-ov[data-open="true"] { opacity: 1; pointer-events: auto; }
+        .h03n-ov-top { display: flex; align-items: center; justify-content: space-between; height: 3.6rem; }
+        .h03n-ov-word { font-family: 'Archivo', sans-serif; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #F1EEEA; }
+        .h03n-ov-close { background: none; border: none; color: #F1EEEA; font-size: 2rem; line-height: 1; cursor: pointer; padding: 4px 10px; }
+        .h03n-ov-links { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.2rem; }
+        .h03n-ov-links a {
+          font-family: 'Archivo', sans-serif; font-size: clamp(1.7rem, 6.4vw, 2.4rem); font-weight: 700;
+          letter-spacing: 0.02em; text-transform: uppercase; color: #F1EEEA; text-decoration: none;
+          padding: 0.5rem 0; border-bottom: 1px solid rgba(241,238,234,0.13);
+          opacity: 0; transform: translateY(14px); transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .h03n-ov[data-open="true"] .h03n-ov-links a { opacity: 1; transform: none; }
+        .h03n-ov-links a:nth-child(1) { transition-delay: 0.05s; } .h03n-ov-links a:nth-child(2) { transition-delay: 0.1s; }
+        .h03n-ov-links a:nth-child(3) { transition-delay: 0.15s; } .h03n-ov-links a:nth-child(4) { transition-delay: 0.2s; }
+        .h03n-ov-links a:nth-child(5) { transition-delay: 0.25s; } .h03n-ov-links a:nth-child(6) { transition-delay: 0.3s; }
+        .h03n-ov-cta {
+          display: flex; align-items: center; justify-content: center; padding: 1.05rem;
+          background: var(--color-primary, #8E2B36); color: #fff; font-family: 'Archivo', sans-serif;
+          font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+        }
+        .h03n-mb {
+          display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+          background: rgba(241,238,234,0.96); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+          border-top: 1px solid var(--color-border, #E0D9D2);
+        }
+        .h03n-mb-cta {
+          display: flex; align-items: center; justify-content: center; padding: 0.9rem;
+          background: var(--color-primary, #8E2B36); color: #fff; font-family: 'Archivo', sans-serif;
+          font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+        }
+        @media (max-width: 1023px) {
+          .h03n-links, .h03n-phone, .h03n-cta { display: none; }
+          .h03n-burger { display: block; } .h03n-mb { display: block; } .h03n-inner { height: 4.2rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { .h03n-ov, .h03n-ov-links a, .h03n-cta { transition: none; } }
+      `}</style>
 
-        {/* Nav linky — ms-auto (Bootstrap-like), centrovaně */}
-        <nav className="flex items-center flex-1 justify-center" style={{ gap: 32 }}>
-          {links.map((l, i) => (
-            <a
-              key={`h3-nav-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{
-                fontFamily: SANS,
-                fontSize: 15,
-                fontWeight: 400,
-                color: "#212529",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                transition: "color 0.15s",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = DARK)}
-              onMouseLeave={e => (e.currentTarget.style.color = "#212529")}
-            >
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-            </a>
-          ))}
+      <header className="h03n-bar" data-template="hair-03">
+        <div className="h03n-inner">
+          <a href={resolve("/")} className="h03n-logo" aria-label={siteName}>
+            <span className="h03n-rule" aria-hidden />
+            <span className="h03n-word"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+          </a>
+          <ul className="h03n-links">
+            {links.map((l, i) => (<li key={i}><a href={resolve(l.href)}>{l.label}</a></li>))}
+          </ul>
+          <div className="h03n-right">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="h03n-phone">{phone}</a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="h03n-cta">{ctaText}</a>
+            <button className="h03n-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="h03n-ov" data-open={open} aria-hidden={!open}>
+        <div className="h03n-ov-top">
+          <span className="h03n-ov-word">{siteName}</span>
+          <button className="h03n-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+        </div>
+        <nav className="h03n-ov-links">
+          {links.map((l, i) => (<a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>{l.label}</a>))}
         </nav>
-
-        {/* Buttons vpravo */}
-        <div className="flex items-center shrink-0" style={{ gap: 8 }}>
-          {/* E-SHOP — outline, square corners */}
-          <a
-            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
-            style={{
-              fontFamily: SANS,
-              fontSize: 14,
-              fontWeight: 400,
-              color: DARK,
-              border: `1px solid ${DARK}`,
-              backgroundColor: "transparent",
-              padding: "7px 20px",
-              borderRadius: 0,
-              textDecoration: "none",
-              letterSpacing: "0.02em",
-              transition: "background 0.15s, color 0.15s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = DARK; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = DARK; }}
-          >
-            E-SHOP
-          </a>
-          {/* ONLINE REZERVACE — solid dark, square corners */}
-          <a
-            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
-            style={{
-              fontFamily: SANS,
-              fontSize: 14,
-              fontWeight: 400,
-              color: "#ffffff",
-              backgroundColor: DARK,
-              border: `1px solid ${DARK}`,
-              padding: "7px 20px",
-              borderRadius: 0,
-              textDecoration: "none",
-              letterSpacing: "0.02em",
-              transition: "background 0.15s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#4a3428"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
-          >
-            ONLINE REZERVACE
-          </a>
-        </div>
+        <a href={resolve(ctaHref)} data-btn="primary" className="h03n-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
       </div>
 
-      {/* ── Mobile ── */}
-      <div
-        className="flex lg:hidden items-center justify-between"
-        style={{ height: 64, padding: "0 16px" }}
-      >
-        <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName}>
-          <LogoSvg />
-        </a>
-        <button
-          className="bg-transparent border-0 cursor-pointer p-2 flex flex-col justify-between"
-          style={{ width: 28, height: 20 }}
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-          aria-expanded={open}
-        >
-          <span className="block w-full" style={{ height: 1.5, backgroundColor: DARK }} />
-          <span className="block w-full" style={{ height: 1.5, backgroundColor: DARK }} />
-          <span className="block w-full" style={{ height: 1.5, backgroundColor: DARK }} />
-        </button>
+      <div className="h03n-mb" aria-hidden={open}>
+        <a href={resolve(ctaHref)} className="h03n-mb-cta">{ctaText}</a>
       </div>
-
-      {/* Mobile overlay */}
-      {open && (
-        <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center"
-          style={{ backgroundColor: "#f5f5f3", gap: 28 }}
-        >
-          <button
-            className="absolute bg-transparent border-0 cursor-pointer"
-            style={{ top: 20, right: 20, fontSize: 24, color: DARK }}
-            onClick={() => setOpen(false)}
-            aria-label="Zavřít"
-          >✕</button>
-          {links.map((l, i) => (
-            <a
-              key={`h3-mob-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{ fontFamily: SANS, color: DARK, fontSize: 16, fontWeight: 400, textDecoration: "none" }}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
-            style={{ fontFamily: SANS, backgroundColor: DARK, color: "#fff", fontSize: 14, fontWeight: 400, padding: "10px 28px", textDecoration: "none", letterSpacing: "0.02em", borderRadius: 0 }}
-            onClick={() => setOpen(false)}
-          >
-            ONLINE REZERVACE
-          </a>
-        </div>
-      )}
-    </header>
+    </>
   );
 }
 

@@ -1,164 +1,260 @@
 {
   "navbar": {
-    "siteName": "Petra Studio",
+    "siteName": "Ateliér Noir",
     "logoUrl": "",
+    "phone": "+420 704 123 456",
+    "ctaText": "Rezervace",
+    "ctaHref": "/kontakt",
     "links": [
       {
         "label": "O nás",
-        "href": "/#o-nas"
+        "href": "/o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "/#sluzby"
       },
       {
         "label": "Tým",
         "href": "/tym"
       },
       {
-        "label": "Služby",
-        "href": "/#o-nas"
-      },
-      {
-        "label": "Ocenění",
-        "href": "/kolekce"
-      },
-      {
         "label": "Kolekce",
         "href": "/kolekce"
       },
       {
-        "label": "Kontakt",
-        "href": "/kontakt"
+        "label": "Blog",
+        "href": "/blog"
       },
       {
-        "label": "Kariéra",
+        "label": "Kontakt",
         "href": "/kontakt"
       }
     ],
     "socials": [
       {
-        "label": "Facebook",
-        "href": "https://facebook.com/demo"
-      },
-      {
         "label": "Instagram",
         "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
       }
     ]
   },
   "hero": {
-    "title": "S LÁSKOU K VLASŮM",
-    "subtitle": "Jsme profesionální kadeřnický salon v samém srdci Prahy.",
-    "image": "/assets/hair-03/e04afa9b74-1760692005_FbCfkDSf07qQzU8Ww4sUdx8tAEhwkUP4.jpg",
+    "eyebrow": "Kadeřnický ateliér · Praha 1",
+    "title": "Střih jako podpis",
+    "subtitle": "Pracujeme s tvarem, ne s trendem. Každý střih stavíme na struktuře vašich vlasů, aby držel i po měsíci bez úprav.",
+    "image": "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&h=1200&fit=crop&auto=format&q=80",
     "ctaText": "Chci se objednat",
-    "ctaHref": "/kontakt"
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "Prohlédnout kolekci",
+    "ctaSecondaryHref": "/kolekce",
+    "meta": [
+      {
+        "value": "12 let",
+        "label": "na jedné adrese"
+      },
+      {
+        "value": "3",
+        "label": "kadeřníci v ateliéru"
+      },
+      {
+        "value": "4,9",
+        "label": "hodnocení na Google"
+      }
+    ]
   },
   "about": {
-    "title": "Budujeme tým budoucnosti propojený jednotnou vizí",
-    "body": "Od 12 let jsem snila o práci kadeřnice. Teď svůj sen žiju ve svém vlastním salonu se skvělým týmem plným ambiciózních kadeřníků. Jsem vášnivá kadeřnice srdcem i duší.",
+    "tagline": "O ateliéru",
+    "title": "Malý ateliér, žádná linka na střihy",
+    "body": "Otevřela jsem Ateliér Noir v roce 2014, protože jsem chtěla dělat vlasy jinak než na běžce — jeden klient, jeden kadeřník, dost času.",
     "paragraphs": [
-      "Náš salon v centru Prahy je útočištěm pro ty, kteří hledají nejen nový účes, ale i příjemnou atmosféru. Každý den se zde odehraje nespočet příběhů, během kterých poskytujeme nejen kvalitní péči o vlasy, ale i prostor pro sdílení radostí a starostí života.",
-      "Zakládáme si na kvalitě profesionálních služeb. Přistupujeme ke klientům s láskou, respektem a úctou.",
-      "Skvělý tým tvoří skvělou atmosféru, spolu s hezkým interiérem. Salon Demo Studio je místem, kde se nejen vlasy, ale i srdce stává krásnějšími."
+      "Každou návštěvu začínáme rozborem: jak vlasy rostou, kde se lámou a co s nimi zvládnete doma. Teprve pak sáhneme po nůžkách. Díky tomu odcházíte se střihem, který se nerozpadne, jakmile ho poprvé umyjete sami.",
+      "Barvíme technikami s měkkým přechodem a pracujeme i s odbarvenými vlasy — ale jen tehdy, když je vlas unese. Když ne, řekneme to na rovinu a navrhneme postup na několik návštěv.",
+      "Ateliér je unisex. Stejnou péči věnujeme dámskému střihu i úpravě vousů."
     ],
-    "image": "/assets/hair-03/6d24febbf9-1712318979_EiHhus89frT7Ut498QYyP4jyomshz0cf.jpg"
+    "image": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1000&h=1250&fit=crop&auto=format&q=80",
+    "signature": "Petra Demová",
+    "signatureRole": "zakladatelka ateliéru"
+  },
+  "services": {
+    "tagline": "Ceník",
+    "title": "Co u nás zvládneme",
+    "subtitle": "Ceny jsou orientační — konečnou částku potvrdíme při konzultaci podle délky a stavu vlasů.",
+    "services": [
+      {
+        "name": "Dámský střih",
+        "description": "Rozbor vlasů, mytí, střih a styling včetně návodu na domácí úpravu.",
+        "price": "od 990 Kč",
+        "duration": "60 min",
+        "image": "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Pánský střih",
+        "description": "Střih nůžkami i strojkem, zastřižení vousů a finální styling.",
+        "price": "od 550 Kč",
+        "duration": "45 min",
+        "image": "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=500&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Holení břitvou",
+        "description": "Klasické mokré holení s horkým ručníkem a péčí po holení.",
+        "price": "od 690 Kč",
+        "duration": "45 min",
+        "image": "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=500&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Barvení & přechody",
+        "description": "Balayage, airtouch nebo jednotný odstín bez ostré linie odrostu.",
+        "price": "od 2 490 Kč",
+        "duration": "180 min",
+        "image": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=500&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Střih kudrnatých vlasů",
+        "description": "Střih nasucho po jednotlivých pramenech podle tvaru kudrny.",
+        "price": "od 1 290 Kč",
+        "duration": "90 min",
+        "image": "https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=500&h=500&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Péče & regenerace",
+        "description": "Diagnostika vlasového vlákna a ošetření namíchané na míru.",
+        "price": "od 890 Kč",
+        "duration": "45 min",
+        "image": "https://images.unsplash.com/photo-1621607512214-68297480165e?w=500&h=500&fit=crop&auto=format&q=80"
+      }
+    ]
   },
   "team": {
+    "tagline": "Tým",
     "title": "Kdo se o vás postará",
     "ctaText": "Zobrazit celý tým",
     "ctaHref": "/tym",
     "members": [
       {
-        "name": "Demo Majitelka",
-        "role": "Majitelka",
-        "image": "/assets/hair-03/26ef3e68ce-1702746932_EgJTop6CVnvlfDvEDFPz0o0syBWslvfE.png"
+        "name": "Petra Demová",
+        "role": "Zakladatelka",
+        "image": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=800&h=1067&fit=crop&auto=format&q=80",
+        "specialty": "Dámské střihy a práce s krátkými tvary."
       },
       {
-        "name": "Demo Stylistka",
-        "role": "Top Stylist",
-        "image": "/assets/hair-03/23eba17178-1702746938_WK0R7ATY6ta19jeC4OejrZGoNwalBBNQ.png"
+        "name": "Klára Ukázková",
+        "role": "Koloristka",
+        "image": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=800&h=1067&fit=crop&auto=format&q=80",
+        "specialty": "Balayage, airtouch a náročné odbarvování."
       },
       {
-        "name": "Demo Koloristka",
-        "role": "Top Stylist",
-        "image": "/assets/hair-03/de14cebb83-1702746943_ojeibRrbeQmo4nOGG9g6gMJrj3PEYDqN.png"
+        "name": "Martin Demo",
+        "role": "Barber",
+        "image": "https://images.unsplash.com/photo-1614289371518-722f2615943d?w=800&h=1067&fit=crop&auto=format&q=80",
+        "specialty": "Pánské střihy, vousy a holení břitvou."
+      }
+    ]
+  },
+  "gallery": {
+    "tagline": "Kolekce",
+    "title": "Jak to u nás vypadá",
+    "subtitle": "Ateliér, nástroje a práce z posledních měsíců.",
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Interiér ateliéru"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Pracoviště s černými stěnami"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1512690459411-b9245aed614b?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Historické holičské křeslo"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1621607512214-68297480165e?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Nůžky a fén na pracovním pultu"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Střih kudrnatých vlasů"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Detail střihu nůžkami"
       }
     ]
   },
   "blog": {
-    "title": "Přečtěte si více o vlasech na našem blogu",
+    "tagline": "Magazín",
+    "title": "Přečtěte si víc o vlasech",
+    "buttonText": "Všechny články",
     "posts": [
       {
-        "title": "25 let krásy: příběh Salonu Demo Studio",
-        "excerpt": "V roce 2026 slaví Salon Demo Studio významný milník – 25 let své existence. To je čtvrt století...",
-        "image": "/assets/hair-03/4e0e7f3c58-n4Jk32GkfEkfFRfdeTqVFp5FVp2XkIM1.jpg",
-        "href": "#blog",
-        "date": "23/01/2026"
+        "title": "Jak poznat, že střih sedne i za měsíc",
+        "excerpt": "Tři věci, které si ohlídejte při konzultaci, aby vám účes vydržel do další návštěvy.",
+        "image": "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=900&h=600&fit=crop&auto=format&q=80",
+        "href": "/blog",
+        "date": "23. 1. 2026"
       },
       {
-        "title": "DETAIL: Kolekce, která je zaměřena na preciznost",
-        "excerpt": "Nová kolekce DETAIL přináší pohled na krásu, která se skrývá v drobnostech.",
-        "image": "/assets/hair-03/19aa9561ad-WofRTFeU8JPtgqIvWwzuShfBGhIxIRs4.png",
-        "href": "#blog",
-        "date": "17/10/2025"
+        "title": "Odbarvování bez zničených konečků",
+        "excerpt": "Kdy vlas odbarvení unese, kdy je lepší rozložit ho do dvou návštěv a co dělat mezitím.",
+        "image": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=900&h=600&fit=crop&auto=format&q=80",
+        "href": "/blog",
+        "date": "17. 10. 2025"
       },
       {
-        "title": "Letní vlasová péče – ochrana před sluncem a hydratace",
-        "excerpt": "Slunce, moře, vítr ve vlasech… a pak suché, lámavé a vyšisované vlasy? Ne, děkujeme!",
-        "image": "/assets/hair-03/3e5e67ead2-TGQ5G8xZQgLrCb9vIyBgHjqPK7Xnqdtc.jpg",
-        "href": "#blog",
-        "date": "24/06/2025"
+        "title": "Letní péče: slunce, moře a suché vlasy",
+        "excerpt": "Co vlasům v létě opravdu pomůže — a na které zázračné sliby se nedá spolehnout.",
+        "image": "https://images.unsplash.com/photo-1621607512214-68297480165e?w=900&h=600&fit=crop&auto=format&q=80",
+        "href": "/blog",
+        "date": "24. 6. 2025"
       }
-    ],
-    "buttonText": "Ostatní články"
+    ]
   },
-  "gallery": {
-    "title": "Jak to u nás vypadá",
-    "images": [
+  "testimonials": {
+    "tagline": "Recenze",
+    "title": "Co říkají klienti",
+    "rating": "4,9",
+    "ratingLabel": "průměr ze 214 hodnocení na Google",
+    "testimonials": [
       {
-        "url": "/assets/hair-03/dc8e802a2f-1702747282_A9uSziXVDTDVu8WyqYVSKStIhnSZoFpP.jpg",
-        "alt": "Salon interiér"
+        "author": "Tereza N.",
+        "role": "klientka od 2018",
+        "rating": "5",
+        "text": "Poprvé mi někdo vysvětlil, proč mi předchozí střih nikdy nedržel. Odešla jsem s tvarem, který si doma zvládnu rozfoukat za pět minut."
       },
       {
-        "url": "/assets/hair-03/5aa535a569-1702747299_aDr6kC4QsVqnnStLpTrXeehMEnppZOxi.jpg",
-        "alt": "Práce stylistky"
+        "author": "Adam K.",
+        "role": "klient od 2022",
+        "rating": "5",
+        "text": "Chodím na střih a vousy. Nikdy mě netlačili do drahé péče — když nic nepotřebuju, prostě to řeknou."
       },
       {
-        "url": "/assets/hair-03/ca2b4f5ca5-1702747315_P2RbaFS2SUGgVkrYVm9IAGjyOFZuF6oh.jpg",
-        "alt": "Kadeřnická práce"
-      },
-      {
-        "url": "/assets/hair-03/8ea31dcb00-1702747266_KPD6p4JXeqP9gJjZfqqZnCWDX617dzOC.jpg",
-        "alt": "Účes detail"
-      },
-      {
-        "url": "/assets/hair-03/bc0e0016bc-1702747225_la3pmgvUyaWUcAcuRVLKjBgS3sCv9LW8.jpg",
-        "alt": "Barvení vlasů"
-      },
-      {
-        "url": "/assets/hair-03/ee3856ff76-1702747338_xz0pMa7vDqb8QmjaahADqUosJQjrgff5.jpg",
-        "alt": "Salon atmosféra"
-      },
-      {
-        "url": "/assets/hair-03/944f6ce9f3-1702747237_6qOOh5C5exbNpAnt7s7NwPLvAKyizzWW.jpg",
-        "alt": "Výsledek střihu"
-      },
-      {
-        "url": "/clones/petramechurova/storage/creator/45/1705435711_R01pkoQFsBsVAGW77lCPX0W7zj77Euci.jpg",
-        "alt": "Styling"
+        "author": "Lucie B.",
+        "role": "klientka od 2020",
+        "rating": "5",
+        "text": "Odbarvení rozložili do dvou návštěv, přesně jak slíbili. Vlasy to zvládly a barva vypadá pořád dobře."
       }
     ]
   },
   "contact": {
-    "title": "Kontakt",
+    "tagline": "Kontakt",
+    "title": "Ozvěte se nám",
+    "body": "Objednávky bereme telefonicky, e-mailem i přes on-line rezervaci. Ateliér najdete ve dvoře, dvě minuty od metra.",
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1",
+    "image": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1200&h=750&fit=crop&auto=format&q=80",
     "hours": [
       {
         "days": "Pondělí – Pátek",
-        "time": "9:00 – 19:00"
+        "time": "9:00 – 20:00"
       },
       {
         "days": "Sobota",
-        "time": "9:00 – 14:00"
+        "time": "9:00 – 16:00"
       },
       {
         "days": "Neděle",
@@ -167,42 +263,99 @@
     ]
   },
   "footer": {
-    "siteName": "Petra Studio",
-    "logoUrl": "",
-    "copyright": "Copyright © 2026 Demo Studio s.r.o. – Všechna práva vyhrazena.",
-    "socials": [
+    "siteName": "Ateliér Noir",
+    "heading": "Těšíme se na vás",
+    "tagline": "Kadeřnický ateliér v centru Prahy. Střih, barva a vousy bez spěchu.",
+    "ctaText": "Rezervace",
+    "ctaHref": "/kontakt",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": [
       {
-        "label": "Facebook",
-        "href": "https://facebook.com/demo"
+        "days": "Pondělí – Pátek",
+        "time": "9:00 – 20:00"
       },
+      {
+        "days": "Sobota",
+        "time": "9:00 – 16:00"
+      },
+      {
+        "days": "Neděle",
+        "time": "Zavřeno"
+      }
+    ],
+    "links": [
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "/#sluzby"
+      },
+      {
+        "label": "Tým",
+        "href": "/tym"
+      },
+      {
+        "label": "Kolekce",
+        "href": "/kolekce"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "socials": [
       {
         "label": "Instagram",
         "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
       }
     ],
-    "legal": {
-      "company": "Demo Studio s.r.o.",
-      "ico": "12345678",
-      "dic": "CZ12345678"
-    }
+    "copyright": "© 2026 Demo Studio s.r.o. | IČO: 12345678 | DIČ: CZ12345678"
   },
   "pages": {
+    "o-nas": {
+      "hero": {
+        "title": "O ateliéru",
+        "subtitle": "Tři kadeřníci, dvanáct let na jedné adrese.",
+        "backgroundImage": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1800&h=800&fit=crop&auto=format&q=80"
+      }
+    },
     "tym": {
       "hero": {
         "title": "Náš tým",
-        "subtitle": "Profesionálové s vášní pro vlasy"
+        "subtitle": "Lidé, kteří se o vaše vlasy postarají.",
+        "backgroundImage": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     },
     "kolekce": {
       "hero": {
         "title": "Kolekce",
-        "subtitle": "Ukázky naší kadeřnické práce"
+        "subtitle": "Ukázky naší práce a atmosféra ateliéru.",
+        "backgroundImage": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=1800&h=800&fit=crop&auto=format&q=80"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Kde nás najdete a kdy máme otevřeno.",
+        "backgroundImage": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     }
   },
   "home": {
     "rezervace": {
-      "title": "Objednejte se online",
+      "title": "Objednejte se on-line",
       "subtitle": "Vyberte službu, kadeřníka a čas. Potvrzení dorazí e-mailem.",
       "providerSlug": "",
       "apiBaseUrl": ""

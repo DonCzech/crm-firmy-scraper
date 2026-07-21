@@ -499,7 +499,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
   // hair-03 — Petra Studio — minimální šedá patička
   if (variant === "hair-03-footer") {
-    return <FooterHair03 content={content} sectionId={sectionId} />;
+    return <FooterHair03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-01 — Salon Aria — dark footer: heading + 3-col (phone/hours/address+social) + legal
@@ -2020,39 +2020,99 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   );
 }
 
-// hair-03-footer — šedá (#c1c1c1) minimální patička s centrovaným logem a copyrightem
-function FooterHair03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName = String(content.siteName ?? "Petra Studio");
-  const logoUrl  = String(content.logoUrl ?? "");
-  const copyright = String(content.copyright ?? `Copyright © ${new Date().getFullYear()} Demo Studio s.r.o. – Všechna práva vyhrazena.`);
-  const SANS = "Helvetica, Arial, sans-serif";
-  const GOLD = "#c8a97e";
-  const DARK = "#2f201a";
-
-  const LogoSvg = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 62" width="180" height="40" aria-label={siteName}>
-      <text x="4" y="16" fontFamily={SANS} fontSize="10" fill={GOLD} letterSpacing="4">HAIR MAKING</text>
-      <text x="4" y="44" fontFamily={SANS} fontSize="26" fontWeight="400" fill={DARK} letterSpacing="2">petra</text>
-      <text x="98" y="44" fontFamily={SANS} fontSize="26" fill={GOLD} letterSpacing="2"> studio</text>
-      <line x1="4" y1="50" x2="276" y2="50" stroke={GOLD} strokeWidth="0.8" />
-    </svg>
-  );
+// hair-03-footer — V3 noir footer: Archivo wordmark + CTA, 4 sloupce (navigace/kontakt/
+// otevírací doba/sítě), copyright bar s WeberoCredit. Nahrazuje původní „jen copyright" pás.
+function FooterHair03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const siteName = String(content.siteName ?? "Ateliér Noir");
+  const heading = String(content.heading ?? "Těšíme se na vás");
+  const tagline = String(content.tagline ?? "");
+  const ctaText = String(content.ctaText ?? "Rezervace");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const hours = (content.hours as Array<{ days?: string; time?: string }>) ?? [];
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const socials = (content.socials as Array<{ label: string; href: string }>) ?? [];
+  const copyright = String(content.copyright ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <footer style={{ backgroundColor: "#c1c1c1", padding: "16px 12px" }} data-template="hair-03">
-      <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-        {logoUrl ? (
-          <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 60, objectFit: "contain" }} />
-        ) : (
-          <LogoSvg />
-        )}
-        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p"
-          style={{ fontFamily: SANS, fontSize: 16, fontWeight: 500, color: "#525252", margin: 0, textAlign: "center" }}
-        />
-        <div style={{ display: "flex", gap: 24 }}>
-          <a href="#" style={{ fontFamily: SANS, fontSize: 16, fontWeight: 500, color: "#050505", textDecoration: "none" }}>
-            Ochrana osobních údajů
-          </a>
+    <footer data-section-type="footer" data-variant="hair-03-footer" className="h03ft-footer" data-template="hair-03">
+      <style>{`
+        .h03ft-footer {
+          background: var(--color-secondary, #141110); color: #F1EEEA; font-family: 'Gantari', sans-serif;
+          padding: clamp(3.5rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 2.75rem) 0;
+        }
+        .h03ft-inner { max-width: 82rem; margin: 0 auto; }
+        .h03ft-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; padding-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h03ft-heading {
+          font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(1.9rem, 4.2vw, 3rem); line-height: 1.04; color: #fff; margin: 0 0 0.7rem; text-wrap: balance;
+        }
+        .h03ft-tag { font-size: 0.98rem; line-height: 1.6; color: rgba(241,238,234,0.7); margin: 0; max-width: 42ch; }
+        .h03ft-cta {
+          display: inline-flex; align-items: center; padding: 0.95rem 2rem; background: var(--color-primary, #8E2B36);
+          color: #fff; font-family: 'Archivo', sans-serif; font-size: 0.82rem; font-weight: 700;
+          letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; white-space: nowrap;
+          transition: background 0.25s, transform 0.25s;
+        }
+        .h03ft-cta:hover { background: var(--color-accent, #6E1F28); transform: translateY(-2px); }
+        .h03ft-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.6rem, 3vw, 2.6rem); padding: clamp(2.2rem, 4vw, 3rem) 0; border-top: 1px solid rgba(241,238,234,0.14); }
+        .h03ft-h { font-family: 'Archivo', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #E9A7AE; margin: 0 0 1.1rem; }
+        .h03ft-list { list-style: none; margin: 0; padding: 0; }
+        .h03ft-list li { margin-bottom: 0.6rem; font-size: 0.94rem; color: rgba(241,238,234,0.8); line-height: 1.5; }
+        .h03ft-list a { color: rgba(241,238,234,0.8); text-decoration: none; transition: color 0.2s; }
+        .h03ft-list a:hover { color: #E9A7AE; }
+        .h03ft-hrow { display: flex; justify-content: space-between; gap: 1rem; }
+        .h03ft-bottom {
+          display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+          padding: 1.4rem 0 calc(1.4rem + env(safe-area-inset-bottom)); border-top: 1px solid rgba(241,238,234,0.14);
+          font-size: 0.84rem; color: rgba(241,238,234,0.6);
+        }
+        @media (max-width: 899px) { .h03ft-cols { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 519px) { .h03ft-cols { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="h03ft-inner">
+        <div className="h03ft-top">
+          <div>
+            <h2 className="h03ft-heading"><GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" /></h2>
+            {tagline && <p className="h03ft-tag"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></p>}
+          </div>
+          <a href={resolve(ctaHref)} data-btn="primary" className="h03ft-cta">{ctaText}</a>
+        </div>
+        <div className="h03ft-cols">
+          <div>
+            <h3 className="h03ft-h">Navigace</h3>
+            <ul className="h03ft-list">{links.map((l, i) => (<li key={i}><a href={resolve(l.href)}>{l.label}</a></li>))}</ul>
+          </div>
+          <div>
+            <h3 className="h03ft-h">Kontakt</h3>
+            <ul className="h03ft-list">
+              {phone && <li><a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a></li>}
+              {email && <li><a href={`mailto:${email}`}>{email}</a></li>}
+              {address && <li><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></li>}
+            </ul>
+          </div>
+          <div>
+            <h3 className="h03ft-h">Otevírací doba</h3>
+            <ul className="h03ft-list">
+              {hours.map((h, i) => (
+                <li className="h03ft-hrow" key={i}>
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.days`} value={h.days ?? ""} tag="span" />
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.time`} value={h.time ?? ""} tag="span" />
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="h03ft-h">Sledujte nás</h3>
+            <ul className="h03ft-list">{socials.map((s, i) => (<li key={i}><a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a></li>))}</ul>
+          </div>
+        </div>
+        <div className="h03ft-bottom">
+          <span><GenericEditableText sectionId={sectionId} field="copyright" value={copyright || siteName} tag="span" /></span>
+          <WeberoCredit />
         </div>
       </div>
     </footer>
