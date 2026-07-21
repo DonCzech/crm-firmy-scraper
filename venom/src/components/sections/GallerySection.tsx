@@ -59,7 +59,6 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
-  if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} />;
   if (variant === "gallery-universal") {
     return <GalleryUniversal
       content={content}
