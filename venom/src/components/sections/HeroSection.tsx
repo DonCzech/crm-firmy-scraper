@@ -20803,20 +20803,21 @@ function HeroGarden01Page({
 // chipy (pojištění + firmy/SVJ). Žádné bloby, žádné clone assety.
 function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = content as Record<string, unknown>;
-  const subtitle    = String(c.subtitle    ?? "Spolehlivá úklidová firma v Praze, která se postará o vše od A do Z. Uklidíme kanceláře i společné prostory v bytových domech (SVJ). Pracujeme rychle, pečlivě a bez zbytečných řečí.");
+  const eyebrow     = String(c.badgeText   ?? "Úklidové služby · Praha a okolí");
+  const title       = String(c.title       ?? "Čisté prostory.");
+  const titleAccent = String(c.titleAccent ?? "Klidná hlava.");
+  const subtitle    = String(c.subtitle    ?? "Postaráme se o kanceláře, bytové domy i společné prostory od A do Z. Pracujeme rychle, pečlivě a bez zbytečných řečí — vy se soustředíte na svoje, o čistotu se staráme my.");
   const ctaText     = String(c.ctaText     ?? "Nezávazně poptat úklid");
   const ctaHref     = String(c.ctaHref     ?? "#kontakt");
-  const cta2Text    = String(c.ctaSecondaryText ?? "Proč s námi");
-  const cta2Href    = String(c.ctaSecondaryHref ?? "#proc-s-nami");
-  const badgeText   = String(c.badgeText   ?? "Pro firmy a bytové domy SVJ");
-  const reviewCount = String(c.reviewCount ?? "70+");
-
-  const BLEND_L = String(c.backgroundImage  ?? "/clones/modryzralok/cdn/681cb883f075d3dfa070d327_hero_blend_1.webp");
-  const BLEND_R = String(c.backgroundImage2 ?? "/clones/modryzralok/cdn/681cb882589f8948a612943b_hero_blend_2.webp");
-  const GOOGLE  = "/clones/modryzralok/cdn/681ca92793f51e4291431db0_google-review.webp";
-  const STAR    = "/clones/modryzralok/cdn/681ca97988683ab4a1bbc7ed_star.svg";
-  const H_PIC   = "/clones/modryzralok/cdn/681ca46265a00932ff8ac77f_heading-pic.webp";
-  const SHINES  = "/clones/modryzralok/cdn/68359e6ae99f26621721833a_shines%201.svg";
+  const cta2Text    = String(c.ctaSecondaryText ?? "Naše služby");
+  const cta2Href    = String(c.ctaSecondaryHref ?? "#sluzby");
+  const reviewsText = String(c.reviewsText ?? "70+ ověřených recenzí na Google");
+  const reviewScore = String(c.reviewScore ?? "5,0");
+  const image       = String(c.image ?? "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1200&h=1500&fit=crop&auto=format&q=80");
+  const chip1Title  = String(c.chip1Title ?? "Pojištěno do 10 mil. Kč");
+  const chip1Desc   = String(c.chip1Desc  ?? "Případnou škodu řešíme hned");
+  const chip2Value  = String(c.chip2Value ?? "40+");
+  const chip2Label  = String(c.chip2Label ?? "firem a SVJ nám věří");
 
   const resolve = (href: string) => {
     if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
@@ -20824,234 +20825,176 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
     return href === "/" ? base : `${base}${href}`;
   };
 
-  const NAVY = "#0e0e53";
-  const BLUE = "#019dff";
-
   return (
     <>
       <style>{`
         .c02h-section {
           position: relative; overflow: hidden;
-          background: #f3f9ff;
-          padding-top: 9rem; padding-bottom: 7rem;
+          background: #F4F6F9;
+          padding: calc(4.75rem + clamp(2.5rem, 6vw, 4.5rem)) 0 clamp(3.5rem, 7vw, 6rem);
           font-family: 'Onest', sans-serif;
         }
-
-        /* radial glow in centre */
-        .c02h-section::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(ellipse 70% 55% at 50% 40%, rgba(1,157,255,0.10) 0%, transparent 70%),
-            radial-gradient(ellipse 40% 30% at 80% 15%, rgba(37,89,226,0.07) 0%, transparent 60%);
-          pointer-events: none; z-index: 0;
+        .c02h-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+          gap: clamp(2.5rem, 5vw, 5rem); align-items: center;
         }
-
-        /* subtle dot grid */
-        .c02h-section::after {
-          content: '';
-          position: absolute; inset: 0;
-          background-image: radial-gradient(rgba(14,14,83,0.045) 1px, transparent 1px);
-          background-size: 28px 28px;
-          pointer-events: none; z-index: 0;
-        }
-
-        /* blend images */
-        .c02h-blends {
-          position: absolute; inset: 0;
-          display: flex; justify-content: space-between; align-items: flex-end;
-          pointer-events: none; z-index: 1;
-        }
-        .c02h-bl { width: 260px; opacity: 0.14; align-self: flex-start; margin-top: -2rem; }
-        .c02h-br { width: 220px; opacity: 0.18; margin-bottom: 2rem; }
-
-        /* content */
-        .c02h-content {
-          position: relative; z-index: 2;
-          max-width: 54rem; margin: 0 auto; padding: 0 1.5rem;
-          display: flex; flex-direction: column; align-items: center;
-          text-align: center; gap: 1.75rem;
-        }
-
-        /* badge */
-        .c02h-badge {
+        .c02h-eyebrow {
           display: inline-flex; align-items: center; gap: 0.55rem;
-          background: #fff;
-          border: 1px solid rgba(1,157,255,0.25);
-          border-radius: 9999px;
-          padding: 0.4rem 1rem 0.4rem 0.5rem;
-          font-size: 0.82rem; font-weight: 600; color: ${NAVY};
-          box-shadow: 0 4px 20px rgba(1,157,255,0.12), 0 1px 4px rgba(14,14,83,0.06);
-          letter-spacing: 0.01em;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+          color: #1B5BFF; margin-bottom: 1.4rem;
         }
-        .c02h-badge-icon { width: 1.4rem; height: 1.4rem; flex-shrink: 0; }
-
-        /* heading */
+        .c02h-eyebrow::before { content: ""; width: 22px; height: 2px; background: #1B5BFF; border-radius: 2px; }
         .c02h-h1 {
           font-family: 'Bricolage Grotesque', sans-serif;
-          font-size: clamp(2.5rem, 6.5vw, 4.75rem);
-          font-weight: 800; color: ${NAVY}; line-height: 1.08;
-          margin: 0; letter-spacing: -0.02em;
+          font-size: clamp(2.7rem, 5.6vw, 4.6rem);
+          font-weight: 800; color: #0B1526; line-height: 1.02;
+          margin: 0; letter-spacing: -0.035em;
+          text-wrap: balance;
         }
-        .c02h-blue {
-          color: ${BLUE};
-          background: linear-gradient(135deg, #2bbbff 0%, #2559e2 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        .c02h-underline {
-          background-image: url(${H_PIC});
-          background-size: 100% auto; background-repeat: no-repeat;
-          background-position: center bottom 2px; padding-bottom: 0.25em;
-        }
-        .c02h-shine {
-          background-image: url(${SHINES});
-          background-size: auto 1.9rem; background-repeat: no-repeat;
-          background-position: top right; padding-right: 2.75rem;
-        }
-
-        /* subtitle */
+        .c02h-h1 .c02h-accent { color: #1B5BFF; display: inline; }
         .c02h-sub {
-          font-size: clamp(1rem, 2.2vw, 1.15rem);
-          color: #3d4d7a; line-height: 1.7; margin: 0;
-          max-width: 36rem; font-weight: 400;
+          font-size: clamp(1rem, 1.6vw, 1.13rem);
+          color: #5B6577; line-height: 1.72; margin: 1.5rem 0 0;
+          max-width: 33rem;
         }
-        .c02h-sub strong { color: ${NAVY}; font-weight: 600; }
-
-        /* buttons */
-        .c02h-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 0.25rem; }
+        .c02h-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 2.1rem; }
         .c02h-btn1 {
           display: inline-flex; align-items: center; gap: 0.6rem;
-          padding: 1rem 2rem; border-radius: 9999px;
-          background: linear-gradient(100deg, #2bbbff 0%, #1c91ff 40%, #2559e2 100%);
-          color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
-          box-shadow: 0 10px 35px -8px rgba(28,120,255,0.5), 0 2px 8px rgba(28,120,255,0.2);
-          transition: box-shadow 0.25s, transform 0.2s;
-          letter-spacing: 0.01em;
+          padding: 1rem 1.9rem; border-radius: 9999px;
+          background: #1B5BFF; color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
+          transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+          box-shadow: 0 14px 30px -14px rgba(27,91,255,0.55);
         }
-        .c02h-btn1:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 16px 40px -8px rgba(28,120,255,0.6), 0 4px 12px rgba(28,120,255,0.25);
-        }
+        .c02h-btn1:hover { background: #0E44D6; transform: translateY(-2px); box-shadow: 0 20px 38px -14px rgba(27,91,255,0.6); }
+        .c02h-btn1 svg { transition: transform 0.25s; }
+        .c02h-btn1:hover svg { transform: translateX(3px); }
         .c02h-btn2 {
-          display: inline-flex; align-items: center; gap: 0.6rem;
-          padding: 1rem 2rem; border-radius: 9999px;
-          border: 2px solid rgba(14,14,83,0.18);
-          background: rgba(255,255,255,0.7);
-          backdrop-filter: blur(4px);
-          color: ${NAVY}; font-weight: 600; font-size: 1rem; text-decoration: none;
-          transition: border-color 0.2s, background 0.2s, transform 0.2s;
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 1rem 1.7rem; border-radius: 9999px;
+          border: 1px solid #D6DEEA; background: #fff;
+          color: #0B1526; font-weight: 600; font-size: 1rem; text-decoration: none;
+          transition: border-color 0.2s, background 0.2s;
         }
-        .c02h-btn2:hover {
-          border-color: ${NAVY};
-          background: rgba(255,255,255,0.95);
-          transform: translateY(-2px);
+        .c02h-btn2:hover { border-color: #0B1526; }
+        .c02h-trust {
+          display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.1rem;
+          margin-top: 2.2rem; padding-top: 1.6rem; border-top: 1px solid #E2E8F1;
+          font-size: 0.9rem; color: #5B6577;
         }
+        .c02h-stars { display: inline-flex; align-items: center; gap: 0.15rem; }
+        .c02h-stars svg { display: block; }
+        .c02h-score { font-weight: 800; color: #0B1526; margin-left: 0.35rem; font-variant-numeric: tabular-nums; }
+        .c02h-tdot { width: 4px; height: 4px; border-radius: 50%; background: #C6CFDD; }
+        .c02h-glogo { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; color: #3D4B63; }
 
-        /* review card */
-        .c02h-review-card {
-          display: inline-flex; align-items: center; gap: 1rem;
-          background: #fff;
-          border: 1px solid rgba(1,157,255,0.18);
-          border-radius: 14px;
-          padding: 0.75rem 1.4rem;
-          box-shadow: 0 4px 24px rgba(14,14,83,0.06), 0 1px 4px rgba(1,157,255,0.08);
-          flex-wrap: wrap; justify-content: center;
+        .c02h-media { position: relative; }
+        .c02h-photo {
+          position: relative; border-radius: 20px; overflow: hidden;
+          aspect-ratio: 4 / 5; background: #DEE6F0;
+          box-shadow: 0 34px 70px -38px rgba(11,21,38,0.45);
         }
-        .c02h-review-divider {
-          width: 1px; height: 2rem;
-          background: rgba(14,14,83,0.1);
+        .c02h-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .c02h-chip1 {
+          position: absolute; top: 1.1rem; right: -0.9rem;
+          display: flex; align-items: center; gap: 0.65rem;
+          background: #fff; border-radius: 14px; padding: 0.7rem 1rem;
+          box-shadow: 0 18px 40px -18px rgba(11,21,38,0.35);
+          max-width: min(78%, 16rem);
         }
-        .c02h-gimg { height: 1.75rem; width: auto; }
-        .c02h-stars { display: flex; align-items: center; gap: 0.3rem; }
-        .c02h-simg { height: 1rem; width: auto; }
-        .c02h-score { font-weight: 800; color: ${NAVY}; font-size: 1rem; }
-        .c02h-rtxt { font-size: 0.83rem; color: #4b5d8a; line-height: 1.4; }
-        .c02h-rtxt strong { font-weight: 700; color: ${NAVY}; }
+        .c02h-chip1-ico {
+          width: 34px; height: 34px; border-radius: 10px; background: #EAF1FF;
+          display: grid; place-items: center; flex-shrink: 0; color: #1B5BFF;
+        }
+        .c02h-chip1 b { display: block; font-size: 0.84rem; color: #0B1526; line-height: 1.25; }
+        .c02h-chip1 small { display: block; font-size: 0.74rem; color: #5B6577; margin-top: 1px; }
+        .c02h-chip2 {
+          position: absolute; bottom: 1.2rem; left: -1rem;
+          background: #0B1526; color: #fff; border-radius: 14px;
+          padding: 0.85rem 1.15rem; display: flex; align-items: baseline; gap: 0.55rem;
+          box-shadow: 0 18px 40px -18px rgba(11,21,38,0.5);
+        }
+        .c02h-chip2 b { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; }
+        .c02h-chip2 span { font-size: 0.82rem; color: #B9C4D6; line-height: 1.3; max-width: 9rem; }
 
-        /* bottom wave */
-        .c02h-wave {
-          position: absolute; bottom: -1px; left: 0; right: 0;
-          height: 60px; z-index: 2;
+        @media (max-width: 900px) {
+          .c02h-inner { grid-template-columns: 1fr; gap: 2.4rem; }
+          .c02h-photo { aspect-ratio: 16 / 11; }
+          .c02h-chip1 { right: 0.9rem; }
+          .c02h-chip2 { left: 0.9rem; }
+          .c02h-section { padding-bottom: 3.2rem; }
         }
-        .c02h-wave path { fill: #ffffff; }
-
-        @media (max-width: 640px) {
-          .c02h-section { padding-top: 7rem; padding-bottom: 5rem; }
-          .c02h-bl, .c02h-br { display: none; }
-          .c02h-review-divider { display: none; }
-          .c02h-h1 { letter-spacing: -0.01em; }
+        @media (prefers-reduced-motion: reduce) {
+          .c02h-btn1, .c02h-btn1 svg, .c02h-btn2 { transition: none !important; }
         }
       `}</style>
 
       <section className="c02h-section" id="uvod" data-template="clean-02-hero">
-        <div className="c02h-blends" aria-hidden>
-          <img loading="eager" src={BLEND_L} alt="" className="c02h-bl" />
-          <img loading="eager" src={BLEND_R} alt="" className="c02h-br" />
-        </div>
-
-        <div className="c02h-content">
-          <div className="c02h-badge">
-            <svg className="c02h-badge-icon" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <rect x="0.5" width="21" height="21" rx="10.5" fill="#F3F9FF"/>
-              <path d="M19.1667 10.5C19.1667 11.1475 18.3733 11.6667 18.21 12.2792C18.0467 12.8917 18.4667 13.755 18.1517 14.2917C17.8367 14.8283 16.88 14.9042 16.4367 15.3533C15.9933 15.8025 15.9233 16.7533 15.375 17.0683C14.8267 17.3833 13.975 16.9633 13.3625 17.1267C12.75 17.29 12.2308 18.0833 11.5833 18.0833C10.9358 18.0833 10.4167 17.29 9.83333 17.1267C9.25 16.9633 8.3575 17.3833 7.82083 17.0683C7.28417 16.7533 7.20833 15.7967 6.75917 15.3533C6.31 14.91 5.35917 14.84 5.04417 14.2917C4.72917 13.7433 5.14917 12.8917 4.98583 12.2792C4.8225 11.6667 4 11.1475 4 10.5C4 9.85251 4.79333 9.33334 4.95667 8.75001C5.12 8.16667 4.7 7.27417 5.015 6.73751C5.33 6.20084 6.28667 6.09584 6.73 5.64667C7.17333 5.19751 7.24333 4.24667 7.79167 3.93167C8.34 3.61667 9.19167 4.03667 9.80417 3.87334C10.4167 3.71001 10.9358 2.91667 11.5833 2.91667C12.2308 2.91667 12.75 3.71001 13.3625 3.87334C13.975 4.03667 14.8383 3.61667 15.375 3.93167C15.9117 4.24667 15.9875 5.20334 16.4367 5.64667C16.8858 6.09001 17.8367 6.16001 18.1517 6.70834C18.4667 7.25667 18.0467 8.10834 18.21 8.72084C18.3733 9.33334 19.1667 9.85251 19.1667 10.5Z" fill="#109138"/>
-              <circle cx="11.5833" cy="10.5" r="4.9167" fill="#20BF55"/>
-              <path d="M11.0775 11.8825C11.02 11.8828 10.9631 11.8716 10.91 11.8495C10.8569 11.8275 10.8088 11.7951 10.7684 11.7542L9.4092 10.4183C9.32727 10.3363 9.28125 10.2251 9.28125 10.1092C9.28125 9.99323 9.32727 9.88203 9.4092 9.8C9.49123 9.71807 9.60243 9.67205 9.71837 9.67205C9.8343 9.67205 9.9455 9.71807 10.0275 9.8L11.0775 10.8383L13.1425 8.8025C13.2253 8.7205 13.3373 8.67474 13.4538 8.67529C13.5703 8.67584 13.6818 8.72264 13.7638 8.80541C13.8458 8.88818 13.8915 9.00014 13.891 9.11664C13.8904 9.23315 13.8436 9.34467 13.7609 9.42666L11.3809 11.76C11.3415 11.8002 11.2942 11.8319 11.242 11.853C11.1898 11.874 11.1338 11.8841 11.0775 11.8825Z" fill="#EDEBEA"/>
-            </svg>
-            <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
-          </div>
-
-          <h1 className="c02h-h1">
-            <span className="c02h-shine">Profesionální</span>{" "}
-            <span className="c02h-blue">úklidová firma</span>{" "}
-            v{" "}
-            <span className="c02h-underline">Praze</span>
-          </h1>
-
-          <p className="c02h-sub">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-
-          <div className="c02h-btns">
-            <a href={resolve(ctaHref)} data-btn="primary" className="c02h-btn1">
-              <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden>
-                <g clipPath="url(#csp)">
-                  <path d="M4.129 9.443H4.949C4.949 8.538 5.685 7.802 6.59 7.802V6.982C5.685 6.982 4.949 6.246 4.949 5.341H4.129C4.129 6.246 3.393 6.982 2.488 6.982V7.802C3.393 7.802 4.129 8.538 4.129 9.443Z" fill="currentColor"/>
-                  <path d="M1.668 14.365H2.488C2.488 13.46 3.224 12.724 4.129 12.724V11.904C3.224 11.904 2.488 11.168 2.488 10.264H1.668C1.668 11.168 0.905 11.904 0 11.904V12.724C0.905 12.724 1.668 13.46 1.668 14.365Z" fill="currentColor"/>
-                </g>
-                <defs><clipPath id="csp"><rect width="14" height="14" fill="white" transform="translate(0 0.5)"/></clipPath></defs>
-              </svg>
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-            <a href={resolve(cta2Href)} className="c02h-btn2">
-              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={cta2Text} tag="span" />
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-          </div>
-
-          <div className="c02h-review-card">
-            <img loading="eager" src={GOOGLE} alt="Google recenze" className="c02h-gimg" />
-            <div className="c02h-review-divider" aria-hidden />
-            <div className="c02h-stars">
-              <img loading="eager" src={STAR} alt="" className="c02h-simg" aria-hidden />
-              <span className="c02h-score">5,0</span>
-              <img loading="eager" src={STAR} alt="" className="c02h-simg" aria-hidden />
+        <div className="c02h-inner">
+          <div>
+            <p className="c02h-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="badgeText" value={eyebrow} tag="span" />
+            </p>
+            <h1 className="c02h-h1">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />{" "}
+              <span className="c02h-accent">
+                <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+              </span>
+            </h1>
+            <p className="c02h-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+            <div className="c02h-btns">
+              <a href={resolve(ctaHref)} data-btn="primary" className="c02h-btn1">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+              <a href={resolve(cta2Href)} className="c02h-btn2">
+                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={cta2Text} tag="span" />
+              </a>
             </div>
-            <div className="c02h-review-divider" aria-hidden />
-            <span className="c02h-rtxt">
-              <GenericEditableText sectionId={sectionId} field="reviewsText" value={String(c.reviewsText ?? `5,0 — Více než ${reviewCount} ověřených recenzí od zákazníků`)} tag="span" />
-            </span>
+            <div className="c02h-trust">
+              <span className="c02h-stars" aria-label={`Hodnocení ${reviewScore} z 5`}>
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <svg key={i} width="15" height="15" viewBox="0 0 24 24" fill="#F5A623" aria-hidden="true">
+                    <path d="M12 2l2.9 6.26 6.87.6-5.2 4.53 1.55 6.72L12 16.54l-6.12 3.57 1.55-6.72-5.2-4.53 6.87-.6L12 2z"/>
+                  </svg>
+                ))}
+                <span className="c02h-score"><GenericEditableText sectionId={sectionId} field="reviewScore" value={reviewScore} tag="span" /></span>
+              </span>
+              <span className="c02h-tdot" aria-hidden="true" />
+              <span className="c02h-glogo">
+                <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A11 11 0 0 0 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                Google
+              </span>
+              <span className="c02h-tdot" aria-hidden="true" />
+              <span><GenericEditableText sectionId={sectionId} field="reviewsText" value={reviewsText} tag="span" /></span>
+            </div>
+          </div>
+
+          <div className="c02h-media">
+            <div className="c02h-photo">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Uklizený moderní interiér" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+                <img loading="eager" fetchPriority="high" src={image} alt="Uklizený moderní interiér" />
+              </GenericEditableImage>
+            </div>
+            <div className="c02h-chip1">
+              <span className="c02h-chip1-ico" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3.5v5.1c0 5-3.4 9.6-8 10.9-4.6-1.3-8-5.9-8-10.9V5.5L12 2z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/><path d="M8.6 12l2.3 2.3 4.5-4.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+              <span>
+                <b><GenericEditableText sectionId={sectionId} field="chip1Title" value={chip1Title} tag="span" /></b>
+                <small><GenericEditableText sectionId={sectionId} field="chip1Desc" value={chip1Desc} tag="span" /></small>
+              </span>
+            </div>
+            <div className="c02h-chip2">
+              <b><GenericEditableText sectionId={sectionId} field="chip2Value" value={chip2Value} tag="span" /></b>
+              <span><GenericEditableText sectionId={sectionId} field="chip2Label" value={chip2Label} tag="span" /></span>
+            </div>
           </div>
         </div>
-
-        {/* bottom wave into next section */}
-        <svg className="c02h-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden>
-          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z"/>
-        </svg>
       </section>
     </>
   );
@@ -29146,11 +29089,17 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
   return (
     <>
       <style>{`
-        .pf01hero { position: relative; background: var(--pf-paper, #F4F1EB); overflow: hidden;
-          font-family: var(--font-body, system-ui, -apple-system, sans-serif); color: var(--pf-ink, #1B3A5C); }
-        .pf01hero-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto;
-          padding: clamp(40px, 6vw, 84px) clamp(20px, 5vw, 48px);
-          display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 4vw, 56px); align-items: center; }
+        .pf01hero { position: relative; background: #0C1622; overflow: hidden;
+          font-family: var(--font-body, system-ui, -apple-system, sans-serif); color: #fff;
+          display: flex; align-items: center; min-height: clamp(620px, 92vh, 880px); }
+        .pf01hero-bgwrap { position: absolute; inset: 0; z-index: 0; }
+        .pf01hero-bgwrap::after { content: ''; position: absolute; inset: 0;
+          background: linear-gradient(88deg, rgba(9,17,27,.94) 0%, rgba(9,17,27,.72) 42%, rgba(9,17,27,.30) 75%, rgba(9,17,27,.42) 100%); }
+        .pf01hero-bgwrap::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 140px; z-index: 1;
+          background: linear-gradient(180deg, transparent, rgba(9,17,27,.85)); }
+        .pf01hero-inner { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; width: 100%;
+          padding: clamp(96px, 12vh, 140px) clamp(20px, 5vw, 48px) clamp(56px, 8vh, 88px);
+          display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(36px, 5vw, 80px); align-items: center; }
         @keyframes pf01up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
         .pf01hero-left { min-width: 0; padding-right: clamp(0px, 2vw, 24px); }
         .pf01hero-left > * { animation: pf01up .65s cubic-bezier(.22,.68,0,1) both; }
@@ -29159,15 +29108,15 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
         .pf01hero-left > *:nth-child(3) { animation-delay: .22s; }
         .pf01hero-left > *:nth-child(4) { animation-delay: .32s; }
         .pf01hero-left > *:nth-child(5) { animation-delay: .44s; }
-        .pf01hero-eyebrow { font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--pf-accent, #C3352B); margin: 0 0 18px;
+        .pf01hero-eyebrow { font-size: .8rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #E85A48; margin: 0 0 20px;
           display: inline-flex; align-items: center; gap: 12px; }
-        .pf01hero-eyebrow::before { content: ''; width: 40px; height: 2px; background: var(--pf-accent, #C3352B); }
-        .pf01hero-h1 { font-family: var(--font-heading, system-ui, sans-serif); color: var(--pf-ink, #1B3A5C);
-          font-size: clamp(2.2rem, 4.6vw, 3.7rem); font-weight: 800; line-height: 1.04;
-          letter-spacing: -0.03em; margin: 0 0 22px; }
-        .pf01hero-h1-accent { display: block; font-weight: 800; letter-spacing: -0.03em; color: var(--pf-accent, #C3352B); font-size: 1em; margin-top: .04em; }
-        .pf01hero-sub { font-size: clamp(1rem, 1.3vw, 1.14rem); line-height: 1.62; color: var(--pf-muted, #6A6E78);
-          max-width: 30em; margin: 0 0 32px; }
+        .pf01hero-eyebrow::before { content: ''; width: 40px; height: 2px; background: #E85A48; }
+        .pf01hero-h1 { font-family: var(--font-heading, system-ui, sans-serif); color: #fff;
+          font-size: clamp(2.5rem, 5.4vw, 4.6rem); font-weight: 800; line-height: 1.02;
+          letter-spacing: -0.035em; margin: 0 0 24px; text-wrap: balance; }
+        .pf01hero-h1-accent { display: block; font-weight: 800; letter-spacing: -0.035em; color: #E85A48; font-size: 1em; margin-top: .05em; }
+        .pf01hero-sub { font-size: clamp(1.02rem, 1.35vw, 1.2rem); line-height: 1.65; color: rgba(255,255,255,.82);
+          max-width: 30em; margin: 0 0 34px; }
         .pf01hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
         .pf01btn-primary { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; gap: 10px;
           padding: 16px 30px; background: var(--pf-accent, #C3352B); color: #fff; font-weight: 700; font-size: .98rem;
@@ -29177,73 +29126,67 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           background: linear-gradient(100deg, transparent, rgba(255,255,255,.4), transparent); transform: skewX(-18deg); transition: left .6s cubic-bezier(.22,.68,0,1); }
         .pf01btn-primary:hover::before { left: 140%; }
         .pf01btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(195,53,43,.7); }
-        .pf01btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; background: #fff;
-          color: var(--pf-ink, #1B3A5C); font-weight: 600; font-size: .98rem; text-decoration: none; border: 1.5px solid var(--pf-border, #D8D3C8);
-          border-radius: 6px; transition: border-color .2s, background .2s; white-space: nowrap; }
-        .pf01btn-ghost:hover { border-color: var(--pf-ink, #1B3A5C); }
-        .pf01hero-trust { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 34px;
-          padding-top: 22px; border-top: 1px solid var(--pf-border, #E5E1D8); }
-        .pf01hero-trust-item { display: inline-flex; align-items: center; gap: 8px; font-size: .87rem; font-weight: 700; }
-        .pf01hero-trust-item svg { flex-shrink: 0; color: var(--pf-accent, #C3352B); }
+        .pf01btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; background: rgba(255,255,255,.06);
+          color: #fff; font-weight: 600; font-size: .98rem; text-decoration: none; border: 1.5px solid rgba(255,255,255,.35);
+          border-radius: 6px; transition: border-color .2s, background .2s; white-space: nowrap; backdrop-filter: blur(6px); }
+        .pf01btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,.12); }
+        .pf01hero-trust { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 36px;
+          padding-top: 24px; border-top: 1px solid rgba(255,255,255,.22); }
+        .pf01hero-trust-item { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 700; color: #fff; }
+        .pf01hero-trust-item svg { flex-shrink: 0; color: #E85A48; }
         .pf01hero-trust-item + .pf01hero-trust-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%;
-          background: var(--pf-border, #D8D3C8); margin-right: 14px; }
+          background: rgba(255,255,255,.35); margin-right: 14px; }
         /* right: photo + floating card */
-        .pf01hero-visual { position: relative; min-width: 0; animation: pf01up .7s cubic-bezier(.22,.68,0,1) .18s both; }
-        .pf01hero-photo-wrap { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 11;
-          max-height: 420px; box-shadow: 0 14px 40px -22px rgba(27,58,92,.35); }
+        .pf01hero-visual { position: relative; min-width: 0; animation: pf01up .7s cubic-bezier(.22,.68,0,1) .18s both; z-index: 2; }
+        .pf01hero-photo-wrap { position: absolute; inset: 0; }
         .pf01hero-photo-wrap::after { content: ''; position: absolute; inset: 0;
-          background: none; pointer-events: none; }
+          background: none; pointer-events: none; display:none; }
         .pf01hero-photo-slot { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
         .pf01hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-        .pf01sel { position: relative; z-index: 2; width: 100%; margin-top: 18px;
-          background: var(--pf-surface, #fff); border: 1px solid var(--pf-border, #E5E1D8);
-          border-radius: 12px; padding: 22px 22px 20px; box-shadow: 0 12px 34px -20px rgba(27,58,92,.28); overflow: hidden; }
-        .pf01sel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-          background: linear-gradient(90deg, var(--pf-accent, #C3352B), #d95c47); }
+        .pf01sel { position: relative; z-index: 2; width: 100%; color: #fff;
+          background: rgba(10,17,27,.66); backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+          border: 1px solid rgba(255,255,255,.14);
+          border-radius: 16px; padding: clamp(24px,2.4vw,32px); box-shadow: 0 30px 70px -25px rgba(0,0,0,.55); }
+        
         @keyframes pf01pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(195,53,43,.45); } 50% { box-shadow: 0 0 0 5px rgba(195,53,43,0); } }
-        .pf01sel-badge { position: absolute; top: 14px; right: 16px; display: inline-flex; align-items: center; gap: 7px;
-          background: var(--pf-ink, #1B3A5C); color: #fff; font-size: .62rem; font-weight: 700; letter-spacing: .12em;
-          text-transform: uppercase; padding: 5px 10px; border-radius: 999px; }
+        .pf01sel-badge { display: none; }
         .pf01sel-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--pf-accent, #C3352B);
            }
-        .pf01sel-title { font-size: 1.08rem; font-weight: 800; letter-spacing: -.01em; margin: 2px 0 2px; padding-right: 96px; }
-        .pf01sel-sub { font-size: .8rem; color: var(--pf-muted, #6A6E78); margin: 0 0 14px; }
-        .pf01sel-svcs { display: grid; gap: 7px; margin-bottom: 14px; }
-        .pf01sel-svc { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; cursor: pointer;
-          padding: 9px 12px; border-radius: 10px; border: 1.5px solid var(--pf-border, #E5E1D8); background: var(--pf-surface, #fff);
-          transition: border-color .18s, background .18s; font-family: inherit; color: inherit; }
-        .pf01sel-svc:hover { border-color: #c8c2b4; }
-        .pf01sel-svc[aria-checked="true"] { border-color: var(--pf-accent, #C3352B); background: rgba(195,53,43,.05); }
-        .pf01sel-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--pf-border, #D8D3C8); flex-shrink: 0; position: relative; transition: border-color .18s; }
-        .pf01sel-svc[aria-checked="true"] .pf01sel-radio { border-color: var(--pf-accent, #C3352B); }
-        .pf01sel-svc[aria-checked="true"] .pf01sel-radio::after { content: ''; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--pf-accent, #C3352B); }
-        .pf01sel-svc-label { display: block; font-weight: 700; font-size: .88rem; line-height: 1.25; }
-        .pf01sel-svc-note { display: block; font-size: .72rem; color: var(--pf-muted, #6A6E78); line-height: 1.3; }
-        .pf01sel-scope-lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--pf-muted, #6A6E78); margin-bottom: 6px; }
-        .pf01sel-scopes { position: relative; display: flex; background: var(--pf-paper, #F4F1EB); border-radius: 10px; padding: 3px; margin-bottom: 14px; width: 100%; isolation: isolate; }
-        .pf01sel-scopes-thumb { position: absolute; top: 3px; bottom: 3px; left: 3px; border-radius: 8px; background: var(--pf-surface, #fff);
-          box-shadow: 0 2px 8px rgba(27,58,92,.14); z-index: 0; transition: transform .28s cubic-bezier(.22,.68,0,1);
+        .pf01sel-title { font-family: var(--font-heading, system-ui, sans-serif); color: #fff; font-size: 1.22rem; font-weight: 800; letter-spacing: -.015em; margin: 0 0 4px; }
+        .pf01sel-sub { font-size: .84rem; color: rgba(255,255,255,.6); margin: 0 0 18px; }
+        .pf01sel-svcs { display: block; margin: 0 0 18px; border-top: 1px solid rgba(255,255,255,.12); }
+        .pf01sel-svc { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; cursor: pointer;
+          padding: 13px 2px; border: none; border-bottom: 1px solid rgba(255,255,255,.12); background: transparent; border-radius: 0;
+          transition: background .18s; font-family: inherit; color: rgba(255,255,255,.55); }
+        .pf01sel-svc:hover { color: rgba(255,255,255,.85); }
+        .pf01sel-svc[aria-checked="true"] { color: #fff; }
+        .pf01sel-radio { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); flex-shrink: 0; position: relative; transition: border-color .18s; }
+        .pf01sel-svc[aria-checked="true"] .pf01sel-radio { border-color: #E85A48; }
+        .pf01sel-svc[aria-checked="true"] .pf01sel-radio::after { content: ''; position: absolute; inset: 2.5px; border-radius: 50%; background: #E85A48; }
+        .pf01sel-svc-label { display: block; font-weight: 700; font-size: .92rem; line-height: 1.3; color: inherit; }
+        .pf01sel-svc-note { display: block; font-size: .74rem; color: rgba(255,255,255,.45); line-height: 1.35; }
+        .pf01sel-scope-lbl { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.5); margin-bottom: 8px; }
+        .pf01sel-scopes { position: relative; display: flex; background: rgba(255,255,255,.08); border-radius: 8px; padding: 3px; margin-bottom: 20px; width: 100%; isolation: isolate; }
+        .pf01sel-scopes-thumb { position: absolute; top: 3px; bottom: 3px; left: 3px; border-radius: 6px; background: #fff;
+          box-shadow: 0 2px 10px rgba(0,0,0,.35); z-index: 0; transition: transform .28s cubic-bezier(.22,.68,0,1);
           width: calc((100% - 6px) / var(--pf-n, 3)); transform: translateX(calc(var(--pf-i, 0) * 100%)); }
-        .pf01sel-scope { position: relative; z-index: 1; flex: 1; border: none; cursor: pointer; padding: 8px 4px; border-radius: 8px; font-family: inherit;
-          font-weight: 700; font-size: .8rem; color: var(--pf-muted, #6A6E78); background: transparent; transition: color .2s; }
-        .pf01sel-scope[aria-checked="true"] { color: var(--pf-ink, #1B3A5C); }
+        .pf01sel-scope { position: relative; z-index: 1; flex: 1; border: none; cursor: pointer; padding: 8px 4px; border-radius: 6px; font-family: inherit;
+          font-weight: 700; font-size: .82rem; color: rgba(255,255,255,.6); background: transparent; transition: color .2s; }
+        .pf01sel-scope[aria-checked="true"] { color: #10202F; }
         @keyframes pf01price { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
-        .pf01sel-result { display: flex; align-items: center; justify-content: space-between; gap: 12px;
-          background: var(--pf-ink, #1B3A5C); border-radius: 12px; padding: 13px 16px; color: #fff; }
-        .pf01sel-result-lbl { font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 3px; }
-        .pf01sel-result-val { font-size: 1.18rem; font-weight: 800; line-height: 1; letter-spacing: -.01em;
+        .pf01sel-result { padding: 2px 0 0; color: #fff; }
+        .pf01sel-result-lbl { font-size: .66rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+        .pf01sel-result-val { font-family: var(--font-heading, system-ui, sans-serif); font-size: clamp(1.7rem, 2vw, 2.1rem); font-weight: 800; line-height: 1; letter-spacing: -.02em;
           animation: pf01price .32s cubic-bezier(.22,.68,0,1) both; font-variant-numeric: tabular-nums; white-space: nowrap; }
-        .pf01sel-result-val em { font-style: normal; color: var(--pf-accent, #C3352B); }
-        .pf01sel-result-unit { font-size: .68rem; color: rgba(255,255,255,.5); margin-top: 3px; }
-        .pf01sel-cta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; width: 100%;
-          padding: 12px; background: var(--pf-accent, #C3352B); color: #fff; font-weight: 700; font-size: .9rem; text-decoration: none;
-          border-radius: 10px; transition: filter .2s, transform .2s; }
+        .pf01sel-result-val em { font-style: normal; color: #E85A48; }
+        .pf01sel-result-unit { font-size: .74rem; color: rgba(255,255,255,.45); margin-top: 6px; }
+        .pf01sel-cta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 18px; width: 100%;
+          padding: 15px; background: var(--pf-accent, #C3352B); color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none;
+          border-radius: 8px; transition: filter .2s, transform .2s; box-shadow: 0 10px 30px -10px rgba(195,53,43,.55); }
         .pf01sel-cta:hover { filter: brightness(1.06); transform: translateY(-1px); }
         @media (max-width: 1000px) {
-          .pf01hero-inner { grid-template-columns: 1fr; }
-          .pf01hero-visual { padding: 0; }
-          .pf01hero-photo-wrap { aspect-ratio: 16 / 10; max-height: 340px; }
-          .pf01sel-noop {}
+          .pf01hero { min-height: 0; }
+          .pf01hero-inner { grid-template-columns: 1fr; padding-top: 96px; }
         }
         @media (prefers-reduced-motion: reduce) {
           .pf01hero-left > *, .pf01hero-visual, .pf01sel-result-val { animation: none; }
@@ -29253,6 +29196,11 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
       `}</style>
 
       <section className="pf01hero" data-template="proof-01" id="uvod">
+        <div className="pf01hero-bgwrap" aria-hidden="true">
+          <GenericEditableImage sectionId={sectionId} field="photo" src={photo} alt={photoAlt} className="pf01hero-photo-slot">
+            <img src={photo} alt="" className="pf01hero-photo" />
+          </GenericEditableImage>
+        </div>
         <div className="pf01hero-inner">
           <div className="pf01hero-left">
             <p className="pf01hero-eyebrow">
@@ -29290,12 +29238,6 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           </div>
 
           <div className="pf01hero-visual">
-            <div className="pf01hero-photo-wrap">
-              <GenericEditableImage sectionId={sectionId} field="photo" src={photo} alt={photoAlt} className="pf01hero-photo-slot">
-                <img src={photo} alt={photoAlt} className="pf01hero-photo" />
-              </GenericEditableImage>
-            </div>
-
             <div className="pf01sel" role="group" aria-label={selectorTitle}>
               <span className="pf01sel-badge">Živá kalkulace</span>
               <div className="pf01sel-title">
@@ -29339,7 +29281,7 @@ function HeroProof01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
                   <div className="pf01sel-result-val" key={`${svcIdx}-${scopeIdx}`}>
                     <em>{fmt(from)}</em> – {fmt(to)} Kč
                   </div>
-                  <div className="pf01sel-result-unit">za {unit} · vč. materiálu</div>
+                  <div className="pf01sel-result-unit">za {unit} · vč. materiálu a záruky</div>
                 </div>
               </div>
               <a href={proofResolveHref(selectorCtaHref, tenantSlug, isAdmin)} className="pf01sel-cta" data-btn="primary">

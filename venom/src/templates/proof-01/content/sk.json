@@ -58,14 +58,14 @@
         "label": "Drobná oprava",
         "from": 900,
         "to": 2500,
-        "unit": "zákazka",
+        "unit": "zákazku",
         "note": "Výjazd technika do 24 h, bežné opravy a údržba."
       },
       {
         "label": "Inštalácia / montáž",
         "from": 4500,
         "to": 18000,
-        "unit": "zákazka",
+        "unit": "zákazku",
         "note": "Dodávka a odborná montáž vrátane materiálu."
       },
       {
@@ -90,7 +90,8 @@
         "mult": 1.6
       }
     ],
-    "titleAccent": "bez odkladov a bez prekvapení."
+    "titleAccent": "bez odkladov a bez prekvapení.",
+    "photo": "/templates/proof-01/img/hero-wide.webp"
   },
   "stats": {
     "items": [
@@ -130,42 +131,48 @@
         "description": "Rýchle riešenie porúch a pravidelná údržba. Prídeme, nájdeme príčinu a opravíme — bez zbytočných výmen.",
         "icon": "wrench",
         "priceFrom": "od 900 Kč",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-opravy.webp"
       },
       {
         "name": "Inštalácia a montáž",
         "description": "Odborná montáž nových zariadení vrátane dodávky materiálu, revízie a zaškolenia obsluhy.",
         "icon": "tool",
         "priceFrom": "od 4 500 Kč",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-montaz.webp"
       },
       {
         "name": "Rekonštrukcie na kľúč",
         "description": "Kompletná realizácia od návrhu po odovzdanie. Jeden tím, jeden rozpočet, jeden termín.",
         "icon": "home",
         "priceFrom": "od 35 000 Kč",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-rekonstrukce.webp"
       },
       {
         "name": "Havarijný výjazd",
         "description": "Nonstop výjazd k havárii do 90 minút po Prahe. Zaistíme, aby sa škoda ďalej nešírila.",
         "icon": "zap",
         "priceFrom": "od 1 500 Kč",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-havarie.webp"
       },
       {
         "name": "Revízie a servis",
         "description": "Zákonné revízie a pravidelné servisné prehliadky s protokolom a pripomienkou termínu.",
         "icon": "shield",
         "priceFrom": "od 1 200 Kč",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-revize.webp"
       },
       {
         "name": "Údržba objektov",
         "description": "Dlhodobá správa a údržba pre firmy a SVJ. Jeden dodávateľ pre celý objekt.",
         "icon": "truck",
         "priceFrom": "podľa zmluvy",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-udrzba.webp"
       }
     ],
     "services": []

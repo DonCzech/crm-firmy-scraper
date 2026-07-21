@@ -15917,7 +15917,7 @@ function PricingTableVideo({ content, title, sectionId }: { content: Record<stri
 }
 
 // ══ PROOF (proof-01) — services / process / pricing ═══════════════════════════
-type Pf01Svc = { name?: string; description?: string; icon?: string; priceFrom?: string; href?: string };
+type Pf01Svc = { name?: string; description?: string; icon?: string; photo?: string; priceFrom?: string; href?: string };
 
 function Pf01Icon({ name }: { name?: string }) {
   const p: Record<string, React.ReactNode> = {
@@ -15964,11 +15964,11 @@ function ServicesProof01({ content, sectionId, tenantSlug, isAdmin }: { content:
         .pf01svc-head { max-width:640px; margin-bottom:clamp(32px,5vw,56px); }
         .pf01-eyebrow { font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .pf01-eyebrow::before { content:''; width:32px; height:2px; background:var(--pf-accent); }
-        .pf01svc-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01svc-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.9rem,3.8vw,3rem); font-weight:800; letter-spacing:-.03em; line-height:1.06; margin:0 0 14px; }
         .pf01svc-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
         .pf01svc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
-        .pf01svc-card { position:relative; display:flex; flex-direction:column; gap:14px; background:var(--pf-surface); border:1px solid var(--pf-border);
-          border-radius:10px; padding:26px; text-decoration:none; color:inherit; overflow:hidden;
+        .pf01svc-card { position:relative; display:flex; flex-direction:column; gap:0; background:var(--pf-surface); border:1px solid var(--pf-border);
+          border-radius:12px; padding:0; text-decoration:none; color:inherit; overflow:hidden;
           opacity:0; transform:translateY(20px);
           transition:opacity .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 70ms), transform .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 70ms), box-shadow .25s, border-color .25s; }
         .pf01svc-card.pf01-vis { opacity:1; transform:translateY(0); }
@@ -15976,11 +15976,15 @@ function ServicesProof01({ content, sectionId, tenantSlug, isAdmin }: { content:
           transition:opacity .2s, transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s, border-color .25s; }
         .pf01svc-card::after { content:''; position:absolute; left:0; top:0; height:100%; width:3px; background:var(--pf-accent); transform:scaleY(0); transform-origin:top; transition:transform .3s cubic-bezier(.22,.68,0,1); }
         .pf01svc-card:hover::after { transform:scaleY(1); }
-        .pf01svc-idx { display:none; position:absolute; top:14px; right:18px; font-family:var(--font-instrument-serif, Georgia, serif); font-style:italic;
+        .pf01svc-idx-old { display:none; position:absolute; top:14px; right:18px; font-family:var(--font-instrument-serif, Georgia, serif); font-style:italic;
           font-size:2.2rem; line-height:1; color:rgba(27,58,92,.07); transition:color .3s; pointer-events:none; user-select:none; }
         .pf01svc-card:hover .pf01svc-idx { color:rgba(195,53,43,.22); }
-        .pf01svc-ic { width:52px; height:52px; border-radius:10px; background:rgba(195,53,43,.1); color:var(--pf-accent); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .25s, color .25s, transform .35s cubic-bezier(.34,1.56,.64,1); }
-        .pf01svc-card:hover .pf01svc-ic { background:var(--pf-accent); color:#fff; transform:scale(1.06) rotate(-4deg); }
+        .pf01svc-photo { position:relative; aspect-ratio:16/10; overflow:hidden; background:#E8E4DC; }
+        .pf01svc-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.22,.68,0,1); }
+        .pf01svc-card:hover .pf01svc-photo img { transform:scale(1.05); }
+        .pf01svc-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(12,22,34,.45)); }
+        .pf01svc-num { position:absolute; left:16px; bottom:12px; z-index:1; color:#fff; font-weight:800; font-size:.8rem; letter-spacing:.14em; }
+        .pf01svc-body { display:flex; flex-direction:column; gap:12px; padding:22px 24px 24px; flex:1; }
         .pf01svc-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:1.18rem; font-weight:800; letter-spacing:-.01em; margin:0; }
         .pf01svc-desc { font-size:.94rem; color:var(--pf-muted); line-height:1.55; margin:0; flex:1; }
         .pf01svc-foot { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:4px; }
@@ -15999,8 +16003,11 @@ function ServicesProof01({ content, sectionId, tenantSlug, isAdmin }: { content:
           <div className="pf01svc-grid" ref={gridRef}>
             {items.map((s, i) => (
               <a key={i} className="pf01svc-card" style={{ ["--i" as string]: i % 3 }} href={resolveDemoHref(String(s.href ?? "/sluzby"), tenantSlug, isAdmin)}>
-                <span className="pf01svc-idx" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
-                <span className="pf01svc-ic"><Pf01Icon name={s.icon} /></span>
+                <span className="pf01svc-photo" aria-hidden="true">
+                  {s.photo && <img src={String(s.photo)} alt="" loading="lazy" />}
+                  <span className="pf01svc-num">{String(i + 1).padStart(2, "0")}</span>
+                </span>
+                <span className="pf01svc-body">
                 <h3 className="pf01svc-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(s.name ?? "")} tag="span" /></h3>
                 <p className="pf01svc-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(s.description ?? "")} tag="span" /></p>
                 <div className="pf01svc-foot">
@@ -16010,6 +16017,7 @@ function ServicesProof01({ content, sectionId, tenantSlug, isAdmin }: { content:
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </span>
                 </div>
+                </span>
               </a>
             ))}
           </div>
@@ -16045,7 +16053,7 @@ function ProcessProof01({ content, sectionId }: { content: Record<string, unknow
         .pf01proc-head { max-width:640px; margin-bottom:clamp(36px,5vw,60px); }
         .pf01proc .pf01-eyebrow { font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:#F0A498; margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .pf01proc .pf01-eyebrow::before { content:''; width:32px; height:2px; background:#F0A498; }
-        .pf01proc-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01proc-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.9rem,3.8vw,3rem); font-weight:800; letter-spacing:-.03em; line-height:1.06; margin:0 0 14px; }
         .pf01proc-lead { font-size:1.05rem; color:rgba(255,255,255,.78); line-height:1.6; margin:0; }
         .pf01proc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.1); border-radius:10px; overflow:hidden; }
         .pf01proc-step { background:var(--pf-ink); padding:34px 26px 30px; position:relative;
@@ -16102,11 +16110,14 @@ function PricingProof01({ content, sectionId, tenantSlug, isAdmin }: { content: 
         .pf01pr-head { max-width:640px; margin-bottom:clamp(32px,5vw,52px); }
         .pf01pr .pf01-eyebrow { font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
         .pf01pr .pf01-eyebrow::before { content:''; width:32px; height:2px; background:var(--pf-accent); }
-        .pf01pr-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.8rem,3.6vw,2.75rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; margin:0 0 14px; }
+        .pf01pr-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.9rem,3.8vw,3rem); font-weight:800; letter-spacing:-.03em; line-height:1.06; margin:0 0 14px; }
         .pf01pr-lead { font-size:1.05rem; color:var(--pf-muted); line-height:1.6; margin:0; }
         .pf01pr-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; align-items:stretch; }
         .pf01pr-card { display:flex; flex-direction:column; background:var(--pf-surface); border:1px solid var(--pf-border); border-radius:12px; padding:30px 26px; transition:transform .25s, box-shadow .25s; }
-        .pf01pr-card[data-featured="true"] { border:2px solid var(--pf-ink); box-shadow:0 14px 36px -22px rgba(27,58,92,.3); position:relative; }
+        .pf01pr-card[data-featured="true"] { border:1px solid #0C1622; background:#0C1622; color:#fff; box-shadow:0 24px 56px -24px rgba(12,22,34,.6); position:relative; }
+        .pf01pr-card[data-featured="true"] .pf01pr-name, .pf01pr-card[data-featured="true"] .pf01pr-price b { color:#fff; }
+        .pf01pr-card[data-featured="true"] .pf01pr-desc, .pf01pr-card[data-featured="true"] .pf01pr-price span { color:rgba(255,255,255,.65); }
+        .pf01pr-card[data-featured="true"] .pf01pr-feats li { color:rgba(255,255,255,.88); }
         @media (min-width:900px){ .pf01pr-card[data-featured="true"] { transform:scale(1.03); } .pf01pr-card[data-featured="true"]:hover { transform:scale(1.03) translateY(-4px); } }
         .pf01pr-card:hover { transform:translateY(-4px); box-shadow:0 12px 28px -18px rgba(27,58,92,.25); }
         .pf01pr-badge { position:absolute; top:-12px; left:26px; background:var(--pf-accent); color:#fff; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:5px 11px; border-radius:999px; }

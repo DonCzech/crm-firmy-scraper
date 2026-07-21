@@ -90,7 +90,8 @@
         "mult": 1.6
       }
     ],
-    "titleAccent": "no delays, no surprises."
+    "titleAccent": "no delays, no surprises.",
+    "photo": "/templates/proof-01/img/hero-wide.webp"
   },
   "stats": {
     "items": [
@@ -130,42 +131,48 @@
         "description": "Fast fault fixing and regular maintenance. We find the cause and repair it — no needless replacements.",
         "icon": "wrench",
         "priceFrom": "from CZK 900",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-opravy.webp"
       },
       {
         "name": "Installation & assembly",
         "description": "Professional installation of new equipment including materials, inspection and training.",
         "icon": "tool",
         "priceFrom": "from CZK 4,500",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-montaz.webp"
       },
       {
         "name": "Turnkey renovations",
         "description": "Complete delivery from design to handover. One team, one budget, one deadline.",
         "icon": "home",
         "priceFrom": "from CZK 35,000",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-rekonstrukce.webp"
       },
       {
         "name": "Emergency call-out",
         "description": "24/7 emergency response within 90 minutes across Prague. We stop the damage from spreading.",
         "icon": "zap",
         "priceFrom": "from CZK 1,500",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-havarie.webp"
       },
       {
         "name": "Inspections & servicing",
         "description": "Statutory inspections and regular service visits with a report and deadline reminders.",
         "icon": "shield",
         "priceFrom": "from CZK 1,200",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-revize.webp"
       },
       {
         "name": "Property maintenance",
         "description": "Long-term facility care for companies and housing associations. One supplier for the whole building.",
         "icon": "truck",
         "priceFrom": "by contract",
-        "href": "/sluzby"
+        "href": "/sluzby",
+        "photo": "/templates/proof-01/img/svc-udrzba.webp"
       }
     ],
     "services": []

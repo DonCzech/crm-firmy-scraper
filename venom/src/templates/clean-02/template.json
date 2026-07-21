@@ -1,12 +1,12 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "clean-02",
-  "name": "Modrá Vlna",
+  "name": "Modrá vlna",
   "industry": "clean",
   "skeleton": "b2b-trade",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "baseTemplate": null,
-  "description": "Úklidová firma Praha — firemní a SVJ úklid. Bílý sticky navbar (#ffffff) s modrým (#1c91ff) gradientem CTA, fullbleed hero s video mixem, logo trust-strip (klienti), 4-col benefit karty, services grid s foto, 2-col about, media sekce, numbered steps, testimonials, kontaktní formulář, tmavý navy (#0e0e53) footer. Bricolage Grotesque + Onest. Inspirováno modryzralok.cz.",
+  "description": "Úklidová firma Praha — firemní a SVJ úklid. Arctic Editorial design systém: paper #F4F6F9 canvas, ink #0B1526, jediný akcent #1B5BFF, hairline bordery, žádné gradienty. Blur sticky navbar se sticky mobilní CTA lištou, split hero s foto kartou a trust rowem, textový wordmark trust-strip, výhody bez karet s indexy, 3×2 services karty s foto, editorial about s quote kartou, press list, ink proces timeline, Google reference karty, ink kontakt panel + formulář s reálným odesláním, ink footer s Webero creditem. Bricolage Grotesque + Onest.",
   "sectionOrderNote": "Navbar → Hero → Stats → Promo → Services → About → Blog → CTA → Testimonials → Contact → Footer",
   "skippedSections": [
     {
@@ -129,6 +129,11 @@
           "contentRef": "navbar"
         },
         {
+          "type": "hero",
+          "variant": "hero-clean-02-page",
+          "contentRef": "heroSluzby"
+        },
+        {
           "type": "services",
           "variant": "clean-02-services",
           "contentRef": "services"
@@ -155,6 +160,11 @@
           "type": "navbar",
           "variant": "clean-02-navbar",
           "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-clean-02-page",
+          "contentRef": "heroKontakt"
         },
         {
           "type": "contact",

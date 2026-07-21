@@ -1,13 +1,13 @@
 {
   "colors": {
-    "primary":    "#1c91ff",
-    "secondary":  "#0e0e53",
-    "background": "#ffffff",
-    "surface":    "#f0f7ff",
-    "text":       "#2d3654",
-    "textMuted":  "#6b77a4",
-    "accent":     "#2559e2",
-    "border":     "#dfecff"
+    "primary":    "#1B5BFF",
+    "secondary":  "#0B1526",
+    "background": "#F4F6F9",
+    "surface":    "#FFFFFF",
+    "text":       "#0B1526",
+    "textMuted":  "#5B6577",
+    "accent":     "#0E44D6",
+    "border":     "#E2E8F1"
   },
   "typography": {
     "fontHeading": "'Bricolage Grotesque', sans-serif",
@@ -15,9 +15,9 @@
     "scale":       "comfortable"
   },
   "radius": {
-    "sm":   "6px",
-    "md":   "10px",
-    "lg":   "16px",
+    "sm":   "8px",
+    "md":   "12px",
+    "lg":   "20px",
     "pill": "9999px"
   },
   "spacing": {
