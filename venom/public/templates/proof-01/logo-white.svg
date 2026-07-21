@@ -3,5 +3,5 @@
   <path d="M8 21.5L12.5 12L17 21.5" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M9.6 18.4H15.4" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
   <circle cx="20" cy="22" r="1.7" fill="#FFFFFF"/>
-  <text x="35" y="23.5" font-family="'Overpass', system-ui, sans-serif" font-size="18" font-weight="800" letter-spacing="-0.5" fill="#1B3A5C">PROOF</text>
+  <text x="35" y="23.5" font-family="'Overpass', system-ui, sans-serif" font-size="18" font-weight="800" letter-spacing="-0.5" fill="#FFFFFF">PROOF</text>
 </svg>

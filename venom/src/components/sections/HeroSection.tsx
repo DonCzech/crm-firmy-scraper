@@ -3147,6 +3147,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "klempir-01-hero") {
     return <HeroKlempir01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-klempir-01-page") {
+    return <HeroKlempir01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "malir-01-hero") {
     return <HeroMalir01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -19948,159 +19951,167 @@ interface HeroProps {
 }
 
 function HeroKlempir01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
-  const FONT   = "'Montserrat', sans-serif";
-  const SILVER = "#c0c0c0";
-  const DARK   = "#3a3a3a";
-  const WHITE  = "#ffffff";
-
-  const title      = String(content.title      ?? "PROFESIONÁLNÍ KLEMPÍŘSKÉ PRÁCE");
-  const subtitle   = String(content.subtitle   ?? "Opravy, rekonstrukce a výměny klempířských, tesařských a pokrývačských prvků i celků");
-  const ctaText    = String(content.ctaText    ?? "Kontaktovat");
+  const title      = String(content.title      ?? "Řemeslo, které vydrží generace.");
+  const subtitle   = String(content.subtitle   ?? "Klempířské, pokrývačské a tesařské práce — opravy, rekonstrukce i havárie. Precizně, poctivě a s citem pro historické objekty.");
+  const ctaText    = String(content.ctaText    ?? "Nezávazná poptávka");
   const ctaHref    = String(content.ctaHref    ?? "/kontakt");
-  const ctaSecText = String(content.ctaSecondaryText ?? "Služby");
+  const ctaSecText = String(content.ctaSecondaryText ?? "Prohlédnout služby");
   const ctaSecHref = String(content.ctaSecondaryHref ?? "/sluzby");
-  const bgImage    = String(content.backgroundImage  ?? "/clones/klempirzprahy/images/hero.jpeg");
-  const bgVideo    = String(content.backgroundVideo  ?? "");
-  const label      = String(content.label ?? "");
+  const bgImage    = String(content.backgroundImage  ?? "https://images.unsplash.com/photo-1541849546-216549ae216d?w=2000&h=1250&fit=crop&auto=format&q=80");
+  const label      = String(content.label ?? "Klempíř & pokrývač · Brno a okolí");
+  const chip1      = String(content.chip1 ?? "15+ let praxe");
+  const chip2      = String(content.chip2 ?? "Havarijní výjezd do 24 h");
+  const chip3      = String(content.chip3 ?? "Historické objekty");
 
   const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
       <style>{`
-        @keyframes k01FadeIn {
-          from { opacity:0; transform:translateY(30px); }
-          to   { opacity:1; transform:translateY(0); }
+        .k01h-section {
+          position: relative; min-height: 92vh; display: flex; align-items: flex-end;
+          font-family: 'Manrope', sans-serif; overflow: hidden; background: #14171A;
         }
-        .k01-hero-video {
-          position:absolute;top:50%;left:50%;
-          min-width:100%;min-height:100%;
-          width:auto;height:auto;
-          transform:translateX(-50%) translateY(-50%);
-          object-fit:cover;
+        .k01h-bg { position: absolute; inset: 0; }
+        .k01h-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .k01h-bg::after {
+          content: ""; position: absolute; inset: 0;
+          background: linear-gradient(76deg, rgba(16,18,20,0.92) 0%, rgba(16,18,20,0.55) 46%, rgba(16,18,20,0.18) 100%),
+                      linear-gradient(0deg, rgba(16,18,20,0.85) 0%, transparent 45%);
         }
-        .k01-hero-content {
-          animation: k01FadeIn 1.5s ease forwards;
+        .k01h-inner {
+          position: relative; z-index: 2; width: 100%;
+          max-width: 76rem; margin: 0 auto;
+          padding: calc(5.5rem + 4rem) clamp(1.25rem, 4vw, 2.5rem) clamp(2.8rem, 6vw, 4.5rem);
         }
-        .k01-btn-primary {
-          background-color:${DARK};color:${WHITE};
-          padding:12px 24px;font-size:16px;font-weight:600;
-          border:1px solid rgba(255,255,255,0.6);
-          font-family:${FONT};text-decoration:none;
-          cursor:pointer;transition:all 0.3s ease;display:inline-block;
+        .k01h-label {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #D98E55; margin-bottom: 1.4rem;
         }
-        .k01-btn-primary:hover {
-          background-color:#505050;
-          transform:translateY(-3px);
-          box-shadow:0 6px 15px rgba(0,0,0,0.2);
+        .k01h-label::before { content: ""; width: 26px; height: 2px; background: #B4622D; }
+        .k01h-h1 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(2.6rem, 6vw, 4.8rem);
+          font-weight: 600; color: #F7F4EF; line-height: 1.04;
+          letter-spacing: -0.02em; margin: 0; max-width: 17ch; text-wrap: balance;
         }
-        .k01-btn-secondary {
-          background-color:transparent;color:${WHITE};
-          padding:12px 24px;font-size:16px;font-weight:500;
-          border:1px solid rgba(255,255,255,0.6);
-          font-family:${FONT};text-decoration:none;
-          cursor:pointer;transition:all 0.3s ease;display:inline-block;
+        .k01h-sub {
+          font-size: clamp(1rem, 1.6vw, 1.12rem); color: rgba(247,244,239,0.78);
+          line-height: 1.7; margin: 1.4rem 0 0; max-width: 34rem;
         }
-        .k01-btn-secondary:hover {
-          background-color:${DARK};
-          transform:translateY(-3px);
-          box-shadow:0 6px 15px rgba(0,0,0,0.2);
+        .k01h-btns { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; margin-top: 2.2rem; }
+        .k01h-btn1 {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          padding: 1rem 1.9rem; border-radius: 4px;
+          background: #B4622D; color: #fff; font-weight: 700; font-size: 1rem; text-decoration: none;
+          transition: background 0.25s, transform 0.25s;
         }
-        @media(max-width:768px){
-          .k01-hero-title  { font-size:32px!important; }
-          .k01-hero-sub    { font-size:16px!important; }
-          .k01-hero-btns   { flex-direction:column;align-items:center; }
-          .k01-btn-primary,.k01-btn-secondary { width:100%;max-width:250px;text-align:center; }
+        .k01h-btn1:hover { background: #8F4A1E; transform: translateY(-2px); }
+        .k01h-btn2 {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 1rem 1.7rem; border-radius: 4px;
+          border: 1px solid rgba(247,244,239,0.35); color: #F7F4EF;
+          font-weight: 600; font-size: 1rem; text-decoration: none;
+          transition: border-color 0.2s, background 0.2s;
         }
+        .k01h-btn2:hover { border-color: #F7F4EF; background: rgba(247,244,239,0.08); }
+        .k01h-chips {
+          display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem;
+          margin-top: 2.4rem; padding-top: 1.5rem;
+          border-top: 1px solid rgba(247,244,239,0.2);
+          font-size: 0.9rem; font-weight: 600; color: rgba(247,244,239,0.85);
+        }
+        .k01h-chip { display: inline-flex; align-items: center; gap: 0.5rem; }
+        .k01h-chip::before { content: ""; width: 6px; height: 6px; background: #B4622D; }
+        @media (max-width: 640px) {
+          .k01h-section { min-height: 86vh; }
+          .k01h-inner { padding-top: calc(4.5rem + 2.5rem); }
+        }
+        @media (prefers-reduced-motion: reduce) { .k01h-btn1 { transition: none; } }
       `}</style>
 
-      <section
-        data-template="klempir-01"
-        style={{
-          height: "100vh", minHeight: 600, position: "relative",
-          display: "flex", alignItems: "center", textAlign: "center",
-          color: WHITE, overflow: "hidden", fontFamily: FONT,
-        }}
-      >
-        {/* Video / image background */}
-        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", overflow: "hidden", zIndex: 0 }}>
-          {bgVideo ? (
-            <video
-              autoPlay loop muted playsInline
-              poster={bgImage}
-              className="k01-hero-video"
-            >
-              <source src={bgVideo} type={bgVideo.endsWith(".webm") ? "video/webm" : "video/mp4"} />
-              <img loading="eager" src={bgImage} alt="Klempíř z Prahy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </video>
-          ) : (
-            <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Hero background" style={{ position: "absolute", inset: 0 }}>
-              <img
-                src={bgImage} alt="Hero background"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            </GenericEditableImage>
-          )}
+      <section className="k01h-section" id="uvod" data-template="klempir-01-hero">
+        <div className="k01h-bg" aria-hidden="true">
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Historické střechy" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+            <img loading="eager" fetchPriority="high" src={bgImage} alt="" />
+          </GenericEditableImage>
         </div>
-
-        {/* Radial gradient overlay – identické s originálem */}
-        <div style={{
-          position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
-          background: "radial-gradient(circle at center, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.95) 100%)",
-          zIndex: 1,
-        }} />
-
-        {/* Content */}
-        <div className="k01-hero-content" style={{
-          position: "relative", zIndex: 2,
-          maxWidth: 800, margin: "0 auto", padding: "0 20px",
-        }}>
-          {/* Label / kicker badge */}
-          {label && (
-            <div style={{
-              display: "inline-block", marginBottom: 20,
-              background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.4)",
-              padding: "6px 18px", borderRadius: 30, backdropFilter: "blur(4px)",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span"
-                style={{ color: WHITE, fontSize: 14, fontWeight: 500, fontFamily: FONT, letterSpacing: "0.05em" }}
-              />
-            </div>
-          )}
-          {/* backgroundVideo URL (hidden in preview, editable in studio) */}
-          <div style={{ position: "absolute", width: 0, height: 0, overflow: "hidden", opacity: 0, pointerEvents: "none" }}>
-            <GenericEditableText sectionId={sectionId} field="backgroundVideo" value={bgVideo} tag="span" />
-          </div>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1">
-            <h1
-              className="k01-hero-title"
-              style={{
-                fontSize: 48, fontWeight: 700, marginBottom: 20,
-                fontFamily: FONT, color: WHITE,
-                textShadow: "0 2px 8px rgba(0,0,0,0.8), 0 4px 20px rgba(0,0,0,0.6)",
-                textTransform: "uppercase", lineHeight: 1.2,
-                letterSpacing: "0.03em",
-              }}
-            >{title}</h1>
-          </GenericEditableText>
-
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
-            <p className="k01-hero-sub" style={{
-              fontSize: 20, fontWeight: 500, color: WHITE,
-              textShadow: "0 1px 6px rgba(0,0,0,0.7)",
-              fontFamily: FONT, maxWidth: 700, margin: "0 auto 30px",
-              lineHeight: 1.6,
-            }}>{subtitle}</p>
-          </GenericEditableText>
-
-          <div className="k01-hero-btns" style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 30 }}>
-            <a href={resolve(ctaHref)} data-btn="primary" className="k01-btn-primary">
+        <div className="k01h-inner">
+          <p className="k01h-label"><GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" /></p>
+          <h1 className="k01h-h1"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+          <p className="k01h-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          <div className="k01h-btns">
+            <a href={resolve(ctaHref)} data-btn="primary" className="k01h-btn1">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </a>
-            <a href={resolve(ctaSecHref)} className="k01-btn-secondary">
+            <a href={resolve(ctaSecHref)} className="k01h-btn2">
               <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
             </a>
           </div>
+          <div className="k01h-chips">
+            <span className="k01h-chip"><GenericEditableText sectionId={sectionId} field="chip1" value={chip1} tag="span" /></span>
+            <span className="k01h-chip"><GenericEditableText sectionId={sectionId} field="chip2" value={chip2} tag="span" /></span>
+            <span className="k01h-chip"><GenericEditableText sectionId={sectionId} field="chip3" value={chip3} tag="span" /></span>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-klempir-01-page ──────────────────────────────────────────────────────
+// Copper & Slate podstránkový header: tmavá slate lišta s breadcrumb + Fraunces
+// H1 + subtitle; konzistentní s homepage herem.
+function HeroKlempir01Page({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
+  const title    = String(content.title ?? "Podstránka");
+  const subtitle = String(content.subtitle ?? "");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+      <style>{`
+        .k01hp-section {
+          background: #14171A;
+          padding: calc(5.5rem + clamp(2rem, 4.5vw, 3.2rem)) 0 clamp(2.2rem, 4.5vw, 3.4rem);
+          font-family: 'Manrope', sans-serif;
+        }
+        .k01hp-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .k01hp-crumbs {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.84rem; color: rgba(247,244,239,0.5); margin-bottom: 1rem;
+        }
+        .k01hp-crumbs a { color: rgba(247,244,239,0.75); text-decoration: none; font-weight: 500; }
+        .k01hp-crumbs a:hover { color: #D98E55; }
+        .k01hp-h1 {
+          font-family: 'Fraunces', serif;
+          font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+          font-weight: 600; color: #F7F4EF; line-height: 1.05;
+          margin: 0; letter-spacing: -0.02em;
+        }
+        .k01hp-sub {
+          font-size: clamp(0.96rem, 1.5vw, 1.08rem); color: rgba(247,244,239,0.7);
+          line-height: 1.7; margin: 0.9rem 0 0; max-width: 40rem;
+        }
+      `}</style>
+      <section className="k01hp-section" data-template="hero-klempir-01-page">
+        <div className="k01hp-inner">
+          <nav className="k01hp-crumbs" aria-label="Drobečková navigace">
+            <a href={resolve(breadcrumbHref)}><GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" /></a>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span aria-current="page">{title}</span>
+          </nav>
+          <h1 className="k01hp-h1"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+          {subtitle && (
+            <p className="k01hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          )}
         </div>
       </section>
     </>

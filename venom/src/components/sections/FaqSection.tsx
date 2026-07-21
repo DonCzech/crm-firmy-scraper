@@ -1264,11 +1264,13 @@ function FaqEshop02({ content, sectionId }: {
   );
 }
 
-// ══ PROOF (proof-01) — FAQ (2-col sticky header + accordion) ═══════════════════
+// ══ PROOF (proof-01) — FAQ (centrovaný hairline accordion + prolink na poptávku) ══
 function FaqProof01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const eyebrow = String(content.eyebrow ?? "Časté dotazy");
   const title   = String(content.title   ?? "Na co se klienti nejčastěji ptají");
-  const lead    = String(content.lead    ?? "Nenašli jste odpověď? Zavolejte nebo napište — ozveme se do 24 hodin.");
+  const lead    = String(content.lead    ?? "Nenašli jste odpověď? Napište nám nezávaznou poptávku — ozveme se do 24 hodin.");
+  const ctaText = String(content.ctaText ?? "Přejít na poptávku");
+  const ctaHref = String(content.ctaHref ?? "#poptavka");
   const faq = (
     (content as { items?: FaqItem[] }).items ??
     ((content as { faq?: Array<{ question?: string; answer?: string }> }).faq ?? []).map(
@@ -1279,28 +1281,31 @@ function FaqProof01({ content, sectionId }: { content: Record<string, unknown>; 
   return (
     <>
       <style>{`
-        .pf01fq { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#6A6E78; --pf-border:#E5E1D8;
-          background:var(--pf-paper,#F4F1EB); font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
+        .pf01fq { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#5C6B7A; --pf-border:#E7E3DB;
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
           padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
-        .pf01fq-inner { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:0.85fr 1.15fr; gap:clamp(32px,5vw,72px); align-items:start; }
-        .pf01fq-head { position:sticky; top:96px; }
+        .pf01fq-inner { max-width:760px; margin:0 auto; }
+        .pf01fq-head { text-align:center; margin-bottom:clamp(28px,4vw,44px); }
         .pf01fq .pf01-eyebrow{ font-size:.78rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--pf-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
-        .pf01fq .pf01-eyebrow::before{ content:''; width:32px; height:2px; background:var(--pf-accent); }
-        .pf01fq-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.7rem,3.2vw,2.5rem); font-weight:800; letter-spacing:-.02em; line-height:1.1; margin:0 0 14px; }
+        .pf01fq-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--pf-ink); font-size:clamp(1.7rem,3.2vw,2.5rem); font-weight:800; letter-spacing:-.03em; line-height:1.1; margin:0 0 12px; }
         .pf01fq-lead { font-size:1rem; color:var(--pf-muted); line-height:1.6; margin:0; }
-        .pf01fq-list { display:flex; flex-direction:column; gap:10px; }
-        .pf01fq-item { border:1px solid var(--pf-border); border-radius:10px; overflow:hidden; background:#fff; transition:border-color .2s; }
-        .pf01fq-item[data-open="true"] { border-color:var(--pf-ink); }
-        .pf01fq-q { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 22px; background:none; border:none; cursor:pointer; text-align:left; font-family:inherit; color:var(--pf-ink); }
-        .pf01fq-q-text { font-size:1rem; font-weight:700; line-height:1.4; }
-        .pf01fq-tog { flex-shrink:0; width:30px; height:30px; border-radius:50%; background:rgba(195,53,43,.1); color:var(--pf-accent); display:flex; align-items:center; justify-content:center; transition:background .2s, color .2s, transform .3s; }
-        .pf01fq-item[data-open="true"] .pf01fq-tog { background:var(--pf-accent); color:#fff; transform:rotate(45deg); }
+        .pf01fq-list { border-top:1px solid var(--pf-border); }
+        .pf01fq-item { border-bottom:1px solid var(--pf-border); }
+        .pf01fq-q { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:20px 2px; background:none; border:none; cursor:pointer; text-align:left; font-family:inherit; color:var(--pf-ink); }
+        .pf01fq-q-text { font-size:1.02rem; font-weight:700; line-height:1.4; transition:color .2s; }
+        .pf01fq-q:hover .pf01fq-q-text { color:var(--pf-accent); }
+        .pf01fq-tog { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1.5px solid var(--pf-border); color:var(--pf-ink); display:flex; align-items:center; justify-content:center; transition:background .2s, color .2s, border-color .2s, transform .3s; }
+        .pf01fq-item[data-open="true"] .pf01fq-tog { background:var(--pf-accent); border-color:var(--pf-accent); color:#fff; transform:rotate(45deg); }
         .pf01fq-a { display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s cubic-bezier(.22,.68,0,1); }
         .pf01fq-item[data-open="true"] .pf01fq-a { grid-template-rows:1fr; }
         .pf01fq-a-inner { overflow:hidden; }
-        .pf01fq-a-inner p { margin:0; padding:0 22px 22px; font-size:.95rem; color:var(--pf-muted); line-height:1.7; }
-        @media (max-width:820px){ .pf01fq-inner{ grid-template-columns:1fr; } .pf01fq-head{ position:static; } }
-        @media (prefers-reduced-motion: reduce){ .pf01fq-a,.pf01fq-tog{ transition:none; } }
+        .pf01fq-a-inner p { margin:0; padding:0 40px 20px 2px; font-size:.96rem; color:var(--pf-muted); line-height:1.7; }
+        .pf01fq-cta { display:flex; justify-content:center; margin-top:clamp(24px,3vw,36px); }
+        .pf01fq-cta a { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; background:var(--pf-accent); color:#fff; font-weight:700; font-size:.95rem; text-decoration:none; border-radius:6px; transition:transform .2s, box-shadow .2s; }
+        .pf01fq-cta a:hover { transform:translateY(-1px); box-shadow:0 12px 26px -12px rgba(195,53,43,.6); }
+        .pf01fq-cta svg { transition:transform .25s; }
+        .pf01fq-cta a:hover svg { transform:translateY(2px); }
+        @media (prefers-reduced-motion: reduce){ .pf01fq-a,.pf01fq-tog,.pf01fq-cta a{ transition:none; } }
       `}</style>
       <section className="pf01fq" data-template="proof-01" id="faq">
         <div className="pf01fq-inner">
@@ -1315,7 +1320,7 @@ function FaqProof01({ content, sectionId }: { content: Record<string, unknown>; 
                 <button type="button" className="pf01fq-q" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)}>
                   <span className="pf01fq-q-text"><GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" /></span>
                   <span className="pf01fq-tog" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
                   </span>
                 </button>
                 <div className="pf01fq-a">
@@ -1325,6 +1330,12 @@ function FaqProof01({ content, sectionId }: { content: Record<string, unknown>; 
                 </div>
               </div>
             ))}
+          </div>
+          <div className="pf01fq-cta">
+            <a href={ctaHref}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            </a>
           </div>
         </div>
       </section>

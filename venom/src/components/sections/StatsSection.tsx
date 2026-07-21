@@ -3272,16 +3272,17 @@ function StatsRekonstrukce01Usp({ content, sectionId }: { content: Record<string
 }
 
 // ══ PROOF (proof-01) — trust band (count-up čísla + certifikace) ═══════════════
+// Bílý pás s vertikálními hairline oddělovači — kontrast po tmavém hero.
 // Count-up jen na veřejném webu; ve Studiu zůstává editovatelný text.
 function Pf01CountUp({ value }: { value: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [display, setDisplay] = useState(value);
   useEffect(() => {
-    const m = value.match(/^([\d\s ]+(?:,\d+)?)([\s\S]*)$/);
+    const m = value.match(/^([\d\s ]+(?:,\d+)?)([\s\S]*)$/);
     if (!m) { setDisplay(value); return; }
     const numStr = m[1].trim();
     const suffix = m[2] ?? "";
-    const target = parseFloat(numStr.replace(/[\s ]/g, "").replace(",", "."));
+    const target = parseFloat(numStr.replace(/[\s ]/g, "").replace(",", "."));
     if (!isFinite(target)) { setDisplay(value); return; }
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setDisplay(value); return; }
     const el = ref.current;
@@ -3315,24 +3316,26 @@ function StatsProof01({ content, sectionId, isAdmin }: { content: Record<string,
   const items = (content.items as Array<{ value?: string; label?: string }> | undefined) ?? [];
   const rawBadges = content.badges as string[] | undefined;
   const badges = rawBadges && rawBadges.length ? rawBadges : [];
-  const badgesLabel = String(content.badgesLabel ?? "Certifikace a záruky");
   return (
     <>
       <style>{`
-        .pf01st { --pf-accent:#E85A48; --pf-ink:#1B3A5C; --pf-muted:#6A6E78; --pf-border:rgba(255,255,255,.14);
-          background:#0C1622; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:#fff;
-          padding:clamp(44px,6vw,72px) clamp(20px,5vw,48px); }
-        .pf01st-inner { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1.3fr 1fr; gap:clamp(28px,5vw,64px); align-items:center; }
-        .pf01st-nums { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:clamp(20px,3vw,40px); }
-        .pf01st-num { border-top:2px solid var(--pf-accent); padding-top:16px; }
-        .pf01st-num b { display:block; font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(2.2rem,4.4vw,3.4rem); font-weight:800; letter-spacing:-.03em; line-height:1; color:#fff; }
-        .pf01st-num span { display:block; font-size:.88rem; color:rgba(255,255,255,.62); margin-top:8px; line-height:1.35; }
-        .pf01st-badges { border-left:1px solid var(--pf-border); padding-left:clamp(20px,3vw,40px); }
-        .pf01st-badges-lbl { font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.55); margin:0 0 14px; }
-        .pf01st-chips { display:flex; flex-wrap:wrap; gap:9px; }
-        .pf01st-chip { display:inline-flex; align-items:center; gap:7px; padding:8px 13px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:999px; font-size:.85rem; font-weight:600; color:#fff; }
+        .pf01st { --pf-accent:#C3352B; --pf-ink:#1B3A5C; --pf-muted:#5C6B7A; --pf-border:#E7E3DB;
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--pf-ink);
+          padding:clamp(40px,5vw,60px) clamp(20px,5vw,48px); border-bottom:1px solid var(--pf-border); }
+        .pf01st-inner { max-width:1280px; margin:0 auto; }
+        .pf01st-nums { display:grid; grid-template-columns:repeat(4,1fr); }
+        .pf01st-num { padding:6px clamp(18px,3vw,40px); }
+        .pf01st-num + .pf01st-num { border-left:1px solid var(--pf-border); }
+        .pf01st-num:first-child { padding-left:0; }
+        .pf01st-num b { display:block; font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(2rem,3.6vw,3.1rem); font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--pf-ink); }
+        .pf01st-num > span { display:block; font-size:.88rem; color:var(--pf-muted); margin-top:8px; line-height:1.35; }
+        .pf01st-num b span { font-size:inherit; }
+        .pf01st-badges { display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; margin-top:clamp(22px,3vw,32px); padding-top:clamp(18px,2.5vw,24px); border-top:1px solid var(--pf-border); }
+        .pf01st-chip { display:inline-flex; align-items:center; gap:8px; font-size:.88rem; font-weight:600; color:var(--pf-ink); }
         .pf01st-chip svg { color:var(--pf-accent); flex-shrink:0; }
-        @media (max-width:820px){ .pf01st-inner{ grid-template-columns:1fr; } .pf01st-badges{ border-left:none; border-top:1px solid var(--pf-border); padding-left:0; padding-top:24px; } }
+        .pf01st-chip + .pf01st-chip::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--pf-border); margin-right:16px; }
+        @media (max-width:900px){ .pf01st-nums{ grid-template-columns:repeat(2,1fr); row-gap:22px; } .pf01st-num:nth-child(3){ border-left:none; padding-left:0; } }
+        @media (max-width:480px){ .pf01st-nums{ grid-template-columns:1fr 1fr; } }
       `}</style>
       <section className="pf01st" data-template="proof-01">
         <div className="pf01st-inner">
@@ -3350,15 +3353,12 @@ function StatsProof01({ content, sectionId, isAdmin }: { content: Record<string,
           </div>
           {badges.length > 0 && (
             <div className="pf01st-badges">
-              <p className="pf01st-badges-lbl"><GenericEditableText sectionId={sectionId} field="badgesLabel" value={badgesLabel} tag="span" /></p>
-              <div className="pf01st-chips">
-                {badges.map((b, i) => (
-                  <span key={i} className="pf01st-chip">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-                    <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
-                  </span>
-                ))}
-              </div>
+              {badges.map((b, i) => (
+                <span key={i} className="pf01st-chip">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                  <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
+                </span>
+              ))}
             </div>
           )}
         </div>

@@ -19380,7 +19380,7 @@ function FooterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: R
   return (
     <>
       <style>{`
-        .pf01ft { --pf-accent:#C3352B; --pf-ink:#1B3A5C; background:#16304A; color:#fff; font-family:'Overpass',system-ui,sans-serif;
+        .pf01ft { --pf-accent:#C3352B; --pf-ink:#1B3A5C; background:#0E1926; color:#fff; font-family:'Overpass',system-ui,sans-serif;
           padding:clamp(48px,7vw,80px) clamp(20px,5vw,48px) 28px; }
         .pf01ft-inner { max-width:1280px; margin:0 auto; }
         .pf01ft-grid { display:grid; grid-template-columns:1.6fr 1fr 1fr 1.2fr; gap:clamp(28px,4vw,56px); padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,.1); }
@@ -19401,7 +19401,7 @@ function FooterProof01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         .pf01ft-social { display:flex; gap:9px; margin-top:16px; }
         .pf01ft-social a { width:36px; height:36px; border-radius:9px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; color:#fff; transition:background .2s, border-color .2s; }
         .pf01ft-social a:hover { background:var(--pf-accent); border-color:var(--pf-accent); }
-        .pf01ft-credit { margin-top:20px; }
+        .pf01ft-credit { margin-top:22px; padding-top:16px; border-top:1px solid rgba(255,255,255,.08); display:flex; justify-content:center; opacity:.75; }
         @media (max-width:900px){ .pf01ft-grid{ grid-template-columns:1fr 1fr; } }
         @media (max-width:560px){ .pf01ft-grid{ grid-template-columns:1fr; } }
       `}</style>

@@ -336,7 +336,7 @@
   "faq": {
     "eyebrow": "Časté dotazy",
     "title": "Na co se klienti nejčastěji ptají",
-    "lead": "Nenašli jste odpověď? Zavolejte na 704 123 456 nebo napište — ozveme se do 24 hodin.",
+    "lead": "Nenašli jste odpověď? Napište nám nezávaznou poptávku, nebo zavolejte na 704 123 456 — ozveme se do 24 hodin.",
     "items": [
       {
         "question": "Je poptávka a cenová nabídka opravdu zdarma?",
@@ -358,7 +358,9 @@
         "question": "V jaké oblasti pracujete?",
         "answer": "Působíme v Praze a Středočeském kraji do 40 km. Vzdálenější lokality řešíme individuálně — stačí se zeptat."
       }
-    ]
+    ],
+    "ctaText": "Přejít na poptávku",
+    "ctaHref": "#poptavka"
   },
   "contact": {
     "eyebrow": "Poptávka",
@@ -382,7 +384,7 @@
   },
   "footer": {
     "siteName": "Ukázka Servis",
-    "logoUrl": "/templates/proof-01/logo.svg",
+    "logoUrl": "/templates/proof-01/logo-white.svg",
     "tagline": "Spolehlivé služby s pevnou cenou a zárukou. Pracujeme po Praze a okolí — od drobných oprav po realizace na klíč.",
     "email": "poptavka@demo.cz",
     "phone": "+420 704 123 456",

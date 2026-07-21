@@ -177,6 +177,123 @@
           "contentRef": "footer"
         }
       ]
+    },
+    {
+      "slug": "onas",
+      "title": "O nás",
+      "seoTitleKey": "pages.onas.seoTitle",
+      "seoDescriptionKey": "pages.onas.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-clean-02-page",
+          "contentRef": "heroOnas"
+        },
+        {
+          "type": "about",
+          "variant": "clean-02-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "reference",
+      "title": "Reference",
+      "seoTitleKey": "pages.reference.seoTitle",
+      "seoDescriptionKey": "pages.reference.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-clean-02-page",
+          "contentRef": "heroReference"
+        },
+        {
+          "type": "testimonials",
+          "variant": "clean-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "novinky",
+      "title": "Napsali o nás",
+      "seoTitleKey": "pages.novinky.seoTitle",
+      "seoDescriptionKey": "pages.novinky.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-clean-02-page",
+          "contentRef": "heroNovinky"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "clean-02-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "cenik",
+      "title": "Ceník",
+      "seoTitleKey": "pages.cenik.seoTitle",
+      "seoDescriptionKey": "pages.cenik.seoDescription",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "clean-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-clean-02-page",
+          "contentRef": "heroCenik"
+        },
+        {
+          "type": "services",
+          "variant": "clean-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "contact",
+          "variant": "clean-02-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "clean-02-footer",
+          "contentRef": "footer"
+        }
+      ]
     }
   ],
   "content": {

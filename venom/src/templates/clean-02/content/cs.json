@@ -4,7 +4,7 @@
     "logoUrl": "",
     "phone": "+420 704 123 456",
     "ctaText": "Nezávazná poptávka",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "links": [
       {
         "label": "Úvod",
@@ -12,23 +12,23 @@
       },
       {
         "label": "Služby",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "O nás",
-        "href": "#onas"
-      },
-      {
-        "label": "Postup",
-        "href": "#postup"
+        "href": "/onas"
       },
       {
         "label": "Reference",
-        "href": "#reference"
+        "href": "/reference"
+      },
+      {
+        "label": "Napsali o nás",
+        "href": "/novinky"
       },
       {
         "label": "Kontakt",
-        "href": "#kontakt"
+        "href": "/kontakt"
       }
     ]
   },
@@ -141,7 +141,7 @@
     "title": "Lidský přístup a poctivá práce jsou u nás standard",
     "body": "Za Modrou vlnou stojí stabilní tým lidí, kteří dělají svou práci poctivě a srdcem. Každý zákazník je pro nás důležitý — přistupujeme k němu individuálně, nasloucháme potřebám a hledáme řešení na míru. Naše práce je kvalitní, komunikace rychlá a ceny férové. A když něco pokazíme, ihned to napravíme.",
     "ctaText": "Nezávazně poptat úklid",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1000&h=1250&fit=crop&auto=format&q=80",
     "quote": "Věříme, že i úklid může být služba, na kterou se dá stoprocentně spolehnout.",
     "quoteAuthor": "Jana Ukázková, vedoucí provozu",
@@ -159,19 +159,19 @@
         "source": "Městský deník",
         "date": "27. ledna 2026",
         "title": "Neviditelná práce, která drží město v chodu: jak se mění úklid bytových domů",
-        "href": "#blog"
+        "href": "/novinky"
       },
       {
         "source": "Byznys rádio",
         "date": "15. února 2026",
         "title": "Rozhovor: Jak vybudovat spolehlivý úklidový tým a udržet kvalitu roky",
-        "href": "#blog"
+        "href": "/novinky"
       },
       {
         "source": "Realitní magazín",
         "date": "3. března 2026",
         "title": "Pět tipů, jak udržet společné prostory SVJ reprezentativní po celý rok",
-        "href": "#blog"
+        "href": "/novinky"
       }
     ]
   },
@@ -264,49 +264,49 @@
     "links": [
       {
         "label": "Úklid kanceláří a firem",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "Úklid bytových domů a SVJ",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "Generální úklid",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "Čištění koberců a sedaček",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "Strojové čištění garáží",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "Mytí oken a výloh",
-        "href": "#sluzby"
+        "href": "/sluzby"
       }
     ],
     "linksCol2": [
       {
         "label": "O nás",
-        "href": "#onas"
-      },
-      {
-        "label": "Postup spolupráce",
-        "href": "#postup"
+        "href": "/onas"
       },
       {
         "label": "Reference",
-        "href": "#reference"
+        "href": "/reference"
       },
       {
         "label": "Napsali o nás",
-        "href": "#blog"
+        "href": "/novinky"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
       },
       {
         "label": "Kontakt",
-        "href": "#kontakt"
+        "href": "/kontakt"
       }
     ],
     "copyright": "© 2026 Modrá vlna s.r.o. Všechna práva vyhrazena."
@@ -319,6 +319,22 @@
     "kontakt": {
       "seoTitle": "Kontakt — Modrá vlna",
       "seoDescription": "Poptejte nezávaznou nabídku úklidu. Reagujeme do 24 hodin v pracovní dny."
+    },
+    "onas": {
+      "seoTitle": "O nás — Modrá vlna",
+      "seoDescription": "Poznejte tým Modré vlny — stabilní úklidová firma s lidským přístupem a poctivou prací."
+    },
+    "reference": {
+      "seoTitle": "Reference — Modrá vlna",
+      "seoDescription": "Co o nás říkají zákazníci — ověřené recenze firem a SVJ z Prahy."
+    },
+    "novinky": {
+      "seoTitle": "Napsali o nás — Modrá vlna",
+      "seoDescription": "Média a publikace o naší práci."
+    },
+    "cenik": {
+      "seoTitle": "Ceník — Modrá vlna",
+      "seoDescription": "Orientační ceny úklidových služeb — přesnou nabídku připravíme po osobní schůzce."
     }
   },
   "heroSluzby": {
@@ -330,6 +346,30 @@
   "heroKontakt": {
     "title": "Kontakt",
     "subtitle": "Ozvěte se nám — připravíme nabídku na míru do 24 hodin.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroOnas": {
+    "title": "O nás",
+    "subtitle": "Poznejte tým Modré vlny a náš přístup k čistotě.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroReference": {
+    "title": "Reference",
+    "subtitle": "Ověřené recenze zákazníků — firem i bytových domů.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroNovinky": {
+    "title": "Napsali o nás",
+    "subtitle": "Média a publikace o naší práci.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroCenik": {
+    "title": "Ceník",
+    "subtitle": "Orientační ceny — přesnou nabídku připravíme po osobní schůzce.",
     "breadcrumb": "Domů",
     "breadcrumbHref": "/"
   }

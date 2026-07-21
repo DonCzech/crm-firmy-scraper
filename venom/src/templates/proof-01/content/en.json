@@ -336,7 +336,7 @@
   "faq": {
     "eyebrow": "FAQ",
     "title": "What clients ask most often",
-    "lead": "Can't find your answer? Call 704 123 456 or write to us — we reply within 24 hours.",
+    "lead": "Can't find your answer? Send us a free enquiry or call 704 123 456 — we reply within 24 hours.",
     "items": [
       {
         "question": "Is the enquiry and quote really free?",
@@ -358,7 +358,9 @@
         "question": "Which area do you cover?",
         "answer": "We work in Prague and the Central Bohemia region up to 40 km. More distant locations are handled individually — just ask."
       }
-    ]
+    ],
+    "ctaText": "Go to enquiry",
+    "ctaHref": "#poptavka"
   },
   "contact": {
     "eyebrow": "Enquiry",
@@ -382,7 +384,7 @@
   },
   "footer": {
     "siteName": "Ukázka Servis",
-    "logoUrl": "/templates/proof-01/logo.svg",
+    "logoUrl": "/templates/proof-01/logo-white.svg",
     "tagline": "Reliable services with a fixed price and warranty. We work across Prague and the surroundings — from small repairs to turnkey projects.",
     "email": "poptavka@demo.cz",
     "phone": "+420 704 123 456",
