@@ -6,8 +6,8 @@ const fullPage = process.argv[6] === "full";
 const b = await chromium.launch({ channel: "chrome" });
 const p = await b.newPage({ viewport: { width: vw, height: vh } });
 await p.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 });
-await p.waitForTimeout(1600);
 const btn = p.getByRole("button", { name: /accept all|přijmout vše/i }).first();
+await btn.waitFor({ state: "visible", timeout: 5000 }).catch(() => {});
 if (await btn.isVisible().catch(() => false)) { await btn.click().catch(() => {}); await p.waitForTimeout(400); }
 const scrollTo = Number(process.env.SCROLL ?? 0);
 if (scrollTo) { await p.evaluate(y => window.scrollTo(0, y), scrollTo); await p.waitForTimeout(1100); }

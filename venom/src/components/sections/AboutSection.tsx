@@ -38,6 +38,8 @@ interface Props {
 
 export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug }: Props) {
 
+  if (variant === "orbit-01-workflow") return <WorkflowOrbit01 content={content} sectionId={sectionId} />;
+  if (variant === "orbit-01-security") return <SecurityOrbit01 content={content} sectionId={sectionId} />;
   if (variant === "artist-01-about")          return <AboutArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "rekonstrukce-01-about")    return <AboutRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "harmonie-01-highlights")     return <HighlightsHarmonie01 content={content} sectionId={sectionId} />;
@@ -21529,5 +21531,156 @@ function AboutHair01Values({ content, sectionId }: { content: Record<string, unk
         </div>
       </div>
     </section>
+  );
+}
+
+// ══ ORBIT — Precision instrument (orbit-01) ═══════════════════════════════════
+// Workflow: bílá sekce se 4 kroky nasazení propojenými konektory s šipkami,
+// IO reveal postupně rozsvěcí kroky. + Security: ink pás s hairline body a
+// řadou mono compliance badge chipů.
+function WorkflowOrbit01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Nasazení");
+  const title   = String(content.title   ?? "Od registrace k běžící firmě za 14 dní");
+  const lead    = String(content.lead    ?? "");
+  const steps = (content.steps as Array<{ title?: string; description?: string; duration?: string }> | undefined) ?? [];
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>(".ob01wf-step"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("ob01-vis"); io.unobserve(e.target); } });
+    }, { threshold: 0.2 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [steps.length]);
+  return (
+    <>
+      <style>{`
+        .ob01wf { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-muted: var(--color-text-muted, #5C6672); --ob-border: var(--color-border, #E1E7E2);
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--color-text, #0E1420);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .ob01wf-inner { max-width:1280px; margin:0 auto; }
+        .ob01wf-head { max-width:660px; margin-bottom:clamp(36px,5vw,60px); }
+        .ob01wf .ob01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ob-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .ob01wf .ob01-eyebrow::before { content:''; width:32px; height:2px; background:var(--ob-accent); }
+        .ob01wf-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--ob-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:800; letter-spacing:-0.03em; line-height:1.06; margin:0 0 14px; }
+        .ob01wf-lead { font-size:1.05rem; color:var(--ob-muted); line-height:1.6; margin:0; }
+        .ob01wf-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+        .ob01wf-step { position:relative; padding:0 clamp(16px,2.4vw,30px) 6px 0; margin-right:clamp(16px,2.4vw,30px);
+          opacity:0; transform:translateY(16px);
+          transition:opacity .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 140ms), transform .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 140ms); }
+        .ob01wf-step.ob01-vis { opacity:1; transform:translateY(0); }
+        .ob01wf-step + .ob01wf-step::before { content:''; position:absolute; left:calc(-1 * clamp(16px,2.4vw,30px) - 8px); top:19px; width:clamp(12px,2vw,24px); height:1px; background:var(--ob-border); }
+        .ob01wf-step + .ob01wf-step::after { content:''; position:absolute; left:calc(-1 * clamp(16px,2.4vw,30px) + clamp(12px,2vw,24px) - 12px); top:15.5px;
+          width:7px; height:7px; border-top:1.5px solid var(--ob-accent); border-right:1.5px solid var(--ob-accent); transform:rotate(45deg); }
+        .ob01wf-numrow { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+        .ob01wf-num { width:38px; height:38px; border-radius:50%; border:1.5px solid var(--ob-accent); color:var(--ob-accent);
+          font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.82rem; font-weight:700;
+          display:inline-flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--ob-accent) 7%, #fff); }
+        .ob01wf-dur { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.7rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+          color:var(--ob-muted); border:1px solid var(--ob-border); border-radius:999px; padding:4px 10px; }
+        .ob01wf-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--ob-ink); font-size:1.14rem; font-weight:800; letter-spacing:-0.015em; margin:0 0 8px; }
+        .ob01wf-desc { font-size:.92rem; color:var(--ob-muted); line-height:1.55; margin:0; }
+        @media (max-width:900px){
+          .ob01wf-grid { grid-template-columns:1fr; gap:22px; }
+          .ob01wf-step { margin-right:0; padding-right:0; padding-left:0; }
+          .ob01wf-step + .ob01wf-step::before, .ob01wf-step + .ob01wf-step::after { display:none; }
+        }
+        @media (prefers-reduced-motion: reduce){ .ob01wf-step{ opacity:1; transform:none; transition:none; } }
+      `}</style>
+      <section className="ob01wf" data-template="orbit-01" id="nasazeni">
+        <div className="ob01wf-inner">
+          <div className="ob01wf-head">
+            <p className="ob01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="ob01wf-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            {lead && <p className="ob01wf-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>}
+          </div>
+          <div className="ob01wf-grid" ref={gridRef}>
+            {steps.map((st, i) => (
+              <div key={i} className="ob01wf-step" style={{ ["--i" as string]: i }}>
+                <div className="ob01wf-numrow">
+                  <span className="ob01wf-num">{String(i + 1).padStart(2, "0")}</span>
+                  {st.duration && (
+                    <span className="ob01wf-dur"><GenericEditableText sectionId={sectionId} field={`steps.${i}.duration`} value={String(st.duration ?? "")} tag="span" /></span>
+                  )}
+                </div>
+                <h3 className="ob01wf-name"><GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={String(st.title ?? "")} tag="span" /></h3>
+                <p className="ob01wf-desc"><GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={String(st.description ?? "")} tag="span" /></p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function SecurityOrbit01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Bezpečnost");
+  const title   = String(content.title   ?? "Vaše data pod zámkem. A pod vaší kontrolou.");
+  const lead    = String(content.lead    ?? "");
+  const items = (content.items as Array<{ title?: string; description?: string }> | undefined) ?? [];
+  const rawBadges = content.badges as string[] | undefined;
+  const badges = rawBadges && rawBadges.length ? rawBadges : [];
+  return (
+    <>
+      <style>{`
+        .ob01sec { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-accent-lt: color-mix(in srgb, var(--color-accent, #047857) 52%, #fff);
+          background:var(--ob-ink); color:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif);
+          padding:clamp(48px,7vw,88px) clamp(20px,5vw,48px); }
+        .ob01sec-inner { max-width:1280px; margin:0 auto; }
+        .ob01sec-grid { display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(32px,5vw,72px); align-items:start; }
+        .ob01sec .ob01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ob-accent-lt); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .ob01sec .ob01-eyebrow::before { content:''; width:32px; height:2px; background:var(--ob-accent-lt); }
+        .ob01sec-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.8rem,3.4vw,2.6rem); font-weight:800; letter-spacing:-0.03em; line-height:1.08; margin:0 0 14px; }
+        .ob01sec-lead { font-size:1.02rem; color:rgba(255,255,255,.78); line-height:1.6; margin:0; }
+        .ob01sec-items { border-top:1px solid rgba(255,255,255,.14); }
+        .ob01sec-item { display:flex; gap:14px; padding:18px 2px; border-bottom:1px solid rgba(255,255,255,.14); }
+        .ob01sec-item svg { flex-shrink:0; color:var(--ob-accent-lt); margin-top:3px; }
+        .ob01sec-item-t { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:1.05rem; font-weight:800; letter-spacing:-0.01em; margin:0 0 5px; }
+        .ob01sec-item-d { font-size:.92rem; color:rgba(255,255,255,.75); line-height:1.55; margin:0; }
+        .ob01sec-badges { display:flex; flex-wrap:wrap; gap:9px; margin-top:clamp(26px,4vw,40px); padding-top:clamp(20px,3vw,28px); border-top:1px solid rgba(255,255,255,.12); }
+        .ob01sec-chip { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+          color:rgba(255,255,255,.85); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:4px; padding:7px 13px;
+          display:inline-flex; align-items:center; gap:8px; }
+        .ob01sec-chip svg { color:var(--ob-accent-lt); }
+        @media (max-width:900px){ .ob01sec-grid{ grid-template-columns:1fr; } }
+      `}</style>
+      <section className="ob01sec" data-template="orbit-01" id="bezpecnost">
+        <div className="ob01sec-inner">
+          <div className="ob01sec-grid">
+            <div>
+              <p className="ob01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+              <h2 className="ob01sec-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+              {lead && <p className="ob01sec-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>}
+            </div>
+            <div className="ob01sec-items">
+              {items.map((it, i) => (
+                <div key={i} className="ob01sec-item">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                  <div>
+                    <h3 className="ob01sec-item-t"><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={String(it.title ?? "")} tag="span" /></h3>
+                    <p className="ob01sec-item-d"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(it.description ?? "")} tag="span" /></p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {badges.length > 0 && (
+            <div className="ob01sec-badges">
+              {badges.map((b, i) => (
+                <span key={i} className="ob01sec-chip">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                  <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   );
 }

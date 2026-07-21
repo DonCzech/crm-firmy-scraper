@@ -59,6 +59,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  if (variant === "orbit-01-integrations") return <IntegrationsOrbit01 content={content} sectionId={sectionId} />;
   if (variant === "signal-01-cases") return <CasesSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "gallery-universal") {
@@ -8600,6 +8601,97 @@ function CasesSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: R
                 </a>
               );
             })}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ ORBIT — Precision instrument (orbit-01) ═══════════════════════════════════
+// Integrace: dlaždice kategorií nástrojů s iniciálovým tile (žádné reálné
+// značky) + široká API karta s mono code řádkem na ink mini terminálu.
+function IntegrationsOrbit01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Integrace");
+  const title   = String(content.title   ?? "Zapadne do nástrojů, které už používáte");
+  const lead    = String(content.lead    ?? "");
+  const items = (content.items as Array<{ name?: string; category?: string }> | undefined) ?? [];
+  const apiTitle = String(content.apiTitle ?? "REST API a webhooky");
+  const apiCode  = String(content.apiCode  ?? "POST /v1/orders → 201 Created");
+  const apiNote  = String(content.apiNote  ?? "");
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>(".ob01ig-card"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("ob01-vis"); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [items.length]);
+  return (
+    <>
+      <style>{`
+        .ob01ig { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-accent-lt: color-mix(in srgb, var(--color-accent, #047857) 52%, #fff);
+          --ob-muted: var(--color-text-muted, #5C6672); --ob-border: var(--color-border, #E1E7E2);
+          background:var(--color-bg, #F2F5F3); font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--color-text, #0E1420);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .ob01ig-inner { max-width:1280px; margin:0 auto; }
+        .ob01ig-head { max-width:660px; margin-bottom:clamp(32px,5vw,56px); }
+        .ob01ig .ob01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ob-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .ob01ig .ob01-eyebrow::before { content:''; width:32px; height:2px; background:var(--ob-accent); }
+        .ob01ig-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--ob-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:800; letter-spacing:-0.03em; line-height:1.06; margin:0 0 14px; }
+        .ob01ig-lead { font-size:1.05rem; color:var(--ob-muted); line-height:1.6; margin:0; }
+        .ob01ig-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        .ob01ig-card { display:flex; align-items:center; gap:14px; background:var(--color-surface, #fff); border:1px solid var(--ob-border);
+          border-radius:10px; padding:16px 18px; opacity:0; transform:translateY(16px);
+          transition:opacity .5s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 55ms), transform .5s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 55ms), box-shadow .25s, border-color .25s; }
+        .ob01ig-card.ob01-vis { opacity:1; transform:translateY(0); }
+        .ob01ig-card.ob01-vis:hover { box-shadow:0 10px 24px -16px rgba(10,15,22,.25); border-color:color-mix(in srgb, var(--ob-accent) 40%, var(--ob-border)); }
+        .ob01ig-tile { width:42px; height:42px; border-radius:9px; flex-shrink:0; display:inline-flex; align-items:center; justify-content:center;
+          background:color-mix(in srgb, var(--ob-accent) 10%, #fff); border:1px solid color-mix(in srgb, var(--ob-accent) 22%, #fff);
+          color:var(--ob-accent); font-family:var(--font-heading, system-ui, sans-serif); font-weight:800; font-size:1.05rem; }
+        .ob01ig-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--ob-ink); font-size:.98rem; font-weight:800; letter-spacing:-0.01em; margin:0; }
+        .ob01ig-cat { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ob-muted); margin:3px 0 0; }
+        .ob01ig-api { grid-column:1 / -1; display:grid; grid-template-columns:auto minmax(220px,1fr) auto; align-items:center; gap:10px 22px; text-align:left; background:var(--ob-ink);
+          border:1px solid color-mix(in srgb, var(--ob-ink) 70%, #fff); border-radius:10px; padding:18px 22px; color:#fff;
+          opacity:0; transform:translateY(16px);
+          transition:opacity .5s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 55ms), transform .5s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 55ms); }
+        .ob01ig-api.ob01-vis { opacity:1; transform:translateY(0); }
+        .ob01ig-api-t { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:1.02rem; font-weight:800; letter-spacing:-0.01em; margin:0; }
+        .ob01ig-api-code { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.82rem; color:var(--ob-accent-lt);
+          background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:6px; padding:9px 13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .ob01ig-api-code::before { content:'$ '; color:rgba(255,255,255,.4); }
+        .ob01ig-api-n { font-size:.84rem; color:rgba(255,255,255,.68); margin:0; line-height:1.5; }
+        .ob01ig-api-t, .ob01ig-api-n { text-align:left; }
+        @media (max-width:980px){ .ob01ig-grid{ grid-template-columns:repeat(2,1fr); } .ob01ig-api{ grid-template-columns:1fr; } }
+        @media (max-width:520px){ .ob01ig-grid{ grid-template-columns:1fr; } }
+        @media (prefers-reduced-motion: reduce){ .ob01ig-card, .ob01ig-api{ opacity:1; transform:none; transition:none; } }
+      `}</style>
+      <section className="ob01ig" data-template="orbit-01" id="integrace">
+        <div className="ob01ig-inner">
+          <div className="ob01ig-head">
+            <p className="ob01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="ob01ig-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            {lead && <p className="ob01ig-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>}
+          </div>
+          <div className="ob01ig-grid" ref={gridRef}>
+            {items.map((it, i) => (
+              <div key={i} className="ob01ig-card" style={{ ["--i" as string]: i % 4 }}>
+                <span className="ob01ig-tile" aria-hidden="true">{String(it.name ?? "?").charAt(0)}</span>
+                <span>
+                  <p className="ob01ig-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(it.name ?? "")} tag="span" /></p>
+                  <p className="ob01ig-cat"><GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={String(it.category ?? "")} tag="span" /></p>
+                </span>
+              </div>
+            ))}
+            <div className="ob01ig-api ob01ig-card" style={{ ["--i" as string]: items.length % 4 }}>
+              <h3 className="ob01ig-api-t"><GenericEditableText sectionId={sectionId} field="apiTitle" value={apiTitle} tag="span" /></h3>
+              <span className="ob01ig-api-code"><GenericEditableText sectionId={sectionId} field="apiCode" value={apiCode} tag="span" /></span>
+              {apiNote && <p className="ob01ig-api-n"><GenericEditableText sectionId={sectionId} field="apiNote" value={apiNote} tag="span" /></p>}
+            </div>
           </div>
         </div>
       </section>
