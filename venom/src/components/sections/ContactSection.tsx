@@ -131,7 +131,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "autoservis-02-contact") return <ContactAutoservis02 content={content} sectionId={sectionId} />;
   if (variant === "autoservis-03-contact") return <ContactAutoservis03 content={content} sectionId={sectionId} />;
   if (variant === "dental-01-contact")     return <ContactDental01 content={content} sectionId={sectionId} />;
-  if (variant === "ortho-01-contact")      return <ContactOrtho01 content={content} sectionId={sectionId} />;
+  if (variant === "ortho-01-contact")      return <ContactOrtho01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ortho-02-contact")      return <ContactOrtho02 content={content} sectionId={sectionId} />;
   if (variant === "lawyer-01-contact")     return <ContactLawyer01 content={content} sectionId={sectionId} />;
   if (variant === "stavba-03-contact")     return <ContactStavba03 content={content} sectionId={sectionId} />;
@@ -6013,111 +6013,133 @@ function ContactDental01({ content, sectionId }: { content: Record<string, unkno
 }
 
 // ── ortho-01-contact ──────────────────────────────────────────────────────────
-// Surface bg, title + kicker vlevo, 2 pobočky (karty) vpravo
-// ─────────────────────────────────────────────────────────────────────────────
-function ContactOrtho01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL    = "#00b7ad";
-  const SLATE   = "#244757";
-  const SURFACE = "#eef8f8";
-  const FONT    = "'Inter', 'DM Sans', Arial, sans-serif";
-
+// Porcelain V3 „Kde nás najdete": wash bg, 2 pobočkové porcelain karty
+// (city/address/zip/phone/email/hours[]) s hairline řádky hodin + teal CTA.
+function ContactOrtho01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   type Hour  = { days: string; time: string };
   type Branch = { city: string; address: string; zip: string; phone: string; email: string; hours: Hour[] };
 
   const title    = String(content.title   ?? "Kde nás najdete");
   const kicker   = String(content.kicker  ?? "Jsme v Praze a v Brně");
   const ctaText  = String(content.ctaText ?? "Objednat se online");
-  const ctaHref  = String(content.ctaHref ?? "#kontakt");
+  const ctaHrefRaw = String(content.ctaHref ?? "/#konzultace");
+  const ctaHref = (!tenantSlug || !ctaHrefRaw.startsWith("/"))
+    ? ctaHrefRaw
+    : `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${ctaHrefRaw === "/" ? "" : ctaHrefRaw}`;
   const branches = (content.branches as Branch[]) ?? [];
 
   return (
-    <section
-      id="kontakt"
-      data-section-type="contact"
-      data-variant="ortho-01-contact"
-      style={{ backgroundColor: SURFACE, padding: "clamp(56px, 7vw, 96px) 0", fontFamily: FONT }}
-    >
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 56px)" }}>
-          <p style={{ fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: TEAL, margin: "0 0 10px" }}>
+    <section id="kontakt" data-section-type="contact" data-variant="ortho-01-contact" className="o01c-section">
+      <style>{`
+        .o01c-section {
+          background: #E9F4F1;
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01c-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .o01c-head { text-align: center; margin-bottom: clamp(2.2rem, 5vw, 3.4rem); }
+        .o01c-eyebrow {
+          display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em;
+          text-transform: uppercase; color: var(--color-primary, #0F766E); margin: 0 0 1rem;
+        }
+        .o01c-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #0F766E); }
+        .o01c-title {
+          font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(1.9rem, 3.4vw, 2.6rem); color: var(--color-text, #14201E);
+          line-height: 1.12; margin: 0 0 1.6rem; text-wrap: balance;
+        }
+        .o01c-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 0.9rem 1.8rem; border-radius: 9999px;
+          background: var(--color-primary, #0F766E); color: #fff;
+          font-size: 0.98rem; font-weight: 600; text-decoration: none;
+          box-shadow: 0 10px 24px -12px rgba(15,118,110,0.5);
+          transition: background 0.25s, transform 0.25s;
+        }
+        .o01c-cta:hover { background: var(--color-accent, #0B5D57); transform: translateY(-2px); }
+        .o01c-grid {
+          display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: clamp(1.4rem, 3vw, 2.2rem); max-width: 60rem; margin: 0 auto;
+        }
+        .o01c-card {
+          background: var(--color-surface, #ffffff); border-radius: 20px;
+          border: 1px solid var(--color-border, #E4E7E3);
+          padding: clamp(1.7rem, 3.5vw, 2.4rem);
+          box-shadow: 0 24px 48px -32px rgba(20,32,30,0.25);
+        }
+        .o01c-city {
+          font-family: 'Young Serif', serif; font-weight: 400; font-size: 1.45rem;
+          color: var(--color-text, #14201E); margin: 0 0 0.35rem;
+        }
+        .o01c-addr { font-size: 0.95rem; color: var(--color-text-muted, #5F6B68); line-height: 1.6; margin: 0 0 1.1rem; }
+        .o01c-links { display: flex; flex-direction: column; gap: 0.35rem; margin: 0 0 1.3rem; }
+        .o01c-links a {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          font-size: 0.96rem; font-weight: 600; color: var(--color-primary, #0F766E);
+          text-decoration: none;
+        }
+        .o01c-links a:hover { text-decoration: underline; }
+        .o01c-hours { border-top: 1px solid var(--color-border, #E4E7E3); }
+        .o01c-hour {
+          display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+          padding: 0.6rem 0; border-bottom: 1px solid var(--color-border, #E4E7E3);
+          font-size: 0.92rem;
+        }
+        .o01c-hour-days { color: var(--color-text-muted, #5F6B68); font-weight: 500; }
+        .o01c-hour-time { color: var(--color-text, #14201E); font-weight: 600; white-space: nowrap; }
+        @media (max-width: 760px) { .o01c-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="o01c-inner">
+        <div className="o01c-head">
+          <p className="o01c-eyebrow">
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
           </p>
-          <h2 style={{ fontSize: "clamp(1.5rem, 3vw, 2.2rem)", fontWeight: 800, color: SLATE, margin: "0 0 24px", lineHeight: 1.2 }}>
+          <h2 className="o01c-title" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <a
-            href={ctaHref}
-            data-btn="primary"
-            style={{
-              display: "inline-flex", alignItems: "center", padding: "13px 32px",
-              backgroundColor: TEAL, color: "#fff",
-              fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700,
-              borderRadius: "100px", textDecoration: "none",
-              transition: "background-color 0.18s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = SLATE; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = TEAL; }}
-          >
+          <a href={ctaHref} data-btn="primary" className="o01c-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
-
-        {/* Branch cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "clamp(16px, 3vw, 28px)" }}>
+        <div className="o01c-grid">
           {branches.map((b, i) => (
-            <div key={i} style={{ backgroundColor: "#fff", borderRadius: 16, padding: "clamp(24px, 3vw, 36px)", boxShadow: "0 2px 16px rgba(0,36,55,0.07)" }}>
-              <h3 style={{ fontSize: "1.15rem", fontWeight: 800, color: SLATE, margin: "0 0 16px", display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ display: "inline-flex", width: 8, height: 8, borderRadius: "50%", backgroundColor: TEAL, flexShrink: 0 }} />
-                <GenericEditableText sectionId={sectionId} field={`branches.${i}.city`} value={b.city} tag="span" />
+            <div className="o01c-card" key={i}>
+              <h3 className="o01c-city" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
+                <GenericEditableText sectionId={sectionId} field={`branches.${i}.city`} value={b.city ?? ""} tag="span" />
               </h3>
-
-              {/* Address */}
-              <div style={{ display: "flex", gap: 10, marginBottom: 8, alignItems: "flex-start" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={TEAL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
-                </svg>
-                <span style={{ fontSize: "0.88rem", color: "#506470", lineHeight: 1.5 }}>
-                  <GenericEditableText sectionId={sectionId} field={`branches.${i}.address`} value={b.address} tag="span" />{", "}
-                  <GenericEditableText sectionId={sectionId} field={`branches.${i}.zip`} value={b.zip} tag="span" />
-                </span>
+              <p className="o01c-addr">
+                <GenericEditableText sectionId={sectionId} field={`branches.${i}.address`} value={b.address ?? ""} tag="span" />
+                {", "}
+                <GenericEditableText sectionId={sectionId} field={`branches.${i}.zip`} value={b.zip ?? ""} tag="span" />
+              </p>
+              <div className="o01c-links">
+                {b.phone && (
+                  <a href={`tel:${b.phone.replace(/\s/g, "")}`}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <GenericEditableText sectionId={sectionId} field={`branches.${i}.phone`} value={b.phone ?? ""} tag="span" />
+                  </a>
+                )}
+                {b.email && (
+                  <a href={`mailto:${b.email}`}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+                    <GenericEditableText sectionId={sectionId} field={`branches.${i}.email`} value={b.email ?? ""} tag="span" />
+                  </a>
+                )}
               </div>
-
-              {/* Phone */}
-              <div style={{ display: "flex", gap: 10, marginBottom: 8, alignItems: "center" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={TEAL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.08 4.18 2 2 0 015 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L9.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-                </svg>
-                <a href={`tel:${b.phone}`} style={{ fontSize: "0.88rem", color: SLATE, textDecoration: "none", fontWeight: 600 }}>
-                  <GenericEditableText sectionId={sectionId} field={`branches.${i}.phone`} value={b.phone} tag="span" />
-                </a>
+              <div className="o01c-hours">
+                {(b.hours ?? []).map((h, j) => (
+                  <div className="o01c-hour" key={j}>
+                    <span className="o01c-hour-days">
+                      <GenericEditableText sectionId={sectionId} field={`branches.${i}.hours.${j}.days`} value={h.days ?? ""} tag="span" />
+                    </span>
+                    <span className="o01c-hour-time">
+                      <GenericEditableText sectionId={sectionId} field={`branches.${i}.hours.${j}.time`} value={h.time ?? ""} tag="span" />
+                    </span>
+                  </div>
+                ))}
               </div>
-
-              {/* Email */}
-              <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={TEAL} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-                </svg>
-                <a href={`mailto:${b.email}`} style={{ fontSize: "0.88rem", color: SLATE, textDecoration: "none" }}>
-                  <GenericEditableText sectionId={sectionId} field={`branches.${i}.email`} value={b.email} tag="span" />
-                </a>
-              </div>
-
-              {/* Hours */}
-              {b.hours?.length > 0 && (
-                <div style={{ borderTop: `1px solid #e2eaed`, paddingTop: 16 }}>
-                  <p style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: TEAL, margin: "0 0 10px" }}>
-                    <GenericEditableText sectionId={sectionId} field="hoursLabel" value="Otevírací doba" tag="span" />
-                  </p>
-                  {b.hours.map((h, hi) => (
-                    <div key={hi} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem", color: "#506470", marginBottom: 4 }}>
-                      <span><GenericEditableText sectionId={sectionId} field={`branches.${i}.hours.${hi}.days`} value={h.days} tag="span" /></span>
-                      <span style={{ fontWeight: 500, color: SLATE }}><GenericEditableText sectionId={sectionId} field={`branches.${i}.hours.${hi}.time`} value={h.time} tag="span" /></span>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </div>

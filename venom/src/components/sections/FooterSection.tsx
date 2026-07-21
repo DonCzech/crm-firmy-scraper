@@ -6817,18 +6817,14 @@ function FooterDental01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── ortho-01-footer ───────────────────────────────────────────────────────────
-// Slate (#244757) bg, logo vlevo, kontakt + sociální sítě, linky, copyright
-// ─────────────────────────────────────────────────────────────────────────────
+// Porcelain V3: tmavý petrol (#0B2E2B) footer — wordmark + tagline + Google
+// rating, kontakt, navigace; copyright bar s WeberoCredit.
 function FooterOrtho01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const TEAL  = "#00b7ad";
-  const SLATE = "#244757";
-  const FONT  = "'Inter', 'DM Sans', Arial, sans-serif";
-
   type Link = { label: string; href: string };
 
   const siteName     = String(content.siteName     ?? "Demo rovnátka");
-  const logoLine1    = String(content.logoLine1    ?? "Neviditelná");
-  const logoLine2    = String(content.logoLine2    ?? "Rovnátka");
+  const logoLine1    = String(content.logoLine1    ?? "Úsměv");
+  const logoLine2    = String(content.logoLine2    ?? "Ortodoncie");
   const tagline      = String(content.tagline      ?? "Neviditelná rovnátka v jakémkoli věku");
   const googleRating = String(content.googleRating ?? "4,8 z 5");
   const address      = String(content.address      ?? "");
@@ -6848,108 +6844,117 @@ function FooterOrtho01({ content, sectionId, tenantSlug, isAdmin }: { content: R
     return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
   };
 
+  const socials: Array<{ label: string; href: string; d: string }> = [
+    { label: "Facebook", href: facebook, d: "M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.87.24-1.46 1.49-1.46H16.6V5.06c-.28-.04-1.22-.12-2.32-.12-2.3 0-3.87 1.4-3.87 3.98V11H8v3h2.4v7h3.1z" },
+    { label: "Instagram", href: instagram, d: "M12 8.4A3.6 3.6 0 1 0 12 15.6 3.6 3.6 0 0 0 12 8.4zm0 5.94A2.34 2.34 0 1 1 12 9.66a2.34 2.34 0 0 1 0 4.68zM17.04 8.26a.84.84 0 1 1-1.68 0 .84.84 0 0 1 1.68 0zM12 5.76c-1.7 0-1.91.01-2.58.04-.66.03-1.12.14-1.51.29a3.05 3.05 0 0 0-1.1.72c-.35.34-.56.68-.72 1.1-.15.4-.26.85-.29 1.51C5.77 10.09 5.76 10.3 5.76 12s.01 1.91.04 2.58c.03.66.14 1.12.29 1.51.16.42.37.76.72 1.1.34.35.68.56 1.1.72.4.15.85.26 1.51.29.67.03.88.04 2.58.04s1.91-.01 2.58-.04c.66-.03 1.12-.14 1.51-.29a3.05 3.05 0 0 0 1.1-.72c.35-.34.56-.68.72-1.1.15-.4.26-.85.29-1.51.03-.67.04-.88.04-2.58s-.01-1.91-.04-2.58c-.03-.66-.14-1.12-.29-1.51a3.05 3.05 0 0 0-.72-1.1 3.05 3.05 0 0 0-1.1-.72c-.4-.15-.85-.26-1.51-.29-.67-.03-.88-.04-2.58-.04z" },
+    { label: "WhatsApp", href: whatsapp, d: "M12 3.6a8.4 8.4 0 0 0-7.22 12.7L3.6 20.4l4.2-1.1A8.4 8.4 0 1 0 12 3.6zm4.62 11.5c-.2.55-1.14 1.05-1.58 1.09-.44.04-.85.2-2.86-.6-2.42-.95-3.95-3.43-4.07-3.59-.12-.16-.97-1.29-.97-2.46 0-1.17.61-1.74.83-1.98.22-.24.48-.3.64-.3l.46.01c.15 0 .35-.06.55.42.2.49.69 1.68.75 1.8.06.12.1.27.02.43-.08.16-.12.26-.24.4l-.36.42c-.12.12-.24.25-.1.49.14.24.62 1.02 1.33 1.65.91.81 1.68 1.06 1.92 1.18.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.14 1.13z" },
+  ].filter(s => s.href);
+
   return (
-    <footer
-      data-section-type="footer"
-      data-variant="ortho-01-footer"
-      style={{ backgroundColor: SLATE, color: "#fff", fontFamily: FONT, padding: "clamp(48px, 6vw, 72px) 0 0" }}
-    >
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-
-        {/* Top grid: logo+tagline | kontakt | sociální sítě */}
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr", gap: "clamp(32px, 5vw, 64px)", marginBottom: "clamp(36px, 5vw, 56px)" }}
-          className="o01-footer-grid">
-
-          {/* Col 1: Logo + tagline + Google */}
+    <footer data-section-type="footer" data-variant="ortho-01-footer" className="o01ft-footer">
+      <style>{`
+        .o01ft-footer {
+          background: #0B2E2B; color: #fff;
+          font-family: 'Outfit', sans-serif;
+          padding: clamp(3rem, 6vw, 4.5rem) 0 0;
+        }
+        .o01ft-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .o01ft-grid {
+          display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+          gap: clamp(2rem, 5vw, 4rem); padding-bottom: clamp(2.2rem, 5vw, 3.4rem);
+        }
+        .o01ft-logo { display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1.1rem; }
+        .o01ft-mark {
+          width: 36px; height: 36px; border-radius: 50%;
+          background: var(--color-primary, #0F766E); display: grid; place-items: center; flex-shrink: 0;
+        }
+        .o01ft-l1 { display: block; font-family: 'Young Serif', serif; font-size: 1.15rem; color: #fff; line-height: 1.1; }
+        .o01ft-l2 { display: block; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #7FC7BD; }
+        .o01ft-tagline { font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.65; margin: 0 0 1.2rem; max-width: 22rem; }
+        .o01ft-rating { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; font-weight: 600; color: #fff; }
+        .o01ft-h {
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em;
+          text-transform: uppercase; color: #7FC7BD; margin: 0 0 1.1rem;
+        }
+        .o01ft-col p, .o01ft-col a {
+          display: block; font-size: 0.94rem; color: rgba(255,255,255,0.82);
+          line-height: 1.7; margin: 0 0 0.45rem; text-decoration: none;
+        }
+        .o01ft-col a:hover { color: #fff; text-decoration: underline; }
+        .o01ft-social { display: flex; gap: 0.7rem; margin-top: 1.1rem; }
+        .o01ft-social a {
+          display: grid; place-items: center; width: 38px; height: 38px;
+          border-radius: 50%; border: 1px solid rgba(255,255,255,0.22); color: #fff;
+          transition: background 0.25s, border-color 0.25s;
+        }
+        .o01ft-social a:hover { background: var(--color-primary, #0F766E); border-color: var(--color-primary, #0F766E); }
+        .o01ft-bar {
+          border-top: 1px solid rgba(255,255,255,0.12);
+          padding: 1.15rem 0 calc(1.15rem + env(safe-area-inset-bottom));
+        }
+        .o01ft-bar-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+          font-size: 0.82rem; color: rgba(255,255,255,0.6);
+        }
+        @media (max-width: 860px) { .o01ft-grid { grid-template-columns: 1fr; gap: 2rem; } }
+      `}</style>
+      <div className="o01ft-inner">
+        <div className="o01ft-grid">
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 16 }}>
-              {/* Tooth icon — identický s navbarem */}
-              <svg width="40" height="40" viewBox="0 0 36 36" fill="none" aria-hidden>
-                <path d="M18 2C13.2 2 9 5.8 9 10.8c0 2.3.7 4.3 1.5 6.2 1.2 2.8 1.5 4.8 1.5 7 0 3.2 1.1 6.4 2.3 8.8.5 1 1.2 1.7 2.2 1.7 1 0 1.6-.8 1.9-2.2l.6-4 .6 4c.3 1.4.9 2.2 1.9 2.2 1 0 1.7-.7 2.2-1.7C27 30.4 27 27.2 27 24c0-2.2.3-4.2 1.5-7 .8-1.9 1.5-3.9 1.5-6.2C30 5.8 22.8 2 18 2Z" fill={TEAL}/>
-                <rect x="11" y="12.5" width="14" height="3" rx="0.8" fill={TEAL} opacity=".2"/>
-                <rect x="12.5" y="12.5" width="2.4" height="3" rx=".5" fill={TEAL}/>
-                <rect x="16.8" y="12.5" width="2.4" height="3" rx=".5" fill={TEAL}/>
-                <rect x="21.1" y="12.5" width="2.4" height="3" rx=".5" fill={TEAL}/>
-              </svg>
-              <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
-                <span style={{ fontSize: "1.01rem", fontWeight: 800, color: "#fff", letterSpacing: "-0.01em", fontFamily: FONT }}>
-                  <GenericEditableText sectionId={sectionId} field="logoLine1" value={logoLine1} tag="span" />
-                </span>
-                <span style={{ fontSize: "1.01rem", fontWeight: 800, color: TEAL, letterSpacing: "-0.01em", fontFamily: FONT }}>
-                  <GenericEditableText sectionId={sectionId} field="logoLine2" value={logoLine2} tag="span" />
-                </span>
-              </div>
-            </div>
-            <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.6, margin: "0 0 20px", maxWidth: 240 }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            {/* Google rating */}
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "rgba(255,255,255,0.08)", borderRadius: 8, padding: "8px 14px" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-              <span style={{ fontSize: "0.8rem", color: TEAL, fontWeight: 700 }}>
-                <GenericEditableText sectionId={sectionId} field="googleRating" value={googleRating} tag="span" />
+            <div className="o01ft-logo">
+              <span className="o01ft-mark" aria-hidden>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round"><path d="M4 9c0 6 3.5 10 8 10s8-4 8-10"/><path d="M4 9c0-2.5 1.5-4 4-4 2 0 3 1 4 1s2-1 4-1c2.5 0 4 1.5 4 4"/></svg>
+              </span>
+              <span>
+                <span className="o01ft-l1"><GenericEditableText sectionId={sectionId} field="logoLine1" value={logoLine1} tag="span" /></span>
+                <span className="o01ft-l2"><GenericEditableText sectionId={sectionId} field="logoLine2" value={logoLine2} tag="span" /></span>
               </span>
             </div>
+            <p className="o01ft-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            <span className="o01ft-rating">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="#F5A623" aria-hidden><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+              <GenericEditableText sectionId={sectionId} field="googleRating" value={googleRating} tag="span" />
+              <span style={{ fontWeight: 500, color: "rgba(255,255,255,0.6)" }}>na Google</span>
+            </span>
           </div>
-
-          {/* Col 2: Kontakt */}
-          <div>
-            <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: TEAL, margin: "0 0 16px" }}>
+          <div className="o01ft-col">
+            <h3 className="o01ft-h" style={{ fontFamily: "'Outfit', sans-serif", color: "#7FC7BD" }}>
               <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span" />
-            </p>
-            {address && <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.6, margin: "0 0 8px" }}>
-              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-            </p>}
-            {phone && <a href={`tel:${phone}`} style={{ display: "block", fontSize: "0.85rem", color: "rgba(255,255,255,0.7)", textDecoration: "none", marginBottom: 6 }}>
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-            </a>}
-            {email && <a href={`mailto:${email}`} style={{ display: "block", fontSize: "0.85rem", color: "rgba(255,255,255,0.7)", textDecoration: "none", marginBottom: 20 }}>
-              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-            </a>}
-            {/* Social */}
-            <div style={{ display: "flex", gap: 12 }}>
-              {facebook && <a href={facebook} target="_blank" rel="noopener" style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-              </a>}
-              {instagram && <a href={instagram} target="_blank" rel="noopener" style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>}
-              {whatsapp && <a href={whatsapp} target="_blank" rel="noopener" style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-              </a>}
-            </div>
+            </h3>
+            {address && <p><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>}
+            {phone && <a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>}
+            {email && <a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>}
+            {socials.length > 0 && (
+              <div className="o01ft-social">
+                {socials.map(s => (
+                  <a key={s.label} href={s.href} aria-label={s.label} target="_blank" rel="noopener noreferrer">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d={s.d} /></svg>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
-
-          {/* Col 3: Links */}
-          <div>
-            <p style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: TEAL, margin: "0 0 16px" }}>
+          <div className="o01ft-col">
+            <h3 className="o01ft-h" style={{ fontFamily: "'Outfit', sans-serif", color: "#7FC7BD" }}>
               <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="span" />
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {links.map((l, i) => (
-                <a key={i} href={resolve(l.href)} style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.18s" }}
-                  onMouseEnter={e => { e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.65)"; }}>
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                </a>
-              ))}
-            </div>
+            </h3>
+            {links.map((l, i) => (
+              <a key={i} href={resolve(l.href)}>
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label ?? ""} tag="span" />
+              </a>
+            ))}
           </div>
-        </div>
-
-        {/* Copyright bar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 20, paddingBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.35)" }}>
-            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-          </span>
-          <span style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.2)" }}>Powered by Webero</span>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 640px) { .o01-footer-grid { grid-template-columns: 1fr !important; } }
-        @media (min-width: 641px) and (max-width: 960px) { .o01-footer-grid { grid-template-columns: 1fr 1fr !important; } }
-      `}</style>
+      <div className="o01ft-bar">
+        <div className="o01ft-bar-inner">
+          <span><GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" /></span>
+          <WeberoCredit />
+        </div>
+      </div>
     </footer>
   );
 }

@@ -13,14 +13,15 @@ interface Props {
   variant?: string;
   isAdmin: boolean;
   sectionId: number;
+  tenantSlug?: string;
 }
 
-export function FaqSection({ content, variant, sectionId }: Props) {
+export function FaqSection({ content, variant, sectionId, isAdmin, tenantSlug }: Props) {
   if (variant === "signal-01-faq")    return <FaqSignal01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-faq")     return <FaqProof01 content={content} sectionId={sectionId} />;
   if (variant === "eshop-02-faq")     return <FaqEshop02 content={content} sectionId={sectionId} />;
   if (variant === "stavba-01-faq")    return <FaqStavba01 content={content} sectionId={sectionId} />;
-  if (variant === "ortho-01-faq")     return <FaqOrtho01 content={content} sectionId={sectionId} />;
+  if (variant === "ortho-01-faq")     return <FaqOrtho01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "faq-fitness-01")   return <FaqFitness01 content={content} sectionId={sectionId} />;
   if (variant === "grooming-01-faq")  return <FaqGrooming01 content={content} sectionId={sectionId} />;
   if (variant === "ucetni-03-faq")    return <FaqUcetni03 content={content} sectionId={sectionId} />;
@@ -131,68 +132,112 @@ function FaqDefault({ content, variant, sectionId }: { content: Record<string, u
 }
 
 // ── ortho-01-faq ──────────────────────────────────────────────────────────────
-// White bg, teal akcentový kruh toggle, max 740px centered
-// ─────────────────────────────────────────────────────────────────────────────
-function FaqOrtho01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL  = "#00b7ad";
-  const SLATE = "#244757";
-  const FONT  = "'Inter', 'DM Sans', Arial, sans-serif";
-
+// Porcelain V3: centrovaný úzký sloupec (max 760px), hairline accordion,
+// kruhový teal +/× toggle, CTA pod accordionem.
+function FaqOrtho01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const eyebrow = String(content.eyebrow ?? "Časté dotazy");
   const title = String(content.title ?? "Nejčastější otázky");
+  const ctaText = String(content.ctaText ?? "Zeptejte se nás");
+  const ctaHrefRaw = String(content.ctaHref ?? "/kontakt");
+  const ctaHref = (!tenantSlug || !ctaHrefRaw.startsWith("/"))
+    ? ctaHrefRaw
+    : `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${ctaHrefRaw === "/" ? "" : ctaHrefRaw}`;
   const items = ((content.items as FaqItem[]) ?? []);
-  const [open, setOpen] = useState<number | null>(null);
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section
-      id="faq"
-      data-section-type="faq"
-      data-variant="ortho-01-faq"
-      style={{ backgroundColor: "#fff", padding: "clamp(56px, 7vw, 96px) 0", fontFamily: FONT }}
-    >
-      <div style={{ maxWidth: "min(740px, 100%)", margin: "0 auto", padding: "0 clamp(16px, 5vw, 48px)" }}>
-        <h2 style={{
-          textAlign: "center",
-          fontSize: "clamp(1.5rem, 3vw, 2.1rem)",
-          fontWeight: 800,
-          color: SLATE,
-          margin: "0 0 clamp(32px, 5vw, 56px)",
-          lineHeight: 1.2,
-        }}>
+    <section id="faq" data-section-type="faq" data-variant="ortho-01-faq" className="o01f-section">
+      <style>{`
+        .o01f-section {
+          background: var(--color-surface, #ffffff);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01f-inner { max-width: min(760px, 100%); margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 3rem); }
+        .o01f-eyebrow {
+          display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em;
+          text-transform: uppercase; color: var(--color-primary, #0F766E); margin: 0 0 1rem;
+        }
+        .o01f-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #0F766E); }
+        .o01f-title {
+          text-align: center; font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(1.8rem, 3.2vw, 2.5rem); color: var(--color-text, #14201E);
+          line-height: 1.15; margin: 0 0 clamp(2rem, 4.5vw, 3.2rem); text-wrap: balance;
+        }
+        .o01f-item { border-bottom: 1px solid var(--color-border, #E4E7E3); }
+        .o01f-item:first-of-type { border-top: 1px solid var(--color-border, #E4E7E3); }
+        .o01f-q {
+          width: 100%; display: flex; align-items: center; justify-content: space-between;
+          gap: 1rem; padding: 1.15rem 0; background: none; border: none; cursor: pointer;
+          text-align: left; font-family: 'Outfit', sans-serif; font-size: 1.02rem;
+          font-weight: 600; color: var(--color-text, #14201E); line-height: 1.4;
+        }
+        .o01f-toggle {
+          flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+          border: 1.5px solid var(--color-primary, #0F766E);
+          display: grid; place-items: center; font-size: 1.05rem; font-weight: 500;
+          color: var(--color-primary, #0F766E); line-height: 1;
+          transition: background 0.25s, color 0.25s, transform 0.25s;
+        }
+        .o01f-q[aria-expanded="true"] .o01f-toggle {
+          background: var(--color-primary, #0F766E); color: #fff; transform: rotate(45deg);
+        }
+        .o01f-a {
+          overflow: hidden; max-height: 0; opacity: 0;
+          transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s;
+        }
+        .o01f-a[data-open="true"] { max-height: 30rem; opacity: 1; }
+        .o01f-a p {
+          font-size: 0.96rem; color: var(--color-text-muted, #5F6B68);
+          line-height: 1.7; margin: 0; padding: 0 2.6rem 1.25rem 0;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .o01f-a, .o01f-toggle { transition: none; }
+        }
+        .o01f-cta-row { text-align: center; margin-top: clamp(1.8rem, 4vw, 2.6rem); }
+        .o01f-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 0.9rem 1.8rem; border-radius: 9999px;
+          background: var(--color-primary, #0F766E); color: #fff;
+          font-size: 0.98rem; font-weight: 600; text-decoration: none;
+          box-shadow: 0 10px 24px -12px rgba(15,118,110,0.55);
+          transition: background 0.25s, transform 0.25s;
+        }
+        .o01f-cta:hover { background: var(--color-accent, #0B5D57); transform: translateY(-2px); }
+      `}</style>
+      <div className="o01f-inner">
+        <p className="o01f-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </p>
+        <h2 className="o01f-title" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h2>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div>
           {items.map((item, i) => (
-            <div key={i} style={{ borderRadius: 12, border: `1px solid ${open === i ? TEAL : "#e2eaed"}`, overflow: "hidden", transition: "border-color 0.2s" }}>
+            <div className="o01f-item" key={i}>
               <button
+                type="button"
+                className="o01f-q"
+                aria-expanded={open === i}
                 onClick={() => setOpen(open === i ? null : i)}
-                style={{
-                  width: "100%", textAlign: "left", background: open === i ? "#f0fafa" : "#fff",
-                  border: "none", cursor: "pointer",
-                  padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center",
-                  gap: 16, fontFamily: FONT, transition: "background 0.2s",
-                }}
               >
-                <span style={{ fontSize: "clamp(0.9rem, 1.3vw, 1rem)", fontWeight: 600, color: SLATE, lineHeight: 1.4 }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" />
-                </span>
-                <span style={{
-                  width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
-                  background: open === i ? TEAL : "rgba(0,183,173,0.1)",
-                  color: open === i ? "#fff" : TEAL,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 20, lineHeight: 1, fontWeight: 300, transition: "background 0.2s, color 0.2s",
-                }}>
-                  {open === i ? "−" : "+"}
-                </span>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question ?? ""} tag="span" />
+                <span className="o01f-toggle" aria-hidden>+</span>
               </button>
-              {open === i && (
-                <div style={{ padding: "0 22px 20px", fontSize: "0.92rem", color: "#506470", lineHeight: 1.75, background: "#f0fafa" }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" />
-                </div>
-              )}
+              <div className="o01f-a" data-open={open === i}>
+                <p>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer ?? ""} tag="span" />
+                </p>
+              </div>
             </div>
           ))}
+        </div>
+        <div className="o01f-cta-row">
+          <a href={ctaHref} data-btn="primary" className="o01f-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
       </div>
     </section>

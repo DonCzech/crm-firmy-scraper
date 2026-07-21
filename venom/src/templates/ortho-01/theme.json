@@ -1,27 +1,68 @@
 {
   "colors": {
-    "primary":    "#00b7ad",
-    "secondary":  "#244757",
-    "background": "#FFFFFF",
-    "surface":    "#eef8f8",
-    "text":       "#244757",
-    "textMuted":  "#7c919a",
-    "accent":     "#e7a820",
-    "border":     "rgba(0,183,173,0.20)"
+    "primary": "#0F766E",
+    "secondary": "#0B2E2B",
+    "background": "#FAFAF8",
+    "surface": "#FFFFFF",
+    "text": "#14201E",
+    "textMuted": "#5F6B68",
+    "accent": "#0B5D57",
+    "border": "#E4E7E3"
   },
   "typography": {
-    "fontHeading": "'Inter', 'Arial', sans-serif",
-    "fontBody":    "'Inter', 'Arial', sans-serif",
-    "scale":       "comfortable"
+    "fontHeading": "'Young Serif', serif",
+    "fontBody": "'Outfit', sans-serif",
+    "scale": "comfortable"
   },
   "radius": {
-    "sm":   "4px",
-    "md":   "8px",
-    "lg":   "16px",
+    "sm": "6px",
+    "md": "12px",
+    "lg": "20px",
     "pill": "999px"
   },
   "spacing": {
     "personality": "spacious",
-    "section":     "airy"
+    "section": "airy"
+  },
+  "presets": {
+    "porcelain": {
+      "label": "Porcelain — teal klinika (default)",
+      "tokens": {
+        "colorPrimary": "#0F766E",
+        "colorAccent": "#0B5D57",
+        "colorSecondary": "#0B2E2B",
+        "colorBackground": "#FAFAF8",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#14201E",
+        "colorTextMuted": "#5F6B68",
+        "colorBorder": "#E4E7E3"
+      }
+    },
+    "sky": {
+      "label": "Sky — moderní modrá ordinace",
+      "tokens": {
+        "colorPrimary": "#2563EB",
+        "colorAccent": "#1D4ED8",
+        "colorSecondary": "#0F1E3A",
+        "colorBackground": "#F8FAFC",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#101828",
+        "colorTextMuted": "#5B6472",
+        "colorBorder": "#E3E8EF"
+      }
+    },
+    "blush": {
+      "label": "Blush — jemná estetická stomatologie",
+      "tokens": {
+        "colorPrimary": "#B4527A",
+        "colorAccent": "#96375F",
+        "colorSecondary": "#301722",
+        "colorBackground": "#FBF8F9",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#231318",
+        "colorTextMuted": "#6E5D64",
+        "colorBorder": "#EDE2E7"
+      }
+    }
   }
 }

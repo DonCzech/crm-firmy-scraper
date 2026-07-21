@@ -1,41 +1,42 @@
 {
   "navbar": {
-    "siteName": "Neviditelná Rovnátka",
-    "logoLine1": "Neviditelná",
-    "logoLine2": "Rovnátka",
+    "siteName": "Úsměv Ortodoncie",
+    "logoLine1": "Úsměv",
+    "logoLine2": "Ortodoncie",
     "ctaText": "Konzultace zdarma",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "links": [
       {
-        "label": "Pro děti",
-        "href": "#sluzby"
-      },
-      {
-        "label": "Pro teenagery",
-        "href": "#sluzby"
-      },
-      {
-        "label": "Smile Makeover",
-        "href": "#sluzby"
+        "label": "Služby",
+        "href": "/sluzby"
       },
       {
         "label": "Financování",
-        "href": "#financovani"
+        "href": "/financovani"
       },
       {
         "label": "FAQ",
-        "href": "#faq"
+        "href": "/faq"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
       },
       {
         "label": "Kontakt",
-        "href": "#kontakt"
+        "href": "/kontakt"
       }
     ]
   },
   "hero": {
-    "title": "Začněte se usmívat",
-    "subtitle": "Neviditelná rovnátka změní váš úsměv, a tím i život. V jakémkoli věku.",
-    "bgImage": "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/692fd8825f36c8de4acaac01_Mlada zena + pozadi.avif",
+    "eyebrow": "Ortodoncie pro dospělé i děti",
+    "title": "Rovnátka, která nejsou vidět.\nÚsměv, který ano.",
+    "subtitle": "Neviditelná rovnátka změní váš úsměv, a tím i život. V jakémkoli věku — šetrně, přesně a bez kompromisů.",
+    "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&h=1125&fit=crop&auto=format&q=80",
+    "ctaText": "Konzultace zdarma",
+    "ctaHref": "/kontakt",
+    "cta2Text": "Prohlédnout služby",
+    "cta2Href": "/sluzby",
     "googleRating": "4,8 z 5",
     "googleReviewCount": "5 100+ recenzí"
   },
@@ -43,49 +44,51 @@
     "title": "Objednejte se na konzultaci zdarma",
     "message": "Uděláme scan vašich zubů, navrhneme vám možnosti léčby a stanovíme cenu.",
     "ctaText": "Objednat se",
-    "ctaHref": "#kontakt"
+    "ctaHref": "/kontakt"
   },
   "services": {
     "title": "5 důvodů, proč chtít naše neviditelná rovnátka",
     "items": [
       {
-        "number": "1.",
+        "number": "01",
         "name": "Jsou opravdu neviditelná",
         "description": "Na rozdíl od klasických rovnátek si u těch našich nikdo nevšimne, že je máte.",
-        "imageUrl": "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/667a83e5a366fad631cc2133_rovnatka%20pul_pul_kovova.avif"
+        "imageUrl": "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=180&h=180&fit=crop&auto=format&q=80"
       },
       {
-        "number": "2.",
+        "number": "02",
         "name": "Můžete v klidu jíst i pít",
         "description": "Kdykoliv je bezbolestně sundáte.",
-        "imageUrl": "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/681225251b182f857c22b49f_foto_obsah%201.avif"
+        "imageUrl": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=180&h=180&fit=crop&auto=format&q=80"
       },
       {
-        "number": "3.",
+        "number": "03",
         "name": "3D vizualizaci máte zdarma",
         "description": "Uvidíte budoucí výsledek léčby.",
-        "imageUrl": "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/611fa86ba50dbf5b2b1f87dd_animace.avif"
+        "imageUrl": "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=180&h=180&fit=crop&auto=format&q=80"
       },
       {
-        "number": "4.",
+        "number": "04",
         "name": "Kontrolu zvládnete i online",
         "description": "Díky aplikaci Virtual Care.",
-        "imageUrl": "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/68ecce875e27801e271be7df_virtual-care.avif"
+        "imageUrl": "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=180&h=180&fit=crop&auto=format&q=80"
       },
       {
-        "number": "5.",
+        "number": "05",
         "name": "Můžete je mít na splátky",
         "description": "Nový úsměv už od 625 Kč měsíčně.",
-        "imageUrl": "/assets/ortho-01/a89e699812-69cd3592a6ce2c6453a6bb97_svet-rovnatek_splatky.webp"
+        "imageUrl": "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=180&h=180&fit=crop&auto=format&q=80"
       }
-    ]
+    ],
+    "eyebrow": "Proč k nám",
+    "image": "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=760&h=950&fit=crop&auto=format&q=80"
   },
   "testimonials": {
     "quote": "Moderní ortodoncie dnes umožňuje dosáhnout krásného a zdravého úsměvu šetrněji, přesněji a komfortněji než kdy dříve.",
     "authorName": "Dr. Jan Demo, Dr. h. c.",
     "authorRole": "Zakladatel a mezinárodně uznávaný odborník v ortodoncii.",
     "authorBio": "Dr. Jan Demo patří mezi přední evropské kapacity na moderní ortodoncii s více než 30 lety klinické praxe. Dlouhodobě se podílí na vývoji a inovacích v oblasti estetického rovnání zubů.",
-    "imageUrl": "/assets/ortho-01/9466218ec6-69df99a0572bbed527c90bbb_91bfbdeb8562bccfa0fc9ef3db389f1b_doktor-raiman_svet-rovnatek.webp"
+    "imageUrl": "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?w=760&h=900&fit=crop&auto=format&q=80"
   },
   "faq": {
     "title": "Nejčastější otázky",
@@ -110,13 +113,16 @@
         "question": "Co je součástí konzultace zdarma?",
         "answer": "Konzultace zahrnuje prohlídku, 3D sken zubů a návrh léčby včetně vizualizace výsledku a cenové nabídky. Vše zdarma a nezávazně."
       }
-    ]
+    ],
+    "eyebrow": "Časté dotazy",
+    "ctaText": "Objednat konzultaci zdarma",
+    "ctaHref": "/kontakt"
   },
   "contact": {
     "title": "Kde nás najdete",
     "kicker": "Jsme v Praze a v Brně",
     "ctaText": "Objednat se online",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/#konzultace",
     "branches": [
       {
         "city": "Praha",
@@ -163,13 +169,13 @@
     ]
   },
   "footer": {
-    "siteName": "Neviditelná Rovnátka",
-    "logoLine1": "Neviditelná",
-    "logoLine2": "Rovnátka",
+    "siteName": "Úsměv Ortodoncie",
+    "logoLine1": "Úsměv",
+    "logoLine2": "Ortodoncie",
     "contactLabel": "Kontakt",
     "navLabel": "Navigace",
     "tagline": "Krásný úsměv bez kompromisů — moderní ortodoncie pro děti, teenagery i dospělé.",
-    "googleRating": "4,8 z 5 · 5 100+ recenzí",
+    "googleRating": "4,8 z 5",
     "address": "Ukázková 123, 110 00 Praha 1",
     "phone": "+420 704 123 456",
     "email": "info@demo.cz",
@@ -178,31 +184,31 @@
     "whatsapp": "https://wa.me/420704123456",
     "links": [
       {
-        "label": "Pro děti",
-        "href": "#sluzby"
-      },
-      {
-        "label": "Pro teenagery",
-        "href": "#sluzby"
-      },
-      {
-        "label": "Smile Makeover",
-        "href": "#sluzby"
+        "label": "Služby",
+        "href": "/sluzby"
       },
       {
         "label": "Financování",
-        "href": "#financovani"
+        "href": "/financovani"
       },
       {
         "label": "FAQ",
-        "href": "#faq"
+        "href": "/faq"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
       },
       {
         "label": "Ochrana osobních údajů",
         "href": "#"
       }
     ],
-    "copyright": "© 2025 Neviditelná Rovnátka s.r.o. Všechna práva vyhrazena."
+    "copyright": "© 2026 Úsměv Ortodoncie"
   },
   "home": {
     "rezervace": {
@@ -211,5 +217,33 @@
       "providerSlug": "",
       "apiBaseUrl": ""
     }
+  },
+  "heroSluzby": {
+    "title": "Naše služby",
+    "subtitle": "Neviditelná rovnátka pro děti, teenagery i dospělé — od první konzultace po zářivý úsměv.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroFinancovani": {
+    "title": "Financování",
+    "subtitle": "Nový úsměv už od 625 Kč měsíčně. Splátkový program bez navýšení a skrytých poplatků.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroFaq": {
+    "title": "Nejčastější otázky",
+    "subtitle": "Vše, co chcete vědět o neviditelných rovnátkách, léčbě a cenách na jednom místě.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroKontakt": {
+    "title": "Kontakt",
+    "subtitle": "Objednejte se na nezávaznou konzultaci zdarma v Praze nebo v Brně.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "blog": {
+    "title": "Ze života kliniky",
+    "subtitle": "Novinky, tipy a příběhy pacientů."
   }
 }

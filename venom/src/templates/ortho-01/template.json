@@ -4,10 +4,10 @@
   "name": "Úsměv Ortodoncie",
   "industry": "ortho",
   "skeleton": "service-personal",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "baseTemplate": null,
-  "description": "Ortodontická klinika neviditelných rovnátek — transparentní navbar s teal #00b7ad CTA, fullbleed hero s dark overlay a Google rating 4.8, promo strip konzultace zdarma, 5 důvodů sekce číslované s fotkami, velká doktorova citace, FAQ accordion, kontakt, footer. Inspirováno svetrov.cz.",
-  "sectionOrderNote": "Navbar → Hero → Promo → Services → Testimonials → FAQ → Contact → Footer (dle svetrov.cz)",
+  "description": "V3 Porcelain — ortodontická klinika neviditelných rovnátek: porcelánová paleta s teal akcentem #0F766E, Young Serif + Outfit, split hero s foto kartou a Google ratingem, wash promo strip, 5 důvodů se sticky fotkou, citát lékaře, hairline FAQ, 2 pobočkové karty, petrol footer. Multipage: služby, financování, FAQ, kontakt + blog modul.",
+  "sectionOrderNote": "Navbar → Hero → Promo → Services → Testimonials → FAQ → Rezora → Contact → Blog-preview → Footer; podstránky navbar + hero-ortho-01-page + sekce + footer",
   "skippedSections": [
     {
       "pos": 3,
@@ -54,6 +54,10 @@
     {
       "type": "rezora-widget",
       "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    },
+    {
+      "type": "blog-preview",
+      "reason": "Blog modul aktivní na tenantu — preview 3 nejnovějších článků na homepage"
     }
   ],
   "i18n": {
@@ -109,6 +113,115 @@
           "contentRef": "contact"
         },
         {
+          "type": "blog-preview",
+          "variant": "default",
+          "contentRef": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "ortho-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ortho-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ortho-01-page",
+          "contentRef": "heroSluzby"
+        },
+        {
+          "type": "services",
+          "variant": "ortho-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "ortho-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "financovani",
+      "title": "Financování",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ortho-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ortho-01-page",
+          "contentRef": "heroFinancovani"
+        },
+        {
+          "type": "promo",
+          "variant": "ortho-01-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "footer",
+          "variant": "ortho-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "faq",
+      "title": "FAQ",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ortho-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ortho-01-page",
+          "contentRef": "heroFaq"
+        },
+        {
+          "type": "faq",
+          "variant": "ortho-01-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "footer",
+          "variant": "ortho-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ortho-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ortho-01-page",
+          "contentRef": "heroKontakt"
+        },
+        {
+          "type": "contact",
+          "variant": "ortho-01-contact",
+          "contentRef": "contact"
+        },
+        {
           "type": "footer",
           "variant": "ortho-01-footer",
           "contentRef": "footer"
@@ -118,5 +231,8 @@
   ],
   "content": {
     "default": "content/cs.json"
-  }
+  },
+  "tags": [
+    "v3"
+  ]
 }

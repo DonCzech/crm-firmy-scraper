@@ -56,7 +56,7 @@ export function PromoSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "nails-01-products") return <ProductsNails01 content={content} sectionId={sectionId} />;
   if (variant === "nails-02-marquee")  return <MarqueeNails02 content={content} sectionId={sectionId} />;
   if (variant === "nails-03-promo")    return <PromoNails03 content={content} sectionId={sectionId} />;
-  if (variant === "ortho-01-promo")    return <PromoOrtho01 content={content} sectionId={sectionId} />;
+  if (variant === "ortho-01-promo")    return <PromoOrtho01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ortho-02-process")  return <ProcessOrtho02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "dental-01-promo")   return <PromoDental01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clinic-02-promo")   return <PromoClinic02 content={content} sectionId={sectionId} />;
@@ -2001,72 +2001,59 @@ function PromoReality06Listings({ content, sectionId, tenantSlug, isAdmin }: { c
 }
 
 // ── ortho-01-promo ─────────────────────────────────────────────────────────────
-// Teal horizontal CTA strip: icon + title + perex vlevo, white pill CTA vpravo
-// ──────────────────────────────────────────────────────────────────────────────
-function PromoOrtho01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL  = "#00b7ad";
-  const SLATE = "#244757";
-  const FONT  = "'Inter', 'DM Sans', Arial, sans-serif";
-
+// Porcelain V3: wash pás (#E9F4F1) — Young Serif title + message vlevo, teal pill CTA vpravo.
+function PromoOrtho01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const title   = String(content.title   ?? "Objednejte se na konzultaci zdarma");
   const message = String(content.message ?? "Uděláme scan vašich zubů, navrhneme vám možnosti léčby a stanovíme cenu.");
   const ctaText = String(content.ctaText ?? "Objednat se");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
 
   return (
-    <section
-      id="konzultace"
-      data-section-type="promo"
-      data-variant="ortho-01-promo"
-      style={{ backgroundColor: TEAL, padding: "clamp(28px, 3.5vw, 40px) 0", fontFamily: FONT }}
-    >
-      <div style={{
-        maxWidth: 1200,
-        margin: "0 auto",
-        padding: "0 clamp(20px, 5vw, 60px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "clamp(20px, 4vw, 48px)",
-        flexWrap: "wrap",
-      }}>
-        {/* Icon + text */}
-        <div style={{ display: "flex", alignItems: "center", gap: "clamp(16px, 2vw, 24px)", flexShrink: 1, minWidth: 0 }}>
-          {/* Tooth icon */}
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ flexShrink: 0 }}>
-            <circle cx="24" cy="24" r="22" fill="rgba(255,255,255,0.18)" />
-            <path d="M24 10c-3 0-5.5 1.2-7 3.2-1.5-2-4-3.2-7-3.2C6.3 10 3 13.5 3 18c0 4.2 2 8 4.5 11 2.5 3 4.5 9 5.5 11 .5 1.5 1.5 1.5 2 0 .8-2.5 2-5 3-6.5.5-.8 1.5-1.5 3-1.5s2.5.7 3 1.5c1 1.5 2.2 4 3 6.5.5 1.5 1.5 1.5 2 0 1-2 3-8 5.5-11C43 26 45 22.2 45 18c0-4.5-3.3-8-7-8-3 0-5.5 1.2-7 3.2C29.5 11.2 27 10 24 10z" fill="white" opacity="0.95"/>
-          </svg>
-          <div>
-            <h2 style={{ fontSize: "clamp(1.05rem, 2vw, 1.35rem)", fontWeight: 700, color: "#fff", margin: "0 0 6px", lineHeight: 1.2 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <p style={{ fontSize: "clamp(0.82rem, 1.2vw, 0.95rem)", color: "rgba(255,255,255,0.88)", margin: 0, lineHeight: 1.5 }}>
-              <GenericEditableText sectionId={sectionId} field="message" value={message} tag="span" />
-            </p>
-          </div>
+    <section id="konzultace" data-section-type="promo" data-variant="ortho-01-promo" className="o01p-strip">
+      <style>{`
+        .o01p-strip {
+          background: #E9F4F1;
+          border-top: 1px solid var(--color-border, #E4E7E3);
+          border-bottom: 1px solid var(--color-border, #E4E7E3);
+          padding: clamp(2.4rem, 5vw, 3.6rem) 0;
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01p-inner {
+          max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: flex; align-items: center; justify-content: space-between;
+          gap: clamp(1.5rem, 4vw, 3rem); flex-wrap: wrap;
+        }
+        .o01p-title {
+          font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(1.5rem, 2.6vw, 2.1rem); color: var(--color-text, #14201E);
+          line-height: 1.15; margin: 0 0 0.55rem; text-wrap: balance;
+        }
+        .o01p-msg {
+          font-size: clamp(0.95rem, 1.4vw, 1.05rem); color: var(--color-text-muted, #5F6B68);
+          line-height: 1.6; margin: 0; max-width: 36rem;
+        }
+        .o01p-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem; flex-shrink: 0;
+          padding: 0.95rem 1.9rem; border-radius: 9999px;
+          background: var(--color-primary, #0F766E); color: #fff;
+          font-size: 1rem; font-weight: 600; text-decoration: none;
+          box-shadow: 0 10px 24px -12px rgba(15,118,110,0.55);
+          transition: background 0.25s, transform 0.25s;
+        }
+        .o01p-cta:hover { background: var(--color-accent, #0B5D57); transform: translateY(-2px); }
+      `}</style>
+      <div className="o01p-inner">
+        <div>
+          <h2 className="o01p-title" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          <p className="o01p-msg">
+            <GenericEditableText sectionId={sectionId} field="message" value={message} tag="span" />
+          </p>
         </div>
-
-        {/* CTA */}
-        <a
-          href={ctaHref}
-          data-btn="primary"
-          style={{
-            display: "inline-flex", alignItems: "center",
-            padding: "14px 36px",
-            backgroundColor: "#fff",
-            color: SLATE,
-            fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700,
-            borderRadius: "100px",
-            textDecoration: "none",
-            whiteSpace: "nowrap",
-            flexShrink: 0,
-            transition: "background-color 0.18s, color 0.18s",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = SLATE; e.currentTarget.style.color = "#fff"; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = "#fff"; e.currentTarget.style.color = SLATE; }}
-        >
+        <a href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)} data-btn="primary" className="o01p-cta">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
       </div>
     </section>

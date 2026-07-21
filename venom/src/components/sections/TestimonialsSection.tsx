@@ -2999,87 +2999,82 @@ function TestimonialsAutoservis03({ content, sectionId }: { content: Record<stri
 }
 
 // ── ortho-01-testimonials ──────────────────────────────────────────────────────
-// Surface bg (#eef8f8), velká uvozovka, citát doktora, foto vpravo
-// ─────────────────────────────────────────────────────────────────────────────
+// Porcelain V3: wash split karta — foto lékaře vlevo, velký Young Serif citát
+// + authorName/authorRole/authorBio vpravo.
 function TestimonialsOrtho01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL    = "#00b7ad";
-  const SLATE   = "#244757";
-  const SURFACE = "#eef8f8";
-  const FONT    = "'Inter', 'DM Sans', Arial, sans-serif";
-
-  const quote      = String(content.quote      ?? "Moderní ortodoncie dnes umožňuje dosáhnout krásného a zdravého úsměvu.");
-  const authorName = String(content.authorName ?? "Dr. Jan Demo, Dr. h. c.");
+  const quote      = String(content.quote      ?? "Moderní ortodoncie dnes umožňuje dosáhnout krásného a zdravého úsměvu v jakémkoli věku.");
+  const authorName = String(content.authorName ?? "Dr. Jan Demo");
   const authorRole = String(content.authorRole ?? "Zakladatel kliniky");
   const authorBio  = String(content.authorBio  ?? "");
-  const imageUrl   = String(content.imageUrl   ?? "");
+  const imageUrl   = String(content.imageUrl   ?? "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?w=760&h=900&fit=crop&auto=format&q=80");
 
   return (
-    <section
-      data-section-type="testimonials"
-      data-variant="ortho-01-testimonials"
-      style={{ backgroundColor: SURFACE, padding: "clamp(56px, 7vw, 96px) 0", fontFamily: FONT }}
-    >
-      <div style={{
-        maxWidth: 1100,
-        margin: "0 auto",
-        padding: "0 clamp(20px, 5vw, 60px)",
-        display: "grid",
-        gridTemplateColumns: "1fr auto",
-        gap: "clamp(40px, 6vw, 80px)",
-        alignItems: "center",
-      }}
-        className="o01-testi-grid"
-      >
-        {/* Text side */}
-        <div>
-          {/* Giant quote mark */}
-          <svg width="64" height="48" viewBox="0 0 64 48" fill="none" aria-hidden style={{ display: "block", marginBottom: 16 }}>
-            <text x="0" y="44" fontFamily="Georgia, serif" fontSize="80" fill={TEAL} opacity="0.25">&ldquo;</text>
-          </svg>
-
-          <blockquote style={{ margin: "0 0 32px" }}>
-            <p style={{
-              fontSize: "clamp(1.15rem, 2vw, 1.55rem)",
-              fontWeight: 600,
-              color: SLATE,
-              lineHeight: 1.65,
-              fontStyle: "italic",
-              margin: 0,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
-            </p>
-          </blockquote>
-
-          {/* Divider */}
-          <div style={{ width: 48, height: 3, backgroundColor: TEAL, borderRadius: 2, marginBottom: 20 }} />
-
-          <p style={{ fontSize: "1rem", fontWeight: 700, color: SLATE, margin: "0 0 4px" }}>
-            <GenericEditableText sectionId={sectionId} field="authorName" value={authorName} tag="span" />
-          </p>
-          <p style={{ fontSize: "0.88rem", color: TEAL, fontWeight: 500, margin: "0 0 16px" }}>
-            <GenericEditableText sectionId={sectionId} field="authorRole" value={authorRole} tag="span" />
-          </p>
-          {authorBio && (
-            <p style={{ fontSize: "0.88rem", color: "#506470", lineHeight: 1.7, margin: 0, maxWidth: 560 }}>
-              <GenericEditableText sectionId={sectionId} field="authorBio" value={authorBio} tag="span" />
-            </p>
-          )}
-        </div>
-
-        {/* Doctor photo */}
-        <div style={{ flexShrink: 0, width: "clamp(200px, 22vw, 320px)", aspectRatio: "3/4", borderRadius: 16, overflow: "hidden", position: "relative" }}>
-          <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={authorName} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-            <img loading="lazy" src={imageUrl} alt={authorName} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
-          </GenericEditableImage>
-        </div>
-      </div>
-
+    <section data-section-type="testimonials" data-variant="ortho-01-testimonials" className="o01tm-section">
       <style>{`
-        @media (max-width: 640px) {
-          .o01-testi-grid { grid-template-columns: 1fr !important; }
-          .o01-testi-grid > div:last-child { width: 100% !important; aspect-ratio: 4/3 !important; }
+        .o01tm-section {
+          background: var(--color-bg, #FAFAF8);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01tm-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .o01tm-card {
+          display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+          background: #E9F4F1; border-radius: 20px; overflow: hidden;
+          border: 1px solid var(--color-border, #E4E7E3);
+        }
+        .o01tm-media { position: relative; min-height: 22rem; }
+        .o01tm-media-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .o01tm-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .o01tm-body {
+          padding: clamp(2rem, 4.5vw, 3.6rem);
+          display: flex; flex-direction: column; justify-content: center;
+        }
+        .o01tm-mark {
+          font-family: 'Young Serif', serif; font-size: 3.4rem; line-height: 1;
+          color: var(--color-primary, #0F766E); margin: 0 0 0.6rem;
+        }
+        .o01tm-quote {
+          font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(1.35rem, 2.4vw, 1.85rem); color: var(--color-text, #14201E);
+          line-height: 1.35; margin: 0 0 1.6rem; text-wrap: balance;
+        }
+        .o01tm-author { border-top: 1px solid rgba(15,118,110,0.22); padding-top: 1.2rem; }
+        .o01tm-name { font-size: 1rem; font-weight: 700; color: var(--color-text, #14201E); margin: 0; }
+        .o01tm-role { font-size: 0.86rem; font-weight: 600; color: var(--color-primary, #0F766E); margin: 0.15rem 0 0; }
+        .o01tm-bio { font-size: 0.92rem; color: var(--color-text-muted, #5F6B68); line-height: 1.6; margin: 0.7rem 0 0; }
+        @media (max-width: 860px) {
+          .o01tm-card { grid-template-columns: 1fr; }
+          .o01tm-media { min-height: 17rem; }
         }
       `}</style>
+      <div className="o01tm-inner">
+        <figure className="o01tm-card" style={{ margin: 0 }}>
+          <div className="o01tm-media">
+            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={authorName} className="o01tm-media-wrap">
+              <img src={imageUrl} alt={authorName} loading="lazy" />
+            </GenericEditableImage>
+          </div>
+          <div className="o01tm-body">
+            <span className="o01tm-mark" aria-hidden>&ldquo;</span>
+            <blockquote className="o01tm-quote" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
+              <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
+            </blockquote>
+            <figcaption className="o01tm-author">
+              <p className="o01tm-name">
+                <GenericEditableText sectionId={sectionId} field="authorName" value={authorName} tag="span" />
+              </p>
+              <p className="o01tm-role">
+                <GenericEditableText sectionId={sectionId} field="authorRole" value={authorRole} tag="span" />
+              </p>
+              {authorBio && (
+                <p className="o01tm-bio">
+                  <GenericEditableText sectionId={sectionId} field="authorBio" value={authorBio} tag="span" />
+                </p>
+              )}
+            </figcaption>
+          </div>
+        </figure>
+      </div>
     </section>
   );
 }

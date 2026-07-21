@@ -6965,92 +6965,122 @@ function ServicesDental01({ content, sectionId }: { content: Record<string, unkn
 }
 
 // ── ortho-01-services ──────────────────────────────────────────────────────────
-// 5 důvodů: střídavé řady (foto vlevo / vpravo), velké dekorativní číslo
-// ─────────────────────────────────────────────────────────────────────────────
+// Porcelain V3 „5 důvodů": vlevo sticky foto karta, vpravo číslované hairline
+// řádky s malým thumbem (items: number/name/description/imageUrl).
 function ServicesOrtho01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL  = "#00b7ad";
-  const SLATE = "#244757";
-  const FONT  = "'Inter', 'DM Sans', Arial, sans-serif";
-
   type Item = { number?: string; name?: string; description?: string; imageUrl?: string };
 
+  const eyebrow = String(content.eyebrow ?? "Proč k nám");
   const title = String(content.title ?? "5 důvodů, proč chtít naše neviditelná rovnátka");
+  const image = String(content.image ?? "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=760&h=950&fit=crop&auto=format&q=80");
   const items = ((content.items as Item[]) ?? []).slice(0, 6);
 
   return (
-    <section
-      id="sluzby"
-      data-section-type="services"
-      data-variant="ortho-01-services"
-      style={{ backgroundColor: "#fff", padding: "clamp(56px, 7vw, 96px) 0", fontFamily: FONT }}
-    >
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-
-        {/* Section title */}
-        <h2 style={{
-          textAlign: "center",
-          fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
-          fontWeight: 800,
-          color: SLATE,
-          margin: "0 0 clamp(40px, 6vw, 72px)",
-          lineHeight: 1.2,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-
-        {/* Items */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(40px, 6vw, 72px)" }}>
-          {items.map((item, i) => {
-            const isEven = i % 2 === 1;
-            const num    = item.number ?? `${i + 1}.`;
-            const name   = item.name ?? "";
-            const desc   = item.description ?? "";
-            const imgSrc = item.imageUrl ?? "";
-
-            return (
-              <div
-                key={i}
-                className={`o01-row${isEven ? " o01-row-rev" : ""}`}
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "clamp(32px, 5vw, 64px)",
-                  alignItems: "center",
-                  direction: isEven ? "rtl" : "ltr",
-                }}
-              >
-                {/* Image */}
-                <div style={{ direction: "ltr", position: "relative", borderRadius: 16, overflow: "hidden", aspectRatio: "4/3" }}>
-                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.imageUrl`} src={imgSrc} alt={name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-                    <img loading="lazy" src={imgSrc} alt={name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-                  </GenericEditableImage>
-                </div>
-
-                {/* Text */}
-                <div style={{ direction: "ltr" }}>
-                  {/* Big number */}
-                  <span style={{ display: "block", fontSize: "clamp(4rem, 8vw, 7rem)", fontWeight: 900, color: TEAL, opacity: 0.15, lineHeight: 1, marginBottom: "-0.2em" }}>
-                    {num}
-                  </span>
-                  <h3 style={{ fontSize: "clamp(1.2rem, 2vw, 1.6rem)", fontWeight: 800, color: SLATE, margin: "0 0 14px", lineHeight: 1.25 }}>
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" />
-                  </h3>
-                  <p style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.05rem)", color: "#506470", lineHeight: 1.75, margin: 0 }}>
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
+    <section id="sluzby" data-section-type="services" data-variant="ortho-01-services" className="o01sv-section">
       <style>{`
-        @media (max-width: 680px) {
-          .o01-row, .o01-row-rev { grid-template-columns: 1fr !important; direction: ltr !important; }
-          .o01-row-rev > div { direction: ltr !important; }
+        .o01sv-section {
+          background: var(--color-surface, #ffffff);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01sv-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .o01sv-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em;
+          text-transform: uppercase; color: var(--color-primary, #0F766E); margin: 0 0 1.1rem;
+        }
+        .o01sv-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #0F766E); }
+        .o01sv-title {
+          font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(1.9rem, 3.4vw, 2.7rem); color: var(--color-text, #14201E);
+          line-height: 1.12; letter-spacing: -0.01em; text-wrap: balance;
+          margin: 0 0 clamp(2.4rem, 5vw, 3.8rem); max-width: 42rem;
+        }
+        .o01sv-grid {
+          display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+          gap: clamp(2.5rem, 5vw, 4.5rem); align-items: start;
+        }
+        .o01sv-media { position: sticky; top: 6rem; }
+        .o01sv-photo {
+          position: relative; aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
+          box-shadow: 0 30px 60px -30px rgba(20,32,30,0.3);
+        }
+        .o01sv-photo-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .o01sv-photo img {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .o01sv-photo:hover img { transform: scale(1.05); }
+        .o01sv-rows { display: flex; flex-direction: column; }
+        .o01sv-row {
+          display: grid; grid-template-columns: auto 1fr auto; gap: clamp(1rem, 2.5vw, 1.6rem);
+          align-items: start; padding: clamp(1.3rem, 2.5vw, 1.8rem) 0;
+          border-bottom: 1px solid var(--color-border, #E4E7E3);
+        }
+        .o01sv-row:first-child { padding-top: 0; }
+        .o01sv-num {
+          font-family: 'Young Serif', serif; font-size: 1.05rem;
+          color: var(--color-primary, #0F766E); line-height: 1.4; min-width: 2.2rem;
+        }
+        .o01sv-name {
+          font-family: 'Outfit', sans-serif; font-size: 1.12rem; font-weight: 600;
+          color: var(--color-text, #14201E); margin: 0 0 0.4rem; line-height: 1.35;
+        }
+        .o01sv-desc {
+          font-size: 0.95rem; color: var(--color-text-muted, #5F6B68);
+          line-height: 1.65; margin: 0;
+        }
+        .o01sv-thumb {
+          position: relative; width: 72px; height: 72px; border-radius: 12px;
+          overflow: hidden; flex-shrink: 0;
+        }
+        .o01sv-thumb-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .o01sv-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        @media (max-width: 960px) {
+          .o01sv-grid { grid-template-columns: 1fr; }
+          .o01sv-media { position: static; max-width: 30rem; }
+          .o01sv-thumb { width: 56px; height: 56px; }
         }
       `}</style>
+      <div className="o01sv-inner">
+        <p className="o01sv-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </p>
+        <h2 className="o01sv-title" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h2>
+        <div className="o01sv-grid">
+          <div className="o01sv-media">
+            <div className="o01sv-photo">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Pacientka s neviditelnými rovnátky" className="o01sv-photo-wrap">
+                <img src={image} alt="Pacientka s neviditelnými rovnátky" loading="lazy" />
+              </GenericEditableImage>
+            </div>
+          </div>
+          <div className="o01sv-rows">
+            {items.map((item, i) => (
+              <div className="o01sv-row" key={i}>
+                <span className="o01sv-num">{item.number ?? `0${i + 1}`}</span>
+                <div>
+                  <h3 className="o01sv-name" style={{ fontFamily: "'Outfit', sans-serif", color: "var(--color-text, #14201E)" }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
+                  </h3>
+                  <p className="o01sv-desc">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
+                  </p>
+                </div>
+                {item.imageUrl ? (
+                  <div className="o01sv-thumb">
+                    <GenericEditableImage sectionId={sectionId} field={`items.${i}.imageUrl`} src={item.imageUrl} alt={item.name ?? ""} className="o01sv-thumb-wrap">
+                      <img src={item.imageUrl} alt="" loading="lazy" />
+                    </GenericEditableImage>
+                  </div>
+                ) : <span aria-hidden />}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

@@ -3056,6 +3056,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "ortho-01-hero") {
     return <HeroOrtho01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-ortho-01-page") {
+    return <HeroOrtho01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "ortho-02-hero") {
     return <HeroOrtho02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -11346,116 +11349,220 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
 }
 
 // ── ortho-01-hero ─────────────────────────────────────────────────────────────
-// 100vh fullbleed, navbar (84px) transparentně překrývá — padding-top: 84px.
-// Pozadí: fotka + rgba(0,0,0,0.45) jednoduchý overlay.
-// Obsah vlevo, max-width 560px: H1 Inter 800 bílý + subtitle + Google rating badge.
-// Google rating badge: Google "G" logo + hvězdičky SVG + "4,8 z 5" tučně teal + počet recenzí.
-// Ref: svetrov.cz hero — levostranný layout, žádné CTA tlačítko (jen scroll dolů k promo stripu).
-// ─────────────────────────────────────────────────────────────────────────────
-function HeroOrtho01({ content, sectionId, tenantSlug: _t, isAdmin: _a }: Omit<Props, "variant">) {
-  const TEAL  = "#00b7ad";
-  const WHITE = "#ffffff";
-  const FONT  = "'Inter', 'Arial', sans-serif";
-  const NAVBAR_H = 92; // shoduje se s výškou NavbarOrtho01
-
+// Porcelain V3 split hero: vlevo eyebrow + Young Serif H1 + subtitle + CTA pár
+// + Google rating řádek; vpravo foto karta 4/5 (radius 20) s plovoucím chipem.
+function HeroOrtho01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
-  const title        = String(c.title        ?? "Začněte se\nusmívat");
+  const eyebrow      = String(c.eyebrow      ?? "Ortodoncie pro dospělé i děti");
+  const title        = String(c.title        ?? "Rovnátka, která nejsou vidět.\nÚsměv, který ano.");
   const subtitle     = String(c.subtitle     ?? "Neviditelná rovnátka změní váš úsměv, a tím i život. V jakémkoli věku.");
-  const bgImageRaw   = String(c.bgImage      ?? "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/692fd8825f36c8de4acaac01_Mlada zena + pozadi.avif");
-  const bgImage      = bgImageRaw.replace(/ /g, "%20").replace(/\+/g, "%2B");
+  const image        = String(c.image ?? c.bgImage ?? "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&h=1125&fit=crop&auto=format&q=80");
+  const ctaText      = String(c.ctaText      ?? "Konzultace zdarma");
+  const ctaHref      = String(c.ctaHref      ?? "/kontakt");
+  const cta2Text     = String(c.cta2Text     ?? "Prohlédnout služby");
+  const cta2Href     = String(c.cta2Href     ?? "/sluzby");
   const googleRating = String(c.googleRating ?? "4,8 z 5");
   const googleCount  = String(c.googleReviewCount ?? "5 100+ recenzí");
+  const chipText     = googleRating.replace(/\s*z\s*/, "/");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <section style={{
-      position: "relative",
-      width: "100%",
-      minHeight: "690px",
-      display: "flex",
-      alignItems: "center",
-      overflow: "hidden",
-      fontFamily: FONT,
-      backgroundColor: "#0a1520",
-    }}>
-      {/* Background */}
-      <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImageRaw} alt="Hero pozadí" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-        <img
-          src={bgImage}
-          alt="Neviditelná rovnátka"
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center" }}
-        />
-      </GenericEditableImage>
+    <section className="o01h-hero">
+      <style>{`
+        .o01h-hero {
+          font-family: 'Outfit', sans-serif;
+          background: var(--color-bg, #FAFAF8);
+          padding: calc(4.6rem + clamp(2.5rem, 7vh, 4.5rem)) 0 clamp(3rem, 8vh, 5.5rem);
+          overflow: hidden;
+        }
+        .o01h-grid {
+          max-width: 76rem; margin: 0 auto;
+          padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+          gap: clamp(2.5rem, 5vw, 5rem); align-items: center;
+        }
+        .o01h-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em;
+          text-transform: uppercase; color: var(--color-primary, #0F766E);
+          margin: 0 0 1.3rem;
+        }
+        .o01h-eyebrow::before {
+          content: ""; width: 28px; height: 2px; background: var(--color-primary, #0F766E);
+        }
+        .o01h-h1 {
+          font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(2.4rem, 4.6vw, 3.8rem); line-height: 1.08;
+          letter-spacing: -0.01em; text-wrap: balance; white-space: pre-line;
+          color: var(--color-text, #14201E); margin: 0 0 1.35rem;
+        }
+        .o01h-sub {
+          font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.65;
+          color: var(--color-text-muted, #5F6B68); max-width: 34rem; margin: 0 0 2.1rem;
+        }
+        .o01h-ctas { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 0 0 2.3rem; }
+        .o01h-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 0.9rem 1.8rem; border-radius: 9999px;
+          background: var(--color-primary, #0F766E); color: #fff;
+          font-size: 0.98rem; font-weight: 600; text-decoration: none;
+          box-shadow: 0 10px 24px -12px rgba(15,118,110,0.55);
+          transition: background 0.25s, transform 0.25s;
+        }
+        .o01h-cta:hover { background: var(--color-accent, #0B5D57); transform: translateY(-2px); }
+        .o01h-cta2 {
+          display: inline-flex; align-items: center; gap: 0.45rem;
+          padding: 0.9rem 1.4rem; border-radius: 9999px;
+          border: 1px solid var(--color-border, #E4E7E3);
+          color: var(--color-text, #14201E); background: var(--color-surface, #fff);
+          font-size: 0.98rem; font-weight: 600; text-decoration: none;
+          transition: border-color 0.25s, transform 0.25s;
+        }
+        .o01h-cta2:hover { border-color: var(--color-primary, #0F766E); transform: translateY(-2px); }
+        .o01h-rating { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+        .o01h-rating-text { line-height: 1.25; }
+        .o01h-rating-strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--color-text, #14201E); }
+        .o01h-rating-muted { display: block; font-size: 0.8rem; font-weight: 500; color: var(--color-text-muted, #5F6B68); }
+        .o01h-media { position: relative; }
+        .o01h-photo {
+          position: relative; aspect-ratio: 4 / 5; border-radius: 20px; overflow: hidden;
+          box-shadow: 0 30px 60px -30px rgba(20,32,30,0.35);
+        }
+        .o01h-photo-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .o01h-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .o01h-chip {
+          position: absolute; left: clamp(-1.5rem, -2vw, -1rem); bottom: clamp(1.5rem, 4vh, 2.6rem);
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 0.7rem 1.1rem; border-radius: 9999px;
+          background: var(--color-surface, #fff); border: 1px solid var(--color-border, #E4E7E3);
+          box-shadow: 0 16px 34px -18px rgba(20,32,30,0.35);
+          font-size: 0.88rem; font-weight: 700; color: var(--color-text, #14201E);
+          white-space: nowrap;
+        }
+        .o01h-chip small { font-weight: 500; color: var(--color-text-muted, #5F6B68); }
+        @media (prefers-reduced-motion: no-preference) {
+          .o01h-grid > * { animation: o01hUp 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+          .o01h-media { animation-delay: 0.12s; }
+          @keyframes o01hUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+        }
+        @media (max-width: 960px) {
+          .o01h-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+          .o01h-chip { left: 1rem; }
+        }
+      `}</style>
 
-      {/* Overlay */}
-      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.47)" }} />
-
-      {/* Content — vlevo */}
-      <div style={{
-        position: "relative",
-        zIndex: 2,
-        width: "100%",
-        maxWidth: 1280,
-        margin: "0 auto",
-        padding: `${NAVBAR_H + 80}px clamp(20px, 6vw, 80px) 100px`,
-      }}>
-        <div style={{ maxWidth: 560 }}>
-
-          {/* H1 */}
-          <h1 style={{
-            fontFamily: FONT,
-            fontSize: "clamp(2.6rem, 6vw, 4.2rem)",
-            fontWeight: 800,
-            color: WHITE,
-            lineHeight: 1.1,
-            margin: "0 0 20px",
-            whiteSpace: "pre-line",
-          }}>
+      <div className="o01h-grid">
+        <div>
+          <p className="o01h-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
+          <h1 className="o01h-h1" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
-
-          {/* Subtitle */}
-          <p style={{
-            fontFamily: FONT,
-            fontSize: "clamp(1rem, 2vw, 1.15rem)",
-            fontWeight: 400,
-            color: "rgba(255,255,255,0.88)",
-            lineHeight: 1.6,
-            margin: "0 0 32px",
-          }}>
+          <p className="o01h-sub">
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
-
-          {/* Google rating badge */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            {/* Google G logo */}
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Google" style={{ flexShrink: 0 }}>
+          <div className="o01h-ctas">
+            <a href={resolve(ctaHref)} data-btn="primary" className="o01h-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href={resolve(cta2Href)} className="o01h-cta2">
+              <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+            </a>
+          </div>
+          <div className="o01h-rating">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Google" style={{ flexShrink: 0 }}>
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
               <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
             </svg>
-
-            {/* Stars */}
-            <svg width="90" height="18" viewBox="0 0 90 18" fill="#FBBC05" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <svg width="90" height="18" viewBox="0 0 90 18" fill="#F5A623" xmlns="http://www.w3.org/2000/svg" aria-hidden>
               {[0,1,2,3,4].map(i => (
                 <path key={i} transform={`translate(${i*18},0)`} d="M9 1l2.06 6.26H17l-4.81 3.49L14.18 17 9 13.51 3.82 17l1.99-6.25L1 7.26h5.94z"/>
               ))}
             </svg>
-
-            {/* Rating text */}
-            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
-              <span style={{ fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, color: TEAL }}>
+            <div className="o01h-rating-text">
+              <span className="o01h-rating-strong">
                 <GenericEditableText sectionId={sectionId} field="googleRating" value={googleRating} tag="span" />
               </span>
-              <span style={{ fontFamily: FONT, fontSize: "0.78rem", fontWeight: 600, color: WHITE }}>
-                (<GenericEditableText sectionId={sectionId} field="googleReviewCount" value={googleCount} tag="span" />)
+              <span className="o01h-rating-muted">
+                <GenericEditableText sectionId={sectionId} field="googleReviewCount" value={googleCount} tag="span" />
               </span>
             </div>
           </div>
+        </div>
 
+        <div className="o01h-media">
+          <div className="o01h-photo">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Spokojená pacientka" className="o01h-photo-wrap">
+              <img src={image} alt="Spokojená pacientka s novým úsměvem" loading="eager" />
+            </GenericEditableImage>
+          </div>
+          <div className="o01h-chip" aria-hidden>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F5A623" aria-hidden><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+            {chipText} <small>na Google</small>
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+// ── hero-ortho-01-page ────────────────────────────────────────────────────────
+// Porcelain podstránkový hero: breadcrumb + Young Serif H1 + subtitle.
+function HeroOrtho01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title    = String(c.title ?? "Podstránka");
+  const subtitle = String(c.subtitle ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .o01hp-section {
+          background: var(--color-bg, #FAFAF8);
+          padding: calc(4.6rem + clamp(2rem, 4.5vw, 3.4rem)) 0 clamp(2.2rem, 5vw, 3.6rem);
+          border-bottom: 1px solid var(--color-border, #E4E7E3);
+          font-family: 'Outfit', sans-serif;
+        }
+        .o01hp-inner { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .o01hp-crumbs {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.84rem; color: var(--color-text-muted, #5F6B68); margin-bottom: 1.1rem;
+        }
+        .o01hp-crumbs a { color: var(--color-text-muted, #5F6B68); text-decoration: none; font-weight: 500; }
+        .o01hp-crumbs a:hover { color: var(--color-primary, #0F766E); }
+        .o01hp-crumbs svg { color: var(--color-border, #E4E7E3); }
+        .o01hp-h1 {
+          font-family: 'Young Serif', serif; font-weight: 400;
+          font-size: clamp(2.1rem, 4.2vw, 3.2rem); color: var(--color-text, #14201E);
+          line-height: 1.08; margin: 0; letter-spacing: -0.01em; text-wrap: balance;
+        }
+        .o01hp-sub {
+          font-size: clamp(0.98rem, 1.5vw, 1.1rem); color: var(--color-text-muted, #5F6B68);
+          line-height: 1.7; margin: 1rem 0 0; max-width: 40rem;
+        }
+      `}</style>
+      <section className="o01hp-section" data-template="hero-ortho-01-page">
+        <div className="o01hp-inner">
+          <nav className="o01hp-crumbs" aria-label="Drobečková navigace">
+            <a href={resolve(breadcrumbHref)}><GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" /></a>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span aria-current="page">{title}</span>
+          </nav>
+          <h1 className="o01hp-h1" style={{ fontFamily: "'Young Serif', serif", color: "var(--color-text, #14201E)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle && (
+            <p className="o01hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          )}
+        </div>
+      </section>
+    </>
   );
 }
 
