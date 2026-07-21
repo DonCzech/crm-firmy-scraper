@@ -1,0 +1,7 @@
+<svg width="160" height="34" viewBox="0 0 160 34" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SIGNAL">
+  <rect x="1" y="4" width="26" height="26" rx="6" fill="#2563EB"/>
+  <rect x="7" y="18.5" width="3.4" height="6.5" rx="1.2" fill="#FFFFFF" opacity="0.55"/>
+  <rect x="12.4" y="14.5" width="3.4" height="10.5" rx="1.2" fill="#FFFFFF" opacity="0.8"/>
+  <rect x="17.8" y="9.5" width="3.4" height="15.5" rx="1.2" fill="#FFFFFF"/>
+  <text x="35" y="24" font-family="'Oswald', 'Arial Narrow', system-ui, sans-serif" font-size="17" font-weight="600" letter-spacing="2.2" fill="#101418">SIGNAL</text>
+</svg>
