@@ -394,6 +394,25 @@ export async function initDb(): Promise<void> {
       created_at TIMESTAMPTZ DEFAULT now()
     );
 
+    -- ── Poptávky „Uděláme to za vás" z onboarding dotazníku ─────────────────────
+    CREATE TABLE IF NOT EXISTS agency_leads (
+      id SERIAL PRIMARY KEY,
+      project_type TEXT NOT NULL,
+      goal TEXT NOT NULL,
+      inspiration TEXT,
+      current_web TEXT,
+      budget TEXT NOT NULL,
+      timeline TEXT,
+      name TEXT NOT NULL,
+      company TEXT,
+      email TEXT NOT NULL,
+      phone TEXT,
+      locale TEXT NOT NULL DEFAULT 'cs',
+      ip_address TEXT,
+      status TEXT NOT NULL DEFAULT 'new',
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+
     -- ── Contact form submissions ───────────────────────────────────────────────
     CREATE TABLE IF NOT EXISTS contact_submissions (
       id SERIAL PRIMARY KEY,

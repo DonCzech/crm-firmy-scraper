@@ -1,0 +1,31 @@
+import { chromium } from "playwright-core";
+const OUT = "/private/tmp/claude-501/-Users-apple-DEV-CRM/6a63bb57-07f9-43dc-a294-a67cc189c174/scratchpad";
+const browser = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const page = await (await browser.newContext({ viewport: { width: 1500, height: 940 } })).newPage();
+await page.goto("http://localhost:3015/cs", { waitUntil: "load", timeout: 90000 });
+await page.waitForTimeout(1200);
+await page.click("text=/Vyzkoušet zdarma/i");
+await page.waitForTimeout(800);
+await page.click("text=Vybrat šablonu e-shopu");
+await page.waitForSelector("div.grid > button", { timeout: 20000 });
+await page.waitForTimeout(3500);
+console.log("eshop cards:", await page.locator("div.grid > button").count());
+await page.screenshot({ path: `${OUT}/qa2-eshop-grid.png` });
+await page.click("text=Zpět");
+await page.waitForTimeout(600);
+await page.click("text=Vybrat šablonu webu");
+await page.waitForTimeout(3000);
+console.log("web cards:", await page.locator("div.grid > button").count());
+await page.screenshot({ path: `${OUT}/qa2-web-grid.png` });
+await browser.close();
+
+// Mobile choice screen
+const b2 = await chromium.launch({ executablePath: "/Users/apple/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell" });
+const m = await (await b2.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true })).newPage();
+await m.goto("http://localhost:3015/cs", { waitUntil: "load", timeout: 90000 });
+await m.waitForTimeout(1200);
+await m.click("text=/Vyzkoušet zdarma/i");
+await m.waitForTimeout(1000);
+await m.screenshot({ path: `${OUT}/qa2-mobile-choice.png` });
+await b2.close();
+console.log("done");

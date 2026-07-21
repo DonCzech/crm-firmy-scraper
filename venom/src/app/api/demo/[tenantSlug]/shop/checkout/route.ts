@@ -8,6 +8,7 @@ import { createGoPayShopPayment } from "@/lib/commerce/shop-payments";
 import { sendOrderEmails } from "@/lib/commerce/emails";
 import { isAddonActive } from "@/lib/commerce/addons";
 import { recordConversion, AFF_COOKIE_PREFIX } from "@/lib/commerce/affiliates";
+import { isSubscriptionLocked } from "@/lib/trial-gate";
 
 /**
  * Public storefront API — odeslání objednávky.
@@ -59,6 +60,9 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
 
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant) return Response.json({ error: "Not found" }, { status: 404 });
+  if (await isSubscriptionLocked(tenant.id)) {
+    return Response.json({ error: "Obchod je momentálně nedostupný." }, { status: 403 });
+  }
   const shop = await getShopByTenantId(tenant.id);
   if (!shop) return Response.json({ error: "Not found" }, { status: 404 });
 

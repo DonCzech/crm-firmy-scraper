@@ -4,6 +4,9 @@ import { listCoupons, createCoupon, updateCoupon, deleteCoupon } from "@/lib/com
 
 interface RouteParams { params: Promise<{ tenantSlug: string }> }
 
+/** Jediné typy, které umí validateCoupon — cokoliv jiného by vzniklo jako mrtvý kupón. */
+const COUPON_TYPES = new Set(["percentage", "fixed", "free_shipping"]);
+
 export async function GET(req: NextRequest, { params }: RouteParams) {
   const { tenantSlug } = await params;
   const guard = await requireCommerceAdmin(req, tenantSlug);
@@ -20,6 +23,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   if (!body || typeof body !== "object") return jsonError("Neplatný JSON");
   const d = body as Record<string, unknown>;
   if (!d.code || !d.type || d.value === undefined) return jsonError("code, type a value jsou povinné");
+  if (!COUPON_TYPES.has(String(d.type))) return jsonError("type musí být percentage, fixed nebo free_shipping");
   try {
     const coupon = await createCoupon(guard.tenant.id, {
       code: String(d.code),
@@ -48,6 +52,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   if (!body || typeof body !== "object") return jsonError("Neplatný JSON");
   const d = body as Record<string, unknown>;
   if (!d.id) return jsonError("id je povinné");
+  if (d.type != null && !COUPON_TYPES.has(String(d.type))) return jsonError("type musí být percentage, fixed nebo free_shipping");
   const coupon = await updateCoupon(guard.tenant.id, Number(d.id), {
     code: d.code != null ? String(d.code) : undefined,
     type: d.type != null ? String(d.type) : undefined,

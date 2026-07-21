@@ -5,7 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { PlatformLocale } from "@/lib/platform-i18n";
 
-type Step = "choice" | "ai-brief" | "register" | "templates" | "agency-form" | "building" | "done";
+type Step = "choice" | "ai-brief" | "templates" | "register" | "agency" | "building" | "done";
+type Kind = "web" | "eshop";
 
 const BUILD_STEPS = [
   "Připravuje se doména",
@@ -22,6 +23,24 @@ const BUILD_STEPS_EN = [
   "Copying the template",
   "Setting up the design",
   "Activating the editor",
+  "Done",
+];
+
+const ESHOP_BUILD_STEPS = [
+  "Připravuje se doména",
+  "Vytváří se databáze",
+  "Nahrávají se produkty",
+  "Nastavuje se košík a platby",
+  "Aktivuje se administrace",
+  "Hotovo",
+];
+
+const ESHOP_BUILD_STEPS_EN = [
+  "Preparing the domain",
+  "Creating the database",
+  "Loading the products",
+  "Setting up cart and payments",
+  "Activating the admin",
   "Done",
 ];
 
@@ -73,7 +92,7 @@ interface Props {
   templateName?: string;
   catalogTemplates?: ModalTemplate[];
   /** Deep-link vstup (dashboard „Nový projekt"): rovnou AI brief / výběr šablony. */
-  initialStep?: "ai-brief" | "templates";
+  initialStep?: "ai-brief" | "templates" | "templates-eshop";
 }
 
 const INDUSTRY_LABELS: Record<string, string> = {
@@ -92,7 +111,7 @@ const INDUSTRY_LABELS: Record<string, string> = {
   accounting: "Účetnictví", finance: "Finance", architecture: "Architektura",
   photographer: "Foto", restaurant: "Restaurace", cafe: "Kavárny",
   education: "Vzdělávání", pets: "Mazlíčci", sluzby: "Služby",
-  landing: "Landing page", gastro: "Gastronomie",
+  landing: "Landing page", gastro: "Gastronomie", eshop: "E-shopy",
 };
 
 const INDUSTRY_LABELS_EN: Record<string, string> = {
@@ -111,7 +130,7 @@ const INDUSTRY_LABELS_EN: Record<string, string> = {
   accounting: "Accounting", finance: "Finance", architecture: "Architecture",
   photographer: "Photo", restaurant: "Restaurant", cafe: "Cafe",
   education: "Education", pets: "Pets", sluzby: "Services",
-  landing: "Landing page", gastro: "Gastronomy",
+  landing: "Landing page", gastro: "Gastronomy", eshop: "E-shops",
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -136,6 +155,10 @@ function industryFromKey(key: string): string {
   return key.split("-")[0] ?? "";
 }
 
+function isEshopTemplate(t: ModalTemplate): boolean {
+  return (t.industry ?? industryFromKey(t.key)) === "eshop";
+}
+
 function delay(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
@@ -146,75 +169,86 @@ const FALLBACK_TEMPLATES: ModalTemplate[] = [
   { key: "lawyer", name: "Advokátní kancelář", industry: "lawyer", previewImage: "/images/template-previews/lawyer-hero-1440x900.webp" },
 ];
 
-const TRUST_LOGOS = ["Chateau Mcely", "PPF", "trask", "GANT", "Hunger Wall", "Banka Creditas", "Studio Najbrt"];
-
 const BUDGET_OPTIONS = [
-  "110 – 170 tis.",
-  "170 – 330 tis.",
-  "330 – 970 tis.",
-  "970 tis. a více",
+  "20 – 50 tis.",
+  "50 – 120 tis.",
+  "120 – 300 tis.",
+  "300 tis. a více",
 ];
 
 const BUDGET_OPTIONS_EN = [
-  "CZK 110-170k",
-  "CZK 170-330k",
-  "CZK 330-970k",
-  "CZK 970k and more",
+  "CZK 20-50k",
+  "CZK 50-120k",
+  "CZK 120-300k",
+  "CZK 300k and more",
 ];
 
-const PROJECT_TYPES = [
-  "Firemní web",
-  "E-shop",
-  "Landing page",
-  "Portfolio",
-  "Blog / magazín",
-  "Jiné",
-];
+const TIMELINE_OPTIONS = ["Co nejdřív", "Do měsíce", "Do 3 měsíců", "Nespěchá to"];
+const TIMELINE_OPTIONS_EN = ["ASAP", "Within a month", "Within 3 months", "No rush"];
 
-const PROJECT_TYPES_EN = [
-  "Company website",
-  "E-shop",
-  "Landing page",
-  "Portfolio",
-  "Blog / magazine",
-  "Other",
+const AGENCY_PROJECT_TYPES: { value: string; cs: string; en: string; icon: "web" | "eshop" | "redesign" | "other" }[] = [
+  { value: "Nový web", cs: "Nový web", en: "New website", icon: "web" },
+  { value: "Nový e-shop", cs: "Nový e-shop", en: "New e-shop", icon: "eshop" },
+  { value: "Redesign stávajícího webu", cs: "Redesign stávajícího webu", en: "Redesign of an existing site", icon: "redesign" },
+  { value: "Něco jiného", cs: "Něco jiného", en: "Something else", icon: "other" },
 ];
 
 const ONBOARDING_COPY = {
   cs: {
     close: "Zavřít",
     back: "Zpět",
-    choiceTitle: "Jak chcete začít?",
-    aiTag: "AI Builder",
+    // ── Krok volby ──
+    choiceKicker: "webero.",
+    choiceTitle: "Co dnes postavíme?",
+    choiceSub: "Vyberte si cestu. Všechno jde kdykoliv změnit — nic není napořád.",
+    webTag: "Šablony",
+    webTitle: "Web",
+    webText: "Prezentace firmy, služeb nebo portfolia. Vyberete si hotový design a jen doplníte své.",
+    webMeta: "90+ šablon podle oborů",
+    webCta: "Vybrat šablonu webu",
+    eshopTag: "Prodej online",
+    eshopTitle: "E-shop",
+    eshopText: "Kompletní obchod — produkty, košík, doprava i platby. Připravený prodávat od prvního dne.",
+    eshopMeta: "20 e-shopů · platby v ceně",
+    eshopCta: "Vybrat šablonu e-shopu",
+    aiTag: "Webero Builder",
     aiBadge: "Novinka",
     aiTitle: "Postavit cokoliv",
     aiText: "Popište svůj nápad a AI postaví web nebo e-shop od nuly — během pár minut, přesně podle vás.",
+    aiMeta: "Startovní kredity zdarma",
     aiCta: "Začít tvořit s AI",
+    proTag: "Prémiová služba",
+    proTitle: "Uděláme to za vás",
+    proText: "Nechte to na profesionálech. Návrh, texty, spuštění — web i e-shop na klíč. Přijímáme jen 8 klientů měsíčně.",
+    proMeta: "Odpověď do 24 hodin",
+    proCta: "Nezávazná poptávka",
+    trialNote: "14 dní zdarma · bez kreditní karty",
+    // ── AI brief ──
     briefTitle: "Co spolu postavíme?",
     briefText: "Popište projekt vlastními slovy. Čím víc detailů — obor, služby, styl — tím lepší první verze. Doladíme ji pak společně v konverzaci.",
     briefPlaceholder: "Např. „Web pro moje bistro v Brně — menu, otevírací doba, rezervace stolu. Moderní, teplé barvy…“",
     briefContinue: "Pokračovat",
     briefHint: "První sestavení webu máte zdarma — na účet dostanete startovní kredity.",
     briefTry: "Nebo zkuste:",
-    diyTag: "Samostatně",
-    diyTitle: "Web chci stavět sám",
-    diyText: "Prvních 14 dní zdarma. Bez kreditní karty. Žádné riziko, žádné závazky.",
-    diyCta: "Vytvořit zkušební verzi",
-    agencyTag: "Na zakázku",
-    agencyTitle: "Web chci kompletně dodat",
-    agencyText: "Web vám připravíme na zakázku. Přijímáme jen 8 klientů měsíčně.",
-    agencyCta: "Získat nabídku",
-    registerTitle: "Vytvořte si zkušební verzi zdarma",
-    registerText: "14denní zkušební verze, bez kreditní karty, přístup ke všem funkcím.",
+    // ── Registrace (až po výběru šablony) ──
+    registerTitle: "Poslední krok — váš účet",
+    registerText: "14 dní zdarma, bez kreditní karty, přístup ke všem funkcím. Web vytvoříme hned po registraci.",
+    registerBuilderTitle: "Poslední krok — váš účet",
+    registerBuilderText: "14 dní zdarma, bez kreditní karty. AI studio se otevře hned po registraci.",
+    yourChoice: "Vaše volba",
     name: "Jméno *",
     email: "E-mail *",
     phone: "Telefon",
     password: "Heslo (min. 6 znaků) *",
-    createAccount: "Vytvořit účet zdarma",
+    createAccount: "Vytvořit web zdarma",
+    createEshopAccount: "Vytvořit e-shop zdarma",
     haveAccount: "Máte účet?",
     login: "Přihlásit se",
-    conceptsTitle: "Přivítejte webové koncepty",
-    conceptsText: "Jsou kombinací designu, obsahu a funkcí pro daný obor. Představují nejlepší startovní bod pro váš web. Změnit v nich můžete vše.",
+    // ── Šablony ──
+    conceptsTitleWeb: "Vyberte si šablonu webu",
+    conceptsTitleEshop: "Vyberte si šablonu e-shopu",
+    conceptsTextWeb: "Hotové koncepty s designem, obsahem i funkcemi pro váš obor. Změnit v nich můžete úplně všechno.",
+    conceptsTextEshop: "Každý e-shop má produkty, košík, dopravu i platby. Vyberte design — zboží pak nahrajete své.",
     all: "Vše",
     none: "V kategorii nic nenalezeno",
     showAll: "Zobrazit vše →",
@@ -224,33 +258,47 @@ const ONBOARDING_COPY = {
     mobilePreview: "Mobilní náhled",
     selected: "Vybráno:",
     continue: "Pokračovat dál",
-    agencyHero: "Řekněte nám více o projektu",
-    agencyIntro: "Vyplnit formulář zabere jednotky minut a ušetří hodiny času. Na první schůzku budeme připraveni a bude maximálně užitečná.",
+    // ── Dotazník „Uděláme to za vás" ──
+    agStepWord: "Krok",
+    agOf: "ze",
+    agNext: "Pokračovat",
+    agBack: "Zpět",
+    agSubmit: "Odeslat poptávku",
+    agSending: "Odesílám…",
+    agQ1: "Co pro vás máme postavit?",
+    agQ1Sub: "Vyberte, co je vašemu projektu nejblíž.",
+    agQ2: "Řekněte nám o projektu",
+    agQ2Sub: "Pár vět stačí. Na detailech se domluvíme na společné schůzce.",
+    agGoal: "Čeho má web dosáhnout? Co má umět? *",
+    agGoalPlaceholder: "Např. „Chceme prodávat kurzy online, dnes vše řešíme přes e-maily. Web má působit prémiově a odbavit platby.“",
+    agInspo: "Weby, které se vám líbí (odkazy)",
+    agInspoPlaceholder: "www.priklad.cz, www.dalsi-inspirace.com",
+    agCurrentWeb: "Váš stávající web (pokud existuje)",
+    agCurrentWebPlaceholder: "www.vase-firma.cz",
+    agQ3: "Rozpočet a termín",
+    agQ3Sub: "Podle rozpočtu poznáme, jaký rozsah řešení má smysl navrhnout.",
+    agBudgetLabel: "Rozpočet (CZK) *",
+    agTimelineLabel: "Kdy chcete spustit?",
+    agQ4: "Na koho se máme obrátit?",
+    agQ4Sub: "Ozveme se do 24 hodin a domluvíme 30minutovou online schůzku.",
+    agName: "Jméno a příjmení *",
+    agCompany: "Firma",
+    agEmailField: "E-mail *",
+    agPhoneField: "Telefon",
+    agReplyName: "Jan Novák — Webero studio",
+    agReplyNote: "Odpovídá do 24 hodin",
     sentTitle: "Poptávka odeslána!",
-    sentText: "Ozveme se vám do 24 hodin.",
-    sectionAbout: "1. Informace o vás a firmě",
-    firstName: "Jméno *",
-    lastName: "Příjmení *",
-    company: "Název firmy *",
-    website: "www adresa firmy *",
-    sectionProject: "2. Informace o projektu",
-    projectType: "Jaký typ projektu chcete realizovat? *",
-    goal: "Proč chcete realizovat nový web? Čeho přesně chcete dosáhnout? *",
-    inspo: "Jaké weby jsou pro vás cílový stav inspirací?",
-    sectionBudget: "3. Rozpočet a termín projektu",
-    budgetIntro: "Každé zadání má svůj rozsah. Je důležité vědět, jaký rozpočet máte připravený.",
-    budget: "Rozpočet (CZK) *",
-    deadline: "Očekávaný termín spuštění",
-    submitRequest: "Odeslat poptávku",
-    replyTitle: "Na zprávu odpoví",
-    replyPerson: "Jan Novák – sales",
-    replyText: "Reagujeme do 24 hodin. V dalším kroku si domluvíme 30minutovou online schůzku, při které projdeme detaily vašeho zadání.",
-    quote: "„Díky za výbornou spolupráci a hlavně za výborný produkt! Skvěle se nám s ním pracuje.\"",
-    quoteBy: "Tatána le Moigne – Inspire & Impact, ex-Google",
+    sentText: "Ozveme se vám do 24 hodin a domluvíme si 30minutovou online schůzku, kde projdeme detaily zadání.",
+    sentMeanwhile: "Mezitím si můžete prohlédnout šablony",
+    sentClose: "Zavřít",
+    goalTooShort: "Popište prosím cíl projektu alespoň pár slovy.",
+    // ── Building / done ──
     buildingTitle: "Váš web se už chystá",
+    buildingTitleEshop: "Váš e-shop se už chystá",
     stepWord: "krok z",
     doneLabel: "Hotovo",
     doneTitleA: "Váš web je",
+    doneTitleAEshop: "Váš e-shop je",
     doneTitleB: "připravený.",
     credentials: "Přihlašovací údaje",
     passwordValue: "vaše zadané heslo",
@@ -261,41 +309,59 @@ const ONBOARDING_COPY = {
     serverError: "Nepodařilo se připojit k serveru. Zkuste to znovu.",
     buildError: "Chyba při vytváření webu",
     chooseTemplate: "Vybrat šablonu",
+    signedInAs: "Přihlášen jako",
   },
   en: {
     close: "Close",
     back: "Back",
-    choiceTitle: "How do you want to start?",
-    aiTag: "AI Builder",
+    choiceKicker: "webero.",
+    choiceTitle: "What are we building today?",
+    choiceSub: "Pick your path. Everything can be changed later — nothing is forever.",
+    webTag: "Templates",
+    webTitle: "Website",
+    webText: "A presentation for your company, services, or portfolio. Pick a finished design and add your content.",
+    webMeta: "90+ templates by industry",
+    webCta: "Choose a website template",
+    eshopTag: "Sell online",
+    eshopTitle: "E-shop",
+    eshopText: "A complete store — products, cart, shipping, and payments. Ready to sell from day one.",
+    eshopMeta: "20 e-shops · payments included",
+    eshopCta: "Choose an e-shop template",
+    aiTag: "Webero Builder",
     aiBadge: "New",
     aiTitle: "Build anything",
     aiText: "Describe your idea and AI builds a website or e-shop from scratch — in minutes, exactly your way.",
+    aiMeta: "Free starter credits",
     aiCta: "Start building with AI",
+    proTag: "Premium service",
+    proTitle: "We build it for you",
+    proText: "Leave it to the professionals. Design, copy, launch — website or e-shop turnkey. We accept only 8 clients per month.",
+    proMeta: "Reply within 24 hours",
+    proCta: "Request a quote",
+    trialNote: "14 days free · no credit card",
     briefTitle: "What shall we build?",
     briefText: "Describe your project in your own words. The more detail — industry, services, style — the better the first version. We'll fine-tune it together in a conversation.",
     briefPlaceholder: "E.g. “A website for my bistro in Brno — menu, opening hours, table booking. Modern, warm colors…”",
     briefContinue: "Continue",
     briefHint: "Your first website build is free — you'll get starter credits on your account.",
     briefTry: "Or try:",
-    diyTag: "Self-serve",
-    diyTitle: "I want to build the site myself",
-    diyText: "First 14 days free. No credit card. No risk, no commitment.",
-    diyCta: "Create trial website",
-    agencyTag: "Done for you",
-    agencyTitle: "I want the website delivered for me",
-    agencyText: "We will prepare the website for you. We accept only 8 clients per month.",
-    agencyCta: "Get an offer",
-    registerTitle: "Create your free trial",
-    registerText: "14-day trial, no credit card, access to every feature.",
+    registerTitle: "Last step — your account",
+    registerText: "14 days free, no credit card, access to every feature. Your site is created right after sign-up.",
+    registerBuilderTitle: "Last step — your account",
+    registerBuilderText: "14 days free, no credit card. The AI studio opens right after sign-up.",
+    yourChoice: "Your choice",
     name: "Name *",
     email: "Email *",
     phone: "Phone",
     password: "Password (min. 6 characters) *",
-    createAccount: "Create free account",
+    createAccount: "Create my website free",
+    createEshopAccount: "Create my e-shop free",
     haveAccount: "Already have an account?",
     login: "Log in",
-    conceptsTitle: "Meet website concepts",
-    conceptsText: "They combine design, content, and features for a specific industry. They are the best starting point for your website. You can change everything.",
+    conceptsTitleWeb: "Choose your website template",
+    conceptsTitleEshop: "Choose your e-shop template",
+    conceptsTextWeb: "Finished concepts with design, content, and features for your industry. You can change absolutely everything.",
+    conceptsTextEshop: "Every e-shop includes products, cart, shipping, and payments. Pick the design — then upload your own goods.",
     all: "All",
     none: "Nothing found in this category",
     showAll: "Show all →",
@@ -305,33 +371,45 @@ const ONBOARDING_COPY = {
     mobilePreview: "Mobile preview",
     selected: "Selected:",
     continue: "Continue",
-    agencyHero: "Tell us more about your project",
-    agencyIntro: "The form takes only a few minutes and saves hours later. We will come to the first call prepared, so it is actually useful.",
+    agStepWord: "Step",
+    agOf: "of",
+    agNext: "Continue",
+    agBack: "Back",
+    agSubmit: "Send request",
+    agSending: "Sending…",
+    agQ1: "What should we build for you?",
+    agQ1Sub: "Pick whatever is closest to your project.",
+    agQ2: "Tell us about the project",
+    agQ2Sub: "A few sentences are enough. We'll cover the details in a call.",
+    agGoal: "What should the website achieve? What should it do? *",
+    agGoalPlaceholder: "E.g. “We want to sell courses online; today everything runs over e-mail. The site should feel premium and handle payments.”",
+    agInspo: "Websites you like (links)",
+    agInspoPlaceholder: "www.example.com, www.another-inspiration.com",
+    agCurrentWeb: "Your current website (if any)",
+    agCurrentWebPlaceholder: "www.your-company.com",
+    agQ3: "Budget and timing",
+    agQ3Sub: "The budget tells us what scope of solution makes sense to propose.",
+    agBudgetLabel: "Budget (CZK) *",
+    agTimelineLabel: "When do you want to launch?",
+    agQ4: "Who should we contact?",
+    agQ4Sub: "We'll get back within 24 hours and schedule a 30-minute online call.",
+    agName: "Full name *",
+    agCompany: "Company",
+    agEmailField: "Email *",
+    agPhoneField: "Phone",
+    agReplyName: "Jan Novak — Webero studio",
+    agReplyNote: "Replies within 24 hours",
     sentTitle: "Request sent!",
-    sentText: "We will get back to you within 24 hours.",
-    sectionAbout: "1. About you and your company",
-    firstName: "First name *",
-    lastName: "Last name *",
-    company: "Company name *",
-    website: "Company website *",
-    sectionProject: "2. Project information",
-    projectType: "What type of project do you want to build? *",
-    goal: "Why do you want a new website? What exactly should it achieve? *",
-    inspo: "Which websites are close to your target state?",
-    sectionBudget: "3. Project budget and timing",
-    budgetIntro: "Every assignment has a different scope. It helps to know what budget you have prepared.",
-    budget: "Budget (CZK) *",
-    deadline: "Expected launch date",
-    submitRequest: "Send request",
-    replyTitle: "Your message will be answered by",
-    replyPerson: "Jan Novak – sales",
-    replyText: "We respond within 24 hours. Next, we schedule a 30-minute online call and go through the details of your brief.",
-    quote: "\"Thank you for the great collaboration and, above all, for a great product. It is excellent to work with.\"",
-    quoteBy: "Tatana le Moigne – Inspire & Impact, ex-Google",
+    sentText: "We will get back to you within 24 hours and schedule a 30-minute online call to go through your brief.",
+    sentMeanwhile: "Meanwhile, you can browse the templates",
+    sentClose: "Close",
+    goalTooShort: "Please describe the project goal in at least a few words.",
     buildingTitle: "Your website is being prepared",
+    buildingTitleEshop: "Your e-shop is being prepared",
     stepWord: "step of",
     doneLabel: "Done",
     doneTitleA: "Your website is",
+    doneTitleAEshop: "Your e-shop is",
     doneTitleB: "ready.",
     credentials: "Login details",
     passwordValue: "your chosen password",
@@ -342,19 +420,38 @@ const ONBOARDING_COPY = {
     serverError: "Could not connect to the server. Please try again.",
     buildError: "Error while creating the website",
     chooseTemplate: "Choose template",
+    signedInAs: "Signed in as",
   },
 } as const;
 
+/* Ikony pro dotazník */
+function AgTypeIcon({ icon }: { icon: "web" | "eshop" | "redesign" | "other" }) {
+  const common = { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  if (icon === "web") return <svg {...common}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg>;
+  if (icon === "eshop") return <svg {...common}><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 10V6a3 3 0 016 0v4"/></svg>;
+  if (icon === "redesign") return <svg {...common}><path d="M21 12a9 9 0 11-2.6-6.4"/><path d="M21 3v6h-6"/></svg>;
+  return <svg {...common}><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.8.6-1.5 1-1.5 2M12 17h.01"/></svg>;
+}
+
 export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templateName, catalogTemplates, initialStep }: Props) {
   const copy = ONBOARDING_COPY[locale];
-  const buildSteps = locale === "en" ? BUILD_STEPS_EN : BUILD_STEPS;
   const budgetOptions = locale === "en" ? BUDGET_OPTIONS_EN : BUDGET_OPTIONS;
-  const projectTypes = locale === "en" ? PROJECT_TYPES_EN : PROJECT_TYPES;
+  const timelineOptions = locale === "en" ? TIMELINE_OPTIONS_EN : TIMELINE_OPTIONS;
   const [step, setStep] = useState<Step>(
-    initialTemplate ? "register" : initialStep ?? "choice"
+    initialTemplate
+      ? "register"
+      : initialStep === "templates" || initialStep === "templates-eshop"
+        ? "templates"
+        : initialStep === "ai-brief"
+          ? "ai-brief"
+          : "choice"
   );
   // "diy" = klasický výběr šablony, "builder" = AI Builder („Postavit cokoliv")
   const [flow, setFlow] = useState<"diy" | "builder">(initialStep === "ai-brief" ? "builder" : "diy");
+  // "web" | "eshop" — kterou rodinu šablon uživatel vybírá
+  const [kind, setKind] = useState<Kind>(
+    initialStep === "templates-eshop" || initialTemplate?.startsWith("eshop-") ? "eshop" : "web"
+  );
   const [brief, setBrief] = useState("");
   // Přihlášený uživatel (webero_user_token) přeskakuje registraci — další
   // projekt se založí pod jeho účtem přes /api/account/tenants.
@@ -368,22 +465,23 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
   const [buildStep, setBuildStep] = useState(0);
   const [editorUrl, setEditorUrl] = useState("");
   const [previewUrl, setPreviewUrl] = useState("");
-  const [accessToken, setAccessToken] = useState("");
-  const [copied, setCopied] = useState(false);
+  const [, setAccessToken] = useState("");
   const [error, setError] = useState("");
 
-  // Agency form fields
-  const [agFirstName, setAgFirstName] = useState("");
-  const [agLastName, setAgLastName] = useState("");
-  const [agCompany, setAgCompany] = useState("");
-  const [agEmail, setAgEmail] = useState("");
-  const [agPhone, setAgPhone] = useState("");
-  const [agWebsite, setAgWebsite] = useState("");
+  // Dotazník „Uděláme to za vás" — 4 kroky
+  const [agStep, setAgStep] = useState(0);
   const [agProjectType, setAgProjectType] = useState("");
   const [agGoal, setAgGoal] = useState("");
   const [agInspo, setAgInspo] = useState("");
+  const [agCurrentWeb, setAgCurrentWeb] = useState("");
   const [agBudget, setAgBudget] = useState("");
-  const [agDeadline, setAgDeadline] = useState("");
+  const [agTimeline, setAgTimeline] = useState("");
+  const [agName, setAgName] = useState("");
+  const [agCompany, setAgCompany] = useState("");
+  const [agEmail, setAgEmail] = useState("");
+  const [agPhone, setAgPhone] = useState("");
+  const [agSending, setAgSending] = useState(false);
+  const [agError, setAgError] = useState("");
   const [agSent, setAgSent] = useState(false);
 
   const [fetchedTemplates, setFetchedTemplates] = useState<ModalTemplate[] | null>(null);
@@ -422,14 +520,20 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
       .finally(() => setFetching(false));
   }, [initialTemplate, catalogTemplates, fetchedTemplates]);
 
-  const pickerTemplates: ModalTemplate[] = useMemo(() => {
+  const allTemplates: ModalTemplate[] = useMemo(() => {
     if (catalogTemplates && catalogTemplates.length > 0) return catalogTemplates;
     if (fetchedTemplates && fetchedTemplates.length > 0) return fetchedTemplates;
     return FALLBACK_TEMPLATES;
   }, [catalogTemplates, fetchedTemplates]);
 
+  /* Šablony rozdělené podle zvolené cesty: Web vs E-shop. */
+  const pickerTemplates: ModalTemplate[] = useMemo(
+    () => allTemplates.filter((t) => (kind === "eshop" ? isEshopTemplate(t) : !isEshopTemplate(t))),
+    [allTemplates, kind]
+  );
+
   useEffect(() => {
-    if (!initialTemplate && pickerTemplates.length > 0 && !template) {
+    if (!initialTemplate && pickerTemplates.length > 0 && !pickerTemplates.some((t) => t.key === template)) {
       setTemplate(pickerTemplates[0]!.key);
     }
   }, [pickerTemplates, template, initialTemplate]);
@@ -443,16 +547,15 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
     return Array.from(counts.entries())
       .map(([code, n]) => ({ code, label: (locale === "en" ? INDUSTRY_LABELS_EN[code] : INDUSTRY_LABELS[code]) ?? code, count: n }))
       .sort((a, b) => b.count - a.count);
-  }, [pickerTemplates]);
+  }, [pickerTemplates, locale]);
 
   const filteredTemplates = useMemo(() => {
     if (category === "all") return pickerTemplates;
     return pickerTemplates.filter((t) => (t.industry ?? industryFromKey(t.key)) === category);
   }, [pickerTemplates, category]);
 
-  const selectedTemplate = pickerTemplates.find((t) => t.key === template);
+  const selectedTemplate = allTemplates.find((t) => t.key === template);
   const selectedName = selectedTemplate?.name ?? templateName ?? template;
-  const collageTemplates = pickerTemplates.slice(0, 3);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -467,9 +570,12 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
   }, [onClose, step]);
 
   const isBuilderFlow = flow === "builder";
+  const isEshopKind = !isBuilderFlow && (kind === "eshop" || (selectedTemplate ? isEshopTemplate(selectedTemplate) : false));
   const activeBuildSteps = isBuilderFlow
     ? (locale === "en" ? BUILDER_BUILD_STEPS_EN : BUILDER_BUILD_STEPS)
-    : buildSteps;
+    : isEshopKind
+      ? (locale === "en" ? ESHOP_BUILD_STEPS_EN : ESHOP_BUILD_STEPS)
+      : (locale === "en" ? BUILD_STEPS_EN : BUILD_STEPS);
 
   async function startBuilding() {
     setError("");
@@ -526,27 +632,96 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
     }
   }
 
+  /* Registrace přichází až PO výběru šablony (resp. po AI briefu) —
+     odeslání formuláře rovnou spouští build. */
   async function handleRegisterSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (initialTemplate || isBuilderFlow) {
-      await startBuilding();
-    } else {
-      setStep("templates");
-    }
+    await startBuilding();
   }
 
-  async function handleAgencySubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setAgSent(true);
+  /* Šablona vybrána → přihlášený staví rovnou, ostatní jdou na registraci. */
+  function continueFromTemplates() {
+    if (!template) return;
+    if (loggedInEmail) void startBuilding();
+    else setStep("register");
+  }
+
+  /* ── Dotazník: validace per krok + odeslání ── */
+  const agStepValid =
+    agStep === 0 ? agProjectType !== ""
+    : agStep === 1 ? agGoal.trim().length >= 10
+    : agStep === 2 ? agBudget !== ""
+    : agName.trim().length >= 2 && /.+@.+\..+/.test(agEmail);
+
+  function agNext() {
+    setAgError("");
+    if (!agStepValid) {
+      if (agStep === 1) setAgError(copy.goalTooShort);
+      return;
+    }
+    setAgStep((s) => Math.min(3, s + 1));
+  }
+
+  async function handleAgencySubmit() {
+    if (!agStepValid || agSending) return;
+    setAgError("");
+    setAgSending(true);
+    try {
+      const res = await fetch("/api/onboarding/agency-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectType: agProjectType,
+          goal: agGoal.trim(),
+          inspiration: agInspo.trim() || undefined,
+          currentWeb: agCurrentWeb.trim() || undefined,
+          budget: agBudget,
+          timeline: agTimeline || undefined,
+          name: agName.trim(),
+          company: agCompany.trim() || undefined,
+          email: agEmail.trim(),
+          phone: agPhone.trim() || undefined,
+          locale,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setAgError(data.error ?? copy.serverError);
+        return;
+      }
+      setAgSent(true);
+    } catch {
+      setAgError(copy.serverError);
+    } finally {
+      setAgSending(false);
+    }
   }
 
   const progressPercent = ((buildStep + 1) / activeBuildSteps.length) * 100;
 
+  const closeBtn = (
+    <button
+      type="button"
+      onClick={onClose}
+      aria-label={copy.close}
+      className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+  );
+
+  const backBtn = (to: Step) => (
+    <button type="button" onClick={() => setStep(to)} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+      {copy.back}
+    </button>
+  );
+
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-[#111111]">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-[#0c0c14]">
       <AnimatePresence mode="wait">
 
-        {/* ══════════════ STEP 1: CHOICE ══════════════ */}
+        {/* ══════════════ STEP 1: CHOICE — 4 cesty ══════════════ */}
         {step === "choice" && (
           <motion.div
             key="choice"
@@ -554,145 +729,134 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="flex h-full flex-col bg-[#14141e]"
+            className="relative flex h-full flex-col bg-[#0c0c14]"
           >
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label={copy.close}
-              className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
-            </button>
+            {/* Jemné pozadí — dvě barevné záře */}
+            <div className="pointer-events-none absolute -left-40 top-[-180px] h-[420px] w-[560px] rounded-full bg-[#2563eb]/12 blur-[130px]" />
+            <div className="pointer-events-none absolute -right-40 bottom-[-200px] h-[420px] w-[560px] rounded-full bg-violet-600/12 blur-[130px]" />
+
+            {closeBtn}
 
             {/* Heading */}
-            <div className="flex-shrink-0 px-6 pb-4 pt-10 text-center">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">webero.</p>
-              <h1 className="mt-2 text-[clamp(20px,2.2vw,28px)] font-bold text-white">
+            <div className="relative flex-shrink-0 px-6 pb-5 pt-9 text-center md:pt-11">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/45">{copy.choiceKicker}</p>
+              <h1 className="mt-2 font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(24px, 3vw, 40px)" }}>
                 {copy.choiceTitle}
               </h1>
+              <p className="mx-auto mt-2 max-w-md text-[13.5px] leading-relaxed text-white/40">{copy.choiceSub}</p>
             </div>
 
-            {/* Cards row */}
-            <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-5 pb-4 md:flex-row md:gap-4 md:overflow-hidden md:px-8">
+            {/* Content */}
+            <div className="relative flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-5 pb-5 md:gap-4 md:px-8 lg:px-14">
 
-              {/* AI BUILDER — „Postavit cokoliv" */}
-              <button
-                type="button"
-                onClick={() => { setFlow("builder"); setStep("ai-brief"); }}
-                className="group relative flex min-h-[220px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-violet-500/40 text-left outline-none transition-all duration-300 hover:border-violet-400/80 hover:shadow-[0_0_0_1px_rgba(167,139,250,0.35),0_24px_60px_rgba(88,28,135,0.55)] focus-visible:ring-2 focus-visible:ring-violet-400/60"
-              >
-                {/* Gradient plátno místo fotky */}
-                <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_80%_0%,#4c1d95_0%,#312e81_45%,#14141e_100%)]" />
-                {/* Jemná animovaná záře */}
-                <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-violet-500/30 blur-3xl transition-opacity duration-700 group-hover:opacity-100 opacity-60" />
-                {/* Dekorativní hvězdičky */}
-                <svg aria-hidden className="absolute right-6 top-6 h-8 w-8 text-violet-300/70 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
-                <svg aria-hidden className="absolute right-14 top-14 h-4 w-4 text-indigo-300/60 transition-transform duration-500 group-hover:-rotate-12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+              {/* Řada tří self-serve karet */}
+              <div className="flex flex-col gap-3 md:min-h-0 md:flex-[3] md:flex-row md:gap-4">
 
-                {/* Hover ring */}
-                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-violet-300/40 transition-opacity duration-300 group-hover:opacity-100" />
-
-                <div className="relative z-10 mt-auto w-full p-7 md:p-8">
-                  <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-violet-300/30 bg-violet-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-violet-100 backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
-                    {copy.aiTag}
-                    <span className="ml-1 rounded-full bg-gradient-to-r from-violet-400 to-indigo-400 px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-white">{copy.aiBadge}</span>
-                  </span>
-                  <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.6vw, 34px)" }}>
-                    {copy.aiTitle}
-                  </h2>
-                  <p className="mt-2.5 text-[14px] leading-relaxed text-white/75">
-                    {copy.aiText}
-                  </p>
-                  <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-violet-500 group-hover:to-indigo-500 group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(139,92,246,0.55)]">
-                    {copy.aiCta}
-                    <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-                  </div>
-                </div>
-              </button>
-
-              {/* DIY — výběr šablony */}
-              <button
-                type="button"
-                onClick={() => { setFlow("diy"); setStep(loggedInEmail ? "templates" : "register"); }}
-                className="group relative flex min-h-[220px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
-              >
-                {/* Photo */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/onboarding-diy.webp"
-                  alt=""
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                  className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                {/* WEB */}
+                <ChoiceCard
+                  onClick={() => { setFlow("diy"); setKind("web"); setCategory("all"); setStep("templates"); }}
+                  accent="#2563eb"
+                  tag={copy.webTag}
+                  tagDot="#60a5fa"
+                  title={copy.webTitle}
+                  text={copy.webText}
+                  meta={copy.webMeta}
+                  cta={copy.webCta}
+                  image="/images/onboarding-diy.webp"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg>
+                  }
                 />
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
 
-                {/* Hover border glow */}
-                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-white/30 transition-opacity duration-300 group-hover:opacity-100" />
+                {/* E-SHOP */}
+                <ChoiceCard
+                  onClick={() => { setFlow("diy"); setKind("eshop"); setCategory("all"); setStep("templates"); }}
+                  accent="#10b981"
+                  tag={copy.eshopTag}
+                  tagDot="#34d399"
+                  title={copy.eshopTitle}
+                  text={copy.eshopText}
+                  meta={copy.eshopMeta}
+                  cta={copy.eshopCta}
+                  image="/templates/eshop-01/showcase/desktop-full.webp"
+                  imagePosition="top"
+                  icon={
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 10V6a3 3 0 016 0v4"/></svg>
+                  }
+                />
 
-                {/* Content */}
-                <div className="relative z-10 mt-auto w-full p-7 md:p-8">
-                  {/* Tag */}
-                  <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#2563eb]" />
-                    {copy.diyTag}
-                  </span>
-                  <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.6vw, 34px)" }}>
-                    {copy.diyTitle}
-                  </h2>
-                  <p className="mt-2.5 text-[14px] leading-relaxed text-white/75">
-                    {copy.diyText}
-                  </p>
-                  <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-[#2563eb] group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(37,99,235,0.5)]">
-                    {copy.diyCta}
-                    <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                {/* WEBERO BUILDER — AI */}
+                <button
+                  type="button"
+                  onClick={() => { setFlow("builder"); setStep("ai-brief"); }}
+                  className="group relative flex min-h-[200px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-violet-500/40 text-left outline-none transition-all duration-300 hover:border-violet-400/80 hover:shadow-[0_0_0_1px_rgba(167,139,250,0.35),0_24px_60px_rgba(88,28,135,0.55)] focus-visible:ring-2 focus-visible:ring-violet-400/60"
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_80%_0%,#4c1d95_0%,#312e81_45%,#14141e_100%)]" />
+                  <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-violet-500/30 opacity-60 blur-3xl transition-opacity duration-700 group-hover:opacity-100" />
+                  <svg aria-hidden className="absolute right-6 top-6 h-8 w-8 text-violet-300/70 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                  <svg aria-hidden className="absolute right-14 top-14 h-4 w-4 text-indigo-300/60 transition-transform duration-500 group-hover:-rotate-12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-violet-300/40 transition-opacity duration-300 group-hover:opacity-100" />
+
+                  <div className="relative z-10 mt-auto w-full p-6 md:p-7">
+                    <span className="mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-violet-300/30 bg-violet-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-violet-100 backdrop-blur-sm">
+                      <span className="h-1.5 w-1.5 rounded-full bg-violet-300" />
+                      {copy.aiTag}
+                      <span className="ml-1 rounded-full bg-gradient-to-r from-violet-400 to-indigo-400 px-1.5 py-px text-[9px] font-bold normal-case tracking-normal text-white">{copy.aiBadge}</span>
+                    </span>
+                    <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(21px, 2.3vw, 30px)" }}>
+                      {copy.aiTitle}
+                    </h2>
+                    <p className="mt-2 text-[13.5px] leading-relaxed text-white/75">
+                      {copy.aiText}
+                    </p>
+                    <p className="mt-2.5 text-[12px] font-medium text-violet-200/80">{copy.aiMeta}</p>
+                    <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-violet-500 group-hover:to-indigo-500 group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(139,92,246,0.55)]">
+                      {copy.aiCta}
+                      <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                    </div>
                   </div>
-                </div>
-              </button>
+                </button>
+              </div>
 
-              {/* RIGHT — Agency */}
+              {/* PROFÍCI — horizontální pás „Uděláme to za vás" */}
               <button
                 type="button"
-                onClick={() => setStep("agency-form")}
-                className="group relative flex min-h-[220px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
+                onClick={() => { setAgStep(0); setAgSent(false); setAgError(""); setStep("agency"); }}
+                className="group relative flex min-h-[110px] w-full flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-amber-500/25 text-left outline-none transition-all duration-300 hover:border-amber-400/60 hover:shadow-[0_0_0_1px_rgba(251,191,36,0.25),0_20px_50px_rgba(120,53,15,0.45)] focus-visible:ring-2 focus-visible:ring-amber-400/60 md:min-h-[120px]"
               >
-                {/* Photo */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/onboarding-team.webp"
-                  alt="Tým Webero"
+                  alt=""
                   onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                  className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                  className="absolute inset-0 h-full w-full object-cover object-[center_30%] transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                 />
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0c0c14] via-[#0c0c14]/88 to-[#0c0c14]/35" />
+                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-amber-300/30 transition-opacity duration-300 group-hover:opacity-100" />
 
-                {/* Hover border glow */}
-                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-white/30 transition-opacity duration-300 group-hover:opacity-100" />
-
-                {/* Content */}
-                <div className="relative z-10 mt-auto w-full p-7 md:p-8">
-                  {/* Tag */}
-                  <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#a855f7]" />
-                    {copy.agencyTag}
-                  </span>
-                  <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.6vw, 34px)" }}>
-                    {copy.agencyTitle}
-                  </h2>
-                  <p className="mt-2.5 text-[14px] leading-relaxed text-white/75">
-                    {copy.agencyText}
-                  </p>
-                  <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-[#a855f7] group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(168,85,247,0.5)]">
-                    {copy.agencyCta}
-                    <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                <div className="relative z-10 flex w-full flex-col justify-center gap-3 p-5 sm:flex-row sm:items-center sm:gap-6 md:px-8">
+                  <div className="min-w-0 flex-1">
+                    <span className="mb-1.5 inline-flex items-center gap-1.5 rounded-full border border-amber-300/25 bg-amber-400/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-amber-200">
+                      <span className="h-1.5 w-1.5 rounded-full bg-amber-300" />
+                      {copy.proTag}
+                    </span>
+                    <div className="flex flex-wrap items-baseline gap-x-3">
+                      <h2 className="text-[19px] font-bold tracking-tight text-white md:text-[22px]">{copy.proTitle}</h2>
+                      <span className="hidden text-[12px] font-medium text-amber-200/70 sm:inline">{copy.proMeta}</span>
+                    </div>
+                    <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-white/60">{copy.proText}</p>
+                  </div>
+                  <div className="flex-shrink-0">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-amber-400 group-hover:shadow-[0_8px_24px_rgba(251,191,36,0.45)]">
+                      {copy.proCta}
+                      <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                    </div>
                   </div>
                 </div>
               </button>
-            </div>
 
+              <p className="flex-shrink-0 pb-1 text-center text-[11.5px] text-white/30">{copy.trialNote}</p>
+            </div>
           </motion.div>
         )}
 
@@ -706,13 +870,8 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             className="flex h-full flex-col items-center justify-center overflow-y-auto px-4 py-10"
           >
-            <button type="button" onClick={() => setStep("choice")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-              {copy.back}
-            </button>
-            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
-            </button>
+            {backBtn("choice")}
+            {closeBtn}
 
             <div className="w-full max-w-[640px] text-center">
               <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-violet-300/25 bg-violet-400/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-violet-200">
@@ -771,7 +930,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
 
               {loggedInEmail && (
                 <p className="mt-3 text-[12px] text-white/30">
-                  {locale === "en" ? "Signed in as" : "Přihlášen jako"} <span className="text-white/55">{loggedInEmail}</span>
+                  {copy.signedInAs} <span className="text-white/55">{loggedInEmail}</span>
                 </p>
               )}
 
@@ -800,63 +959,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
           </motion.div>
         )}
 
-        {/* ══════════════ STEP 2: REGISTER ══════════════ */}
-        {step === "register" && (
-          <motion.div
-            key="register"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-            className="flex h-full flex-col items-center justify-center px-4"
-          >
-            {!initialTemplate && (
-              <button type="button" onClick={() => setStep(isBuilderFlow ? "ai-brief" : "choice")} className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                {copy.back}
-              </button>
-            )}
-            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
-            </button>
-
-            <div className="w-full max-w-[500px] text-center">
-              <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(34px, 5vw, 62px)" }}>
-                {copy.registerTitle}
-              </h1>
-              <p className="mt-4 text-[15px] leading-relaxed text-white/45">
-                {copy.registerText}
-              </p>
-
-              <form onSubmit={handleRegisterSubmit} className="mt-10 space-y-3 text-left">
-                <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder={copy.name}
-                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
-                <input type="email" required autoFocus value={email} onChange={(e) => setEmail(e.target.value)} placeholder={copy.email}
-                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={copy.phone}
-                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
-                <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={copy.password}
-                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
-
-                {error && <div className="rounded-lg border border-red-900/40 bg-red-950/40 px-4 py-3 text-[13px] text-red-400">{error}</div>}
-
-                <button type="submit" className="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563eb] px-6 py-4 text-[15px] font-semibold text-white transition hover:bg-[#1d4ed8] active:scale-[0.99]">
-                  {copy.createAccount}
-                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-                </button>
-              </form>
-
-              <p className="mt-5 text-center text-[13px] text-white/35">
-                {copy.haveAccount}{" "}
-                <Link href="/account/login" className="text-white/65 underline underline-offset-2 hover:text-white transition-colors">
-                  {copy.login}
-                </Link>
-              </p>
-            </div>
-          </motion.div>
-        )}
-
-        {/* ══════════════ STEP 3: TEMPLATES ══════════════ */}
+        {/* ══════════════ STEP 2: TEMPLATES (web / e-shop) ══════════════ */}
         {step === "templates" && (
           <motion.div
             key="templates"
@@ -866,40 +969,37 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
             className="flex h-full flex-col"
           >
-            <button type="button" onClick={() => setStep(loggedInEmail ? "choice" : "register")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-              {copy.back}
-            </button>
-            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
-            </button>
+            {backBtn("choice")}
+            {closeBtn}
 
             {/* Header */}
             <div className="flex-shrink-0 px-8 pb-5 pt-16 text-center md:pt-14">
               <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 52px)" }}>
-                {copy.conceptsTitle}
+                {kind === "eshop" ? copy.conceptsTitleEshop : copy.conceptsTitleWeb}
               </h1>
               <p className="mx-auto mt-3 max-w-lg text-[14.5px] leading-relaxed text-white/40">
-                {copy.conceptsText}
+                {kind === "eshop" ? copy.conceptsTextEshop : copy.conceptsTextWeb}
               </p>
 
-              {/* Category tabs — plain text, no pills */}
-              <div className="-mx-8 mt-7 flex items-center justify-center gap-7 overflow-x-auto px-8 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {[{ code: "all", label: copy.all, count: pickerTemplates.length }, ...categories].map((c) => (
-                  <button
-                    key={c.code}
-                    type="button"
-                    onClick={() => { setCategory(c.code); setPreviewSheet(null); }}
-                    className={`flex-shrink-0 text-[14px] font-bold transition ${
-                      category === c.code
-                        ? "text-white"
-                        : "text-white/38 hover:text-white/65"
-                    }`}
-                  >
-                    {c.code === "all" ? copy.all : (locale === "en" ? CATEGORY_LABELS_EN[c.code] : CATEGORY_LABELS[c.code]) ?? c.label}
-                  </button>
-                ))}
-              </div>
+              {/* Category tabs — jen pro weby (e-shopy jsou jedna rodina) */}
+              {kind === "web" && (
+                <div className="-mx-8 mt-7 flex items-center justify-center gap-7 overflow-x-auto px-8 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {[{ code: "all", label: copy.all, count: pickerTemplates.length }, ...categories].map((c) => (
+                    <button
+                      key={c.code}
+                      type="button"
+                      onClick={() => { setCategory(c.code); setPreviewSheet(null); }}
+                      className={`flex-shrink-0 text-[14px] font-bold transition ${
+                        category === c.code
+                          ? "text-white"
+                          : "text-white/38 hover:text-white/65"
+                      }`}
+                    >
+                      {c.code === "all" ? copy.all : (locale === "en" ? CATEGORY_LABELS_EN[c.code] : CATEGORY_LABELS[c.code]) ?? c.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Template grid */}
@@ -977,7 +1077,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                     )}
                     <button
                       type="button"
-                      onClick={() => { setPreviewSheet(null); void startBuilding(); }}
+                      onClick={() => { setPreviewSheet(null); continueFromTemplates(); }}
                       className="flex-shrink-0 rounded-full bg-[#2563eb] px-4 py-2 text-[12.5px] font-semibold text-white"
                     >
                       {copy.use} →
@@ -1049,7 +1149,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
               <button
                 type="button"
                 disabled={!template}
-                onClick={startBuilding}
+                onClick={continueFromTemplates}
                 className="inline-flex items-center gap-2 rounded-lg bg-[#2563eb] px-8 py-3 text-[14px] font-semibold text-white transition hover:bg-[#1d4ed8] disabled:opacity-40 active:scale-[0.99]"
               >
                 {copy.continue}
@@ -1059,160 +1159,350 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
           </motion.div>
         )}
 
-        {/* ══════════════ AGENCY FORM ══════════════ */}
-        {step === "agency-form" && (
+        {/* ══════════════ STEP 3: REGISTER — až po výběru šablony ══════════════ */}
+        {step === "register" && (
           <motion.div
-            key="agency-form"
+            key="register"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-            className="flex h-full flex-col overflow-y-auto"
+            className="flex h-full flex-col items-center justify-center overflow-y-auto px-4 py-10"
           >
-            <button type="button" onClick={() => setStep("choice")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-              {copy.back}
-            </button>
-            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
-            </button>
+            {!initialTemplate && backBtn(isBuilderFlow ? "ai-brief" : "templates")}
+            {closeBtn}
 
-            {/* Blue hero */}
-            <div className="flex-shrink-0 bg-[#2563eb] px-8 pb-12 pt-16 text-center">
-              <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.22em] text-white/70">webero.</p>
-              <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 52px)" }}>
-                {copy.agencyHero}
+            <div className="w-full max-w-[500px] text-center">
+              <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(30px, 4.5vw, 54px)" }}>
+                {isBuilderFlow ? copy.registerBuilderTitle : copy.registerTitle}
               </h1>
-              <p className="mx-auto mt-4 max-w-md text-[14.5px] leading-relaxed text-white/70">
-                {copy.agencyIntro}
+              <p className="mt-4 text-[15px] leading-relaxed text-white/45">
+                {isBuilderFlow ? copy.registerBuilderText : copy.registerText}
+              </p>
+
+              {/* Rekapitulace vybrané šablony / AI zadání */}
+              {!isBuilderFlow && selectedName && (
+                <div className="mx-auto mt-6 flex max-w-[420px] items-center gap-3 rounded-xl border border-[#26263a] bg-[#15151f] p-2.5 pr-4 text-left">
+                  <div className="h-12 w-[72px] flex-shrink-0 overflow-hidden rounded-lg bg-[#20202c]">
+                    {selectedTemplate?.previewImage ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img src={selectedTemplate.previewImage} alt="" className="h-full w-full object-cover object-top" />
+                    ) : (
+                      <div className="grid h-full w-full place-items-center text-white/25">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20"/></svg>
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10.5px] font-semibold uppercase tracking-wider text-white/35">{copy.yourChoice}</p>
+                    <p className="truncate text-[14px] font-bold text-white">{selectedName}</p>
+                  </div>
+                  {!initialTemplate && (
+                    <button type="button" onClick={() => setStep("templates")} className="flex-shrink-0 text-[12px] font-semibold text-white/40 underline underline-offset-2 transition hover:text-white/75">
+                      {locale === "en" ? "Change" : "Změnit"}
+                    </button>
+                  )}
+                </div>
+              )}
+              {isBuilderFlow && brief.trim() && (
+                <div className="mx-auto mt-6 max-w-[420px] rounded-xl border border-violet-500/25 bg-violet-500/[0.07] p-3.5 text-left">
+                  <p className="mb-1 inline-flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-violet-300/80">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+                    {copy.yourChoice}
+                  </p>
+                  <p className="line-clamp-2 text-[13px] leading-relaxed text-white/70">{brief.trim()}</p>
+                </div>
+              )}
+
+              <form onSubmit={handleRegisterSubmit} className="mt-8 space-y-3 text-left">
+                <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder={copy.name}
+                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
+                <input type="email" required autoFocus value={email} onChange={(e) => setEmail(e.target.value)} placeholder={copy.email}
+                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={copy.phone}
+                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
+                <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={copy.password}
+                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
+
+                {error && <div className="rounded-lg border border-red-900/40 bg-red-950/40 px-4 py-3 text-[13px] text-red-400">{error}</div>}
+
+                <button type="submit" className="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563eb] px-6 py-4 text-[15px] font-semibold text-white transition hover:bg-[#1d4ed8] active:scale-[0.99]">
+                  {isEshopKind ? copy.createEshopAccount : copy.createAccount}
+                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                </button>
+              </form>
+
+              <p className="mt-5 text-center text-[13px] text-white/35">
+                {copy.haveAccount}{" "}
+                <Link href="/account/login" className="text-white/65 underline underline-offset-2 transition-colors hover:text-white">
+                  {copy.login}
+                </Link>
               </p>
             </div>
+          </motion.div>
+        )}
 
-            {/* Form area */}
+        {/* ══════════════ DOTAZNÍK „Uděláme to za vás" — 4 kroky ══════════════ */}
+        {step === "agency" && (
+          <motion.div
+            key="agency"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex h-full flex-col"
+          >
+            {/* Jantarová záře */}
+            <div className="pointer-events-none absolute -right-40 top-[-160px] h-[380px] w-[520px] rounded-full bg-amber-500/[0.08] blur-[120px]" />
+
             {agSent ? (
-              <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-[#22c55e]/15">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
-                </div>
-                <h2 className="text-[22px] font-bold text-white">{copy.sentTitle}</h2>
-                <p className="text-[14px] text-white/45">{copy.sentText}</p>
-              </div>
-            ) : (
-              <form onSubmit={handleAgencySubmit} className="flex-1 px-6 py-10 md:px-16">
-                <div className="mx-auto grid max-w-[900px] gap-10 md:grid-cols-[1fr_240px]">
-                  <div className="space-y-10">
-
-                    {/* Section 1 */}
-                    <div>
-                      <h3 className="mb-5 text-[16px] font-bold text-white">{copy.sectionAbout}</h3>
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                        <AgInput value={agFirstName} onChange={setAgFirstName} placeholder={copy.firstName} required />
-                        <AgInput value={agLastName} onChange={setAgLastName} placeholder={copy.lastName} required />
-                        <AgInput value={agCompany} onChange={setAgCompany} placeholder={copy.company} required />
-                        <AgInput value={agEmail} onChange={setAgEmail} placeholder={copy.email} type="email" required />
-                        <AgInput value={agPhone} onChange={setAgPhone} placeholder={copy.phone} type="tel" required />
-                        <AgInput value={agWebsite} onChange={setAgWebsite} placeholder={copy.website} />
-                      </div>
+              <>
+                {closeBtn}
+                <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+                  <motion.div
+                    initial={{ scale: 0, rotate: -90 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", delay: 0.1, stiffness: 200, damping: 18 }}
+                    className="relative mb-7 grid h-20 w-20 place-items-center"
+                  >
+                    <div className="absolute h-20 w-20 rounded-full bg-amber-400/15 blur-2xl" />
+                    <div className="relative grid h-[72px] w-[72px] place-items-center rounded-full bg-gradient-to-br from-amber-400 to-amber-500 shadow-[0_10px_40px_rgba(251,191,36,0.4)]">
+                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1c1917" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
                     </div>
+                  </motion.div>
+                  <h2 className="font-extrabold tracking-tight text-white" style={{ fontSize: "clamp(26px, 3.5vw, 44px)" }}>{copy.sentTitle}</h2>
+                  <p className="mt-3 max-w-md text-[14.5px] leading-relaxed text-white/50">{copy.sentText}</p>
 
-                    {/* Section 2 */}
-                    <div>
-                      <h3 className="mb-5 text-[16px] font-bold text-white">{copy.sectionProject}</h3>
-                      <div className="space-y-3">
-                        <select
-                          value={agProjectType}
-                          onChange={(e) => setAgProjectType(e.target.value)}
-                          required
-                          className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
-                        >
-                          <option value="" disabled className="text-white/30">{copy.projectType}</option>
-                          {projectTypes.map((t) => <option key={t} value={t}>{t}</option>)}
-                        </select>
-                        <textarea
-                          value={agGoal}
-                          onChange={(e) => setAgGoal(e.target.value)}
-                          required
-                          rows={4}
-                          placeholder={copy.goal}
-                          className="w-full resize-none rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
-                        />
-                        <textarea
-                          value={agInspo}
-                          onChange={(e) => setAgInspo(e.target.value)}
-                          rows={3}
-                          placeholder={copy.inspo}
-                          className="w-full resize-none rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
-                        />
-                      </div>
+                  <div className="mt-7 flex items-center gap-3 rounded-full border border-[#26263a] bg-[#15151f] py-2 pl-2 pr-5">
+                    <div className="grid h-9 w-9 place-items-center rounded-full bg-amber-400/15 text-[15px]">👋</div>
+                    <div className="text-left">
+                      <p className="text-[12.5px] font-bold text-white">{copy.agReplyName}</p>
+                      <p className="text-[11px] text-white/40">{copy.agReplyNote}</p>
                     </div>
+                  </div>
 
-                    {/* Section 3 */}
-                    <div>
-                      <h3 className="mb-1 text-[16px] font-bold text-white">{copy.sectionBudget}</h3>
-                      <p className="mb-5 text-[13px] text-white/38">
-                        {copy.budgetIntro}
-                      </p>
-                      <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-white/40">{copy.budget}</p>
-                      <div className="mb-5 flex flex-wrap gap-3">
-                        {budgetOptions.map((opt) => (
-                          <label
-                            key={opt}
-                            className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-[13.5px] font-medium transition ${
-                              agBudget === opt
-                                ? "border-[#2563eb] bg-[#2563eb]/10 text-white"
-                                : "border-[#2e2e2e] bg-[#1c1c1c] text-white/75 hover:border-[#444]"
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name="budget"
-                              value={opt}
-                              checked={agBudget === opt}
-                              onChange={() => setAgBudget(opt)}
-                              className="sr-only"
-                            />
-                            {opt}
-                          </label>
-                        ))}
-                      </div>
-                      <AgInput value={agDeadline} onChange={setAgDeadline} placeholder={copy.deadline} />
-                    </div>
-
+                  <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
                     <button
-                      type="submit"
-                      className="group inline-flex items-center gap-2 rounded-lg bg-[#2563eb] px-8 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1d4ed8] active:scale-[0.99]"
+                      type="button"
+                      onClick={() => { setStep("choice"); }}
+                      className="inline-flex items-center gap-2 rounded-lg border border-[#2e2e3e] px-6 py-3 text-[13.5px] font-semibold text-white/70 transition hover:border-[#4a4a5e] hover:text-white"
                     >
-                      {copy.submitRequest}
-                      <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                      {copy.sentMeanwhile}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-[13.5px] font-bold text-[#0d0d0d] transition hover:bg-amber-300"
+                    >
+                      {copy.sentClose}
                     </button>
                   </div>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Progres nahoře */}
+                <div className="fixed inset-x-0 top-0 z-10 h-[3px] bg-[#1c1c28]">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-amber-400 to-amber-500"
+                    animate={{ width: `${((agStep + 1) / 4) * 100}%` }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </div>
 
-                  {/* Sidebar */}
-                  <div className="hidden md:block">
-                    <div className="sticky top-6 rounded-2xl border border-[#2a2a2a] bg-[#171717] p-6 text-center">
-                      <div className="mx-auto mb-4 h-16 w-16 overflow-hidden rounded-full bg-[#2a2a2a]">
-                        <div className="flex h-full items-center justify-center text-[24px] text-white/20">👤</div>
-                      </div>
-                      <p className="text-[14px] font-bold text-white">{copy.replyTitle}</p>
-                      <p className="mt-0.5 text-[12px] text-white/45">{copy.replyPerson}</p>
-                      <p className="mt-4 text-[13px] leading-relaxed text-white/40">
-                        {copy.replyText}
-                      </p>
+                <button
+                  type="button"
+                  onClick={() => (agStep === 0 ? setStep("choice") : setAgStep(agStep - 1))}
+                  className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                  {copy.agBack}
+                </button>
+                {closeBtn}
+
+                <div className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto px-4 py-16">
+                  <div className="w-full max-w-[620px]">
+                    <p className="mb-3 text-center text-[11px] font-bold uppercase tracking-[0.2em] text-amber-300/70">
+                      {copy.agStepWord} {agStep + 1} {copy.agOf} 4
+                    </p>
+
+                    <AnimatePresence mode="wait">
+                      {/* ── 1/4: Typ projektu ── */}
+                      {agStep === 0 && (
+                        <motion.div key="ag0" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                          <h1 className="text-center font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(26px, 3.4vw, 42px)" }}>{copy.agQ1}</h1>
+                          <p className="mt-2.5 text-center text-[14px] text-white/40">{copy.agQ1Sub}</p>
+                          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            {AGENCY_PROJECT_TYPES.map((t) => {
+                              const active = agProjectType === t.value;
+                              return (
+                                <button
+                                  key={t.value}
+                                  type="button"
+                                  onClick={() => {
+                                    setAgProjectType(t.value);
+                                    // typeform-style: výběr rovnou posouvá dál
+                                    setTimeout(() => setAgStep(1), 260);
+                                  }}
+                                  className={`group flex items-center gap-4 rounded-xl border text-left transition-all duration-200 ${
+                                    active
+                                      ? "border-amber-400/80 bg-amber-400/10 shadow-[0_0_0_1px_rgba(251,191,36,0.4)]"
+                                      : "border-[#2a2a3a] bg-[#15151f] hover:border-[#3d3d52] hover:bg-[#1a1a26]"
+                                  }`}
+                                  style={{ padding: "18px" }}
+                                >
+                                  <span className={`grid h-11 w-11 flex-shrink-0 place-items-center rounded-lg transition ${active ? "bg-amber-400 text-[#1c1917]" : "bg-[#22222e] text-white/55 group-hover:text-amber-300"}`}>
+                                    <AgTypeIcon icon={t.icon} />
+                                  </span>
+                                  <span className={`text-[15px] font-bold ${active ? "text-white" : "text-white/85"}`}>
+                                    {locale === "en" ? t.en : t.cs}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* ── 2/4: O projektu ── */}
+                      {agStep === 1 && (
+                        <motion.div key="ag1" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                          <h1 className="text-center font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(26px, 3.4vw, 42px)" }}>{copy.agQ2}</h1>
+                          <p className="mt-2.5 text-center text-[14px] text-white/40">{copy.agQ2Sub}</p>
+                          <div className="mt-8 space-y-4">
+                            <div>
+                              <label className="mb-2 block text-[12.5px] font-semibold text-white/60">{copy.agGoal}</label>
+                              <textarea
+                                value={agGoal}
+                                onChange={(e) => setAgGoal(e.target.value)}
+                                autoFocus
+                                rows={4}
+                                maxLength={4000}
+                                placeholder={copy.agGoalPlaceholder}
+                                className="w-full resize-none rounded-xl border border-[#2a2a3a] bg-[#15151f] px-4 py-3.5 text-[14.5px] leading-relaxed text-white placeholder-white/25 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/15"
+                              />
+                            </div>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block text-[12.5px] font-semibold text-white/60">{copy.agInspo}</label>
+                                <input
+                                  value={agInspo}
+                                  onChange={(e) => setAgInspo(e.target.value)}
+                                  placeholder={copy.agInspoPlaceholder}
+                                  className="w-full rounded-xl border border-[#2a2a3a] bg-[#15151f] px-4 py-3.5 text-[14px] text-white placeholder-white/25 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/15"
+                                />
+                              </div>
+                              <div>
+                                <label className="mb-2 block text-[12.5px] font-semibold text-white/60">{copy.agCurrentWeb}</label>
+                                <input
+                                  value={agCurrentWeb}
+                                  onChange={(e) => setAgCurrentWeb(e.target.value)}
+                                  placeholder={copy.agCurrentWebPlaceholder}
+                                  className="w-full rounded-xl border border-[#2a2a3a] bg-[#15151f] px-4 py-3.5 text-[14px] text-white placeholder-white/25 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/15"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* ── 3/4: Rozpočet a termín ── */}
+                      {agStep === 2 && (
+                        <motion.div key="ag2" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                          <h1 className="text-center font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(26px, 3.4vw, 42px)" }}>{copy.agQ3}</h1>
+                          <p className="mt-2.5 text-center text-[14px] text-white/40">{copy.agQ3Sub}</p>
+                          <div className="mt-8">
+                            <p className="mb-3 text-[12.5px] font-semibold text-white/60">{copy.agBudgetLabel}</p>
+                            <div className="grid grid-cols-2 gap-3">
+                              {budgetOptions.map((opt) => (
+                                <button
+                                  key={opt}
+                                  type="button"
+                                  onClick={() => setAgBudget(opt)}
+                                  className={`rounded-xl border px-4 py-3.5 text-[14px] font-semibold transition-all duration-200 ${
+                                    agBudget === opt
+                                      ? "border-amber-400/80 bg-amber-400/10 text-white shadow-[0_0_0_1px_rgba(251,191,36,0.4)]"
+                                      : "border-[#2a2a3a] bg-[#15151f] text-white/70 hover:border-[#3d3d52] hover:text-white"
+                                  }`}
+                                >
+                                  {opt}
+                                </button>
+                              ))}
+                            </div>
+                            <p className="mb-3 mt-7 text-[12.5px] font-semibold text-white/60">{copy.agTimelineLabel}</p>
+                            <div className="flex flex-wrap gap-2.5">
+                              {timelineOptions.map((opt) => (
+                                <button
+                                  key={opt}
+                                  type="button"
+                                  onClick={() => setAgTimeline(agTimeline === opt ? "" : opt)}
+                                  className={`rounded-full border px-4 py-2.5 text-[13px] font-medium transition-all duration-200 ${
+                                    agTimeline === opt
+                                      ? "border-amber-400/80 bg-amber-400/10 text-white"
+                                      : "border-[#2a2a3a] bg-[#15151f] text-white/60 hover:border-[#3d3d52] hover:text-white"
+                                  }`}
+                                >
+                                  {opt}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* ── 4/4: Kontakt ── */}
+                      {agStep === 3 && (
+                        <motion.div key="ag3" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                          <h1 className="text-center font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(26px, 3.4vw, 42px)" }}>{copy.agQ4}</h1>
+                          <p className="mt-2.5 text-center text-[14px] text-white/40">{copy.agQ4Sub}</p>
+                          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                            <AgInput value={agName} onChange={setAgName} placeholder={copy.agName} required autoFocus />
+                            <AgInput value={agCompany} onChange={setAgCompany} placeholder={copy.agCompany} />
+                            <AgInput value={agEmail} onChange={setAgEmail} placeholder={copy.agEmailField} type="email" required />
+                            <AgInput value={agPhone} onChange={setAgPhone} placeholder={copy.agPhoneField} type="tel" />
+                          </div>
+                          <div className="mt-5 flex items-center justify-center gap-3 text-[12px] text-white/35">
+                            <span className="grid h-7 w-7 place-items-center rounded-full bg-amber-400/12 text-[12px]">👋</span>
+                            {copy.agReplyName} · {copy.agReplyNote}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {agError && (
+                      <div className="mt-4 rounded-lg border border-red-900/40 bg-red-950/40 px-4 py-3 text-center text-[13px] text-red-400">{agError}</div>
+                    )}
+
+                    {/* Navigace dotazníku */}
+                    <div className="mt-9 flex items-center justify-center">
+                      {agStep < 3 ? (
+                        <button
+                          type="button"
+                          onClick={agNext}
+                          disabled={!agStepValid}
+                          className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-[14.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-200 hover:bg-amber-300 disabled:opacity-30 disabled:hover:bg-white"
+                        >
+                          {copy.agNext}
+                          <svg className="transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => void handleAgencySubmit()}
+                          disabled={!agStepValid || agSending}
+                          className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 px-8 py-3.5 text-[14.5px] font-bold text-[#1c1917] shadow-[0_8px_28px_rgba(251,191,36,0.35)] transition-all duration-200 hover:brightness-110 disabled:opacity-40"
+                        >
+                          {agSending ? copy.agSending : copy.agSubmit}
+                          {!agSending && (
+                            <svg className="transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
-              </form>
+              </>
             )}
-
-            {/* Quote + logos */}
-            <div className="flex-shrink-0 bg-[#2563eb] px-8 py-12 text-center">
-              <p className="mx-auto max-w-2xl text-[clamp(18px,2.5vw,26px)] font-bold leading-snug text-white">
-                {copy.quote}
-              </p>
-              <p className="mt-4 text-[13px] text-white/60">{copy.quoteBy}</p>
-            </div>
-            <div className="hidden">
-            </div>
           </motion.div>
         )}
 
@@ -1241,7 +1531,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                 className="font-extrabold leading-tight tracking-tight text-white"
                 style={{ fontSize: "clamp(34px, 5.5vw, 72px)" }}
               >
-                {copy.buildingTitle}
+                {isEshopKind ? copy.buildingTitleEshop : copy.buildingTitle}
               </h1>
               <p className="mt-5 flex items-center justify-center gap-2 text-[15px] text-white/40">
                 {buildStep + 1}. {copy.stepWord} {activeBuildSteps.length} - {activeBuildSteps[buildStep]}
@@ -1281,7 +1571,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
 
             <p className="mb-3 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#22c55e]">{copy.doneLabel}</p>
             <h2 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 48px)" }}>
-              {copy.doneTitleA}<br /><span className="text-[#22c55e]">{copy.doneTitleB}</span>
+              {isEshopKind ? copy.doneTitleAEshop : copy.doneTitleA}<br /><span className="text-[#22c55e]">{copy.doneTitleB}</span>
             </h2>
 
             {/* Account info */}
@@ -1319,6 +1609,68 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
 
       </AnimatePresence>
     </div>
+  );
+}
+
+/* ─── ChoiceCard — foto karta cesty (Web / E-shop) ─── */
+function ChoiceCard({
+  onClick, accent, tag, tagDot, title, text, meta, cta, image, imagePosition = "center", icon,
+}: {
+  onClick: () => void;
+  accent: string;
+  tag: string;
+  tagDot: string;
+  title: string;
+  text: string;
+  meta: string;
+  cta: string;
+  image: string;
+  imagePosition?: "center" | "top";
+  icon: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="group relative flex min-h-[200px] flex-1 cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/10 text-left outline-none transition-all duration-300 hover:border-white/40 hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15),0_24px_60px_rgba(0,0,0,0.6)] focus-visible:ring-2 focus-visible:ring-white/40"
+      style={{ ["--accent" as string]: accent, ["--accent-glow" as string]: `${accent}59` }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={image}
+        alt=""
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+        className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] ${imagePosition === "top" ? "object-top" : "object-center"}`}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/35 to-black/10" />
+      <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-white/30 transition-opacity duration-300 group-hover:opacity-100" />
+
+      {/* Ikona kategorie */}
+      <span
+        className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-xl border border-white/15 bg-black/35 text-white/80 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:text-white"
+        style={{ boxShadow: `0 0 0 0 ${accent}00` }}
+      >
+        {icon}
+      </span>
+
+      <div className="relative z-10 mt-auto w-full p-6 md:p-7">
+        <span className="mb-3.5 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: tagDot }} />
+          {tag}
+        </span>
+        <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(21px, 2.3vw, 30px)" }}>
+          {title}
+        </h2>
+        <p className="mt-2 text-[13.5px] leading-relaxed text-white/75">
+          {text}
+        </p>
+        <p className="mt-2.5 text-[12px] font-medium text-white/55">{meta}</p>
+        <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-[var(--accent)] group-hover:text-white group-hover:shadow-[0_8px_24px_var(--accent-glow)]">
+          {cta}
+          <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+        </div>
+      </div>
+    </button>
   );
 }
 
@@ -1421,16 +1773,17 @@ function TemplateCard({ t, active, onSelect, locale = "cs" }: { t: ModalTemplate
 
 /* ─── AgInput helper ─── */
 function AgInput({
-  value, onChange, placeholder, type = "text", required = false,
-}: { value: string; onChange: (v: string) => void; placeholder: string; type?: string; required?: boolean }) {
+  value, onChange, placeholder, type = "text", required = false, autoFocus = false,
+}: { value: string; onChange: (v: string) => void; placeholder: string; type?: string; required?: boolean; autoFocus?: boolean }) {
   return (
     <input
       type={type}
       required={required}
+      autoFocus={autoFocus}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
+      className="w-full rounded-xl border border-[#2a2a3a] bg-[#15151f] px-4 py-3.5 text-[14px] text-white placeholder-white/25 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/15"
     />
   );
 }

@@ -51,18 +51,24 @@ function BillingContent() {
   async function handleActivate(slug: string) {
     setActivating(slug);
     setMessage("");
-    const res = await fetch("/api/account/billing/activate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tenantSlug: slug }),
-    });
-    const data = await res.json();
-    setActivating(null);
-    if (res.ok) {
-      setMessage(data.message);
-      setBillings((prev) =>
-        prev.map((b) => b.slug === slug ? { ...b, status: "active", plan: "paid" } : b)
-      );
+    try {
+      const res = await fetch("/api/billing/gopay/create-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tenantSlug: slug }),
+      });
+      const data = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok || !data.url) {
+        throw new Error(
+          data.error === "payment_creation_failed"
+            ? "Platební bránu se nepodařilo kontaktovat. Zkuste to prosím později."
+            : data.error || "Chyba při zahájení platby"
+        );
+      }
+      window.location.href = data.url;
+    } catch (err) {
+      setMessage(String(err).replace("Error: ", ""));
+      setActivating(null);
     }
   }
 
