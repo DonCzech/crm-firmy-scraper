@@ -29716,7 +29716,7 @@ function HeroHair01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
   const eyebrow  = String(c.eyebrow  ?? "Kadeřnický salon · Praha 1");
   const title    = String(c.title    ?? "Vlasy, které\nmluví za vás.");
   const subtitle = String(c.subtitle ?? "Editorial střihy, barvení a péče v centru Prahy. Preciznost, klid a výsledek, který drží.");
-  const bg       = String(c.backgroundImage ?? "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=2000&h=1300&fit=crop&auto=format&q=80");
+  const bg       = String(c.backgroundImage ?? "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=2000&h=1300&fit=crop&auto=format&q=80");
   const ctaText  = String(c.ctaText  ?? "Objednat se");
   const ctaHref  = String(c.ctaHref  ?? "/kontakt");
   const cta2Text = String(c.cta2Text ?? "Naše služby");
@@ -29732,10 +29732,12 @@ function HeroHair01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
           font-family: 'Hanken Grotesk', sans-serif;
         }
         .ha1h-bg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-        .ha1h-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+        .ha1h-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
         .ha1h-shade {
           position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(12,9,6,0.82) 0%, rgba(12,9,6,0.35) 45%, rgba(12,9,6,0.15) 100%);
+          background:
+            linear-gradient(100deg, rgba(12,9,6,0.72) 0%, rgba(12,9,6,0.38) 48%, rgba(12,9,6,0.06) 72%),
+            linear-gradient(to top, rgba(12,9,6,0.75) 0%, rgba(12,9,6,0.25) 45%, rgba(12,9,6,0.1) 100%);
         }
         .ha1h-inner {
           position: relative; z-index: 2; width: 100%; max-width: 78rem; margin: 0 auto;
@@ -29789,8 +29791,8 @@ function HeroHair01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
         @media (max-width: 640px) { .ha1h-hero { min-height: 86svh; } }
       `}</style>
 
-      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="Salon" className="ha1h-bg">
-        <img src={bg} alt="Editorial styling v salonu" loading="eager" />
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="Salon" className="ha1h-bg" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+        <img src={bg} alt="Editorial styling v salonu" loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
       </GenericEditableImage>
       <div className="ha1h-shade" aria-hidden />
 

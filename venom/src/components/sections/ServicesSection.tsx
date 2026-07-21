@@ -48,6 +48,8 @@ interface Props {
 
 export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdmin }: Props) {
 
+  if (variant === "orbit-01-bento") return <BentoOrbit01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "orbit-01-usecases") return <UsecasesOrbit01 content={content} sectionId={sectionId} />;
   if (variant === "signal-01-services") return <ServicesSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "signal-01-method")   return <MethodSignal01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-services") return <ServicesProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -16464,5 +16466,224 @@ function ServicesHair01({ content, sectionId, tenantSlug, isAdmin }: { content: 
         </div>
       </div>
     </section>
+  );
+}
+
+// ══ ORBIT — Precision instrument (orbit-01) ═══════════════════════════════════
+// Feature bento: mřížka na ledové šedé s CSS produkt vizuály místo ikonek —
+// featured karta s mini workflow, menší karty s bar chartem, avatary, sparkline
+// a telefonem. + Use cases: ink sekce s přepínačem rolí a živým panelem.
+function Ob01BentoViz({ i }: { i: number }) {
+  if (i === 0) return (
+    <span className="ob01bn-viz ob01bn-viz-flow" aria-hidden="true">
+      <span className="ob01bn-flowrow"><i className="ob01bn-dot" /><span className="ob01bn-flowline" /><em>Nová objednávka</em><b>spustí</b></span>
+      <span className="ob01bn-flowrow"><i className="ob01bn-dot" /><span className="ob01bn-flowline" /><em>Schválení vedoucím</em><b>Aktivní</b></span>
+      <span className="ob01bn-flowrow"><i className="ob01bn-dot" /><span className="ob01bn-flowline" /><em>Faktura + e-mail zákazníkovi</em><b>Auto</b></span>
+    </span>
+  );
+  if (i === 1) return (
+    <span className="ob01bn-viz ob01bn-viz-bars" aria-hidden="true">
+      {[42, 58, 38, 72, 52, 86].map((h, k) => <i key={k} style={{ ["--h" as string]: h }} />)}
+    </span>
+  );
+  if (i === 2) return (
+    <span className="ob01bn-viz ob01bn-viz-people" aria-hidden="true">
+      <span className="ob01bn-avatars"><i>JN</i><i>PK</i><i>MV</i></span>
+      <span className="ob01bn-bubble"><b /><b style={{ width: "62%" }} /></span>
+    </span>
+  );
+  if (i === 3) return (
+    <span className="ob01bn-viz ob01bn-viz-spark" aria-hidden="true">
+      <svg viewBox="0 0 120 40" preserveAspectRatio="none"><polyline points="0,32 20,28 40,30 60,18 80,20 100,10 120,6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+    </span>
+  );
+  return (
+    <span className="ob01bn-viz ob01bn-viz-phone" aria-hidden="true">
+      <span className="ob01bn-phone"><b /><i style={{ width: "82%" }} /><i style={{ width: "64%" }} /><i style={{ width: "74%" }} /></span>
+    </span>
+  );
+}
+
+function BentoOrbit01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow = String(content.eyebrow ?? "Funkce");
+  const title   = String(content.title   ?? "Všechno, co proces potřebuje. Nic navíc.");
+  const lead    = String(content.lead    ?? "");
+  type ObBn = { name?: string; description?: string; tag?: string; href?: string };
+  const items = (content.items as ObBn[] | undefined) ?? [];
+  const linkLabel = String(content.linkLabel ?? "Více o produktu");
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const root = gridRef.current;
+    if (!root) return;
+    const els = Array.from(root.querySelectorAll<HTMLElement>(".ob01bn-card"));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("ob01-vis"); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [items.length]);
+  return (
+    <>
+      <style>{`
+        .ob01bn { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-muted: var(--color-text-muted, #5C6672); --ob-border: var(--color-border, #E1E7E2);
+          background:var(--color-bg, #F2F5F3); font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--color-text, #0E1420);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .ob01bn-inner { max-width:1280px; margin:0 auto; }
+        .ob01bn-head { max-width:660px; margin-bottom:clamp(32px,5vw,56px); }
+        .ob01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ob-accent); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .ob01-eyebrow::before { content:''; width:32px; height:2px; background:var(--ob-accent); }
+        .ob01bn-title { font-family:var(--font-heading, system-ui, sans-serif); color:var(--ob-ink); font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:800; letter-spacing:-0.03em; line-height:1.06; margin:0 0 14px; }
+        .ob01bn-lead { font-size:1.05rem; color:var(--ob-muted); line-height:1.6; margin:0; }
+        .ob01bn-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+        .ob01bn-card { position:relative; display:flex; flex-direction:column; gap:10px; background:var(--color-surface, #fff); border:1px solid var(--ob-border);
+          border-radius:12px; padding:24px 26px; text-decoration:none; color:inherit; overflow:hidden;
+          opacity:0; transform:translateY(20px);
+          transition:opacity .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 70ms), transform .55s cubic-bezier(.22,.68,0,1) calc(var(--i,0) * 70ms), box-shadow .25s, border-color .25s; }
+        .ob01bn-card.ob01-vis { opacity:1; transform:translateY(0); }
+        .ob01bn-card.ob01-vis:hover { transform:translateY(-5px); box-shadow:0 14px 30px -18px rgba(10,15,22,.28); border-color:color-mix(in srgb, var(--ob-accent) 40%, var(--ob-border));
+          transition:opacity .2s, transform .25s cubic-bezier(.22,.68,0,1), box-shadow .25s, border-color .25s; }
+        .ob01bn-card-featured { grid-column:span 2; }
+        .ob01bn-tag { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ob-accent); }
+        .ob01bn-name { font-family:var(--font-heading, system-ui, sans-serif); color:var(--ob-ink); font-size:1.22rem; font-weight:800; letter-spacing:-0.015em; margin:0; }
+        .ob01bn-desc { font-size:.94rem; color:var(--ob-muted); line-height:1.55; margin:0; flex:1; }
+        .ob01bn-more { display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:.88rem; color:var(--ob-accent); margin-top:2px; }
+        .ob01bn-more svg { transition:transform .25s; } .ob01bn-card:hover .ob01bn-more svg { transform:translateX(4px); }
+        .ob01bn-viz { display:block; margin-top:14px; padding-top:14px; border-top:1px solid var(--ob-border); color:var(--ob-accent); }
+        .ob01bn-flowrow { display:flex; align-items:center; gap:10px; padding:7px 0; font-size:.82rem; }
+        .ob01bn-flowrow em { font-style:normal; color:var(--color-text, #0E1420); font-weight:600; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .ob01bn-flowrow b { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ob-accent);
+          border:1px solid color-mix(in srgb, var(--ob-accent) 35%, transparent); border-radius:999px; padding:3px 9px; }
+        .ob01bn-dot { width:9px; height:9px; border-radius:50%; background:var(--ob-accent); flex-shrink:0; }
+        .ob01bn-flowline { width:22px; height:1px; background:var(--ob-border); flex-shrink:0; }
+        .ob01bn-viz-bars { display:flex; align-items:flex-end; gap:8px; height:58px; }
+        .ob01bn-viz-bars i { flex:1; border-radius:3px 3px 0 0; background:linear-gradient(180deg, var(--ob-accent), color-mix(in srgb, var(--ob-accent) 40%, transparent)); opacity:.8; height:calc(var(--h) * 1%); }
+        .ob01bn-avatars { display:inline-flex; }
+        .ob01bn-avatars i { width:32px; height:32px; border-radius:50%; background:color-mix(in srgb, var(--ob-accent) 14%, #fff); border:2px solid #fff; color:var(--ob-accent);
+          font-size:.62rem; font-weight:800; display:inline-flex; align-items:center; justify-content:center; font-style:normal; margin-left:-8px; }
+        .ob01bn-avatars i:first-child { margin-left:0; }
+        .ob01bn-bubble { display:block; margin-top:10px; padding:10px 12px; background:color-mix(in srgb, var(--ob-accent) 7%, #fff); border:1px solid var(--ob-border); border-radius:8px 8px 8px 2px; }
+        .ob01bn-bubble b { display:block; height:6px; border-radius:3px; background:color-mix(in srgb, var(--ob-accent) 28%, #fff); margin-bottom:6px; }
+        .ob01bn-bubble b:last-child { margin-bottom:0; }
+        .ob01bn-viz-spark svg { display:block; width:100%; height:44px; }
+        .ob01bn-phone { display:block; width:96px; border:1.5px solid var(--ob-border); border-radius:12px; padding:10px 9px 12px; background:#fff; }
+        .ob01bn-phone b { display:block; width:26px; height:4px; border-radius:2px; background:var(--ob-border); margin:0 auto 9px; }
+        .ob01bn-phone i { display:block; height:6px; border-radius:3px; background:color-mix(in srgb, var(--ob-accent) 24%, #fff); margin-bottom:6px; }
+        @media (max-width:980px){ .ob01bn-grid{ grid-template-columns:1fr 1fr; } .ob01bn-card-featured{ grid-column:span 2; } }
+        @media (max-width:620px){ .ob01bn-grid{ grid-template-columns:1fr; } .ob01bn-card-featured{ grid-column:span 1; } }
+        @media (prefers-reduced-motion: reduce){ .ob01bn-card{ opacity:1; transform:none; transition:none; } .ob01bn-more svg{ transition:none; } }
+      `}</style>
+      <section className="ob01bn" data-template="orbit-01" id="funkce">
+        <div className="ob01bn-inner">
+          <div className="ob01bn-head">
+            <p className="ob01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="ob01bn-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            {lead && <p className="ob01bn-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>}
+          </div>
+          <div className="ob01bn-grid" ref={gridRef}>
+            {items.map((s, i) => (
+              <a key={i} className={`ob01bn-card${i === 0 ? " ob01bn-card-featured" : ""}`} style={{ ["--i" as string]: i % 3 }} href={resolveDemoHref(String(s.href ?? "/produkt"), tenantSlug, isAdmin)}>
+                <span className="ob01bn-tag"><GenericEditableText sectionId={sectionId} field={`items.${i}.tag`} value={String(s.tag ?? "")} tag="span" /></span>
+                <h3 className="ob01bn-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(s.name ?? "")} tag="span" /></h3>
+                <p className="ob01bn-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(s.description ?? "")} tag="span" /></p>
+                <span className="ob01bn-more">
+                  <GenericEditableText sectionId={sectionId} field="linkLabel" value={linkLabel} tag="span" />
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </span>
+                <Ob01BentoViz i={i} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+type Ob01Role = { label?: string; description?: string; benefits?: string[]; metric?: string; metricLabel?: string };
+
+function UsecasesOrbit01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const eyebrow = String(content.eyebrow ?? "Use cases");
+  const title   = String(content.title   ?? "Jedna platforma. Každá role v ní vidí to svoje.");
+  const lead    = String(content.lead    ?? "");
+  const metricEyebrow = String(content.metricEyebrow ?? "Typický výsledek");
+  const roles: Ob01Role[] = (content.roles as Ob01Role[] | undefined) ?? [];
+  const [idx, setIdx] = useState(0);
+  const role = roles[Math.min(idx, Math.max(roles.length - 1, 0))] ?? {};
+  const benefits = (role.benefits ?? []).slice(0, 3);
+  return (
+    <>
+      <style>{`
+        .ob01uc { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-accent-lt: color-mix(in srgb, var(--color-accent, #047857) 52%, #fff);
+          background:var(--ob-ink); color:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif);
+          padding:clamp(56px,8vw,104px) clamp(20px,5vw,48px); }
+        .ob01uc-inner { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:0.9fr 1.1fr; gap:clamp(32px,5vw,72px); align-items:start; }
+        .ob01uc .ob01-eyebrow { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.76rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ob-accent-lt); margin:0 0 12px; display:inline-flex; align-items:center; gap:12px; }
+        .ob01uc .ob01-eyebrow::before { content:''; width:32px; height:2px; background:var(--ob-accent-lt); }
+        .ob01uc-title { font-family:var(--font-heading, system-ui, sans-serif); color:#fff; font-size:clamp(1.9rem,3.8vw,2.9rem); font-weight:800; letter-spacing:-0.03em; line-height:1.06; margin:0 0 14px; }
+        .ob01uc-lead { font-size:1.05rem; color:rgba(255,255,255,.78); line-height:1.6; margin:0; }
+        .ob01uc-panelwrap { min-width:0; }
+        .ob01uc-tabs { position:relative; display:flex; background:rgba(255,255,255,.08); border-radius:8px; padding:3px; margin-bottom:18px; isolation:isolate; }
+        .ob01uc-tabs-thumb { position:absolute; top:3px; bottom:3px; left:3px; border-radius:6px; background:#fff;
+          box-shadow:0 2px 10px rgba(0,0,0,.35); z-index:0; transition:transform .28s cubic-bezier(.22,.68,0,1);
+          width:calc((100% - 6px) / var(--ob-n, 4)); transform:translateX(calc(var(--ob-i, 0) * 100%)); }
+        .ob01uc-tab { position:relative; z-index:1; flex:1; border:none; cursor:pointer; padding:10px 2px; border-radius:6px; font-family:inherit;
+          font-weight:700; font-size:.84rem; color:rgba(255,255,255,.62); background:transparent; transition:color .2s; white-space:nowrap; }
+        .ob01uc-tab[aria-checked="true"] { color:var(--ob-ink); }
+        @keyframes ob01ucfade { 0% { opacity:0; transform:translateY(8px); } 100% { opacity:1; transform:translateY(0); } }
+        .ob01uc-panel { background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.12); border-radius:12px;
+          padding:clamp(22px,2.6vw,32px); animation:ob01ucfade .3s cubic-bezier(.22,.68,0,1) both; }
+        .ob01uc-desc { font-size:1rem; color:rgba(255,255,255,.85); line-height:1.6; margin:0 0 16px; }
+        .ob01uc-benefits { margin:0 0 18px; border-top:1px solid rgba(255,255,255,.12); }
+        .ob01uc-benefit { display:flex; align-items:center; gap:11px; padding:12px 2px; border-bottom:1px solid rgba(255,255,255,.12);
+          font-size:.94rem; font-weight:600; color:rgba(255,255,255,.9); }
+        .ob01uc-benefit svg { flex-shrink:0; color:var(--ob-accent-lt); }
+        .ob01uc-metric-lbl { font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.55); margin-bottom:6px; }
+        .ob01uc-metric-val { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+        .ob01uc-metric-val > b { font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(2.1rem,2.6vw,2.7rem); font-weight:800; letter-spacing:-0.02em; line-height:1; color:var(--ob-accent-lt); font-variant-numeric:tabular-nums; white-space:nowrap; }
+        .ob01uc-metric-val b span { font-size:inherit; }
+        .ob01uc-metric-val > span { font-size:.88rem; color:rgba(255,255,255,.85); font-weight:600; max-width:18em; line-height:1.35; }
+        @media (max-width:980px){ .ob01uc-inner{ grid-template-columns:1fr; } }
+        @media (max-width:560px){ .ob01uc-tab{ font-size:.74rem; } }
+        @media (prefers-reduced-motion: reduce){ .ob01uc-panel{ animation:none; } .ob01uc-tabs-thumb, .ob01uc-tab{ transition:none; } }
+      `}</style>
+      <section className="ob01uc" data-template="orbit-01" id="use-cases">
+        <div className="ob01uc-inner">
+          <div className="ob01uc-head">
+            <p className="ob01-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+            <h2 className="ob01uc-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+            {lead && <p className="ob01uc-lead"><GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" /></p>}
+          </div>
+          <div className="ob01uc-panelwrap">
+            <div className="ob01uc-tabs" role="radiogroup" aria-label={title}
+              style={{ ["--ob-n" as string]: Math.max(roles.length, 1), ["--ob-i" as string]: Math.min(idx, Math.max(roles.length - 1, 0)) }}>
+              <span className="ob01uc-tabs-thumb" aria-hidden="true" />
+              {roles.map((r, i) => (
+                <button key={i} type="button" className="ob01uc-tab" role="radio" aria-checked={idx === i} onClick={() => setIdx(i)}>
+                  {String(r.label ?? "")}
+                </button>
+              ))}
+            </div>
+            <div className="ob01uc-panel" key={idx} aria-live="polite">
+              <p className="ob01uc-desc"><GenericEditableText sectionId={sectionId} field={`roles.${idx}.description`} value={String(role.description ?? "")} tag="span" /></p>
+              <div className="ob01uc-benefits">
+                {benefits.map((b, i) => (
+                  <div key={i} className="ob01uc-benefit">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                    <GenericEditableText sectionId={sectionId} field={`roles.${idx}.benefits.${i}`} value={b} tag="span" />
+                  </div>
+                ))}
+              </div>
+              <div className="ob01uc-metric-lbl"><GenericEditableText sectionId={sectionId} field="metricEyebrow" value={metricEyebrow} tag="span" /></div>
+              <div className="ob01uc-metric-val">
+                <b><GenericEditableText sectionId={sectionId} field={`roles.${idx}.metric`} value={String(role.metric ?? "")} tag="span" /></b>
+                <span><GenericEditableText sectionId={sectionId} field={`roles.${idx}.metricLabel`} value={String(role.metricLabel ?? "")} tag="span" /></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

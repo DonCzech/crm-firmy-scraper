@@ -19,6 +19,7 @@ export function StatsSection({ content, variant, sectionId, isAdmin }: Props) {
   const lead = String(content.lead ?? "");
   const items = ((content.items as StatItem[]) ?? []).slice(0, 8);
 
+  if (variant === "orbit-01-stats") return <StatsOrbit01 content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "signal-01-stats") return <StatsSignal01 content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "proof-01-stats") return <StatsProof01 content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "florist-01-stats") return <StatsFlorist01 content={content} sectionId={sectionId} />;
@@ -3414,6 +3415,65 @@ function StatsSignal01({ content, sectionId, isAdmin }: { content: Record<string
             <div className="sg01st-badges">
               {badges.map((b, i) => (
                 <span key={i} className="sg01st-chip">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                  <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ ORBIT — Precision instrument (orbit-01) ═══════════════════════════════════
+// Bílý trust pás: velká Overpass 800 čísla s count-up, vertikální hairline
+// oddělovače, mono popisky; badges jako inline řádek s emerald fajfkami.
+function StatsOrbit01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
+  const items = (content.items as Array<{ value?: string; label?: string }> | undefined) ?? [];
+  const rawBadges = content.badges as string[] | undefined;
+  const badges = rawBadges && rawBadges.length ? rawBadges : [];
+  return (
+    <>
+      <style>{`
+        .ob01st { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-muted: var(--color-text-muted, #5C6672); --ob-border: var(--color-border, #E1E7E2);
+          background:#fff; font-family:var(--font-body, system-ui, -apple-system, sans-serif); color:var(--color-text, #0E1420);
+          padding:clamp(40px,5vw,60px) clamp(20px,5vw,48px); border-bottom:1px solid var(--ob-border); }
+        .ob01st-inner { max-width:1280px; margin:0 auto; }
+        .ob01st-nums { display:grid; grid-template-columns:repeat(4,1fr); }
+        .ob01st-num { padding:6px clamp(18px,3vw,40px); }
+        .ob01st-num + .ob01st-num { border-left:1px solid var(--ob-border); }
+        .ob01st-num:first-child { padding-left:0; }
+        .ob01st-num b { display:block; font-family:var(--font-heading, system-ui, sans-serif); font-size:clamp(2rem,3.6vw,3.1rem); font-weight:800; letter-spacing:-0.02em; line-height:1; color:var(--ob-ink); font-variant-numeric:tabular-nums; }
+        .ob01st-num > span { display:block; font-family:var(--font-overpass-mono, ui-monospace, monospace); font-size:.8rem; color:var(--ob-muted); margin-top:9px; line-height:1.4; }
+        .ob01st-num b span { font-size:inherit; }
+        .ob01st-badges { display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; margin-top:clamp(22px,3vw,32px); padding-top:clamp(18px,2.5vw,24px); border-top:1px solid var(--ob-border); }
+        .ob01st-chip { display:inline-flex; align-items:center; gap:8px; font-size:.88rem; font-weight:600; color:var(--ob-ink); }
+        .ob01st-chip svg { color:var(--ob-accent); flex-shrink:0; }
+        .ob01st-chip + .ob01st-chip::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--ob-border); margin-right:16px; }
+        @media (max-width:900px){ .ob01st-nums{ grid-template-columns:repeat(2,1fr); row-gap:22px; } .ob01st-num:nth-child(3){ border-left:none; padding-left:0; } }
+        @media (max-width:480px){ .ob01st-nums{ grid-template-columns:1fr 1fr; } }
+      `}</style>
+      <section className="ob01st" data-template="orbit-01">
+        <div className="ob01st-inner">
+          <div className="ob01st-nums">
+            {items.map((it, i) => (
+              <div key={i} className="ob01st-num">
+                <b>
+                  {isAdmin
+                    ? <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(it.value ?? "")} tag="span" />
+                    : <Pf01CountUp value={String(it.value ?? "")} />}
+                </b>
+                <span><GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(it.label ?? "")} tag="span" /></span>
+              </div>
+            ))}
+          </div>
+          {badges.length > 0 && (
+            <div className="ob01st-badges">
+              {badges.map((b, i) => (
+                <span key={i} className="ob01st-chip">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
                   <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
                 </span>
