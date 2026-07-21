@@ -1,0 +1,7 @@
+<svg width="150" height="34" viewBox="0 0 150 34" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ORBIT">
+  <rect x="1" y="4" width="26" height="26" rx="7" fill="#0A0F16"/>
+  <circle cx="14" cy="17" r="4.2" fill="#34D399"/>
+  <ellipse cx="14" cy="17" rx="9.5" ry="4.4" stroke="#34D399" stroke-width="1.6" transform="rotate(-24 14 17)" opacity="0.75"/>
+  <circle cx="21.8" cy="12.6" r="1.9" fill="#FFFFFF"/>
+  <text x="35" y="24.5" font-family="'Overpass', system-ui, sans-serif" font-size="17" font-weight="800" letter-spacing="1.6" fill="#0A0F16">ORBIT</text>
+</svg>

@@ -1,0 +1,162 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "orbit-01",
+  "name": "ORBIT — SaaS / AI Product",
+  "industry": "saas",
+  "skeleton": "professional",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "description": "Fable Premium V3 — archetyp SaaS / AI Product. Precision instrument (ink #0A0F16 / emerald #047857 / ledová šedá #F2F5F3, Overpass 800 + Source Sans + mono akcenty, technická mřížka místo fotky v hero), produktové hero se signature interakcí (glass okno s taby Přehled/Automatizace/Reporty = klikatelné demo bez videa), trust pás s count-up čísly, feature bento s CSS produkt vizuály, use cases dle role, workflow nasazení s konektory, integrace + API karta, security pás, customer stories s metrikami a CMS detailem, pricing s togglem měsíčně/ročně, reference, FAQ, demo formulář, sticky mobilní CTA lišta. Pro SaaS, AI nástroje, aplikace, fintech, productivity, devtools a startupy.",
+  "sectionOrderNote": "Navbar → Hero (produktové okno) → Trust pás → Feature bento → Use cases → Workflow → Integrace → Security → Customer stories → Pricing → Reference → FAQ → Demo formulář → Footer",
+  "tags": [
+    "premium-v3",
+    "saas",
+    "product",
+    "trial",
+    "pricing",
+    "case-studies",
+    "sticky-cta"
+  ],
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "About/Team",
+      "reason": "SaaS produkt — důvěru nesou čísla, zákaznické výsledky a security pás; tým není v konverzní cestě k trialu ani demu"
+    },
+    {
+      "pos": 7,
+      "name": "CTA/Contact",
+      "reason": "Konverzi řeší plnohodnotný demo formulář (extra contact sekce na #demo) + CTA v hero, pricingu a FAQ; samostatný CTA pás by tříštil fokus"
+    },
+    {
+      "pos": 9,
+      "name": "Insights",
+      "reason": "Roli obsahu plní customer stories s metrikami a CMS detailem + odkazy na dokumentaci a changelog ve footeru; blog modul lze aktivovat dodatečně"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "name": "Trust pás",
+      "reason": "Velká čísla s count-up hned za hero — SaaS kupující potřebuje důkaz adopce a spolehlivosti dřív, než čte funkce"
+    },
+    {
+      "type": "services",
+      "name": "Use cases",
+      "reason": "Zadání ORBIT vyžaduje use cases podle rolí — druhá services varianta orbit-01-usecases s interaktivním přepínačem rolí na ink"
+    },
+    {
+      "type": "gallery",
+      "name": "Integrace",
+      "reason": "Povinná struktura archetypu — grid napojení + API karta, bez reálných značek (kategorie nástrojů)"
+    },
+    {
+      "type": "about",
+      "name": "Security pás",
+      "reason": "Povinná struktura archetypu — bezpečnost a compliance jako samostatný ink pás s badges, klíčová B2B námitka"
+    },
+    {
+      "type": "pricing",
+      "name": "Pricing",
+      "reason": "Povinná struktura archetypu — 3 plány s togglem měsíčně/ročně; skeleton professional pricing nemá, pro SaaS je nutný"
+    },
+    {
+      "type": "contact",
+      "name": "Demo formulář",
+      "reason": "Hlavní cíl šablony je trial/demo — plnohodnotná contact sekce s polem Společnost a selectem Počet lidí v týmu na #demo"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": [
+      "cs",
+      "en",
+      "sk"
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar", "variant": "orbit-01-navbar", "contentRef": "navbar" },
+        { "type": "hero", "variant": "orbit-01-hero", "contentRef": "hero" },
+        { "type": "stats", "variant": "orbit-01-stats", "contentRef": "stats" },
+        { "type": "services", "variant": "orbit-01-bento", "contentRef": "bento" },
+        { "type": "services", "variant": "orbit-01-usecases", "contentRef": "usecases" },
+        { "type": "about", "variant": "orbit-01-workflow", "contentRef": "workflow" },
+        { "type": "gallery", "variant": "orbit-01-integrations", "contentRef": "integrations" },
+        { "type": "about", "variant": "orbit-01-security", "contentRef": "security" },
+        { "type": "gallery", "variant": "orbit-01-cases", "contentRef": "cases" },
+        { "type": "pricing", "variant": "orbit-01-pricing", "contentRef": "pricing" },
+        { "type": "testimonials", "variant": "orbit-01-testimonials", "contentRef": "testimonials" },
+        { "type": "faq", "variant": "orbit-01-faq", "contentRef": "faq" },
+        { "type": "contact", "variant": "orbit-01-contact", "contentRef": "contact" },
+        { "type": "footer", "variant": "orbit-01-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "produkt",
+      "title": "Produkt",
+      "seoTitleKey": "pages.produkt.seoTitle",
+      "seoDescriptionKey": "pages.produkt.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "orbit-01-navbar", "contentRef": "navbar" },
+        { "type": "hero", "variant": "hero-orbit-01-page", "contentRef": "pages.produkt.hero" },
+        { "type": "services", "variant": "orbit-01-bento", "contentRef": "bento" },
+        { "type": "services", "variant": "orbit-01-usecases", "contentRef": "usecases" },
+        { "type": "about", "variant": "orbit-01-workflow", "contentRef": "workflow" },
+        { "type": "gallery", "variant": "orbit-01-integrations", "contentRef": "integrations" },
+        { "type": "about", "variant": "orbit-01-security", "contentRef": "security" },
+        { "type": "contact", "variant": "orbit-01-contact", "contentRef": "contact" },
+        { "type": "footer", "variant": "orbit-01-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "cenik",
+      "title": "Ceník",
+      "seoTitleKey": "pages.cenik.seoTitle",
+      "seoDescriptionKey": "pages.cenik.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "orbit-01-navbar", "contentRef": "navbar" },
+        { "type": "hero", "variant": "hero-orbit-01-page", "contentRef": "pages.cenik.hero" },
+        { "type": "pricing", "variant": "orbit-01-pricing", "contentRef": "pricing" },
+        { "type": "faq", "variant": "orbit-01-faq", "contentRef": "faq" },
+        { "type": "contact", "variant": "orbit-01-contact", "contentRef": "contact" },
+        { "type": "footer", "variant": "orbit-01-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "zakaznici",
+      "title": "Zákazníci",
+      "seoTitleKey": "pages.zakaznici.seoTitle",
+      "seoDescriptionKey": "pages.zakaznici.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "orbit-01-navbar", "contentRef": "navbar" },
+        { "type": "hero", "variant": "hero-orbit-01-page", "contentRef": "pages.zakaznici.hero" },
+        { "type": "gallery", "variant": "orbit-01-cases", "contentRef": "cases" },
+        { "type": "testimonials", "variant": "orbit-01-testimonials", "contentRef": "testimonials" },
+        { "type": "contact", "variant": "orbit-01-contact", "contentRef": "contact" },
+        { "type": "footer", "variant": "orbit-01-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "orbit-01-navbar", "contentRef": "navbar" },
+        { "type": "hero", "variant": "hero-orbit-01-page", "contentRef": "pages.kontakt.hero" },
+        { "type": "contact", "variant": "orbit-01-contact", "contentRef": "contact" },
+        { "type": "footer", "variant": "orbit-01-footer", "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json",
+    "en": "content/en.json",
+    "sk": "content/sk.json"
+  }
+}

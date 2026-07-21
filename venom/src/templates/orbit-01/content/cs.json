@@ -1,0 +1,474 @@
+{
+  "navbar": {
+    "siteName": "Ukázka Flow",
+    "logoUrl": "/templates/orbit-01/logo-white.svg",
+    "links": [
+      { "label": "Produkt", "href": "/produkt" },
+      { "label": "Ceník", "href": "/cenik" },
+      { "label": "Zákazníci", "href": "/zakaznici" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "loginText": "Přihlásit se",
+    "loginHref": "#",
+    "ctaText": "Vyzkoušet zdarma",
+    "ctaHref": "#demo",
+    "phoneHref": "tel:+420704123456",
+    "mobileCtaCallLabel": "Zavolat",
+    "mobileCtaCallHref": "tel:+420704123456",
+    "mobileCtaLeadLabel": "Vyzkoušet",
+    "mobileCtaLeadHref": "#demo"
+  },
+  "hero": {
+    "eyebrow": "Platforma pro firemní procesy",
+    "title": "Procesy, které se řídí samy.",
+    "titleAccent": "Vy řídíte firmu.",
+    "subtitle": "Ukázka Flow spojí zakázky, schvalování a reporting do jedné automatizované platformy. Nasazení do 14 dnů, bez programování.",
+    "ctaText": "Vyzkoušet 14 dní zdarma",
+    "ctaHref": "#demo",
+    "ctaSecondaryText": "Prohlédnout produkt",
+    "ctaSecondaryHref": "/produkt",
+    "trust": ["Nasazení do 14 dnů", "Data v EU, GDPR", "Bez platební karty"],
+    "windowUrl": "app.ukazkaflow.cz",
+    "windowBadge": "LIVE",
+    "tabs": [
+      {
+        "label": "Přehled",
+        "metric": "128",
+        "metricLabel": "zakázek běží právě teď bez ručního zásahu",
+        "rows": [
+          { "name": "Nové objednávky", "value": "+24 dnes" },
+          { "name": "Čeká na schválení", "value": "3" },
+          { "name": "Průměrná doba vyřízení", "value": "1,8 dne" }
+        ]
+      },
+      {
+        "label": "Automatizace",
+        "metric": "46 h",
+        "metricLabel": "ušetřených každý týden automatickými kroky",
+        "rows": [
+          { "name": "Objednávka → faktura", "value": "Aktivní" },
+          { "name": "Urgence po 48 hodinách", "value": "Aktivní" },
+          { "name": "Schválení nad 50 000 Kč", "value": "Aktivní" }
+        ]
+      },
+      {
+        "label": "Reporty",
+        "metric": "99,2 %",
+        "metricLabel": "zakázek doručených v termínu tento měsíc",
+        "rows": [
+          { "name": "Obrat za červenec", "value": "4,2 mil. Kč" },
+          { "name": "Vytížení týmu", "value": "82 %" },
+          { "name": "Reklamace", "value": "0,4 %" }
+        ]
+      }
+    ],
+    "panelCtaText": "Rezervovat demo",
+    "panelCtaHref": "#demo",
+    "panelCtaNote": "14 dní zdarma · bez platební karty"
+  },
+  "stats": {
+    "items": [
+      { "value": "1 200+", "label": "firem řídí procesy v Ukázka Flow" },
+      { "value": "2,4 mil.", "label": "automatizovaných úkonů měsíčně" },
+      { "value": "46 h", "label": "průměrně ušetřených týdně na firmu" },
+      { "value": "99,95 %", "label": "dostupnost služby za 12 měsíců" }
+    ],
+    "badges": ["Data v EU", "GDPR ready", "Šifrování AES-256", "Podpora v češtině"]
+  },
+  "bento": {
+    "eyebrow": "Funkce",
+    "title": "Všechno, co proces potřebuje. Nic navíc.",
+    "lead": "Žádné moduly za příplatek a menu o sto položkách. Pět věcí, které fungují spolu — a proto fungují.",
+    "linkLabel": "Více o produktu",
+    "items": [
+      {
+        "tag": "Automatizace",
+        "name": "Workflow bez programování",
+        "description": "Sestavte schvalování, urgence i předávání práce myší. Pravidla když–pak, podmínky a větvení bez jediného řádku kódu.",
+        "href": "/produkt"
+      },
+      {
+        "tag": "Přehled",
+        "name": "Živý dashboard zakázek",
+        "description": "Každá zakázka má stav, termín a odpovědného člověka. Co hoří, vidíte dřív, než to hoří.",
+        "href": "/produkt"
+      },
+      {
+        "tag": "Spolupráce",
+        "name": "Komentáře a role",
+        "description": "Diskuze u zakázky místo e-mailových vláken. Práva podle role, historie každé změny.",
+        "href": "/produkt"
+      },
+      {
+        "tag": "Reporting",
+        "name": "Reporty na jedno kliknutí",
+        "description": "Obrat, vytížení, termíny — živá čísla místo pátečního kopírování do tabulek.",
+        "href": "/produkt"
+      },
+      {
+        "tag": "Mobil",
+        "name": "Schvalujte z telefonu",
+        "description": "Notifikace, schválení a stav zakázek v mobilní aplikaci. Firma nečeká, až se vrátíte k počítači.",
+        "href": "/produkt"
+      }
+    ]
+  },
+  "usecases": {
+    "eyebrow": "Use cases",
+    "title": "Jedna platforma. Každá role v ní vidí to svoje.",
+    "lead": "Vyberte roli a podívejte se, co Ukázka Flow změní právě jí.",
+    "metricEyebrow": "Typický výsledek",
+    "roles": [
+      {
+        "label": "Provoz",
+        "description": "Zakázky tečou samy od přijetí po expedici. Ruční předávání a papírové průvodky nahradí pravidla.",
+        "benefits": ["Automatické předávání práce mezi týmy", "Urgence a eskalace bez hlídání", "Živý stav každé zakázky"],
+        "metric": "−38 %",
+        "metricLabel": "času stráveného rutinní administrativou"
+      },
+      {
+        "label": "Obchod",
+        "description": "Nabídky, schválení slev a předání do realizace na pár kliknutí. Obchodník prodává, neúřaduje.",
+        "benefits": ["Nabídka ze šablony za 5 minut", "Schválení slevy přímo v telefonu", "Hladké předání zakázky do výroby"],
+        "metric": "+24 %",
+        "metricLabel": "více odeslaných nabídek se stejným týmem"
+      },
+      {
+        "label": "Finance",
+        "description": "Fakturace navázaná na skutečný stav zakázky. Podklady se sbírají samy, nic se nedohledává zpětně.",
+        "benefits": ["Faktura vzniká z dat zakázky", "Schvalování nákladů s auditní stopou", "Podklady pro účetní bez e-mailů"],
+        "metric": "2×",
+        "metricLabel": "rychlejší fakturace a měsíční uzávěrka"
+      },
+      {
+        "label": "Vedení",
+        "description": "Jeden pohled na celou firmu: obrat, vytížení, úzká hrdla. Rozhodujete z čísel, ne z pocitů.",
+        "benefits": ["Report pro poradu za 15 minut", "Trendy a úzká hrdla na jedné obrazovce", "Drill-down až na konkrétní zakázku"],
+        "metric": "15 min",
+        "metricLabel": "příprava týdenního reportu pro vedení"
+      }
+    ]
+  },
+  "workflow": {
+    "eyebrow": "Nasazení",
+    "title": "Od registrace k běžící firmě za 14 dní",
+    "lead": "Žádný implementační projekt na půl roku. Pevný postup, náš onboarding specialista a jasné milníky.",
+    "steps": [
+      {
+        "title": "Import dat",
+        "description": "Zákazníky, zakázky a ceníky naimportujeme z tabulek nebo přes API. Nic nepřepisujete ručně.",
+        "duration": "Den 1–2"
+      },
+      {
+        "title": "Nastavení procesů",
+        "description": "Společně namodelujeme vaše schvalování a workflow. Hotové šablony upravíme na míru.",
+        "duration": "Den 3–7"
+      },
+      {
+        "title": "Zaškolení týmu",
+        "description": "Hodinové školení pro každý tým a testovací týden s podporou po ruce.",
+        "duration": "Den 8–10"
+      },
+      {
+        "title": "Ostrý provoz",
+        "description": "Přepnutí na ostrá data, doladění pravidel a předání do běžné podpory.",
+        "duration": "Den 11–14"
+      }
+    ]
+  },
+  "integrations": {
+    "eyebrow": "Integrace",
+    "title": "Zapadne do nástrojů, které už používáte",
+    "lead": "Hotová napojení na kategorie systémů, které česká firma běžně má. A REST API pro všechno ostatní.",
+    "items": [
+      { "name": "Účetnictví", "category": "Finance" },
+      { "name": "CRM", "category": "Obchod" },
+      { "name": "E-mail", "category": "Komunikace" },
+      { "name": "Kalendář", "category": "Plánování" },
+      { "name": "Sklad", "category": "Logistika" },
+      { "name": "E-shop", "category": "Prodej" },
+      { "name": "Docházka", "category": "HR" },
+      { "name": "Banka", "category": "Platby" }
+    ],
+    "apiTitle": "REST API a webhooky",
+    "apiCode": "POST /v1/orders → 201 Created",
+    "apiNote": "Kompletní dokumentace, sandbox a klientské knihovny pro vývojáře."
+  },
+  "security": {
+    "eyebrow": "Bezpečnost",
+    "title": "Vaše data pod zámkem. A pod vaší kontrolou.",
+    "lead": "Bezpečnost neřešíme jako checkbox na konci — je to základ architektury.",
+    "items": [
+      {
+        "title": "Šifrování na cestě i v klidu",
+        "description": "Veškerý provoz přes TLS 1.3, data na discích šifrovaná AES-256. Klíče rotujeme automaticky."
+      },
+      {
+        "title": "Role a auditní stopa",
+        "description": "Každý vidí jen to, co má. Každá změna má autora, čas a původní hodnotu — navždy dohledatelné."
+      },
+      {
+        "title": "Zálohy každou hodinu",
+        "description": "Automatické zálohy do druhé lokality v EU a obnova otestovaná každý měsíc, ne jen slibovaná."
+      }
+    ],
+    "badges": ["GDPR", "Data v EU", "AES-256", "SSO / 2FA", "SLA 99,95 %"]
+  },
+  "cases": {
+    "eyebrow": "Zákazníci",
+    "title": "Výsledky, které si můžete přeměřit",
+    "lead": "Tři příběhy z ostrého provozu — s čísly, ke kterým se zákazníci podepsali.",
+    "linkLabel": "Přečíst příběh",
+    "images": [
+      "/templates/orbit-01/img/case-vyroba.webp",
+      "/templates/orbit-01/img/case-tech.webp",
+      "/templates/orbit-01/img/case-retail.webp"
+    ],
+    "items": [
+      {
+        "slug": "strojirna-vychod",
+        "industry": "Výroba",
+        "metric": "−41 %",
+        "metricLabel": "papírování ve výrobě za 6 měsíců",
+        "title": "Strojírna zrušila papírové průvodky",
+        "excerpt": "Rodinná strojírna se 70 zaměstnanci převedla průvodky, schvalování a expedici do Ukázka Flow — a uvolnila mistrům ruce.",
+        "body": "Rodinná strojírna se 70 zaměstnanci řešila klasický problém: každá zakázka putovala dílnou s papírovou průvodkou, kterou někdo musel vypsat, podepsat a přepsat do tabulky. Mistr trávil hodinu denně obcházením dílny a kontrolou stavů.\n\nBěhem dvou týdnů jsme naimportovali zakázky, nastavili čtyři schvalovací workflow a rozdali tabletům na dílně přístupy. Průvodka teď vzniká automaticky při přijetí zakázky a každý krok potvrzuje operátor jedním klepnutím.\n\nPo šesti měsících provozu kleslo papírování o 41 procent, mistr má stav dílny v telefonu a expedice ví o hotové zakázce okamžitě — ne až druhý den ráno.",
+        "photo": "/templates/orbit-01/img/case-vyroba.webp"
+      },
+      {
+        "slug": "agentura-sever",
+        "industry": "Služby",
+        "metric": "+32 %",
+        "metricLabel": "odbavených projektů se stejným týmem",
+        "title": "Agentura zvýšila kapacitu bez náboru",
+        "excerpt": "Projektová agentura s 25 lidmi přestala řídit práci v e-mailech a tabulkách — a stejný tým najednou stíhá o třetinu víc.",
+        "body": "Pětadvacetičlenná agentura řídila projekty kombinací e-mailů, sdílených tabulek a porad. Nikdo neměl jistotu, co je aktuální verze zadání, a projektoví manažeři trávili páteční odpoledne skládáním reportů pro klienty.\n\nV Ukázka Flow má každý projekt jeden zdroj pravdy: zadání, komentáře, schvalování i podklady. Klientské reporty se generují z živých dat a urgence na zapomenuté úkoly rozesílá platforma sama.\n\nZa první kvartál agentura odbavila o 32 procent více projektů se stejným počtem lidí — a páteční reporting zmizel úplně.",
+        "photo": "/templates/orbit-01/img/case-tech.webp"
+      },
+      {
+        "slug": "sit-prodejen-jih",
+        "industry": "Retail",
+        "metric": "18 min",
+        "metricLabel": "denní uzávěrka místo dvou hodin",
+        "title": "Síť prodejen sjednotila objednávky a uzávěrky",
+        "excerpt": "Osm prodejen, jeden sklad a večerní uzávěrka, která zabírala dvě hodiny. Teď je hotová za osmnáct minut.",
+        "body": "Regionální síť osmi prodejen objednávala zboží telefonicky a papírově; večerní uzávěrka znamenala dvě hodiny přepisování čísel z pokladen do centrální tabulky.\n\nUkázka Flow napojila pokladny přes API, objednávky na centrální sklad běží schvalovacím workflow a uzávěrka se skládá automaticky z dat všech poboček.\n\nDenní uzávěrka dnes trvá 18 minut včetně kontroly. Vedoucí prodejen objednávají třemi kliknutími a centrála vidí zásoby všech poboček v reálném čase.",
+        "photo": "/templates/orbit-01/img/case-retail.webp"
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Ceník",
+    "title": "Férová cena, která roste s vámi",
+    "lead": "Platíte za lidi, kteří s platformou opravdu pracují. Žádné skryté moduly, žádné aktivační poplatky.",
+    "badge": "Nejoblíbenější",
+    "periodMonthly": "Měsíčně",
+    "periodYearly": "Ročně −20 %",
+    "note": "Ceny bez DPH. Při roční platbě získáte 2 měsíce zdarma.",
+    "plans": [
+      {
+        "name": "Start",
+        "priceMonthly": "290 Kč",
+        "priceYearly": "232 Kč",
+        "unit": "uživatel / měsíc",
+        "description": "Pro malé týmy, které chtějí opustit tabulky.",
+        "features": ["Až 10 uživatelů", "Zakázky a schvalování", "5 automatizací", "Podpora e-mailem"],
+        "ctaText": "Vyzkoušet zdarma",
+        "ctaHref": "#demo",
+        "featured": false
+      },
+      {
+        "name": "Business",
+        "priceMonthly": "590 Kč",
+        "priceYearly": "472 Kč",
+        "unit": "uživatel / měsíc",
+        "description": "Pro firmy, které chtějí automatizovat naplno.",
+        "features": ["Neomezení uživatelé", "Neomezené automatizace", "Reporty a dashboardy", "API a webhooky", "SSO / 2FA", "Prioritní podpora do 4 hodin"],
+        "ctaText": "Vyzkoušet zdarma",
+        "ctaHref": "#demo",
+        "featured": true
+      },
+      {
+        "name": "Enterprise",
+        "priceMonthly": "Individuálně",
+        "priceYearly": "Individuálně",
+        "unit": "dle rozsahu",
+        "description": "Pro skupiny a firmy se specifickými požadavky.",
+        "features": ["Vyhrazené prostředí", "Smluvní SLA 99,95 %", "Onboarding na míru", "Vyhrazený account manažer"],
+        "ctaText": "Domluvit demo",
+        "ctaHref": "#demo",
+        "featured": false
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Reference",
+    "title": "Slova lidí, kterým se změnil pracovní den",
+    "lead": "",
+    "testimonials": [
+      {
+        "text": "Dřív jsem pátky trávil skládáním reportu pro poradu. Teď ho otevřu hotový a řešíme, co s čísly uděláme — ne kdo je posbírá.",
+        "name": "Martin Ukázka",
+        "role": "Jednatel, výrobní firma",
+        "rating": 5
+      },
+      {
+        "text": "Nasazení za dva týdny jsem nevěřila. Třetí týden jsme vypnuli starou tabulku a nikomu se nezastesklo.",
+        "name": "Petra Vzorová",
+        "role": "Provozní ředitelka, síť prodejen",
+        "rating": 5
+      },
+      {
+        "text": "Obchodníci konečně schvalují slevy z telefonu. Zákazník má nabídku do hodiny a my přestali prohrávat na rychlost.",
+        "name": "Jakub Příkladný",
+        "role": "Obchodní ředitel, B2B služby",
+        "rating": 5
+      },
+      {
+        "text": "API je čisté, dokumentace odpovídá realitě a webhooky prostě chodí. Za mě nejlepší integrace, jakou jsme kdy dělali.",
+        "name": "Tomáš Demo",
+        "role": "CTO, e-commerce",
+        "rating": 5
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Časté dotazy",
+    "title": "Na co se ptáte před startem",
+    "lead": "",
+    "items": [
+      {
+        "question": "Jak dlouho trvá nasazení?",
+        "answer": "Standardně 14 dní od registrace po ostrý provoz. Import dat a nastavení procesů děláme s vámi — počítejte zhruba s 10 hodinami času vašeho týmu celkem."
+      },
+      {
+        "question": "Můžu si přenést data z tabulek nebo jiného systému?",
+        "answer": "Ano. Import z CSV a Excelu je součástí onboardingu, pro běžné systémy máme hotové konektory a pro vše ostatní REST API."
+      },
+      {
+        "question": "Co když platformu po měsíci nebudeme chtít?",
+        "answer": "Odejdete bez sankcí. Smlouva je měsíční, data vám kdykoliv vyexportujeme v otevřených formátech a do 30 dnů je u nás smažeme."
+      },
+      {
+        "question": "Kde jsou uložená naše data?",
+        "answer": "Výhradně v datových centrech v EU, šifrovaná na cestě i v klidu. Zpracovatelskou smlouvu dle GDPR podepisujeme standardně."
+      },
+      {
+        "question": "Kolik stojí podpora a aktualizace?",
+        "answer": "Nic navíc. Podpora v češtině, všechny aktualizace i nové funkce jsou v ceně každého plánu."
+      },
+      {
+        "question": "Funguje to i pro víc poboček nebo firem ve skupině?",
+        "answer": "Ano, prostředí zvládá více poboček i právních subjektů s oddělenými právy a společným reportingem. Pro skupiny doporučujeme plán Enterprise."
+      }
+    ],
+    "ctaText": "Rezervovat demo",
+    "ctaHref": "#demo"
+  },
+  "contact": {
+    "eyebrow": "Demo",
+    "title": "Uvidíte to na vlastních datech",
+    "lead": "30 minut online. Projdeme vaše procesy a ukážeme, jak by vypadaly v Ukázka Flow. Bez závazku a bez obchodního nátlaku.",
+    "infoTitle": "Jak demo probíhá",
+    "infoRows": [
+      { "label": "Délka", "value": "30 minut · online" },
+      { "label": "Obsah", "value": "Vaše procesy v živé platformě" },
+      { "label": "Závazek", "value": "Žádný — ani platební karta" }
+    ],
+    "phone": "704 123 456",
+    "email": "poptavka@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "billingTitle": "Fakturační údaje",
+    "companyName": "Ukázka Flow s.r.o.",
+    "nameLabel": "Jméno a příjmení",
+    "companyLabel": "Společnost",
+    "emailLabel": "Pracovní e-mail",
+    "phoneLabel": "Telefon",
+    "teamSizeLabel": "Počet lidí v týmu",
+    "teamSizes": ["1–10", "11–50", "51–200", "200+"],
+    "messageLabel": "Co byste chtěli vyřešit?",
+    "consentLabel": "Souhlasím se zpracováním osobních údajů za účelem vyřízení poptávky.",
+    "submitLabel": "Rezervovat demo",
+    "successTitle": "Děkujeme, jsme na příjmu!",
+    "successText": "Ozveme se do jednoho pracovního dne a domluvíme termín dema.",
+    "errorFallback": "Nepodařilo se odeslat poptávku. Zkuste to znovu, nebo nám zavolejte."
+  },
+  "footer": {
+    "siteName": "Ukázka Flow",
+    "logoUrl": "/templates/orbit-01/logo-white.svg",
+    "tagline": "Platforma pro automatizaci firemních procesů. Zakázky, schvalování a reporting na jednom místě.",
+    "statusText": "Všechny systémy v provozu",
+    "navColTitle": "Produkt",
+    "links": [
+      { "label": "Produkt", "href": "/produkt" },
+      { "label": "Ceník", "href": "/cenik" },
+      { "label": "Zákazníci", "href": "/zakaznici" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "resourcesColTitle": "Zdroje",
+    "resources": [
+      { "label": "Dokumentace", "href": "#" },
+      { "label": "Changelog", "href": "#" },
+      { "label": "Status služby", "href": "#" },
+      { "label": "API reference", "href": "#" }
+    ],
+    "contactColTitle": "Kontakt",
+    "phone": "+420 704 123 456",
+    "email": "poptavka@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "socials": [
+      { "icon": "linkedin", "href": "https://www.linkedin.com", "label": "LinkedIn" },
+      { "icon": "youtube", "href": "https://www.youtube.com", "label": "YouTube" },
+      { "icon": "instagram", "href": "https://www.instagram.com", "label": "Instagram" }
+    ],
+    "legalLinks": [
+      { "label": "Obchodní podmínky", "href": "#" },
+      { "label": "Ochrana osobních údajů", "href": "#" }
+    ],
+    "copyright": "© 2026 Ukázka Flow. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "produkt": {
+      "seoTitle": "Produkt | Ukázka Flow",
+      "seoDescription": "Workflow bez programování, živý dashboard zakázek, reporting a integrace — projděte si, co Ukázka Flow umí a jak vypadá nasazení za 14 dní.",
+      "hero": {
+        "title": "Produkt",
+        "subtitle": "Pět funkcí, které spolu tvoří jeden systém: automatizace, přehled, spolupráce, reporting a mobil.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "cenik": {
+      "seoTitle": "Ceník | Ukázka Flow",
+      "seoDescription": "Tři plány podle velikosti týmu, měsíční nebo roční platba se slevou 20 %. Bez skrytých modulů a aktivačních poplatků.",
+      "hero": {
+        "title": "Ceník",
+        "subtitle": "Platíte za lidi, kteří s platformou pracují. Všechny aktualizace a podpora v ceně.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "zakaznici": {
+      "seoTitle": "Zákazníci | Ukázka Flow",
+      "seoDescription": "Customer stories s měřitelnými výsledky: výroba bez průvodek, agentura s vyšší kapacitou i retail s uzávěrkou za 18 minut.",
+      "hero": {
+        "title": "Zákazníci",
+        "subtitle": "Příběhy z ostrého provozu s čísly, ke kterým se zákazníci podepsali.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Ukázka Flow",
+      "seoDescription": "Rezervujte si 30minutové demo, zavolejte na 704 123 456 nebo napište na poptavka@demo.cz. Odpovídáme do jednoho pracovního dne.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Demo, podpora i fakturace — všechno vyřídíte tady.",
+        "breadcrumb": "Domů",
+        "breadcrumbHref": "/"
+      }
+    }
+  }
+}

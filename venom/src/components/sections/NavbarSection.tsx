@@ -5692,6 +5692,71 @@ function esMegaPromoFor(extras: EsMegaExtras, slug?: string) {
     ?? null;
 }
 
+// ── E-shop megamenu — sdílená DATOVÁ vrstva (vzhled je bespoke per šablona) ──
+// Kategorie: hydratovaný strom z commerce DB (aliasy label/name, children/items/
+// subchildren) i statický content šablon. Extras: content.__megamenu — admin
+// nastavení z obchodní administrace (promo bannery, odznaky, vlastní odkazy).
+
+interface EsMegaNode {
+  label: string;
+  slug?: string;
+  href?: string;
+  image?: string;
+  count?: number;
+  badge?: { text: string; tone?: string };
+  children: EsMegaNode[];
+}
+
+interface EsMegaExtras {
+  promos: Array<{ id?: string; category_slug?: string | null; image_url?: string; title?: string; subtitle?: string; href?: string }>;
+  customLinks: Array<{ label: string; href: string; tone?: string }>;
+  showCounts: boolean;
+  showImages: boolean;
+}
+
+function esMegaNode(raw: unknown): EsMegaNode | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  const label = String(r.label ?? r.name ?? r.title ?? "").trim();
+  if (!label) return null;
+  const kids = ([r.children, r.items, r.subchildren, r.links].find(Array.isArray) as unknown[] | undefined) ?? [];
+  const image = [r.image, r.image_url, r.img].find((v) => typeof v === "string" && v) as string | undefined;
+  const count = Number(r.count ?? r.product_count);
+  const badgeRaw = r.badge as Record<string, unknown> | undefined;
+  return {
+    label,
+    slug: typeof r.slug === "string" ? r.slug : undefined,
+    href: typeof r.href === "string" && r.href ? r.href : typeof r.url === "string" && r.url ? r.url : undefined,
+    image,
+    count: Number.isFinite(count) ? count : undefined,
+    badge: badgeRaw && typeof badgeRaw === "object" && typeof badgeRaw.text === "string" && badgeRaw.text
+      ? { text: badgeRaw.text, tone: typeof badgeRaw.tone === "string" ? badgeRaw.tone : undefined }
+      : undefined,
+    children: kids.map(esMegaNode).filter((k): k is EsMegaNode => k !== null),
+  };
+}
+
+function esMegaNodes(raw: unknown): EsMegaNode[] {
+  return (Array.isArray(raw) ? raw : []).map(esMegaNode).filter((n): n is EsMegaNode => n !== null);
+}
+
+function esMegaExtras(raw: unknown): EsMegaExtras {
+  const r = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
+  return {
+    promos: Array.isArray(r.promos) ? (r.promos as EsMegaExtras["promos"]) : [],
+    customLinks: Array.isArray(r.customLinks) ? (r.customLinks as EsMegaExtras["customLinks"]) : [],
+    showCounts: r.showCounts !== false,
+    showImages: r.showImages !== false,
+  };
+}
+
+/** Promo pro aktivní kategorii: nejdřív match dle slugu, pak výchozí (bez slugu). */
+function esMegaPromoFor(extras: EsMegaExtras, slug?: string) {
+  return extras.promos.find((p) => p.category_slug && p.category_slug === slug)
+    ?? extras.promos.find((p) => !p.category_slug)
+    ?? null;
+}
+
 // ── nails-01-navbar ──────────────────────────────────────────────────────────
 // Kyoto Wabi-Sabi Beauty — luxe redesign
 // Utility strip (hours · phone · CZ|EN|UA) + main bar (nav | hanko seal center | CTA)
@@ -24409,46 +24474,6 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
         .es02-cart-bounce { animation: es02CartBounce 0.5s cubic-bezier(0.34,1.56,0.64,1); }
         .es02-cat-link { transition: background 0.15s; }
         .es02-cat-link:hover { background: rgba(255,255,255,0.14); }
-
-        /* ═══ Mega panel — Alza-grade katalog v Shoptet Classic DNA ═══ */
-        @keyframes es02MegaIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        .es02-mega-panel { animation: es02MegaIn 0.2s cubic-bezier(0.16,1,0.3,1); }
-        @keyframes es02SwapIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-        .es02-mega-swap { animation: es02SwapIn 0.18s ease-out; }
-        @keyframes es02DimIn { from { opacity: 0; } to { opacity: 1; } }
-        .es02-dim { position: fixed; inset: 0; background: rgba(14,35,58,0.5); backdrop-filter: blur(2px); z-index: -1; animation: es02DimIn 0.25s ease-out; }
-        .es02-rail { scrollbar-width: thin; scrollbar-color: #c8d6e6 transparent; }
-        .es02-rail-item { display: flex; align-items: center; gap: 12px; width: 100%; padding: 9px 12px; border: none; text-align: left;
-          background: transparent; cursor: pointer; border-radius: 10px; text-decoration: none; font-family: inherit;
-          color: #142b45; transition: background 0.13s, color 0.13s; }
-        .es02-rail-item.es02-on { background: #eaf2fb; color: #1266cc; }
-        .es02-rail-item.es02-on .es02-rail-label { font-weight: 700; }
-        .es02-rail-thumb { width: 38px; height: 38px; border-radius: 9px; object-fit: cover; background: #f5f8fb; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(20,43,69,0.06); }
-        .es02-rail-mono { width: 38px; height: 38px; border-radius: 9px; background: rgba(18,102,204,0.09); color: #1266cc; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; flex-shrink: 0; }
-        .es02-rail-arrow { margin-left: auto; opacity: 0; transform: translateX(-4px); transition: opacity 0.14s, transform 0.14s; color: #1266cc; display: inline-flex; flex-shrink: 0; }
-        .es02-rail-item.es02-on .es02-rail-arrow { opacity: 1; transform: translateX(0); }
-        .es02-sub-head { display: flex; align-items: center; gap: 11px; text-decoration: none; color: #142b45; padding-bottom: 9px; border-bottom: 1px solid #e3e9f0; margin-bottom: 8px; transition: color 0.13s; }
-        .es02-sub-head:hover { color: #1266cc; }
-        .es02-sub-thumb { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; background: #f5f8fb; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(20,43,69,0.06); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1); }
-        .es02-sub-head:hover .es02-sub-thumb { transform: scale(1.06); }
-        .es02-sub-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 0; font-size: 13.5px; font-weight: 500; color: #4a5d74; text-decoration: none; transition: color 0.12s, padding-left 0.15s; }
-        .es02-sub-link:hover { color: #1266cc; padding-left: 5px; }
-        .es02-mega-count { font-size: 11.5px; font-weight: 600; color: #93a5ba; font-variant-numeric: tabular-nums; }
-        .es02-mega-badge { display: inline-flex; align-items: center; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.35; }
-        .es02-promo-card { position: relative; display: block; border-radius: 14px; overflow: hidden; text-decoration: none; background: #f5f8fb; aspect-ratio: 3/4; box-shadow: 0 10px 30px rgba(20,43,69,0.12); }
-        .es02-promo-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-        .es02-promo-card:hover img { transform: scale(1.05); }
-        .es02-promo-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,35,58,0.78) 0%, rgba(14,35,58,0.12) 55%, transparent 100%); }
-        .es02-promo-cta { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; height: 34px; padding: 0 16px; border-radius: 8px; background: #f0803c; color: #fff; font-size: 12.5px; font-weight: 800; letter-spacing: 0.02em; transition: background 0.15s, gap 0.15s; }
-        .es02-promo-card:hover .es02-promo-cta { background: #e0702c; gap: 11px; }
-        .es02-mega-all { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; color: #1266cc; text-decoration: none; transition: gap 0.16s; }
-        .es02-mega-all:hover { gap: 13px; text-decoration: underline; text-underline-offset: 3px; }
-        .es02-mega-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 13px; border-radius: 999px; font-size: 12.5px; font-weight: 700; text-decoration: none; transition: filter 0.14s; }
-        .es02-mega-chip:hover { filter: brightness(0.94); }
-        @media (prefers-reduced-motion: reduce) {
-          .es02-mega-panel, .es02-mega-swap, .es02-dim { animation: none !important; }
-          .es02-promo-card img, .es02-sub-thumb { transition: none !important; }
-        }
       `}</style>
 
       <header style={{ position: "sticky", top: 0, zIndex: 100, fontFamily: SANS }}>
@@ -24564,31 +24589,70 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         </div>
 
-        {/* Modrá kategorie lišta + katalogový mega panel (Alza-grade, Shoptet Classic DNA) */}
-        <nav className="hidden md:block" style={{ background: BLUE, position: "relative" }} onMouseEnter={megaHold} onMouseLeave={megaRelease}>
-          {megaOpen && <div className="es02-dim" aria-hidden onClick={() => setMegaOpen(false)} />}
+        {/* Modrá kategorie lišta */}
+        <nav className="hidden md:block" style={{ background: BLUE }} onMouseLeave={() => setMegaOpen(false)}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 46 }}>
             {/* Megamenu trigger */}
-            <button
-              type="button"
-              aria-expanded={megaOpen}
-              aria-haspopup="true"
-              onMouseEnter={() => { megaHold(); setMegaOpen(true); }}
-              onFocus={() => setMegaOpen(true)}
-              onClick={() => setMegaOpen(!megaOpen)}
-              style={{
-                display: "flex", alignItems: "center", gap: 8, alignSelf: "stretch",
+            <div style={{ position: "relative", alignSelf: "stretch", display: "flex" }} onMouseEnter={() => setMegaOpen(true)}>
+              <button style={{
+                display: "flex", alignItems: "center", gap: 8,
                 padding: "0 16px", margin: "0 4px 0 -16px",
                 background: megaOpen ? BLUE_DARK : "transparent", border: "none", cursor: "pointer",
                 fontFamily: SANS, fontSize: 13, fontWeight: 700, color: "#fff",
                 textTransform: "uppercase", letterSpacing: "0.05em", transition: "background 0.15s",
               }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
-              Všechny kategorie
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: megaOpen ? "rotate(180deg)" : "none" }}>
-                <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
+                Všechny kategorie
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: megaOpen ? "rotate(180deg)" : "none" }}>
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+
+              {megaOpen && (
+                <div className="es02-mega-enter" style={{
+                  position: "absolute", top: "100%", left: -20, zIndex: 200,
+                  background: "#fff", border: `1px solid ${BORDER}`, borderTop: `3px solid ${ACCENT}`,
+                  borderRadius: "0 0 12px 12px",
+                  boxShadow: "0 20px 50px rgba(20,43,69,0.16)",
+                  padding: 22, minWidth: 640,
+                  display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4,
+                }}>
+                  {categories.map((cat) => (
+                    <a key={cat.slug ?? cat.label} href={catHref(cat.slug)}
+                      style={{
+                        display: "flex", alignItems: "center", gap: 11,
+                        padding: "9px 12px", borderRadius: 8,
+                        textDecoration: "none", color: DARK, transition: "background 0.15s",
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.background = SURFACE)}
+                      onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                    >
+                      <span style={{
+                        width: 38, height: 38, borderRadius: 8,
+                        background: `${BLUE}12`, color: BLUE,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: 16, fontWeight: 700, flexShrink: 0,
+                      }}>
+                        {cat.label.charAt(0)}
+                      </span>
+                      <span style={{ fontSize: 13.5, fontWeight: 600 }}>{cat.label}</span>
+                    </a>
+                  ))}
+                  <a href={resolve("/obchod")} style={{
+                    gridColumn: "1 / -1", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                    padding: "10px 12px", borderRadius: 8, marginTop: 6,
+                    background: SURFACE, color: BLUE, textDecoration: "none",
+                    fontSize: 13, fontWeight: 700, transition: "background 0.15s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = `${BLUE}14`)}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = SURFACE)}
+                  >
+                    Zobrazit všechny produkty
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </a>
+                </div>
+              )}
+            </div>
 
             {/* Category quick links */}
             <div style={{ display: "flex", alignItems: "center", overflow: "hidden", flex: 1 }}>
@@ -24603,14 +24667,8 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
               ))}
             </div>
 
-            {/* Admin custom links + highlight links (Akce / Novinky) */}
+            {/* Highlight links (Akce / Novinky) */}
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginLeft: "auto", flexShrink: 0 }}>
-              {megaExtras.customLinks.map((lk) => (
-                <a key={lk.label + lk.href} href={resolve(lk.href)} className="es02-mega-chip" style={{
-                  background: lk.tone === "danger" ? "#e03131" : lk.tone === "success" ? "#1e9e50" : lk.tone === "neutral" ? "rgba(255,255,255,0.16)" : ACCENT,
-                  color: "#fff",
-                }}>{lk.label}</a>
-              ))}
               {highlightLinks.map((lk, i) => (
                 <a key={i} href={catHref(lk.slug)} style={{
                   display: "inline-flex", alignItems: "center", gap: 6,
@@ -24630,165 +24688,6 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
               ))}
             </div>
           </div>
-
-          {/* ═══ MEGA PANEL — levý rail kategorií | podkategorie | promo ═══ */}
-          {megaOpen && megaTree.length > 0 && activeNode && (
-            <div className="es02-mega-panel" style={{
-              position: "absolute", top: "100%", left: 0, right: 0, zIndex: 90,
-              background: "#fff", borderTop: `3px solid ${ACCENT}`,
-              boxShadow: "0 34px 70px rgba(14,35,58,0.28), 0 8px 22px rgba(14,35,58,0.1)",
-              borderRadius: "0 0 16px 16px",
-            }}>
-              <div style={{ maxWidth: 1280, margin: "0 auto", padding: "18px 20px 0", display: "grid", gridTemplateColumns: "272px minmax(0,1fr) 264px", gap: 26 }}>
-
-                {/* Levý rail — top kategorie */}
-                <div className="es02-rail" style={{ borderRight: `1px solid ${BORDER}`, paddingRight: 14, maxHeight: "min(58vh, 520px)", overflowY: "auto", paddingBottom: 18 }}>
-                  {megaTree.map((cat, i) => (
-                    <a
-                      key={cat.slug ?? cat.label}
-                      href={catHref(cat.slug ?? "")}
-                      className={`es02-rail-item${megaCat === i ? " es02-on" : ""}`}
-                      onMouseEnter={() => setMegaCat(i)}
-                      onFocus={() => setMegaCat(i)}
-                    >
-                      {megaExtras.showImages && cat.image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={cat.image} alt="" loading="lazy" className="es02-rail-thumb" />
-                      ) : (
-                        <span className="es02-rail-mono">{cat.label.charAt(0)}</span>
-                      )}
-                      <span className="es02-rail-label" style={{ fontSize: 14, fontWeight: 600, flex: 1, minWidth: 0, lineHeight: 1.3 }}>
-                        {cat.label}
-                        {cat.badge && (
-                          <span className="es02-mega-badge" style={{
-                            background: cat.badge.tone === "danger" ? "#fdeaea" : cat.badge.tone === "success" ? "#e3f5eb" : cat.badge.tone === "neutral" ? "#eef1f5" : "#e7f0fa",
-                            color: cat.badge.tone === "danger" ? "#c92a2a" : cat.badge.tone === "success" ? "#187a41" : cat.badge.tone === "neutral" ? "#4a5d74" : BLUE,
-                          }}>{cat.badge.text}</span>
-                        )}
-                      </span>
-                      {megaExtras.showCounts && cat.count !== undefined && <span className="es02-mega-count">{cat.count}</span>}
-                      <span className="es02-rail-arrow">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
-                      </span>
-                    </a>
-                  ))}
-                </div>
-
-                {/* Střed — podkategorie aktivní kategorie */}
-                <div key={activeNode.slug ?? activeNode.label} className="es02-mega-swap" style={{ minWidth: 0, display: "flex", flexDirection: "column", maxHeight: "min(58vh, 520px)" }}>
-                  <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, marginBottom: 14 }}>
-                    <span style={{ fontFamily: SANS, fontSize: 19, fontWeight: 800, color: DARK, letterSpacing: "-0.01em" }}>{activeNode.label}</span>
-                    <a href={catHref(activeNode.slug ?? "")} className="es02-mega-all">
-                      Zobrazit vše
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                    </a>
-                  </div>
-
-                  {activeNode.children.length > 0 ? (
-                    <div style={{ overflowY: "auto", paddingBottom: 18, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "18px 24px", alignContent: "start" }}>
-                      {activeNode.children.map((sub) => (
-                        <div key={sub.slug ?? sub.label}>
-                          <a href={catHref(sub.slug ?? "")} className="es02-sub-head">
-                            {megaExtras.showImages && sub.image && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img src={sub.image} alt="" loading="lazy" className="es02-sub-thumb" />
-                            )}
-                            <span style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.3, flex: 1, minWidth: 0 }}>{sub.label}</span>
-                            {megaExtras.showCounts && sub.count !== undefined && <span className="es02-mega-count">{sub.count}</span>}
-                          </a>
-                          {sub.children.length > 0 && (
-                            <div>
-                              {sub.children.slice(0, 5).map((s3) => (
-                                <a key={s3.slug ?? s3.label} href={catHref(s3.slug ?? "")} className="es02-sub-link">
-                                  <span>{s3.label}</span>
-                                  {megaExtras.showCounts && s3.count !== undefined && <span className="es02-mega-count">{s3.count}</span>}
-                                </a>
-                              ))}
-                              {sub.children.length > 5 && (
-                                <a href={catHref(sub.slug ?? "")} className="es02-sub-link" style={{ color: BLUE, fontWeight: 700 }}>
-                                  +{sub.children.length - 5} dalších…
-                                </a>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <a href={catHref(activeNode.slug ?? "")} style={{ display: "flex", alignItems: "center", gap: 22, padding: 12, borderRadius: 12, textDecoration: "none", color: DARK, background: SURFACE }}>
-                      {activeNode.image && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={activeNode.image} alt="" loading="lazy" style={{ width: 170, aspectRatio: "4/3", borderRadius: 10, objectFit: "cover" }} />
-                      )}
-                      <span style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                        <span style={{ fontSize: 17, fontWeight: 800 }}>{activeNode.label}</span>
-                        {megaExtras.showCounts && activeNode.count !== undefined && <span className="es02-mega-count">{activeNode.count} produktů</span>}
-                        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 6, fontSize: 13.5, fontWeight: 700, color: BLUE }}>
-                          Zobrazit produkty
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                        </span>
-                      </span>
-                    </a>
-                  )}
-                </div>
-
-                {/* Pravý sloupec — admin promo / foto kategorie */}
-                <div style={{ paddingBottom: 18 }}>
-                  {activePromo ? (
-                    <a href={activePromo.href ? resolve(activePromo.href) : catHref(activeNode.slug ?? "")} className="es02-promo-card">
-                      {activePromo.image_url ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={activePromo.image_url} alt="" loading="lazy" />
-                      ) : (
-                        <span style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, ${BLUE} 0%, ${BLUE_DARK} 100%)` }} />
-                      )}
-                      <span className="es02-promo-scrim" />
-                      <span style={{ position: "absolute", left: 18, right: 18, bottom: 18, display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                        {activePromo.title && <span style={{ color: "#fff", fontSize: 18, fontWeight: 800, lineHeight: 1.25 }}>{activePromo.title}</span>}
-                        {activePromo.subtitle && <span style={{ color: "rgba(255,255,255,0.85)", fontSize: 12.5, fontWeight: 500, marginTop: 4, lineHeight: 1.45 }}>{activePromo.subtitle}</span>}
-                        <span className="es02-promo-cta">
-                          Prohlédnout
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                        </span>
-                      </span>
-                    </a>
-                  ) : activeNode.image ? (
-                    <a href={catHref(activeNode.slug ?? "")} className="es02-promo-card">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={activeNode.image} alt="" loading="lazy" />
-                      <span className="es02-promo-scrim" />
-                      <span style={{ position: "absolute", left: 18, right: 18, bottom: 18, display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                        <span style={{ color: "#fff", fontSize: 18, fontWeight: 800, lineHeight: 1.25 }}>{activeNode.label}</span>
-                        {megaExtras.showCounts && activeNode.count !== undefined && (
-                          <span style={{ color: "rgba(255,255,255,0.85)", fontSize: 12.5, fontWeight: 600, marginTop: 4 }}>{activeNode.count} produktů</span>
-                        )}
-                        <span className="es02-promo-cta">
-                          Prohlédnout
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                        </span>
-                      </span>
-                    </a>
-                  ) : null}
-                </div>
-              </div>
-
-              {/* Patička panelu */}
-              <div style={{ borderTop: `1px solid ${BORDER}`, background: "#fbfcfe", borderRadius: "0 0 16px 16px" }}>
-                <div style={{ maxWidth: 1280, margin: "0 auto", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
-                  <a href={resolve("/obchod")} className="es02-mega-all">
-                    Zobrazit všechny produkty
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                  </a>
-                  {topNote && (
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 12.5, fontWeight: 600, color: MUTED }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1e9e50" strokeWidth="2.2" strokeLinecap="round"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="19" r="1.4"/><circle cx="17.5" cy="19" r="1.4"/></svg>
-                      {topNote}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </nav>
       </header>
 
@@ -24874,26 +24773,7 @@ type Es03NavCategory = { label: string; slug: string; children?: Array<{ label: 
 
 function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openCat, setOpenCat] = useState<number | null>(null);
-  const megaOpenT = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const megaCloseT = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const megaHold = () => { if (megaCloseT.current) { clearTimeout(megaCloseT.current); megaCloseT.current = null; } };
-  const megaSchedule = (i: number | null) => {
-    megaHold();
-    if (megaOpenT.current) clearTimeout(megaOpenT.current);
-    megaOpenT.current = setTimeout(() => setOpenCat(i), 55);
-  };
-  const megaRelease = () => {
-    if (megaOpenT.current) { clearTimeout(megaOpenT.current); megaOpenT.current = null; }
-    megaHold();
-    megaCloseT.current = setTimeout(() => setOpenCat(null), 130);
-  };
-  useEffect(() => {
-    if (openCat === null) return;
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpenCat(null); };
-    document.addEventListener("keydown", h);
-    return () => document.removeEventListener("keydown", h);
-  }, [openCat]);
+  const [openCat, setOpenCat] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
@@ -24939,11 +24819,6 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const topLinks = ((content as Record<string, unknown>).topLinks as Array<{ label: string; href: string }>) ?? [];
   const links = (content.links as Array<{ label: string; href: string }>) ?? [];
   const categories = ((content.categories as Es03NavCategory[]) ?? []);
-  // Mega panel: plný strom (commerce sync) + admin nastavení menu
-  const megaTree = esMegaNodes(content.categories);
-  const megaExtras = esMegaExtras((content as Record<string, unknown>).__megamenu);
-  const megaNode = openCat !== null ? megaTree[openCat] ?? null : null;
-  const megaPromo = megaNode ? esMegaPromoFor(megaExtras, megaNode.slug) : null;
   const highlightLinks = ((content as Record<string, unknown>).highlightLinks as Array<{ label: string; slug: string; tone?: string }>) ?? [];
   const siteMode = String(content.siteMode ?? "multipage");
   const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
@@ -24967,41 +24842,6 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
         .es03-hd-link:hover { color: #FFC500 !important; }
 
         .es03-search .relative > button:hover { background: #e6b200 !important; }
-
-        /* ═══ Mega panel — Disco DNA: foto dlaždice, ostré rohy, žlutý rám ═══ */
-        @keyframes es03MegaIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        .es03-mega-panel { animation: es03MegaIn 0.18s cubic-bezier(0.16,1,0.3,1); }
-        @keyframes es03DimIn { from { opacity: 0; } to { opacity: 1; } }
-        .es03-dim { position: fixed; inset: 0; background: rgba(0,0,0,0.52); z-index: -1; animation: es03DimIn 0.22s ease-out; }
-        .es03-tile { display: block; text-decoration: none; color: #000; }
-        .es03-tile-media { position: relative; display: block; aspect-ratio: 16/11; background: #f2f2f2; overflow: hidden; outline: 3px solid transparent; outline-offset: -3px; transition: outline-color 0.16s; }
-        .es03-tile-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1); }
-        .es03-tile:hover .es03-tile-media { outline-color: #FFC500; }
-        .es03-tile:hover .es03-tile-media img { transform: scale(1.06); }
-        .es03-tile-mono { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 900; color: #000; background: linear-gradient(135deg, #FFC500 0%, #ffd84d 100%); }
-        .es03-tile-count { position: absolute; right: 10px; top: 10px; height: 24px; padding: 0 9px; display: inline-flex; align-items: center; background: #000; color: #fff; font-size: 11.5px; font-weight: 800; font-variant-numeric: tabular-nums; }
-        .es03-tile-label { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 15px; font-weight: 800; line-height: 1.25; }
-        .es03-tile-label svg { opacity: 0; transform: translateX(-5px); transition: opacity 0.16s, transform 0.16s; flex-shrink: 0; }
-        .es03-tile:hover .es03-tile-label svg { opacity: 1; transform: translateX(0); }
-        .es03-tile-kids { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; }
-        .es03-tile-kid { font-size: 12.5px; font-weight: 600; color: #767676; text-decoration: none; transition: color 0.12s; }
-        .es03-tile-kid:hover { color: #000; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #FFC500; text-decoration-thickness: 2px; }
-        .es03-tile-all { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; aspect-ratio: 16/11; background: #000; color: #fff; padding: 18px; text-decoration: none; overflow: hidden; transition: background 0.18s; }
-        .es03-tile-all:hover { background: #FFC500; color: #000; }
-        .es03-tile-all-label { font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.3; }
-        .es03-tile-all-arrow { align-self: flex-end; transition: transform 0.2s; }
-        .es03-tile-all:hover .es03-tile-all-arrow { transform: translateX(6px); }
-        .es03-mega-badge { display: inline-flex; align-items: center; margin-left: 8px; padding: 2px 8px; font-size: 10px; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.35; }
-        .es03-mega-chip { display: inline-flex; align-items: center; height: 30px; padding: 0 14px; font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; text-decoration: none; transition: filter 0.14s; }
-        .es03-mega-chip:hover { filter: brightness(0.92); }
-        .es03-promo-wide { position: relative; display: block; overflow: hidden; text-decoration: none; background: #f2f2f2; aspect-ratio: 16/11; outline: 3px solid #FFC500; outline-offset: -3px; }
-        .es03-promo-wide img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-        .es03-promo-wide:hover img { transform: scale(1.05); }
-        @media (prefers-reduced-motion: reduce) {
-          .es03-mega-panel, .es03-dim { animation: none !important; }
-          .es03-tile-media img, .es03-promo-wide img { transition: none !important; }
-        }
-        }
       `}</style>
 
       <header style={{ position: "sticky", top: 0, zIndex: 100, fontFamily: SANS, background: "#fff" }}>
@@ -25077,53 +24917,59 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         </div>
 
-        {/* Navigace — Disco full-width mega menu */}
-        <nav className="hidden md:block" style={{ borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, background: "#fff", position: "relative" }} onMouseEnter={megaHold} onMouseLeave={megaRelease}>
-          {openCat !== null && megaNode && <div className="es03-dim" aria-hidden onClick={() => setOpenCat(null)} />}
+        {/* Navigace — bílá lišta s dropdowny */}
+        <nav className="hidden md:block" style={{ borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, background: "#fff" }} onMouseLeave={() => setOpenCat(null)}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", height: 56 }}>
             <div style={{ display: "flex", alignItems: "center", flex: 1, overflow: "visible" }}>
-              {megaTree.map((cat, ci) => {
-                const hasKids = cat.children.length > 0;
-                const isOpen = openCat === ci;
+              {categories.map((cat, ci) => {
+                const kids = cat.children ?? [];
+                const isOpen = openCat === cat.slug;
                 return (
-                  <a
-                    key={cat.slug ?? cat.label}
-                    href={catHref(cat.slug ?? "")}
-                    className="es03-menu-link"
-                    aria-expanded={hasKids ? isOpen : undefined}
-                    aria-haspopup={hasKids || undefined}
-                    onMouseEnter={() => (hasKids ? megaSchedule(ci) : megaSchedule(null))}
-                    onFocus={() => setOpenCat(hasKids ? ci : null)}
-                    style={{
+                  <div key={cat.slug ?? cat.label} style={{ position: "relative", alignSelf: "stretch", display: "flex" }}
+                    onMouseEnter={() => setOpenCat(kids.length ? cat.slug : null)}>
+                    <a href={catHref(cat.slug)} className="es03-menu-link" style={{
                       display: "flex", alignItems: "center", gap: 7,
                       padding: ci === 0 ? "0 16px 0 0" : "0 16px", height: 56,
                       fontFamily: SANS, fontSize: 16, fontWeight: 700, color: BLACK,
                       textDecoration: "none", whiteSpace: "nowrap",
                     }}>
-                    <span style={isOpen ? { borderBottom: `2px solid ${YELLOW}`, paddingBottom: 3 } : undefined}>{cat.label}</span>
-                    {cat.badge && (
-                      <span className="es03-mega-badge" style={{
-                        background: cat.badge.tone === "danger" ? SALE : cat.badge.tone === "success" ? "#0f8a43" : cat.badge.tone === "neutral" ? "#efefef" : YELLOW,
-                        color: cat.badge.tone === "neutral" ? "#3d3d3d" : cat.badge.tone === "accent" ? "#000" : "#fff",
-                      }}>{cat.badge.text}</span>
+                      <span>{cat.label}</span>
+                      {kids.length > 0 && (
+                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none" }}>
+                          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </a>
+                    {isOpen && kids.length > 0 && (
+                      <div className="es03-dd-enter" style={{
+                        position: "absolute", top: "100%", left: ci === 0 ? -16 : 0, zIndex: 200,
+                        background: "#fff", border: `1px solid ${BORDER}`,
+                        boxShadow: "0 14px 40px rgba(0,0,0,0.12)",
+                        padding: "10px 0", minWidth: 250,
+                      }}>
+                        {kids.map((k) => (
+                          <a key={k.slug} href={catHref(k.slug)} style={{
+                            display: "block", padding: "9px 22px",
+                            fontFamily: SANS, fontSize: 15, fontWeight: 600, color: TEXT,
+                            textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.12s",
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.background = "#f6f6f6")}
+                          onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                          >{k.label}</a>
+                        ))}
+                        <a href={catHref(cat.slug)} style={{
+                          display: "block", padding: "11px 22px 5px", marginTop: 6,
+                          borderTop: `1px solid ${BORDER}`,
+                          fontFamily: SANS, fontSize: 14, fontWeight: 800, color: BLACK,
+                          textDecoration: "underline", textUnderlineOffset: 3,
+                        }}>Vše z kategorie</a>
+                      </div>
                     )}
-                    {hasKids && (
-                      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none" }}>
-                        <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                  </a>
+                  </div>
                 );
               })}
-              {megaExtras.customLinks.map((lk) => (
-                <a key={lk.label + lk.href} href={resolve(lk.href)} className="es03-mega-chip" style={{
-                  background: lk.tone === "danger" ? SALE : lk.tone === "success" ? "#0f8a43" : lk.tone === "neutral" ? "#efefef" : YELLOW,
-                  color: lk.tone === "neutral" ? "#3d3d3d" : lk.tone === "accent" ? "#000" : "#fff",
-                  marginLeft: 6,
-                }}>{lk.label}</a>
-              ))}
-              {highlightLinks.map((lk, i2) => (
-                <a key={`hl${i2}`} href={catHref(lk.slug)} className="es03-menu-link" onMouseEnter={() => megaSchedule(null)} style={{
+              {highlightLinks.map((lk, i) => (
+                <a key={`hl${i}`} href={catHref(lk.slug)} className="es03-menu-link" style={{
                   display: "flex", alignItems: "center", padding: "0 16px", height: 56,
                   fontFamily: SANS, fontSize: 16, fontWeight: 800,
                   color: lk.tone === "accent" ? SALE : BLACK,
@@ -25136,93 +24982,13 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
             {/* Servisní odkazy vpravo */}
             <div className="hidden lg:flex" style={{ alignItems: "center", gap: 20, marginLeft: "auto", flexShrink: 0 }}>
-              {topLinks.map((lk, i2) => (
-                <a key={i2} href={resolve(lk.href)} className="es03-hd-link" onMouseEnter={() => megaSchedule(null)} style={{
+              {topLinks.map((lk, i) => (
+                <a key={i} href={resolve(lk.href)} className="es03-hd-link" style={{
                   fontFamily: SANS, fontSize: 14, fontWeight: 600, color: MUTED, textDecoration: "none", whiteSpace: "nowrap",
                 }}>{lk.label}</a>
               ))}
             </div>
           </div>
-
-          {/* ═══ MEGA PANEL — foto dlaždice podkategorií (Disco) ═══ */}
-          {openCat !== null && megaNode && megaNode.children.length > 0 && (
-            <div className="es03-mega-panel" style={{
-              position: "absolute", top: "100%", left: 0, right: 0, zIndex: 90,
-              background: "#fff", borderTop: `3px solid ${YELLOW}`,
-              boxShadow: "0 30px 60px rgba(0,0,0,0.22)",
-            }}>
-              <div key={megaNode.slug ?? megaNode.label} style={{ maxWidth: 1280, margin: "0 auto", padding: "24px 20px 28px" }}>
-                {/* Hlavička panelu */}
-                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 18 }}>
-                  <span style={{ fontFamily: SANS, fontSize: 21, fontWeight: 900, color: BLACK, textTransform: "uppercase", letterSpacing: "0.02em" }}>
-                    {megaNode.label}
-                    {megaExtras.showCounts && megaNode.count !== undefined && (
-                      <span style={{ marginLeft: 12, fontSize: 13, fontWeight: 800, color: MUTED, letterSpacing: "0.06em" }}>{megaNode.count} produktů</span>
-                    )}
-                  </span>
-                </div>
-
-                {/* Foto dlaždice: podkategorie + promo + VŠE */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(196px, 1fr))", gap: "22px 18px", maxHeight: "min(58vh, 500px)", overflowY: "auto" }}>
-                  {megaPromo && (
-                    <a href={megaPromo.href ? resolve(megaPromo.href) : catHref(megaNode.slug ?? "")} className="es03-promo-wide" style={{ gridColumn: "span 2" }}>
-                      {megaPromo.image_url && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={megaPromo.image_url} alt="" loading="lazy" />
-                      )}
-                      <span style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.08) 55%, transparent 100%)" }} />
-                      <span style={{ position: "absolute", left: 16, right: 16, bottom: 14, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 3 }}>
-                        {megaPromo.title && <span style={{ color: "#fff", fontFamily: SANS, fontSize: 18, fontWeight: 900, textTransform: "uppercase", lineHeight: 1.2 }}>{megaPromo.title}</span>}
-                        {megaPromo.subtitle && <span style={{ color: "rgba(255,255,255,0.88)", fontSize: 12, fontWeight: 600 }}>{megaPromo.subtitle}</span>}
-                      </span>
-                    </a>
-                  )}
-                  {megaNode.children.map((sub) => (
-                    <div key={sub.slug ?? sub.label}>
-                      <a href={catHref(sub.slug ?? "")} className="es03-tile">
-                        <span className="es03-tile-media">
-                          {megaExtras.showImages && sub.image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={sub.image} alt="" loading="lazy" />
-                          ) : (
-                            <span className="es03-tile-mono">{sub.label.charAt(0)}</span>
-                          )}
-                          {megaExtras.showCounts && sub.count !== undefined && <span className="es03-tile-count">{sub.count}</span>}
-                        </span>
-                        <span className="es03-tile-label">
-                          {sub.label}
-                          {sub.badge && (
-                            <span className="es03-mega-badge" style={{
-                              background: sub.badge.tone === "danger" ? SALE : sub.badge.tone === "success" ? "#0f8a43" : sub.badge.tone === "neutral" ? "#efefef" : YELLOW,
-                              color: sub.badge.tone === "neutral" ? "#3d3d3d" : sub.badge.tone === "accent" ? "#000" : "#fff",
-                            }}>{sub.badge.text}</span>
-                          )}
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                        </span>
-                      </a>
-                      {sub.children.length > 0 && (
-                        <span className="es03-tile-kids">
-                          {sub.children.slice(0, 3).map((s3) => (
-                            <a key={s3.slug ?? s3.label} href={catHref(s3.slug ?? "")} className="es03-tile-kid">{s3.label}</a>
-                          ))}
-                          {sub.children.length > 3 && (
-                            <a href={catHref(sub.slug ?? "")} className="es03-tile-kid" style={{ color: BLACK, fontWeight: 800 }}>+{sub.children.length - 3}</a>
-                          )}
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                  {/* Černá dlaždice VŠE — Disco kontrast */}
-                  <a href={catHref(megaNode.slug ?? "")} className="es03-tile-all">
-                    <span className="es03-tile-all-label">Vše z kategorie<br />{megaNode.label}</span>
-                    <span className="es03-tile-all-arrow">
-                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
         </nav>
       </header>
 
@@ -25324,26 +25090,7 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
     }
     setSearchOpen(true);
   };
-  const [openCat, setOpenCat] = useState<number | null>(null);
-  const megaOpenT = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const megaCloseT = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const megaHold = () => { if (megaCloseT.current) { clearTimeout(megaCloseT.current); megaCloseT.current = null; } };
-  const megaSchedule = (idx: number | null) => {
-    megaHold();
-    if (megaOpenT.current) clearTimeout(megaOpenT.current);
-    megaOpenT.current = setTimeout(() => setOpenCat(idx), 55);
-  };
-  const megaRelease = () => {
-    if (megaOpenT.current) { clearTimeout(megaOpenT.current); megaOpenT.current = null; }
-    megaHold();
-    megaCloseT.current = setTimeout(() => setOpenCat(null), 130);
-  };
-  useEffect(() => {
-    if (openCat === null) return;
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpenCat(null); };
-    document.addEventListener("keydown", h);
-    return () => document.removeEventListener("keydown", h);
-  }, [openCat]);
+  const [openCat, setOpenCat] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartBounce, setCartBounce] = useState(false);
@@ -25401,11 +25148,6 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const topLinks = ((content as Record<string, unknown>).topLinks as Array<{ label: string; href: string }>) ?? [];
   const links = (content.links as Array<{ label: string; href: string }>) ?? [];
   const categories = ((content.categories as Es03NavCategory[]) ?? []);
-  // Mega panel: plný strom (commerce sync) + admin nastavení menu
-  const megaTree = esMegaNodes(content.categories);
-  const megaExtras = esMegaExtras((content as Record<string, unknown>).__megamenu);
-  const megaNode = openCat !== null ? megaTree[openCat] ?? null : null;
-  const megaPromo = megaNode ? esMegaPromoFor(megaExtras, megaNode.slug) : null;
   const highlightLinks = ((content as Record<string, unknown>).highlightLinks as Array<{ label: string; slug: string; tone?: string }>) ?? [];
   const siteMode = String(content.siteMode ?? "multipage");
   const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
@@ -25437,33 +25179,7 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
         .es04-sm { animation: es04PopIn 0.26s cubic-bezier(0.22,1,0.36,1) forwards; }
         .es04-sm-close { transition: background 0.2s, color 0.2s; }
         .es04-sm-close:hover { background: #f1f1f1; color: #161616; }
-      
-        /* ═══ Mega panel — Samba DNA: Raleway uppercase, periwinkle + losos, oblé ═══ */
-        @keyframes es04MegaIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-        .es04-mega-panel { animation: es04MegaIn 0.2s cubic-bezier(0.16,1,0.3,1); }
-        @keyframes es04DimIn { from { opacity: 0; } to { opacity: 1; } }
-        .es04-dim { position: fixed; inset: 0; background: rgba(22,22,22,0.42); backdrop-filter: blur(2px); z-index: -1; animation: es04DimIn 0.24s ease-out; }
-        .es04-mega-head { display: flex; align-items: center; gap: 13px; text-decoration: none; color: #161616; padding-bottom: 10px; border-bottom: 2px solid #fdbcb4; margin-bottom: 9px; }
-        .es04-mega-thumb { width: 46px; height: 46px; border-radius: 14px; object-fit: cover; background: #f6f6f6; flex-shrink: 0; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1); }
-        .es04-mega-head:hover .es04-mega-thumb { transform: scale(1.08) rotate(-2deg); }
-        .es04-mega-head:hover span { color: #6883ba; }
-        .es04-mega-link { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5.5px 0; font-size: 13.5px; font-weight: 500; color: #5a5a5a; text-decoration: none; transition: color 0.13s, padding-left 0.15s; }
-        .es04-mega-link:hover { color: #6883ba; padding-left: 5px; }
-        .es04-mega-count { font-size: 11px; font-weight: 600; color: #b3b3b3; font-variant-numeric: tabular-nums; }
-        .es04-mega-badge { display: inline-flex; align-items: center; margin-left: 8px; padding: 2.5px 9px; border-radius: 999px; font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.35; }
-        .es04-mega-cta { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 24px; border-radius: 999px; background: #6883ba; color: #fff; font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; text-decoration: none; transition: background 0.16s, gap 0.16s; }
-        .es04-mega-cta:hover { background: #566fa3; gap: 14px; }
-        .es04-promo-card { position: relative; display: block; border-radius: 18px; overflow: hidden; text-decoration: none; background: #f6f6f6; aspect-ratio: 4/5; box-shadow: 0 14px 34px rgba(104,131,186,0.22); }
-        .es04-promo-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
-        .es04-promo-card:hover img { transform: scale(1.06); }
-        .es04-promo-scrim { position: absolute; inset: 0; background: linear-gradient(to top, rgba(86,111,163,0.82) 0%, rgba(86,111,163,0.12) 55%, transparent 100%); }
-        .es04-mega-chip { display: inline-flex; align-items: center; height: 28px; padding: 0 14px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: filter 0.15s; }
-        .es04-mega-chip:hover { filter: brightness(0.94); }
-        @media (prefers-reduced-motion: reduce) {
-          .es04-mega-panel, .es04-dim { animation: none !important; }
-          .es04-promo-card img, .es04-mega-thumb { transition: none !important; }
-        }
-`}</style>
+      `}</style>
 
       <header style={{ position: "sticky", top: 0, zIndex: 100, fontFamily: SANS, background: "#fff" }}>
         {/* Hlavní bar: servisní odkazy | centrované logo | ikony */}
@@ -25564,56 +25280,45 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
         )}
 
-        {/* Menu lišta — Samba mega menu (centrované, lososový akcent) */}
-        <nav className="hidden md:block" style={{ background: "#fff", position: "relative" }} onMouseEnter={megaHold} onMouseLeave={megaRelease}>
-          {openCat !== null && megaNode && <div className="es04-dim" aria-hidden onClick={() => setOpenCat(null)} />}
+        {/* Menu lišta — lososový hover dle Samby */}
+        <nav className="hidden md:block" style={{ background: "#fff" }} onMouseLeave={() => setOpenCat(null)}>
           <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "center", height: 52, flexWrap: "wrap" }}>
-            {megaTree.map((cat, ci2) => {
-              const hasKids = cat.children.length > 0;
-              const isOpen = openCat === ci2;
+            {categories.map((cat) => {
+              const kids = cat.children ?? [];
+              const isOpen = openCat === cat.slug;
               return (
-                <a
-                  key={cat.slug ?? cat.label}
-                  href={catHref(cat.slug ?? "")}
-                  className="es04-menu-link"
-                  aria-expanded={hasKids ? isOpen : undefined}
-                  aria-haspopup={hasKids || undefined}
-                  onMouseEnter={() => (hasKids ? megaSchedule(ci2) : megaSchedule(null))}
-                  onFocus={() => setOpenCat(hasKids ? ci2 : null)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 6,
+                <div key={cat.slug ?? cat.label} style={{ position: "relative", alignSelf: "stretch", display: "flex" }}
+                  onMouseEnter={() => setOpenCat(kids.length ? cat.slug : null)}>
+                  <a href={catHref(cat.slug)} className="es04-menu-link" style={{
+                    display: "flex", alignItems: "center",
                     padding: "0 20px", height: 52,
-                    fontFamily: SANS, fontSize: 14.5, fontWeight: 600,
-                    color: isOpen ? PERI : INK,
+                    fontFamily: SANS, fontSize: 14.5, fontWeight: 600, color: INK,
                     textTransform: "uppercase", letterSpacing: "0.05em",
                     textDecoration: "none", whiteSpace: "nowrap",
-                    boxShadow: isOpen ? `inset 0 -2px 0 ${SALMON}` : "none",
-                    transition: "color 0.14s, box-shadow 0.14s",
                   }}>
-                  <span>{cat.label}</span>
-                  {cat.badge && (
-                    <span className="es04-mega-badge" style={{
-                      background: cat.badge.tone === "danger" ? "#fdeaea" : cat.badge.tone === "success" ? "#e3f5eb" : cat.badge.tone === "neutral" ? "#f0f0f0" : SALMON,
-                      color: cat.badge.tone === "danger" ? "#c92a2a" : cat.badge.tone === "success" ? "#187a41" : cat.badge.tone === "neutral" ? "#5a5a5a" : "#7a3d33",
-                    }}>{cat.badge.text}</span>
+                    <span>{cat.label}</span>
+                  </a>
+                  {isOpen && kids.length > 0 && (
+                    <div className="es04-dd-enter" style={{
+                      position: "absolute", top: "100%", left: 0, zIndex: 200,
+                      background: "#fff", borderRadius: "0 0 10px 10px",
+                      boxShadow: "0 18px 44px rgba(22,22,22,0.14)",
+                      padding: "8px 0", minWidth: 230, overflow: "hidden",
+                    }}>
+                      {kids.map((k) => (
+                        <a key={k.slug} href={catHref(k.slug)} className="es04-menu-link" style={{
+                          display: "block", padding: "9px 20px",
+                          fontFamily: SANS, fontSize: 13.5, fontWeight: 500, color: INK,
+                          textDecoration: "none", whiteSpace: "nowrap",
+                        }}>{k.label}</a>
+                      ))}
+                    </div>
                   )}
-                  {hasKids && (
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "none" }}>
-                      <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </a>
+                </div>
               );
             })}
-            {megaExtras.customLinks.map((lk) => (
-              <a key={lk.label + lk.href} href={resolve(lk.href)} className="es04-mega-chip" style={{
-                background: lk.tone === "danger" ? "#e03131" : lk.tone === "success" ? "#1e9e50" : lk.tone === "neutral" ? "#f0f0f0" : SALMON,
-                color: lk.tone === "neutral" ? "#5a5a5a" : lk.tone === "accent" ? "#7a3d33" : "#fff",
-                marginLeft: 8,
-              }}>{lk.label}</a>
-            ))}
-            {links.map((lk, i2) => (
-              <a key={`ln${i2}`} href={resolve(lk.href)} className="es04-menu-link" onMouseEnter={() => megaSchedule(null)} style={{
+            {links.map((lk, i) => (
+              <a key={`ln${i}`} href={resolve(lk.href)} className="es04-menu-link" style={{
                 display: "flex", alignItems: "center", padding: "0 20px", height: 52,
                 fontFamily: SANS, fontSize: 14.5, fontWeight: 600, color: INK,
                 textTransform: "uppercase", letterSpacing: "0.05em",
@@ -25623,87 +25328,6 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
               </a>
             ))}
           </div>
-
-          {/* ═══ MEGA PANEL — Samba: sloupce + promo, oblé rohy ═══ */}
-          {openCat !== null && megaNode && megaNode.children.length > 0 && (
-            <div className="es04-mega-panel" style={{
-              position: "absolute", top: "100%", left: 0, right: 0, zIndex: 90,
-              background: "#fff", borderTop: `2px solid ${SALMON}`,
-              borderRadius: "0 0 22px 22px",
-              boxShadow: "0 30px 60px rgba(22,22,22,0.18)",
-            }}>
-              <div key={megaNode.slug ?? megaNode.label} style={{ maxWidth: 1180, margin: "0 auto", padding: "28px 24px 0", display: "grid", gridTemplateColumns: megaPromo || megaNode.image ? "minmax(0,1fr) 270px" : "minmax(0,1fr)", gap: 36 }}>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(205px, 1fr))", gap: "22px 30px", alignContent: "start", maxHeight: "min(54vh, 460px)", overflowY: "auto", paddingBottom: 26 }}>
-                  {megaNode.children.map((sub) => (
-                    <div key={sub.slug ?? sub.label}>
-                      <a href={catHref(sub.slug ?? "")} className="es04-mega-head">
-                        {megaExtras.showImages && sub.image && (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={sub.image} alt="" loading="lazy" className="es04-mega-thumb" />
-                        )}
-                        <span style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 700, lineHeight: 1.35, flex: 1, minWidth: 0, textTransform: "uppercase", letterSpacing: "0.04em", transition: "color 0.14s" }}>{sub.label}</span>
-                        {megaExtras.showCounts && sub.count !== undefined && <span className="es04-mega-count">{sub.count}</span>}
-                      </a>
-                      {sub.children.length > 0 && (
-                        <div>
-                          {sub.children.slice(0, 6).map((s3) => (
-                            <a key={s3.slug ?? s3.label} href={catHref(s3.slug ?? "")} className="es04-mega-link">
-                              <span>{s3.label}</span>
-                              {megaExtras.showCounts && s3.count !== undefined && <span className="es04-mega-count">{s3.count}</span>}
-                            </a>
-                          ))}
-                          {sub.children.length > 6 && (
-                            <a href={catHref(sub.slug ?? "")} className="es04-mega-link" style={{ fontWeight: 700, color: PERI }}>
-                              +{sub.children.length - 6} dalších…
-                            </a>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                {(megaPromo || megaNode.image) && (
-                  <div style={{ paddingBottom: 26 }}>
-                    <a href={megaPromo?.href ? resolve(megaPromo.href) : catHref(megaNode.slug ?? "")} className="es04-promo-card">
-                      {(megaPromo?.image_url || megaNode.image) && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={megaPromo?.image_url || megaNode.image} alt="" loading="lazy" />
-                      )}
-                      <span className="es04-promo-scrim" />
-                      <span style={{ position: "absolute", left: 20, right: 20, bottom: 20, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 5 }}>
-                        <span style={{ color: "#fff", fontFamily: SANS, fontSize: 17, fontWeight: 700, lineHeight: 1.3, textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                          {megaPromo?.title || megaNode.label}
-                        </span>
-                        {megaPromo?.subtitle ? (
-                          <span style={{ color: "rgba(255,255,255,0.88)", fontSize: 12, fontWeight: 500, lineHeight: 1.5 }}>{megaPromo.subtitle}</span>
-                        ) : megaExtras.showCounts && megaNode.count !== undefined ? (
-                          <span style={{ color: "rgba(255,255,255,0.88)", fontSize: 12, fontWeight: 600 }}>{megaNode.count} produktů</span>
-                        ) : null}
-                        <span style={{
-                          display: "inline-flex", alignItems: "center", gap: 8, marginTop: 10,
-                          height: 36, padding: "0 18px", borderRadius: 999, background: "#fff", color: INK,
-                          fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em",
-                        }}>
-                          Prohlédnout
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                        </span>
-                      </span>
-                    </a>
-                  </div>
-                )}
-              </div>
-
-              <div style={{ borderTop: `1px solid ${BORDER}` }}>
-                <div style={{ maxWidth: 1180, margin: "0 auto", padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "center", gap: 18 }}>
-                  <a href={catHref(megaNode.slug ?? "")} className="es04-mega-cta">
-                    Vše z kategorie {megaNode.label}
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
         </nav>
       </header>
 

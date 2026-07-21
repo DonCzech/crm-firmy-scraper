@@ -1,0 +1,79 @@
+{
+  "colors": {
+    "primary": "#047857",
+    "secondary": "#0A0F16",
+    "background": "#F2F5F3",
+    "surface": "#FFFFFF",
+    "text": "#0E1420",
+    "textMuted": "#5C6672",
+    "accent": "#047857",
+    "border": "#E1E7E2"
+  },
+  "typography": {
+    "fontHeading": "var(--font-overpass), 'Overpass', system-ui, sans-serif",
+    "fontBody": "var(--font-source-sans), 'Source Sans 3', system-ui, sans-serif",
+    "fontMono": "var(--font-overpass-mono), ui-monospace, monospace",
+    "scale": "display"
+  },
+  "radius": {
+    "sm": "4px",
+    "md": "6px",
+    "lg": "12px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section": "airy"
+  },
+  "shadows": {
+    "sm": "0 1px 3px rgba(10,15,22,0.06)",
+    "md": "0 8px 24px -12px rgba(10,15,22,0.15)",
+    "lg": "0 14px 40px -22px rgba(10,15,22,0.25)"
+  },
+  "animation": {
+    "ease": "cubic-bezier(.22,.68,0,1)",
+    "duration": "300ms",
+    "intensity": "subtle"
+  },
+  "presets": {
+    "pulse": {
+      "label": "Pulse — SaaS a AI nástroje",
+      "tokens": {
+        "colorPrimary": "#047857",
+        "colorAccent": "#047857",
+        "colorSecondary": "#0A0F16",
+        "colorBackground": "#F2F5F3",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#0E1420",
+        "colorTextMuted": "#5C6672",
+        "colorBorder": "#E1E7E2"
+      }
+    },
+    "circuit": {
+      "label": "Circuit — devtools a fintech",
+      "tokens": {
+        "colorPrimary": "#0E7490",
+        "colorAccent": "#0E7490",
+        "colorSecondary": "#0B1218",
+        "colorBackground": "#F1F5F6",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#0E1620",
+        "colorTextMuted": "#5A6772",
+        "colorBorder": "#DFE7E9"
+      }
+    },
+    "flare": {
+      "label": "Flare — productivity a startupy",
+      "tokens": {
+        "colorPrimary": "#EA580C",
+        "colorAccent": "#EA580C",
+        "colorSecondary": "#131110",
+        "colorBackground": "#F6F4F0",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#171412",
+        "colorTextMuted": "#6E6660",
+        "colorBorder": "#E8E2D9"
+      }
+    }
+  }
+}
