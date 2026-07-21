@@ -235,7 +235,8 @@
       "freeShippingLabel": "Do dopravy zdarma zbývá",
       "freeShippingDone": "Máte dopravu zdarma"
     },
-    "promoChip": "10 % sleva"
+    "promoChip": "10 % sleva",
+    "categoriesSource": "commerce"
   },
   "hero": {
     "main": {

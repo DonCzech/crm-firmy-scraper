@@ -11,17 +11,48 @@
     "searchPlaceholder": "Hledat produkt, značku nebo aktivitu",
     "searchButton": "Hledat",
     "benefits": [
-      { "icon": "truck", "label": "Doprava zdarma nad 1 499 Kč", "href": "/doprava-a-platba" },
-      { "icon": "pin", "label": "8 prodejen v ČR", "href": "/kontakt" },
-      { "icon": "refresh", "label": "Vrácení zboží do 90 dní", "href": "/vraceni-zbozi" },
-      { "icon": "badge", "label": "Zákaznický klub se slevou až 15 %", "href": "/klub" },
-      { "icon": "phone", "label": "731 456 890 (Po–Pá 8–16:30)" }
+      {
+        "icon": "truck",
+        "label": "Doprava zdarma nad 1 499 Kč",
+        "href": "/doprava-a-platba"
+      },
+      {
+        "icon": "pin",
+        "label": "8 prodejen v ČR",
+        "href": "/kontakt"
+      },
+      {
+        "icon": "refresh",
+        "label": "Vrácení zboží do 90 dní",
+        "href": "/vraceni-zbozi"
+      },
+      {
+        "icon": "badge",
+        "label": "Zákaznický klub se slevou až 15 %",
+        "href": "/klub"
+      },
+      {
+        "icon": "phone",
+        "label": "731 456 890 (Po–Pá 8–16:30)"
+      }
     ],
     "topLinks": [
-      { "label": "Blog", "href": "/blog" },
-      { "label": "Práce u nás", "href": "/o-nas" },
-      { "label": "Poradna", "href": "/poradna" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Práce u nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Poradna",
+        "href": "/poradna"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
     ],
     "storesHref": "/kontakt",
     "utility": {
@@ -34,16 +65,46 @@
         "label": "Oblečení",
         "slug": "obleceni",
         "children": [
-          { "label": "Pánské bundy", "slug": "panske-bundy" },
-          { "label": "Pánské kalhoty", "slug": "panske-kalhoty" },
-          { "label": "Pánské mikiny a svetry", "slug": "panske-mikiny" },
-          { "label": "Pánská trička a košile", "slug": "panska-tricka" },
-          { "label": "Dámské bundy", "slug": "damske-bundy" },
-          { "label": "Dámské kalhoty a legíny", "slug": "damske-kalhoty" },
-          { "label": "Dámské mikiny a svetry", "slug": "damske-mikiny" },
-          { "label": "Dámská trička a košile", "slug": "damska-tricka" },
-          { "label": "Termoprádlo a merino", "slug": "panske-termopradlo" },
-          { "label": "Čepice a rukavice", "slug": "panske-doplnky" }
+          {
+            "label": "Pánské bundy",
+            "slug": "panske-bundy"
+          },
+          {
+            "label": "Pánské kalhoty",
+            "slug": "panske-kalhoty"
+          },
+          {
+            "label": "Pánské mikiny a svetry",
+            "slug": "panske-mikiny"
+          },
+          {
+            "label": "Pánská trička a košile",
+            "slug": "panska-tricka"
+          },
+          {
+            "label": "Dámské bundy",
+            "slug": "damske-bundy"
+          },
+          {
+            "label": "Dámské kalhoty a legíny",
+            "slug": "damske-kalhoty"
+          },
+          {
+            "label": "Dámské mikiny a svetry",
+            "slug": "damske-mikiny"
+          },
+          {
+            "label": "Dámská trička a košile",
+            "slug": "damska-tricka"
+          },
+          {
+            "label": "Termoprádlo a merino",
+            "slug": "panske-termopradlo"
+          },
+          {
+            "label": "Čepice a rukavice",
+            "slug": "panske-doplnky"
+          }
         ],
         "featured": {
           "image": "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?w=900&h=520&fit=crop&auto=format&q=80",
@@ -56,12 +117,30 @@
         "label": "Boty",
         "slug": "boty",
         "children": [
-          { "label": "Treková obuv", "slug": "trekova-obuv" },
-          { "label": "Nízká turistická obuv", "slug": "nizka-obuv" },
-          { "label": "Trailová obuv", "slug": "trailova-obuv" },
-          { "label": "Lezečky", "slug": "lezecky" },
-          { "label": "Sandály", "slug": "sandaly" },
-          { "label": "Ponožky", "slug": "ponozky" }
+          {
+            "label": "Treková obuv",
+            "slug": "trekova-obuv"
+          },
+          {
+            "label": "Nízká turistická obuv",
+            "slug": "nizka-obuv"
+          },
+          {
+            "label": "Trailová obuv",
+            "slug": "trailova-obuv"
+          },
+          {
+            "label": "Lezečky",
+            "slug": "lezecky"
+          },
+          {
+            "label": "Sandály",
+            "slug": "sandaly"
+          },
+          {
+            "label": "Ponožky",
+            "slug": "ponozky"
+          }
         ],
         "featured": {
           "image": "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?w=900&h=520&fit=crop&auto=format&q=80",
@@ -74,11 +153,26 @@
         "label": "Batohy",
         "slug": "batohy",
         "children": [
-          { "label": "Turistické do 35 l", "slug": "turisticke-batohy" },
-          { "label": "Expediční 50 l+", "slug": "expedicni-batohy" },
-          { "label": "Lezecké", "slug": "lezecke-batohy" },
-          { "label": "Městské a na cesty", "slug": "mestske-batohy" },
-          { "label": "Pláštěnky a doplňky", "slug": "batohy-doplnky" }
+          {
+            "label": "Turistické do 35 l",
+            "slug": "turisticke-batohy"
+          },
+          {
+            "label": "Expediční 50 l+",
+            "slug": "expedicni-batohy"
+          },
+          {
+            "label": "Lezecké",
+            "slug": "lezecke-batohy"
+          },
+          {
+            "label": "Městské a na cesty",
+            "slug": "mestske-batohy"
+          },
+          {
+            "label": "Pláštěnky a doplňky",
+            "slug": "batohy-doplnky"
+          }
         ],
         "featured": {
           "image": "https://images.unsplash.com/photo-1568454537842-d933259bb258?w=900&h=520&fit=crop&auto=format&q=80",
@@ -91,20 +185,62 @@
         "label": "Vybavení",
         "slug": "vybaveni",
         "children": [
-          { "label": "Spacáky", "slug": "spacaky" },
-          { "label": "Karimatky", "slug": "karimatky" },
-          { "label": "Stany", "slug": "stany" },
-          { "label": "Hamaky", "slug": "hamaky" },
-          { "label": "Čelovky", "slug": "celovky" },
-          { "label": "Trekové hole", "slug": "trekove-hole" },
-          { "label": "Vaření a plyn", "slug": "vareni" },
-          { "label": "Láhve a termosky", "slug": "lahve-termosky" },
-          { "label": "Nože a nářadí", "slug": "noze" },
-          { "label": "Lékárničky", "slug": "lekarnicky" },
-          { "label": "Úvazky", "slug": "uvazky" },
-          { "label": "Lana a jištění", "slug": "lana" },
-          { "label": "Karabiny a expresky", "slug": "karabiny" },
-          { "label": "Helmy", "slug": "helmy" }
+          {
+            "label": "Spacáky",
+            "slug": "spacaky"
+          },
+          {
+            "label": "Karimatky",
+            "slug": "karimatky"
+          },
+          {
+            "label": "Stany",
+            "slug": "stany"
+          },
+          {
+            "label": "Hamaky",
+            "slug": "hamaky"
+          },
+          {
+            "label": "Čelovky",
+            "slug": "celovky"
+          },
+          {
+            "label": "Trekové hole",
+            "slug": "trekove-hole"
+          },
+          {
+            "label": "Vaření a plyn",
+            "slug": "vareni"
+          },
+          {
+            "label": "Láhve a termosky",
+            "slug": "lahve-termosky"
+          },
+          {
+            "label": "Nože a nářadí",
+            "slug": "noze"
+          },
+          {
+            "label": "Lékárničky",
+            "slug": "lekarnicky"
+          },
+          {
+            "label": "Úvazky",
+            "slug": "uvazky"
+          },
+          {
+            "label": "Lana a jištění",
+            "slug": "lana"
+          },
+          {
+            "label": "Karabiny a expresky",
+            "slug": "karabiny"
+          },
+          {
+            "label": "Helmy",
+            "slug": "helmy"
+          }
         ],
         "featured": {
           "image": "https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?w=900&h=520&fit=crop&auto=format&q=80",
@@ -117,9 +253,18 @@
         "label": "Dle pohlaví",
         "slug": "",
         "children": [
-          { "label": "Muži", "slug": "muzi" },
-          { "label": "Ženy", "slug": "zeny" },
-          { "label": "Děti", "slug": "deti" }
+          {
+            "label": "Muži",
+            "slug": "muzi"
+          },
+          {
+            "label": "Ženy",
+            "slug": "zeny"
+          },
+          {
+            "label": "Děti",
+            "slug": "deti"
+          }
         ],
         "featured": {
           "image": "https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&h=520&fit=crop&auto=format&q=80",
@@ -169,15 +314,42 @@
         "label": "Značky",
         "slug": "znacky",
         "children": [
-          { "label": "Petzl", "slug": "petzl" },
-          { "label": "Salewa", "slug": "salewa" },
-          { "label": "La Sportiva", "slug": "la-sportiva" },
-          { "label": "Osprey", "slug": "osprey" },
-          { "label": "Deuter", "slug": "deuter" },
-          { "label": "MSR", "slug": "msr" },
-          { "label": "Sea to Summit", "slug": "sea-to-summit" },
-          { "label": "Icebreaker", "slug": "icebreaker" },
-          { "label": "HORAL", "slug": "horal" }
+          {
+            "label": "Petzl",
+            "slug": "petzl"
+          },
+          {
+            "label": "Salewa",
+            "slug": "salewa"
+          },
+          {
+            "label": "La Sportiva",
+            "slug": "la-sportiva"
+          },
+          {
+            "label": "Osprey",
+            "slug": "osprey"
+          },
+          {
+            "label": "Deuter",
+            "slug": "deuter"
+          },
+          {
+            "label": "MSR",
+            "slug": "msr"
+          },
+          {
+            "label": "Sea to Summit",
+            "slug": "sea-to-summit"
+          },
+          {
+            "label": "Icebreaker",
+            "slug": "icebreaker"
+          },
+          {
+            "label": "HORAL",
+            "slug": "horal"
+          }
         ],
         "featured": {
           "image": "https://images.unsplash.com/photo-1516592673884-4a382d1124c2?w=900&h=520&fit=crop&auto=format&q=80",
@@ -186,9 +358,20 @@
           "ctaText": "Všechny značky"
         }
       },
-      { "label": "Novinky", "slug": "novinky" },
-      { "label": "Akce", "slug": "akce", "tone": "action" },
-      { "label": "Výprodej", "slug": "vyprodej", "tone": "sale" }
+      {
+        "label": "Novinky",
+        "slug": "novinky"
+      },
+      {
+        "label": "Akce",
+        "slug": "akce",
+        "tone": "action"
+      },
+      {
+        "label": "Výprodej",
+        "slug": "vyprodej",
+        "tone": "sale"
+      }
     ],
     "drawer": {
       "addedText": "PŘIDÁNO DO KOŠÍKU",
@@ -201,7 +384,8 @@
       "freeShippingThreshold": 149900,
       "freeShippingLabel": "Do dopravy zdarma zbývá",
       "freeShippingDone": "Máte dopravu zdarma"
-    }
+    },
+    "categoriesSource": "commerce"
   },
   "hero": {
     "slides": [
@@ -413,14 +597,38 @@
   "brands": {
     "heading": "Značky, kterým sami věříme",
     "items": [
-      { "label": "Petzl", "slug": "petzl" },
-      { "label": "Salewa", "slug": "salewa" },
-      { "label": "La Sportiva", "slug": "la-sportiva" },
-      { "label": "Osprey", "slug": "osprey" },
-      { "label": "Deuter", "slug": "deuter" },
-      { "label": "MSR", "slug": "msr" },
-      { "label": "Sea to Summit", "slug": "sea-to-summit" },
-      { "label": "Icebreaker", "slug": "icebreaker" }
+      {
+        "label": "Petzl",
+        "slug": "petzl"
+      },
+      {
+        "label": "Salewa",
+        "slug": "salewa"
+      },
+      {
+        "label": "La Sportiva",
+        "slug": "la-sportiva"
+      },
+      {
+        "label": "Osprey",
+        "slug": "osprey"
+      },
+      {
+        "label": "Deuter",
+        "slug": "deuter"
+      },
+      {
+        "label": "MSR",
+        "slug": "msr"
+      },
+      {
+        "label": "Sea to Summit",
+        "slug": "sea-to-summit"
+      },
+      {
+        "label": "Icebreaker",
+        "slug": "icebreaker"
+      }
     ]
   },
   "loyalty": {
@@ -470,11 +678,31 @@
   },
   "benefitsRow": {
     "items": [
-      { "icon": "truck", "title": "Doprava zdarma", "sub": "od 1 499 Kč" },
-      { "icon": "store", "title": "8 prodejen", "sub": "po celé ČR" },
-      { "icon": "refresh", "title": "90 dní", "sub": "na vyzkoušení" },
-      { "icon": "thumb", "title": "98% spokojenost", "sub": "na Heurece" },
-      { "icon": "review", "title": "8 500+", "sub": "pozitivních recenzí" }
+      {
+        "icon": "truck",
+        "title": "Doprava zdarma",
+        "sub": "od 1 499 Kč"
+      },
+      {
+        "icon": "store",
+        "title": "8 prodejen",
+        "sub": "po celé ČR"
+      },
+      {
+        "icon": "refresh",
+        "title": "90 dní",
+        "sub": "na vyzkoušení"
+      },
+      {
+        "icon": "thumb",
+        "title": "98% spokojenost",
+        "sub": "na Heurece"
+      },
+      {
+        "icon": "review",
+        "title": "8 500+",
+        "sub": "pozitivních recenzí"
+      }
     ]
   },
   "footer": {
@@ -497,41 +725,108 @@
       {
         "heading": "Vše o nákupu",
         "links": [
-          { "label": "Dárkové poukazy", "href": "/obchod" },
-          { "label": "Doprava a platba", "href": "/doprava-a-platba" },
-          { "label": "Vrácení a reklamace", "href": "/vraceni-zbozi" },
-          { "label": "Zákaznický klub", "href": "/klub" },
-          { "label": "Časté dotazy", "href": "/poradna" },
-          { "label": "Obchodní podmínky", "href": "/obchodni-podminky" }
+          {
+            "label": "Dárkové poukazy",
+            "href": "/obchod"
+          },
+          {
+            "label": "Doprava a platba",
+            "href": "/doprava-a-platba"
+          },
+          {
+            "label": "Vrácení a reklamace",
+            "href": "/vraceni-zbozi"
+          },
+          {
+            "label": "Zákaznický klub",
+            "href": "/klub"
+          },
+          {
+            "label": "Časté dotazy",
+            "href": "/poradna"
+          },
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchodni-podminky"
+          }
         ]
       },
       {
         "heading": "Služby",
         "links": [
-          { "label": "Prodejny", "href": "/kontakt" },
-          { "label": "Servis a půjčovna", "href": "/poradna" },
-          { "label": "Skialpové kurzy", "href": "/blog" },
-          { "label": "Poradna", "href": "/poradna" },
-          { "label": "Rezervace na prodejnu", "href": "/kontakt" }
+          {
+            "label": "Prodejny",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Servis a půjčovna",
+            "href": "/poradna"
+          },
+          {
+            "label": "Skialpové kurzy",
+            "href": "/blog"
+          },
+          {
+            "label": "Poradna",
+            "href": "/poradna"
+          },
+          {
+            "label": "Rezervace na prodejnu",
+            "href": "/kontakt"
+          }
         ]
       },
       {
         "heading": "HORAL",
         "links": [
-          { "label": "O nás", "href": "/o-nas" },
-          { "label": "Kontakt", "href": "/kontakt" },
-          { "label": "Blog", "href": "/blog" },
-          { "label": "Značky", "href": "/obchod?kategorie=znacky" },
-          { "label": "Práce u nás", "href": "/o-nas" }
+          {
+            "label": "O nás",
+            "href": "/o-nas"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          },
+          {
+            "label": "Blog",
+            "href": "/blog"
+          },
+          {
+            "label": "Značky",
+            "href": "/obchod?kategorie=znacky"
+          },
+          {
+            "label": "Práce u nás",
+            "href": "/o-nas"
+          }
         ]
       }
     ],
-    "shippingChips": ["PPL", "Zásilkovna", "Balíkovna", "Česká pošta"],
-    "paymentChips": ["GoPay", "Visa", "Mastercard", "Apple Pay"],
+    "shippingChips": [
+      "PPL",
+      "Zásilkovna",
+      "Balíkovna",
+      "Česká pošta"
+    ],
+    "paymentChips": [
+      "GoPay",
+      "Visa",
+      "Mastercard",
+      "Apple Pay"
+    ],
     "socials": [
-      { "icon": "facebook", "href": "https://facebook.com" },
-      { "icon": "instagram", "href": "https://instagram.com" },
-      { "icon": "youtube", "href": "https://youtube.com" }
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com"
+      },
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com"
+      },
+      {
+        "icon": "youtube",
+        "href": "https://youtube.com"
+      }
     ],
     "copyright": "© 2026 HORAL — outdoor specialista. Všechna práva vyhrazena."
   },

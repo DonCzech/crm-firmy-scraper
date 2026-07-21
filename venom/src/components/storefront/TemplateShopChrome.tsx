@@ -5,6 +5,8 @@ import { ContactSection } from "@/components/sections/ContactSection";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { applyCommerceCategoriesToNavbar, fetchCategoryTree, navbarWantsCommerceCategories } from "@/lib/commerce/section-data";
+import { getShopByTenantId } from "@/lib/commerce/shop";
+import { readMegaMenuSettings } from "@/lib/commerce/menu-settings";
 
 /**
  * Per-šablonový chrome storefrontu — u šablon s vlastním navbarem/footerem
@@ -58,8 +60,9 @@ export async function TemplateShopHeader({ tenantId, tenantSlug }: { tenantId: n
   if (!section) return null;
   let content = section.content;
   if (navbarWantsCommerceCategories(content)) {
-    const tree = await fetchCategoryTree(tenantId);
-    content = applyCommerceCategoriesToNavbar(content, tree, `/demo/${tenantSlug}/obchod`);
+    const [tree, shop] = await Promise.all([fetchCategoryTree(tenantId), getShopByTenantId(tenantId)]);
+    const menu = shop ? readMegaMenuSettings(shop) : undefined;
+    content = applyCommerceCategoriesToNavbar(content, tree, `/demo/${tenantSlug}/obchod`, menu);
   }
   return (
     <NavbarSection

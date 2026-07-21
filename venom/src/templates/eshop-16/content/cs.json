@@ -693,7 +693,8 @@
       "minOrderThreshold": 69900,
       "minOrderLabel": "Do minimálního nákupu zbývá",
       "minOrderDone": "Splněno! Můžete k pokladně."
-    }
+    },
+    "categoriesSource": "commerce"
   },
   "footer": {
     "siteName": "Spížka",

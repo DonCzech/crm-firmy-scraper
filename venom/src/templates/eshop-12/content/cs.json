@@ -489,7 +489,8 @@
       "freeShippingThreshold": 129900,
       "freeShippingLabel": "Do dopravy zdarma zbývá",
       "freeShippingDone": "Máte dopravu zdarma"
-    }
+    },
+    "categoriesSource": "commerce"
   },
   "hero": {
     "slides": [

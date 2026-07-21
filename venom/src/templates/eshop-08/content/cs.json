@@ -321,7 +321,8 @@
       "recoCta": "DO KOŠÍKU",
       "emptyText": "Váš košík je zatím prázdný.",
       "continueText": "Pokračovat v nákupu"
-    }
+    },
+    "categoriesSource": "commerce"
   },
   "favCategories": {
     "label": "OBLÍBENÉ KATEGORIE",

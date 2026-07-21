@@ -2,6 +2,7 @@ import { query } from "@/lib/db";
 import type { Section } from "@/lib/db";
 import { initCommerceDb } from "./schema";
 import { getShopByTenantId } from "./shop";
+import { readMegaMenuSettings, type MegaMenuSettings } from "./menu-settings";
 
 /**
  * Server-side hydratace commerce sekcí (Fáze 2).
@@ -203,15 +204,28 @@ export async function fetchCategoryTree(tenantId: number): Promise<CommerceCateg
  * tvary (label/name/title, href/url, children/items/subchildren/links), proto
  * uzel nese všechny. Renderer si vezme jen svůj klíč.
  */
-function categoryNavNode(n: CommerceCategoryNode, storeBase: string): Record<string, unknown> {
+function categoryNavNode(
+  n: CommerceCategoryNode,
+  storeBase: string,
+  menu?: MegaMenuSettings,
+  depth = 1
+): Record<string, unknown> | null {
+  if (menu?.hidden_category_ids.includes(n.id)) return null;
   const href = `${storeBase}?kategorie=${n.slug}`;
-  const children = n.children.map((c) => categoryNavNode(c, storeBase));
+  const children =
+    menu && depth >= menu.max_depth
+      ? []
+      : n.children
+          .map((c) => categoryNavNode(c, storeBase, menu, depth + 1))
+          .filter((c): c is Record<string, unknown> => c !== null);
+  const badge = menu?.badges.find((b) => b.category_id === n.id);
   return {
     label: n.name, name: n.name, title: n.name,
     href, url: href,
     slug: n.slug,
     image: n.image_url ?? undefined,
     count: n.product_count,
+    ...(badge ? { badge: { text: badge.text, tone: badge.tone } } : {}),
     children, items: children, subchildren: children, links: children,
   };
 }
@@ -225,10 +239,23 @@ function categoryNavNode(n: CommerceCategoryNode, storeBase: string): Record<str
 export function applyCommerceCategoriesToNavbar(
   content: Record<string, unknown>,
   tree: CommerceCategoryNode[],
-  storeBase: string
+  storeBase: string,
+  menu?: MegaMenuSettings
 ): Record<string, unknown> {
-  const navNodes = tree.map((n) => categoryNavNode(n, storeBase));
+  const navNodes = tree
+    .map((n) => categoryNavNode(n, storeBase, menu))
+    .filter((n): n is Record<string, unknown> => n !== null);
   const next: Record<string, unknown> = { ...content };
+  // Admin-spravovaná nastavení panelu (promo, vlastní odkazy, zobrazení) —
+  // read-only payload pro StorefrontMegaMenu, mimo editovatelný content.
+  if (menu) {
+    next.__megamenu = {
+      promos: menu.promos,
+      customLinks: menu.custom_links,
+      showCounts: menu.show_counts,
+      showImages: menu.show_images,
+    };
+  }
   // Nejběžnější tvar: categories[] (eshop-03/04/05/15/19 aj.)
   if (Array.isArray(next.categories) || next.categories === undefined) {
     next.categories = navNodes;
@@ -351,10 +378,11 @@ export async function hydrateCommerceSections<T extends Section>(
   const navbarContent = new Map<number, Record<string, unknown>>();
   if (navbarSections.length) {
     const tree = await fetchCategoryTree(tenantId);
+    const menu = readMegaMenuSettings(shop);
     for (const s of navbarSections) {
       const settings = (s.settings ?? {}) as Record<string, unknown>;
       const content = (settings.content ?? {}) as Record<string, unknown>;
-      navbarContent.set(s.id, applyCommerceCategoriesToNavbar(content, tree, storeBase));
+      navbarContent.set(s.id, applyCommerceCategoriesToNavbar(content, tree, storeBase, menu));
     }
   }
 

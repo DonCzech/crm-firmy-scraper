@@ -887,7 +887,8 @@
         ]
       }
     ],
-    "currency": "CZK"
+    "currency": "CZK",
+    "categoriesSource": "commerce"
   },
   "hero": {
     "autoplayMs": 5500,

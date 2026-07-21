@@ -59,14 +59,39 @@
       "href": "/obchod"
     },
     "quickLinks": [
-      { "label": "Střešní box TREKA 460", "href": "/obchod/treka-box-460", "hot": true },
-      { "label": "Autobaterie VOLTIX", "href": "/obchod?kategorie=autobaterie" },
-      { "label": "Exkluzivní nabídka", "href": "/obchod?kategorie=akce" },
-      { "label": "Nosiče kol", "href": "/obchod?kategorie=stresni-boxy-nosice" },
-      { "label": "Letní pneu", "href": "/obchod?kategorie=letni-pneu" },
-      { "label": "Detailing", "href": "/obchod?kategorie=detailing" },
-      { "label": "Žárovky", "href": "/obchod?kategorie=zarovky" },
-      { "label": "Vybavení dílny", "href": "/obchod?kategorie=dilna" }
+      {
+        "label": "Střešní box TREKA 460",
+        "href": "/obchod/treka-box-460",
+        "hot": true
+      },
+      {
+        "label": "Autobaterie VOLTIX",
+        "href": "/obchod?kategorie=autobaterie"
+      },
+      {
+        "label": "Exkluzivní nabídka",
+        "href": "/obchod?kategorie=akce"
+      },
+      {
+        "label": "Nosiče kol",
+        "href": "/obchod?kategorie=stresni-boxy-nosice"
+      },
+      {
+        "label": "Letní pneu",
+        "href": "/obchod?kategorie=letni-pneu"
+      },
+      {
+        "label": "Detailing",
+        "href": "/obchod?kategorie=detailing"
+      },
+      {
+        "label": "Žárovky",
+        "href": "/obchod?kategorie=zarovky"
+      },
+      {
+        "label": "Vybavení dílny",
+        "href": "/obchod?kategorie=dilna"
+      }
     ]
   },
   "actionProducts": {
@@ -107,9 +132,18 @@
       "linkText": "Najít nejbližší pobočku",
       "href": "/obchod",
       "stats": [
-        { "value": "120", "label": "poboček" },
-        { "value": "900+", "label": "servisů" },
-        { "value": "60 min", "label": "příprava objednávky" }
+        {
+          "value": "120",
+          "label": "poboček"
+        },
+        {
+          "value": "900+",
+          "label": "servisů"
+        },
+        {
+          "value": "60 min",
+          "label": "příprava objednávky"
+        }
       ]
     },
     "phone": {
@@ -139,36 +173,87 @@
     "phone": "704 123 456",
     "phoneHours": "Po–Pá 7–19, So 8–14",
     "pickupNote": "Výdej dnes na 120 pobočkách • doprava zdarma od 1 500 Kč",
-    "payments": ["Visa", "Mastercard", "Google Pay", "Apple Pay", "Dobírka"],
+    "payments": [
+      "Visa",
+      "Mastercard",
+      "Google Pay",
+      "Apple Pay",
+      "Dobírka"
+    ],
     "columns": [
       {
         "heading": "Nakupování",
         "links": [
-          { "label": "Obchodní podmínky", "href": "/obchod" },
-          { "label": "Vrácení zboží a reklamace", "href": "/obchod" },
-          { "label": "Doprava a platba", "href": "/obchod" },
-          { "label": "Zpětné odběry", "href": "/obchod" },
-          { "label": "Zásady zpracování osobních údajů", "href": "/obchod" }
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Vrácení zboží a reklamace",
+            "href": "/obchod"
+          },
+          {
+            "label": "Doprava a platba",
+            "href": "/obchod"
+          },
+          {
+            "label": "Zpětné odběry",
+            "href": "/obchod"
+          },
+          {
+            "label": "Zásady zpracování osobních údajů",
+            "href": "/obchod"
+          }
         ]
       },
       {
         "heading": "Společnost",
         "links": [
-          { "label": "O nás", "href": "/obchod" },
-          { "label": "Kariéra", "href": "/obchod" },
-          { "label": "Kontakt", "href": "/obchod" },
-          { "label": "Pobočky", "href": "/obchod" },
-          { "label": "Servisní síť", "href": "/obchod" }
+          {
+            "label": "O nás",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/obchod"
+          },
+          {
+            "label": "Pobočky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Servisní síť",
+            "href": "/obchod"
+          }
         ]
       },
       {
         "heading": "Pro zákazníky",
         "links": [
-          { "label": "Tipy a rady", "href": "/obchod" },
-          { "label": "Rádce Oktan", "href": "/obchod" },
-          { "label": "Moje garáž", "href": "/obchod" },
-          { "label": "Pro dílnu", "href": "/obchod" },
-          { "label": "Aktuální leták", "href": "/obchod?kategorie=akce" }
+          {
+            "label": "Tipy a rady",
+            "href": "/obchod"
+          },
+          {
+            "label": "Rádce Oktan",
+            "href": "/obchod"
+          },
+          {
+            "label": "Moje garáž",
+            "href": "/obchod"
+          },
+          {
+            "label": "Pro dílnu",
+            "href": "/obchod"
+          },
+          {
+            "label": "Aktuální leták",
+            "href": "/obchod?kategorie=akce"
+          }
         ]
       }
     ]
@@ -178,18 +263,40 @@
     "tagline": "díly bez kompromisů",
     "logoUrl": "",
     "usps": [
-      { "label": "Doprava zdarma od 1 500 Kč" },
-      { "label": "Dnes objednáte, zítra vyzvednete" }
+      {
+        "label": "Doprava zdarma od 1 500 Kč"
+      },
+      {
+        "label": "Dnes objednáte, zítra vyzvednete"
+      }
     ],
     "topLinks": [
-      { "label": "Pobočky", "href": "/obchod" },
-      { "label": "Servisní síť", "href": "/obchod" },
-      { "label": "Tipy a rady", "href": "/obchod" }
+      {
+        "label": "Pobočky",
+        "href": "/obchod"
+      },
+      {
+        "label": "Servisní síť",
+        "href": "/obchod"
+      },
+      {
+        "label": "Tipy a rady",
+        "href": "/obchod"
+      }
     ],
-    "phone": { "number": "704 123 456", "hours": "Po–Pá 7–19, So 8–14" },
+    "phone": {
+      "number": "704 123 456",
+      "hours": "Po–Pá 7–19, So 8–14"
+    },
     "searchPlaceholder": "Hledat díl, kód nebo vozidlo…",
-    "garage": { "label": "Moje garáž", "sublabel": "Vyberte vozidlo" },
-    "utility": { "loginLabel": "Přihlášení", "cartLabel": "Košík" },
+    "garage": {
+      "label": "Moje garáž",
+      "sublabel": "Vyberte vozidlo"
+    },
+    "utility": {
+      "loginLabel": "Přihlášení",
+      "cartLabel": "Košík"
+    },
     "catalog": {
       "label": "Katalog",
       "groups": [
@@ -198,12 +305,30 @@
           "slug": "naplne",
           "icon": "oil",
           "links": [
-            { "label": "Motorové oleje", "slug": "motorove-oleje" },
-            { "label": "Převodové oleje", "slug": "prevodove-oleje" },
-            { "label": "Nemrznoucí směsi", "slug": "nemrznouci-smesi" },
-            { "label": "Směsi do ostřikovačů", "slug": "smesi-do-ostrikovacu" },
-            { "label": "Brzdové kapaliny", "slug": "brzdove-kapaliny" },
-            { "label": "Aditiva a přísady", "slug": "aditiva" }
+            {
+              "label": "Motorové oleje",
+              "slug": "motorove-oleje"
+            },
+            {
+              "label": "Převodové oleje",
+              "slug": "prevodove-oleje"
+            },
+            {
+              "label": "Nemrznoucí směsi",
+              "slug": "nemrznouci-smesi"
+            },
+            {
+              "label": "Směsi do ostřikovačů",
+              "slug": "smesi-do-ostrikovacu"
+            },
+            {
+              "label": "Brzdové kapaliny",
+              "slug": "brzdove-kapaliny"
+            },
+            {
+              "label": "Aditiva a přísady",
+              "slug": "aditiva"
+            }
           ]
         },
         {
@@ -211,10 +336,22 @@
           "slug": "autobaterie",
           "icon": "battery",
           "links": [
-            { "label": "Baterie pro osobní vozy", "slug": "baterie-osobni" },
-            { "label": "Nabíječky a startovací zdroje", "slug": "nabijecky" },
-            { "label": "Startovací kabely", "slug": "startovaci-kabely" },
-            { "label": "Testery a příslušenství", "slug": "prislusenstvi-baterii" }
+            {
+              "label": "Baterie pro osobní vozy",
+              "slug": "baterie-osobni"
+            },
+            {
+              "label": "Nabíječky a startovací zdroje",
+              "slug": "nabijecky"
+            },
+            {
+              "label": "Startovací kabely",
+              "slug": "startovaci-kabely"
+            },
+            {
+              "label": "Testery a příslušenství",
+              "slug": "prislusenstvi-baterii"
+            }
           ]
         },
         {
@@ -222,11 +359,26 @@
           "slug": "univerzalni-dily",
           "icon": "bulb",
           "links": [
-            { "label": "Žárovky", "slug": "zarovky" },
-            { "label": "Stěrače", "slug": "sterace" },
-            { "label": "Podvozek a brzdy", "slug": "podvozek-brzdy" },
-            { "label": "Výfukový systém", "slug": "vyfukovy-system" },
-            { "label": "Spojovací materiál", "slug": "spojovaci-material" }
+            {
+              "label": "Žárovky",
+              "slug": "zarovky"
+            },
+            {
+              "label": "Stěrače",
+              "slug": "sterace"
+            },
+            {
+              "label": "Podvozek a brzdy",
+              "slug": "podvozek-brzdy"
+            },
+            {
+              "label": "Výfukový systém",
+              "slug": "vyfukovy-system"
+            },
+            {
+              "label": "Spojovací materiál",
+              "slug": "spojovaci-material"
+            }
           ]
         },
         {
@@ -234,11 +386,26 @@
           "slug": "prislusenstvi",
           "icon": "roofbox",
           "links": [
-            { "label": "Střešní boxy a nosiče", "slug": "stresni-boxy-nosice" },
-            { "label": "Povinná výbava", "slug": "povinna-vybava" },
-            { "label": "Držáky a elektro", "slug": "drzaky-elektro" },
-            { "label": "Kompresory", "slug": "kompresory" },
-            { "label": "Vnitřní doplňky", "slug": "vnitrni-doplnky" }
+            {
+              "label": "Střešní boxy a nosiče",
+              "slug": "stresni-boxy-nosice"
+            },
+            {
+              "label": "Povinná výbava",
+              "slug": "povinna-vybava"
+            },
+            {
+              "label": "Držáky a elektro",
+              "slug": "drzaky-elektro"
+            },
+            {
+              "label": "Kompresory",
+              "slug": "kompresory"
+            },
+            {
+              "label": "Vnitřní doplňky",
+              "slug": "vnitrni-doplnky"
+            }
           ]
         },
         {
@@ -246,10 +413,22 @@
           "slug": "autokosmetika",
           "icon": "spray",
           "links": [
-            { "label": "Detailing", "slug": "detailing" },
-            { "label": "Čištění interiéru", "slug": "interier-cisteni" },
-            { "label": "Čištění karoserie", "slug": "karoserie-cisteni" },
-            { "label": "Péče o disky a pneu", "slug": "disky-pneu-cisteni" }
+            {
+              "label": "Detailing",
+              "slug": "detailing"
+            },
+            {
+              "label": "Čištění interiéru",
+              "slug": "interier-cisteni"
+            },
+            {
+              "label": "Čištění karoserie",
+              "slug": "karoserie-cisteni"
+            },
+            {
+              "label": "Péče o disky a pneu",
+              "slug": "disky-pneu-cisteni"
+            }
           ]
         },
         {
@@ -257,11 +436,26 @@
           "slug": "pneu-disky",
           "icon": "tire",
           "links": [
-            { "label": "Letní pneumatiky", "slug": "letni-pneu" },
-            { "label": "Zimní pneumatiky", "slug": "zimni-pneu" },
-            { "label": "Disky", "slug": "disky" },
-            { "label": "Sněhové řetězy", "slug": "snehove-retezy" },
-            { "label": "Snímače TPMS", "slug": "tpms" }
+            {
+              "label": "Letní pneumatiky",
+              "slug": "letni-pneu"
+            },
+            {
+              "label": "Zimní pneumatiky",
+              "slug": "zimni-pneu"
+            },
+            {
+              "label": "Disky",
+              "slug": "disky"
+            },
+            {
+              "label": "Sněhové řetězy",
+              "slug": "snehove-retezy"
+            },
+            {
+              "label": "Snímače TPMS",
+              "slug": "tpms"
+            }
           ]
         },
         {
@@ -269,10 +463,22 @@
           "slug": "dilna",
           "icon": "wrench",
           "links": [
-            { "label": "Ruční nářadí", "slug": "rucni-naradi" },
-            { "label": "Zvedáky a stojany", "slug": "zvedaky" },
-            { "label": "Diagnostika", "slug": "diagnostika" },
-            { "label": "Garážové vybavení", "slug": "garazove-vybaveni" }
+            {
+              "label": "Ruční nářadí",
+              "slug": "rucni-naradi"
+            },
+            {
+              "label": "Zvedáky a stojany",
+              "slug": "zvedaky"
+            },
+            {
+              "label": "Diagnostika",
+              "slug": "diagnostika"
+            },
+            {
+              "label": "Garážové vybavení",
+              "slug": "garazove-vybaveni"
+            }
           ]
         },
         {
@@ -280,38 +486,100 @@
           "slug": "vyprodej",
           "icon": "sale",
           "links": [
-            { "label": "Doprodej dílů", "slug": "vyprodej" },
-            { "label": "Akce týdne", "slug": "akce" },
-            { "label": "Novinky", "slug": "novinky" }
+            {
+              "label": "Doprodej dílů",
+              "slug": "vyprodej"
+            },
+            {
+              "label": "Akce týdne",
+              "slug": "akce"
+            },
+            {
+              "label": "Novinky",
+              "slug": "novinky"
+            }
           ]
         }
       ],
       "aside": {
         "heading": "Rádce Oktan",
         "links": [
-          { "label": "Jak vybrat motorový olej", "href": "/obchod" },
-          { "label": "Jak vybrat autobaterii", "href": "/obchod" },
-          { "label": "Jak vybrat stěrače", "href": "/obchod" },
-          { "label": "Co znamená značení pneumatik", "href": "/obchod" },
-          { "label": "Mazací plány výrobců", "href": "/obchod" },
-          { "label": "Povinná výbava 2026", "href": "/obchod" }
+          {
+            "label": "Jak vybrat motorový olej",
+            "href": "/obchod"
+          },
+          {
+            "label": "Jak vybrat autobaterii",
+            "href": "/obchod"
+          },
+          {
+            "label": "Jak vybrat stěrače",
+            "href": "/obchod"
+          },
+          {
+            "label": "Co znamená značení pneumatik",
+            "href": "/obchod"
+          },
+          {
+            "label": "Mazací plány výrobců",
+            "href": "/obchod"
+          },
+          {
+            "label": "Povinná výbava 2026",
+            "href": "/obchod"
+          }
         ]
       },
-      "promo": { "text": "Doprava zdarma od 1 500 Kč a výdej dnes na pobočce", "linkText": "Jak nakupovat", "href": "/obchod" }
+      "promo": {
+        "text": "Doprava zdarma od 1 500 Kč a výdej dnes na pobočce",
+        "linkText": "Jak nakupovat",
+        "href": "/obchod"
+      }
     },
     "mainNav": [
-      { "label": "Akce", "href": "/obchod?kategorie=akce" },
-      { "label": "Novinky", "href": "/obchod?kategorie=novinky" },
-      { "label": "Oleje a kapaliny", "href": "/obchod?kategorie=naplne" },
-      { "label": "Autobaterie", "href": "/obchod?kategorie=autobaterie" },
-      { "label": "Pneumatiky a disky", "href": "/obchod?kategorie=pneu-disky" },
-      { "label": "Autokosmetika", "href": "/obchod?kategorie=autokosmetika" },
-      { "label": "Vybavení dílny", "href": "/obchod?kategorie=dilna" },
-      { "label": "Výprodej", "href": "/obchod?kategorie=vyprodej", "highlight": true }
+      {
+        "label": "Akce",
+        "href": "/obchod?kategorie=akce"
+      },
+      {
+        "label": "Novinky",
+        "href": "/obchod?kategorie=novinky"
+      },
+      {
+        "label": "Oleje a kapaliny",
+        "href": "/obchod?kategorie=naplne"
+      },
+      {
+        "label": "Autobaterie",
+        "href": "/obchod?kategorie=autobaterie"
+      },
+      {
+        "label": "Pneumatiky a disky",
+        "href": "/obchod?kategorie=pneu-disky"
+      },
+      {
+        "label": "Autokosmetika",
+        "href": "/obchod?kategorie=autokosmetika"
+      },
+      {
+        "label": "Vybavení dílny",
+        "href": "/obchod?kategorie=dilna"
+      },
+      {
+        "label": "Výprodej",
+        "href": "/obchod?kategorie=vyprodej",
+        "highlight": true
+      }
     ],
     "secondaryNav": [
-      { "label": "Pro dílnu", "href": "/obchod" },
-      { "label": "Moje garáž", "href": "/obchod" }
+      {
+        "label": "Pro dílnu",
+        "href": "/obchod"
+      },
+      {
+        "label": "Moje garáž",
+        "href": "/obchod"
+      }
     ],
     "drawer": {
       "addedText": "Přidáno do košíku",
@@ -324,6 +592,7 @@
       "freeShippingThreshold": 150000,
       "freeShippingLabel": "Do dopravy zdarma zbývá {amount}",
       "freeShippingDone": "Máte dopravu zdarma!"
-    }
+    },
+    "categoriesSource": "commerce"
   }
 }

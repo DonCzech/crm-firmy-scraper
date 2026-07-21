@@ -11,27 +11,64 @@
     "searchPlaceholder": "Zadejte název produktu nebo vybavení k půjčení…",
     "topbar": {
       "serviceLabel": "Zákaznické centrum",
-      "phone": { "number": "704 123 456", "hours": "Po–Pá 7–17, So 7–11:30" },
+      "phone": {
+        "number": "704 123 456",
+        "hours": "Po–Pá 7–17, So 7–11:30"
+      },
       "links": [
-        { "label": "Seznam prodejen", "href": "/obchod", "highlight": true },
-        { "label": "Vyberte si prodejnu", "href": "/obchod" }
+        {
+          "label": "Seznam prodejen",
+          "href": "/obchod",
+          "highlight": true
+        },
+        {
+          "label": "Vyberte si prodejnu",
+          "href": "/obchod"
+        }
       ]
     },
-    "utility": { "loginLabel": "Přihlášení", "cartLabel": "Košík" },
+    "utility": {
+      "loginLabel": "Přihlášení",
+      "cartLabel": "Košík"
+    },
     "categories": [
       {
         "label": "Stavebniny",
         "slug": "stavebniny",
         "icon": "brick",
         "links": [
-          { "label": "Hrubá stavba", "slug": "hruba-stavba" },
-          { "label": "Střechy", "slug": "strechy" },
-          { "label": "Tepelné izolace", "slug": "tepelne-izolace" },
-          { "label": "Hydroizolace", "slug": "hydroizolace" },
-          { "label": "Suchá výstavba", "slug": "sucha-vystavba" },
-          { "label": "Fasádní systémy", "slug": "fasadni-systemy" },
-          { "label": "Suché směsi a stavební chemie", "slug": "suche-smesi" },
-          { "label": "Podlahy a obklady", "slug": "podlahy-obklady" }
+          {
+            "label": "Hrubá stavba",
+            "slug": "hruba-stavba"
+          },
+          {
+            "label": "Střechy",
+            "slug": "strechy"
+          },
+          {
+            "label": "Tepelné izolace",
+            "slug": "tepelne-izolace"
+          },
+          {
+            "label": "Hydroizolace",
+            "slug": "hydroizolace"
+          },
+          {
+            "label": "Suchá výstavba",
+            "slug": "sucha-vystavba"
+          },
+          {
+            "label": "Fasádní systémy",
+            "slug": "fasadni-systemy"
+          },
+          {
+            "label": "Suché směsi a stavební chemie",
+            "slug": "suche-smesi"
+          },
+          {
+            "label": "Podlahy a obklady",
+            "slug": "podlahy-obklady"
+          }
         ]
       },
       {
@@ -39,10 +76,22 @@
         "slug": "elektromaterial",
         "icon": "plug",
         "links": [
-          { "label": "Kabely a vodiče", "slug": "kabely-vodice" },
-          { "label": "Jističe a rozvaděče", "slug": "jistice-rozvadece" },
-          { "label": "Vypínače a zásuvky", "slug": "vypinace-zasuvky" },
-          { "label": "Osvětlení", "slug": "osvetleni" }
+          {
+            "label": "Kabely a vodiče",
+            "slug": "kabely-vodice"
+          },
+          {
+            "label": "Jističe a rozvaděče",
+            "slug": "jistice-rozvadece"
+          },
+          {
+            "label": "Vypínače a zásuvky",
+            "slug": "vypinace-zasuvky"
+          },
+          {
+            "label": "Osvětlení",
+            "slug": "osvetleni"
+          }
         ]
       },
       {
@@ -50,10 +99,22 @@
         "slug": "voda-topeni-sanita",
         "icon": "tap",
         "links": [
-          { "label": "Rozvody vody", "slug": "rozvody-vody" },
-          { "label": "Topení", "slug": "topeni" },
-          { "label": "Sanita", "slug": "sanita" },
-          { "label": "Odvodnění a drenáže", "slug": "odvodneni" }
+          {
+            "label": "Rozvody vody",
+            "slug": "rozvody-vody"
+          },
+          {
+            "label": "Topení",
+            "slug": "topeni"
+          },
+          {
+            "label": "Sanita",
+            "slug": "sanita"
+          },
+          {
+            "label": "Odvodnění a drenáže",
+            "slug": "odvodneni"
+          }
         ]
       },
       {
@@ -61,11 +122,26 @@
         "slug": "naradi",
         "icon": "drill",
         "links": [
-          { "label": "Elektrické nářadí", "slug": "elektricke-naradi" },
-          { "label": "Ruční nářadí", "slug": "rucni-naradi" },
-          { "label": "Měřicí technika", "slug": "merici-technika" },
-          { "label": "Žebříky a lešení", "slug": "zebriky-leseni" },
-          { "label": "Ochranné pomůcky", "slug": "ochranne-pomucky" }
+          {
+            "label": "Elektrické nářadí",
+            "slug": "elektricke-naradi"
+          },
+          {
+            "label": "Ruční nářadí",
+            "slug": "rucni-naradi"
+          },
+          {
+            "label": "Měřicí technika",
+            "slug": "merici-technika"
+          },
+          {
+            "label": "Žebříky a lešení",
+            "slug": "zebriky-leseni"
+          },
+          {
+            "label": "Ochranné pomůcky",
+            "slug": "ochranne-pomucky"
+          }
         ]
       },
       {
@@ -73,10 +149,22 @@
         "slug": "barvy-laky",
         "icon": "roller",
         "links": [
-          { "label": "Interiérové barvy", "slug": "interierove-barvy" },
-          { "label": "Fasádní barvy", "slug": "fasadni-barvy" },
-          { "label": "Laky a lazury", "slug": "laky-lazury" },
-          { "label": "Malířské potřeby", "slug": "malirske-potreby" }
+          {
+            "label": "Interiérové barvy",
+            "slug": "interierove-barvy"
+          },
+          {
+            "label": "Fasádní barvy",
+            "slug": "fasadni-barvy"
+          },
+          {
+            "label": "Laky a lazury",
+            "slug": "laky-lazury"
+          },
+          {
+            "label": "Malířské potřeby",
+            "slug": "malirske-potreby"
+          }
         ]
       },
       {
@@ -84,25 +172,59 @@
         "slug": "pujcovna",
         "icon": "excavator",
         "links": [
-          { "label": "Stavební stroje", "slug": "stavebni-stroje" },
-          { "label": "Vibrační technika", "slug": "vibracni-technika" },
-          { "label": "Lešení k pronájmu", "slug": "leseni-pujcovna" },
-          { "label": "Úklid stavby", "slug": "uklid-stavby" }
+          {
+            "label": "Stavební stroje",
+            "slug": "stavebni-stroje"
+          },
+          {
+            "label": "Vibrační technika",
+            "slug": "vibracni-technika"
+          },
+          {
+            "label": "Lešení k pronájmu",
+            "slug": "leseni-pujcovna"
+          },
+          {
+            "label": "Úklid stavby",
+            "slug": "uklid-stavby"
+          }
         ]
       }
     ],
     "megaAside": {
       "heading": "Rádce Grunt",
       "links": [
-        { "label": "Jak založit první řadu zdiva", "href": "/obchod" },
-        { "label": "Kolik izolace na rodinný dům", "href": "/obchod" },
-        { "label": "Skladba ploché střechy krok za krokem", "href": "/obchod" },
-        { "label": "Kalkulátor spotřeby materiálu", "href": "/obchod" }
+        {
+          "label": "Jak založit první řadu zdiva",
+          "href": "/obchod"
+        },
+        {
+          "label": "Kolik izolace na rodinný dům",
+          "href": "/obchod"
+        },
+        {
+          "label": "Skladba ploché střechy krok za krokem",
+          "href": "/obchod"
+        },
+        {
+          "label": "Kalkulátor spotřeby materiálu",
+          "href": "/obchod"
+        }
       ]
     },
-    "megaPromo": { "text": "Doprava vlastní flotilou s hydraulickou rukou až na stavbu", "linkText": "Jak objednat", "href": "/obchod" },
-    "b2b": { "label": "B2B portál Grunt", "href": "/obchod" },
-    "sale": { "label": "Akce", "href": "/obchod?kategorie=akce" },
+    "megaPromo": {
+      "text": "Doprava vlastní flotilou s hydraulickou rukou až na stavbu",
+      "linkText": "Jak objednat",
+      "href": "/obchod"
+    },
+    "b2b": {
+      "label": "B2B portál Grunt",
+      "href": "/obchod"
+    },
+    "sale": {
+      "label": "Akce",
+      "href": "/obchod?kategorie=akce"
+    },
     "drawer": {
       "addedText": "Přidáno do košíku",
       "totalLabel": "Mezisoučet",
@@ -114,7 +236,8 @@
       "freeShippingThreshold": 500000,
       "freeShippingLabel": "Do dopravy zdarma zbývá {amount}",
       "freeShippingDone": "Máte dopravu zdarma!"
-    }
+    },
+    "categoriesSource": "commerce"
   },
   "hero": {
     "slides": [
@@ -167,12 +290,36 @@
   "categoryTiles": {
     "heading": "Vybírejte z našeho širokého sortimentu",
     "items": [
-      { "label": "Stavebniny", "slug": "stavebniny", "image": "https://images.unsplash.com/photo-1616621859311-19dff47afafc?w=640&h=480&fit=crop&auto=format&q=75" },
-      { "label": "Elektromateriál", "slug": "elektromaterial", "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=640&h=480&fit=crop&auto=format&q=75" },
-      { "label": "Voda Topení Sanita", "slug": "voda-topeni-sanita", "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=640&h=480&fit=crop&auto=format&q=75" },
-      { "label": "Nářadí", "slug": "naradi", "image": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=640&h=480&fit=crop&auto=format&q=75" },
-      { "label": "Barvy a laky", "slug": "barvy-laky", "image": "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=640&h=480&fit=crop&auto=format&q=75" },
-      { "label": "Půjčovna", "slug": "pujcovna", "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=640&h=480&fit=crop&auto=format&q=75" }
+      {
+        "label": "Stavebniny",
+        "slug": "stavebniny",
+        "image": "https://images.unsplash.com/photo-1616621859311-19dff47afafc?w=640&h=480&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Elektromateriál",
+        "slug": "elektromaterial",
+        "image": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=640&h=480&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Voda Topení Sanita",
+        "slug": "voda-topeni-sanita",
+        "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=640&h=480&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Nářadí",
+        "slug": "naradi",
+        "image": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=640&h=480&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Barvy a laky",
+        "slug": "barvy-laky",
+        "image": "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=640&h=480&fit=crop&auto=format&q=75"
+      },
+      {
+        "label": "Půjčovna",
+        "slug": "pujcovna",
+        "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=640&h=480&fit=crop&auto=format&q=75"
+      }
     ]
   },
   "picks": {
@@ -231,9 +378,18 @@
     "services": {
       "title": "Služby na prodejnách",
       "links": [
-        { "label": "Půjčovna", "href": "/obchod?kategorie=pujcovna" },
-        { "label": "Míchárna omítek a barev", "href": "/obchod" },
-        { "label": "Klempířská dílna", "href": "/obchod" }
+        {
+          "label": "Půjčovna",
+          "href": "/obchod?kategorie=pujcovna"
+        },
+        {
+          "label": "Míchárna omítek a barev",
+          "href": "/obchod"
+        },
+        {
+          "label": "Klempířská dílna",
+          "href": "/obchod"
+        }
       ],
       "ctaText": "Všechny služby",
       "ctaHref": "/obchod"
@@ -241,9 +397,18 @@
     "jobs": {
       "title": "Zaměstnání v Gruntu",
       "links": [
-        { "label": "Volná pracovní místa", "href": "/obchod" },
-        { "label": "Kariéra", "href": "/obchod" },
-        { "label": "Často kladené otázky", "href": "/obchod" }
+        {
+          "label": "Volná pracovní místa",
+          "href": "/obchod"
+        },
+        {
+          "label": "Kariéra",
+          "href": "/obchod"
+        },
+        {
+          "label": "Často kladené otázky",
+          "href": "/obchod"
+        }
       ],
       "ctaText": "Zjistit více",
       "ctaHref": "/obchod"
@@ -262,23 +427,59 @@
     "ctaText": "Všechny značky",
     "ctaHref": "/obchod",
     "brands": [
-      { "name": "KVADRIT", "style": "slab" },
-      { "name": "Termolan", "style": "soft" },
-      { "name": "HYDROTES", "style": "mono" },
-      { "name": "fasadin", "style": "script" },
-      { "name": "OCELIT", "style": "steel" },
-      { "name": "LUMEN+", "style": "electric" },
-      { "name": "Akvaterm", "style": "wave" },
-      { "name": "GRUNT Mix", "style": "brand" }
+      {
+        "name": "KVADRIT",
+        "style": "slab"
+      },
+      {
+        "name": "Termolan",
+        "style": "soft"
+      },
+      {
+        "name": "HYDROTES",
+        "style": "mono"
+      },
+      {
+        "name": "fasadin",
+        "style": "script"
+      },
+      {
+        "name": "OCELIT",
+        "style": "steel"
+      },
+      {
+        "name": "LUMEN+",
+        "style": "electric"
+      },
+      {
+        "name": "Akvaterm",
+        "style": "wave"
+      },
+      {
+        "name": "GRUNT Mix",
+        "style": "brand"
+      }
     ]
   },
   "usefulLinks": {
     "heading": "Užitečné odkazy",
     "links": [
-      { "label": "Kalkulátory", "href": "/obchod" },
-      { "label": "Jak poptat a objednat", "href": "/obchod" },
-      { "label": "Katalogy ke stažení", "href": "/obchod" },
-      { "label": "Poradna pro stavebníky", "href": "/obchod" }
+      {
+        "label": "Kalkulátory",
+        "href": "/obchod"
+      },
+      {
+        "label": "Jak poptat a objednat",
+        "href": "/obchod"
+      },
+      {
+        "label": "Katalogy ke stažení",
+        "href": "/obchod"
+      },
+      {
+        "label": "Poradna pro stavebníky",
+        "href": "/obchod"
+      }
     ]
   },
   "footer": {
@@ -288,41 +489,95 @@
         "title": "Vše o nákupu",
         "name": "Vše o nákupu",
         "links": [
-          { "label": "Obchodní podmínky", "href": "/obchod" },
-          { "label": "Reklamace a vrácení zboží", "href": "/obchod" },
-          { "label": "Značky", "href": "/obchod" },
-          { "label": "Slovník pojmů", "href": "/obchod" },
-          { "label": "Zpracování osobních údajů", "href": "/obchod" },
-          { "label": "Nastavení cookies", "href": "/obchod" }
+          {
+            "label": "Obchodní podmínky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Reklamace a vrácení zboží",
+            "href": "/obchod"
+          },
+          {
+            "label": "Značky",
+            "href": "/obchod"
+          },
+          {
+            "label": "Slovník pojmů",
+            "href": "/obchod"
+          },
+          {
+            "label": "Zpracování osobních údajů",
+            "href": "/obchod"
+          },
+          {
+            "label": "Nastavení cookies",
+            "href": "/obchod"
+          }
         ]
       },
       {
         "title": "Užitečné informace",
         "name": "Užitečné informace",
         "links": [
-          { "label": "Dokumenty", "href": "/obchod" },
-          { "label": "Technická podpora", "href": "/obchod" },
-          { "label": "Dodací listy", "href": "/obchod" },
-          { "label": "Vystavování dokladů | EDI", "href": "/obchod" },
-          { "label": "Projekty a granty", "href": "/obchod" },
-          { "label": "O nás", "href": "/obchod" }
+          {
+            "label": "Dokumenty",
+            "href": "/obchod"
+          },
+          {
+            "label": "Technická podpora",
+            "href": "/obchod"
+          },
+          {
+            "label": "Dodací listy",
+            "href": "/obchod"
+          },
+          {
+            "label": "Vystavování dokladů | EDI",
+            "href": "/obchod"
+          },
+          {
+            "label": "Projekty a granty",
+            "href": "/obchod"
+          },
+          {
+            "label": "O nás",
+            "href": "/obchod"
+          }
         ]
       },
       {
         "title": "Skupina Grunt",
         "name": "Skupina Grunt",
         "links": [
-          { "label": "O skupině Grunt", "href": "/obchod" },
-          { "label": "Volná pracovní místa", "href": "/obchod" },
-          { "label": "Kariéra", "href": "/obchod" },
-          { "label": "Výroční publikace", "href": "/obchod" },
-          { "label": "Kontakt pro média", "href": "/obchod" }
+          {
+            "label": "O skupině Grunt",
+            "href": "/obchod"
+          },
+          {
+            "label": "Volná pracovní místa",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kariéra",
+            "href": "/obchod"
+          },
+          {
+            "label": "Výroční publikace",
+            "href": "/obchod"
+          },
+          {
+            "label": "Kontakt pro média",
+            "href": "/obchod"
+          }
         ]
       }
     ],
     "helpTitle": "Nevíte si rady?",
     "helpLinks": [
-      { "label": "Často kladené otázky", "href": "/obchod" }
+      {
+        "label": "Často kladené otázky",
+        "href": "/obchod"
+      }
     ],
     "contactHeading": "Kontaktujte naše",
     "contactTitle": "Zákaznické centrum",
@@ -334,9 +589,18 @@
     "bottom": {
       "ssl": "Bezpečné nakupování díky šifrování SSL",
       "badges": [
-        { "label": "Ověřený e-shop", "sub": "zákaznické recenze" },
-        { "label": "E-shop roku 2026", "sub": "Cena kvality · Stavba" },
-        { "label": "TOP prodejce 2025", "sub": "stavebniny" }
+        {
+          "label": "Ověřený e-shop",
+          "sub": "zákaznické recenze"
+        },
+        {
+          "label": "E-shop roku 2026",
+          "sub": "Cena kvality · Stavba"
+        },
+        {
+          "label": "TOP prodejce 2025",
+          "sub": "stavebniny"
+        }
       ]
     }
   }

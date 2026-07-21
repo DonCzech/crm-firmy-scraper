@@ -202,7 +202,8 @@
         "slug": "novinky",
         "tone": "light"
       }
-    ]
+    ],
+    "categoriesSource": "commerce"
   },
   "pages": {
     "onas": {

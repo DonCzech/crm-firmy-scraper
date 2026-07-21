@@ -24,6 +24,7 @@ import { BulkOperationsTab } from "./BulkOperationsTab";
 import { TranslationsTab } from "./TranslationsTab";
 import { AbandonedCartsTab } from "./AbandonedCartsTab";
 import { SearchTab } from "./SearchTab";
+import { MenuTab } from "./MenuTab";
 import { ModulesTab } from "./ModulesTab";
 import { EmailCampaignsTab } from "./EmailCampaignsTab";
 import { SmsTab } from "./SmsTab";
@@ -41,7 +42,7 @@ import {
   type CommerceAdminDesign,
 } from "./shared";
 
-type TabKey = "dashboard" | "orders" | "products" | "categories" | "customers" | "marketing" | "email-campaigns" | "sms" | "affiliates" | "seo" | "stock-sync" | "auto-import" | "bundles" | "wholesale" | "shipping" | "documents" | "stats" | "import" | "feeds" | "settings" | "params" | "gift-cards" | "loyalty" | "subscriptions" | "webhooks" | "ab-tests" | "stock-movements" | "bulk" | "translations" | "abandoned-carts" | "search" | "modules";
+type TabKey = "dashboard" | "orders" | "products" | "categories" | "customers" | "marketing" | "email-campaigns" | "sms" | "affiliates" | "seo" | "stock-sync" | "auto-import" | "bundles" | "wholesale" | "shipping" | "documents" | "stats" | "import" | "feeds" | "settings" | "params" | "gift-cards" | "loyalty" | "subscriptions" | "webhooks" | "ab-tests" | "stock-movements" | "bulk" | "translations" | "abandoned-carts" | "search" | "menu" | "modules";
 
 /** Admin taby vázané na placený modul — bez aktivace se místo obsahu ukáže ModuleGate. */
 const TAB_MODULE: Partial<Record<TabKey, { slug: string; name: string; price: number }>> = {
@@ -66,7 +67,7 @@ const TAB_MODULE: Partial<Record<TabKey, { slug: string; name: string; price: nu
 const NAV_GROUPS: Array<{ label: string | null; keys: TabKey[] }> = [
   { label: null, keys: ["dashboard", "stats"] },
   { label: "Prodej", keys: ["orders", "abandoned-carts", "customers", "wholesale", "documents"] },
-  { label: "Katalog", keys: ["products", "categories", "params", "bundles", "stock-movements", "stock-sync"] },
+  { label: "Katalog", keys: ["products", "categories", "menu", "params", "bundles", "stock-movements", "stock-sync"] },
   { label: "Marketing", keys: ["marketing", "search", "email-campaigns", "sms", "affiliates", "gift-cards", "loyalty", "subscriptions", "ab-tests"] },
   { label: "Nástroje", keys: ["import", "auto-import", "bulk", "feeds", "seo", "translations", "webhooks"] },
   { label: "Nastavení", keys: ["shipping", "modules", "settings"] },
@@ -88,6 +89,10 @@ const NAV: Array<{ key: TabKey; label: string; icon: React.ReactNode }> = [
   {
     key: "categories", label: "Kategorie",
     icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" /></svg>,
+  },
+  {
+    key: "menu", label: "Menu",
+    icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="15" y2="12" /><line x1="3" y1="18" x2="17" y2="18" /><circle cx="19.5" cy="15" r="1.5" /></svg>,
   },
   {
     key: "customers", label: "Zákazníci",
@@ -237,6 +242,7 @@ const TAB_SUBTITLES: Record<TabKey, string> = {
   translations: "Jazykové verze obsahu",
   "abandoned-carts": "Rozpracované košíky a jejich záchrana",
   search: "Našeptávač, synonyma, boosting a statistiky hledání",
+  menu: "Megamenu e-shopu — odznaky, promo bannery a vlastní odkazy",
   modules: "Moduly k pronájmu a tarify obchodu",
 };
 
@@ -272,6 +278,7 @@ const TAB_TITLES: Record<TabKey, string> = {
   translations: "Překlady",
   "abandoned-carts": "Opuštěné košíky",
   search: "Chytré vyhledávání",
+  menu: "Menu e-shopu",
   modules: "Doplňky a tarif",
 };
 
@@ -705,6 +712,7 @@ export function CommerceAdmin({ tenantSlug, shopName, currency, initialDesign }:
               />
             )}
             {tab === "categories" && <CategoriesTab base={base} />}
+            {tab === "menu" && <MenuTab base={base} />}
             {tab === "customers" && <CustomersTab base={base} currency={currency} />}
             {tab === "marketing" && !tabLocked && <MarketingTab base={base} />}
             {tab === "email-campaigns" && !tabLocked && <EmailCampaignsTab base={base} />}

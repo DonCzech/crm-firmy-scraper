@@ -24692,7 +24692,7 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
                           }}>{cat.badge.text}</span>
                         )}
                       </span>
-                      {megaExtras.showCounts && cat.count !== undefined && <span className="es02-mega-count">{cat.count}</span>}
+                      {megaExtras.showCounts && !!cat.count && <span className="es02-mega-count">{cat.count}</span>}
                       <span className="es02-rail-arrow">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
                       </span>
@@ -24720,14 +24720,14 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
                               <img src={sub.image} alt="" loading="lazy" className="es02-sub-thumb" />
                             )}
                             <span style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.3, flex: 1, minWidth: 0 }}>{sub.label}</span>
-                            {megaExtras.showCounts && sub.count !== undefined && <span className="es02-mega-count">{sub.count}</span>}
+                            {megaExtras.showCounts && !!sub.count && <span className="es02-mega-count">{sub.count}</span>}
                           </a>
                           {sub.children.length > 0 && (
                             <div>
                               {sub.children.slice(0, 5).map((s3) => (
                                 <a key={s3.slug ?? s3.label} href={catHref(s3.slug ?? "")} className="es02-sub-link">
                                   <span>{s3.label}</span>
-                                  {megaExtras.showCounts && s3.count !== undefined && <span className="es02-mega-count">{s3.count}</span>}
+                                  {megaExtras.showCounts && !!s3.count && <span className="es02-mega-count">{s3.count}</span>}
                                 </a>
                               ))}
                               {sub.children.length > 5 && (
@@ -24748,7 +24748,7 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
                       )}
                       <span style={{ display: "flex", flexDirection: "column", gap: 5 }}>
                         <span style={{ fontSize: 17, fontWeight: 800 }}>{activeNode.label}</span>
-                        {megaExtras.showCounts && activeNode.count !== undefined && <span className="es02-mega-count">{activeNode.count} produktů</span>}
+                        {megaExtras.showCounts && !!activeNode.count && <span className="es02-mega-count">{activeNode.count} produktů</span>}
                         <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 6, fontSize: 13.5, fontWeight: 700, color: BLUE }}>
                           Zobrazit produkty
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
@@ -24785,7 +24785,7 @@ function NavbarEshop02({ content, isAdmin, tenantSlug, sectionId }: Props) {
                       <span className="es02-promo-scrim" />
                       <span style={{ position: "absolute", left: 18, right: 18, bottom: 18, display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                         <span style={{ color: "#fff", fontSize: 18, fontWeight: 800, lineHeight: 1.25 }}>{activeNode.label}</span>
-                        {megaExtras.showCounts && activeNode.count !== undefined && (
+                        {megaExtras.showCounts && !!activeNode.count && (
                           <span style={{ color: "rgba(255,255,255,0.85)", fontSize: 12.5, fontWeight: 600, marginTop: 4 }}>{activeNode.count} produktů</span>
                         )}
                         <span className="es02-promo-cta">
@@ -25207,7 +25207,7 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
                 <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, marginBottom: 18 }}>
                   <span style={{ fontFamily: SANS, fontSize: 21, fontWeight: 900, color: BLACK, textTransform: "uppercase", letterSpacing: "0.02em" }}>
                     {megaNode.label}
-                    {megaExtras.showCounts && megaNode.count !== undefined && (
+                    {megaExtras.showCounts && !!megaNode.count && (
                       <span style={{ marginLeft: 12, fontSize: 13, fontWeight: 800, color: MUTED, letterSpacing: "0.06em" }}>{megaNode.count} produktů</span>
                     )}
                   </span>
@@ -25238,7 +25238,7 @@ function NavbarEshop03({ content, isAdmin, tenantSlug, sectionId }: Props) {
                           ) : (
                             <span className="es03-tile-mono">{sub.label.charAt(0)}</span>
                           )}
-                          {megaExtras.showCounts && sub.count !== undefined && <span className="es03-tile-count">{sub.count}</span>}
+                          {megaExtras.showCounts && !!sub.count && <span className="es03-tile-count">{sub.count}</span>}
                         </span>
                         <span className="es03-tile-label">
                           {sub.label}
@@ -25723,14 +25723,14 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
                           <img src={sub.image} alt="" loading="lazy" className="es04-mega-thumb" />
                         )}
                         <span style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 700, lineHeight: 1.35, flex: 1, minWidth: 0, textTransform: "uppercase", letterSpacing: "0.04em", transition: "color 0.14s" }}>{sub.label}</span>
-                        {megaExtras.showCounts && sub.count !== undefined && <span className="es04-mega-count">{sub.count}</span>}
+                        {megaExtras.showCounts && !!sub.count && <span className="es04-mega-count">{sub.count}</span>}
                       </a>
                       {sub.children.length > 0 && (
                         <div>
                           {sub.children.slice(0, 6).map((s3) => (
                             <a key={s3.slug ?? s3.label} href={catHref(s3.slug ?? "")} className="es04-mega-link">
                               <span>{s3.label}</span>
-                              {megaExtras.showCounts && s3.count !== undefined && <span className="es04-mega-count">{s3.count}</span>}
+                              {megaExtras.showCounts && !!s3.count && <span className="es04-mega-count">{s3.count}</span>}
                             </a>
                           ))}
                           {sub.children.length > 6 && (
@@ -25758,7 +25758,7 @@ function NavbarEshop04({ content, isAdmin, tenantSlug, sectionId }: Props) {
                         </span>
                         {megaPromo?.subtitle ? (
                           <span style={{ color: "rgba(255,255,255,0.88)", fontSize: 12, fontWeight: 500, lineHeight: 1.5 }}>{megaPromo.subtitle}</span>
-                        ) : megaExtras.showCounts && megaNode.count !== undefined ? (
+                        ) : megaExtras.showCounts && !!megaNode.count ? (
                           <span style={{ color: "rgba(255,255,255,0.88)", fontSize: 12, fontWeight: 600 }}>{megaNode.count} produktů</span>
                         ) : null}
                         <span style={{
@@ -26048,6 +26048,19 @@ function NavbarEshop05({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const topLinks = ((content as Record<string, unknown>).topLinks as Array<{ label: string; href: string }>) ?? [];
   const staticCategories = ((content as Record<string, unknown>).categories as Es05NavCategory[]) ?? [];
   const categories = shopCats ?? staticCategories;
+  // Pompo: „Všechny hračky" — plný katalog se sidebar megamenu přes všechny kategorie
+  const allToys: Es05NavCategory = {
+    label: "Všechny hračky",
+    slug: "",
+    hasSidebar: true,
+    children: categories.map((c) => ({
+      label: c.label,
+      slug: c.slug,
+      image: (c as { image?: string }).image,
+      subchildren: (c.children ?? []).map((k) => ({ label: k.label, slug: k.slug, image: (k as { image?: string }).image })),
+    })),
+  } as Es05NavCategory;
+  const navCats = [allToys, ...categories.slice(0, 10)];
   const megaBrands = ((content as Record<string, unknown>).megaBrands as string[]) ?? [];
   const megaProduct = (content as Record<string, unknown>).megaProduct as Es05Reco | undefined;
   const siteMode = String(content.siteMode ?? "multipage");
@@ -26073,6 +26086,11 @@ function NavbarEshop05({ content, isAdmin, tenantSlug, sectionId }: Props) {
           border-radius: 3px; background: ${RED};
           transform: scaleX(0); transform-origin: left center; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
         }
+        .es05-alltoys { transition: background 0.16s, box-shadow 0.16s; }
+        .es05-alltoys:hover, .es05-alltoys.es05-active { background: ${RED_DARK} !important; box-shadow: 0 8px 20px rgba(255,59,92,0.45) !important; }
+        .es05-nav-item.es05-alltoys, .es05-nav-item.es05-alltoys:hover, .es05-nav-item.es05-alltoys.es05-active,
+        .es05-nav-item.es05-alltoys:hover *, .es05-nav-item.es05-alltoys.es05-active * { color: #fff !important; }
+        .es05-alltoys::after { display: none !important; }
         .es05-nav-item:hover, .es05-nav-item.es05-active { color: ${RED} !important; }
         .es05-nav-item:hover::after, .es05-nav-item.es05-active::after { transform: scaleX(1); }
         .es05-nav-item:hover svg, .es05-nav-item.es05-active svg { transform: rotate(180deg); }
@@ -26282,35 +26300,42 @@ function NavbarEshop05({ content, isAdmin, tenantSlug, sectionId }: Props) {
         {/* ═══ NAV BAR + MEGA MENU ═══ */}
         <nav className="hidden md:block" style={{ background: "#fff", position: "relative", borderTop: `1px solid ${BORDER}` }} onMouseLeave={() => setOpenCat(null)}>
           <div data-es05-nav-inner="" style={{ maxWidth: 1580, margin: "0 auto", padding: "0 14px", display: "flex", alignItems: "center" }}>
-            {categories.map((cat, ci) => {
+            {navCats.map((cat, ci) => {
               const kids = cat.children ?? [];
               const hasKids = kids.length > 0;
               const isOpen = openCat === ci;
+              const isAllToys = ci === 0;
               const useSidebar = cat.hasSidebar && kids.some(k => (k.subchildren ?? []).length > 0);
               const isBrandCat = cat.label === "Top značky";
               const isCompact = !useSidebar;
               const activeChild = useSidebar && isOpen ? kids[openSubIdx] ?? kids[0] : null;
               const subKids = activeChild?.subchildren ?? [];
               return (
-                <div key={cat.label} data-es05-cat={ci} style={{ position: "relative" }}
-                  onMouseEnter={() => { if (hasKids) { setOpenCat(ci); setOpenSubIdx(0); } else setOpenCat(null); }}
+                <div key={cat.label} data-es05-cat={ci} style={{ position: useSidebar ? "static" : "relative" }}
+                  onMouseEnter={() => { setOpenCat(ci); setOpenSubIdx(0); }}
                 >
-                  <a href={catHref(cat.slug)} className={`es05-nav-item${isOpen ? " es05-active" : ""}`} style={{
-                    display: "flex", alignItems: "center", gap: 5,
-                    padding: "0 14px", height: 56,
-                    fontFamily: SANS, fontSize: 14.5, fontWeight: 800, color: NAVY,
+                  <a href={catHref(cat.slug)} className={`es05-nav-item${isAllToys ? " es05-alltoys" : ""}${isOpen ? " es05-active" : ""}`} style={{
+                    display: "flex", alignItems: "center", gap: isAllToys ? 8 : 5,
+                    padding: isAllToys ? "0 18px" : "0 14px", height: isAllToys ? 40 : 56,
+                    margin: isAllToys ? "8px 10px 8px 0" : 0,
+                    borderRadius: isAllToys ? 20 : 0,
+                    background: isAllToys ? RED : "transparent",
+                    fontFamily: SANS, fontSize: 14.5, fontWeight: 800, color: isAllToys ? "#fff" : NAVY,
                     textDecoration: "none", whiteSpace: "nowrap",
+                    boxShadow: isAllToys ? "0 6px 16px rgba(255,59,92,0.35)" : "none",
+                    alignSelf: isAllToys ? "center" : "stretch",
                   }}>
-                    {cat.label}
-                    {hasKids && (
-                      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.22s" }}>
-                        <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                    {isAllToys && (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
                     )}
+                    {cat.label}
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ transition: "transform 0.22s" }}>
+                      <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                   </a>
 
                   {/* MEGA MENU — compact under category, full-width stretches viewport */}
-                  {isOpen && hasKids && (
+                  {isOpen && (
                     <div className={`es05-mega-enter${isCompact ? " es05-mega-compact" : " es05-mega-full"}`} style={{
                       position: "absolute", top: "100%", zIndex: 200,
                       background: "#fff",
@@ -26318,14 +26343,64 @@ function NavbarEshop05({ content, isAdmin, tenantSlug, sectionId }: Props) {
                       boxShadow: "0 30px 70px rgba(14,27,44,0.18)",
                       overflow: isCompact ? "hidden" : "visible",
                       ...(isCompact
-                        ? (ci >= categories.length - 3
+                        ? (ci > navCats.length / 2
                           ? { right: 0, width: "auto", maxWidth: 780, minWidth: 580 }
                           : { left: 0, width: "auto", maxWidth: 780, minWidth: 580 })
-                        : { left: "50%", transform: "translateX(-50%)", width: "100vw", maxWidth: "100vw" }),
+                        : { left: 0, right: 0, width: "auto" }),
                     }}>
               <div style={{ height: 3, background: `linear-gradient(90deg, ${RED} 0%, ${YELLOW} 55%, ${GREEN} 100%)` }} />
 
-              {useSidebar ? (
+              {!hasKids ? (
+                /* ═══ LEAF — kategorie bez podkategorií: foto karta + doporučené (pompo compact) ═══ */
+                <div style={{ display: "grid", gridTemplateColumns: "300px 280px", gap: 0, minHeight: 0 }}>
+                  <a href={catHref(cat.slug)} style={{ display: "block", padding: "18px 20px 20px", textDecoration: "none", color: NAVY }}>
+                    <span style={{ display: "block", position: "relative", borderRadius: 14, overflow: "hidden", aspectRatio: "4/3", background: SURFACE }}>
+                      {(cat as { image?: string }).image && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={(cat as { image?: string }).image} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                      )}
+                      <span style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(14,27,44,0.62) 0%, rgba(14,27,44,0.05) 55%, transparent 100%)" }} />
+                      <span style={{ position: "absolute", left: 14, right: 14, bottom: 12, color: "#fff" }}>
+                        <span style={{ display: "block", fontSize: 17, fontWeight: 900, lineHeight: 1.25 }}>{cat.label}</span>
+                        {!!((cat as { count?: number }).count) && (
+                          <span style={{ display: "block", fontSize: 12, fontWeight: 700, opacity: 0.85, marginTop: 2 }}>{(cat as { count?: number }).count} produktů</span>
+                        )}
+                      </span>
+                    </span>
+                    <span style={{
+                      display: "inline-flex", alignItems: "center", gap: 8, marginTop: 14,
+                      padding: "11px 20px", borderRadius: 8, background: NAVY, color: "#fff",
+                      fontSize: 13.5, fontWeight: 800, transition: "background 0.18s",
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = RED; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = NAVY; }}
+                    >
+                      Nakupovat {cat.label}
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                    </span>
+                  </a>
+                  {/* Doporučujeme */}
+                  <div style={{ borderLeft: `1px solid ${BORDER}`, padding: "18px 20px 20px" }}>
+                    <div style={{ fontSize: 11.5, fontWeight: 900, color: MUTED, textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 14 }}>Doporučujeme</div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {(cat.recos ?? (megaProduct ? [megaProduct] : [])).slice(0, 2).map((r) => (
+                        <a key={r.title} href={resolve(r.href ?? "/obchod")} style={{ textDecoration: "none", display: "block" }}>
+                          <div className="es05-mega-card" style={{ borderRadius: 12, border: `1.5px solid ${BORDER}`, overflow: "hidden", background: "#fff" }}>
+                            <div style={{ position: "relative", background: SURFACE }}>
+                              <img src={r.image} alt={r.title} style={{ width: "100%", height: 110, objectFit: "cover", display: "block" }} />
+                              {r.badge && <span style={{ position: "absolute", top: 8, left: 8, padding: "3px 10px", borderRadius: 10, background: RED, color: "#fff", fontSize: 11.5, fontWeight: 900 }}>{r.badge}</span>}
+                            </div>
+                            <div style={{ padding: "9px 12px" }}>
+                              <div style={{ fontSize: 12.5, fontWeight: 700, color: NAVY, lineHeight: 1.35, marginBottom: 4 }}>{r.title}</div>
+                              <span style={{ fontSize: 15, fontWeight: 900, color: RED }}>{r.price}</span>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : useSidebar ? (
                 /* ═══ SIDEBAR LAYOUT (Všechny hračky) — pompo style ═══ */
                 <div style={{ maxWidth: 1580, margin: "0 auto", display: "grid", gridTemplateColumns: "260px minmax(0,1fr) 200px 280px", minHeight: 420 }}>
                   {/* LEFT SIDEBAR — vertical list of subcategories */}
@@ -26352,24 +26427,39 @@ function NavbarEshop05({ content, isAdmin, tenantSlug, sectionId }: Props) {
                   </div>
 
                   {/* CENTER — sub-subcategories with thumbnails */}
-                  <div style={{ padding: "24px 30px", overflowY: "auto", maxHeight: 520 }}>
+                  <div style={{ padding: "24px 30px", overflowY: "auto", maxHeight: 520, display: "flex", flexDirection: "column" }}>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px 20px" }}>
                       {subKids.map((sc) => (
                         <a key={sc.slug} href={catHref(sc.slug)} className="es05-sub-link" style={{
                           display: "flex", alignItems: "center", gap: 14,
                           padding: "10px 12px", textDecoration: "none", color: NAVY,
                         }}>
-                          {sc.image ? (
-                            <img src={sc.image} alt="" width="52" height="52" style={{ width: 52, height: 52, borderRadius: 12, objectFit: "cover", flexShrink: 0 }} />
-                          ) : (
-                            <span style={{ width: 52, height: 52, borderRadius: 12, background: SURFACE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 18, fontWeight: 900, color: MUTED }}>
-                              {sc.label.charAt(0)}
-                            </span>
-                          )}
+                          <span style={{ position: "relative", width: 52, height: 52, borderRadius: 12, background: SURFACE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 18, fontWeight: 900, color: MUTED, overflow: "hidden" }}>
+                            {sc.label.charAt(0)}
+                            {sc.image && (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img src={sc.image} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                            )}
+                          </span>
                           <span className="es05-sub-label" style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.3 }}>{sc.label}</span>
                         </a>
                       ))}
                     </div>
+                    {/* Foto banner aktivní skupiny — zaplní střed, pompo vibe */}
+                    {activeChild && (activeChild as { image?: string }).image && (
+                      <a href={catHref(activeChild.slug)} style={{ display: "block", position: "relative", marginTop: "auto", borderRadius: 14, overflow: "hidden", minHeight: 150, maxHeight: 190, flexShrink: 0 }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={(activeChild as { image?: string }).image} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", position: "absolute", inset: 0 }} />
+                        <span style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(14,27,44,0.72) 0%, rgba(14,27,44,0.15) 60%, transparent 100%)" }} />
+                        <span style={{ position: "absolute", left: 20, top: "50%", transform: "translateY(-50%)", color: "#fff" }}>
+                          <span style={{ display: "block", fontSize: 19, fontWeight: 900, lineHeight: 1.2 }}>{activeChild.label}</span>
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 9, padding: "9px 16px", borderRadius: 8, background: RED, fontSize: 12.5, fontWeight: 800 }}>
+                            Vše z kategorie
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                          </span>
+                        </span>
+                      </a>
+                    )}
                   </div>
 
                   {/* BRANDS */}
@@ -26456,11 +26546,13 @@ function NavbarEshop05({ content, isAdmin, tenantSlug, sectionId }: Props) {
                         display: "flex", alignItems: "center", gap: 14,
                         padding: "9px 22px", textDecoration: "none", color: NAVY,
                       }}>
-                        {k.image ? (
-                          <img src={k.image} alt="" width="46" height="46" style={{ width: 46, height: 46, borderRadius: 10, objectFit: "cover", flexShrink: 0 }} />
-                        ) : (
-                          <span style={{ width: 46, height: 46, borderRadius: 10, background: SURFACE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15, fontWeight: 900, color: MUTED }}>{k.label.charAt(0)}</span>
-                        )}
+                        <span style={{ position: "relative", width: 46, height: 46, borderRadius: 10, background: SURFACE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 15, fontWeight: 900, color: MUTED, overflow: "hidden" }}>
+                          {k.label.charAt(0)}
+                          {k.image && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={k.image} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                          )}
+                        </span>
                         <span className="es05-sub-label" style={{ fontSize: 14.5, fontWeight: 700, lineHeight: 1.3 }}>{k.label}</span>
                       </a>
                     ))}
@@ -27147,16 +27239,39 @@ function NavbarEshop06({ content, isAdmin, tenantSlug, sectionId }: Props) {
                           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                             {kids.map((k) => (
                               <a key={k.slug} href={catHref(k.slug)} className="es06-cat-link" style={{
-                                display: "block", padding: "6px 0", fontSize: 15, fontWeight: 600, color: CHARCOAL, textDecoration: "none",
-                              }}>{k.label}</a>
+                                display: "flex", alignItems: "center", gap: 11, padding: "5px 0", fontSize: 15, fontWeight: 600, color: CHARCOAL, textDecoration: "none",
+                              }}>
+                                {(k as { image?: string }).image && (
+                                  // eslint-disable-next-line @next/next/no-img-element
+                                  <img src={(k as { image?: string }).image} alt="" loading="lazy" style={{ width: 34, height: 34, borderRadius: "50%", objectFit: "cover", flexShrink: 0, background: "#f5f4f0" }} />
+                                )}
+                                <span style={{ flex: 1, minWidth: 0 }}>{k.label}</span>
+                                {!!((k as { count?: number }).count) && (
+                                  <span style={{ fontSize: 11.5, fontWeight: 700, color: "#b3b1ab", fontVariantNumeric: "tabular-nums" }}>{(k as { count?: number }).count}</span>
+                                )}
+                              </a>
                             ))}
                           </div>
                         </div>
 
-                        {/* 2 — promo foto */}
+                        {/* 2 — promo foto (fallback z commerce kategorie) */}
                         <a href={catHref(cat.slug)} className="hidden xl:block" style={{ textDecoration: "none", borderLeft: `1px solid ${BORDER}`, paddingLeft: 40 }}>
-                          {cat.promoImage && (
-                            <img src={cat.promoImage} alt={cat.label} loading="lazy" style={{ width: "100%", aspectRatio: "1 / 1", objectFit: "cover", borderRadius: 14, display: "block" }} />
+                          {(cat.promoImage || (cat as { image?: string }).image) && (
+                            <span style={{ display: "block", position: "relative", borderRadius: 14, overflow: "hidden", aspectRatio: "1 / 1", background: "#f5f4f0" }}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={cat.promoImage || (cat as { image?: string }).image} alt={cat.label} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                              <span style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(29,29,27,0.62) 0%, rgba(29,29,27,0.04) 50%, transparent 100%)" }} />
+                              <span style={{ position: "absolute", left: 16, right: 16, bottom: 14, color: "#fff" }}>
+                                <span style={{ display: "block", fontFamily: HEAD, fontSize: 18, fontWeight: 800, lineHeight: 1.25 }}>{cat.label}</span>
+                                {!!((cat as { count?: number }).count) && (
+                                  <span style={{ display: "block", fontSize: 12, fontWeight: 600, opacity: 0.85, marginTop: 2 }}>{(cat as { count?: number }).count} produktů</span>
+                                )}
+                                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 9, padding: "8px 14px", borderRadius: 8, background: "#fff", color: CHARCOAL, fontFamily: HEAD, fontSize: 11.5, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                                  Nakupovat
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                                </span>
+                              </span>
+                            </span>
                           )}
                         </a>
 
@@ -30305,7 +30420,7 @@ function NavbarEshop11({ content, isAdmin, tenantSlug, sectionId }: Props) {
         .es11-nav-item--action:hover, .es11-nav-item--action.es11-open { color: ${RED} !important; }
         .es11-nav-item:hover::after, .es11-nav-item.es11-open::after { transform: scaleX(1); }
 
-        .es11-mega-link { display: flex; align-items: center; gap: 9px; padding: 8px 0; font-size: 15.5px; font-weight: 500;
+        .es11-mega-link { display: flex; align-items: center; gap: 12px; padding: 6px 0; font-size: 15.5px; font-weight: 500;
           color: ${INK}; text-decoration: none; transition: color 0.14s; }
         .es11-mega-link svg { opacity: 0; transform: translateX(-5px); transition: opacity 0.16s, transform 0.16s; flex-shrink: 0; }
         .es11-mega-link:hover { color: ${GREEN}; }
@@ -30529,29 +30644,38 @@ function NavbarEshop11({ content, isAdmin, tenantSlug, sectionId }: Props) {
                     <div style={{ columnCount: (categories[openCat].children ?? []).length > 7 ? 3 : 2, columnGap: 48 }}>
                       {(categories[openCat].children ?? []).map((k, ki) => (
                         <a key={k.slug + ki} href={catHref(k.slug)} className="es11-mega-link" style={{ breakInside: "avoid" as const }}>
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
-                          {k.label}
+                          {(k as { image?: string }).image ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={(k as { image?: string }).image} alt="" loading="lazy" style={{ width: 40, height: 40, objectFit: "cover", flexShrink: 0, background: "#f2f2f0" }} />
+                          ) : (
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
+                          )}
+                          <span style={{ flex: 1, minWidth: 0 }}>{k.label}</span>
+                          {!!((k as { count?: number }).count) && (
+                            <span style={{ fontSize: 11.5, fontWeight: 700, color: "#a3a39e", fontVariantNumeric: "tabular-nums" }}>{(k as { count?: number }).count}</span>
+                          )}
                         </a>
                       ))}
                     </div>
                   </div>
 
-                  {categories[openCat].featured?.image && (
+                  {(categories[openCat].featured?.image || (categories[openCat] as { image?: string }).image) && (
                     <a href={catHref(categories[openCat].slug)} className="es11-feat" style={{ flex: 1, maxWidth: 640 }}>
                       <span style={{ display: "block", position: "relative", height: 250, overflow: "hidden" }}>
-                        <img src={categories[openCat].featured!.image} alt="" loading="lazy" />
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={categories[openCat].featured?.image ?? (categories[openCat] as { image?: string }).image} alt="" loading="lazy" />
                         <span aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(200deg, rgba(19,19,19,0.02) 38%, rgba(19,19,19,0.74) 100%)" }} />
                         <span style={{ position: "absolute", left: 24, right: 24, bottom: 22, display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-start" }}>
-                          {categories[openCat].featured!.kicker && (
+                          {(categories[openCat].featured?.kicker || !!((categories[openCat] as { count?: number }).count)) && (
                             <span style={{ background: GREEN, color: "#fff", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", padding: "6px 10px", lineHeight: 1 }}>
-                              {categories[openCat].featured!.kicker}
+                              {categories[openCat].featured?.kicker ?? `${(categories[openCat] as { count?: number }).count} produktů skladem`}
                             </span>
                           )}
                           <span style={{ fontSize: 24, fontWeight: 800, color: "#fff", lineHeight: 1.22, maxWidth: 430 }}>
-                            {categories[openCat].featured!.title}
+                            {categories[openCat].featured?.title ?? categories[openCat].label}
                           </span>
                           <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 14, fontWeight: 600, color: "#fff", borderBottom: "2px solid rgba(255,255,255,0.6)", paddingBottom: 2 }}>
-                            {categories[openCat].featured!.ctaText ?? "Prohlédnout"}
+                            {categories[openCat].featured?.ctaText ?? "Prohlédnout"}
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></svg>
                           </span>
                         </span>
@@ -31248,7 +31372,7 @@ function NavbarEshop12({ content, isAdmin, tenantSlug, sectionId }: Props) {
               background: "#fff", boxShadow: "0 32px 60px rgba(20,34,74,0.22)",
               borderBottom: `4px solid ${MANGO}`, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, overflow: "hidden",
             }}>
-              <div style={{ maxWidth: 1360, margin: "0 auto", padding: "24px 24px 28px", display: "grid", gridTemplateColumns: categories[openCat].banner ? "1fr 372px" : "1fr", gap: 34 }}>
+              <div style={{ maxWidth: 1360, margin: "0 auto", padding: "24px 24px 28px", display: "grid", gridTemplateColumns: (categories[openCat].banner || (categories[openCat] as { image?: string }).image) ? "1fr 372px" : "1fr", gap: 34 }}>
                 {/* LEFT — subkategorie */}
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 16 }}>
@@ -31260,16 +31384,29 @@ function NavbarEshop12({ content, isAdmin, tenantSlug, sectionId }: Props) {
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: "1px 28px" }}>
                     {(categories[openCat].children ?? []).map((k, ki) => (
                       <a key={k.slug + ki} href={catHref(k.slug)} className="es12-sublink">
-                        <span className="es12-sublink-dot" />
+                        {(k as { image?: string }).image ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={(k as { image?: string }).image} alt="" loading="lazy" style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", flexShrink: 0, background: "#f3eeff", boxShadow: "inset 0 0 0 2px rgba(111,69,209,0.12)" }} />
+                        ) : (
+                          <span className="es12-sublink-dot" />
+                        )}
                         <span style={{ flex: 1 }}>{k.label}</span>
+                        {!!((k as { count?: number }).count) && (
+                          <span style={{ fontSize: 11.5, fontWeight: 800, color: "#b6aed8", fontVariantNumeric: "tabular-nums" }}>{(k as { count?: number }).count}</span>
+                        )}
                         <svg className="es12-sublink-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6"/></svg>
                       </a>
                     ))}
                   </div>
                 </div>
                 {/* RIGHT — banner karta (petcenter „Pro vaše mazlíčky") */}
-                {categories[openCat].banner && (() => {
-                  const b = categories[openCat].banner as Es12Banner;
+                {(categories[openCat].banner || (categories[openCat] as { image?: string }).image) && (() => {
+                  const cat12 = categories[openCat] as Es12Category & { image?: string };
+                  const b: Es12Banner = cat12.banner ?? {
+                    bg: cat12.image,
+                    animal: cat12.label,
+                    subs: (cat12.children ?? []).slice(0, 4).map((s) => ({ label: s.label, slug: s.slug, image: (s as { image?: string }).image })),
+                  } as Es12Banner;
                   return (
                     <div className="es12-banner">
                       {b.bg && <img src={b.bg} alt="" className="es12-banner-bg" loading="lazy" />}
@@ -33223,7 +33360,7 @@ function NavbarEshop15({ content, isAdmin, tenantSlug }: Props) {
                           <img src={(activeGroups[activeGroup] as { image?: string }).image} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                         </span>
                       )}
-                      {(activeGroups[activeGroup] as { count?: number } | undefined)?.count !== undefined && (
+                      {!!((activeGroups[activeGroup] as { count?: number } | undefined)?.count) && (
                         <span style={{ display: "block", marginTop: 12, fontSize: 13.5, fontWeight: 600, color: MUTED }}>
                           {(activeGroups[activeGroup] as { count?: number }).count} produktů skladem
                         </span>
@@ -36127,6 +36264,11 @@ function NavbarEshop20({ content, isAdmin, tenantSlug }: Props) {
   const promo = (c.promo as { text?: string; linkText?: string; href?: string }) ?? {};
   const trust = (c.trust as { rating?: number; reviewsLabel?: string; claims?: Array<{ icon?: string; label: string }>; contactLabel?: string; contactHref?: string }) ?? {};
   const genders = (c.genders as Es20Gender[]) ?? [];
+  // Obrázky a počty z commerce stromu (hydratovaný content.categories) — lookup dle slugu
+  const megaTree20 = esMegaNodes(c.categories);
+  const catInfo20 = new Map<string, { image?: string; count?: number }>();
+  const walk20 = (nodes: EsMegaNode[]) => nodes.forEach((n) => { if (n.slug) catInfo20.set(n.slug, { image: n.image, count: n.count }); walk20(n.children); });
+  walk20(megaTree20);
   const mainNav = (c.mainNav as Array<{ label: string; href: string; highlight?: boolean }>) ?? [];
   const utility = (c.utility as { loginLabel?: string; wishlistLabel?: string; cartLabel?: string }) ?? {};
   const drawer = (c.drawer as Es20DrawerTexts) ?? {};
@@ -36375,10 +36517,28 @@ function NavbarEshop20({ content, isAdmin, tenantSlug }: Props) {
               <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(4, genders[megaGender].groups!.length)}, 1fr)`, gap: "8px 28px", alignContent: "start" }}>
                 {genders[megaGender].groups!.slice(0, 4).map((g) => (
                   <div key={g.slug}>
-                    <a href={catHref(g.slug)} className="es20-mega-group-label">{g.label}</a>
+                    <a href={catHref(g.slug)} className="es20-mega-group-label" style={{ display: "flex", alignItems: "center", gap: 11 }}>
+                      {catInfo20.get(g.slug)?.image && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={catInfo20.get(g.slug)!.image} alt="" loading="lazy" style={{ width: 46, height: 46, borderRadius: "50%", objectFit: "cover", flexShrink: 0, border: `2.5px solid ${PINK}`, background: "#fdf1f6" }} />
+                      )}
+                      <span style={{ flex: 1, minWidth: 0 }}>{g.label}</span>
+                      {!!catInfo20.get(g.slug)?.count && (
+                        <span style={{ fontSize: 11.5, fontWeight: 800, color: "#cdb4a4", fontVariantNumeric: "tabular-nums" }}>{catInfo20.get(g.slug)!.count}</span>
+                      )}
+                    </a>
                     <div>
                       {(g.links ?? []).slice(0, 6).map((l) => (
-                        <a key={l.slug} href={catHref(l.slug)} className="es20-mega-link">{l.label}</a>
+                        <a key={l.slug} href={catHref(l.slug)} className="es20-mega-link" style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                          {catInfo20.get(l.slug)?.image && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={catInfo20.get(l.slug)!.image} alt="" loading="lazy" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", flexShrink: 0, background: "#fdf1f6" }} />
+                          )}
+                          <span style={{ flex: 1, minWidth: 0 }}>{l.label}</span>
+                          {!!catInfo20.get(l.slug)?.count && (
+                            <span style={{ fontSize: 11, fontWeight: 800, color: "#d8c4b6", fontVariantNumeric: "tabular-nums" }}>{catInfo20.get(l.slug)!.count}</span>
+                          )}
+                        </a>
                       ))}
                       <a href={catHref(g.slug)} className="es20-mega-all">
                         Zobrazit vše

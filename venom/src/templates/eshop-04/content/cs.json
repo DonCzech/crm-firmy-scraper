@@ -106,7 +106,8 @@
       }
     ],
     "highlightLinks": [],
-    "currency": "CZK"
+    "currency": "CZK",
+    "categoriesSource": "commerce"
   },
   "hero": {
     "slides": [
