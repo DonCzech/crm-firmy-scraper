@@ -82,6 +82,7 @@ function demoLogoDataUrl(name: string): string {
 
 export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
 
+  if (variant === "orbit-01-footer") return <FooterOrbit01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "signal-01-footer") return <FooterSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-footer") return <FooterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "artist-01-footer") return <FooterArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -502,95 +503,8 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   }
 
   // hair-01 — Salon Aria — dark footer: heading + 3-col (phone/hours/address+social) + legal
-  if (variant === "hair-01-footer") {
-    const heading  = String(content.heading ?? "Těšíme se na vás!");
-    const phone    = String(content.phone ?? "");
-    const emailVal = String(content.email ?? "");
-    const address  = String(content.address ?? "").replace(/\\n/g, "\n");
-    const legal    = String(content.legal ?? "");
-    const hoursLabel = String(content.hoursLabel ?? "Otevírací doba:");
-    const hours = (content.hours as Array<{ day: string; value: string }>) ?? [];
-    const socials_ = (content.socials as Array<{ label: string; href: string }>) ?? [];
-    const MONO = "'Montserrat',sans-serif";
-    const GOLD = "#8a6f28";
-    const BG = "#1e1e1e";
-    const TEXT = "rgba(255,255,255,0.75)";
-    const H = "#ffffff";
-    return (
-      <footer id="kontakt" data-template="hair-01" style={{ backgroundColor: BG, fontFamily: MONO }}>
-        <div className="max-w-[1280px] mx-auto" style={{ padding: "80px clamp(20px,5vw,60px) 0" }}>
-          {/* Heading */}
-          <h2 style={{ color: H, fontSize: "clamp(24px,3.5vw,42px)", fontWeight: 200, letterSpacing: "0.04em", marginBottom: 56, textAlign: "center" }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-
-          {/* 3-col info */}
-          <div className="grid gap-10" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 48 }}>
-            {/* Zavolejte nám */}
-            <div>
-              <p style={{ color: GOLD, fontSize: 10, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 16 }}>Zavolejte nám</p>
-              {phone && (
-                <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: H, fontSize: "clamp(15px,1.4vw,18px)", fontWeight: 300, textDecoration: "none", display: "block", marginBottom: 8 }}>
-                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                </a>
-              )}
-              {emailVal && (
-                <a href={`mailto:${emailVal}`} style={{ color: TEXT, fontSize: 13, fontWeight: 300, textDecoration: "none" }}>
-                  <GenericEditableText sectionId={sectionId} field="email" value={emailVal} tag="span" />
-                </a>
-              )}
-            </div>
-
-            {/* Otevírací doba */}
-            <div>
-              <p style={{ color: GOLD, fontSize: 10, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 16 }}>
-                <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
-              </p>
-              {hours.map((h, i) => (
-                <div key={i} className="flex gap-3" style={{ marginBottom: 6 }}>
-                  <span style={{ color: TEXT, fontSize: 13, fontWeight: 300, minWidth: 130 }}>
-                    <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
-                  </span>
-                  <span style={{ color: H, fontSize: 13, fontWeight: 400 }}>
-                    <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Adresa + social */}
-            <div>
-              <p style={{ color: GOLD, fontSize: 10, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 16 }}>Adresa</p>
-              {address && (
-                <address style={{ color: TEXT, fontSize: 13, fontWeight: 300, lineHeight: 1.7, fontStyle: "normal", marginBottom: 20 }}>
-                  {address.split("\n").map((line, i) => <span key={i} style={{ display: "block" }}>{line}</span>)}
-                </address>
-              )}
-              {socials_.length > 0 && (
-                <div className="flex gap-4">
-                  {socials_.map((s, i) => (
-                    <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
-                      style={{ color: TEXT, fontSize: 11, fontWeight: 500, letterSpacing: "0.1em", textDecoration: "none", transition: "color 0.2s" }}
-                      onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                      onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
-                    >
-                      <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label} tag="span" />
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Legal */}
-          {legal && (
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, textAlign: "center", padding: "28px 0 28px", marginTop: 48, borderTop: "1px solid rgba(255,255,255,0.06)", lineHeight: 1.6 }}>
-              <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
-            </p>
-          )}
-        </div>
-      </footer>
-    );
+    if (variant === "hair-01-footer") {
+    return <FooterHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // Footer — peak-cut (aka barber-05) Brutalist Atelier White
@@ -19576,6 +19490,242 @@ function FooterSignal01({ content, sectionId, tenantSlug, isAdmin }: { content: 
             </div>
           </div>
           <div className="sg01ft-credit"><WeberoCredit /></div>
+        </div>
+      </footer>
+    </>
+  );
+}
+
+// ── hair-01-footer-v3 ─────────────────────────────────────────────────────────
+// V3 Ivory & Brass: noir footer — Libre Caslon heading, kontakt/hodiny/navigace
+// sloupce s hairline, copyright bar s WeberoCredit.
+function FooterHair01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Hour = { day?: string; value?: string };
+  type Social = { label?: string; href?: string };
+  type Link = { label?: string; href?: string };
+  const heading = String(content.heading ?? "Těšíme se na vás!");
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const hoursLabel = String(content.hoursLabel ?? "Otevírací doba");
+  const legal = String(content.legal ?? "");
+  const hours = (content.hours as Hour[]) ?? [];
+  const socials = (content.socials as Social[]) ?? [];
+  const links = (content.links as Link[]) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <footer data-section-type="footer" data-variant="hair-01-footer" className="ha1f-footer">
+      <style>{`
+        .ha1f-footer {
+          background: var(--color-secondary, #14100B); color: #F6F3EE;
+          font-family: 'Hanken Grotesk', sans-serif;
+          padding: clamp(3rem, 6vw, 4.5rem) 0 0;
+        }
+        .ha1f-inner { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .ha1f-heading {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(1.9rem, 3.6vw, 2.8rem); color: #F6F3EE;
+          line-height: 1.1; margin: 0 0 clamp(2rem, 4.5vw, 3rem); text-wrap: balance;
+        }
+        .ha1f-grid {
+          display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: clamp(2rem, 5vw, 4rem); padding-bottom: clamp(2.2rem, 5vw, 3.4rem);
+        }
+        .ha1f-h {
+          font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: #D8BC7E; margin: 0 0 1.1rem;
+        }
+        .ha1f-col p, .ha1f-col a {
+          display: block; font-size: 0.94rem; color: rgba(246,243,238,0.8);
+          line-height: 1.7; margin: 0 0 0.45rem; text-decoration: none; white-space: pre-line;
+        }
+        .ha1f-col a:hover { color: #F6F3EE; text-decoration: underline; }
+        .ha1f-hour { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; border-bottom: 1px solid rgba(246,243,238,0.1); font-size: 0.9rem; }
+        .ha1f-hour span:first-child { color: rgba(246,243,238,0.65); }
+        .ha1f-hour span:last-child { color: #F6F3EE; font-weight: 600; white-space: nowrap; }
+        .ha1f-social { display: flex; gap: 0.7rem; margin-top: 1rem; }
+        .ha1f-social a {
+          display: grid; place-items: center; width: 38px; height: 38px; margin: 0;
+          border-radius: 50%; border: 1px solid rgba(246,243,238,0.22); color: #F6F3EE;
+          transition: background 0.25s, border-color 0.25s;
+        }
+        .ha1f-social a:hover { background: var(--color-primary, #A07C33); border-color: var(--color-primary, #A07C33); text-decoration: none; }
+        .ha1f-bar { border-top: 1px solid rgba(246,243,238,0.12); padding: 1.15rem 0 calc(1.15rem + env(safe-area-inset-bottom)); }
+        .ha1f-bar-inner {
+          max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+          font-size: 0.82rem; color: rgba(246,243,238,0.6);
+        }
+        @media (max-width: 860px) { .ha1f-grid { grid-template-columns: 1fr; gap: 1.8rem; } }
+      `}</style>
+      <div className="ha1f-inner">
+        <h2 className="ha1f-heading" style={{ fontFamily: "'Libre Caslon Display', serif", color: "#F6F3EE" }}>
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+        </h2>
+        <div className="ha1f-grid">
+          <div className="ha1f-col">
+            <h3 className="ha1f-h" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#D8BC7E" }}>Kontakt</h3>
+            {phone && <a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a>}
+            {email && <a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a>}
+            {address && <p><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>}
+            {socials.length > 0 && (
+              <div className="ha1f-social">
+                {socials.map((s, i) => (
+                  <a key={i} href={s.href ?? "#"} aria-label={s.label ?? "Sociální síť"} target="_blank" rel="noopener noreferrer">
+                    {(s.label ?? "").toLowerCase().includes("insta") ? (
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 8.4A3.6 3.6 0 1 0 12 15.6 3.6 3.6 0 0 0 12 8.4zm0 5.94A2.34 2.34 0 1 1 12 9.66a2.34 2.34 0 0 1 0 4.68zM17.04 8.26a.84.84 0 1 1-1.68 0 .84.84 0 0 1 1.68 0zM12 5.76c-1.7 0-1.91.01-2.58.04-.66.03-1.12.14-1.51.29a3.05 3.05 0 0 0-1.1.72c-.35.34-.56.68-.72 1.1-.15.4-.26.85-.29 1.51-.03.67-.04.88-.04 2.58s.01 1.91.04 2.58c.03.66.14 1.12.29 1.51.16.42.37.76.72 1.1.34.35.68.56 1.1.72.4.15.85.26 1.51.29.67.03.88.04 2.58.04s1.91-.01 2.58-.04c.66-.03 1.12-.14 1.51-.29a3.05 3.05 0 0 0 1.1-.72c.35-.34.56-.68.72-1.1.15-.4.26-.85.29-1.51.03-.67.04-.88.04-2.58s-.01-1.91-.04-2.58c-.03-.66-.14-1.12-.29-1.51a3.05 3.05 0 0 0-.72-1.1 3.05 3.05 0 0 0-1.1-.72c-.4-.15-.85-.26-1.51-.29-.67-.03-.88-.04-2.58-.04z"/></svg>
+                    ) : (
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.87.24-1.46 1.49-1.46H16.6V5.06c-.28-.04-1.22-.12-2.32-.12-2.3 0-3.87 1.4-3.87 3.98V11H8v3h2.4v7h3.1z"/></svg>
+                    )}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="ha1f-col">
+            <h3 className="ha1f-h" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#D8BC7E" }}>
+              <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
+            </h3>
+            {hours.map((h, i) => (
+              <div className="ha1f-hour" key={i}>
+                <span><GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day ?? ""} tag="span" /></span>
+                <span><GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value ?? ""} tag="span" /></span>
+              </div>
+            ))}
+          </div>
+          <div className="ha1f-col">
+            <h3 className="ha1f-h" style={{ fontFamily: "'Hanken Grotesk', sans-serif", color: "#D8BC7E" }}>Navigace</h3>
+            {links.map((l, i) => (
+              <a key={i} href={resolve(l.href ?? "/")}>{l.label ?? ""}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="ha1f-bar">
+        <div className="ha1f-bar-inner">
+          <span>{legal || `© ${new Date().getFullYear()} Salon Aria`}</span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ══ ORBIT — Precision instrument (orbit-01) ═══════════════════════════════════
+// Footer: tmavší ink než sekce, bílé logo + tagline + status řádek se zelenou
+// tečkou; sloupce Produkt / Zdroje (Dokumentace, Changelog, Status, API) /
+// Kontakt; spodní řádek copyright + legal + WeberoCredit.
+function FooterOrbit01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const siteName = String(content.siteName ?? "Ukázka Flow");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const tagline  = String(content.tagline ?? "Platforma pro automatizaci firemních procesů. Zakázky, schvalování a reporting na jednom místě.");
+  const statusText = String(content.statusText ?? "Všechny systémy v provozu");
+  const email    = String(content.email ?? "poptavka@demo.cz");
+  const phone    = String(content.phone ?? "+420 704 123 456");
+  const address  = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
+  const ico      = String(content.ico ?? "12345678");
+  const navColTitle = String(content.navColTitle ?? "Produkt");
+  const resColTitle = String(content.resourcesColTitle ?? "Zdroje");
+  const contactColTitle = String(content.contactColTitle ?? "Kontakt");
+  const links = (content.links as Array<{ label: string; href: string }> | undefined) ?? [];
+  const resources = (content.resources as Array<{ label: string; href: string }> | undefined) ?? [];
+  const legalLinks = (content.legalLinks as Array<{ label: string; href: string }> | undefined) ?? [];
+  const socials = (content.socials as Array<{ icon: string; href: string; label?: string }> | undefined) ?? [];
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const resolve = (href: string) => (isAdmin ? "#" : (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) ? href : tenantSlug ? `/demo/${tenantSlug}${href.startsWith("/") ? href : "/" + href}` : href);
+
+  return (
+    <>
+      <style>{`
+        .ob01ft { --ob-accent: var(--color-accent, #047857);
+          --ob-accent-lt: color-mix(in srgb, var(--color-accent, #047857) 52%, #fff);
+          background: color-mix(in srgb, var(--color-secondary, #0A0F16) 62%, #000); color: #fff;
+          font-family: var(--font-body, system-ui, sans-serif);
+          padding: clamp(48px,7vw,80px) clamp(20px,5vw,48px) 28px; }
+        .ob01ft-inner { max-width: 1280px; margin: 0 auto; }
+        .ob01ft-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: clamp(28px,4vw,56px); padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.1); }
+        .ob01ft-brand-name { margin: 0 0 12px; display: flex; align-items: center; gap: 10px; }
+        .ob01ft-brand-name img { height: 28px; width: auto; }
+        .ob01ft-tag { font-size: .94rem; color: rgba(255,255,255,.78); line-height: 1.6; max-width: 32em; margin: 0; }
+        .ob01ft-status { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
+          font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .74rem; color: rgba(255,255,255,.72);
+          border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 6px 13px; }
+        .ob01ft-status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ob-accent-lt); }
+        .ob01ft-col-t { font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.66); margin: 0 0 16px; }
+        .ob01ft-col a, .ob01ft-col li { color: rgba(255,255,255,.72); text-decoration: none; font-size: .94rem; line-height: 2; display: block; }
+        .ob01ft-col a:hover { color: var(--ob-accent-lt); }
+        .ob01ft-col ul { list-style: none; padding: 0; margin: 0; }
+        .ob01ft-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 24px; }
+        .ob01ft-legal { display: flex; gap: 18px; flex-wrap: wrap; }
+        .ob01ft-legal a { color: rgba(255,255,255,.72); text-decoration: none; font-size: .84rem; }
+        .ob01ft-legal a:hover { color: #fff; }
+        .ob01ft-copy { font-size: .84rem; color: rgba(255,255,255,.72); }
+        .ob01ft-social { display: flex; gap: 9px; margin-top: 16px; }
+        .ob01ft-social a { width: 36px; height: 36px; border-radius: 6px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; color: #fff; transition: background .2s, border-color .2s; }
+        .ob01ft-social a:hover { background: var(--ob-accent); border-color: var(--ob-accent); }
+        .ob01ft-credit { margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: center; opacity: .75; }
+        @media (max-width:900px){ .ob01ft-grid{ grid-template-columns: 1fr 1fr; } }
+        @media (max-width:560px){ .ob01ft-grid{ grid-template-columns: 1fr; } }
+      `}</style>
+      <footer className="ob01ft" data-template="orbit-01">
+        <div className="ob01ft-inner">
+          <div className="ob01ft-grid">
+            <div className="ob01ft-brand">
+              <div className="ob01ft-brand-name">
+                {logoUrl && <img src={logoUrl} alt={siteName} />}
+              </div>
+              <p className="ob01ft-tag"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></p>
+              <span className="ob01ft-status"><GenericEditableText sectionId={sectionId} field="statusText" value={statusText} tag="span" /></span>
+              {socials.length > 0 && (
+                <div className="ob01ft-social">
+                  {socials.map((s, i) => (
+                    <a key={i} href={s.href} aria-label={s.label ?? s.icon} target="_blank" rel="noopener noreferrer">
+                      <Es06SocialIcon kind={s.icon} />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="ob01ft-col">
+              <p className="ob01ft-col-t"><GenericEditableText sectionId={sectionId} field="navColTitle" value={navColTitle} tag="span" /></p>
+              <ul>
+                {links.map((l, i) => (
+                  <li key={i}><a href={resolve(l.href)}><GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" /></a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="ob01ft-col">
+              <p className="ob01ft-col-t"><GenericEditableText sectionId={sectionId} field="resourcesColTitle" value={resColTitle} tag="span" /></p>
+              <ul>
+                {resources.map((l, i) => (
+                  <li key={i}><a href={resolve(l.href)}><GenericEditableText sectionId={sectionId} field={`resources.${i}.label`} value={l.label} tag="span" /></a></li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="ob01ft-col">
+              <p className="ob01ft-col-t"><GenericEditableText sectionId={sectionId} field="contactColTitle" value={contactColTitle} tag="span" /></p>
+              <ul>
+                <li><a href={`tel:${phone.replace(/\s/g, "")}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a></li>
+                <li><a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a></li>
+                <li><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></li>
+                <li style={{ color: "rgba(255,255,255,.4)" }}>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="ob01ft-bottom">
+            <span className="ob01ft-copy"><GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" /></span>
+            <div className="ob01ft-legal">
+              {legalLinks.map((l, i) => (
+                <a key={i} href={resolve(l.href)}><GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label} tag="span" /></a>
+              ))}
+            </div>
+          </div>
+          <div className="ob01ft-credit"><WeberoCredit /></div>
         </div>
       </footer>
     </>

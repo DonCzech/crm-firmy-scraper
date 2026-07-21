@@ -4,9 +4,9 @@
   "name": "Salon Aria",
   "industry": "hair",
   "skeleton": "service-personal",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "baseTemplate": null,
-  "description": "Luxusní kadeřnický salon s Montserrat fontem, gold accent #8a6f28, cream paleta — Tilda-origin, 7 stylistek, recenze, kontakty.",
+  "description": "V3 Ivory & Brass — editorial luxe kadeřnický salon: slonovinová paleta s mosazným akcentem #A07C33, Libre Caslon Display + Hanken Grotesk, fullbleed noir hero, editorial split o nás s brass rámem, foto karty služeb, noir filozofie band, portrétový tým, iniciálové recenze, noir footer. Multipage: služby, tým, kontakt + blog modul.",
   "sectionOrderNote": "Originál studio-jarka má About+Stats na pozici 3 (před Services), bez samostatného Pricing — shoduje se s service-personal skeleton.",
   "skippedSections": [
     {
@@ -43,6 +43,14 @@
     {
       "type": "rezora-widget",
       "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    },
+    {
+      "type": "cta",
+      "reason": "Mezisekční CTA pás na všechny služby — konverzní můstek mezi službami a filozofií"
+    },
+    {
+      "type": "blog-preview",
+      "reason": "Blog modul aktivní na tenantu — preview 3 nejnovějších článků"
     }
   ],
   "i18n": {
@@ -103,6 +111,99 @@
           "contentRef": "home.rezervace"
         },
         {
+          "type": "blog-preview",
+          "variant": "default",
+          "contentRef": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-01-topbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-01-page",
+          "contentRef": "heroSluzby"
+        },
+        {
+          "type": "services",
+          "variant": "hair-numbered-cards",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "cta-hair-01",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "tym",
+      "title": "Tým",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-01-topbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-01-page",
+          "contentRef": "heroTym"
+        },
+        {
+          "type": "team",
+          "variant": "hair-01-team-cards",
+          "contentRef": "team"
+        },
+        {
+          "type": "testimonials",
+          "variant": "hair-01-cards",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-01-topbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-01-page",
+          "contentRef": "heroKontakt"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "hair-01",
+          "contentRef": "home.rezervace"
+        },
+        {
           "type": "footer",
           "variant": "hair-01-footer",
           "contentRef": "footer"
@@ -112,5 +213,8 @@
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "tags": [
+    "v3"
+  ]
 }

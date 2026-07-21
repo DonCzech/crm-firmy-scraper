@@ -7,23 +7,23 @@
     "links": [
       {
         "label": "Úvod",
-        "href": "#uvod"
-      },
-      {
-        "label": "O nás",
-        "href": "#onas"
-      },
-      {
-        "label": "Náš tým",
-        "href": "#tym"
+        "href": "/"
       },
       {
         "label": "Služby",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
-        "label": "Kontakty",
-        "href": "#kontakt"
+        "label": "Tým",
+        "href": "/tym"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
       }
     ],
     "phone": "+420 704 123 456",
@@ -38,10 +38,19 @@
         "href": "https://instagram.com/demo"
       }
     ],
-    "transparent": false
+    "transparent": false,
+    "ctaText": "Objednat se",
+    "ctaHref": "/kontakt"
   },
   "hero": {
-    "backgroundImage": "/templates/hair-01/images/hero.jpg"
+    "eyebrow": "Kadeřnický salon · Praha 1",
+    "title": "Vlasy, které\nmluví za vás.",
+    "subtitle": "Editorial střihy, barvení a péče v centru Prahy. Preciznost, klid a výsledek, který drží i doma.",
+    "backgroundImage": "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=2000&h=1300&fit=crop&auto=format&q=80",
+    "ctaText": "Objednat se",
+    "ctaHref": "/kontakt",
+    "cta2Text": "Naše služby",
+    "cta2Href": "/sluzby"
   },
   "about": {
     "title": "O společnosti",
@@ -61,52 +70,58 @@
         "label": "nominací v Hair Awards"
       }
     ],
-    "portraitImage": "/templates/hair-01/images/about-portrait.jpg",
+    "portraitImage": "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=900&h=1125&fit=crop&auto=format&q=80",
     "ctaText": "Objednat se",
-    "ctaHref": "#rezervace"
+    "ctaHref": "/kontakt"
   },
   "services": {
     "items": [
       {
-        "number": "01.",
+        "number": "01",
         "name": "Střihy na míru",
         "description": "Střih navržený s ohledem na tvar obličeje, typ vlasů i váš osobní styl.",
         "ctaText": "Objednat se",
-        "ctaHref": "#rezervace"
+        "ctaHref": "/kontakt",
+        "imageUrl": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=700&h=875&fit=crop&auto=format&q=80"
       },
       {
-        "number": "02.",
+        "number": "02",
         "name": "Barvení a tónování",
         "description": "Profesionálně zvolený odstín pro přirozený, elegantní a harmonický výsledek.",
         "ctaText": "Objednat se",
-        "ctaHref": "#rezervace"
+        "ctaHref": "/kontakt",
+        "imageUrl": "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=700&h=875&fit=crop&auto=format&q=80"
       },
       {
-        "number": "03.",
+        "number": "03",
         "name": "Balayage a zesvětlení",
         "description": "Jemné přechody a prosvětlení, které dodají vlasům hloubku, lehkost a rozměr.",
         "ctaText": "Objednat se",
-        "ctaHref": "#rezervace"
+        "ctaHref": "/kontakt",
+        "imageUrl": "https://images.unsplash.com/photo-1492106087820-71f1a00d2b11?w=700&h=875&fit=crop&auto=format&q=80"
       },
       {
-        "number": "04.",
+        "number": "04",
         "name": "Péče a ošetření vlasů",
         "description": "Hloubková výživa a regenerace pro zdravé, silné a zářivé vlasy.",
         "ctaText": "Objednat se",
-        "ctaHref": "#rezervace"
+        "ctaHref": "/kontakt",
+        "imageUrl": "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=700&h=875&fit=crop&auto=format&q=80"
       }
-    ]
+    ],
+    "eyebrow": "Služby",
+    "title": "Na čem si zakládáme"
   },
   "cta": {
     "title": "Zobrazit všechny služby",
     "subtitle": "Prohlédněte si kompletní nabídku péče a vyberte si službu, která vám vyhovuje.",
     "ctaText": "Zobrazit",
-    "ctaHref": "#sluzby"
+    "ctaHref": "/sluzby"
   },
   "values": {
     "title": "Víme, jak důležité jsou vaše vlasy",
     "body": "Právě proto stavíme naši práci na konzultaci, odborném přístupu a řešeních, která respektují kvalitu vašich vlasů i vaši představu o výsledku.",
-    "image": "/templates/hair-01/images/values.jpg"
+    "image": "https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=1000&h=750&fit=crop&auto=format&q=80"
   },
   "team": {
     "title": "Tým profesionálů",
@@ -115,41 +130,41 @@
       {
         "name": "Andrea Kovářová",
         "role": "Kadeřnice Top Stylist",
-        "image": "/templates/hair-01/images/team-01.jpg"
+        "image": "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=600&h=800&fit=crop&auto=format&q=80"
       },
       {
         "name": "Simona Blahová",
         "role": "Top Stylist / Make-up",
-        "image": "/templates/hair-01/images/team-02.jpg"
+        "image": "https://images.unsplash.com/photo-1526510747491-58f928ec870f?w=600&h=800&fit=crop&auto=format&q=80"
       },
       {
         "name": "Tereza Marková",
         "role": "Top Stylist",
-        "image": "/templates/hair-01/images/team-03.jpg"
+        "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop&auto=format&q=80"
       },
       {
         "name": "Lucie Horáková",
         "role": "Barvířka",
-        "image": "/templates/hair-01/images/team-04.jpg"
+        "image": "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&h=800&fit=crop&auto=format&q=80"
       },
       {
         "name": "Kateřina Dvořáčková",
         "role": "Kadeřnice",
-        "image": "/templates/hair-01/images/team-05.jpg"
+        "image": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&h=800&fit=crop&auto=format&q=80"
       },
       {
         "name": "Martina Šimánková",
         "role": "Kadeřnice",
-        "image": "/templates/hair-01/images/team-06.jpg"
+        "image": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop&auto=format&q=80"
       },
       {
         "name": "Věra Procházková",
         "role": "Kadeřnice Junior",
-        "image": "/templates/hair-01/images/team-07.jpg"
+        "image": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=600&h=800&fit=crop&auto=format&q=80"
       }
     ],
     "ctaText": "Seznamte se s celým týmem",
-    "ctaHref": "#tym"
+    "ctaHref": "/tym"
   },
   "testimonials": {
     "title": "Recenze našich klientů",
@@ -203,7 +218,33 @@
       }
     ],
     "hoursLabel": "Otevírací doba:",
-    "legal": "Salon Aria s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
+    "legal": "© 2026 Salon Aria",
+    "links": [
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Tým",
+        "href": "/tym"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      },
+      {
+        "label": "Ochrana osobních údajů",
+        "href": "#"
+      }
+    ]
   },
   "home": {
     "rezervace": {
@@ -212,5 +253,27 @@
       "providerSlug": "",
       "apiBaseUrl": ""
     }
+  },
+  "heroSluzby": {
+    "title": "Naše služby",
+    "subtitle": "Střihy, barvení, balayage i hloubková péče — vždy po konzultaci a na míru vašim vlasům.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroTym": {
+    "title": "Náš tým",
+    "subtitle": "Sedm stylistek, jeden standard: preciznost, cit pro detail a poctivá konzultace.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "heroKontakt": {
+    "title": "Kontakt a rezervace",
+    "subtitle": "Objednejte se online nebo zavolejte — ozveme se vám do jednoho pracovního dne.",
+    "breadcrumb": "Domů",
+    "breadcrumbHref": "/"
+  },
+  "blog": {
+    "title": "Ze salonu",
+    "subtitle": "Trendy, péče a zákulisí naší práce."
   }
 }

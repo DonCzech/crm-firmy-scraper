@@ -2101,131 +2101,172 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
   );
 }
 
-// ---------------------------------------------------------------------------
-// hair-01-topbar — Salon Aria
-// Dark single-bar: logo vlevo, nav linky uprostřed, phone+email+social vpravo
-// ---------------------------------------------------------------------------
-function NavbarHair01Topbar({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+// hair-01-topbar — Salon Aria · V3 Ivory & Brass: blur sticky bar, Libre Caslon
+// wordmark, underline-slide linky, brass CTA, overlay menu + sticky mobilní CTA.
+function NavbarHair01Topbar(props: Props) {
+  const { content, tenantSlug, isAdmin, sectionId } = props;
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const siteName = String(content.siteName ?? "Salon");
-  const logoUrl = String(content.logoUrl ?? "");
-  const logoSrc = logoUrl || demoLogoDataUrl(siteName);
-  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const phone = String(content.phone ?? "");
-  const email = String(content.email ?? "");
-  const socials = (content.socials as Array<{ label: string; href: string }>) ?? [];
 
-  const BG = "#1e1e1e";
-  const GOLD = "#8a6f28";
-  const TEXT = "rgba(255,255,255,0.82)";
-  const TEXT_HOVER = "#ffffff";
-  const MONO = "'Montserrat',sans-serif";
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", handler); };
+  }, [open]);
+
+  const siteName = String(content.siteName ?? "Salon Aria");
+  const phone = String(content.phone ?? "+420 704 123 456");
+  const ctaText = String(content.ctaText ?? "Objednat se");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50"
-      style={{ backgroundColor: BG, fontFamily: MONO }}
-      data-template="hair-01"
-    >
-      <div
-        className="max-w-[1440px] mx-auto flex items-center"
-        style={{ padding: "0 32px", height: 56 }}
-      >
-        {/* Logo */}
-        <a
-          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
-          className="shrink-0 flex items-center mr-10"
-          aria-label={siteName}
-        >
-          <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="relative w-16 h-8 overflow-hidden">
-            <img loading="eager" src={logoSrc} alt={siteName} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-          </GenericEditableImage>
-        </a>
+    <>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style>{`
+        .ha1n-bar {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+          font-family: 'Hanken Grotesk', sans-serif;
+          background: ${scrolled ? "rgba(246,243,238,0.92)" : "transparent"};
+          -webkit-backdrop-filter: ${scrolled ? "blur(14px)" : "none"};
+          backdrop-filter: ${scrolled ? "blur(14px)" : "none"};
+          border-bottom: 1px solid ${scrolled ? "var(--color-border, #E6DDD0)" : "transparent"};
+          transition: background 0.3s, border-color 0.3s;
+        }
+        .ha1n-inner {
+          max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          height: 4.7rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+        }
+        .ha1n-logo { display: flex; align-items: baseline; gap: 0.5rem; text-decoration: none; flex-shrink: 0; }
+        .ha1n-wordmark {
+          font-family: 'Libre Caslon Display', serif; font-size: 1.5rem; letter-spacing: 0.02em;
+          color: var(--color-text, #16110C); line-height: 1;
+        }
+        .ha1n-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-primary, #A07C33); }
+        .ha1n-links { display: flex; align-items: center; gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
+        .ha1n-links a {
+          position: relative; font-size: 0.92rem; font-weight: 500;
+          letter-spacing: 0.04em; color: #4C4238; text-decoration: none; padding: 0.35rem 0;
+          transition: color 0.2s;
+        }
+        .ha1n-links a::after {
+          content: ""; position: absolute; left: 0; right: 100%; bottom: -1px; height: 1.5px;
+          background: var(--color-primary, #A07C33); transition: right 0.25s cubic-bezier(0.65,0,0.35,1);
+        }
+        .ha1n-links a:hover { color: var(--color-text, #16110C); }
+        .ha1n-links a:hover::after { right: 0; }
+        .ha1n-right { display: flex; align-items: center; gap: 1.1rem; }
+        .ha1n-phone { font-size: 0.9rem; font-weight: 600; color: var(--color-text, #16110C); text-decoration: none; white-space: nowrap; }
+        .ha1n-cta {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          padding: 0.66rem 1.5rem; border-radius: 2px;
+          background: var(--color-primary, #A07C33); color: #fff;
+          font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+          text-decoration: none; white-space: nowrap; transition: background 0.25s, transform 0.25s;
+        }
+        .ha1n-cta:hover { background: var(--color-accent, #7D6026); transform: translateY(-1px); }
+        .ha1n-burger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--color-text, #16110C); }
+        .ha1n-overlay {
+          position: fixed; inset: 0; background: var(--color-secondary, #14100B); z-index: 200;
+          display: flex; flex-direction: column; padding: 1.1rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1n-overlay[data-open="true"] { opacity: 1; pointer-events: auto; }
+        .ha1n-ov-top { display: flex; align-items: center; justify-content: space-between; height: 3.6rem; }
+        .ha1n-ov-word { font-family: 'Libre Caslon Display', serif; font-size: 1.4rem; color: #F6F3EE; }
+        .ha1n-ov-close { background: none; border: none; color: #F6F3EE; font-size: 2rem; line-height: 1; cursor: pointer; padding: 4px 10px; }
+        .ha1n-ov-links { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.4rem; }
+        .ha1n-ov-links a {
+          font-family: 'Libre Caslon Display', serif; font-size: clamp(1.9rem, 7vw, 2.6rem);
+          color: #F6F3EE; text-decoration: none; padding: 0.4rem 0;
+          border-bottom: 1px solid rgba(246,243,238,0.12);
+          opacity: 0; transform: translateY(14px); transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .ha1n-overlay[data-open="true"] .ha1n-ov-links a { opacity: 1; transform: none; }
+        .ha1n-ov-links a:nth-child(1) { transition-delay: 0.05s; } .ha1n-ov-links a:nth-child(2) { transition-delay: 0.1s; }
+        .ha1n-ov-links a:nth-child(3) { transition-delay: 0.15s; } .ha1n-ov-links a:nth-child(4) { transition-delay: 0.2s; }
+        .ha1n-ov-links a:nth-child(5) { transition-delay: 0.25s; } .ha1n-ov-links a:nth-child(6) { transition-delay: 0.3s; }
+        .ha1n-ov-cta {
+          display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+          padding: 1rem; border-radius: 2px; background: var(--color-primary, #A07C33);
+          color: #fff; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+        }
+        .ha1n-mobilebar {
+          display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+          background: rgba(246,243,238,0.94); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+          border-top: 1px solid var(--color-border, #E6DDD0);
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1n-mb-cta {
+          display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+          padding: 0.85rem; border-radius: 2px; background: var(--color-primary, #A07C33);
+          color: #fff; font-size: 0.92rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+        }
+        @media (max-width: 1023px) {
+          .ha1n-links, .ha1n-phone { display: none; }
+          .ha1n-cta { display: none; }
+          .ha1n-burger { display: block; }
+          .ha1n-mobilebar { display: block; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ha1n-overlay, .ha1n-ov-links a { transition: none; }
+        }
+      `}</style>
 
-        {/* Nav linky — desktop center */}
-        <div className="hidden md:flex items-center gap-7 flex-1">
+      <header className="ha1n-bar">
+        <div className="ha1n-inner">
+          <a href={resolve("/")} className="ha1n-logo" aria-label={siteName}>
+            <span className="ha1n-wordmark"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+            <span className="ha1n-dot" aria-hidden />
+          </a>
+          <ul className="ha1n-links">
+            {links.map((l, i) => (
+              <li key={i}><a href={resolve(l.href)}>{l.label}</a></li>
+            ))}
+          </ul>
+          <div className="ha1n-right">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="ha1n-phone">{phone}</a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="ha1n-cta">{ctaText}</a>
+            <button className="ha1n-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="ha1n-overlay" data-open={open} aria-hidden={!open}>
+        <div className="ha1n-ov-top">
+          <span className="ha1n-ov-word">{siteName}</span>
+          <button className="ha1n-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+        </div>
+        <nav className="ha1n-ov-links">
           {links.map((l, i) => (
-            <a
-              key={`h1-nav-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{ color: TEXT, fontSize: 11, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = TEXT_HOVER)}
-              onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
-            >
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-            </a>
+            <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>{l.label}</a>
           ))}
-        </div>
-
-        {/* Phone + Email + Social — desktop vpravo */}
-        <div className="hidden md:flex items-center gap-5 ml-auto">
-          {phone && (
-            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: TEXT, fontSize: 11, fontWeight: 400, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-            </a>
-          )}
-          {email && (
-            <a href={`mailto:${email}`} style={{ color: TEXT, fontSize: 11, fontWeight: 400, letterSpacing: "0.06em" }}>
-              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-            </a>
-          )}
-          {socials.map((s, i) => (
-            <a
-              key={`h1-soc-${i}`}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.label}
-              style={{ color: TEXT, fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-              onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
-            >
-              {s.label === "Facebook" ? "FB" : s.label === "Instagram" ? "IG" : s.label}
-            </a>
-          ))}
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden ml-auto flex flex-col justify-between w-6 h-4 bg-transparent border-0 cursor-pointer p-0"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-          aria-expanded={open}
-        >
-          <span className="block h-[1.5px] w-full" style={{ backgroundColor: "#fff" }} />
-          <span className="block h-[1.5px] w-full" style={{ backgroundColor: "#fff" }} />
-          <span className="block h-[1.5px] w-full" style={{ backgroundColor: "#fff" }} />
-        </button>
+        </nav>
+        <a href={resolve(ctaHref)} data-btn="primary" className="ha1n-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
       </div>
 
-      {/* Mobile overlay */}
-      {open && (
-        <div
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-7"
-          style={{ backgroundColor: BG }}
-        >
-          <button
-            className="absolute top-5 right-6 text-xl bg-transparent border-0 cursor-pointer"
-            style={{ color: TEXT }}
-            onClick={() => setOpen(false)}
-            aria-label="Zavřít menu"
-          >✕</button>
-          {links.map((l, i) => (
-            <a
-              key={`h1-mob-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{ color: TEXT, fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase" }}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
-          {phone && <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: GOLD, fontSize: 13 }}>{phone}</a>}
-        </div>
-      )}
-    </nav>
+      <div className="ha1n-mobilebar" aria-hidden={open}>
+        <a href={resolve(ctaHref)} className="ha1n-mb-cta">{ctaText}</a>
+      </div>
+    </>
   );
 }
+
 
 function NavbarHair02({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);

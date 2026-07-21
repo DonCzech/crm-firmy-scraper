@@ -413,125 +413,13 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   }
 
   // hair-01: 2-col dark left (label+lead+body+3 stats) / gold right (#8a6f28, portrait+CTA)
-  if (variant === "about-hair-split-stats") {
-    const title     = String(content.title ?? "O společnosti");
-    const lead      = String(content.lead ?? "");
-    const body      = String(content.body ?? "");
-    const portrait  = String(content.portraitImage ?? "");
-    const ctaText   = String(content.ctaText ?? "Objednat se");
-    const ctaHref   = String(content.ctaHref ?? "#rezervace");
-    const stats = (content.stats as Array<{ value: string; label: string }>) ?? [];
-    const MONO = "'Montserrat',sans-serif";
-    return (
-      <section id="onas" className="w-full" data-template="hair-01" style={{ fontFamily: MONO }}>
-        <div className="grid" style={{ gridTemplateColumns: "1fr 1fr" }}>
-          {/* Left — dark panel: text + stats */}
-          <div
-            className="flex flex-col justify-center"
-            style={{ backgroundColor: "#1e1e1e", padding: "clamp(48px,7vw,100px) clamp(28px,5vw,72px)" }}
-          >
-            <p style={{ color: "#8a6f28", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: 24 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </p>
-            <p style={{ color: "rgba(255,255,255,0.92)", fontSize: "clamp(15px,1.6vw,20px)", fontWeight: 300, lineHeight: 1.65, marginBottom: 32 }}>
-              <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-            </p>
-            <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 14, fontWeight: 300, lineHeight: 1.75, marginBottom: 48 }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-            {/* Stats */}
-            {stats.length > 0 && (
-              <div className="flex flex-col gap-6">
-                {stats.map((s, i) => (
-                  <div key={i} className="flex items-baseline gap-4">
-                    <span style={{ color: "#8a6f28", fontSize: "clamp(28px,3vw,42px)", fontWeight: 300, lineHeight: 1, minWidth: 60 }}>
-                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
-                    </span>
-                    <span style={{ color: "rgba(255,255,255,0.55)", fontSize: 12, fontWeight: 400, letterSpacing: "0.06em", lineHeight: 1.4 }}>
-                      <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Right — gold panel: portrait + CTA */}
-          <div
-            className="relative flex flex-col items-center justify-end"
-            style={{ backgroundColor: "#8a6f28", minHeight: "clamp(380px,55vw,680px)", padding: "40px 32px" }}
-          >
-            {portrait && (
-              <GenericEditableImage sectionId={sectionId} field="portraitImage" src={portrait} alt="Salon Aria stylistka" className="absolute inset-0 w-full h-full">
-                <Image src={portrait} alt="Salon Aria stylistka" fill className="object-cover object-top" sizes="50vw" unoptimized={shouldSkipNextImageOptimization(portrait)} />
-              </GenericEditableImage>
-            )}
-            <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(138,111,40,0.55) 0%, transparent 40%)" }} />
-            <a
-              href={ctaHref}
-              data-btn="inverse"
-              className="relative z-10 inline-block no-underline uppercase"
-              style={{
-                border: "1.5px solid #fff",
-                color: "#fff",
-                backgroundColor: "transparent",
-                fontFamily: MONO,
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.18em",
-                padding: "14px 36px",
-                transition: "background 0.2s",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.15)")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-          </div>
-        </div>
-        <style>{`@media(max-width:768px){[data-template="hair-01"] .grid{grid-template-columns:1fr !important}}`}</style>
-      </section>
-    );
+    if (variant === "about-hair-split-stats") {
+    return <AboutHair01Split content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-01-values — full-bleed two-col: image left 55%, text right on white bg
-  if (variant === "about-hair-values") {
-    const valTitle = String(content.title ?? "Víme, jak důležité jsou vaše vlasy");
-    const valBody  = String(content.body  ?? "");
-    const valImage = String(content.image ?? "");
-    const MONO = "'Montserrat',sans-serif";
-    return (
-      <section
-        data-template="hair-01"
-        style={{ backgroundColor: "#ffffff", fontFamily: MONO }}
-      >
-        <div className="grid" style={{ gridTemplateColumns: "55% 45%", minHeight: "clamp(360px,50vw,600px)" }}>
-          {/* Left — full-bleed image */}
-          <div className="relative overflow-hidden" style={{ backgroundColor: "#e8e0d8" }}>
-            {valImage && (
-              <GenericEditableImage sectionId={sectionId} field="image" src={valImage} alt={valTitle} className="absolute inset-0 w-full h-full">
-                <Image src={valImage} alt={valTitle} fill className="object-cover" sizes="55vw" unoptimized={shouldSkipNextImageOptimization(valImage)} />
-              </GenericEditableImage>
-            )}
-          </div>
-          {/* Right — text panel */}
-          <div
-            className="flex flex-col justify-center"
-            style={{ padding: "clamp(40px,7vw,90px) clamp(28px,5vw,72px)" }}
-          >
-            <h2 style={{ color: "#1e1e1e", fontSize: "clamp(20px,2.2vw,32px)", fontWeight: 300, lineHeight: 1.25, letterSpacing: "0.04em", marginBottom: 24 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={valTitle} tag="span" />
-            </h2>
-            {valBody && (
-              <p style={{ color: "#605f5f", fontSize: 14, fontWeight: 300, lineHeight: 1.85, maxWidth: 480 }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={valBody} tag="span" />
-              </p>
-            )}
-          </div>
-        </div>
-        <style>{`@media(max-width:640px){[data-template="hair-01"] .grid{grid-template-columns:1fr !important}}`}</style>
-      </section>
-    );
+    if (variant === "about-hair-values") {
+    return <AboutHair01Values content={content} sectionId={sectionId} />;
   }
 
   const title = String(content.title ?? "O nás");
@@ -21454,4 +21342,192 @@ function AboutBarberLuxury({ content, title, body, image, sectionId }: { content
         </div>
       </section>
     );
+}
+
+// ── hair-01-about-split ───────────────────────────────────────────────────────
+// V3 Ivory & Brass: editorial split — foto vlevo, eyebrow + Libre Caslon title,
+// lead, body, stats s hairline dělítky + brass CTA.
+function AboutHair01Split({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Stat = { value: string; label: string };
+  const title = String(content.title ?? "O salonu");
+  const lead  = String(content.lead ?? "");
+  const body  = String(content.body ?? "");
+  const portrait = String(content.portraitImage ?? "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=900&h=1125&fit=crop&auto=format&q=80");
+  const ctaText = String(content.ctaText ?? "Objednat se");
+  const ctaHrefRaw = String(content.ctaHref ?? "/kontakt");
+  const ctaHref = resolveDemoHref(ctaHrefRaw, tenantSlug, isAdmin);
+  const stats = (content.stats as Stat[]) ?? [];
+
+  return (
+    <section id="onas" data-section-type="about" data-variant="about-hair-split-stats" className="ha1a-section">
+      <style>{`
+        .ha1a-section {
+          background: var(--color-bg, #F6F3EE);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1a-inner {
+          max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+          gap: clamp(2.5rem, 5vw, 5rem); align-items: center;
+        }
+        .ha1a-media { position: relative; }
+        .ha1a-photo {
+          position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px;
+        }
+        .ha1a-photo-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .ha1a-photo img {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .ha1a-photo:hover img { transform: scale(1.04); }
+        .ha1a-frame {
+          position: absolute; inset: 1rem -1rem -1rem 1rem; border: 1px solid var(--color-primary, #A07C33);
+          border-radius: 2px; z-index: -1;
+        }
+        .ha1a-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--color-primary, #A07C33); margin: 0 0 1.2rem;
+        }
+        .ha1a-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #A07C33); }
+        .ha1a-title {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(2rem, 3.6vw, 2.9rem); color: var(--color-text, #16110C);
+          line-height: 1.1; margin: 0 0 1.2rem; text-wrap: balance;
+        }
+        .ha1a-lead {
+          font-size: clamp(1.05rem, 1.7vw, 1.2rem); font-weight: 500; line-height: 1.55;
+          color: var(--color-text, #16110C); margin: 0 0 1rem;
+        }
+        .ha1a-body { font-size: 0.98rem; line-height: 1.75; color: var(--color-text-muted, #756A5D); margin: 0 0 2rem; }
+        .ha1a-stats {
+          display: flex; border-top: 1px solid var(--color-border, #E6DDD0);
+          border-bottom: 1px solid var(--color-border, #E6DDD0); margin-bottom: 2rem;
+        }
+        .ha1a-stat { flex: 1; padding: 1.2rem 1.2rem 1.2rem 0; }
+        .ha1a-stat + .ha1a-stat { border-left: 1px solid var(--color-border, #E6DDD0); padding-left: 1.2rem; }
+        .ha1a-num {
+          font-family: 'Libre Caslon Display', serif; font-size: clamp(1.9rem, 3vw, 2.6rem);
+          color: var(--color-primary, #A07C33); line-height: 1.1; display: block; margin-bottom: 0.3rem;
+        }
+        .ha1a-label { font-size: 0.82rem; line-height: 1.45; color: var(--color-text-muted, #756A5D); }
+        .ha1a-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 0.9rem 1.9rem; border-radius: 2px;
+          background: var(--color-primary, #A07C33); color: #fff;
+          font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+          text-decoration: none; transition: background 0.25s, transform 0.25s;
+        }
+        .ha1a-cta:hover { background: var(--color-accent, #7D6026); transform: translateY(-2px); }
+        @media (max-width: 900px) {
+          .ha1a-inner { grid-template-columns: 1fr; }
+          .ha1a-media { max-width: 26rem; }
+          .ha1a-stats { flex-direction: column; }
+          .ha1a-stat + .ha1a-stat { border-left: none; border-top: 1px solid var(--color-border, #E6DDD0); padding-left: 0; }
+        }
+      `}</style>
+      <div className="ha1a-inner">
+        <div className="ha1a-media">
+          <div className="ha1a-photo">
+            <GenericEditableImage sectionId={sectionId} field="portraitImage" src={portrait} alt="Práce v salonu" className="ha1a-photo-wrap">
+              <img src={portrait} alt="Stylistka při práci" loading="lazy" />
+            </GenericEditableImage>
+          </div>
+          <div className="ha1a-frame" aria-hidden />
+        </div>
+        <div>
+          <p className="ha1a-eyebrow">O nás</p>
+          <h2 className="ha1a-title" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          <p className="ha1a-lead">
+            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+          </p>
+          <p className="ha1a-body">
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+          {stats.length > 0 && (
+            <div className="ha1a-stats">
+              {stats.map((s, i) => (
+                <div className="ha1a-stat" key={i}>
+                  <span className="ha1a-num">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value ?? ""} tag="span" />
+                  </span>
+                  <span className="ha1a-label">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label ?? ""} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          <a href={ctaHref} data-btn="primary" className="ha1a-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ── hair-01-values ────────────────────────────────────────────────────────────
+// V3 Ivory & Brass: noir band — Libre Caslon title + body vlevo, foto karta vpravo.
+function AboutHair01Values({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const title = String(content.title ?? "Víme, jak důležité jsou vaše vlasy");
+  const body  = String(content.body ?? "");
+  const image = String(content.image ?? "https://images.unsplash.com/photo-1620331311520-246422fd82f9?w=1000&h=750&fit=crop&auto=format&q=80");
+
+  return (
+    <section data-section-type="about" data-variant="about-hair-values" className="ha1v-section">
+      <style>{`
+        .ha1v-section {
+          background: var(--color-secondary, #14100B);
+          padding: clamp(3.5rem, 8vw, 6rem) 0;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1v-inner {
+          max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          gap: clamp(2.5rem, 5vw, 5rem); align-items: center;
+        }
+        .ha1v-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: #D8BC7E; margin: 0 0 1.2rem;
+        }
+        .ha1v-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: #D8BC7E; }
+        .ha1v-title {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(1.9rem, 3.4vw, 2.8rem); color: #F6F3EE;
+          line-height: 1.12; margin: 0 0 1.2rem; text-wrap: balance;
+        }
+        .ha1v-body { font-size: 1rem; line-height: 1.75; color: rgba(246,243,238,0.75); margin: 0; max-width: 32rem; }
+        .ha1v-photo { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 2px; }
+        .ha1v-photo-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .ha1v-photo img {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .ha1v-photo:hover img { transform: scale(1.04); }
+        @media (max-width: 900px) { .ha1v-inner { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="ha1v-inner">
+        <div>
+          <p className="ha1v-eyebrow">Naše filozofie</p>
+          <h2 className="ha1v-title" style={{ fontFamily: "'Libre Caslon Display', serif", color: "#F6F3EE" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          <p className="ha1v-body">
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+        </div>
+        <div className="ha1v-photo">
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Detail péče o vlasy" className="ha1v-photo-wrap">
+            <img src={image} alt="Detail péče o vlasy" loading="lazy" />
+          </GenericEditableImage>
+        </div>
+      </div>
+    </section>
+  );
 }

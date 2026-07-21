@@ -1,37 +1,68 @@
 {
   "colors": {
-    "primary":    "#8a6f28",
-    "secondary":  "#9c813b",
-    "background": "#ffffff",
-    "surface":    "#f5f1f0",
-    "text":       "#494848",
-    "textMuted":  "#605f5f",
-    "accent":     "#8a6f28",
-    "border":     "rgba(138,111,40,0.15)"
+    "primary": "#A07C33",
+    "secondary": "#14100B",
+    "background": "#F6F3EE",
+    "surface": "#FFFFFF",
+    "text": "#16110C",
+    "textMuted": "#756A5D",
+    "accent": "#7D6026",
+    "border": "#E6DDD0"
   },
   "typography": {
-    "fontHeading": "'Montserrat', sans-serif",
-    "fontBody":    "'Montserrat', sans-serif",
+    "fontHeading": "'Libre Caslon Display', serif",
+    "fontBody": "'Hanken Grotesk', sans-serif",
     "scale": "comfortable"
   },
   "radius": {
-    "sm":   "0px",
-    "md":   "0px",
-    "lg":   "0px",
-    "pill": "0px"
+    "sm": "2px",
+    "md": "2px",
+    "lg": "4px",
+    "pill": "999px"
   },
   "spacing": {
     "personality": "spacious",
-    "section": "comfortable"
+    "section": "airy"
   },
-  "shadows": {
-    "sm": "0 1px 2px rgba(0,0,0,0.08)",
-    "md": "0 8px 24px rgba(0,0,0,0.16)",
-    "lg": "0 16px 48px rgba(0,0,0,0.24)"
-  },
-  "animation": {
-    "ease": "cubic-bezier(0.4,0,0.2,1)",
-    "duration": "250ms",
-    "intensity": "subtle"
+  "presets": {
+    "brass": {
+      "label": "Brass — editorial luxe (default)",
+      "tokens": {
+        "colorPrimary": "#A07C33",
+        "colorAccent": "#7D6026",
+        "colorSecondary": "#14100B",
+        "colorBackground": "#F6F3EE",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#16110C",
+        "colorTextMuted": "#756A5D",
+        "colorBorder": "#E6DDD0"
+      }
+    },
+    "rosewood": {
+      "label": "Rosewood — jemný růžový luxe",
+      "tokens": {
+        "colorPrimary": "#A4586B",
+        "colorAccent": "#84414F",
+        "colorSecondary": "#231318",
+        "colorBackground": "#F9F4F3",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#211417",
+        "colorTextMuted": "#7A6A6E",
+        "colorBorder": "#ECDFDE"
+      }
+    },
+    "graphite": {
+      "label": "Graphite — chladný minimal",
+      "tokens": {
+        "colorPrimary": "#4B5563",
+        "colorAccent": "#374151",
+        "colorSecondary": "#111418",
+        "colorBackground": "#F4F5F6",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#14171B",
+        "colorTextMuted": "#6B7280",
+        "colorBorder": "#E2E5E9"
+      }
+    }
   }
 }

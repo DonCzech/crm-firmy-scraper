@@ -19,9 +19,10 @@ interface Props {
   variant: string;
   isAdmin: boolean;
   sectionId: number;
+  tenantSlug?: string;
 }
 
-export function TeamSection({ content, variant, sectionId }: Props) {
+export function TeamSection({ content, variant, sectionId, isAdmin, tenantSlug }: Props) {
   const title = String(content.title ?? "Náš tým");
   const subtitle = String(content.subtitle ?? "");
   const members = (content.members as TeamMember[]) ?? [];
@@ -199,100 +200,8 @@ export function TeamSection({ content, variant, sectionId }: Props) {
   }
 
   // hair-01: tall portrait cards in a horizontal scroll row, cream bg
-  if (variant === "hair-01-team-cards") {
-    const MONO = "'Montserrat',sans-serif";
-    const GOLD = "#8a6f28";
-    const CREAM = "#f5f1f0";
-    return (
-      <section
-        id="tym"
-        data-template="hair-01"
-        style={{ backgroundColor: CREAM, padding: "clamp(60px,8vw,100px) 0", fontFamily: MONO }}
-      >
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <h2
-            className="text-center mb-3"
-            style={{ color: "#1e1e1e", fontSize: "clamp(22px,2.5vw,36px)", fontWeight: 300, letterSpacing: "0.08em" }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {subtitle && (
-            <p
-              className="text-center mb-12"
-              style={{ color: "#605f5f", fontSize: 13, fontWeight: 300, lineHeight: 1.7, maxWidth: 560, margin: "0 auto 56px" }}
-            >
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-          )}
-
-          {/* Horizontal scroll row of tall portrait cards */}
-          <div
-            className="flex gap-4 overflow-x-auto pb-2"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {members.map((m, i) => (
-              <div
-                key={i}
-                className="shrink-0 flex flex-col"
-                style={{ width: "clamp(200px,20vw,260px)" }}
-              >
-                <GenericEditableImage
-                  sectionId={sectionId}
-                  field={`members.${i}.image`}
-                  src={m.image ?? ""}
-                  alt={m.name}
-                  className="relative overflow-hidden"
-                  style={{ aspectRatio: "3/4", width: "100%", backgroundColor: "#e8e0d8" }}
-                >
-                  {m.image && (
-                    <Image
-                      src={m.image}
-                      alt={m.name}
-                      fill
-                      className="object-cover object-top"
-                      sizes="260px"
-                      unoptimized={shouldSkipNextImageOptimization(m.image)}
-                    />
-                  )}
-                </GenericEditableImage>
-                <div className="pt-4 pb-2">
-                  <p style={{ color: "#1e1e1e", fontSize: 14, fontWeight: 500, letterSpacing: "0.04em", margin: 0 }}>
-                    <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name} tag="span" />
-                  </p>
-                  <p style={{ color: GOLD, fontSize: 11, fontWeight: 400, letterSpacing: "0.08em", marginTop: 4 }}>
-                    <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role} tag="span" />
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {ctaText && (
-            <div className="flex justify-center mt-12">
-              <a
-                href={ctaHref}
-                data-btn="inverse"
-                style={{
-                  border: `1.5px solid ${GOLD}`,
-                  color: GOLD,
-                  backgroundColor: "transparent",
-                  fontFamily: MONO,
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase" as const,
-                  padding: "14px 36px",
-                  textDecoration: "none",
-                  display: "inline-block",
-                }}
-              >
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              </a>
-            </div>
-          )}
-        </div>
-      </section>
-    );
+    if (variant === "hair-01-team-cards") {
+    return <TeamHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-03: #ebebeb bg, kruhové portréty 300×300px v řadě, outline CTA
@@ -1567,5 +1476,108 @@ function TeamSignal01({ content, sectionId }: { content: Record<string, unknown>
         </div>
       </section>
     </>
+  );
+}
+
+// ── hair-01-team ──────────────────────────────────────────────────────────────
+// V3 Ivory & Brass: portrétové karty 3/4 s hover zoomem, jméno Libre Caslon,
+// role brass; scroll-snap na mobilu.
+function TeamHair01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Member = { name?: string; role?: string; image?: string };
+  const title = String(content.title ?? "Tým profesionálů");
+  const subtitle = String(content.subtitle ?? "");
+  const ctaText = String(content.ctaText ?? "");
+  const ctaHrefRaw = String(content.ctaHref ?? "/tym");
+  const ctaHref = (!tenantSlug || !ctaHrefRaw.startsWith("/"))
+    ? ctaHrefRaw
+    : `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${ctaHrefRaw === "/" ? "" : ctaHrefRaw}`;
+  const members = (content.members as Member[]) ?? [];
+
+  return (
+    <section id="tym" data-section-type="team" data-variant="hair-01-team-cards" className="ha1t-section">
+      <style>{`
+        .ha1t-section {
+          background: var(--color-bg, #F6F3EE);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1t-inner { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .ha1t-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; margin-bottom: clamp(2rem, 4.5vw, 3rem); flex-wrap: wrap; }
+        .ha1t-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--color-primary, #A07C33); margin: 0 0 1.1rem;
+        }
+        .ha1t-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #A07C33); }
+        .ha1t-title {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(2rem, 3.6vw, 2.9rem); color: var(--color-text, #16110C);
+          line-height: 1.1; margin: 0 0 0.6rem; text-wrap: balance;
+        }
+        .ha1t-sub { font-size: 0.98rem; color: var(--color-text-muted, #756A5D); line-height: 1.6; margin: 0; max-width: 36rem; }
+        .ha1t-grid {
+          display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(1.1rem, 2.2vw, 1.8rem);
+        }
+        .ha1t-card {}
+        .ha1t-photo { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 2px; margin-bottom: 0.85rem; }
+        .ha1t-photo-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .ha1t-photo img {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          filter: saturate(0.92);
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1), filter 0.5s;
+        }
+        .ha1t-card:hover .ha1t-photo img { transform: scale(1.05); filter: saturate(1); }
+        .ha1t-name { font-family: 'Libre Caslon Display', serif; font-weight: 400; font-size: 1.12rem; color: var(--color-text, #16110C); margin: 0 0 0.15rem; }
+        .ha1t-role { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary, #A07C33); margin: 0; }
+        @media (max-width: 1024px) { .ha1t-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 640px) {
+          .ha1t-grid {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 0.9rem; margin: 0 calc(-1 * clamp(1.25rem, 4vw, 2.5rem));
+            padding: 0 clamp(1.25rem, 4vw, 2.5rem) 0.5rem;
+          }
+          .ha1t-card { flex: 0 0 62vw; scroll-snap-align: start; }
+        }
+      `}</style>
+      <div className="ha1t-inner">
+        <div className="ha1t-head">
+          <div>
+            <p className="ha1t-eyebrow">Tým</p>
+            <h2 className="ha1t-title" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            {subtitle && (
+              <p className="ha1t-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+            )}
+          </div>
+          {ctaText && (
+            <a href={ctaHref} className="ha1s-link" style={{ display: "inline-flex", alignItems: "center", gap: "0.45rem", fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--color-primary, #A07C33)", textDecoration: "none" }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          )}
+        </div>
+        <div className="ha1t-grid">
+          {members.map((m, i) => (
+            <article className="ha1t-card" key={i}>
+              <div className="ha1t-photo">
+                {m.image && (
+                  <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image} alt={m.name ?? ""} className="ha1t-photo-wrap">
+                    <img src={m.image} alt={m.name ?? ""} loading="lazy" />
+                  </GenericEditableImage>
+                )}
+              </div>
+              <h3 className="ha1t-name" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+                <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name ?? ""} tag="span" />
+              </h3>
+              <p className="ha1t-role">
+                <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role ?? ""} tag="span" />
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

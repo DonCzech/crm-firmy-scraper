@@ -304,47 +304,8 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
   }
 
   // hair-01: cream bg, dark title, gold outline button
-  if (variant === "cta-hair-01") {
-    const MONO = "'Montserrat',sans-serif";
-    const GOLD = "#8a6f28";
-    const title = c.title ?? "Zobrazit všechny služby";
-    const subtitle = c.subtitle ?? "";
-    const ctaText = c.ctaText ?? "Zobrazit";
-    const ctaHref = resolveDemoHref(c.ctaHref ?? "#sluzby", tenantSlug, isAdmin);
-    return (
-      <section
-        data-template="hair-01"
-        style={{ backgroundColor: "#f5f1f0", padding: "clamp(60px,8vw,100px) clamp(20px,5vw,60px)", textAlign: "center", fontFamily: MONO }}
-      >
-        <h2 style={{ color: "#1e1e1e", fontSize: "clamp(20px,2.5vw,34px)", fontWeight: 300, letterSpacing: "0.06em", marginBottom: subtitle ? 16 : 32 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        {subtitle && (
-          <p style={{ color: "#605f5f", fontSize: 14, fontWeight: 300, lineHeight: 1.75, maxWidth: 560, margin: "0 auto 32px" }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        )}
-        <a
-          href={ctaHref}
-          data-btn="inverse"
-          style={{
-            display: "inline-block",
-            border: `1.5px solid ${GOLD}`,
-            color: GOLD,
-            backgroundColor: "transparent",
-            fontFamily: MONO,
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            padding: "14px 36px",
-            textDecoration: "none",
-          }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
-      </section>
-    );
+    if (variant === "cta-hair-01") {
+    return <CtaHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "barber-04-reservation-dark") {
@@ -5288,5 +5249,61 @@ function CtaRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: Pick<Pro
         </div>
       </section>
     </>
+  );
+}
+
+// ── hair-01-cta ───────────────────────────────────────────────────────────────
+// V3 Ivory & Brass: úzký wash pás s hairline okraji — Libre Caslon title + CTA.
+function CtaHair01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "Zobrazit všechny služby");
+  const subtitle = String(content.subtitle ?? "");
+  const ctaText = String(content.ctaText ?? "Zobrazit");
+  const ctaHref = resolveDemoHref(String(content.ctaHref ?? "/sluzby"), tenantSlug, isAdmin);
+
+  return (
+    <section data-section-type="cta" data-variant="cta-hair-01" className="ha1c-section">
+      <style>{`
+        .ha1c-section {
+          background: var(--color-bg, #F6F3EE);
+          border-top: 1px solid var(--color-border, #E6DDD0);
+          border-bottom: 1px solid var(--color-border, #E6DDD0);
+          padding: clamp(2.4rem, 5vw, 3.6rem) 0;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1c-inner {
+          max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+          display: flex; align-items: center; justify-content: space-between;
+          gap: clamp(1.5rem, 4vw, 3rem); flex-wrap: wrap;
+        }
+        .ha1c-title {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(1.5rem, 2.6vw, 2.1rem); color: var(--color-text, #16110C);
+          line-height: 1.15; margin: 0 0 0.5rem; text-wrap: balance;
+        }
+        .ha1c-sub { font-size: 0.95rem; color: var(--color-text-muted, #756A5D); line-height: 1.6; margin: 0; max-width: 36rem; }
+        .ha1c-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem; flex-shrink: 0;
+          padding: 0.95rem 2rem; border-radius: 2px;
+          background: var(--color-primary, #A07C33); color: #fff;
+          font-size: 0.88rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+          text-decoration: none; transition: background 0.25s, transform 0.25s;
+        }
+        .ha1c-cta:hover { background: var(--color-accent, #7D6026); transform: translateY(-2px); }
+      `}</style>
+      <div className="ha1c-inner">
+        <div>
+          <h2 className="ha1c-title" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {subtitle && (
+            <p className="ha1c-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          )}
+        </div>
+        <a href={ctaHref} data-btn="primary" className="ha1c-cta">
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
   );
 }

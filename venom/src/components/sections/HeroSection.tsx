@@ -68,6 +68,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-clean-02-page") return <HeroClean02Page content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ddd-01-hero")   return <HeroDdd01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-ddd-01-page") return <HeroDdd01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "orbit-01-hero") return <HeroOrbit01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-orbit-01-page") return <HeroOrbit01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "signal-01-hero") return <HeroSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-signal-01-page") return <HeroSignal01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-hero") return <HeroProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -81,36 +83,11 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   const bgFocusMobileStyle = _heroBgFocusMobileAny ? `${_heroBgFocusMobileAny.x}% ${_heroBgFocusMobileAny.y}%` : undefined;
 
   // hair-01: full-bleed tmavá foto, bez textu, SCROLL indikátor dole
-  if (variant === "hero-hair-fullbleed") {
-    const bg = String((content as Record<string,unknown>).backgroundImage ?? "");
-    return (
-      <section
-        id="uvod"
-        className="relative w-full overflow-hidden"
-        style={{ minHeight: "100svh", backgroundColor: "#1e1e1e" }}
-        data-template="hair-01"
-      >
-        {bg && (
-          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="Salon Aria hero" className="absolute inset-0 w-full h-full">
-            <Image src={bg} alt="Salon Aria hero" fill className="object-cover" priority sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
-          </GenericEditableImage>
-        )}
-        {/* subtle dark overlay at bottom */}
-        <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)" }} />
-        {/* SCROLL indicator */}
-        <div
-          aria-hidden
-          className="absolute bottom-8 left-1/2 flex flex-col items-center gap-2"
-          style={{ transform: "translateX(-50%)", color: "rgba(255,255,255,0.75)", fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: "0.18em" }}
-        >
-          <span>SCROLL</span>
-          <svg width="14" height="22" viewBox="0 0 14 22" fill="none" style={{ animation: "hair01scroll 1.5s ease-in-out infinite" }}>
-            <path d="M7 1v20M1 14l6 7 6-7" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-        <style>{`@keyframes hair01scroll{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}`}</style>
-      </section>
-    );
+    if (variant === "hero-hair-fullbleed") {
+    return <HeroHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-hair-01-page") {
+    return <HeroHair01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // hair-02: full-bleed photo slider, height 687px, white overlay, teal CTA pill
@@ -29725,6 +29702,485 @@ function HeroSignal01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="sg01pb-title" />
           {subtitle && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="sg01pb-sub" />}
           <div className="sg01pb-rule" aria-hidden="true" />
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hair-01-hero ──────────────────────────────────────────────────────────────
+// V3 Ivory & Brass: fullbleed editorial hero — foto + noir gradient, Libre Caslon
+// H1, eyebrow s linkou, CTA pár, scroll cue.
+function HeroHair01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const eyebrow  = String(c.eyebrow  ?? "Kadeřnický salon · Praha 1");
+  const title    = String(c.title    ?? "Vlasy, které\nmluví za vás.");
+  const subtitle = String(c.subtitle ?? "Editorial střihy, barvení a péče v centru Prahy. Preciznost, klid a výsledek, který drží.");
+  const bg       = String(c.backgroundImage ?? "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=2000&h=1300&fit=crop&auto=format&q=80");
+  const ctaText  = String(c.ctaText  ?? "Objednat se");
+  const ctaHref  = String(c.ctaHref  ?? "/kontakt");
+  const cta2Text = String(c.cta2Text ?? "Naše služby");
+  const cta2Href = String(c.cta2Href ?? "/sluzby");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="uvod" className="ha1h-hero" data-template="hair-01">
+      <style>{`
+        .ha1h-hero {
+          position: relative; min-height: 92svh; display: flex; align-items: flex-end;
+          overflow: hidden; background: var(--color-secondary, #14100B);
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1h-bg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .ha1h-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+        .ha1h-shade {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(12,9,6,0.82) 0%, rgba(12,9,6,0.35) 45%, rgba(12,9,6,0.15) 100%);
+        }
+        .ha1h-inner {
+          position: relative; z-index: 2; width: 100%; max-width: 78rem; margin: 0 auto;
+          padding: calc(4.7rem + 3rem) clamp(1.25rem, 4vw, 2.5rem) clamp(4rem, 10vh, 6.5rem);
+        }
+        .ha1h-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: #D8BC7E; margin: 0 0 1.4rem;
+        }
+        .ha1h-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: #D8BC7E; }
+        .ha1h-h1 {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(2.8rem, 6.4vw, 5rem); line-height: 1.04;
+          letter-spacing: 0.005em; color: #F6F3EE; margin: 0 0 1.3rem;
+          white-space: pre-line; text-wrap: balance; max-width: 15em;
+        }
+        .ha1h-sub {
+          font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.65;
+          color: rgba(246,243,238,0.82); max-width: 33rem; margin: 0 0 2.2rem;
+        }
+        .ha1h-ctas { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .ha1h-cta {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          padding: 0.95rem 2rem; border-radius: 2px;
+          background: var(--color-primary, #A07C33); color: #fff;
+          font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+          text-decoration: none; transition: background 0.25s, transform 0.25s;
+        }
+        .ha1h-cta:hover { background: var(--color-accent, #7D6026); transform: translateY(-2px); }
+        .ha1h-cta2 {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          padding: 0.95rem 1.6rem; border-radius: 2px;
+          border: 1px solid rgba(246,243,238,0.4); color: #F6F3EE; background: transparent;
+          font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+          text-decoration: none; transition: border-color 0.25s, background 0.25s;
+        }
+        .ha1h-cta2:hover { border-color: #F6F3EE; background: rgba(246,243,238,0.08); }
+        .ha1h-scroll {
+          position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
+          display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+          color: rgba(246,243,238,0.65); font-size: 0.64rem; font-weight: 600; letter-spacing: 0.22em;
+        }
+        @media (prefers-reduced-motion: no-preference) {
+          .ha1h-scroll svg { animation: ha1hScroll 1.6s ease-in-out infinite; }
+          @keyframes ha1hScroll { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+          .ha1h-inner > * { animation: ha1hUp 0.8s cubic-bezier(0.22,1,0.36,1) both; }
+          .ha1h-h1 { animation-delay: 0.08s; } .ha1h-sub { animation-delay: 0.16s; } .ha1h-ctas { animation-delay: 0.24s; }
+          @keyframes ha1hUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        }
+        @media (max-width: 640px) { .ha1h-hero { min-height: 86svh; } }
+      `}</style>
+
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="Salon" className="ha1h-bg">
+        <img src={bg} alt="Editorial styling v salonu" loading="eager" />
+      </GenericEditableImage>
+      <div className="ha1h-shade" aria-hidden />
+
+      <div className="ha1h-inner">
+        <p className="ha1h-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </p>
+        <h1 className="ha1h-h1" style={{ fontFamily: "'Libre Caslon Display', serif", color: "#F6F3EE" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <p className="ha1h-sub">
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+        <div className="ha1h-ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="ha1h-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={resolve(cta2Href)} className="ha1h-cta2">
+            <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      <div className="ha1h-scroll" aria-hidden>
+        <span>SCROLL</span>
+        <svg width="12" height="20" viewBox="0 0 14 22" fill="none"><path d="M7 1v20M1 14l6 7 6-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-hair-01-page ─────────────────────────────────────────────────────────
+// V3 Ivory & Brass podstránkový hero: breadcrumb + Libre Caslon H1 + subtitle.
+function HeroHair01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title    = String(c.title ?? "Podstránka");
+  const subtitle = String(c.subtitle ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .ha1hp-section {
+          background: var(--color-bg, #F6F3EE);
+          padding: calc(4.7rem + clamp(2rem, 4.5vw, 3.4rem)) 0 clamp(2.2rem, 5vw, 3.6rem);
+          border-bottom: 1px solid var(--color-border, #E6DDD0);
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1hp-inner { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .ha1hp-crumbs {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.84rem; color: var(--color-text-muted, #756A5D); margin-bottom: 1.1rem;
+        }
+        .ha1hp-crumbs a { color: var(--color-text-muted, #756A5D); text-decoration: none; font-weight: 500; }
+        .ha1hp-crumbs a:hover { color: var(--color-primary, #A07C33); }
+        .ha1hp-h1 {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(2.2rem, 4.4vw, 3.4rem); color: var(--color-text, #16110C);
+          line-height: 1.06; margin: 0; text-wrap: balance;
+        }
+        .ha1hp-sub {
+          font-size: clamp(0.98rem, 1.5vw, 1.1rem); color: var(--color-text-muted, #756A5D);
+          line-height: 1.7; margin: 1rem 0 0; max-width: 40rem;
+        }
+      `}</style>
+      <section className="ha1hp-section" data-template="hero-hair-01-page">
+        <div className="ha1hp-inner">
+          <nav className="ha1hp-crumbs" aria-label="Drobečková navigace">
+            <a href={resolve(breadcrumbHref)}><GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" /></a>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <span aria-current="page">{title}</span>
+          </nav>
+          <h1 className="ha1hp-h1" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle && (
+            <p className="ha1hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ══ ORBIT — Precision instrument (orbit-01) ═══════════════════════════════════
+// Produktový hero na ink s jemnou technickou mřížkou: velká Overpass 800 typografie
+// s emerald akcentovým řádkem; glass „produktové okno" = signature interakce —
+// segmented taby (Přehled / Automatizace / Reporty) živě přepínají CSS mockup
+// (velká metrika, hairline řádky, bar chart) bez videa. CTA Rezervovat demo.
+type Ob01TabRow = { name?: string; value?: string };
+type Ob01Tab = { label?: string; metric?: string; metricLabel?: string; rows?: Ob01TabRow[] };
+
+function ob01ResolveHref(href: string, tenantSlug?: string, isAdmin?: boolean) {
+  if (!tenantSlug) return href;
+  if (href.startsWith("#") || href.startsWith("http") || href.startsWith("tel:") || href.startsWith("mailto:")) return href;
+  return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href.startsWith("/") ? href : "/" + href}`;
+}
+
+const OB01_BARS: number[][] = [
+  [38, 52, 44, 66, 58, 74, 86],
+  [28, 28, 60, 60, 78, 78, 92],
+  [54, 40, 66, 50, 78, 62, 88],
+];
+
+function HeroOrbit01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const eyebrow     = String(content.eyebrow     ?? "Platforma pro firemní procesy");
+  const title       = String(content.title       ?? "Procesy, které se řídí samy.");
+  const titleAccent = String(content.titleAccent ?? "Vy řídíte firmu.");
+  const subtitle    = String(content.subtitle    ?? "Ukázka Flow spojí zakázky, schvalování a reporting do jedné automatizované platformy. Nasazení do 14 dnů, bez programování.");
+  const ctaText          = String(content.ctaText          ?? "Vyzkoušet 14 dní zdarma");
+  const ctaHref          = String(content.ctaHref          ?? "#demo");
+  const ctaSecondaryText = String(content.ctaSecondaryText ?? "Prohlédnout produkt");
+  const ctaSecondaryHref = String(content.ctaSecondaryHref ?? "/produkt");
+  const rawTrust = content.trust as string[] | undefined;
+  const trust = rawTrust && rawTrust.length ? rawTrust : ["Nasazení do 14 dnů", "Data v EU, GDPR", "Bez platební karty"];
+
+  const windowUrl   = String(content.windowUrl   ?? "app.ukazkaflow.cz");
+  const windowBadge = String(content.windowBadge ?? "LIVE");
+  const panelCtaText = String(content.panelCtaText ?? "Rezervovat demo");
+  const panelCtaHref = String(content.panelCtaHref ?? "#demo");
+  const panelCtaNote = String(content.panelCtaNote ?? "14 dní zdarma · bez platební karty");
+
+  const tabs: Ob01Tab[] = (content.tabs as Ob01Tab[] | undefined)?.length
+    ? (content.tabs as Ob01Tab[])
+    : [
+        { label: "Přehled", metric: "128", metricLabel: "zakázek běží právě teď bez ručního zásahu", rows: [
+          { name: "Nové objednávky", value: "+24 dnes" },
+          { name: "Čeká na schválení", value: "3" },
+          { name: "Průměrná doba vyřízení", value: "1,8 dne" },
+        ] },
+        { label: "Automatizace", metric: "46 h", metricLabel: "ušetřených každý týden automatickými kroky", rows: [
+          { name: "Objednávka → faktura", value: "Aktivní" },
+          { name: "Urgence po 48 hodinách", value: "Aktivní" },
+          { name: "Schválení nad 50 000 Kč", value: "Aktivní" },
+        ] },
+        { label: "Reporty", metric: "99,2 %", metricLabel: "zakázek doručených v termínu tento měsíc", rows: [
+          { name: "Obrat za červenec", value: "4,2 mil. Kč" },
+          { name: "Vytížení týmu", value: "82 %" },
+          { name: "Reklamace", value: "0,4 %" },
+        ] },
+      ];
+
+  const [tabIdx, setTabIdx] = useState(0);
+  const tab = tabs[Math.min(tabIdx, tabs.length - 1)] ?? {};
+  const rows = (tab.rows ?? []).slice(0, 3);
+  const bars = OB01_BARS[Math.min(tabIdx, OB01_BARS.length - 1)] ?? OB01_BARS[0];
+
+  return (
+    <>
+      <style>{`
+        .ob01hero { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-accent-lt: color-mix(in srgb, var(--color-accent, #047857) 52%, #fff);
+          position: relative; background: var(--ob-ink); overflow: hidden;
+          font-family: var(--font-body, system-ui, -apple-system, sans-serif); color: #fff;
+          display: flex; align-items: center; min-height: clamp(640px, 90vh, 880px); }
+        .ob01hero::before { content: ''; position: absolute; inset: 0; opacity: .55;
+          background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+          background-size: 46px 46px; mask-image: linear-gradient(180deg, rgba(0,0,0,.9), rgba(0,0,0,.25) 70%, transparent); }
+        .ob01hero-inner { position: relative; z-index: 2; max-width: 1280px; margin: 0 auto; width: 100%;
+          padding: clamp(88px, 11vh, 128px) clamp(20px, 5vw, 48px) clamp(56px, 8vh, 88px);
+          display: grid; grid-template-columns: 1.04fr 0.96fr; gap: clamp(36px, 5vw, 72px); align-items: center; }
+        @keyframes ob01up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+        .ob01hero-left { min-width: 0; }
+        .ob01hero-left > * { animation: ob01up .65s cubic-bezier(.22,.68,0,1) both; }
+        .ob01hero-left > *:nth-child(1) { animation-delay: .05s; }
+        .ob01hero-left > *:nth-child(2) { animation-delay: .13s; }
+        .ob01hero-left > *:nth-child(3) { animation-delay: .22s; }
+        .ob01hero-left > *:nth-child(4) { animation-delay: .32s; }
+        .ob01hero-left > *:nth-child(5) { animation-delay: .44s; }
+        .ob01hero-eyebrow { font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .78rem; font-weight: 700;
+          letter-spacing: .16em; text-transform: uppercase; color: var(--ob-accent-lt); margin: 0 0 20px;
+          display: inline-flex; align-items: center; gap: 12px; }
+        .ob01hero-eyebrow::before { content: ''; width: 40px; height: 2px; background: var(--ob-accent-lt); }
+        .ob01hero-h1 { font-family: var(--font-heading, system-ui, sans-serif); color: #fff;
+          font-size: clamp(2.5rem, 5.2vw, 4.3rem); font-weight: 800; line-height: 1.03;
+          letter-spacing: -0.035em; margin: 0 0 24px; text-wrap: balance; }
+        .ob01hero-h1-accent { display: block; font-weight: 800; color: var(--ob-accent-lt); font-size: 1em; margin-top: .08em; }
+        .ob01hero-sub { font-size: clamp(1.02rem, 1.35vw, 1.16rem); line-height: 1.65; color: rgba(255,255,255,.8);
+          max-width: 30em; margin: 0 0 34px; }
+        .ob01hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+        .ob01btn-primary { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; gap: 10px;
+          padding: 16px 28px; background: var(--ob-accent); color: #fff; font-weight: 700; font-size: .98rem;
+          text-decoration: none; border-radius: 6px; transition: transform .35s cubic-bezier(.22,.68,0,1), box-shadow .35s ease; white-space: nowrap; }
+        .ob01btn-primary > * { position: relative; z-index: 2; }
+        .ob01btn-primary::before { content: ''; position: absolute; top: 0; left: -130%; width: 55%; height: 100%; z-index: 1;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,.32), transparent); transform: skewX(-18deg); transition: left .6s cubic-bezier(.22,.68,0,1); }
+        .ob01btn-primary:hover::before { left: 140%; }
+        .ob01btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px color-mix(in srgb, var(--ob-accent) 75%, transparent); }
+        .ob01btn-ghost { display: inline-flex; align-items: center; gap: 10px; padding: 15px 24px; background: rgba(255,255,255,.06);
+          color: #fff; font-weight: 600; font-size: .98rem; text-decoration: none; border: 1.5px solid rgba(255,255,255,.35);
+          border-radius: 6px; transition: border-color .2s, background .2s; white-space: nowrap; backdrop-filter: blur(6px); }
+        .ob01btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,.12); }
+        .ob01hero-trust { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 36px;
+          padding-top: 24px; border-top: 1px solid rgba(255,255,255,.2); }
+        .ob01hero-trust-item { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 700; color: #fff; }
+        .ob01hero-trust-item svg { flex-shrink: 0; color: var(--ob-accent-lt); }
+        .ob01hero-trust-item + .ob01hero-trust-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%;
+          background: rgba(255,255,255,.35); margin-right: 14px; }
+        /* produktové okno */
+        .ob01hero-visual { position: relative; min-width: 0; animation: ob01up .7s cubic-bezier(.22,.68,0,1) .18s both; z-index: 2; }
+        .ob01win { position: relative; z-index: 2; width: 100%; color: #fff;
+          background: rgba(10,17,27,.66); backdrop-filter: blur(18px) saturate(1.2); -webkit-backdrop-filter: blur(18px) saturate(1.2);
+          border: 1px solid rgba(255,255,255,.14);
+          border-radius: 16px; box-shadow: 0 30px 70px -25px rgba(0,0,0,.55); overflow: hidden; }
+        .ob01win-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.12); }
+        .ob01win-dots { display: inline-flex; gap: 6px; }
+        .ob01win-dots i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.22); }
+        .ob01win-url { flex: 1; text-align: center; font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .72rem;
+          color: rgba(255,255,255,.6); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 6px;
+          padding: 5px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+        .ob01win-live { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-overpass-mono, ui-monospace, monospace);
+          font-size: .64rem; font-weight: 700; letter-spacing: .12em; color: var(--ob-accent-lt); }
+        .ob01win-live::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ob-accent-lt); }
+        .ob01win-body { padding: clamp(18px, 2vw, 26px); }
+        .ob01win-tabs { position: relative; display: flex; background: rgba(255,255,255,.08); border-radius: 8px; padding: 3px; margin-bottom: 18px; width: 100%; isolation: isolate; }
+        .ob01win-tabs-thumb { position: absolute; top: 3px; bottom: 3px; left: 3px; border-radius: 6px; background: #fff;
+          box-shadow: 0 2px 10px rgba(0,0,0,.35); z-index: 0; transition: transform .28s cubic-bezier(.22,.68,0,1);
+          width: calc((100% - 6px) / var(--ob-n, 3)); transform: translateX(calc(var(--ob-i, 0) * 100%)); }
+        .ob01win-tab { position: relative; z-index: 1; flex: 1; border: none; cursor: pointer; padding: 9px 2px; border-radius: 6px; font-family: inherit;
+          font-weight: 700; font-size: .8rem; color: rgba(255,255,255,.62); background: transparent; transition: color .2s; white-space: nowrap; }
+        .ob01win-tab[aria-checked="true"] { color: var(--ob-ink); }
+        @keyframes ob01fade { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+        .ob01win-metric { animation: ob01fade .32s cubic-bezier(.22,.68,0,1) both; }
+        .ob01win-metric-val { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+        .ob01win-metric-val > b { font-family: var(--font-heading, system-ui, sans-serif); font-size: clamp(2.3rem, 2.9vw, 3rem); font-weight: 800;
+          letter-spacing: -0.02em; line-height: 1; color: var(--ob-accent-lt); font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .ob01win-metric-val b span { font-size: inherit; }
+        .ob01win-metric-val > span { font-size: .88rem; color: rgba(255,255,255,.85); font-weight: 600; max-width: 17em; line-height: 1.35; }
+        .ob01win-rows { margin: 16px 0 0; border-top: 1px solid rgba(255,255,255,.12); }
+        .ob01win-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 2px;
+          border-bottom: 1px solid rgba(255,255,255,.12); font-size: .9rem; font-weight: 600; color: rgba(255,255,255,.9);
+          animation: ob01fade .3s cubic-bezier(.22,.68,0,1) both; }
+        .ob01win-row:nth-child(2) { animation-delay: .05s; }
+        .ob01win-row:nth-child(3) { animation-delay: .1s; }
+        .ob01win-row > .ob01win-row-val { font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .78rem; font-weight: 700;
+          color: var(--ob-accent-lt); white-space: nowrap; }
+        .ob01win-bars { display: flex; align-items: flex-end; gap: 7px; height: 64px; margin-top: 18px; }
+        .ob01win-bars i { flex: 1; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--ob-accent-lt), color-mix(in srgb, var(--ob-accent-lt) 45%, transparent));
+          opacity: .85; height: calc(var(--h) * 1%); transition: height .45s cubic-bezier(.22,.68,0,1); }
+        .ob01win-cta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; width: 100%;
+          padding: 15px; background: var(--ob-accent); color: #fff; font-weight: 700; font-size: .95rem; text-decoration: none;
+          border-radius: 6px; transition: filter .2s, transform .2s; box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--ob-accent) 70%, transparent); }
+        .ob01win-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .ob01win-cta-note { font-family: var(--font-overpass-mono, ui-monospace, monospace); text-align: center; font-size: .7rem;
+          color: rgba(255,255,255,.5); margin: 10px 0 0; }
+        @media (max-width: 1000px) {
+          .ob01hero { min-height: 0; }
+          .ob01hero-inner { grid-template-columns: 1fr; padding-top: 88px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ob01hero-left > *, .ob01hero-visual, .ob01win-metric, .ob01win-row { animation: none; }
+          .ob01btn-primary, .ob01btn-primary::before, .ob01win-tab, .ob01win-tabs-thumb, .ob01win-bars i { transition: none; }
+        }
+      `}</style>
+
+      <section className="ob01hero" data-template="orbit-01" id="uvod">
+        <div className="ob01hero-inner">
+          <div className="ob01hero-left">
+            <p className="ob01hero-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </p>
+            <h1 className="ob01hero-h1">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              {titleAccent && (
+                <span className="ob01hero-h1-accent">
+                  <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+                </span>
+              )}
+            </h1>
+            <p className="ob01hero-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+            <div className="ob01hero-ctas">
+              <a href={ob01ResolveHref(ctaHref, tenantSlug, isAdmin)} className="ob01btn-primary" data-btn="primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href={ob01ResolveHref(ctaSecondaryHref, tenantSlug, isAdmin)} className="ob01btn-ghost">
+                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+              </a>
+            </div>
+            <div className="ob01hero-trust">
+              {trust.map((t, i) => (
+                <span key={i} className="ob01hero-trust-item">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                  <GenericEditableText sectionId={sectionId} field={`trust.${i}`} value={t} tag="span" />
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="ob01hero-visual">
+            <div className="ob01win" role="group" aria-label="Ukázka produktu">
+              <div className="ob01win-bar">
+                <span className="ob01win-dots" aria-hidden="true"><i /><i /><i /></span>
+                <span className="ob01win-url">
+                  <GenericEditableText sectionId={sectionId} field="windowUrl" value={windowUrl} tag="span" />
+                </span>
+                <span className="ob01win-live">
+                  <GenericEditableText sectionId={sectionId} field="windowBadge" value={windowBadge} tag="span" />
+                </span>
+              </div>
+              <div className="ob01win-body">
+                <div className="ob01win-tabs" role="radiogroup" aria-label="Části produktu"
+                  style={{ ["--ob-n" as string]: tabs.length, ["--ob-i" as string]: Math.min(tabIdx, tabs.length - 1) }}>
+                  <span className="ob01win-tabs-thumb" aria-hidden="true" />
+                  {tabs.map((t, i) => (
+                    <button key={i} type="button" className="ob01win-tab" role="radio" aria-checked={tabIdx === i} onClick={() => setTabIdx(i)}>
+                      {String(t.label ?? "")}
+                    </button>
+                  ))}
+                </div>
+                <div className="ob01win-metric" key={`m-${tabIdx}`} aria-live="polite">
+                  <div className="ob01win-metric-val">
+                    <b><GenericEditableText sectionId={sectionId} field={`tabs.${tabIdx}.metric`} value={String(tab.metric ?? "")} tag="span" /></b>
+                    <span><GenericEditableText sectionId={sectionId} field={`tabs.${tabIdx}.metricLabel`} value={String(tab.metricLabel ?? "")} tag="span" /></span>
+                  </div>
+                </div>
+                <div className="ob01win-rows" key={`r-${tabIdx}`}>
+                  {rows.map((r, i) => (
+                    <div key={i} className="ob01win-row">
+                      <GenericEditableText sectionId={sectionId} field={`tabs.${tabIdx}.rows.${i}.name`} value={String(r.name ?? "")} tag="span" />
+                      <span className="ob01win-row-val">
+                        <GenericEditableText sectionId={sectionId} field={`tabs.${tabIdx}.rows.${i}.value`} value={String(r.value ?? "")} tag="span" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="ob01win-bars" aria-hidden="true">
+                  {bars.map((h, i) => (
+                    <i key={i} style={{ ["--h" as string]: h }} />
+                  ))}
+                </div>
+                <a href={ob01ResolveHref(panelCtaHref, tenantSlug, isAdmin)} className="ob01win-cta" data-btn="primary">
+                  <GenericEditableText sectionId={sectionId} field="panelCtaText" value={panelCtaText} tag="span" />
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <p className="ob01win-cta-note">
+                  <GenericEditableText sectionId={sectionId} field="panelCtaNote" value={panelCtaNote} tag="span" />
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-orbit-01-page — podstránkové hero (breadcrumb + claim na ink) ────────
+function HeroOrbit01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const title      = String(content.title      ?? "Podstránka");
+  const subtitle   = String(content.subtitle   ?? "");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadHref  = String(content.breadcrumbHref ?? "/");
+  return (
+    <>
+      <style>{`
+        .ob01pb { --ob-accent: var(--color-accent, #047857); --ob-ink: var(--color-secondary, #0A0F16);
+          --ob-accent-lt: color-mix(in srgb, var(--color-accent, #047857) 52%, #fff);
+          position: relative; background: var(--ob-ink); color: #fff;
+          font-family: var(--font-body, system-ui, -apple-system, sans-serif); overflow: hidden; }
+        .ob01pb::before { content: ''; position: absolute; inset: 0; opacity: .5;
+          background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+          background-size: 46px 46px; mask-image: linear-gradient(180deg, rgba(0,0,0,.9), transparent); }
+        .ob01pb-inner { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: clamp(44px, 6vw, 76px) clamp(20px, 5vw, 48px); }
+        .ob01pb-crumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-overpass-mono, ui-monospace, monospace); font-size: .78rem; color: rgba(255,255,255,.55); margin-bottom: 16px; }
+        .ob01pb-crumb a { color: rgba(255,255,255,.55); text-decoration: none; transition: color .2s; }
+        .ob01pb-crumb a:hover { color: var(--ob-accent-lt); }
+        .ob01pb-crumb .cur { color: #fff; }
+        .ob01pb-title { font-family: var(--font-heading, system-ui, sans-serif); color: #fff; font-size: clamp(2rem, 4.2vw, 3.1rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; margin: 0; }
+        .ob01pb-sub { font-size: clamp(1rem, 1.35vw, 1.12rem); color: rgba(255,255,255,.72); max-width: 42em; margin: 14px 0 0; line-height: 1.6; }
+        .ob01pb-rule { width: 56px; height: 3px; background: var(--ob-accent-lt); margin-top: 24px; }
+      `}</style>
+      <section className="ob01pb" data-template="orbit-01">
+        <div className="ob01pb-inner">
+          <div className="ob01pb-crumb">
+            <a href={ob01ResolveHref(breadHref, tenantSlug, isAdmin)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span aria-hidden="true">/</span>
+            <span className="cur">{title}</span>
+          </div>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="ob01pb-title" />
+          {subtitle && <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="ob01pb-sub" />}
+          <div className="ob01pb-rule" aria-hidden="true" />
         </div>
       </section>
     </>

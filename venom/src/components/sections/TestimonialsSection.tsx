@@ -252,48 +252,8 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
   }
 
   // hair-01: white bg, rating line, horizontal card row
-  if (variant === "hair-01-cards") {
-    const MONO = "'Montserrat',sans-serif";
-    const GOLD = "#8a6f28";
-    const ratingLine = String((content as Record<string,unknown>).ratingLine ?? "");
-    return (
-      <section
-        data-template="hair-01"
-        style={{ backgroundColor: "#ffffff", padding: "clamp(60px,8vw,100px) clamp(20px,5vw,60px)", fontFamily: MONO }}
-      >
-        <div className="max-w-[1440px] mx-auto">
-          {ratingLine && (
-            <p style={{ color: GOLD, fontSize: 12, fontWeight: 500, letterSpacing: "0.14em", textAlign: "center", marginBottom: 8, textTransform: "uppercase" }}>
-              {ratingLine}
-            </p>
-          )}
-          <h2
-            className="text-center"
-            style={{ color: "#1e1e1e", fontSize: "clamp(20px,2.2vw,32px)", fontWeight: 300, letterSpacing: "0.06em", marginBottom: "clamp(40px,5vw,64px)" }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <div className="grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))" }}>
-            {testimonials.map((t, i) => (
-              <div
-                key={i}
-                style={{ backgroundColor: "#f5f1f0", padding: "36px 32px", display: "flex", flexDirection: "column", gap: 16 }}
-              >
-                <div style={{ color: GOLD, letterSpacing: "0.08em", fontSize: 14 }}>
-                  {Array.from({ length: t.rating }).map((_, j) => <span key={j}>★</span>)}
-                </div>
-                <p style={{ color: "#1e1e1e", fontSize: 14, fontWeight: 300, lineHeight: 1.8, fontStyle: "italic", flex: 1 }}>
-                  &ldquo;<GenericEditableText sectionId={sectionId} field={`testimonials.${i}.text`} value={t.text} tag="span" />&rdquo;
-                </p>
-                <p style={{ color: "#605f5f", fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                  <GenericEditableText sectionId={sectionId} field={`testimonials.${i}.name`} value={t.name} tag="span" />
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
+    if (variant === "hair-01-cards") {
+    return <TestimonialsHair01 content={content} sectionId={sectionId} />;
   }
 
   if (variant === "testimonials-peak-cut-grid") {
@@ -6115,5 +6075,91 @@ function TestimonialsSignal01({ content, sectionId }: { content: Record<string, 
         </div>
       </section>
     </>
+  );
+}
+
+// ── hair-01-testimonials ──────────────────────────────────────────────────────
+// V3 Ivory & Brass: hairline karty s iniciálovými avatary (žádné stock portréty),
+// brass hvězdy, ratingLine pod titulkem.
+function TestimonialsHair01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type Item = { name?: string; text?: string; rating?: number };
+  const title = String(content.title ?? "Recenze našich klientů");
+  const ratingLine = String(content.ratingLine ?? "");
+  const items = ((content.items ?? content.testimonials) as Item[]) ?? [];
+
+  return (
+    <section data-section-type="testimonials" data-variant="hair-01-cards" className="ha1r-section">
+      <style>{`
+        .ha1r-section {
+          background: var(--color-surface, #FFFFFF);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1r-inner { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .ha1r-head { text-align: center; margin-bottom: clamp(2rem, 4.5vw, 3rem); }
+        .ha1r-eyebrow {
+          display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--color-primary, #A07C33); margin: 0 0 1rem;
+        }
+        .ha1r-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #A07C33); }
+        .ha1r-title {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(1.9rem, 3.4vw, 2.7rem); color: var(--color-text, #16110C);
+          line-height: 1.1; margin: 0 0 0.5rem; text-wrap: balance;
+        }
+        .ha1r-rating { font-size: 0.9rem; font-weight: 600; color: var(--color-text-muted, #756A5D); margin: 0; }
+        .ha1r-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.2rem, 2.5vw, 2rem); }
+        .ha1r-card {
+          border: 1px solid var(--color-border, #E6DDD0); border-radius: 2px;
+          padding: clamp(1.5rem, 3vw, 2rem); display: flex; flex-direction: column;
+          background: var(--color-bg, #F6F3EE);
+        }
+        .ha1r-stars { display: flex; gap: 0.2rem; color: var(--color-primary, #A07C33); margin-bottom: 1rem; }
+        .ha1r-text { font-size: 0.97rem; line-height: 1.7; color: var(--color-text, #16110C); margin: 0 0 1.4rem; flex: 1; font-style: italic; }
+        .ha1r-person { display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid var(--color-border, #E6DDD0); padding-top: 1.1rem; }
+        .ha1r-avatar {
+          width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+          background: var(--color-secondary, #14100B); color: #F6F3EE;
+          display: grid; place-items: center; font-family: 'Libre Caslon Display', serif; font-size: 0.95rem;
+        }
+        .ha1r-name { font-size: 0.92rem; font-weight: 600; color: var(--color-text, #16110C); margin: 0; }
+        @media (max-width: 900px) { .ha1r-grid { grid-template-columns: 1fr; max-width: 34rem; margin: 0 auto; } }
+      `}</style>
+      <div className="ha1r-inner">
+        <div className="ha1r-head">
+          <p className="ha1r-eyebrow">Recenze</p>
+          <h2 className="ha1r-title" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {ratingLine && (
+            <p className="ha1r-rating"><GenericEditableText sectionId={sectionId} field="ratingLine" value={ratingLine} tag="span" /></p>
+          )}
+        </div>
+        <div className="ha1r-grid">
+          {items.map((t, i) => {
+            const initials = (t.name ?? "").split(/\s+/).map(w => w[0] ?? "").join("").slice(0, 2).toUpperCase();
+            return (
+              <figure className="ha1r-card" key={i} style={{ margin: 0 }}>
+                <div className="ha1r-stars" aria-label={`${t.rating ?? 5} z 5 hvězd`} role="img">
+                  {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
+                    <svg key={j} width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z"/></svg>
+                  ))}
+                </div>
+                <blockquote className="ha1r-text">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={t.text ?? ""} tag="span" />
+                </blockquote>
+                <figcaption className="ha1r-person">
+                  <span className="ha1r-avatar" aria-hidden>{initials}</span>
+                  <p className="ha1r-name">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={t.name ?? ""} tag="span" />
+                  </p>
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

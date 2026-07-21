@@ -286,63 +286,8 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "restaurant-04-menu")    return <ServicesRestaurant04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
   // hair-01: 4 numbered cards (01–04), gold číslo, Montserrat, cream bg
-  if (variant === "hair-numbered-cards") {
-    interface HairItem { number?: string; name: string; description: string; ctaText?: string; ctaHref?: string; }
-    const items = (content.items as HairItem[]) ?? (content.services as HairItem[]) ?? [];
-    const MONO = "'Montserrat',sans-serif";
-    const GOLD = "#8a6f28";
-    const CREAM = "#f5f1f0";
-    return (
-      <section id="sluzby" data-template="hair-01" style={{ backgroundColor: CREAM, padding: "clamp(60px,8vw,100px) clamp(20px,5vw,60px)", fontFamily: MONO }}>
-        <div
-          className="max-w-[1280px] mx-auto grid gap-8"
-          style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(260px,100%), 1fr))" }}
-        >
-          {items.map((it, i) => (
-            <div
-              key={i}
-              style={{ backgroundColor: "#fff", padding: "40px 32px 36px", display: "flex", flexDirection: "column", gap: 16 }}
-            >
-              <span style={{ color: GOLD, fontSize: 28, fontWeight: 200, letterSpacing: "0.04em", lineHeight: 1 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.number`} value={it.number ?? `0${i+1}.`} tag="span" />
-              </span>
-              <p style={{ color: "#1e1e1e", fontSize: "clamp(15px,1.3vw,18px)", fontWeight: 600, lineHeight: 1.3, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={it.name} tag="span" />
-              </p>
-              <p style={{ color: "#605f5f", fontSize: 14, fontWeight: 300, lineHeight: 1.7, flex: 1, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={it.description} tag="span" />
-              </p>
-              {it.ctaText && (
-                <a
-                  href={it.ctaHref ?? "#rezervace"}
-                  data-btn="inverse"
-                  style={{
-                    display: "inline-block",
-                    marginTop: 8,
-                    border: `1.5px solid ${GOLD}`,
-                    color: GOLD,
-                    backgroundColor: "transparent",
-                    fontFamily: MONO,
-                    fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    padding: "12px 24px",
-                    textDecoration: "none",
-                    alignSelf: "flex-start",
-                    transition: "background 0.2s, color 0.2s",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD; }}
-                >
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={it.ctaText} tag="span" />
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
-    );
+    if (variant === "hair-numbered-cards") {
+    return <ServicesHair01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // Support both field name conventions: services[] and items[] (generator/pricing section)
@@ -16413,5 +16358,111 @@ function MethodSignal01({ content, sectionId }: { content: Record<string, unknow
         </div>
       </section>
     </>
+  );
+}
+
+// ── hair-01-services ──────────────────────────────────────────────────────────
+// V3 Ivory & Brass: foto karty služeb — aspect 4/5, hover zoom, číslo v rohu,
+// hairline, brass link CTA (items: number/name/description/imageUrl/ctaText/ctaHref).
+function ServicesHair01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type Item = { number?: string; name?: string; description?: string; imageUrl?: string; ctaText?: string; ctaHref?: string };
+  const eyebrow = String(content.eyebrow ?? "Služby");
+  const title = String(content.title ?? "Na čem si zakládáme");
+  const items = ((content.items ?? content.services) as Item[]) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="sluzby" data-section-type="services" data-variant="hair-numbered-cards" className="ha1s-section">
+      <style>{`
+        .ha1s-section {
+          background: var(--color-surface, #FFFFFF);
+          padding: clamp(3.5rem, 8vw, 6.5rem) 0;
+          font-family: 'Hanken Grotesk', sans-serif;
+        }
+        .ha1s-inner { max-width: 78rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+        .ha1s-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--color-primary, #A07C33); margin: 0 0 1.1rem;
+        }
+        .ha1s-eyebrow::before { content: ""; width: 30px; height: 1.5px; background: var(--color-primary, #A07C33); }
+        .ha1s-title {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400;
+          font-size: clamp(2rem, 3.6vw, 2.9rem); color: var(--color-text, #16110C);
+          line-height: 1.1; margin: 0 0 clamp(2.2rem, 5vw, 3.4rem); text-wrap: balance; max-width: 40rem;
+        }
+        .ha1s-grid {
+          display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(1.2rem, 2.5vw, 2rem);
+        }
+        .ha1s-card { display: flex; flex-direction: column; }
+        .ha1s-photo {
+          position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 2px; margin-bottom: 1.1rem;
+        }
+        .ha1s-photo-wrap { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+        .ha1s-photo img {
+          position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+        }
+        .ha1s-card:hover .ha1s-photo img { transform: scale(1.06); }
+        .ha1s-photo::after {
+          content: ""; position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(12,9,6,0.35) 0%, transparent 40%);
+          pointer-events: none;
+        }
+        .ha1s-num {
+          position: absolute; top: 0.9rem; left: 0.9rem; z-index: 2;
+          font-family: 'Libre Caslon Display', serif; font-size: 1rem;
+          color: #F6F3EE; background: rgba(12,9,6,0.5); padding: 0.25rem 0.6rem; border-radius: 2px;
+          -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+        }
+        .ha1s-name {
+          font-family: 'Libre Caslon Display', serif; font-weight: 400; font-size: 1.28rem;
+          color: var(--color-text, #16110C); margin: 0 0 0.5rem; line-height: 1.25;
+        }
+        .ha1s-desc { font-size: 0.92rem; line-height: 1.65; color: var(--color-text-muted, #756A5D); margin: 0 0 0.9rem; flex: 1; }
+        .ha1s-link {
+          display: inline-flex; align-items: center; gap: 0.45rem; align-self: flex-start;
+          font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+          color: var(--color-primary, #A07C33); text-decoration: none;
+          border-bottom: 1.5px solid transparent; padding-bottom: 2px; transition: border-color 0.25s;
+        }
+        .ha1s-link:hover { border-color: var(--color-primary, #A07C33); }
+        @media (max-width: 1024px) { .ha1s-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 560px) { .ha1s-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="ha1s-inner">
+        <p className="ha1s-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </p>
+        <h2 className="ha1s-title" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h2>
+        <div className="ha1s-grid">
+          {items.map((item, i) => (
+            <article className="ha1s-card" key={i}>
+              <div className="ha1s-photo">
+                <span className="ha1s-num" aria-hidden>{item.number ?? `0${i + 1}`}</span>
+                {item.imageUrl && (
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.imageUrl`} src={item.imageUrl} alt={item.name ?? ""} className="ha1s-photo-wrap">
+                    <img src={item.imageUrl} alt={item.name ?? ""} loading="lazy" />
+                  </GenericEditableImage>
+                )}
+              </div>
+              <h3 className="ha1s-name" style={{ fontFamily: "'Libre Caslon Display', serif", color: "var(--color-text, #16110C)" }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
+              </h3>
+              <p className="ha1s-desc">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
+              </p>
+              <a href={resolve(item.ctaHref ?? "/kontakt")} className="ha1s-link">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText ?? "Objednat se"} tag="span" />
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
