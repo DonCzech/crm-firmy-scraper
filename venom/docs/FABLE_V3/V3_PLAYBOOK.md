@@ -206,5 +206,5 @@ screenshoty každé sekce porovnané s §1, commit po celcích, memory update.
 | # | Šablona | Stav |
 |---|---|---|
 | 1 | PROOF (proof-01) | ✅ DONE — schváleno uživatelem, QA ALL PASS |
-| 2 | SIGNAL (signal-01) | ⏭ další — brief §8 |
+| 2 | SIGNAL (signal-01) | ✅ DONE — validate PASS, tsc 0, QA ALL PASS (0 konzol. chyb), živě `http://localhost:3015/demo/signal-01-v2` (tenant 1321); rebuild `scripts/signal-rebuild.py`, QA `scripts/signal01-qa.mjs`; POZOR: build spravil stub `src/components/storefront/MegaMenu.tsx` (import z paralelní session bez souboru) |
 | 3–10 | ORBIT, ATELIER, MAISON, PERSONA, ACADEMY, JOURNAL, SUMMIT, COMMON | čeká |
