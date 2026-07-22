@@ -266,7 +266,11 @@ export function useRezoraBooking(content: Record<string, unknown>, isAdmin = fal
   useEffect(() => {
     if (!providerSlug) { setLoading(false); return; }
     // Data už dorazila ze serveru — žádný požadavek z prohlížeče není potřeba.
-    if (prefetch) return;
+    // POZOR: přeskočit klientský fetch smíme JEN když prefetch reálně přinesl služby.
+    // Když server prefetch vrátil poskytovatele, ale prázdné služby (výpadek/pomalé
+    // app.rezora.cz, zacacheovaný null), musí klient dotáhnout — jinak widget zůstane
+    // navždy prázdný (SSR služby vykreslí, hydratace je smaže). Platí pro všechny šablony.
+    if (prefetch && prefetch.services && prefetch.services.length > 0) return;
     let cancelled = false;
     setLoading(true);
 

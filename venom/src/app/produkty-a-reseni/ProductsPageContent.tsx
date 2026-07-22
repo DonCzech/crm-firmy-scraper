@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Check, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Sparkles, ChevronDown } from "lucide-react";
 import { PlatformHeader } from "@/components/PlatformHeader";
 import { PlatformFooter } from "@/components/PlatformFooter";
 import type { PlatformLocale } from "@/lib/platform-i18n";
@@ -12,21 +12,39 @@ import { platformPath } from "@/lib/platform-i18n";
    Server component — every motion is pure CSS, no client hooks.
    ──────────────────────────────────────────────────────────────────────── */
 
-const CONTACT = "mailto:podpora@webero.co?subject=Custom%20project%20—%20Webero";
 const SERIF = "var(--font-instrument-serif), 'Instrument Serif', Georgia, serif";
 
 type Product = { key: string; tag: string; title: string; perex: string; meta: string; image: string };
+type FeatureGroup = { title: string; items: string[] };
+
+const FEATURE_GROUPS_CS: FeatureGroup[] = [
+  { title: "Obsah a média", items: ["Blog a články", "Mediální knihovna", "Fotogalerie", "Video streaming", "Kurzy a předplatné"] },
+  { title: "Prodej", items: ["E-shop a katalog", "Platby a fakturace", "Slevové kódy", "Sklad a varianty"] },
+  { title: "Konverze", items: ["Rezervace online", "Formuláře a leady", "Pop-upy a bannery", "Recenze", "Mapy a lokace"] },
+  { title: "Marketing", items: ["SEO a viditelnost", "Analytika", "Newsletter", "A/B testování", "Vícejazyčnost"] },
+  { title: "Editor a tým", items: ["Live editor", "Historie verzí", "Tým a role", "AI asistent", "Česká podpora"] },
+  { title: "Provoz a bezpečnost", items: ["Doména a hosting", "SSL a HTTPS", "Zálohy a obnova", "GDPR a cookies", "Integrace a API"] },
+];
+
+const FEATURE_GROUPS_EN: FeatureGroup[] = [
+  { title: "Content & media", items: ["Blog & articles", "Media library", "Photo galleries", "Video streaming", "Courses & memberships"] },
+  { title: "Selling", items: ["E-shop & catalog", "Payments & invoicing", "Discount codes", "Stock & variants"] },
+  { title: "Conversion", items: ["Online booking", "Forms & leads", "Pop-ups & banners", "Reviews", "Maps & locations"] },
+  { title: "Marketing", items: ["SEO & visibility", "Analytics", "Newsletter", "A/B testing", "Multilingual"] },
+  { title: "Editor & team", items: ["Live editor", "Version history", "Team & roles", "AI assistant", "Czech support"] },
+  { title: "Ops & security", items: ["Domain & hosting", "SSL & HTTPS", "Backups & restore", "GDPR & cookies", "Integrations & API"] },
+];
 
 const PRODUCTS_CS: Product[] = [
-  { key: "weby", tag: "Weby", title: "Webové stránky", perex: "Přes 100 profi šablon pro každý obor. Každou spustíte jako one-page, nebo jako plný multipage web — vyberete si.", meta: "100+ šablon · one-page i multipage", image: "/templates/peak-cut/showcase/desktop-full.png" },
-  { key: "eshop", tag: "E-shop", title: "Vlastní e-shopy", perex: "20 profesionálních šablon e-shopu. Platby, sklad, doprava i faktury máte rovnou v ceně.", meta: "20 šablon · vše v jednom", image: "/templates/eshop-01/showcase/desktop-full.png" },
+  { key: "weby", tag: "Weby", title: "Webové stránky", perex: "Přes 100 profi šablon pro každý obor. Každou spustíte jako one-page, nebo jako plný multipage web — vyberete si.", meta: "100+ šablon · one-page i multipage", image: "/templates/hotel-01/preview.webp" },
+  { key: "eshop", tag: "E-shop", title: "Vlastní e-shopy", perex: "20 profesionálních šablon e-shopu. Platby, sklad, doprava i faktury máte rovnou v ceně.", meta: "20 šablon · vše v jednom", image: "/templates/eshop-08/preview.webp" },
 ];
 
 const STUDIO_CAPS_CS = ["Weby na míru", "Custom e-commerce", "Web apps & SaaS", "AI & automatizace", "Rezervační systémy", "Mobil & PWA", "API & integrace"];
 
 const PRODUCTS_EN: Product[] = [
-  { key: "weby", tag: "Websites", title: "Business websites", perex: "100+ pro templates for every industry. Run any of them as a one-page or a full multi-page site — you choose.", meta: "100+ templates · one-page or multi-page", image: "/templates/peak-cut/showcase/desktop-full.png" },
-  { key: "eshop", tag: "E-shop", title: "Custom e-shops", perex: "20 professional store templates. Payments, stock, shipping, and invoices are all included.", meta: "20 templates · all in one", image: "/templates/eshop-01/showcase/desktop-full.png" },
+  { key: "weby", tag: "Websites", title: "Business websites", perex: "100+ pro templates for every industry. Run any of them as a one-page or a full multi-page site — you choose.", meta: "100+ templates · one-page or multi-page", image: "/templates/hotel-01/preview.webp" },
+  { key: "eshop", tag: "E-shop", title: "Custom e-shops", perex: "20 professional store templates. Payments, stock, shipping, and invoices are all included.", meta: "20 templates · all in one", image: "/templates/eshop-08/preview.webp" },
 ];
 
 const STUDIO_CAPS_EN = ["Bespoke websites", "Custom e-commerce", "Web apps & SaaS", "AI & automation", "Booking systems", "Mobile & PWA", "API & integrations"];
@@ -42,8 +60,8 @@ const COPY = {
       ctaPrimary: "Spustit zdarma",
       ctaSecondary: "Nezávazně poptat projekt",
     },
-    marquee: ["Weby", "E-shopy", "AI Builder", "Rezervační systémy", "Webové aplikace", "Integrace", "Mobilní aplikace", "Cokoliv na míru"],
     products: { eyebrow: "Platforma", title: "Tři produkty. Jedna střecha.", sub: "Jeden účet, jedna cena, jedno rozhraní.", cta: "Prozkoumat" },
+    features: { eyebrow: "Vše v jedné platformě", title: "Jeden účet. A v něm úplně všechno.", sub: "Přes 30 funkcí zabudovaných napřímo — žádné pluginy, žádné příplatky. Ať už si stavíte sami, nebo to necháte na nás.", cta: "Prohlédnout všechny funkce" },
     ai: {
       badge: "Produkt 03 · Webero AI Builder",
       titleA: "Popište firmu.",
@@ -85,8 +103,8 @@ const COPY = {
       ctaPrimary: "Start for free",
       ctaSecondary: "Discuss a project",
     },
-    marquee: ["Websites", "E-shops", "AI Builder", "Booking systems", "Web apps", "Integrations", "Mobile apps", "Anything custom"],
     products: { eyebrow: "The platform", title: "Three products. One roof.", sub: "One account, one price, one interface.", cta: "Explore" },
+    features: { eyebrow: "Everything in one platform", title: "One account. Everything in it.", sub: "30+ features built right in — no plugins, no add-on fees. Whether you build it yourself or leave it to us.", cta: "See all features" },
     ai: {
       badge: "Product 03 · Webero AI Builder",
       titleA: "Describe your business.",
@@ -124,6 +142,9 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
   const c = COPY[locale];
   const products = locale === "en" ? PRODUCTS_EN : PRODUCTS_CS;
   const studioCaps = locale === "en" ? STUDIO_CAPS_EN : STUDIO_CAPS_CS;
+  const featureGroups = locale === "en" ? FEATURE_GROUPS_EN : FEATURE_GROUPS_CS;
+  const contactHref = platformPath("/kontakt", locale);
+  const featuresHref = platformPath("/prehled-funkci", locale);
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-white text-[#0a0a0a]">
@@ -131,13 +152,14 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
         @keyframes webero-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes webero-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes webero-pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+        @keyframes webero-bounce { 0%,100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(6px); opacity: 1; } }
         @media (prefers-reduced-motion: reduce) { *[style*="webero-"] { animation: none !important; } }
       `}</style>
 
       <PlatformHeader forceSolid locale={locale} />
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#080809] text-white">
+      <section className="relative overflow-hidden bg-[#151633] text-white">
         <div className="pointer-events-none absolute inset-0 opacity-[0.5]"
              style={{ background: "radial-gradient(60% 55% at 50% -5%, rgba(99,102,241,0.42), transparent 62%), radial-gradient(45% 45% at 88% 8%, rgba(139,92,246,0.30), transparent 60%)" }} />
         <div className="pointer-events-none absolute inset-0 opacity-[0.05]"
@@ -176,28 +198,23 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
               {c.hero.ctaPrimary}
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <a href={CONTACT}
+            <Link href={contactHref}
                className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-[15px] font-semibold text-white transition hover:border-white/45 hover:bg-white/5">
               {c.hero.ctaSecondary}
               <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            </Link>
           </div>
         </div>
 
-        {/* capability strip — static, readable */}
-        <div className="relative border-t border-white/10 bg-white/[0.02]">
-          <div className="mx-auto flex max-w-[1180px] flex-wrap gap-2.5 px-6 py-6 lg:px-10 lg:py-7">
-            {c.marquee.map((word) => (
-              <span key={word} className="rounded-full border border-white/12 bg-white/[0.05] px-4 py-1.5 text-[13px] font-medium text-white/80">
-                {word}
-              </span>
-            ))}
-          </div>
-        </div>
+        {/* scroll-down indicator */}
+        <a href="#produkty" aria-label="Scroll" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/50 transition hover:text-white/80 lg:flex">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.22em]">Scroll</span>
+          <ChevronDown size={18} style={{ animation: "webero-bounce 1.8s ease-in-out infinite" }} />
+        </a>
       </section>
 
       {/* ── PRODUCTS 01–02 (Websites + E-shops) ──────────────────────────── */}
-      <section className="bg-white">
+      <section id="produkty" className="scroll-mt-24 bg-white">
         <div className="mx-auto max-w-[1180px] px-6 pt-20 lg:px-10 lg:pt-28">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div className="max-w-[560px]">
@@ -235,7 +252,7 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
       </section>
 
       {/* ── PRODUCT 03 — AI BUILDER SPOTLIGHT ────────────────────────────── */}
-      <section className="relative mt-20 overflow-hidden bg-[#080809] text-white lg:mt-28">
+      <section className="relative mt-20 overflow-hidden bg-[#151633] text-white lg:mt-28">
         <div className="pointer-events-none absolute inset-0 opacity-[0.55]"
              style={{ background: "radial-gradient(48% 50% at 78% 30%, rgba(139,92,246,0.34), transparent 62%), radial-gradient(42% 46% at 12% 78%, rgba(99,102,241,0.30), transparent 60%)" }} />
         <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 px-6 py-24 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-32">
@@ -307,6 +324,40 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
         </div>
       </section>
 
+      {/* ── EVERYTHING INCLUDED — unified feature set ────────────────────── */}
+      <section className="border-y border-[#ececec] bg-[#fafafa]">
+        <div className="mx-auto max-w-[1180px] px-6 py-24 lg:px-10 lg:py-32">
+          <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+            <div className="max-w-[640px]">
+              <p className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.2em" }}>{c.features.eyebrow}</p>
+              <h2 className="font-sans font-semibold tracking-[-0.03em] text-[#0a0a0a]" style={{ fontSize: "clamp(28px, 3.8vw, 50px)", lineHeight: "1.05" }}>{c.features.title}</h2>
+              <p className="mt-5 text-[16px] leading-[1.6] text-[#4b5563]">{c.features.sub}</p>
+            </div>
+            <Link href={featuresHref} className="group inline-flex flex-shrink-0 items-center gap-2 rounded-full border border-[#0a0a0a] px-6 py-3 text-[14px] font-semibold text-[#0a0a0a] transition hover:bg-[#0a0a0a] hover:text-white">
+              {c.features.cta} <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+
+          <div className="mt-12 grid gap-px overflow-hidden rounded-[24px] border border-[#ececec] bg-[#ececec] sm:grid-cols-2 lg:grid-cols-3">
+            {featureGroups.map((g) => (
+              <div key={g.title} className="bg-white p-7">
+                <h3 className="text-[12px] font-bold uppercase tracking-[0.12em] text-[#6366f1]">{g.title}</h3>
+                <ul className="mt-4 space-y-2.5">
+                  {g.items.map((it) => (
+                    <li key={it} className="flex items-center gap-2.5 text-[14.5px] text-[#0a0a0a]">
+                      <span className="grid h-4 w-4 flex-shrink-0 place-items-center rounded-full bg-[#22c55e]/12 text-[#15803d]">
+                        <Check size={10} strokeWidth={3.2} />
+                      </span>
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CUSTOM STUDIO — "or we do it for you" ────────────────────────── */}
       <section className="bg-white">
         <div className="mx-auto max-w-[1180px] px-6 py-24 text-center lg:px-10 lg:py-32">
@@ -325,9 +376,9 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
             ))}
           </div>
 
-          <a href={CONTACT} className="group mt-11 inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-8 py-4 text-[15px] font-semibold text-white transition hover:bg-[#0a0a0a]/85">
+          <Link href={contactHref} className="group mt-11 inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-8 py-4 text-[15px] font-semibold text-white transition hover:bg-[#0a0a0a]/85">
             {c.studio.cta} <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -344,7 +395,7 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
       </section>
 
       {/* ── FINAL CTA ────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#080809] text-white">
+      <section className="relative overflow-hidden bg-[#151633] text-white">
         <div className="pointer-events-none absolute inset-0 opacity-60"
              style={{ background: "radial-gradient(50% 60% at 50% 100%, rgba(99,102,241,0.4), transparent 62%)" }} />
         <div className="relative mx-auto max-w-[1180px] px-6 py-24 text-center lg:px-10 lg:py-36">
@@ -357,9 +408,9 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
             <Link href={platformPath("/vybrat-design", locale)} className="group inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-[#0a0a0a] transition hover:bg-white/90">
               {c.finalCta.primary} <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
             </Link>
-            <a href={CONTACT} className="group inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-[15px] font-semibold text-white transition hover:border-white/45 hover:bg-white/5">
+            <Link href={contactHref} className="group inline-flex items-center gap-2 rounded-full border border-white/20 px-8 py-4 text-[15px] font-semibold text-white transition hover:border-white/45 hover:bg-white/5">
               {c.finalCta.secondary} <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            </Link>
           </div>
           <div className="mt-8">
             <Link href={platformPath("/cenik", locale)} className="text-[13.5px] font-medium text-white/55 underline-offset-4 transition hover:text-white/85 hover:underline">

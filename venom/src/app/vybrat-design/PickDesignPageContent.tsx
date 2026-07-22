@@ -65,7 +65,7 @@ export async function PickDesignPageContent({ locale = "cs" }: { locale?: Platfo
             style={{ fontSize: "clamp(40px, 5.5vw, 78px)", lineHeight: "1.02" }}
           >
             {copy.title}<br />
-            <span className="text-[#9ca3af]">{copy.muted}</span>
+            <span className="text-[#4b5563]">{copy.muted}</span>
           </h1>
           <p className="mt-7 max-w-[640px] text-[17px] leading-[1.6] text-[#4b5563]">
             {copy.intro}

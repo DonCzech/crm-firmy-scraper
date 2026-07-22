@@ -25,6 +25,8 @@ const PLATFORM_ROUTES: Record<string, Record<PlatformLocale, string>> = {
   "/choose-design": { cs: "/vybrat-design", en: "/en/choose-design" },
   "/cenik": { cs: "/cenik", en: "/en/pricing" },
   "/pricing": { cs: "/cenik", en: "/en/pricing" },
+  "/kontakt": { cs: "/kontakt", en: "/en/contact" },
+  "/contact": { cs: "/kontakt", en: "/en/contact" },
   "/admin/login": { cs: "/admin/login", en: "/en/admin/login" },
 };
 
@@ -42,6 +44,7 @@ export const platformCopy = {
       features: "PŘEHLED FUNKCÍ",
       designs: "VYBRAT DESIGN",
       pricing: "CENÍK",
+      contactNav: "KONTAKT",
       login: "Přihlásit",
       tryFree: "Vyzkoušet zdarma",
       openMenu: "Otevřít menu",
@@ -51,8 +54,8 @@ export const platformCopy = {
       english: "English",
     },
     footer: {
-      newsletterTitle: "Dostaňte 5 šablon zdarma.",
-      newsletterText: "Nové šablony, design tipy a UX postřehy. 1× měsíčně, žádný spam, odhlášení 1 klikem.",
+      newsletterTitle: "Tipy pro lepší web.",
+      newsletterText: "Nové šablony, design a UX tipy. 1× měsíčně, žádný spam, odhlášení 1 klikem.",
       newsletterPlaceholder: "vas@email.cz",
       newsletterSubmit: "Odeslat",
       newsletterLoading: "Posílám...",
@@ -85,6 +88,7 @@ export const platformCopy = {
       features: "FEATURES",
       designs: "CHOOSE DESIGN",
       pricing: "PRICING",
+      contactNav: "CONTACT",
       login: "Log in",
       tryFree: "Try for free",
       openMenu: "Open menu",
@@ -94,8 +98,8 @@ export const platformCopy = {
       english: "English",
     },
     footer: {
-      newsletterTitle: "Get 5 templates for free.",
-      newsletterText: "New templates, design tips, and UX notes. Once a month, no spam, unsubscribe in one click.",
+      newsletterTitle: "Tips for a better website.",
+      newsletterText: "New templates, design and UX tips. Once a month, no spam, unsubscribe in one click.",
       newsletterPlaceholder: "you@example.com",
       newsletterSubmit: "Send",
       newsletterLoading: "Sending...",

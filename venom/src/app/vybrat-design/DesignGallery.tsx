@@ -295,58 +295,6 @@ function DesignCard({ t, onPreview, onStartFree, locale = "cs" }: { t: DesignTem
   );
 }
 
-// ── Blank canvas card — „Vlastní šablona od nuly" ────────────────────────────
-
-function BlankCard({ locale, onStart }: { locale: PlatformLocale; onStart: () => void }) {
-  const [hovered, setHovered] = useState(false);
-  const copy = locale === "en"
-    ? { badge: "New", title: "Start from scratch", sub: "Blank canvas — build a completely unique website in the editor.", cta: "Start building" }
-    : { badge: "Novinka", title: "Začít od nuly", sub: "Prázdné plátno — postavte si v editoru zcela unikátní web přesně podle sebe.", cta: "Začít stavět" };
-  return (
-    <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <button
-        type="button"
-        onClick={onStart}
-        className="group relative block w-full overflow-hidden rounded-2xl text-left transition-transform duration-300"
-        style={{ transform: hovered ? "translateY(-4px)" : "none" }}
-      >
-        <div
-          className="relative flex aspect-[4/3] w-full flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed transition-colors"
-          style={{
-            borderColor: hovered ? "#6366f1" : "#d4d4d8",
-            background: "linear-gradient(160deg, #fafafa 0%, #eef2ff 100%)",
-          }}
-        >
-          <span className="absolute left-4 top-4 rounded-full bg-[#6366f1] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-white">
-            {copy.badge}
-          </span>
-          {/* wireframe mock */}
-          <svg width="120" height="84" viewBox="0 0 120 84" fill="none" aria-hidden>
-            <rect x="1" y="1" width="118" height="82" rx="8" fill="white" stroke="#e5e7eb" />
-            <rect x="10" y="10" width="46" height="7" rx="3.5" fill="#c7d2fe" />
-            <rect x="10" y="24" width="100" height="4" rx="2" fill="#e5e7eb" />
-            <rect x="10" y="32" width="84" height="4" rx="2" fill="#e5e7eb" />
-            <rect x="10" y="46" width="30" height="10" rx="5" fill="#6366f1" />
-            <rect x="10" y="64" width="28" height="12" rx="3" fill="#f3f4f6" />
-            <rect x="46" y="64" width="28" height="12" rx="3" fill="#f3f4f6" />
-            <rect x="82" y="64" width="28" height="12" rx="3" fill="#f3f4f6" />
-          </svg>
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-[12.5px] font-semibold transition-colors"
-            style={{ background: hovered ? "#6366f1" : "#0a0a0a", color: "white" }}
-          >
-            {copy.cta}
-            <ArrowRight size={13} />
-          </span>
-        </div>
-      </button>
-      <div className="mt-6 block">
-        <div className="text-[22px] font-bold tracking-[-0.015em]" style={{ color: hovered ? "#4f46e5" : "#0a0a0a" }}>{copy.title}</div>
-        <div className="mt-1.5 text-[15px] text-[#6b7280]">{copy.sub}</div>
-      </div>
-    </div>
-  );
-}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -517,13 +465,6 @@ export function DesignGallery({ templates, categories, locale = "cs" }: Props) {
         </div>
       </div>
 
-      {/* Count */}
-      <p className="mb-8 text-[13px] text-[#6b7280]">
-        {copy.shown} <span className="font-semibold text-[#0a0a0a]">{filtered.length}</span> {copy.from} {templates.length} {copy.designs}
-        {active !== "Vše" && <> {copy.inCategory} <span className="font-semibold text-[#0a0a0a]">{categoryLabel(active)}</span></>}
-        {query && <> · {copy.searchWord} &quot;<span className="font-semibold text-[#0a0a0a]">{query}</span>&quot;</>}
-      </p>
-
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[#e5e5e5] bg-[#fafafa] py-20 text-center">
@@ -534,17 +475,6 @@ export function DesignGallery({ templates, categories, locale = "cs" }: Props) {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3 lg:gap-10">
-          {!query && (
-            <BlankCard
-              locale={locale}
-              onStart={() => setOnboardingTemplate({
-                key: "blank-01",
-                name: locale === "en" ? "Custom template" : "Vlastní šablona",
-                industry: locale === "en" ? "Blank canvas" : "Prázdné plátno",
-                previewImage: "",
-              })}
-            />
-          )}
           {filtered.map((t) => (
             <DesignCard key={t.slug} t={t} locale={locale} onPreview={setPreviewTemplate} onStartFree={handleStartFree} />
           ))}

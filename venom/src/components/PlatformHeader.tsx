@@ -11,9 +11,9 @@ const navItemsFor = (locale: PlatformLocale) => {
   const copy = platformCopy[locale].nav;
   return [
     { label: copy.products, href: platformPath("/produkty-a-reseni", locale) },
-    { label: copy.features, href: platformPath("/prehled-funkci", locale) },
     { label: copy.designs, href: platformPath("/vybrat-design", locale) },
     { label: copy.pricing, href: platformPath("/cenik", locale) },
+    { label: copy.contactNav, href: platformPath("/kontakt", locale) },
   ];
 };
 
