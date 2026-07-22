@@ -19,7 +19,10 @@ def replace_fn(path, name, body):
     # pohltit předcházející komentářové řádky
     while start > 0 and lines[start - 1].lstrip().startswith("//"):
         start -= 1
-    end = next(i for i in range(start + 1, len(lines)) if lines[i] == "}")
+    # POZOR: komponenty obnovené z gitu končí ODSAZENÝM `  }` (zbytek po extrakci
+    # inline bloku), proto se nesmí hledat jen `}` v prvním sloupci.
+    end = next(i for i in range(start + 1, len(lines))
+               if lines[i].strip() == "}" and len(lines[i]) - len(lines[i].lstrip()) <= 2)
     p.write_text("\n".join(lines[:start] + body.strip("\n").split("\n") + lines[end + 1:]))
     print("  ✓ %-22s %s" % (name, path))
 

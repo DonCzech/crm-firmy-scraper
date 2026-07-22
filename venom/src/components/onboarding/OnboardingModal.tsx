@@ -693,14 +693,14 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
       type="button"
       onClick={onClose}
       aria-label={copy.close}
-      className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white"
+      className="absolute right-5 top-4 z-20 grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white"
     >
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
     </button>
   );
 
   const backBtn = (to: Step) => (
-    <button type="button" onClick={() => setStep(to)} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
+    <button type="button" onClick={() => setStep(to)} className="absolute left-5 top-4 z-10 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/35 transition hover:text-white/65">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
       {copy.back}
     </button>
@@ -944,31 +944,31 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             {backBtn("choice")}
             {closeBtn}
 
-            {/* Header */}
-            <div className="flex-shrink-0 px-8 pb-5 pt-16 text-center md:pt-14">
-              <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 52px)" }}>
+            {/* Header — kompaktní, ať zbyde co nejvíc místa na šablony */}
+            <div className="flex-shrink-0 px-8 pb-3.5 pt-14 text-center md:pt-9">
+              <h1 className="font-extrabold leading-[1.1] tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.4vw, 32px)" }}>
                 {kind === "eshop" ? copy.conceptsTitleEshop : copy.conceptsTitleWeb}
               </h1>
-              <p className="mx-auto mt-3 max-w-lg text-[14.5px] leading-relaxed text-white/40">
+              <p className="mx-auto mt-1.5 max-w-3xl text-[13px] leading-snug text-white/35">
                 {kind === "eshop" ? copy.conceptsTextEshop : copy.conceptsTextWeb}
               </p>
 
               {/* Category tabs — jen pro weby (e-shopy jsou jedna rodina) */}
               {kind === "web" && (
-                <div className="-mx-8 mt-7 flex flex-wrap items-center justify-center gap-2 px-8 pb-1">
+                <div className="-mx-8 mt-4 flex flex-wrap items-center justify-center gap-1.5 px-8">
                   {[{ code: "all", label: copy.all, count: pickerTemplates.length }, ...categories].map((c) => (
                     <button
                       key={c.code}
                       type="button"
                       onClick={() => { setCategory(c.code); setPreviewSheet(null); }}
-                      className={`flex-shrink-0 rounded-full px-4 py-2 text-[13.5px] font-semibold transition ${
+                      className={`flex-shrink-0 rounded-full px-3.5 py-1.5 text-[12.5px] font-semibold transition ${
                         category === c.code
                           ? "bg-white text-[#0a0a0a]"
                           : "bg-white/[0.06] text-white/55 hover:bg-white/[0.11] hover:text-white/85"
                       }`}
                     >
                       {c.label}
-                      <span className={category === c.code ? "ml-1.5 text-[11.5px] text-black/40" : "ml-1.5 text-[11.5px] text-white/30"}>{c.count}</span>
+                      <span className={category === c.code ? "ml-1.5 text-[11px] text-black/40" : "ml-1.5 text-[11px] text-white/30"}>{c.count}</span>
                     </button>
                   ))}
                 </div>
@@ -976,7 +976,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
             </div>
 
             {/* Template grid */}
-            <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-24 md:px-10">
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 pb-10 md:px-10">
               {fetching ? (
                 <div className="flex h-48 items-center justify-center">
                   <div className="h-6 w-6 animate-spin rounded-full border-2 border-white/15 border-t-white/60" />
@@ -996,7 +996,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                       key={t.key}
                       t={t}
                       active={template === t.key}
-                      onSelect={() => { setTemplate(t.key); setPreviewView(isMobileDevice ? "mobile" : "desktop"); setPreviewSheet(t); }}
+                      onSelect={() => { setTemplate(t.key); setPreviewView("desktop"); setPreviewSheet(t); }}
                     />
                   ))}
                 </div>
@@ -1027,8 +1027,10 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-[13px] font-bold text-[#0a0a0a]">{previewSheet.name}</div>
                     </div>
-                    {/* Desktop/Mobile toggle — only when demoUrl available */}
-                    {previewSheet.demoUrl && (
+                    {/* Desktop/Mobile přepínač — na telefonu nedává smysl: „Mobil" by byl
+                        zmenšený telefon v telefonu a plný iframe se stejně vykreslí
+                        v reálné šířce zařízení. Proto jen na desktopu. */}
+                    {previewSheet.demoUrl && !isMobileDevice && (
                       <div className="flex flex-shrink-0 items-center gap-1 rounded-xl bg-[#f3f4f6] p-1">
                         <button
                           type="button"
@@ -1109,26 +1111,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
               )}
             </AnimatePresence>
 
-            {/* Sticky bottom */}
-            <div className="fixed inset-x-0 bottom-0 z-10 flex items-center justify-center gap-5 border-t border-[#1e1e1e] bg-[#111]/96 px-6 py-4 backdrop-blur-md">
-              {error && (
-                <span className="text-[12.5px] text-red-400">{error}</span>
-              )}
-              {template && selectedName && (
-                <span className="hidden text-[13px] text-white/40 sm:inline">
-                  {copy.selected} <span className="font-semibold text-white/80">{selectedName}</span>
-                </span>
-              )}
-              <button
-                type="button"
-                disabled={!template}
-                onClick={continueFromTemplates}
-                className="inline-flex items-center gap-2 rounded-lg bg-[#2563eb] px-8 py-3 text-[14px] font-semibold text-white transition hover:bg-[#1d4ed8] disabled:opacity-40 active:scale-[0.99]"
-              >
-                {copy.continue}
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-              </button>
-            </div>
+            {/* Žádná spodní lišta — cesta dál vede tlačítkem „Použít" v náhledu šablony. */}
           </motion.div>
         )}
 
@@ -1286,7 +1269,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                 <button
                   type="button"
                   onClick={() => (agStep === 0 ? setStep("choice") : setAgStep(agStep - 1))}
-                  className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65"
+                  className="absolute left-5 top-4 z-10 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/35 transition hover:text-white/65"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
                   {copy.agBack}

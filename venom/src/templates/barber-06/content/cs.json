@@ -57,28 +57,33 @@
     ]
   },
   "services": {
-    "title": "Naše služby",
+    "eyebrow": "Ceník",
+    "title": "Co u nás zvládneme",
+    "subtitle": "Ceny jsou konečné a platí pro všechny barbery v týmu. Kompletní ceník najdete na provozovně.",
     "items": [
       {
-        "name": "Precizní střih a styling",
-        "title": "Precizní střih a styling",
-        "body": "Potřebujete moderní nebo klasický účes? Pak jsme tu pro vás. Zastavte se pro precizní účes, střih nebo úpravu vousů.",
-        "description": "Potřebujete moderní nebo klasický účes? Pak jsme tu pro vás. Zastavte se pro precizní účes, střih nebo úpravu vousů.",
-        "image": ""
+        "title": "Pánský střih",
+        "name": "Pánský střih",
+        "body": "Konzultace, mytí, střih nůžkami i strojkem a finální styling. Poradíme, co zvládnete doma.",
+        "image": "https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=900&h=1125&fit=crop&auto=format&q=80",
+        "price": "590 Kč",
+        "duration": "45 min"
       },
       {
-        "name": "Barvení vlasů",
-        "title": "Barvení vlasů",
-        "body": "Chcete něco víc? Třeba vaši oblíbenou barvu? Vybíráme si kvalitní a ověřené barvy. Přijďte se přesvědčit sami.",
-        "description": "Chcete něco víc? Třeba vaši oblíbenou barvu? Vybíráme si kvalitní a ověřené barvy. Přijďte se přesvědčit sami.",
-        "image": ""
+        "title": "Střih a vousy",
+        "name": "Střih a vousy",
+        "body": "Kompletní úprava — střih vlasů plus tvarování a zastřižení vousů na jedné návštěvě.",
+        "image": "https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=900&h=1125&fit=crop&auto=format&q=80",
+        "price": "890 Kč",
+        "duration": "70 min"
       },
       {
-        "name": "Záruka spokojenosti",
-        "title": "Záruka spokojenosti",
-        "body": "Jsme umělci střihu. Za kvalitu už léta ručíme vlastním jménem. Naše nejvyšší motivace je vaše spokojenost.",
-        "description": "Jsme umělci střihu. Za kvalitu už léta ručíme vlastním jménem. Naše nejvyšší motivace je vaše spokojenost.",
-        "image": ""
+        "title": "Holení břitvou",
+        "name": "Holení břitvou",
+        "body": "Klasické mokré holení s horkým ručníkem, olejem a balzámem po holení.",
+        "image": "https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=900&h=1125&fit=crop&auto=format&q=80",
+        "price": "690 Kč",
+        "duration": "45 min"
       }
     ]
   },
