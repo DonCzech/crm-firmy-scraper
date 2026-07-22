@@ -88,9 +88,12 @@
     ]
   },
   "cta": {
-    "title": "Nechcete čekat? Zkuste nám zavolat",
+    "title": "Nechcete čekat? Zavolejte nám.",
+    "subtitle": "Volejte Po–So 9:00–20:00. Když se uvolní křeslo, vezmeme vás i bez objednání.",
     "phone": "704 123 456",
-    "phoneHref": "tel:+420704123456"
+    "phoneHref": "tel:+420704123456",
+    "ctaText": "Nebo rezervovat on-line",
+    "ctaHref": "/#rezervace"
   },
   "about": {
     "title": "Impresivní střihy. Už 10 let.",
