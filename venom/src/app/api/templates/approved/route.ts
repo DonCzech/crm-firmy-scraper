@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/db";
 import { getOnboardingEshop, ONBOARDING_ESHOP_KEYS } from "@/lib/templates/onboarding-catalog";
+import designCatalog from "@/generated/design-catalog.json";
+
+/* Vercel servíruje public/ mimo server funkci → cesty k náhledům musí přijít
+   z katalogu vygenerovaného při buildu, ne z fs.existsSync za běhu. */
+const PREVIEW_BY_SLUG = new Map(
+  (designCatalog as { slug: string; preview: string | null }[]).map((d) => [d.slug, d.preview])
+);
 
 /** Public read-only endpoint for the onboarding modal template picker. */
 
@@ -43,7 +50,8 @@ export async function GET() {
         key: r.key,
         name: r.name,
         industry: r.industry ?? null,
-        previewImage: featuredEshop?.previewImage ?? null,
+        /* Celostránkový snímek — karta ho odroluje při hoveru (jako na homepage). */
+        previewImage: PREVIEW_BY_SLUG.get(r.key) ?? featuredEshop?.previewImage ?? null,
         demoUrl: featuredEshop
           ? `/demo/${featuredEshop.demoSlug}`
           : r.demo_slug ? `/demo/${r.demo_slug}` : null,

@@ -16049,12 +16049,6 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           color: ${DARK};
           margin: 0 0 8px 0;
         }
-        .ucn01hero-underline {
-          display: block;
-          margin: 0 0 28px 0;
-          width: 155px;
-          height: 60px;
-        }
         .ucn01hero-subtitle {
           font-family: ${FONT_B};
           font-size: 1rem;
@@ -16155,19 +16149,6 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           z-index: 4;
           box-shadow: 0 2px 8px rgba(0,0,0,0.08);
           white-space: nowrap;
-        }
-        @keyframes ucn01-svg-draw {
-          0%   { stroke-dashoffset: 272.763; opacity: 0; }
-          5%   { opacity: 1; }
-          45%  { stroke-dashoffset: 0; }
-          65%  { stroke-dashoffset: 0; }
-          95%  { stroke-dashoffset: 272.763; opacity: 1; }
-          100% { stroke-dashoffset: 272.763; opacity: 0; }
-        }
-        .ucn01hero-underline path {
-          stroke-dasharray: 272.763;
-          stroke-dashoffset: 272.763;
-          animation: ucn01-svg-draw 3.5s ease-in-out infinite;
         }
         @media (max-width: 1100px) {
           .ucn01hero-inner { flex-direction: column; gap: 32px; }
