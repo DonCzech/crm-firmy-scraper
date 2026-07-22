@@ -2077,8 +2077,8 @@ function AnimatedCounter({ value, label, sectionId, index, font, dark, muted, tr
 }
 
 function StatsUcetni01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const DARK  = "#202124";
-  const MUTED = "#515151";
+  const DARK  = "var(--color-text, #202124)";
+  const MUTED = "var(--color-text-muted, #515151)";
   const FONT  = "'Space Grotesk', 'Inter', Arial, sans-serif";
 
   const title = String(content.title ?? "Fakta, která nás definují");

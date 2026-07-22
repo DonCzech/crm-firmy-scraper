@@ -13,54 +13,72 @@
       },
       {
         "label": "Služby",
-        "href": "#sluzby"
+        "href": "/sluzby"
       },
       {
         "label": "Ceník",
-        "href": "#cenik"
+        "href": "/cenik"
       },
       {
         "label": "Blog",
-        "href": "#blog"
+        "href": "/blog"
       },
       {
         "label": "Kontakt",
-        "href": "#kontakt"
+        "href": "/kontakt"
       }
     ]
   },
   "hero": {
     "title": "Účetnictví a daňové poradenství pro váš klid",
     "subtitle": "Svěřte čísla odborníkům. V Bilance & Co. se staráme o vaše účetnictví, mzdy a daně – abyste vy mohli růst bez starostí.",
-    "imageUrl": "/templates/ucetni-01/illustration.png",
+    "imageUrl": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&h=900&fit=crop&auto=format&q=80",
     "ctaText": "Začít spolupráci",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "calendarText": "Vyberte si online termín konzultace nebo rady – jednoduše a bez závazků.",
     "card1Text": "✅ Daňová optimalizace",
     "card2Text": "📊 320+ spokojených klientů"
   },
   "services": {
+    "tagline": "Služby",
     "title": "Co pro vás uděláme",
-    "lead": "Nabízíme plnou škálu účetních a daňových služeb – od živnostníka po velkou firmu.",
+    "lead": "Nabízíme plnou škálu účetních a daňových služeb — od živnostníka po velkou firmu.",
+    "subtitle": "Nabízíme plnou škálu účetních a daňových služeb — od živnostníka po velkou firmu.",
     "items": [
       {
         "name": "Podvojné účetnictví",
+        "title": "Podvojné účetnictví",
         "description": "Vedeme podvojné i jednoduché účetnictví přesně, spolehlivě a v souladu s aktuální legislativou.",
+        "image": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&h=600&fit=crop&auto=format&q=80",
+        "price": "od 2 500 Kč / měsíc",
+        "note": "dle počtu dokladů",
         "icon": "document"
       },
       {
         "name": "Daňová přiznání",
+        "title": "Daňová přiznání",
         "description": "Zpracujeme daňová přiznání za fyzické i právnické osoby a zastoupíme vás před finančním úřadem.",
-        "icon": "calculator"
+        "image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&h=600&fit=crop&auto=format&q=80",
+        "price": "od 3 900 Kč",
+        "note": "jednorázově",
+        "icon": "receipt"
       },
       {
         "name": "Mzdy a personalistika",
-        "description": "Kompletní mzdová agenda, přihlášky k pojistným, pracovní smlouvy a roční zúčtování daně.",
-        "icon": "people"
+        "title": "Mzdy a personalistika",
+        "description": "Kompletní mzdová agenda, přihlášky k pojištění, pracovní smlouvy a roční zúčtování daně.",
+        "image": "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=900&h=600&fit=crop&auto=format&q=80",
+        "price": "od 290 Kč / zaměstnanec",
+        "note": "měsíčně",
+        "icon": "users"
       },
       {
         "name": "Finanční controlling",
-        "description": "Analýza cash-flow, reporty pro vedení firmy a poradenství při strategických finančních rozhodnutích.",
+        "title": "Finanční controlling",
+        "description": "Analýza cash-flow, reporty pro vedení firmy a poradenství při strategických rozhodnutích.",
+        "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&h=600&fit=crop&auto=format&q=80",
+        "price": "individuálně",
+        "note": "dle rozsahu",
         "icon": "chart"
       }
     ]
@@ -94,28 +112,30 @@
     "lead": "Nejsme jen účetní firma – jsme váš finanční partner. Rozumíme podnikání a víme, co čísla znamenají v praxi.",
     "body": "Od roku 2013 pomáháme živnostníkům, malým i středním firmám zvládat účetnictví bez stresu. Komunikujeme jasně, reagujeme rychle a výsledky dodáváme včas. Věříme, že správné účetnictví je základ zdravého byznysu.",
     "ctaText": "Více o nás",
-    "ctaHref": "/o-nas"
+    "ctaHref": "/o-nas",
+    "imageUrl": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1100&h=850&fit=crop&auto=format&q=80",
+    "image": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1100&h=850&fit=crop&auto=format&q=80"
   },
   "testimonials": {
     "title": "Co říkají naši klienti",
     "items": [
       {
-        "name": "Radek Horáček",
+        "name": "Radek H.",
         "role": "Jednatel stavební firmy",
-        "text": "Bilance & Co. nám ušetřily nejen čas, ale i nervy. Vždy vědí, co dělají, a výsledky mluví za vše.",
-        "rating": 5
+        "text": "Ušetřili nám nejen čas, ale hlavně nervy. Vždycky vědí, co dělají, a výsledky mluví za vše.",
+        "rating": "5"
       },
       {
-        "name": "Lucie Marková",
-        "role": "OSVČ, fotografka",
-        "text": "Konečně mám přehled o svých financích a daních. Komunikace je skvělá, vždy rychlá odpověď.",
-        "rating": 5
+        "name": "Lucie M.",
+        "role": "Majitelka e-shopu",
+        "text": "Přešla jsem k nim po roce chaosu u předchozí účetní. Poprvé mám v číslech pořádek a vím, na čem jsem.",
+        "rating": "5"
       },
       {
-        "name": "Pavel Sedláček",
-        "role": "Majitel e-shopu",
-        "text": "Přešli jsme od předchozího účetního a rozdíl je obrovský. Profesionální, spolehliví a vždy ochotní.",
-        "rating": 5
+        "name": "Tomáš P.",
+        "role": "OSVČ, IT konzultant",
+        "text": "Daňové přiznání vyřešili za dva dny včetně přehledů. Komunikace e-mailem, žádné běhání po úřadech.",
+        "rating": "5"
       }
     ]
   },
@@ -123,7 +143,7 @@
     "title": "Napište nebo zavolejte",
     "lead": "Ozvěte se nám – rádi probereme vaši situaci a navrhneme optimální řešení bez závazků.",
     "ctaText": "Zahájit spolupráci",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1",
@@ -191,15 +211,84 @@
   "pages": {
     "o-nas": {
       "seoTitle": "O nás | Bilance & Co.",
-      "seoDescription": "Tým zkušených účetních a daňových poradců. Přesnost, rychlost a diskrétnost od roku 2013.",
+      "seoDescription": "Tým zkušených účetních a daňových poradců.",
       "hero": {
         "title": "O nás",
-        "subtitle": "Jsme tým, který bere vaše čísla vážně."
+        "subtitle": "Jsme tým, který bere vaše čísla vážně — a vysvětlí vám je lidsky.",
+        "backgroundImage": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "sluzby": {
+      "seoTitle": "Služby | Bilance & Co.",
+      "seoDescription": "Účetnictví, daně, mzdy a controlling.",
+      "hero": {
+        "title": "Služby",
+        "subtitle": "Od vedení účetnictví po finanční controlling pro vedení firmy.",
+        "backgroundImage": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "cenik": {
+      "seoTitle": "Ceník | Bilance & Co.",
+      "seoDescription": "Orientační ceny účetních služeb.",
+      "hero": {
+        "title": "Ceník",
+        "subtitle": "Orientační ceny. Konečnou nabídku připravíme podle objemu dokladů.",
+        "backgroundImage": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "blog": {
+      "seoTitle": "Blog | Bilance & Co.",
+      "seoDescription": "Praktické články o daních a účetnictví.",
+      "hero": {
+        "title": "Blog",
+        "subtitle": "Praktické články o daních, mzdách a vedení firmy.",
+        "backgroundImage": "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=1800&h=700&fit=crop&auto=format&q=80"
       }
     },
     "kontakt": {
       "seoTitle": "Kontakt | Bilance & Co.",
-      "seoDescription": "Kontaktujte Bilance & Co. pro konzultaci účetnictví nebo daní. Ukázková 123, Praha 1."
+      "seoDescription": "Kontaktujte nás pro nezávaznou konzultaci.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Ozvěte se — první konzultace je nezávazná a zdarma.",
+        "backgroundImage": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    }
+  },
+  "blog": {
+    "tagline": "Blog",
+    "title": "Z našeho blogu",
+    "buttonText": "Všechny články",
+    "posts": [
+      {
+        "title": "Paušální daň v roce 2026: vyplatí se vám?",
+        "date": "16. 7. 2026",
+        "href": "/blog",
+        "excerpt": "Spočítali jsme tři modelové situace OSVČ a ukazujeme, kdy paušál skutečně ušetří a kdy naopak prodělá.",
+        "image": "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=900&h=600&fit=crop&auto=format&q=80"
+      },
+      {
+        "title": "Co si připravit před předáním účetnictví",
+        "date": "9. 7. 2026",
+        "href": "/blog",
+        "excerpt": "Checklist dokladů a přístupů, díky kterému zvládneme převzetí agendy do týdne bez výpadku.",
+        "image": "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=900&h=600&fit=crop&auto=format&q=80"
+      },
+      {
+        "title": "Reporty, které dávají smysl majiteli, ne úřadu",
+        "date": "28. 6. 2026",
+        "href": "/blog",
+        "excerpt": "Tři ukazatele, které sledujeme klientům každý měsíc — a proč zisk mezi nimi není na prvním místě.",
+        "image": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=900&h=600&fit=crop&auto=format&q=80"
+      }
+    ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Domluvte si schůzku",
+      "subtitle": "Nezávazná konzultace účetnictví a daní ve volném termínu.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
     }
   }
 }

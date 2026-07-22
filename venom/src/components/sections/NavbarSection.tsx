@@ -3979,8 +3979,8 @@ function NavbarUcetni01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
 
-  const YELLOW = "#FFB500";
-  const DARK   = "#202124";
+  const YELLOW = "var(--color-primary, #FFB500)";
+  const DARK   = "var(--color-text, #202124)";
   const BLACK  = "#000000";
   const WHITE  = "#ffffff";
   const FONT   = "'Space Grotesk', Sans-serif";
@@ -4085,7 +4085,7 @@ function NavbarUcetni01(props: Props) {
           color: ${DARK};
           text-decoration: none;
           padding: 15px 0;
-          border-bottom: 1px solid #f0f0f0;
+          border-bottom: 1px solid var(--color-border, #f0f0f0);
           transition: color 0.2s;
         }
         .ucn01-overlay-body a:hover { color: ${YELLOW}; }

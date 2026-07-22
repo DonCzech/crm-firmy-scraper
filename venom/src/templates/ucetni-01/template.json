@@ -4,9 +4,9 @@
   "name": "Účetní Služby Králová",
   "industry": "ucetni",
   "skeleton": "professional",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "baseTemplate": null,
-  "description": "Účetní firma & daňové poradenství — sticky bílý navbar se žlutým (#FFB500) akcentem, fullscreen hero s tmavým overlayem a zlatým claim textem, sekce služeb (4 oblasti), stats sekce, sekce O nás s obrázkem, klientské reference (logo carousel), kontakt, footer. Inspirováno ucetnictvispravne.cz.",
+  "description": "V3 „Navy & Gold“ — účetní a daňová kancelář v důvěryhodné paletě (navy #17395E, chladná paper #F4F6F9, inkoust #0C1B2A), Plus Jakarta Sans + Inter. Data-driven jazyk: foto karty služeb s cenou, pás čísel, reference, blog s praktickými články a kontakt s otevírací dobou. Podstránky mají vlastní page hero.",
   "sectionOrderNote": "Navbar → Hero → Services → Stats → About → Testimonials → Contact → Footer",
   "pages": [
     {
@@ -45,6 +45,16 @@
           "contentRef": "testimonials"
         },
         {
+          "type": "blog-preview",
+          "variant": "ucetni-01-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "clinical",
+          "contentRef": "home.rezervace"
+        },
+        {
           "type": "contact",
           "variant": "ucetni-01-contact",
           "contentRef": "contact"
@@ -59,8 +69,6 @@
     {
       "slug": "o-nas",
       "title": "O nás",
-      "seoTitleKey": "pages.o-nas.seoTitle",
-      "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
         {
           "type": "navbar",
@@ -69,13 +77,101 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-ucetni-01-page",
           "contentRef": "pages.o-nas.hero"
         },
         {
           "type": "about",
           "variant": "ucetni-01-about",
           "contentRef": "about"
+        },
+        {
+          "type": "stats",
+          "variant": "ucetni-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "testimonials",
+          "variant": "ucetni-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "ucetni-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ucetni-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ucetni-01-page",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "ucetni-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "ucetni-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "cenik",
+      "title": "Ceník",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ucetni-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ucetni-01-page",
+          "contentRef": "pages.cenik.hero"
+        },
+        {
+          "type": "services",
+          "variant": "ucetni-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "ucetni-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "blog",
+      "title": "Blog",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "ucetni-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ucetni-01-page",
+          "contentRef": "pages.blog.hero"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "ucetni-01-blog",
+          "contentRef": "blog"
         },
         {
           "type": "footer",
@@ -87,13 +183,16 @@
     {
       "slug": "kontakt",
       "title": "Kontakt",
-      "seoTitleKey": "pages.kontakt.seoTitle",
-      "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
         {
           "type": "navbar",
           "variant": "ucetni-01-navbar",
           "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-ucetni-01-page",
+          "contentRef": "pages.kontakt.hero"
         },
         {
           "type": "contact",
@@ -136,6 +235,25 @@
       "pos": 10,
       "name": "FAQ",
       "reason": "Předloha FAQ nemá"
+    }
+  ],
+  "tags": [
+    "v3"
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "variant": "ucetni-01-stats",
+      "reason": "pás čísel (klienti, roky, bezchybnost podání) je hlavní důkaz důvěryhodnosti účetní kanceláře"
+    },
+    {
+      "type": "contact",
+      "variant": "ucetni-01-contact",
+      "reason": "kostra professional nemá kontaktní sekci s údaji a otevírací dobou"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "inline objednání nezávazné konzultace přímo na stránce"
     }
   ]
 }

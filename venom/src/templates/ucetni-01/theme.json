@@ -1,16 +1,58 @@
 {
   "colors": {
-    "primary":    "#FFB500",
-    "secondary":  "#202124",
-    "accent":     "#FFB500",
-    "background": "#ffffff",
-    "surface":    "#FFFBF1",
-    "text":       "#202124",
-    "textMuted":  "#515151",
-    "border":     "#e5e7eb"
+    "primary": "#17395E",
+    "secondary": "#0C1B2A",
+    "background": "#F4F6F9",
+    "surface": "#FFFFFF",
+    "text": "#0C1B2A",
+    "textMuted": "#5A6779",
+    "accent": "#0F2942",
+    "border": "#E2E7EE"
   },
   "typography": {
-    "fontHeading": "'Space Grotesk', 'Inter', Arial, sans-serif",
-    "fontBody":    "'Inter', 'Space Grotesk', Arial, sans-serif"
+    "fontHeading": "'Plus Jakarta Sans', sans-serif",
+    "fontBody": "'Inter', sans-serif",
+    "scale": "comfortable"
+  },
+  "presets": {
+    "navy": {
+      "label": "Navy — důvěryhodná modrá (default)",
+      "tokens": {
+        "colorPrimary": "#17395E",
+        "colorAccent": "#0F2942",
+        "colorSecondary": "#0C1B2A",
+        "colorBackground": "#F4F6F9",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#0C1B2A",
+        "colorTextMuted": "#5A6779",
+        "colorBorder": "#E2E7EE"
+      }
+    },
+    "emerald": {
+      "label": "Emerald — finanční zelená",
+      "tokens": {
+        "colorPrimary": "#0B6B4F",
+        "colorAccent": "#08543D",
+        "colorSecondary": "#0B1F19",
+        "colorBackground": "#F3F8F5",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#0B1F19",
+        "colorTextMuted": "#5C6E67",
+        "colorBorder": "#DDEAE3"
+      }
+    },
+    "graphite": {
+      "label": "Graphite — střízlivá grafitová",
+      "tokens": {
+        "colorPrimary": "#3F4A57",
+        "colorAccent": "#2A323C",
+        "colorSecondary": "#171B21",
+        "colorBackground": "#F5F6F7",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#171B21",
+        "colorTextMuted": "#646D78",
+        "colorBorder": "#E3E5E8"
+      }
+    }
   }
 }

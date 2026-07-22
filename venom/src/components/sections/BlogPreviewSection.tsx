@@ -76,6 +76,10 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
   if (variant === "hair-04-blog") {
     return <BlogHair04 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "ucetni-01-blog") {
+    return <BlogUcetni01 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+    return <BlogHair04 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   return <BlogPreviewDefault content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 }
 
@@ -2057,6 +2061,78 @@ function BlogHair04({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
           ))}
         </div>
         {buttonText && <a href={resolve("/blog")} className="h04bl-all">{buttonText}</a>}
+      </div>
+    </section>
+  );
+}
+
+// ucetni-01-blog — V3 Navy & Gold: karty s fotkou a datem. Nahrazuje generický
+// 'default', který renderoval cizí demo články a kancelářské stock fotky.
+function BlogUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type P = { title?: string; excerpt?: string; image?: string; href?: string; date?: string };
+  const tagline = String(content.tagline ?? "Blog");
+  const title = String(content.title ?? "Z našeho blogu");
+  const posts = (content.posts as P[]) ?? [];
+  const buttonText = String(content.buttonText ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section id="blog" data-section-type="blog-preview" data-variant="ucetni-01-blog" className="u01bl-section" data-template="ucetni-01">
+      <style>{`
+        .u01bl-section { background: var(--color-bg, #F4F6F9); font-family: var(--font-body, 'Inter', sans-serif);
+          padding: clamp(4.5rem, 9vw, 7rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .u01bl-inner { max-width: 80rem; margin: 0 auto; }
+        .u01bl-head { max-width: 44rem; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .u01bl-eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;
+          font-size: 0.76rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+          color: var(--color-primary, #17395E); }
+        .u01bl-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #17395E); }
+        .u01bl-title { font-weight: 700; letter-spacing: -0.02em; font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+          line-height: 1.08; color: var(--color-text, #0C1B2A); margin: 0; text-wrap: balance; }
+        .u01bl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.3rem, 2.4vw, 2rem); }
+        .u01bl-card { display: flex; flex-direction: column; text-decoration: none; background: var(--color-surface, #fff);
+          border: 1px solid var(--color-border, #E2E7EE); border-radius: 12px; overflow: hidden;
+          transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s; }
+        .u01bl-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(12,27,42,0.12); }
+        .u01bl-photo { aspect-ratio: 3 / 2; overflow: hidden; display: block; background: #E2E7EE; }
+        .u01bl-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .u01bl-card:hover .u01bl-photo img { transform: scale(1.05); }
+        .u01bl-body { padding: 1.2rem 1.4rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
+        .u01bl-date { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+          color: var(--color-primary, #17395E); display: block; margin-bottom: 0.5rem; }
+        .u01bl-h { font-weight: 700; font-size: 1.08rem; line-height: 1.3; color: var(--color-text, #0C1B2A); margin: 0 0 0.6rem; }
+        .u01bl-x { font-size: 0.92rem; line-height: 1.62; color: var(--color-text-muted, #5A6779); margin: 0 0 1rem; flex: 1; }
+        .u01bl-more { font-size: 0.86rem; font-weight: 600; color: var(--color-primary, #17395E);
+          padding-top: 0.8rem; border-top: 1px solid var(--color-border, #E2E7EE); }
+        .u01bl-all { display: inline-flex; align-items: center; margin-top: clamp(2rem, 4vw, 2.6rem);
+          padding: 0.9rem 1.9rem; border-radius: 8px; background: var(--color-primary, #17395E); color: #fff;
+          font-size: 0.94rem; font-weight: 600; text-decoration: none; transition: background 0.25s, transform 0.25s; }
+        .u01bl-all:hover { background: var(--color-accent, #0F2942); transform: translateY(-2px); }
+        @media (max-width: 899px) { .u01bl-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .u01bl-card, .u01bl-photo img { transition: none; } }
+      `}</style>
+      <div className="u01bl-inner">
+        <div className="u01bl-head">
+          <span className="u01bl-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="u01bl-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+        </div>
+        <div className="u01bl-grid">
+          {posts.map((p, i) => (
+            <a className="u01bl-card" key={i} href={resolve(p.href ?? "/blog")}>
+              {p.image && (
+                <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={p.image} alt={p.title ?? ""} className="u01bl-photo">
+                  <img src={p.image} alt={p.title ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              )}
+              <div className="u01bl-body">
+                <span className="u01bl-date"><GenericEditableText sectionId={sectionId} field={`posts.${i}.date`} value={p.date ?? ""} tag="span" /></span>
+                <h3 className="u01bl-h"><GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={p.title ?? ""} tag="span" /></h3>
+                <p className="u01bl-x"><GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={p.excerpt ?? ""} tag="span" /></p>
+                <span className="u01bl-more">Číst dál →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        {buttonText && <a href={resolve("/blog")} className="u01bl-all">{buttonText}</a>}
       </div>
     </section>
   );

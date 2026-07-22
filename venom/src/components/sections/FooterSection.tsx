@@ -10344,8 +10344,8 @@ function FooterUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: 
 // Bottom bar: border-top #46484E + copyright center
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const DARK    = "#202124";
-  const YELLOW  = "#FFB500";
+  const DARK    = "var(--color-text, #202124)";
+  const YELLOW  = "var(--color-primary, #FFB500)";
   const BORDER  = "#46484E";
   const FONT_H  = "'Space Grotesk', 'Helvetica Neue', Arial, sans-serif";
   const FONT_B  = "'Inter', 'Helvetica Neue', Arial, sans-serif";
@@ -10630,7 +10630,8 @@ function FooterUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: 
             </div>
           )}
         </div>
-      </footer>
+        <div style={{ display: "flex", justifyContent: "center", padding: "0 0 18px" }}><WeberoCredit /></div>
+    </footer>
     </>
   );
 }

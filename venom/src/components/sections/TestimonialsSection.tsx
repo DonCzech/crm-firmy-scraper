@@ -4066,8 +4066,8 @@ function TestimonialsKids01({ content, sectionId }: { content: Record<string, un
 // - Centered H2 3rem bold #202124
 // - Auto-rotating slider (4s interval), fade transition, dot navigation
 function TestimonialsUcetni01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const DARK  = "#202124";
-  const MUTED = "#515151";
+  const DARK  = "var(--color-text, #202124)";
+  const MUTED = "var(--color-text-muted, #515151)";
   const FONT  = "'Space Grotesk', 'Inter', Arial, sans-serif";
 
   const title = String(content.title ?? "Naši spokojení klienti");
@@ -4129,7 +4129,7 @@ function TestimonialsUcetni01({ content, sectionId }: { content: Record<string, 
           transition: opacity 0.3s ease;
         }
         .uc01test-slide.fading { opacity: 0; }
-        .uc01test-stars { color: #FFB500; font-size: 1.3rem; margin-bottom: 20px; letter-spacing: 2px; }
+        .uc01test-stars { color: var(--color-primary, #FFB500); font-size: 1.3rem; margin-bottom: 20px; letter-spacing: 2px; }
         .uc01test-quote {
           font-family: ${FONT};
           font-size: 1.1rem;

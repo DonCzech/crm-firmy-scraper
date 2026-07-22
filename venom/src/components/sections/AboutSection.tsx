@@ -9857,9 +9857,9 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // - Left (50%): about-vector.png (520×360), vertically centered
 // - Right (50%): floating badge + H3 kicker #FFB500 + H2 3rem #202124 + body #515151 + yellow CTA
 function AboutUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const YELLOW = "#FFB500";
-  const DARK   = "#202124";
-  const MUTED  = "#515151";
+  const YELLOW = "var(--color-primary, #FFB500)";
+  const DARK   = "var(--color-text, #202124)";
+  const MUTED  = "var(--color-text-muted, #515151)";
   const FONT   = "'Space Grotesk', 'Inter', Arial, sans-serif";
 
   const title     = String(content.title     ?? "Pomáháme vám růst");
@@ -9914,8 +9914,8 @@ function AboutUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: R
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: linear-gradient(269deg, #FFFEE8 0%, #FFF3F3 100%);
-          border: 1px solid #FFA0A3;
+          background: linear-gradient(269deg, #FFFEE8 0%, var(--color-surface, #ffffff) 100%);
+          border: 1px solid var(--color-surface, #ffffff);
           border-radius: 4px;
           padding: 5px 10px;
           transform: rotateZ(-2deg);
@@ -9963,7 +9963,7 @@ function AboutUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: R
           transition: background 0.2s;
           white-space: nowrap;
         }
-        .uc01about-cta:hover { background: #e6a300; border-color: #e6a300; }
+        .uc01about-cta:hover { background: var(--color-accent, #e6a300); border-color: var(--color-accent, #e6a300); }
         @media (max-width: 900px) {
           .uc01about-card { flex-direction: column; padding: 40px 24px; gap: 32px; }
           .uc01about-left, .uc01about-right { flex: none; width: 100%; }

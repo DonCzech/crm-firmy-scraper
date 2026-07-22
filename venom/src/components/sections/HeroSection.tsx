@@ -2705,6 +2705,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-pethotel-01-page") {
     return <HeroPethotel01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-ucetni-01-page") return <HeroUcetni01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ucetni-01-hero") {
     return <HeroUcetni01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -15987,8 +15988,8 @@ function HeroVet01Page({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // - Floating decorative card: gradient #FFFEE8→#FFF3F3, border #FFA0A3, rotateZ(-5deg)
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const YELLOW = "#FFB500";
-  const DARK   = "#202124";
+  const YELLOW = "var(--color-primary, #FFB500)";
+  const DARK   = "var(--color-text, #202124)";
   const WHITE  = "#ffffff";
   const FONT_H = "'Space Grotesk', Sans-serif";
   const FONT_B = "'Inter', Sans-serif";
@@ -16054,7 +16055,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         .ucn01hero-subtitle {
           font-family: ${FONT_B};
           font-size: 1rem;
-          color: #515151;
+          color: var(--color-text-muted, #515151);
           margin: 0 0 32px 0;
           max-width: 480px;
           line-height: 1.6;
@@ -16081,13 +16082,13 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           transition: background 0.2s, color 0.2s;
           white-space: nowrap;
         }
-        .ucn01hero-cta:hover { background: #e6a300; border-color: #e6a300; }
+        .ucn01hero-cta:hover { background: var(--color-accent, #e6a300); border-color: var(--color-accent, #e6a300); }
         .ucn01hero-callout {
           display: flex;
           align-items: flex-start;
           gap: 12px;
           padding: 1rem;
-          background: linear-gradient(270deg, #F4E4FD00 0%, #FFEEC6 100%);
+          background: linear-gradient(270deg, #F4E4FD00 0%, var(--color-surface, #ffffff) 100%);
           border-radius: 5px;
           max-width: 440px;
         }
@@ -16127,8 +16128,8 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           position: absolute;
           top: 16px;
           right: -8px;
-          background: linear-gradient(269deg, #FFFEE8 0%, #FFF3F3 100%);
-          border: 1px solid #FFA0A3;
+          background: linear-gradient(269deg, #FFFEE8 0%, var(--color-surface, #ffffff) 100%);
+          border: 1px solid var(--color-surface, #ffffff);
           border-radius: 4px;
           padding: 8px 12px;
           transform: rotateZ(-5deg);
@@ -30189,6 +30190,43 @@ function HeroMalir02Page({ content, sectionId, tenantSlug, isAdmin }: { content:
         <div className="m02hp-crumb"><a href={resolve("/")}>Úvod</a> <span aria-hidden>/</span> {title}</div>
         <h1 className="m02hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
         {subtitle && <p className="m02hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+      </div>
+    </section>
+  );
+}
+
+// hero-ucetni-01-page — podstránkový hero (Navy & Gold). Podstránky dřív používaly
+// homepage hero nebo generický hero-centered.
+function HeroUcetni01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section className="u01hp-wrap" data-template="ucetni-01">
+      <style>{`
+        .u01hp-wrap { background: var(--color-bg, #F4F6F9); font-family: var(--font-body, 'Inter', sans-serif);
+          padding: calc(4.8rem + clamp(2.5rem, 6vw, 4rem)) clamp(1.25rem, 4vw, 2.75rem) 0; }
+        .u01hp-inner { max-width: 80rem; margin: 0 auto; }
+        .u01hp-crumb { font-size: 0.82rem; color: var(--color-text-muted, #5A6779); margin-bottom: 0.9rem; }
+        .u01hp-crumb a { color: var(--color-text-muted, #5A6779); text-decoration: none; }
+        .u01hp-crumb a:hover { color: var(--color-primary, #17395E); }
+        .u01hp-title { font-weight: 700; letter-spacing: -0.02em; font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+          line-height: 1.06; color: var(--color-text, #0C1B2A); margin: 0 0 0.8rem; text-wrap: balance; }
+        .u01hp-sub { font-size: 1.04rem; line-height: 1.65; color: var(--color-text-muted, #5A6779); max-width: 54ch; margin: 0; }
+        .u01hp-photo { margin-top: clamp(2rem, 5vw, 3rem); border-radius: 12px; overflow: hidden; aspect-ratio: 21 / 8; display: block; }
+        .u01hp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 767px) { .u01hp-photo { aspect-ratio: 16 / 9; } }
+      `}</style>
+      <div className="u01hp-inner">
+        <div className="u01hp-crumb"><a href={resolve("/")}>Úvod</a> <span aria-hidden>/</span> {title}</div>
+        <h1 className="u01hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="u01hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        {image && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="u01hp-photo">
+            <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </GenericEditableImage>
+        )}
       </div>
     </section>
   );

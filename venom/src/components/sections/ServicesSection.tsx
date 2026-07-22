@@ -9609,108 +9609,76 @@ function ServicesUcetni02({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-// ─── ucetni-01-services ──────────────────────────────────────────────────────
+// ucetni-01-services — V3 Navy & Gold: foto karty služeb s hairline řádkem
+// (nahrazuje ikonky v tónovaných čtverečcích, které V3_PLAYBOOK §1 zakazuje).
+// Pole: tagline/title/subtitle, items[].{title,description,image,price,note}.
 function ServicesUcetni01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const YELLOW = "#FFB500";
-  const DARK   = "#202124";
-  const MUTED  = "#515151";
-  const FONT   = "'Space Grotesk', 'Inter', Arial, sans-serif";
-
-  const title = String(content.title ?? "Naše služby");
-  const lead  = String(content.lead  ?? "Komplexní účetní a daňové poradenství přizpůsobené vašim potřebám.");
-  const items = (content.items as Array<{ name: string; description: string; icon?: string }>) ?? [];
-
-  const iconMap: Record<string, React.ReactNode> = {
-    document: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/>
-        <line x1="16" y1="17" x2="8" y2="17"/>
-      </svg>
-    ),
-    calculator: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="2" width="16" height="20" rx="2"/>
-        <line x1="8" y1="6" x2="16" y2="6"/>
-        <line x1="8" y1="12" x2="9" y2="12"/>
-        <line x1="12" y1="12" x2="13" y2="12"/>
-        <line x1="16" y1="12" x2="17" y2="12"/>
-        <line x1="8" y1="16" x2="9" y2="16"/>
-        <line x1="12" y1="16" x2="13" y2="16"/>
-        <line x1="16" y1="16" x2="17" y2="16"/>
-      </svg>
-    ),
-    people: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-      </svg>
-    ),
-    chart: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="20" x2="18" y2="10"/>
-        <line x1="12" y1="20" x2="12" y2="4"/>
-        <line x1="6"  y1="20" x2="6"  y2="14"/>
-        <line x1="2"  y1="20" x2="22" y2="20"/>
-      </svg>
-    ),
-  };
-  const fallbackIcon = (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-    </svg>
-  );
-
+  type I = { title?: string; name?: string; description?: string; image?: string; price?: string; note?: string };
+  const tagline = String(content.tagline ?? "Služby");
+  const title = String(content.title ?? "Co pro vás uděláme");
+  const subtitle = String(content.subtitle ?? "");
+  const items = ((content.items ?? content.services) as I[]) ?? [];
   return (
-    <section id="sluzby" style={{ backgroundColor: "#ffffff", padding: "5rem 0", fontFamily: FONT }}>
+    <section id="sluzby" data-section-type="services" data-variant="ucetni-01-services" className="u01sv-section" data-template="ucetni-01">
       <style>{`
-        .uc01-services-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
-        }
-        .uc01-service-card {
-          background: linear-gradient(270deg, #F4E4FD00 0%, #FFEEC6 100%);
-          border-radius: 8px;
-          padding: 32px 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 14px;
-          transition: box-shadow 0.2s ease;
-        }
-        .uc01-service-card:hover {
-          box-shadow: 0 4px 20px rgba(255,181,0,0.25);
-        }
-        @media (max-width: 1024px) {
-          .uc01-services-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 640px) {
-          .uc01-services-grid { grid-template-columns: 1fr; }
-        }
+        .u01sv-section { background: var(--color-surface, #FFFFFF); font-family: var(--font-body, 'Inter', sans-serif);
+          padding: clamp(4.5rem, 9vw, 7rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .u01sv-inner { max-width: 80rem; margin: 0 auto; }
+        .u01sv-head { max-width: 44rem; margin-bottom: clamp(2.4rem, 5vw, 3.4rem); }
+        .u01sv-eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem;
+          font-size: 0.76rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+          color: var(--color-primary, #17395E); }
+        .u01sv-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #17395E); }
+        .u01sv-title { font-weight: 700; letter-spacing: -0.02em; font-size: clamp(1.9rem, 3.8vw, 2.9rem);
+          line-height: 1.08; color: var(--color-text, #0C1B2A); margin: 0 0 0.8rem; text-wrap: balance; }
+        .u01sv-sub { font-size: 1.02rem; line-height: 1.65; color: var(--color-text-muted, #5A6779); margin: 0; }
+        .u01sv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.2rem, 2.2vw, 1.8rem); }
+        .u01sv-card { display: flex; flex-direction: column; background: var(--color-bg, #F4F6F9);
+          border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border, #E2E7EE);
+          transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s; }
+        .u01sv-card:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(12,27,42,0.12); }
+        .u01sv-media { aspect-ratio: 16 / 10; overflow: hidden; display: block; background: #E2E7EE; }
+        .u01sv-media img { width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .u01sv-card:hover .u01sv-media img { transform: scale(1.05); }
+        .u01sv-body { padding: 1.2rem 1.3rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
+        .u01sv-num { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em;
+          color: var(--color-primary, #17395E); display: block; margin-bottom: 0.5rem; }
+        .u01sv-name { font-weight: 700; font-size: 1.06rem; line-height: 1.3;
+          color: var(--color-text, #0C1B2A); margin: 0 0 0.5rem; }
+        .u01sv-desc { font-size: 0.92rem; line-height: 1.6; color: var(--color-text-muted, #5A6779); margin: 0 0 1rem; flex: 1; }
+        .u01sv-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem;
+          padding-top: 0.8rem; border-top: 1px solid var(--color-border, #E2E7EE); }
+        .u01sv-price { font-weight: 700; font-size: 0.98rem; color: var(--color-text, #0C1B2A); }
+        .u01sv-note { font-size: 0.8rem; color: var(--color-text-muted, #5A6779); }
+        @media (max-width: 1099px) { .u01sv-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 599px) { .u01sv-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .u01sv-card, .u01sv-media img { transition: none; } }
       `}</style>
-      <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 20px" }}>
-        <h2 style={{ fontFamily: FONT, fontWeight: 400, fontSize: "3rem", color: DARK, margin: "0 0 12px", lineHeight: 1.2 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "1.05rem", color: MUTED, margin: "0 0 48px", lineHeight: 1.65 }}>
-          <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-        </p>
-        <div className="uc01-services-grid">
-          {items.map((item, i) => (
-            <div key={i} className="uc01-service-card">
-              <div style={{ width: 52, height: 52, borderRadius: 8, background: "rgba(255,255,255,0.6)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {iconMap[item.icon ?? ""] ?? fallbackIcon}
+      <div className="u01sv-inner">
+        <div className="u01sv-head">
+          <span className="u01sv-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="u01sv-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {subtitle && <p className="u01sv-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        </div>
+        <div className="u01sv-grid">
+          {items.map((it, i) => (
+            <article className="u01sv-card" key={i}>
+              {it.image && (
+                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={it.image} alt={it.title ?? it.name ?? ""} className="u01sv-media">
+                  <img src={it.image} alt={it.title ?? it.name ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              )}
+              <div className="u01sv-body">
+                <span className="u01sv-num">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="u01sv-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={it.title ?? it.name ?? ""} tag="span" /></h3>
+                <p className="u01sv-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={it.description ?? ""} tag="span" /></p>
+                <div className="u01sv-foot">
+                  <span className="u01sv-price"><GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={it.price ?? ""} tag="span" /></span>
+                  <span className="u01sv-note"><GenericEditableText sectionId={sectionId} field={`items.${i}.note`} value={it.note ?? ""} tag="span" /></span>
+                </div>
               </div>
-              <h3 style={{ fontFamily: FONT, fontWeight: 600, fontSize: "1.15rem", color: DARK, margin: 0, lineHeight: 1.3 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
-              </h3>
-              <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "0.95rem", color: "#000000", margin: 0, lineHeight: 1.65 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
-              </p>
-            </div>
+            </article>
           ))}
         </div>
       </div>

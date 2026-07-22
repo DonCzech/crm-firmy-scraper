@@ -9059,7 +9059,7 @@ function ContactGrooming01({ content, sectionId }: { content: Record<string, unk
 // - padding 6rem; max-width 1320px
 // - 2-col: left = white H2 + lead + yellow CTA; right = 2×2 info cards
 function ContactUcetni01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const YELLOW = "#FFB500";
+  const YELLOW = "var(--color-primary, #FFB500)";
   const FONT   = "'Space Grotesk', 'Inter', Arial, sans-serif";
 
   const title   = String(content.title   ?? "Kontaktujte nás");
@@ -9113,7 +9113,7 @@ function ContactUcetni01({ content, sectionId }: { content: Record<string, unkno
           text-decoration: none; border-radius: 8px; border: 1px solid ${YELLOW};
           transition: background 0.2s; white-space: nowrap;
         }
-        .uc01ct-cta:hover { background: #e6a300; border-color: #e6a300; }
+        .uc01ct-cta:hover { background: var(--color-accent, #e6a300); border-color: var(--color-accent, #e6a300); }
         .uc01ct-grid {
           display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
         }
