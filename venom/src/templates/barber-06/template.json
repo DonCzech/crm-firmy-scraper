@@ -1,0 +1,105 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "barber-06",
+  "name": "ALFA Barbershop",
+  "industry": "barber",
+  "skeleton": "service-personal",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "description": "Pánský barbershop v tmavé paletě se žlutým akcentem — původní podoba šablony hair-04 („Impresiv Studio“) zachovaná jako samostatná barber šablona poté, co hair-04 dostala remaster na „Studio Pop“. Onepage: hero s integrovanou navigací, kosočtvercové karty služeb, žlutý CTA pás s telefonem, split o nás, karusel galerie, kontakt s mapou a tmavá patička.",
+  "sectionOrderNote": "Navbar → Hero (fullwidth) → Services (3 cards) → CTA bar (phone) → About (2-col) → Gallery (carousel) → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 1,
+      "name": "Header",
+      "reason": "Navbar je embedded v hero sekci (transparentní overlay, Astra-style)"
+    },
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "kim-impressive.cz nemá ceník sekci na homepage"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "kim-impressive.cz nemá team sekci"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "kim-impressive.cz nemá recenze sekci"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "kim-impressive.cz nemá FAQ sekci"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": [
+      "cs"
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "hero",
+          "variant": "barber-06-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "services",
+          "variant": "barber-06-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "barber-06-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "about",
+          "variant": "barber-06-about",
+          "contentRef": "about"
+        },
+        {
+          "type": "gallery",
+          "variant": "barber-06-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "sharp",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "barber-06-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "barber-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "extraSections": [
+    {
+      "type": "rezora-widget",
+      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
+    }
+  ],
+  "tags": [
+    "barber"
+  ]
+}

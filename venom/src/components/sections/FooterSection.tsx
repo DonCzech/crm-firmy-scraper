@@ -151,6 +151,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   }
 
   // hair-04: tmavý footer, logo vlevo, info uprostřed, soc. sítě vpravo, copyright bar dole
+  if (variant === "barber-06-footer") return <FooterBarber06 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hair-04-footer") {
     return <FooterHair04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -19914,3 +19915,99 @@ function FooterHair04({ content, sectionId, tenantSlug, isAdmin }: { content: Re
     </footer>
   );
 }
+
+// barber-06-footer — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
+// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+function FooterBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+    const siteName  = String(content.siteName  ?? "Impresiv Studio");
+    const address   = String(content.address   ?? "");
+    const phone     = String(content.phone     ?? "");
+    const email     = String(content.email     ?? "");
+    const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+    const gdprHref  = String(content.gdprHref  ?? "/gdpr");
+    const facebook  = String(content.facebook  ?? "");
+    const instagram = String(content.instagram ?? "");
+    const GOLD  = "#FFDF25";
+    const DARK  = "#0a0a0a";
+    const LATO  = "'Lato', sans-serif";
+
+    return (
+      <footer data-template="barber-06" style={{ backgroundColor: DARK, borderTop: "1px solid rgba(255,223,37,0.2)" }}>
+        {/* Hlavní řádek */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 32,
+          padding: "52px clamp(32px,6vw,100px)",
+        }}>
+          {/* Logo vlevo */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <span style={{ fontFamily: LATO, fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </span>
+            <span style={{ fontFamily: LATO, fontSize: 11, fontWeight: 300, color: GOLD, letterSpacing: "0.25em", textTransform: "uppercase" }}>Hair Salon</span>
+          </div>
+
+          {/* Kontaktní info uprostřed */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center", textAlign: "center" }}>
+            {address && (
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p"
+                style={{ fontFamily: LATO, fontSize: 14, fontWeight: 300, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.5 }} />
+            )}
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
+              {phone && (
+                <a href={`tel:+420${phone.replace(/\s/g,"")}`}
+                  style={{ fontFamily: LATO, fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+              )}
+              {email && (
+                <a href={`mailto:${email}`}
+                  style={{ fontFamily: LATO, fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Sociální sítě vpravo */}
+          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+            {facebook && (
+              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            )}
+            {instagram && (
+              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Copyright bar */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "18px clamp(32px,6vw,100px)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p"
+            style={{ fontFamily: LATO, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", margin: 0 }} />
+          <a href={gdprHref}
+            style={{ fontFamily: LATO, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
+            onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.4)"; }}>
+            Ochrana osobních údajů
+          </a>
+        </div>
+      </footer>
+    );
+  }

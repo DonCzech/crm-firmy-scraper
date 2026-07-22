@@ -122,6 +122,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "ddd-01-services")      return <ServicesDdd01     content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
   // hair-04: 3-col, diamond foto s gold borderem, tmavé bg, gold nadpisy — 1:1 kim-impressive.cz
+  if (variant === "barber-06-services") return <ServicesBarber06 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hair-04-service-cards") {
     return <ServicesHair04 content={content} sectionId={sectionId} />;
   }
@@ -16802,3 +16803,138 @@ function ServicesHair04({ content, sectionId }: { content: Record<string, unknow
     </section>
   );
 }
+
+// barber-06-services — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
+// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+function ServicesBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+    type Item04 = { title?: string; body?: string; image?: string };
+    const items = (content.items as Item04[]) ?? [];
+    const GOLD  = "#FFDF25";
+    const LATO  = "'Lato', sans-serif";
+    const PLACEHOLDERS = [
+      "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&h=400&fit=crop&crop=face&fm=webp",
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop&crop=face&fm=webp",
+      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=face&fm=webp",
+    ];
+
+    return (
+      <section
+        id="sluzby"
+        data-template="barber-06"
+        style={{ backgroundColor: "#0d0d0d", padding: "80px 24px 90px" }}
+      >
+        <style>{`
+          [data-template="barber-06"] .h04-card {
+            transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
+          }
+          [data-template="barber-06"] .h04-card:hover {
+            transform: translateY(-10px);
+          }
+          [data-template="barber-06"] .h04-diamond {
+            transition: box-shadow 0.35s ease, border-color 0.35s ease;
+          }
+          [data-template="barber-06"] .h04-card:hover .h04-diamond {
+            box-shadow: 0 0 32px rgba(255,223,37,0.45), 0 0 8px rgba(255,223,37,0.25);
+            border-color: #fff;
+          }
+          [data-template="barber-06"] .h04-title {
+            transition: color 0.3s ease;
+          }
+          [data-template="barber-06"] .h04-card:hover .h04-title {
+            color: #ffffff;
+          }
+        `}</style>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "clamp(40px, 6vw, 100px)",
+            flexWrap: "wrap",
+            maxWidth: 1200,
+            margin: "0 auto",
+          }}
+        >
+          {items.map((it, i) => {
+            const imgSrc = it.image || PLACEHOLDERS[i] || "";
+            return (
+              <div
+                key={i}
+                className="h04-card"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  flex: "1 1 260px",
+                  maxWidth: 320,
+                }}
+              >
+                {/* Diamond foto */}
+                <div
+                  className="h04-diamond"
+                  style={{
+                    width: 190,
+                    height: 190,
+                    transform: "rotate(45deg)",
+                    overflow: "hidden",
+                    border: `2px solid ${GOLD}`,
+                    flexShrink: 0,
+                    marginBottom: 56,
+                    position: "relative",
+                  }}
+                >
+                  <GenericEditableImage
+                    sectionId={sectionId}
+                    field={`items.${i}.image`}
+                    src={imgSrc}
+                    alt={it.title ?? ""}
+                    className="absolute inset-0"
+                    style={{ position: "absolute", inset: 0 }}
+                  >
+                    {imgSrc ? (
+                      <Image
+                        src={imgSrc}
+                        alt={it.title ?? ""}
+                        fill
+                        sizes="270px"
+                        className="object-cover"
+                        style={{ transform: "rotate(-45deg) scale(1.45)", transformOrigin: "center" }}
+                        unoptimized={shouldSkipNextImageOptimization(imgSrc)}
+                      />
+                    ) : (
+                      <div style={{ position: "absolute", inset: 0, backgroundColor: "#1a1a1a" }} />
+                    )}
+                  </GenericEditableImage>
+                </div>
+
+                {/* Název — gold */}
+                <h3 className="h04-title" style={{
+                  fontFamily: LATO,
+                  fontSize: 22,
+                  fontWeight: 600,
+                  color: GOLD,
+                  margin: "0 0 16px",
+                  lineHeight: 1.3,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={it.title ?? ""} tag="span" />
+                </h3>
+
+                {/* Popis — bílý */}
+                <p style={{
+                  fontFamily: LATO,
+                  fontSize: 15,
+                  fontWeight: 300,
+                  color: "rgba(255,255,255,0.85)",
+                  lineHeight: 1.75,
+                  margin: 0,
+                  maxWidth: 280,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.body`} value={it.body ?? ""} tag="span" />
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }

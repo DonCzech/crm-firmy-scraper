@@ -98,6 +98,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "eshop-04-shipping")          return <ShippingEshop04 content={content} sectionId={sectionId} />;
 
   // hair-04: 2-col split — text vlevo (tmavé bg), foto vpravo edge-to-edge — 1:1 kim-impressive.cz
+  if (variant === "barber-06-about") return <AboutBarber06 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "about-hair-04-split") {
     return <AboutHair04Split content={content as Record<string, unknown>} sectionId={sectionId} />;
   }
@@ -21680,3 +21681,109 @@ function AboutHair04Split({ content, sectionId }: { content: Record<string, unkn
     </section>
   );
 }
+
+// barber-06-about — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
+// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+function AboutBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+    const title  = String(content.title  ?? "Impresivní střihy. Už 10 let.");
+    const body   = String(content.body   ?? "");
+    const body2  = String(content.body2  ?? "");
+    const image  = String(content.image  ?? "");
+    const GOLD   = "#FFDF25";
+    const DARK   = "#0d0d0d";
+    const LATO   = "'Lato', sans-serif";
+    const PLACEHOLDER = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=900&fit=crop&fm=webp";
+
+    return (
+      <section
+        id="o-nas"
+        data-template="barber-06"
+        style={{ backgroundColor: DARK, display: "flex", minHeight: 520, flexWrap: "wrap" }}
+      >
+        <style>{`
+          @media (max-width: 768px) {
+            section[data-template="barber-06"]#o-nas { flex-direction: column; }
+            section[data-template="barber-06"]#o-nas > div:first-child {
+              flex: 1 1 100% !important;
+              padding: 48px 24px !important;
+            }
+            section[data-template="barber-06"]#o-nas > div:last-child {
+              min-height: 280px;
+              flex: 1 1 100% !important;
+            }
+          }
+        `}</style>
+        {/* Levý sloupec — text */}
+        <div
+          style={{
+            flex: "1 1 50%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "72px clamp(40px, 6vw, 120px)",
+          }}
+        >
+          {/* Gold dekorační linka */}
+          <div style={{ width: 48, height: 3, backgroundColor: GOLD, marginBottom: 28 }} aria-hidden />
+
+          <h2 style={{
+            fontFamily: LATO,
+            fontSize: "clamp(26px, 2.8vw, 40px)",
+            fontWeight: 700,
+            color: "#ffffff",
+            lineHeight: 1.25,
+            margin: "0 0 28px",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+
+          <p style={{
+            fontFamily: LATO,
+            fontSize: 16,
+            fontWeight: 300,
+            color: "rgba(255,255,255,0.8)",
+            lineHeight: 1.85,
+            margin: "0 0 20px",
+            maxWidth: 480,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+
+          {body2 && (
+            <p style={{
+              fontFamily: LATO,
+              fontSize: 16,
+              fontWeight: 300,
+              color: "rgba(255,255,255,0.8)",
+              lineHeight: 1.85,
+              margin: 0,
+              maxWidth: 480,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+            </p>
+          )}
+        </div>
+
+        {/* Pravý sloupec — foto edge-to-edge */}
+        <div style={{ flex: "1 1 50%", position: "relative", minHeight: 420 }}>
+          <GenericEditableImage
+            sectionId={sectionId}
+            field="image"
+            src={image || PLACEHOLDER}
+            alt={title}
+            className="absolute inset-0 w-full h-full"
+            style={{ position: "absolute" }}
+          >
+            <Image
+              src={image || PLACEHOLDER}
+              alt={title}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              unoptimized={shouldSkipNextImageOptimization(image || PLACEHOLDER)}
+            />
+          </GenericEditableImage>
+        </div>
+      </section>
+    );
+  }

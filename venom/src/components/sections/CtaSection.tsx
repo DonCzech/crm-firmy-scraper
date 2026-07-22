@@ -67,6 +67,7 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
   if (variant === "video-01-cta")         return <CtaVideo01      content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
   // hair-04: žlutý bar, text vlevo, tmavé pill tlačítko s telefonem vpravo — 1:1 kim-impressive.cz
+  if (variant === "barber-06-cta") return <CtaBarber06 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hair-04-cta-phone") {
     return <CtaHair04Phone content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -5270,3 +5271,87 @@ function CtaHair04Phone({ content, sectionId, tenantSlug, isAdmin }: { content: 
     </section>
   );
 }
+
+// barber-06-cta — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
+// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+function CtaBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+    const title     = String((content as Record<string,unknown>).title ?? "Nechcete čekat? Zkuste nám zavolat");
+    const phone     = String((content as Record<string,unknown>).phone ?? "704 123 456");
+    const phoneHref = String((content as Record<string,unknown>).phoneHref ?? "tel:+420704123456");
+    const GOLD      = "#FFDF25";
+    const DARK      = "#0d0d0d";
+    const LATO      = "'Lato', sans-serif";
+
+    return (
+      <>
+      <style>{`
+        @media (max-width: 640px) {
+          [data-template="barber-06"] .h04-cta-phone-wrap {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 28px 24px !important;
+            gap: 20px !important;
+          }
+          [data-template="barber-06"] .h04-cta-phone-btn {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 18px 24px !important;
+          }
+        }
+      `}</style>
+      <section
+        data-template="barber-06"
+        style={{ backgroundColor: GOLD, padding: "0 clamp(20px, 8vw, 140px)" }}
+      >
+        <div
+          className="h04-cta-phone-wrap"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            minHeight: 110,
+            gap: 32,
+          }}
+        >
+          <GenericEditableText
+            sectionId={sectionId}
+            field="title"
+            value={title}
+            tag="p"
+            style={{
+              fontFamily: LATO,
+              fontSize: "clamp(18px, 2vw, 26px)",
+              fontWeight: 400,
+              color: DARK,
+              margin: 0,
+              lineHeight: 1.3,
+            }}
+          />
+          <a
+            href={phoneHref}
+            className="h04-cta-phone-btn"
+            style={{
+              fontFamily: LATO,
+              fontSize: "clamp(16px, 1.5vw, 20px)",
+              fontWeight: 500,
+              color: GOLD,
+              backgroundColor: DARK,
+              borderRadius: 50,
+              padding: "16px 36px",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+              transition: "background 0.2s, color 0.2s",
+              display: "block",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#222"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          </a>
+        </div>
+      </section>
+      </>
+    );
+  }

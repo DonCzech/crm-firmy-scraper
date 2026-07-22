@@ -202,6 +202,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   }
 
   // hair-04: dark bg, gold nadpis, 4-up smooth CSS slider s arrow nav + lightbox
+  if (variant === "barber-06-gallery") return <GalleryBarber06 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hair-04-carousel") {
     return <GalleryHair04 content={content as Record<string, unknown>} sectionId={sectionId} />;
   }
@@ -8855,3 +8856,23 @@ function GalleryHair04({ content, sectionId }: { content: Record<string, unknown
     </section>
   );
 }
+
+// barber-06-gallery — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
+// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+function GalleryBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const raw = (content as { images?: unknown }).images;
+  const images = normalizeImages(raw);
+  const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+    return (
+      <Hair04Carousel
+        content={content}
+        sectionId={sectionId}
+        images={images}
+        activeImage={activeImage}
+        setActiveImage={setActiveImage}
+        slideIndex={slideIndex}
+        setSlideIndex={setSlideIndex}
+      />
+    );
+  }

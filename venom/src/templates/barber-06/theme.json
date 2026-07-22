@@ -1,0 +1,78 @@
+{
+  "colors": {
+    "primary": "#92a8d1",
+    "secondary": "#7a90ba",
+    "background": "#ffffff",
+    "surface": "#f5f7fb",
+    "text": "#333333",
+    "textMuted": "#666666",
+    "accent": "#92a8d1",
+    "border": "rgba(146,168,209,0.3)"
+  },
+  "typography": {
+    "fontHeading": "'Lato', sans-serif",
+    "fontBody": "'Lato', sans-serif",
+    "scale": "comfortable"
+  },
+  "radius": {
+    "sm": "0px",
+    "md": "4px",
+    "lg": "8px",
+    "pill": "0px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section": "comfortable"
+  },
+  "shadows": {
+    "sm": "0 1px 3px rgba(0,0,0,0.08)",
+    "md": "0 4px 16px rgba(0,0,0,0.10)",
+    "lg": "0 12px 40px rgba(0,0,0,0.14)"
+  },
+  "animation": {
+    "ease": "cubic-bezier(0.4,0,0.2,1)",
+    "duration": "250ms",
+    "intensity": "subtle"
+  },
+  "presets": {
+    "alfa": {
+      "label": "Alfa — tmavá se žlutou (default)",
+      "tokens": {
+        "colorPrimary": "#ffc107",
+        "colorAccent": "#e0a800",
+        "colorSecondary": "#121212",
+        "colorBackground": "#f7f7f7",
+        "colorSurface": "#ffffff",
+        "colorText": "#212529",
+        "colorTextMuted": "#6c757d",
+        "colorBorder": "#e4e4e4"
+      }
+    },
+    "steel": {
+      "label": "Steel — chladná ocelová",
+      "tokens": {
+        "colorPrimary": "#8FA3B0",
+        "colorAccent": "#6B7F8C",
+        "colorSecondary": "#14181B",
+        "colorBackground": "#F4F6F7",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#14181B",
+        "colorTextMuted": "#68757D",
+        "colorBorder": "#E1E6E9"
+      }
+    },
+    "crimson": {
+      "label": "Crimson — sytá červená",
+      "tokens": {
+        "colorPrimary": "#C1272D",
+        "colorAccent": "#9B1F24",
+        "colorSecondary": "#141010",
+        "colorBackground": "#F7F5F5",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#141010",
+        "colorTextMuted": "#6F6666",
+        "colorBorder": "#E7E2E2"
+      }
+    }
+  }
+}
