@@ -6,61 +6,46 @@ import type { PlatformLocale } from "@/lib/platform-i18n";
 import { platformPath } from "@/lib/platform-i18n";
 
 /* ────────────────────────────────────────────────────────────────────────
-   Products & Solutions — awwwards-grade reposition.
-   One roof: self-serve platform · Webero AI Builder · premium custom studio.
+   Products & Solutions — awwwards-grade, deliberately lean.
+   Three products: Websites · Custom e-shops · Webero AI Builder.
+   Plus the "or we do it for you" custom studio.
    Server component — every motion is pure CSS, no client hooks.
    ──────────────────────────────────────────────────────────────────────── */
 
 const CONTACT = "mailto:podpora@webero.co?subject=Custom%20project%20—%20Webero";
 const SERIF = "var(--font-instrument-serif), 'Instrument Serif', Georgia, serif";
 
-type Product = { key: string; tag: string; title: string; perex: string; image: string };
-
-/* ── CS ─────────────────────────────────────────────────────────────────── */
+type Product = { key: string; tag: string; title: string; perex: string; meta: string; image: string };
 
 const PRODUCTS_CS: Product[] = [
-  { key: "weby", tag: "Weby", title: "Firemní weby", perex: "Kompletní firemní web — desítky sekcí, blog, formuláře, jazyky. Online za jediný den.", image: "/templates/peak-cut/showcase/desktop-full.png" },
-  { key: "landing", tag: "Kampaně", title: "Landing pages", perex: "Jednostránkové weby pro kampaně a sběr leadů. A/B varianty za minuty.", image: "/templates/barber-03/showcase/desktop-full.png" },
-  { key: "eshop", tag: "Prodej", title: "E-shop a katalog", perex: "Prodávejte fyzické i digitální zboží. Platby, sklad i doprava v ceně.", image: "/templates/eshop-01/showcase/desktop-full.png" },
-  { key: "hub", tag: "Obsah", title: "Content Hub", perex: "Blog, online kurzy a členské sekce. Prodej jednorázově i na předplatné.", image: "/templates/beauty-01/showcase/desktop-full.png" },
+  { key: "weby", tag: "Weby", title: "Webové stránky", perex: "Přes 100 profi šablon pro každý obor. Každou spustíte jako one-page, nebo jako plný multipage web — vyberete si.", meta: "100+ šablon · one-page i multipage", image: "/templates/peak-cut/showcase/desktop-full.png" },
+  { key: "eshop", tag: "E-shop", title: "Vlastní e-shopy", perex: "20 profesionálních šablon e-shopu. Platby, sklad, doprava i faktury máte rovnou v ceně.", meta: "20 šablon · vše v jednom", image: "/templates/eshop-01/showcase/desktop-full.png" },
 ];
 
-const STUDIO_CAPS_CS = ["Weby na míru", "Custom e-commerce", "Web apps & SaaS", "AI & automatizace", "Rezervační systémy", "Dashboardy & interní nástroje", "Mobil & PWA", "API & integrace"];
-
-/* ── EN ─────────────────────────────────────────────────────────────────── */
+const STUDIO_CAPS_CS = ["Weby na míru", "Custom e-commerce", "Web apps & SaaS", "AI & automatizace", "Rezervační systémy", "Mobil & PWA", "API & integrace"];
 
 const PRODUCTS_EN: Product[] = [
-  { key: "weby", tag: "Websites", title: "Business websites", perex: "A full company site — dozens of sections, blog, forms, languages. Live in a single day.", image: "/templates/peak-cut/showcase/desktop-full.png" },
-  { key: "landing", tag: "Campaigns", title: "Landing pages", perex: "One-page sites for campaigns and lead capture. Spin up A/B variants in minutes.", image: "/templates/barber-03/showcase/desktop-full.png" },
-  { key: "eshop", tag: "Commerce", title: "E-shop & catalog", perex: "Sell physical or digital goods. Payments, stock, and shipping built in.", image: "/templates/eshop-01/showcase/desktop-full.png" },
-  { key: "hub", tag: "Content", title: "Content hub", perex: "Blog, online courses, member areas. Sell once or as a subscription.", image: "/templates/beauty-01/showcase/desktop-full.png" },
+  { key: "weby", tag: "Websites", title: "Business websites", perex: "100+ pro templates for every industry. Run any of them as a one-page or a full multi-page site — you choose.", meta: "100+ templates · one-page or multi-page", image: "/templates/peak-cut/showcase/desktop-full.png" },
+  { key: "eshop", tag: "E-shop", title: "Custom e-shops", perex: "20 professional store templates. Payments, stock, shipping, and invoices are all included.", meta: "20 templates · all in one", image: "/templates/eshop-01/showcase/desktop-full.png" },
 ];
 
-const STUDIO_CAPS_EN = ["Bespoke websites", "Custom e-commerce", "Web apps & SaaS", "AI & automation", "Booking systems", "Dashboards & internal tools", "Mobile & PWA", "API & integrations"];
-
-/* ── copy ───────────────────────────────────────────────────────────────── */
+const STUDIO_CAPS_EN = ["Bespoke websites", "Custom e-commerce", "Web apps & SaaS", "AI & automation", "Booking systems", "Mobile & PWA", "API & integrations"];
 
 const COPY = {
   cs: {
     hero: {
       eyebrow: "Produkty a řešení",
-      badge: "Jedna platforma · AI Builder · vlastní studio",
+      badge: "Udělejte si to sami — nebo to necháte na nás",
       titleA: "Umíme postavit",
       titleEm: "úplně cokoliv.",
-      sub: "Weby, e-shopy, webové aplikace, AI nástroje. Postavte si to sami na platformě Webero, nechte to složit našeho AI Buildera, nebo nám zadejte prémiový projekt na míru. Vše pod jednou střechou.",
+      sub: "Web, e-shop, nebo web od AI. Postavte si to sami na platformě Webero, nebo nám zadejte prémiový projekt na míru. Vše pod jednou střechou.",
       ctaPrimary: "Spustit zdarma",
       ctaSecondary: "Nezávazně poptat projekt",
     },
-    marquee: ["Weby", "E-shopy", "Landing pages", "Webové aplikace", "AI Builder", "Rezervační systémy", "Členské sekce", "Custom platformy", "Integrace", "Mobilní aplikace", "Dashboardy", "Automatizace"],
-    paths: {
-      eyebrow: "Dvě cesty k cíli",
-      title: "Uděláte si to sami, nebo to necháte na nás.",
-      a: { title: "Postavte si to sami", desc: "Šablony, živý editor, AI Builder a hosting v ceně. První verze může být online ještě dnes.", cta: "Vybrat design" },
-      b: { title: "Postavíme to za vás", desc: "Prémiové studio bez limitů. Design a vývoj na míru — od e-shopu po celý SaaS.", cta: "Poptat projekt" },
-    },
-    products: { eyebrow: "Platforma", title: "Čtyři produkty. Jedna střecha.", sub: "Jeden účet, jedna cena, jedno rozhraní.", cta: "Prozkoumat" },
+    marquee: ["Weby", "E-shopy", "AI Builder", "Rezervační systémy", "Webové aplikace", "Integrace", "Mobilní aplikace", "Cokoliv na míru"],
+    products: { eyebrow: "Platforma", title: "Tři produkty. Jedna střecha.", sub: "Jeden účet, jedna cena, jedno rozhraní.", cta: "Prozkoumat" },
     ai: {
-      eyebrow: "Webero AI Builder",
+      badge: "Produkt 03 · Webero AI Builder",
       titleA: "Popište firmu.",
       titleEm: "Web se postaví sám.",
       sub: "Napište, co děláte — a AI Builder složí kompletní web: stránky, sekce, texty i obrázky. Vše hned upravíte v živém editoru.",
@@ -69,15 +54,15 @@ const COPY = {
       cta: "Vyzkoušet AI Builder",
     },
     studio: {
-      eyebrow: "Studio na míru",
+      eyebrow: "Nebo to necháte na nás",
       titleA: "Za hranicí šablon.",
       titleEm: "Když to běží v prohlížeči, postavíme to.",
       sub: "Potřebujete něco, co žádná šablona neumí? Stavíme prémiové weby, e-shopy a aplikace na míru — bez stropu složitosti.",
       cta: "Probrat váš projekt",
     },
     stats: [
-      { v: "100+", l: "profi šablon" },
-      { v: "95+", l: "PageSpeed" },
+      { v: "100+", l: "šablon webů" },
+      { v: "20", l: "šablon e-shopů" },
       { v: "14 dní", l: "zdarma, bez karty" },
       { v: "∞", l: "rozsah na míru" },
     ],
@@ -93,23 +78,17 @@ const COPY = {
   en: {
     hero: {
       eyebrow: "Products & solutions",
-      badge: "One platform · AI Builder · in-house studio",
+      badge: "Do it yourself — or leave it to us",
       titleA: "We can build",
       titleEm: "absolutely anything.",
-      sub: "Websites, e-shops, web apps, AI tools. Build it yourself on the Webero platform, let our AI Builder assemble it, or hand us a premium custom project. All under one roof.",
+      sub: "A website, an e-shop, or a site built by AI. Build it yourself on the Webero platform, or hand us a premium custom project. All under one roof.",
       ctaPrimary: "Start for free",
       ctaSecondary: "Discuss a project",
     },
-    marquee: ["Websites", "E-shops", "Landing pages", "Web apps", "AI Builder", "Booking systems", "Membership sites", "Custom platforms", "Integrations", "Mobile apps", "Dashboards", "Automations"],
-    paths: {
-      eyebrow: "Two ways to get there",
-      title: "Do it yourself, or leave it to us.",
-      a: { title: "Build it yourself", desc: "Templates, a live editor, the AI Builder and hosting — included. Your first version can be live today.", cta: "Choose a design" },
-      b: { title: "We build it for you", desc: "A premium studio with no limits. Bespoke design and development — from a shop to a full SaaS.", cta: "Request a project" },
-    },
-    products: { eyebrow: "The platform", title: "Four products. One roof.", sub: "One account, one price, one interface.", cta: "Explore" },
+    marquee: ["Websites", "E-shops", "AI Builder", "Booking systems", "Web apps", "Integrations", "Mobile apps", "Anything custom"],
+    products: { eyebrow: "The platform", title: "Three products. One roof.", sub: "One account, one price, one interface.", cta: "Explore" },
     ai: {
-      eyebrow: "Webero AI Builder",
+      badge: "Product 03 · Webero AI Builder",
       titleA: "Describe your business.",
       titleEm: "The site builds itself.",
       sub: "Type what you do — and the AI Builder assembles a full website: pages, sections, copy, and images. Tweak everything instantly in the live editor.",
@@ -118,15 +97,15 @@ const COPY = {
       cta: "Try the AI Builder",
     },
     studio: {
-      eyebrow: "Custom studio",
+      eyebrow: "Or leave it to us",
       titleA: "Beyond templates.",
       titleEm: "If it runs in a browser, we build it.",
       sub: "Need something no template can do? We build premium bespoke websites, shops, and apps — no ceiling on complexity.",
       cta: "Talk about your project",
     },
     stats: [
-      { v: "100+", l: "pro templates" },
-      { v: "95+", l: "PageSpeed" },
+      { v: "100+", l: "website templates" },
+      { v: "20", l: "e-shop templates" },
       { v: "14 days", l: "free, no card" },
       { v: "∞", l: "custom scope" },
     ],
@@ -186,7 +165,7 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
             </span>
           </h1>
 
-          <p className="mt-8 max-w-[640px] text-[17px] leading-[1.62] text-white/70 lg:text-[18.5px]"
+          <p className="mt-8 max-w-[600px] text-[17px] leading-[1.62] text-white/70 lg:text-[18.5px]"
              style={{ animation: "webero-rise .7s ease .18s both" }}>
             {c.hero.sub}
           </p>
@@ -217,45 +196,9 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
         </div>
       </section>
 
-      {/* ── TWO PATHS ────────────────────────────────────────────────────── */}
-      <section className="border-b border-[#ececec] bg-white">
-        <div className="mx-auto max-w-[1180px] px-6 py-20 lg:px-10 lg:py-28">
-          <p className="mb-4 text-center text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.2em" }}>{c.paths.eyebrow}</p>
-          <h2 className="mx-auto max-w-[16ch] text-center font-sans font-semibold tracking-[-0.03em]" style={{ fontSize: "clamp(30px, 4vw, 52px)", lineHeight: "1.04" }}>
-            {c.paths.title}
-          </h2>
-
-          <div className="mt-14 grid gap-5 lg:grid-cols-2">
-            {([["A", c.paths.a, platformPath("/vybrat-design", locale), false], ["B", c.paths.b, CONTACT, true]] as const).map(([letter, p, href, dark]) => (
-              <div key={letter}
-                   className={`group relative flex min-h-[300px] flex-col justify-end overflow-hidden rounded-[28px] border p-9 transition duration-300 lg:p-11 ${dark ? "border-transparent bg-[#0a0a0a] text-white" : "border-[#e7e7e9] bg-[#fafafa] hover:border-[#0a0a0a]/25"}`}>
-                {dark && (
-                  <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full opacity-70 blur-3xl transition-opacity group-hover:opacity-100"
-                       style={{ background: "radial-gradient(circle, rgba(99,102,241,0.6), transparent 70%)" }} />
-                )}
-                <span aria-hidden className={`pointer-events-none absolute right-6 top-2 select-none font-sans font-bold leading-none ${dark ? "text-white/[0.06]" : "text-[#0a0a0a]/[0.04]"}`} style={{ fontSize: "220px" }}>{letter}</span>
-                <div className="relative">
-                  <h3 className={`font-sans font-semibold tracking-[-0.02em] ${dark ? "text-white" : "text-[#0a0a0a]"}`} style={{ fontSize: "clamp(26px, 2.6vw, 34px)" }}>{p.title}</h3>
-                  <p className={`mt-4 max-w-[42ch] text-[16px] leading-[1.55] ${dark ? "text-white/70" : "text-[#4b5563]"}`}>{p.desc}</p>
-                  {href.startsWith("mailto:") ? (
-                    <a href={href} className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[14.5px] font-semibold transition ${dark ? "bg-white text-[#0a0a0a] hover:bg-white/90" : "bg-[#0a0a0a] text-white hover:bg-[#0a0a0a]/85"}`}>
-                      {p.cta} <ArrowRight size={15} />
-                    </a>
-                  ) : (
-                    <Link href={href} className={`mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-[14.5px] font-semibold transition ${dark ? "bg-white text-[#0a0a0a] hover:bg-white/90" : "bg-[#0a0a0a] text-white hover:bg-[#0a0a0a]/85"}`}>
-                      {p.cta} <ArrowRight size={15} />
-                    </Link>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── PLATFORM PRODUCTS — 2×2 grid ─────────────────────────────────── */}
+      {/* ── PRODUCTS 01–02 (Websites + E-shops) ──────────────────────────── */}
       <section className="bg-white">
-        <div className="mx-auto max-w-[1180px] px-6 py-20 lg:px-10 lg:py-28">
+        <div className="mx-auto max-w-[1180px] px-6 pt-20 lg:px-10 lg:pt-28">
           <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
             <div className="max-w-[560px]">
               <p className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.2em" }}>{c.products.eyebrow}</p>
@@ -275,8 +218,12 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
                   <span className="absolute right-4 top-4 text-[13px] font-bold tabular-nums text-white/75">0{i + 1}</span>
                 </div>
                 <div className="flex flex-1 flex-col p-7">
-                  <h3 className="text-[22px] font-semibold tracking-[-0.02em] text-[#0a0a0a]">{p.title}</h3>
-                  <p className="mt-3 max-w-[42ch] text-[14.5px] leading-[1.55] text-[#4b5563]">{p.perex}</p>
+                  <h3 className="text-[23px] font-semibold tracking-[-0.02em] text-[#0a0a0a]">{p.title}</h3>
+                  <p className="mt-3 text-[14.5px] leading-[1.55] text-[#4b5563]">{p.perex}</p>
+                  <div className="mt-5 flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#9ca3af]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#6366f1]" />
+                    {p.meta}
+                  </div>
                   <span className="mt-6 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#6366f1] transition group-hover:text-[#4338ca]">
                     {c.products.cta} <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
                   </span>
@@ -287,15 +234,15 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
         </div>
       </section>
 
-      {/* ── AI BUILDER SPOTLIGHT ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#080809] text-white">
+      {/* ── PRODUCT 03 — AI BUILDER SPOTLIGHT ────────────────────────────── */}
+      <section className="relative mt-20 overflow-hidden bg-[#080809] text-white lg:mt-28">
         <div className="pointer-events-none absolute inset-0 opacity-[0.55]"
              style={{ background: "radial-gradient(48% 50% at 78% 30%, rgba(139,92,246,0.34), transparent 62%), radial-gradient(42% 46% at 12% 78%, rgba(99,102,241,0.30), transparent 60%)" }} />
         <div className="relative mx-auto grid max-w-[1180px] items-center gap-14 px-6 py-24 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-32">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5">
               <Sparkles size={13} className="text-[#c4b5fd]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">{c.ai.eyebrow}</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/70">{c.ai.badge}</span>
             </div>
             <h2 className="mt-7 font-sans font-semibold tracking-[-0.03em] text-white" style={{ fontSize: "clamp(32px, 4.2vw, 58px)", lineHeight: "1.02" }}>
               {c.ai.titleA}<br />
@@ -360,7 +307,7 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
         </div>
       </section>
 
-      {/* ── CUSTOM STUDIO — one bold statement + capability pills ─────────── */}
+      {/* ── CUSTOM STUDIO — "or we do it for you" ────────────────────────── */}
       <section className="bg-white">
         <div className="mx-auto max-w-[1180px] px-6 py-24 text-center lg:px-10 lg:py-32">
           <p className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.2em" }}>{c.studio.eyebrow}</p>
@@ -370,7 +317,7 @@ export function ProductsPageContent({ locale = "cs" }: { locale?: PlatformLocale
           </h2>
           <p className="mx-auto mt-6 max-w-[560px] text-[16.5px] leading-[1.6] text-[#4b5563]">{c.studio.sub}</p>
 
-          <div className="mx-auto mt-10 flex max-w-[820px] flex-wrap justify-center gap-2.5">
+          <div className="mx-auto mt-10 flex max-w-[780px] flex-wrap justify-center gap-2.5">
             {studioCaps.map((cap) => (
               <span key={cap} className="rounded-full border border-[#e5e7eb] bg-[#fafafa] py-2 text-[14px] font-medium text-[#0a0a0a]" style={{ paddingLeft: 18, paddingRight: 18 }}>
                 {cap}

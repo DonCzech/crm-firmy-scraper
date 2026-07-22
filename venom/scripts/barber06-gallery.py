@@ -58,18 +58,44 @@ function GalleryBarber06({ content, sectionId }: { content: Record<string, unkno
         .b06g-cell:nth-child(1) { grid-column: span 2; grid-row: span 2; }
         .b06g-item {
           position: relative; display: block; width: 100%; height: 100%; aspect-ratio: 4 / 5;
-          overflow: hidden; background: #141414; border: 1px solid rgba(255,193,7,0.14);
-          cursor: zoom-in; transition: border-color 0.3s;
+          overflow: hidden; background: #141414;
         }
         .b06g-cell:nth-child(1) .b06g-item { aspect-ratio: auto; }
-        .b06g-cell:hover .b06g-item { border-color: var(--color-primary, #FFC107); }
         .b06g-item img {
-          width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(0.35);
-          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease;
+          width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.92);
+          transition: transform 0.9s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease;
+          will-change: transform;
         }
-        .b06g-cell:hover .b06g-item img { transform: scale(1.06); filter: grayscale(0); }
+        .b06g-cell:hover .b06g-item img { transform: scale(1.05); filter: brightness(1.02); }
+        /* premium hover: tmavý gradient + zlatý kruh s ikonou + popisek */
+        .b06g-ov {
+          position: absolute; inset: 0; z-index: 1; pointer-events: none;
+          display: flex; align-items: center; justify-content: center;
+          background: linear-gradient(180deg, rgba(10,10,10,0) 42%, rgba(10,10,10,0.72) 100%);
+          opacity: 0; transition: opacity 0.45s ease;
+        }
+        .b06g-cell:hover .b06g-ov, .b06g-cell:focus-within .b06g-ov { opacity: 1; }
+        .b06g-ico {
+          width: 3.3rem; height: 3.3rem; border-radius: 999px; border: 1.5px solid var(--color-primary, #FFC107);
+          display: flex; align-items: center; justify-content: center; color: var(--color-primary, #FFC107);
+          background: rgba(10,10,10,0.32); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+          transform: scale(0.7); opacity: 0; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease;
+        }
+        .b06g-cell:hover .b06g-ico, .b06g-cell:focus-within .b06g-ico { transform: scale(1); opacity: 1; }
+        .b06g-cap {
+          position: absolute; left: 1.1rem; bottom: 0.95rem; z-index: 2; max-width: 80%;
+          font-size: 0.7rem; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+          transform: translateY(10px); opacity: 0; transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease;
+        }
+        .b06g-cell:hover .b06g-cap, .b06g-cell:focus-within .b06g-cap { transform: none; opacity: 1; }
+        .b06g-frame {
+          position: absolute; inset: 0.6rem; z-index: 1; pointer-events: none;
+          border: 1px solid rgba(255,193,7,0); transition: border-color 0.45s ease, inset 0.45s ease;
+        }
+        .b06g-cell:hover .b06g-frame { border-color: rgba(255,193,7,0.85); }
         .b06g-zoom {
-          position: absolute; inset: 0; z-index: 2; background: transparent; border: 0; cursor: zoom-in;
+          position: absolute; inset: 0; z-index: 3; background: transparent; border: 0; cursor: pointer;
         }
         @media (max-width: 767px) {
           .b06g-grid { grid-template-columns: repeat(2, 1fr); }
@@ -91,6 +117,13 @@ function GalleryBarber06({ content, sectionId }: { content: Record<string, unkno
               <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="b06g-item">
                 <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </GenericEditableImage>
+              <span className="b06g-frame" aria-hidden />
+              <span className="b06g-ov" aria-hidden>
+                <span className="b06g-ico">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                </span>
+              </span>
+              {im.alt && <span className="b06g-cap" aria-hidden>{im.alt}</span>}
               {!editor.isAdmin && (
                 <button className="b06g-zoom" aria-label={`Zvětšit: ${im.alt ?? "fotografie"}`} onClick={() => setLb(i)} />
               )}
