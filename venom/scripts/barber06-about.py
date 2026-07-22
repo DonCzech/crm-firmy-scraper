@@ -74,21 +74,20 @@ function AboutBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: R
           color: var(--color-primary, #FFC107); display: block;
         }
         .b06a-sign-r { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
-        .b06a-media { position: relative; }
-        /* zlatý offset rám kopírující obloukový tvar ze sekce služeb */
+        .b06a-media { position: relative; padding: 14px; }
+        /* zlatý obrys obepínající obloukový tvar ze všech stran (echo tvaru služeb) */
         .b06a-media::before {
-          content: ""; position: absolute; inset: 1.5rem -1.5rem -1.5rem 1.5rem;
-          border: 2px solid var(--color-primary, #FFC107); border-radius: 999px 999px 6px 6px;
-          opacity: 0.55; z-index: 0;
+          content: ""; position: absolute; inset: 0; pointer-events: none;
+          border: 2px solid var(--color-primary, #FFC107); border-radius: 999px 999px 8px 8px;
+          opacity: 0.9; z-index: 2;
         }
         .b06a-photo {
           position: relative; z-index: 1; display: block; aspect-ratio: 4 / 5; overflow: hidden;
-          border-radius: 999px 999px 6px 6px; background: #1a1a1a;
+          border-radius: 999px 999px 4px 4px; background: #1a1a1a;
         }
         .b06a-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
         @media (max-width: 899px) {
           .b06a-inner { grid-template-columns: 1fr; gap: 3rem; }
-          .b06a-media::before { inset: 1rem -1rem -1rem 1rem; }
           .b06a-media { max-width: 22rem; margin: 0 auto; }
         }
       `}</style>

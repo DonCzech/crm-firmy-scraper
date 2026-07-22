@@ -119,30 +119,29 @@
     "signatureRole": "zakladatel & master barber"
   },
   "gallery": {
+    "eyebrow": "Galerie",
+    "title": "Práce z našeho křesla",
+    "subtitle": "Interiér, detaily a střihy z posledních týdnů. Kliknutím fotku zvětšíte.",
     "images": [
       {
-        "url": "",
-        "alt": "Interiér salonu"
+        "url": "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1200&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Interiér barbershopu"
       },
       {
-        "url": "",
-        "alt": "Střih vlasů"
+        "url": "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=900&h=1125&fit=crop&auto=format&q=80",
+        "alt": "Fade strojkem"
       },
       {
-        "url": "",
-        "alt": "Barvení vlasů"
+        "url": "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=900&h=1125&fit=crop&auto=format&q=80",
+        "alt": "Kontura břitvou"
       },
       {
-        "url": "",
-        "alt": "Styling"
+        "url": "https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=900&h=1125&fit=crop&auto=format&q=80",
+        "alt": "Barber při práci"
       },
       {
-        "url": "",
-        "alt": "Interiér 2"
-      },
-      {
-        "url": "",
-        "alt": "Výsledek"
+        "url": "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=900&h=1125&fit=crop&auto=format&q=80",
+        "alt": "Holení břitvou"
       }
     ]
   },
