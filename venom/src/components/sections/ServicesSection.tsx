@@ -16821,6 +16821,7 @@ function ServicesBarber06({ content, sectionId, tenantSlug, isAdmin }: { content
       <span id="cenik" aria-hidden style={{ display: "block", position: "relative", top: "-5rem" }} />
       <style>{`
         .b06s-section {
+          scroll-margin-top: 5rem; /* aby sekci nepřekryla sticky hlavička */
           background: var(--color-secondary, #0A0A0A); font-family: 'Lato', system-ui, sans-serif;
           padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.15rem, 4vw, 3rem);
         }

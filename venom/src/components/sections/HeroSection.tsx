@@ -30367,11 +30367,25 @@ function HeroBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           color: #fff; display: block; line-height: 1; margin-bottom: 0.35rem;
         }
         .b06h-meta-l { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+        /* klikatelný scroll indikátor — plný hit target, ne jen dekorace */
         .b06h-scroll {
-          position: absolute; left: 50%; bottom: 1.1rem; transform: translateX(-50%); z-index: 2;
-          width: 1px; height: 42px; background: linear-gradient(180deg, transparent, var(--color-primary, #FFC107));
+          position: absolute; left: 50%; bottom: 0.5rem; transform: translateX(-50%); z-index: 3;
+          display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
+          padding: 0.6rem 1.2rem; background: none; border: none; cursor: pointer;
+          color: var(--color-primary, #FFC107); text-decoration: none;
+        }
+        .b06h-scroll-label {
+          font-size: 0.6rem; font-weight: 900; letter-spacing: 0.26em; text-transform: uppercase;
+          color: rgba(255,255,255,0.55); transition: color 0.25s;
+        }
+        .b06h-scroll-line {
+          display: block; width: 1px; height: 40px;
+          background: linear-gradient(180deg, transparent, var(--color-primary, #FFC107));
           animation: b06h-pulse 2.4s ease-in-out infinite;
         }
+        .b06h-scroll:hover .b06h-scroll-label { color: var(--color-primary, #FFC107); }
+        .b06h-scroll:hover .b06h-scroll-line { animation: none; opacity: 1; }
+        .b06h-scroll:focus-visible { outline: 2px solid var(--color-primary, #FFC107); outline-offset: 4px; border-radius: 4px; }
         @keyframes b06h-pulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
         @media (max-width: 767px) {
           .b06h-hero { min-height: 92svh; }
@@ -30426,7 +30440,20 @@ function HeroBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           </div>
         )}
       </div>
-      <span className="b06h-scroll" aria-hidden />
+      <a
+        href={resolve("/#sluzby")}
+        className="b06h-scroll"
+        aria-label="Přejít na služby"
+        onClick={(e) => {
+          const el = document.getElementById("sluzby");
+          if (!el) return;
+          e.preventDefault();
+          el.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        }}
+      >
+        <span className="b06h-scroll-label">Služby</span>
+        <span className="b06h-scroll-line" aria-hidden />
+      </a>
     </section>
   );
 }
