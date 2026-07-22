@@ -48,6 +48,11 @@
       "title": "Domů",
       "sections": [
         {
+          "type": "navbar",
+          "variant": "barber-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
           "type": "hero",
           "variant": "barber-06-hero",
           "contentRef": "hero"

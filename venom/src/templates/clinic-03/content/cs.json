@@ -344,8 +344,8 @@
     "rezervace": {
       "title": "Objednejte se na vyšetření",
       "subtitle": "Vyberte vyšetření, lékaře a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

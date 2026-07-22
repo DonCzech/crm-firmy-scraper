@@ -261,8 +261,8 @@
     "rezervace": {
       "title": "Objednejte se k veterináři",
       "subtitle": "Vyberte vyšetření, veterináře a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

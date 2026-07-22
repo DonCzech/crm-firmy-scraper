@@ -288,8 +288,10 @@
     "rezervace": {
       "title": "Zapište se do kurzu",
       "subtitle": "Vyberte jazyk, úroveň a termín — ozveme se s potvrzením.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz",
+      "mode": "course",
+      "design": "soft"
     }
   }
 }

@@ -395,8 +395,8 @@
     "rezervace": {
       "title": "Objednejte servis",
       "subtitle": "Vyberte úkon, technika a termín. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

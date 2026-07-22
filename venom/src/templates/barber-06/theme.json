@@ -1,17 +1,17 @@
 {
   "colors": {
-    "primary": "#92a8d1",
-    "secondary": "#7a90ba",
-    "background": "#ffffff",
-    "surface": "#f5f7fb",
-    "text": "#333333",
-    "textMuted": "#666666",
-    "accent": "#92a8d1",
-    "border": "rgba(146,168,209,0.3)"
+    "primary": "#FFC107",
+    "secondary": "#0A0A0A",
+    "background": "#121212",
+    "surface": "#1A1A1A",
+    "text": "#F5F5F5",
+    "textMuted": "#A0A0A0",
+    "accent": "#E0A800",
+    "border": "rgba(255,193,7,0.22)"
   },
   "typography": {
-    "fontHeading": "'Lato', sans-serif",
-    "fontBody": "'Lato', sans-serif",
+    "fontHeading": "'Bebas Neue', Impact, sans-serif",
+    "fontBody": "'Lato', system-ui, sans-serif",
     "scale": "comfortable"
   },
   "radius": {

@@ -287,8 +287,10 @@
     "rezervace": {
       "title": "Domluvte si schůzku",
       "subtitle": "Nezávazná konzultace účetnictví a daní ve volném termínu.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz",
+      "mode": "meeting",
+      "design": "clinical"
     }
   }
 }

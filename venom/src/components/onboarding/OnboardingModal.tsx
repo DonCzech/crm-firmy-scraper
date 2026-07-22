@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { PlatformLocale } from "@/lib/platform-i18n";
+import { CATEGORIES as DESIGN_CATEGORIES, categoryForSlug } from "@/lib/templates/design-categories";
 
 type Step = "choice" | "ai-brief" | "templates" | "register" | "agency" | "building" | "done";
 type Kind = "web" | "eshop";
@@ -131,24 +132,6 @@ const INDUSTRY_LABELS_EN: Record<string, string> = {
   photographer: "Photo", restaurant: "Restaurant", cafe: "Cafe",
   education: "Education", pets: "Pets", sluzby: "Services",
   landing: "Landing page", gastro: "Gastronomy", eshop: "E-shops",
-};
-
-const CATEGORY_LABELS: Record<string, string> = {
-  all: "Vše",
-  sluzby: "Služby",
-  hotel: "Hotely",
-  realEstate: "Reality",
-  landing: "Landing page",
-  gastro: "Gastronomie",
-};
-
-const CATEGORY_LABELS_EN: Record<string, string> = {
-  all: "All",
-  sluzby: "Services",
-  hotel: "Hotels",
-  realEstate: "Real estate",
-  landing: "Landing page",
-  gastro: "Gastronomy",
 };
 
 function industryFromKey(key: string): string {
@@ -532,26 +515,32 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
     [allTemplates, kind]
   );
 
+  /* Přepnutí Web ↔ E-shop nesmí nechat viset výběr z druhé rodiny.
+     Nic se NEPŘEDVYBÍRÁ — uživatel musí šablonu zvolit sám. */
   useEffect(() => {
-    if (!initialTemplate && pickerTemplates.length > 0 && !pickerTemplates.some((t) => t.key === template)) {
-      setTemplate(pickerTemplates[0]!.key);
+    if (!initialTemplate && template && !pickerTemplates.some((t) => t.key === template)) {
+      setTemplate("");
     }
   }, [pickerTemplates, template, initialTemplate]);
 
+  /* Kategorie = široké skupiny sdílené s /vybrat-design a homepage
+     (místo desítek oborových kódů, kde některé měly jedinou šablonu). */
   const categories = useMemo(() => {
     const counts = new Map<string, number>();
     for (const t of pickerTemplates) {
-      const ind = t.industry ?? industryFromKey(t.key);
-      counts.set(ind, (counts.get(ind) ?? 0) + 1);
+      const cat = categoryForSlug(t.key);
+      if (cat) counts.set(cat.label, (counts.get(cat.label) ?? 0) + 1);
     }
-    return Array.from(counts.entries())
-      .map(([code, n]) => ({ code, label: (locale === "en" ? INDUSTRY_LABELS_EN[code] : INDUSTRY_LABELS[code]) ?? code, count: n }))
-      .sort((a, b) => b.count - a.count);
+    return DESIGN_CATEGORIES.filter((c) => c.prefixes.length > 0 && counts.has(c.label)).map((c) => ({
+      code: c.label,
+      label: locale === "en" ? c.labelEn : c.label,
+      count: counts.get(c.label)!,
+    }));
   }, [pickerTemplates, locale]);
 
   const filteredTemplates = useMemo(() => {
     if (category === "all") return pickerTemplates;
-    return pickerTemplates.filter((t) => (t.industry ?? industryFromKey(t.key)) === category);
+    return pickerTemplates.filter((t) => categoryForSlug(t.key)?.label === category);
   }, [pickerTemplates, category]);
 
   const selectedTemplate = allTemplates.find((t) => t.key === template);
@@ -762,7 +751,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                   text={copy.webText}
                   meta={copy.webMeta}
                   cta={copy.webCta}
-                  image="/images/onboarding-card-web.jpg"
+                  image="/images/onboarding-card-web.webp"
                   icon={
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M6 6.5h.01M9 6.5h.01"/></svg>
                   }
@@ -777,7 +766,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                   text={copy.eshopText}
                   meta={copy.eshopMeta}
                   cta={copy.eshopCta}
-                  image="/images/onboarding-card-eshop.jpg"
+                  image="/images/onboarding-card-eshop.webp"
                   icon={
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 7h12l1.5 13h-15L6 7z"/><path d="M9 10V6a3 3 0 016 0v4"/></svg>
                   }
@@ -793,7 +782,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                   text={copy.aiText}
                   meta={copy.aiMeta}
                   cta={copy.aiCta}
-                  image="/images/onboarding-card-ai.jpg"
+                  image="/images/onboarding-card-ai.webp"
                   icon={
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
                   }
@@ -966,19 +955,20 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
 
               {/* Category tabs — jen pro weby (e-shopy jsou jedna rodina) */}
               {kind === "web" && (
-                <div className="-mx-8 mt-7 flex items-center justify-center gap-7 overflow-x-auto px-8 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="-mx-8 mt-7 flex flex-wrap items-center justify-center gap-2 px-8 pb-1">
                   {[{ code: "all", label: copy.all, count: pickerTemplates.length }, ...categories].map((c) => (
                     <button
                       key={c.code}
                       type="button"
                       onClick={() => { setCategory(c.code); setPreviewSheet(null); }}
-                      className={`flex-shrink-0 text-[14px] font-bold transition ${
+                      className={`flex-shrink-0 rounded-full px-4 py-2 text-[13.5px] font-semibold transition ${
                         category === c.code
-                          ? "text-white"
-                          : "text-white/38 hover:text-white/65"
+                          ? "bg-white text-[#0a0a0a]"
+                          : "bg-white/[0.06] text-white/55 hover:bg-white/[0.11] hover:text-white/85"
                       }`}
                     >
-                      {c.code === "all" ? copy.all : (locale === "en" ? CATEGORY_LABELS_EN[c.code] : CATEGORY_LABELS[c.code]) ?? c.label}
+                      {c.label}
+                      <span className={category === c.code ? "ml-1.5 text-[11.5px] text-black/40" : "ml-1.5 text-[11.5px] text-white/30"}>{c.count}</span>
                     </button>
                   ))}
                 </div>
@@ -999,7 +989,7 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-6 sm:grid-cols-2 md:gap-8">
                   {filteredTemplates.map((t) => (
                     <TemplateCard
                       locale={locale}
@@ -1614,44 +1604,48 @@ function ChoiceCard({
     <button
       type="button"
       onClick={onClick}
-      className="group relative flex aspect-[6/5] cursor-pointer flex-col overflow-hidden rounded-2xl text-left outline-none ring-1 ring-black/10 shadow-[0_10px_30px_rgba(15,15,25,0.35)] transition-all duration-300 hover:-translate-y-1.5 hover:ring-2 hover:ring-[color:var(--accent)] hover:shadow-[0_30px_64px_var(--accent-glow)] focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] md:aspect-auto md:h-full"
-      style={{ ["--accent" as string]: accent, ["--accent-glow" as string]: `${accent}66`, ["--accent-tint" as string]: `${accent}1f` }}
+      className="group relative flex aspect-[5/6] cursor-pointer flex-col overflow-hidden rounded-[20px] text-left outline-none ring-1 ring-white/10 shadow-[0_14px_40px_rgba(6,6,12,0.5)] transition-all duration-500 ease-out hover:-translate-y-1.5 hover:ring-1 hover:ring-[color:var(--accent)] hover:shadow-[0_34px_70px_var(--accent-glow)] focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] md:aspect-auto md:h-full"
+      style={{ ["--accent" as string]: accent, ["--accent-glow" as string]: `${accent}55` }}
     >
-      {/* Šablona vyplní celou kartu */}
+      {/* Profi stock fotka přes celou kartu */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={image}
         alt=""
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.background = "#e5e7eb"; }}
-        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.background = "#1a1a24"; }}
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.06]"
       />
-      {/* Jemné zesvětlení odspodu pod sklo, ať sklo dobře sedí */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+      {/* Čitelnostní gradient — jemný nahoře (kvůli štítku), sytější dole */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-black/5 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[78%] bg-gradient-to-t from-[#07070c] via-[#07070c]/85 to-transparent" />
+      {/* Barevný nádech značky při hoveru */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: `linear-gradient(to top, ${accent}33, transparent 55%)` }} />
 
-      {/* Skleněný informační panel — dole, hero šablony svítí nad ním */}
-      <div className="relative z-10 mx-2 mb-2 mt-auto rounded-2xl border border-white/50 bg-white/70 p-3.5 shadow-[0_8px_28px_rgba(15,15,25,0.18)] backdrop-blur-2xl md:mx-3 md:mb-3 md:p-[18px]">
-        {/* Štítek s ikonou */}
-        <div className="mb-1.5 flex items-center gap-2 md:mb-2">
-          <span className="grid h-5 w-5 place-items-center rounded-md md:h-6 md:w-6 md:rounded-lg" style={{ backgroundColor: "var(--accent-tint)", color: accent }}>{icon}</span>
-          <span className="text-[10.5px] font-bold uppercase tracking-wider md:text-[11px]" style={{ color: accent }}>{tag}</span>
-          {badge && (
-            <span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white" style={{ backgroundColor: accent }}>{badge}</span>
-          )}
-        </div>
-        <h2 className="text-[17px] font-bold leading-tight tracking-tight text-[#0f0f14] md:text-[21px]">{title}</h2>
-        <p className="mt-1 text-[12px] leading-snug text-gray-600 md:text-[12.5px] md:leading-relaxed">{text}</p>
-        <p className="mt-1.5 flex items-center gap-1.5 text-[11px] font-semibold text-gray-500 md:text-[11.5px]">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      {/* Štítek nahoře */}
+      <div className="relative z-10 flex items-center gap-2 p-4 md:p-5">
+        <span className="grid h-6 w-6 place-items-center rounded-lg text-white shadow-sm md:h-7 md:w-7" style={{ backgroundColor: accent }}>{icon}</span>
+        <span className="text-[10.5px] font-bold uppercase tracking-[0.18em] text-white/90 [text-shadow:0_1px_6px_rgba(0,0,0,0.5)] md:text-[11px]">{tag}</span>
+        {badge && (
+          <span className="rounded-full bg-white/95 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide" style={{ color: accent }}>{badge}</span>
+        )}
+      </div>
+
+      {/* Obsah dole — přímo na fotce, žádná tabulka */}
+      <div className="relative z-10 mt-auto p-4 md:p-5">
+        <h2 className="text-[22px] font-extrabold leading-none tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.5)] md:text-[26px]">{title}</h2>
+        <p className="mt-2 max-w-[30ch] text-[12.5px] leading-relaxed text-white/70 md:text-[13px]">{text}</p>
+        <p className="mt-2.5 flex items-center gap-1.5 text-[11px] font-semibold text-white/85 md:text-[11.5px]">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
           {meta}
         </p>
 
-        {/* CTA — jasný click target */}
+        {/* CTA — plná barva pásu, rozjede se při hoveru */}
         <div
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-[13px] font-bold text-white shadow-sm transition-all duration-300 group-hover:gap-3 group-hover:shadow-[0_12px_28px_var(--accent-glow)] md:mt-3.5 md:py-3 md:text-[13.5px]"
+          className="mt-4 flex w-full items-center justify-between gap-2 rounded-xl px-4 py-3 text-[13px] font-bold text-white shadow-[0_8px_24px_var(--accent-glow)] transition-all duration-300 md:text-[13.5px]"
           style={{ backgroundColor: accent }}
         >
-          {cta}
-          <svg className="transition-transform duration-300 group-hover:translate-x-1" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+          <span>{cta}</span>
+          <svg className="transition-transform duration-300 group-hover:translate-x-1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
         </div>
       </div>
     </button>
@@ -1700,56 +1694,85 @@ function TemplateCard({ t, active, onSelect, locale = "cs" }: { t: ModalTemplate
 
   const previewSrc = t.previewImage || null;
   const industry = t.industry ?? industryFromKey(t.key);
+  const industryLabel = industry ? ((locale === "en" ? INDUSTRY_LABELS_EN[industry] : INDUSTRY_LABELS[industry]) ?? industry) : null;
 
   return (
-    <button type="button" onClick={onSelect} aria-label={`${ONBOARDING_COPY[locale].chooseTemplate} ${t.name}`} className="block w-full text-left">
+    <button
+      type="button"
+      onClick={onSelect}
+      onMouseEnter={() => { setHovered(true); startScroll(); }}
+      onMouseLeave={() => { setHovered(false); resetScroll(); }}
+      aria-label={`${ONBOARDING_COPY[locale].chooseTemplate} ${t.name}`}
+      className="group block w-full text-left outline-none"
+    >
+      {/* Tmavý rám „monitoru" kolem snímku — awwwards styl */}
       <div
-        ref={wrapRef}
-        onMouseEnter={() => { setHovered(true); startScroll(); }}
-        onMouseLeave={() => { setHovered(false); resetScroll(); }}
-        className="relative overflow-hidden rounded-xl bg-[#1a1a1a]"
+        className="relative overflow-hidden rounded-2xl bg-[#15151c] p-2 transition-all duration-500 ease-out group-hover:-translate-y-1.5 md:p-2.5"
         style={{
-          aspectRatio: "3/2",
-          boxShadow: active ? "0 0 0 2px #2563eb, 0 0 0 4px #111" : hovered ? "0 8px 24px rgba(0,0,0,0.4)" : "0 0 0 1px rgba(255,255,255,0.08)",
-          transition: "box-shadow 0.25s",
+          boxShadow: active
+            ? "0 0 0 2px #2563eb, 0 24px 60px -18px rgba(37,99,235,0.6)"
+            : hovered
+              ? "0 0 0 1px rgba(255,255,255,0.14), 0 32px 64px -24px rgba(0,0,0,0.75)"
+              : "0 0 0 1px rgba(255,255,255,0.07), 0 12px 30px -18px rgba(0,0,0,0.6)",
         }}
       >
-        {previewSrc ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
-            ref={imgRef}
-            src={previewSrc}
-            alt={t.name}
-            className="absolute left-0 top-0 block w-full will-change-transform"
-            style={{ height: "auto", minHeight: "100%", objectFit: "cover", objectPosition: "top", transform: "translateY(0)", transitionProperty: "transform" }}
-            loading="lazy"
-          />
-        ) : t.demoUrl ? (
-          <iframe
-            src={t.demoUrl}
-            title={t.name}
-            tabIndex={-1}
-            loading="lazy"
-            className="pointer-events-none absolute left-0 top-0 border-0"
-            style={{ width: "200%", height: "200%", transform: "scale(0.5)", transformOrigin: "top left" }}
-          />
-        ) : (
-          <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#20202a] to-[#111118] text-[12px] font-semibold text-white/45">
-            {t.name}
+        {/* Viewport se snímkem — scroll na hoveru */}
+        <div
+          ref={wrapRef}
+          className="relative overflow-hidden rounded-xl bg-[#0e0e13]"
+          style={{ aspectRatio: "16/10" }}
+        >
+          {previewSrc ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              ref={imgRef}
+              src={previewSrc}
+              alt={t.name}
+              className="absolute left-0 top-0 block w-full will-change-transform"
+              style={{ height: "auto", minHeight: "100%", objectFit: "cover", objectPosition: "top", transform: "translateY(0)", transitionProperty: "transform" }}
+              loading="lazy"
+            />
+          ) : t.demoUrl ? (
+            <iframe
+              src={t.demoUrl}
+              title={t.name}
+              tabIndex={-1}
+              loading="lazy"
+              className="pointer-events-none absolute left-0 top-0 border-0"
+              style={{ width: "200%", height: "200%", transform: "scale(0.5)", transformOrigin: "top left" }}
+            />
+          ) : (
+            <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#20202a] to-[#111118] text-[12px] font-semibold text-white/45">
+              {t.name}
+            </div>
+          )}
+
+          {/* Hover CTA overlay */}
+          <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/70 via-black/0 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <span className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[12.5px] font-bold text-[#0a0a0a] shadow-[0_10px_30px_-8px_rgba(0,0,0,0.6)]">
+              {locale === "en" ? "View & choose" : "Prohlédnout a vybrat"}
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+            </span>
           </div>
-        )}
-        {/* Hover gradient overlay */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent transition-opacity duration-300" style={{ opacity: hovered ? 1 : 0 }} />
-        {/* Active checkmark */}
-        {active && (
-          <div className="absolute right-2 top-2 z-10 grid h-6 w-6 place-items-center rounded-full bg-[#2563eb] shadow-lg">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
-          </div>
-        )}
+
+          {/* Active checkmark */}
+          {active && (
+            <div className="absolute right-2.5 top-2.5 z-10 grid h-7 w-7 place-items-center rounded-full bg-[#2563eb] shadow-lg">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="mt-2 px-0.5">
-        <div className="truncate text-[13px] font-bold text-white/90">{t.name}</div>
-        {industry && <div className="mt-0.5 text-[11px] text-white/35">{(locale === "en" ? INDUSTRY_LABELS_EN[industry] : INDUSTRY_LABELS[industry]) ?? industry}</div>}
+
+      {/* Popis pod monitorem */}
+      <div className="mt-3 flex items-center justify-between gap-3 px-1">
+        <div className="min-w-0">
+          <div className="truncate text-[14px] font-bold text-white/90">{t.name}</div>
+          {industryLabel && <div className="mt-0.5 truncate text-[11.5px] text-white/40">{industryLabel}</div>}
+        </div>
+        <span className="flex-shrink-0 text-[12px] font-semibold text-white/30 transition-colors duration-300 group-hover:text-[#2563eb]">
+          {locale === "en" ? "Preview" : "Náhled"} →
+        </span>
       </div>
     </button>
   );

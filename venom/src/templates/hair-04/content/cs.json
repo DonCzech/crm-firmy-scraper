@@ -339,8 +339,8 @@
     "rezervace": {
       "title": "Objednejte se on-line",
       "subtitle": "Vyberte službu, barbera a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

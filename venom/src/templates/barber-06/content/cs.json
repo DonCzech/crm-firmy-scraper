@@ -1,17 +1,20 @@
 {
   "navbar": {
-    "siteName": "Impresiv Studio",
+    "siteName": "Alfa Barbershop",
+    "monogram": "A",
+    "tagline": "Barbershop · Praha",
     "logoUrl": "",
-    "phone": "+420 704 123 456",
-    "email": "email@demo.cz",
+    "phone": "704 123 456",
+    "ctaText": "Rezervovat",
+    "ctaHref": "/#rezervace",
     "links": [
       {
         "label": "Úvod",
         "href": "/"
       },
       {
-        "label": "O nás",
-        "href": "/#o-nas"
+        "label": "Služby",
+        "href": "/#sluzby"
       },
       {
         "label": "Ceník",
@@ -28,7 +31,7 @@
     ]
   },
   "hero": {
-    "siteName": "Impresiv Studio",
+    "siteName": "Alfa Barbershop",
     "logoUrl": "",
     "links": [
       {
@@ -150,8 +153,8 @@
     "rezervace": {
       "title": "Objednejte se online",
       "subtitle": "Vyberte službu, kadeřníka a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

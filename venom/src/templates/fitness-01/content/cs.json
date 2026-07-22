@@ -363,8 +363,8 @@
     "rezervace": {
       "title": "Rezervujte si trénink",
       "subtitle": "Vyberte trénink, trenéra a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

@@ -7,6 +7,13 @@ import { query } from "@/lib/db";
 import type { PlatformLocale } from "@/lib/platform-i18n";
 import { categoryForSlug, getDesignTemplates, INDUSTRY_LABEL_EN } from "@/lib/templates/design-catalog";
 import { getOnboardingEshop, ONBOARDING_ESHOP_KEYS } from "@/lib/templates/onboarding-catalog";
+import designCatalogManifest from "@/generated/design-catalog.json";
+
+const CATALOG_PREVIEW_BY_SLUG = new Map(
+  (designCatalogManifest as { slug: string; preview: string | null }[])
+    .filter((d) => d.preview)
+    .map((d) => [d.slug, d.preview!])
+);
 
 /** Homepage gallery items — full catalog, same discovery as /vybrat-design. */
 async function getGalleryTemplates(): Promise<TemplateItem[]> {
@@ -41,7 +48,11 @@ async function getApprovedTemplates(): Promise<CatalogTemplate[]> {
         key: r.key,
         name: r.name,
         industry: r.industry,
-        previewPath: featuredEshop?.previewImage
+        /* Celostránkový snímek z build-time katalogu — onboarding picker ho
+           odroluje při hoveru. Hero `preview.webp` je příliš nízký (nemá kam
+           scrollovat) a existsSync za běhu na Vercelu stejně nefunguje. */
+        previewPath: CATALOG_PREVIEW_BY_SLUG.get(r.key)
+          ?? featuredEshop?.previewImage
           ?? (existsSync(path.join(process.cwd(), "public", "templates", r.key, "preview.webp"))
             ? `/templates/${r.key}/preview.webp`
             : existsSync(path.join(process.cwd(), "public", "templates", r.key, "preview.png"))

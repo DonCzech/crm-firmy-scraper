@@ -127,8 +127,8 @@
     "rezervace": {
       "title": "Objednejte se k nám",
       "subtitle": "Vyberte ošetření, lékaře a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

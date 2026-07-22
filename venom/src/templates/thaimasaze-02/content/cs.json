@@ -235,8 +235,8 @@
     "rezervace": {
       "title": "Rezervujte si proceduru",
       "subtitle": "Vyberte proceduru, terapeuta a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }

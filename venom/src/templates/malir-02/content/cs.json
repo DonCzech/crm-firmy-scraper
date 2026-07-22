@@ -306,8 +306,10 @@
     "rezervace": {
       "title": "Poptejte malíře",
       "subtitle": "Popište prostory — ozveme se s cenovou nabídkou.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz",
+      "mode": "inquiry",
+      "design": "sharp"
     }
   }
 }

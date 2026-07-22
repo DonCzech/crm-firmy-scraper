@@ -169,8 +169,8 @@
     "rezervace": {
       "title": "Objednejte se k nám",
       "subtitle": "Vyberte službu, manikérku a čas. Potvrzení dorazí e-mailem.",
-      "providerSlug": "",
-      "apiBaseUrl": ""
+      "providerSlug": "vyzkousej",
+      "apiBaseUrl": "https://app.rezora.cz"
     }
   }
 }
