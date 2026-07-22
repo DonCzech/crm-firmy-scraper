@@ -20,7 +20,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 4 | hair-01 | hair-01-v2 | 401 | kompletně | ✅ DONE |
 | 5 | hair-02 | hair-02-demo | 414 (+showcase 415) | kompletně | ✅ DONE |
 | 6 | hair-03 | hair-03-v2 | 407 (+showcase 420) | kompletně | ✅ DONE |
-| 7 | hair-04 | hair-04-v2 | 419 | kompletně | ⏳ |
+| 7 | hair-04 | hair-04-v2 | 419 | kompletně | ✅ DONE |
 | 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
 | 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
 | 10 | malir-02 | malir-02-demo | 1163 | kompletně | ⏳ |
@@ -308,3 +308,22 @@ Presety oxblood/brass/steel. Šabloně ÚPLNĚ CHYBĚLY služby, recenze i konta
   správně (ověřeno `getComputedStyle`), takže to není bug; neopravovat.
 - `_shot-master.mjs` může chytit stránku uprostřed rekompilace (screenshot 1440×900
   místo plné výšky) — když je výška podezřele malá, spusť znovu.
+
+## 5e. HAIR-04 — ✅ DONE (2026-07-22)
+
+„Studio Pop" svěží pop: cool paper `#F5F4FA`, indigo `#17132A`, violet `#6D4AFF`
+(hover `#5233E0`), border `#E4E1F2`, muted `#6A6382`; **Space Grotesk + Epilogue**;
+radius 14 + pill CTA. 11 variant (`h04n/h04h/h04hp/h04sv/h04ct/h04ab/h04g/h04rv/h04bl/
+h04co/h04ft-*`). Presety pop/citrus/mint. Tím jsou všechny 4 kadeřnické šablony
+vizuálně oddělené: hair-01 brass serif · hair-02 clay rose měkká · hair-03 noir ostrá ·
+hair-04 violet pop.
+
+Opraveno: kosočtvercové rámy usekávající hlavy → foto karty; křiklavý žlutý pás → violet;
+karusel → mřížka; TŘI tmavé sekce za sebou → rytmus; blog na generickém `default` renderoval
+u barbershopu kancelářské stock fotky; chyběly recenze i kontaktní formulář; prázdný šedý
+box místo mapy (nově se mapa renderuje jen s vyplněným `mapEmbedUrl`, jinak fotka);
+navbar vytažen z hera do samostatné sekce; z onepage na multipage.
+
+**NOVÉ v nástrojích:** `_align-tenant-sections.mjs` nově **zakládá chybějící stránky**
+(hair-04 měl v DB jen `home`) — u onepage šablon tedy stačí popsat podstránky v manifestu.
+POZOR: šablona může mít i test tenanta (`hair-04-test-zz`, id 481) — align jede přes všechny.
