@@ -6,7 +6,7 @@
   "skeleton": "service-personal",
   "version": "1.0.8",
   "baseTemplate": null,
-  "description": "Pánský barbershop v tmavé paletě se žlutým akcentem — původní podoba šablony hair-04 („Impresiv Studio“) zachovaná jako samostatná barber šablona poté, co hair-04 dostala remaster na „Studio Pop“. Onepage: hero s integrovanou navigací, kosočtvercové karty služeb, žlutý CTA pás s telefonem, split o nás, karusel galerie, kontakt s mapou a tmavá patička.",
+  "description": "Pánský barbershop v tmavé paletě se žlutým akcentem — původní podoba šablony hair-04 zachovaná jako samostatná barber šablona poté, co hair-04 dostala remaster na „Studio Pop“. Onepage: hero s integrovanou navigací, kosočtvercové karty služeb, žlutý CTA pás s telefonem, split o nás, karusel galerie, kontakt s mapou a tmavá patička.",
   "sectionOrderNote": "Navbar → Hero (fullwidth) → Services (3 cards) → CTA bar (phone) → About (2-col) → Gallery (carousel) → Contact → Footer",
   "skippedSections": [
     {
