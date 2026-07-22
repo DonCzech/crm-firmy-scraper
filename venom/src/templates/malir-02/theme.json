@@ -1,28 +1,28 @@
 {
   "colors": {
-    "primary":    "#ff914d",
-    "secondary":  "#c4dee5",
-    "background": "#ffffff",
-    "surface":    "#fafafa",
-    "text":       "#232323",
-    "textMuted":  "#828282",
-    "accent":     "#ff914d",
-    "border":     "#e4e4e4"
+    "primary": "#2C49D6",
+    "secondary": "#15182B",
+    "background": "#F5F6FA",
+    "surface": "#FFFFFF",
+    "text": "#15182B",
+    "textMuted": "#6B7086",
+    "accent": "#1F35A8",
+    "border": "#E1E4EF"
   },
   "typography": {
-    "fontHeading": "'Poppins', sans-serif",
-    "fontBody":    "'Roboto', sans-serif",
-    "scale":       "comfortable"
+    "fontHeading": "'Sora', sans-serif",
+    "fontBody": "'Rubik', sans-serif",
+    "scale": "comfortable"
   },
   "radius": {
-    "sm":   "2px",
-    "md":   "4px",
-    "lg":   "8px",
+    "sm": "2px",
+    "md": "4px",
+    "lg": "8px",
     "pill": "999px"
   },
   "spacing": {
     "personality": "normal",
-    "section":     "airy"
+    "section": "airy"
   },
   "shadows": {
     "sm": "0 1px 4px rgba(0,0,0,0.10)",
@@ -30,8 +30,49 @@
     "lg": "0 12px 40px rgba(0,0,0,0.20)"
   },
   "animation": {
-    "ease":      "cubic-bezier(.4,0,.2,1)",
-    "duration":  "300ms",
+    "ease": "cubic-bezier(.4,0,.2,1)",
+    "duration": "300ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "ultramarine": {
+      "label": "Ultramarine — sytá modrá (default)",
+      "tokens": {
+        "colorPrimary": "#2C49D6",
+        "colorAccent": "#1F35A8",
+        "colorSecondary": "#15182B",
+        "colorBackground": "#F5F6FA",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#15182B",
+        "colorTextMuted": "#6B7086",
+        "colorBorder": "#E1E4EF"
+      }
+    },
+    "ochre": {
+      "label": "Ochre — zemitá okrová",
+      "tokens": {
+        "colorPrimary": "#C08A2E",
+        "colorAccent": "#9A6C1F",
+        "colorSecondary": "#221D14",
+        "colorBackground": "#FAF7F1",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#221D14",
+        "colorTextMuted": "#736B5C",
+        "colorBorder": "#EBE4D7"
+      }
+    },
+    "forest": {
+      "label": "Forest — tlumená zelená",
+      "tokens": {
+        "colorPrimary": "#2F6B4F",
+        "colorAccent": "#22513B",
+        "colorSecondary": "#131C17",
+        "colorBackground": "#F3F7F4",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#131C17",
+        "colorTextMuted": "#65746B",
+        "colorBorder": "#DEE8E1"
+      }
+    }
   }
 }

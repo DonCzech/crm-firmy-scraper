@@ -2768,6 +2768,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "malir-01-hero") {
     return <HeroMalir01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-malir-02-page") return <HeroMalir02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-malir-01-page") return <HeroMalir01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "malir-02-hero") {
     return <HeroMalir02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -30144,6 +30145,50 @@ function HeroHair04Page({ content, sectionId, tenantSlug, isAdmin }: { content: 
             <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </GenericEditableImage>
         )}
+      </div>
+    </section>
+  );
+}
+
+// hero-malir-02-page — podstránkový hero (V3 Ultramarine & Chalk). V DB ho používá
+// 5 podstránek, ale komponenta NEEXISTOVALA (past z REMASTER_PLAYBOOK §0).
+function HeroMalir02Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section className="m02hp-wrap" data-template="malir-02">
+      <style>{`
+        .m02hp-wrap {
+          position: relative; overflow: hidden; background: var(--color-secondary, #15182B);
+          font-family: var(--font-body, 'Rubik', sans-serif);
+          padding: calc(5rem + clamp(2.5rem, 6vw, 4.5rem)) clamp(1.25rem, 4vw, 2.75rem) clamp(2.5rem, 6vw, 4.5rem);
+        }
+        .m02hp-photo { position: absolute; inset: 0; opacity: 0.4; }
+        .m02hp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .m02hp-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(21,24,43,0.72), rgba(21,24,43,0.9)); }
+        .m02hp-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
+        .m02hp-crumb { font-size: 0.82rem; color: rgba(255,255,255,0.66); margin-bottom: 0.9rem; }
+        .m02hp-crumb a { color: rgba(255,255,255,0.66); text-decoration: none; }
+        .m02hp-crumb a:hover { color: var(--color-primary, #2C49D6); }
+        .m02hp-title {
+          font-family: var(--font-heading, 'Sora', sans-serif); font-weight: 700; letter-spacing: -0.02em;
+          font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.06; color: #fff; margin: 0 0 0.8rem; text-wrap: balance;
+        }
+        .m02hp-sub { font-size: 1.02rem; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 52ch; margin: 0; }
+      `}</style>
+      {image && (
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="m02hp-photo"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: 0.4 }}>
+          <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        </GenericEditableImage>
+      )}
+      <div className="m02hp-scrim" aria-hidden />
+      <div className="m02hp-inner">
+        <div className="m02hp-crumb"><a href={resolve("/")}>Úvod</a> <span aria-hidden>/</span> {title}</div>
+        <h1 className="m02hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="m02hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
       </div>
     </section>
   );

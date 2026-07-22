@@ -14940,9 +14940,9 @@ function FooterPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: u
 
 // ── malir-02-footer ───────────────────────────────────────────────────────────
 function FooterMalir02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const ORANGE  = "#ff914d";
-  const DARK    = "#1a1a1a";
-  const POPPINS = "'Poppins', sans-serif";
+  const ORANGE  = "var(--color-primary, #ff914d)";
+  const DARK    = "var(--color-secondary, #1a1a1a)";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   const siteName  = typeof content.siteName  === "string" ? content.siteName  : "Demo Malářství";
   const logoUrl   = typeof content.logoUrl   === "string" ? content.logoUrl   : "/templates/malir-02/logo.svg";
@@ -15095,7 +15095,8 @@ function FooterMalir02({ content, sectionId }: { content: Record<string, unknown
           </span>
           <span className="m02ft-badge">MALÍŘSKÉ PRÁCE</span>
         </div>
-      </footer>
+        <div style={{ display: "flex", justifyContent: "center", padding: "0 0 20px" }}><WeberoCredit /></div>
+    </footer>
     </>
   );
 }

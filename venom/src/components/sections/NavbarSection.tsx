@@ -22062,8 +22062,8 @@ function NavbarMalir02({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const phone    = String(content.phone ?? "704 123 456");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  const ORANGE = "#ff914d";
-  const DARK   = "#232323";
+  const ORANGE = "var(--color-primary, #ff914d)";
+  const DARK   = "var(--color-text, #232323)";
   const WHITE  = "#ffffff";
 
   useEffect(() => {
@@ -22082,7 +22082,14 @@ function NavbarMalir02({ content, isAdmin, tenantSlug, sectionId }: Props) {
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Rubik:wght@400;500;600;700&display=swap" />
+      <style>{`
+        [data-template="malir-02"] h1, [data-template="malir-02"] h2,
+        [data-template="malir-02"] h3, [data-template="malir-02"] h4 {
+          font-family: var(--font-heading, 'Sora', sans-serif) !important;
+          letter-spacing: -0.02em;
+        }
+      `}</style>
       <style>{`        .malir02-nav {
           position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
           transition: background 0.35s, box-shadow 0.35s;
@@ -22125,7 +22132,7 @@ function NavbarMalir02({ content, isAdmin, tenantSlug, sectionId }: Props) {
                 />
               </GenericEditableImage>
             ) : (
-              <span style={{ color: scrolled ? DARK : WHITE, fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 18, transition: "color 0.3s", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.5)" }}>
+              <span style={{ color: scrolled ? DARK : WHITE, fontFamily: "var(--font-body, 'Rubik', sans-serif)", fontWeight: 700, fontSize: 18, transition: "color 0.3s", textShadow: scrolled ? "none" : "0 1px 4px rgba(0,0,0,0.5)" }}>
                 {siteName}
               </span>
             )}
@@ -22143,7 +22150,7 @@ function NavbarMalir02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </ul>
 
           {/* Phone */}
-          <a href={`tel:${phone.replace(/\s/g, "")}`} className="malir02-desktop malir02-phone-link" style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="malir02-desktop malir02-phone-link" style={{ fontFamily: "var(--font-body, 'Rubik', sans-serif)", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
             <PhoneIcon />
             <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">{phone}</GenericEditableText>
           </a>
@@ -22162,11 +22169,11 @@ function NavbarMalir02({ content, isAdmin, tenantSlug, sectionId }: Props) {
         <div style={{ position: "fixed", inset: 0, background: DARK, zIndex: 1001, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 28 }} role="dialog" aria-modal="true" aria-label="Navigace">
           <button onClick={() => setOpen(false)} aria-label="Zavřít menu" style={{ position: "absolute", top: 16, right: 20, background: "none", border: "none", color: WHITE, fontSize: 28, cursor: "pointer" }}>×</button>
           {links.map((l, i) => (
-            <a key={i} href={l.href} onClick={() => setOpen(false)} style={{ color: WHITE, textDecoration: "none", fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 20, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            <a key={i} href={l.href} onClick={() => setOpen(false)} style={{ color: WHITE, textDecoration: "none", fontFamily: "var(--font-body, 'Rubik', sans-serif)", fontWeight: 700, fontSize: 20, textTransform: "uppercase", letterSpacing: "0.08em" }}>
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span">{l.label}</GenericEditableText>
             </a>
           ))}
-          <a href={`tel:${phone.replace(/\s/g, "")}`} onClick={() => setOpen(false)} style={{ color: ORANGE, fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: 18, textDecoration: "none", marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}>
+          <a href={`tel:${phone.replace(/\s/g, "")}`} onClick={() => setOpen(false)} style={{ color: ORANGE, fontFamily: "var(--font-body, 'Rubik', sans-serif)", fontWeight: 700, fontSize: 18, textDecoration: "none", marginTop: 8, display: "flex", alignItems: "center", gap: 6 }}>
             <PhoneIcon />
             <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">{phone}</GenericEditableText>
           </a>

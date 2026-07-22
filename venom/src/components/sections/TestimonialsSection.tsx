@@ -5185,9 +5185,9 @@ function TestimonialsArbo01({ content, sectionId }: { content: Record<string, un
 
 // ── malir-02-testimonials ─────────────────────────────────────────────────────
 function TestimonialsMalir02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const ORANGE  = "#ff914d";
-  const DARK    = "#1a1a1a";
-  const POPPINS = "'Poppins', sans-serif";
+  const ORANGE  = "var(--color-primary, #ff914d)";
+  const DARK    = "var(--color-secondary, #1a1a1a)";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   type Item = { name: string; role: string; review: string; image: string };
   const heading = typeof content.heading === "string" ? content.heading : "co o nás říkají naši klienti";
@@ -5293,10 +5293,11 @@ function TestimonialsMalir02({ content, sectionId }: { content: Record<string, u
           </p>
 
           <div className="m02tm-author">
-            <GenericEditableImage sectionId={sectionId} field={`items.${active}.image`} src={cur.image} alt={cur.name} style={{ borderRadius: "50%", width: "72px", height: "72px", flexShrink: 0 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="lazy" src={cur.image} alt={cur.name} className="m02tm-avatar" />
-            </GenericEditableImage>
+            <span className="m02-initials" aria-hidden style={{
+            width: 64, height: 64, borderRadius: "50%", display: "flex", alignItems: "center",
+            justifyContent: "center", background: "var(--color-primary, #ff914d)", color: "#fff",
+            fontFamily: "var(--font-heading, 'Sora', sans-serif)", fontSize: 20, fontWeight: 700,
+          }}>{String(cur.name ?? "").split(/\s+/).filter(Boolean).slice(0,2).map((w: string) => w[0]).join("").toUpperCase()}</span>
             <p className="m02tm-name">
               <GenericEditableText sectionId={sectionId} field={`items.${active}.name`} value={cur.name} tag="span">{cur.name}</GenericEditableText>
             </p>

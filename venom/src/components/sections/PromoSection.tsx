@@ -5329,9 +5329,9 @@ function ActivitiesChalet01({ content, sectionId, tenantSlug, isAdmin }: { conte
 // - Font: Poppins
 // ─────────────────────────────────────────────────────────────────────────────
 function PromoMalir02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const ORANGE  = "#ff914d";
-  const DARK    = "#232323";
-  const POPPINS = "'Poppins', sans-serif";
+  const ORANGE  = "var(--color-primary, #ff914d)";
+  const DARK    = "var(--color-text, #232323)";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   const tagline    = String(content.tagline    ?? "Zdarma.");
   const heading    = String(content.heading    ?? "Získejte nezávaznou kalkulaci.");
@@ -5349,7 +5349,7 @@ function PromoMalir02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           .m02promo-grid > * { align-items: center !important; }
         }
       `}</style>
-      <section style={{ background: "#ffffff", padding: "80px 0", borderTop: "1px solid #e4e4e4" }} data-template="malir-02">
+      <section style={{ background: "#ffffff", padding: "80px 0", borderTop: "1px solid var(--color-border, #e4e4e4)" }} data-template="malir-02">
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 30px" }}>
           <div className="m02promo-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr 1fr", gap: 40, alignItems: "end" }}>
             {/* Tagline */}
@@ -5366,7 +5366,7 @@ function PromoMalir02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
             </div>
             {/* CTA */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 12 }}>
-              <p style={{ fontFamily: POPPINS, fontSize: 15, color: "#828282", margin: 0 }}>
+              <p style={{ fontFamily: POPPINS, fontSize: 15, color: "var(--color-text-muted, #828282)", margin: 0 }}>
                 <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span">{subheading}</GenericEditableText>
               </p>
               <a href={resolve(ctaHref)} data-btn="primary" style={{

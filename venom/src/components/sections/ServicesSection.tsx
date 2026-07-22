@@ -12348,9 +12348,9 @@ function AmenitiesChalet01({ content, sectionId }: { content: Record<string, unk
 // - Mobile: 2-col; xs: 1-col
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesMalir02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const ORANGE  = "#ff914d";
+  const ORANGE  = "var(--color-primary, #ff914d)";
   const WHITE   = "#ffffff";
-  const POPPINS = "'Poppins', sans-serif";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   type Item = { image: string; title: string; description: string };
   const defaultItems: Item[] = [
@@ -12572,9 +12572,9 @@ function PricingMalir01({ content, sectionId }: { content: Record<string, unknow
 
 // ── malir-02-pricing ─────────────────────────────────────────────────────────
 function PricingMalir02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const ORANGE  = "#ff914d";
-  const DARK    = "#1a1a1a";
-  const POPPINS = "'Poppins', sans-serif";
+  const ORANGE  = "var(--color-primary, #ff914d)";
+  const DARK    = "var(--color-secondary, #1a1a1a)";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   type PriceRow = { name: string; price: string };
   const heading    = typeof content.heading === "string"    ? content.heading    : "Kolik stojí výmalba?";
@@ -12602,7 +12602,7 @@ function PricingMalir02({ content, sectionId }: { content: Record<string, unknow
       <style>{`
         .m02pr-wrap {
           position: relative; overflow: hidden;
-          background: #fafafa;
+          background: var(--color-bg, #fafafa);
         }
         /* giant decorative watermark */
         .m02pr-watermark {
@@ -12656,7 +12656,7 @@ function PricingMalir02({ content, sectionId }: { content: Record<string, unknow
         }
         .m02pr-row {
           display: flex; align-items: center;
-          padding: 20px 0; border-bottom: 1px solid #e4e4e4;
+          padding: 20px 0; border-bottom: 1px solid var(--color-border, #e4e4e4);
           gap: 16px;
         }
         .m02pr-row-num {

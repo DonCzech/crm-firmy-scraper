@@ -1,12 +1,12 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "malir-02",
-  "name": "Malířství Novák",
+  "name": "Malířství Demo",
   "industry": "malir",
   "skeleton": "b2b-trade",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "baseTemplate": null,
-  "description": "Malíř & natěrač — 2. varianta. Oranžový (#ff914d) akcent, tmavý (#232323), Poppins nadpisy, Roboto body. Transparentní navbar → bílý na scrollu, 3-slide hero slider, 5-icon trustmarks bar, 4-col fullbleed services grid, filtrovatelná galerie, accordion ceník, Swiper testimonials. Inspirováno malirstvi-bastar.cz.",
+  "description": "V3 „Ultramarine & Chalk“ — malířské a lakýrnické práce v ultramarínové paletě (#2C49D6, chalk #F5F6FA, inkoust #15182B), Sora + Rubik. Cinematic hero se slidery, foto karty služeb, filtrovaná galerie realizací, orientační ceník, reference s iniciálovými avatary a kontakt s reálným formulářem. Vědomě jiná barva než měděná klempir-01.",
   "sectionOrderNote": "Navbar → Hero → About → Services → Promo → Gallery → Pricing → Testimonials → Contact → Footer",
   "i18n": {
     "default": "cs",
@@ -18,7 +18,7 @@
     {
       "slug": "home",
       "isHomepage": true,
-      "title": "Úvod",
+      "title": "Domů",
       "sections": [
         {
           "type": "navbar",
@@ -66,6 +66,146 @@
           "contentRef": "contact"
         },
         {
+          "type": "rezora-widget",
+          "variant": "sharp",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "footer",
+          "variant": "malir-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "malir-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-malir-02-page",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "malir-02-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "promo",
+          "variant": "malir-02-promo",
+          "contentRef": "promo"
+        },
+        {
+          "type": "footer",
+          "variant": "malir-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "title": "Galerie",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "malir-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-malir-02-page",
+          "contentRef": "pages.galerie.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "malir-02-gallery",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "malir-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "cenik",
+      "title": "Ceník",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "malir-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-malir-02-page",
+          "contentRef": "pages.cenik.hero"
+        },
+        {
+          "type": "pricing",
+          "variant": "malir-02-pricing",
+          "contentRef": "pricing"
+        },
+        {
+          "type": "footer",
+          "variant": "malir-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "reference",
+      "title": "Reference",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "malir-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-malir-02-page",
+          "contentRef": "pages.reference.hero"
+        },
+        {
+          "type": "testimonials",
+          "variant": "malir-02-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "footer",
+          "variant": "malir-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakty",
+      "title": "Kontakty",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "malir-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-malir-02-page",
+          "contentRef": "pages.kontakty.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "malir-02-contact",
+          "contentRef": "contact"
+        },
+        {
           "type": "footer",
           "variant": "malir-02-footer",
           "contentRef": "footer"
@@ -91,6 +231,25 @@
       "pos": 11,
       "name": "FAQ",
       "reason": "Předloha FAQ nemá"
+    }
+  ],
+  "tags": [
+    "v3"
+  ],
+  "extraSections": [
+    {
+      "type": "promo",
+      "variant": "malir-02-promo",
+      "reason": "pás „nacenění zdarma“ je hlavní konverzní prvek řemeslné šablony mezi službami a galerií"
+    },
+    {
+      "type": "contact",
+      "variant": "malir-02-contact",
+      "reason": "kostra b2b-trade nemá kontaktní sekci s formulářem; malíř ji potřebuje pro poptávky"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "inline poptávkový widget Rezora — nezávazná poptávka přímo na stránce"
     }
   ]
 }

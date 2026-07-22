@@ -13161,8 +13161,8 @@ function AboutChalet01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // - Mobile: 2–3 sloupce (wrap)
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutMalir02({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin?: boolean }) {
-  const ORANGE = "#ff914d";
-  const DARK   = "#232323";
+  const ORANGE = "var(--color-primary, #ff914d)";
+  const DARK   = "var(--color-text, #232323)";
 
   type Item = { icon: string; label: string };
   const defaultItems: Item[] = [
@@ -13216,7 +13216,7 @@ function AboutMalir02({ content, sectionId, isAdmin }: { content: Record<string,
           .m02about-grid { grid-template-columns: repeat(3, 1fr) !important; }
         }
       `}</style>
-      <section style={{ background: "#fafafa", padding: "56px 0" }} data-template="malir-02">
+      <section style={{ background: "var(--color-bg, #fafafa)", padding: "56px 0" }} data-template="malir-02">
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
           <div className="m02about-grid" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
             {items.map((item, i) => (
@@ -13225,7 +13225,7 @@ function AboutMalir02({ content, sectionId, isAdmin }: { content: Record<string,
                   {icons[item.icon] ?? icons.target}
                 </span>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span">
-                  <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 13, color: DARK, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                  <span style={{ fontFamily: "var(--font-body, 'Rubik', sans-serif)", fontWeight: 600, fontSize: 13, color: DARK, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                     {item.label}
                   </span>
                 </GenericEditableText>

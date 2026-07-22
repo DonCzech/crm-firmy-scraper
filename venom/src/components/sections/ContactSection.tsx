@@ -165,7 +165,7 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "clean-02-contact")     return <ContactClean02  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hotel-01-contact")     return <ContactHotel01  content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "arbo-01-contact")      return <ContactArbo01   content={content} sectionId={sectionId} />;
-  if (variant === "malir-02-contact")     return <ContactMalir02  content={content} sectionId={sectionId} isAdmin={isAdmin} />;
+  if (variant === "malir-02-contact")     return <ContactMalir02  content={content} sectionId={sectionId} isAdmin={isAdmin} tenantSlug={tenantSlug} />;
   if (variant === "malir-01-contact")     return <ContactMalir01  content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "dj-01-contact")        return <ContactDj01      content={content} sectionId={sectionId} />;
   if (variant === "restaurant-04-contact") return <ContactRestaurant04 content={content} sectionId={sectionId} />;
@@ -11976,10 +11976,10 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
 }
 
 // ── malir-02-contact ──────────────────────────────────────────────────────────
-function ContactMalir02({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
-  const ORANGE  = "#ff914d";
-  const DARK    = "#1a1a1a";
-  const POPPINS = "'Poppins', sans-serif";
+function ContactMalir02({ content, sectionId, isAdmin, tenantSlug }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean; tenantSlug?: string }) {
+  const ORANGE  = "var(--color-primary, #ff914d)";
+  const DARK    = "var(--color-secondary, #1a1a1a)";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   const heading    = typeof content.heading    === "string" ? content.heading    : "Napište nám";
   const subheading = typeof content.subheading === "string" ? content.subheading : "Rádi vám odpovíme na jakékoli dotazy a připravíme nezávaznou nabídku.";
@@ -12006,7 +12006,7 @@ function ContactMalir02({ content, sectionId, isAdmin }: { content: Record<strin
     if (hasErrors || isAdmin) return;
     setStatus("sending");
     try {
-      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sectionId, ...form }) });
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sectionId, ...form }) });
       setStatus(res.ok ? "ok" : "err");
     } catch { setStatus("err"); }
   };
@@ -12048,7 +12048,7 @@ function ContactMalir02({ content, sectionId, isAdmin }: { content: Record<strin
           display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
         }
         .m02ct-card {
-          background: #f7f7f7; padding: 20px 22px;
+          background: var(--color-bg, #f7f7f7); padding: 20px 22px;
           border-bottom: 3px solid transparent;
           transition: border-color 0.2s;
         }
@@ -12123,7 +12123,7 @@ function ContactMalir02({ content, sectionId, isAdmin }: { content: Record<strin
           display: flex; align-items: center; justify-content: center; gap: 10px;
           transition: background 0.2s;
         }
-        .m02ct-submit:hover { background: #e07a30; }
+        .m02ct-submit:hover { background: var(--color-accent, #e07a30); }
         .m02ct-submit:disabled { opacity: 0.6; cursor: not-allowed; }
         .m02ct-ok {
           font-family: ${POPPINS}; font-size: 16px; color: #7ee37e;

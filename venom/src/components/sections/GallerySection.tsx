@@ -6118,9 +6118,9 @@ function GalleryHotel02({ content, sectionId }: { content: Record<string, unknow
 
 // ── malir-02-gallery ──────────────────────────────────────────────────────────
 function GalleryMalir02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const ORANGE  = "#ff914d";
-  const DARK    = "#232323";
-  const POPPINS = "'Poppins', sans-serif";
+  const ORANGE  = "var(--color-primary, #ff914d)";
+  const DARK    = "var(--color-text, #232323)";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   type ImgItem = { url: string; title: string; category: string };
   const defaultImages: ImgItem[] = [
@@ -6155,7 +6155,7 @@ function GalleryMalir02({ content, sectionId }: { content: Record<string, unknow
   return (
     <>
       <style>{`
-        .m02gl-section { background: #f7f7f7; padding: 80px 0 60px; }
+        .m02gl-section { background: var(--color-bg, #f7f7f7); padding: 80px 0 60px; }
         .m02gl-inner   { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
         .m02gl-head    { text-align: center; margin-bottom: 48px; }
         .m02gl-h2      { font-family: ${POPPINS}; font-weight: 700; font-size: 38px; color: ${DARK}; margin: 0 0 28px; }
