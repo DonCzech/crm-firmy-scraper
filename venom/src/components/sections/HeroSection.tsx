@@ -16166,7 +16166,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           stroke-dashoffset: 272.763;
           animation: ucn01-svg-draw 3.5s ease-in-out infinite;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
           .ucn01hero-inner { flex-direction: column; gap: 32px; }
           .ucn01hero-left { flex: none; width: 100%; }
           .ucn01hero-right { flex: none; width: 100%; justify-content: center; }

@@ -24,7 +24,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
 | 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
 | 10 | malir-02 | malir-02-demo | 1163 | kompletně | ✅ DONE |
-| 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | 🟡 z 90 % (viz §5g) |
+| 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | ✅ DONE |
 
 **AKTUÁLNÍ BĚH (zadání 2026-07-21, závazný rozsah):** řádky 5–11 = přesně těchto 7 šablon, nic
 jiného. Uživatel je kontroluje na produkci `https://webero.co/demo/<slug>`, a to na těchto
@@ -356,7 +356,7 @@ POZOR: šablona může mít i test tenanta (`hair-04-test-zz`, id 481) — align
   Tokenizace = mechanická náhrada hexů; POZOR, hero delegoval na komponentu mimo inline blok
   (`HeroMalir02` na ř. ~22974), takže první průchod ho minul a CTA zůstalo oranžové.
 
-## 5g. UCETNI-01 — 🟡 z 90 % (2026-07-22)
+## 5g. UCETNI-01 — ✅ DONE (2026-07-22)
 
 „Navy & Gold": paper `#F4F6F9`, inkoust `#0C1B2A`, navy `#17395E` (hover `#0F2942`),
 border `#E2E7EE`, muted `#5A6779`; **Plus Jakarta Sans + Inter**. Presety navy/emerald/graphite.
@@ -367,12 +367,14 @@ Hotovo: foto karty služeb s cenou místo ikonek v tónovaných čtverečcích �
 WeberoCredit · multipage menu · nové fotky · reference na iniciálová příjmení ·
 `template.json.name` byl **„Účetní Služby Králová"** (reálně znějící firma) → „Bilance & Co.".
 
-**ZBÝVÁ (1 bod):** horizontální overflow **+40 px na 1024 px** — pravý sloupec hera
-(`.ucn01hero-right`, `.ucn01hero-img-wrap`, karty `.ucn01hero-card/-card2`) a statistik
-(`.uc01stats-right`) má pevnou šířku. CSS pravidlo v `<style>` navbaru (max-width:1100px,
-grid-template-columns:1fr) NEZABRALO ⇒ šířka je nejspíš v **inline style** komponenty a musí
-se opravit přímo v `HeroUcetni01` / `StatsUcetni01`, ne CSS třídou. Ostatní breakpointy
-(320/390/768/1440) jsou čisté.
+**Overflow +40 px na 1024 px — VYŘEŠENO.** Příčina nebyla inline šířka: hero i statistiky
+používají **flexbox**, takže moje `grid-template-columns: 1fr` pravidlo nemohlo zabrat.
+Fix = zvednout vlastní breakpoint komponent z `@media (max-width: 900px)` na `1100px`
+(tam už `flex-direction: column` existoval). Poučení: **než píšeš override, zjisti, jestli
+je layout flex nebo grid.**
+Dále: jantarové přípony čísel (`+`, `%`, `Kč`) měly natvrdo `#FFD87A` ve sdílené
+`AnimatedCounter` → `var(--color-primary, …)`; dekorativní růžová PNG „hora"
+(`/templates/ucetni-01/grow.png`) odstraněna — tloukla se s navy paletou a §1 blob dekorace zakazuje.
 
 **NOVÁ PAST — tokenizace hexů:** negativní lookbehind `(?<!, )` (chránil fallbacky uvnitř
 `var(--x, #hex)`) zároveň PŘESKOČIL hexy v gradientech (`linear-gradient(269deg, #FFFBF1 …`),

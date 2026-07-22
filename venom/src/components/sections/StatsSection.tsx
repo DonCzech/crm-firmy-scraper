@@ -2067,7 +2067,7 @@ function AnimatedCounter({ value, label, sectionId, index, font, dark, muted, tr
   return (
     <div className="uc01stats-item">
       <div className="uc01stats-value">
-        {prefix}<span style={{ color: dark }}>{display}</span><span style={{ color: "#FFD87A" }}>{suffix}</span>
+        {prefix}<span style={{ color: dark }}>{display}</span><span style={{ color: "var(--color-primary, #FFD87A)" }}>{suffix}</span>
       </div>
       <div className="uc01stats-label">
         <GenericEditableText sectionId={sectionId} field={`items.${index}.label`} value={label} tag="span" />
@@ -2133,7 +2133,7 @@ function StatsUcetni01({ content, sectionId }: { content: Record<string, unknown
           font-size: 1.125rem; font-weight: 400;
           color: ${MUTED}; line-height: 1.3em; font-family: ${FONT};
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
           .uc01stats-inner { flex-direction: column; gap: 40px; }
           .uc01stats-left, .uc01stats-right { flex: none; width: 100%; }
           .uc01stats-right { padding-left: 0; }
@@ -2148,7 +2148,6 @@ function StatsUcetni01({ content, sectionId }: { content: Record<string, unknown
       `}</style>
       <div className="uc01stats-inner">
         <div className="uc01stats-left">
-          <img src="/templates/ucetni-01/grow.png" alt="" loading="lazy" width={184} height={93} style={{ marginBottom: 24, display: "block" }} />
           <h2 style={{ fontFamily: FONT, fontSize: "3rem", fontWeight: 400, color: DARK, margin: "0 0 20px", lineHeight: 1.2 }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
