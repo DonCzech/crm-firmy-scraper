@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "ucetni-01",
-  "name": "Účetní Služby Králová",
+  "name": "Bilance & Co.",
   "industry": "ucetni",
   "skeleton": "professional",
   "version": "3.0.0",

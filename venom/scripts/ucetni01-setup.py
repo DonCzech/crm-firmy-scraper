@@ -136,6 +136,7 @@ print("✓ variants.ts")
 tpl = json.loads((T / "template.json").read_text())
 tpl["version"] = "3.0.0"
 tpl["tags"] = ["v3"]
+tpl["name"] = "Bilance & Co."
 tpl["description"] = ("V3 „Navy & Gold“ — účetní a daňová kancelář v důvěryhodné paletě "
                       "(navy #17395E, chladná paper #F4F6F9, inkoust #0C1B2A), Plus Jakarta Sans + Inter. "
                       "Data-driven jazyk: foto karty služeb s cenou, pás čísel, reference, blog s praktickými "

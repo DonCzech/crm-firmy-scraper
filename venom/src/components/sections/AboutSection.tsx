@@ -9885,7 +9885,7 @@ function AboutUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: R
           padding: 0 20px;
         }
         .uc01about-card {
-          background: linear-gradient(269deg, #FFFBF1 0%, rgba(255,255,255,0.32) 100%);
+          background: linear-gradient(269deg, var(--color-bg, #FFFBF1) 0%, rgba(255,255,255,0.32) 100%);
           border-radius: 8px;
           display: flex;
           align-items: center;
@@ -9914,7 +9914,7 @@ function AboutUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: R
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: linear-gradient(269deg, #FFFEE8 0%, var(--color-surface, #ffffff) 100%);
+          background: linear-gradient(269deg, var(--color-bg, #FFFEE8) 0%, var(--color-surface, #ffffff) 100%);
           border: 1px solid var(--color-surface, #ffffff);
           border-radius: 4px;
           padding: 5px 10px;

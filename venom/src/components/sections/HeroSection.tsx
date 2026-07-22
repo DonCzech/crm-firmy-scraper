@@ -16088,7 +16088,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           align-items: flex-start;
           gap: 12px;
           padding: 1rem;
-          background: linear-gradient(270deg, #F4E4FD00 0%, var(--color-surface, #ffffff) 100%);
+          background: linear-gradient(270deg, var(--color-surface, #ffffff) 0%, var(--color-surface, #ffffff) 100%);
           border-radius: 5px;
           max-width: 440px;
         }
@@ -16128,7 +16128,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           position: absolute;
           top: 16px;
           right: -8px;
-          background: linear-gradient(269deg, #FFFEE8 0%, var(--color-surface, #ffffff) 100%);
+          background: linear-gradient(269deg, var(--color-bg, #FFFEE8) 0%, var(--color-surface, #ffffff) 100%);
           border: 1px solid var(--color-surface, #ffffff);
           border-radius: 4px;
           padding: 8px 12px;
@@ -16143,7 +16143,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           position: absolute;
           bottom: 40px;
           right: -8px;
-          background: linear-gradient(269deg, #FFFBF1 0%, rgba(255,255,255,0.32) 100%);
+          background: linear-gradient(269deg, var(--color-bg, #FFFBF1) 0%, rgba(255,255,255,0.32) 100%);
           border-radius: 5px;
           padding: 8px 14px;
           font-family: ${FONT_B};

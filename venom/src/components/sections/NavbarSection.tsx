@@ -3993,6 +3993,22 @@ function NavbarUcetni01(props: Props) {
   return (
     <>
       <style>{`
+        /* ucetni-01-responsive-fix: pravé sloupce hera a statistik měly pevnou šířku
+           a na 1024px přetékaly o 40px — stackujeme dřív, než k tomu dojde. */
+        @media (max-width: 1100px) {
+          .ucn01hero-inner,
+          .uc01stats-inner { grid-template-columns: 1fr !important; }
+          .ucn01hero-right,
+          .uc01stats-right,
+          .ucn01hero-img-wrap { max-width: 100% !important; width: 100% !important; }
+          .ucn01hero-card,
+          .ucn01hero-card2 { position: static !important; margin-top: 0.6rem; }
+        }
+        [data-template="ucetni-01"] h1, [data-template="ucetni-01"] h2,
+        [data-template="ucetni-01"] h3, [data-template="ucetni-01"] h4 {
+          font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif) !important;
+          letter-spacing: -0.02em;
+        }
         .ucn01-nav {
           background: ${WHITE};
           font-family: ${FONT};

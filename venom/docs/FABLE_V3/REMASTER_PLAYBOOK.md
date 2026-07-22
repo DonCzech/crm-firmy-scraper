@@ -24,7 +24,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
 | 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
 | 10 | malir-02 | malir-02-demo | 1163 | kompletně | ✅ DONE |
-| 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | ⏳ |
+| 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | 🟡 z 90 % (viz §5g) |
 
 **AKTUÁLNÍ BĚH (zadání 2026-07-21, závazný rozsah):** řádky 5–11 = přesně těchto 7 šablon, nic
 jiného. Uživatel je kontroluje na produkci `https://webero.co/demo/<slug>`, a to na těchto
@@ -355,3 +355,30 @@ POZOR: šablona může mít i test tenanta (`hair-04-test-zz`, id 481) — align
 - 0× `var(--color-*)` v 10 komponentách ⇒ mood presety ani Studio color picker nemohly fungovat.
   Tokenizace = mechanická náhrada hexů; POZOR, hero delegoval na komponentu mimo inline blok
   (`HeroMalir02` na ř. ~22974), takže první průchod ho minul a CTA zůstalo oranžové.
+
+## 5g. UCETNI-01 — 🟡 z 90 % (2026-07-22)
+
+„Navy & Gold": paper `#F4F6F9`, inkoust `#0C1B2A`, navy `#17395E` (hover `#0F2942`),
+border `#E2E7EE`, muted `#5A6779`; **Plus Jakarta Sans + Inter**. Presety navy/emerald/graphite.
+
+Hotovo: foto karty služeb s cenou místo ikonek v tónovaných čtverečcích · bespoke
+`ucetni-01-blog` (generický `default` renderoval CIZÍ demo články a kancelářské stock fotky) ·
+`hero-ucetni-01-page` (podstránky používaly homepage hero) · tokenizace 8 komponent ·
+WeberoCredit · multipage menu · nové fotky · reference na iniciálová příjmení ·
+`template.json.name` byl **„Účetní Služby Králová"** (reálně znějící firma) → „Bilance & Co.".
+
+**ZBÝVÁ (1 bod):** horizontální overflow **+40 px na 1024 px** — pravý sloupec hera
+(`.ucn01hero-right`, `.ucn01hero-img-wrap`, karty `.ucn01hero-card/-card2`) a statistik
+(`.uc01stats-right`) má pevnou šířku. CSS pravidlo v `<style>` navbaru (max-width:1100px,
+grid-template-columns:1fr) NEZABRALO ⇒ šířka je nejspíš v **inline style** komponenty a musí
+se opravit přímo v `HeroUcetni01` / `StatsUcetni01`, ne CSS třídou. Ostatní breakpointy
+(320/390/768/1440) jsou čisté.
+
+**NOVÁ PAST — tokenizace hexů:** negativní lookbehind `(?<!, )` (chránil fallbacky uvnitř
+`var(--x, #hex)`) zároveň PŘESKOČIL hexy v gradientech (`linear-gradient(269deg, #FFFBF1 …`),
+takže krémová pozadí a růžové kaňky přežily první průchod. Správně: napřed schovat
+`var\(--[a-z-]+,\s*#hex\)` placeholderem, pak nahradit zbytek, pak obnovit.
+
+**NOVÁ PAST — `add_dispatch` u blokových variant:** vkládá řádek ZA kotvu; když je kotva
+`if (variant === "x") {`, spadne nový dispatch DOVNITŘ bloku (tsc: „no overlap"). U blokových
+kotev vkládej PŘED.

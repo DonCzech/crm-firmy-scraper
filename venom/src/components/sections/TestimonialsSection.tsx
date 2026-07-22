@@ -4108,7 +4108,7 @@ function TestimonialsUcetni01({ content, sectionId }: { content: Record<string, 
       <style>{`
         .uc01test-inner { max-width: 1320px; margin: 0 auto; padding: 0 20px; }
         .uc01test-card {
-          background: linear-gradient(269deg, rgba(255,255,255,0.17) 0%, #FFFBF1 100%);
+          background: linear-gradient(269deg, rgba(255,255,255,0.17) 0%, var(--color-bg, #FFFBF1) 100%);
           border-radius: 8px;
           padding: 70px;
         }
@@ -4134,7 +4134,7 @@ function TestimonialsUcetni01({ content, sectionId }: { content: Record<string, 
           font-family: ${FONT};
           font-size: 1.1rem;
           font-style: italic;
-          color: #383737;
+          color: var(--color-text-muted, #383737);
           line-height: 1.7;
           margin: 0 0 28px;
         }
@@ -4142,7 +4142,7 @@ function TestimonialsUcetni01({ content, sectionId }: { content: Record<string, 
           font-family: ${FONT};
           font-size: 1rem;
           font-weight: 700;
-          color: #272727;
+          color: var(--color-text, #272727);
           margin: 0 0 4px;
         }
         .uc01test-role {
@@ -4160,7 +4160,7 @@ function TestimonialsUcetni01({ content, sectionId }: { content: Record<string, 
           width: 12px;
           height: 12px;
           border-radius: 50%;
-          background: #ddd;
+          background: var(--color-border, #ddd);
           border: none;
           cursor: pointer;
           transition: background 0.25s, transform 0.25s;

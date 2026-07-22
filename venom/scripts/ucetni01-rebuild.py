@@ -297,6 +297,14 @@ def footer_credit():
     print("  ✓ WeberoCredit do patičky")
 
 
+def responsive_fix():
+    """Pravé sloupce hera a statistik přetékaly na 1024px o 40px (pevná šířka)."""
+    p, s, e, lines = fn_range("NavbarSection.tsx", "NavbarUcetni01")
+    if "ucetni-01-responsive-fix" in "\n".join(lines[s:e + 1]):
+        print("  = responsive fix už existuje"); return
+    print("  ! responsive fix chybí — vlož ručně (viz commit)")
+
+
 if __name__ == "__main__":
     print("ucetni-01 rebuild")
     for path, names in FNS.items():
@@ -319,4 +327,5 @@ if __name__ == "__main__":
                  '  }\n  if (variant === "ucetni-01-blog") {\n'
                  '    return <BlogUcetni01 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;')
     footer_credit()
+    responsive_fix()
     print("hotovo.")
