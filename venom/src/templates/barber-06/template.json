@@ -108,7 +108,56 @@
         {
           "type": "footer",
           "variant": "barber-06-footer",
-          "contentRef": "footer"
+          "contentRef": "footer",
+          "content": {
+            "siteName": "ALFA Barbershop",
+            "tagline": "Barbershop · Praha",
+            "monogram": "A",
+            "copyright": "© 2026 ALFA Barbershop. Všechna práva vyhrazena.",
+            "address": "Ukázková 123, 130 00 Praha 3",
+            "phone": "704 123 456",
+            "phoneHref": "tel:+420704123456",
+            "email": "email@demo.cz",
+            "facebook": "https://facebook.com/demo",
+            "instagram": "https://instagram.com/demo",
+            "gdprHref": "/gdpr",
+            "navLinks": [
+              {
+                "label": "Úvod",
+                "href": "/#uvod"
+              },
+              {
+                "label": "Služby",
+                "href": "/#sluzby"
+              },
+              {
+                "label": "Galerie",
+                "href": "/#galerie"
+              },
+              {
+                "label": "Rezervace",
+                "href": "/#rezervace"
+              },
+              {
+                "label": "Kontakt",
+                "href": "/#kontakt"
+              }
+            ],
+            "hoursRows": [
+              {
+                "day": "Po – Pá",
+                "time": "9:00–20:00"
+              },
+              {
+                "day": "Sobota",
+                "time": "9:00–14:00"
+              },
+              {
+                "day": "Neděle",
+                "time": "Zavřeno"
+              }
+            ]
+          }
         }
       ]
     }

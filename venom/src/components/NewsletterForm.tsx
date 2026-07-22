@@ -79,7 +79,7 @@ export function NewsletterForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder={copy.placeholder}
-            className="w-full rounded-full border border-white/15 bg-white/[0.04] py-3.5 pl-12 pr-5 text-[14.5px] text-white placeholder-white/40 outline-none transition focus:border-white/40 focus:bg-white/[0.07] focus:ring-2 focus:ring-white/10"
+            className="w-full rounded-full border border-white/15 bg-white/[0.06] py-3.5 pl-12 pr-5 text-[14.5px] text-white placeholder-white/40 outline-none transition focus:border-white/45 focus:bg-white/[0.09] focus:ring-2 focus:ring-white/10"
           />
         </div>
         <button

@@ -1415,13 +1415,13 @@ function TestimonialsSlider({ locale = "cs" }: { locale?: PlatformLocale }) {
       <div className="mx-auto mb-12 max-w-[1280px] px-6 lg:mb-16 lg:px-10">
         <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
           <div>
-            <p className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.16em" }}>
+            <p className="mb-4 text-[12px] font-semibold uppercase text-[#a5b4fc]" style={{ letterSpacing: "0.16em" }}>
               {locale === "en" ? "Reviews" : "Recenze"}
             </p>
-            <h2 className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]" style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}>
+            <h2 className="font-sans font-semibold tracking-[-0.025em] text-white" style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}>
               {locale === "en" ? "What our customers say." : "Co říkají naši zákazníci."}
             </h2>
-            <p className="mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
+            <p className="mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-white/70">
               {locale === "en"
                 ? `${total}+ verified reviews from real users across Europe, the UK, and beyond. Nothing cherry-picked, nothing airbrushed.`
                 : `${total}+ ověřených recenzí od skutečných uživatelů z celé Evropy, Velké Británie a dalších zemí. Nic nefiltrováno, nic nevybíráno.`}
@@ -1984,7 +1984,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section
         id="start"
-        className="relative overflow-hidden bg-[#0a0a0a]"
+        className="relative overflow-hidden bg-[#151633]"
       >
         {/* Video — sources injected by JS after window load; dark bg shows until video plays */}
         <video
@@ -2000,6 +2000,14 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/55" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(0,0,0,0.45)_100%)]" />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
 
         {/* Content stack — sized to fit MacBook Air 13" (≈800px) without scroll */}
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 pb-6 pt-[88px] sm:px-6 sm:pt-[96px] lg:px-8">
@@ -2125,7 +2133,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §0.5  TEMPLATES — Light gallery, moved above the bento grid      */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section id="sablony" className="relative bg-white">
+      <section id="sablony" className="relative bg-[#fafafa]">
         <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
 
           {/* Header — animations disabled */}
@@ -2167,153 +2175,21 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* §1  FEATURES — Light section with big product visual + 3 cards   */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-[#fafafa]">
-        {/* Ambient tint — ties the light section to the dark hero above */}
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
-          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(99,102,241,0.055), transparent 70%)" }}
-        />
-        <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
-
-          {/* ── Unified bento grid: 3 feature cards + 4 stat cards ── */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-12">
-
-            {/* ── Feature cards — span 4 cols each on 12-col grid ── */}
-            {[
-              {
-                eyebrow: "Editor",
-                stat: "100%",
-                title: en ? "Click and edit." : "Klikni a uprav.",
-                desc: en ? "No backend, no templates in code. You work directly on the page." : "Žádný backend, žádné šablony v kódu. Pracujete přímo na stránce.",
-                accent: "#6366f1",
-                glow: "rgba(99,102,241,0.14)",
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
-                ),
-              },
-              {
-                eyebrow: en ? "Templates" : "Šablony",
-                stat: "100+",
-                title: en ? "Pro templates." : "Profi šablon.",
-                desc: en ? "Pick an industry and get a ready-made website with content. Add your business name and you are close." : "Vyberete obor, dostanete hotový web s obsahem. Stačí dopsat název firmy.",
-                accent: "#0ea5e9",
-                glow: "rgba(14,165,233,0.14)",
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" />
-                  </svg>
-                ),
-              },
-              {
-                eyebrow: en ? "Performance" : "Výkon",
-                stat: "99/100",
-                title: "PageSpeed.",
-                desc: en ? "EU hosting, automatic image optimization, and SEO. No configuration needed." : "EU hosting, automatická optimalizace obrázků a SEO. Bez konfigurace.",
-                accent: "#10b981",
-                glow: "rgba(16,185,129,0.14)",
-                icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9z" />
-                  </svg>
-                ),
-              },
-            ].map((f, i) => (
-              <Reveal
-                key={f.eyebrow}
-                delay={0.2 + i * 0.08}
-                as="article"
-                className="group relative col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white p-6 shadow-[0_1px_3px_rgba(10,10,10,0.04)] sm:col-span-1 sm:p-8 lg:col-span-4 transition-all duration-500 ease-out hover:-translate-y-[4px] hover:border-[#dfe0ea] hover:shadow-[0_24px_56px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]"
-              >
-                {/* Accent hairline — subtle identity strip at the top */}
-                <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-60 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: `linear-gradient(90deg, transparent, ${f.accent}66, transparent)` }}
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                  style={{ background: `radial-gradient(ellipse 100% 70% at 10% -10%, ${f.glow}, transparent 60%)` }}
-                />
-                {/* Icon + label */}
-                <div className="relative mb-5 flex items-center gap-3">
-                  <div
-                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
-                    style={{ background: `linear-gradient(135deg, ${f.accent} 0%, ${f.accent}bb 100%)`, boxShadow: `0 4px 14px ${f.glow}` }}
-                  >
-                    {f.icon}
-                  </div>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: f.accent }}>{f.eyebrow}</span>
-                </div>
-                {/* Big stat */}
-                <div
-                  className="relative mb-2 font-bold leading-none tracking-[-0.045em] text-[#0a0a0a]"
-                  style={{ fontSize: "clamp(36px, 4.5vw, 60px)" }}
-                >
-                  {f.stat}
-                </div>
-                <h3 className="relative text-[17px] font-semibold tracking-[-0.01em] text-[#0a0a0a]">{f.title}</h3>
-                <p className="relative mt-2.5 text-[13.5px] leading-[1.7] text-[#6b7280]">{f.desc}</p>
-                {/* Bottom line */}
-                <div
-                  className="absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-500 ease-out group-hover:w-full"
-                  style={{ background: `linear-gradient(90deg, ${f.accent}, transparent)` }}
-                />
-              </Reveal>
-            ))}
-
-            {/* ── Stat panel — one unified strip with hairline dividers ── */}
-            <Reveal
-              delay={0.38}
-              as="div"
-              className="col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white shadow-[0_1px_3px_rgba(10,10,10,0.04)] lg:col-span-12"
-            >
-              <div className="grid grid-cols-2 lg:grid-cols-4">
-                {[
-                  { value: 500, suffix: "+",    label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
-                  { value: 270, suffix: "+",    label: en ? "Edge locations" : "Edge lokalit", sub: en ? "Worldwide CDN" : "CDN po celém světě", decimals: 0 },
-                  { value: 4.9, suffix: "★",   label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
-                  { value: 5,   suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
-                ].map((s, i) => (
-                  <div
-                    key={s.label}
-                    className={`group flex flex-col justify-between gap-5 border-[#eef0f5] p-5 transition-colors duration-300 hover:bg-[#fafaff] sm:p-7 ${i % 2 === 1 ? "border-l" : ""} ${i >= 2 ? "border-t" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l" : ""}`}
-                  >
-                    <div
-                      className="font-bold leading-none tracking-[-0.04em] text-[#0a0a0a]"
-                      style={{ fontSize: "clamp(26px, 3.5vw, 46px)" }}
-                    >
-                      {s.decimals === 1 ? (
-                        <span><CountUpDecimal to={s.value} duration={1.8} decimals={1} />{s.suffix}</span>
-                      ) : (
-                        <CountUp to={s.value} suffix={s.suffix} duration={1.8} />
-                      )}
-                    </div>
-                    <div>
-                      <div className="text-[14px] font-semibold text-[#0a0a0a]">{s.label}</div>
-                      <div className="mt-0.5 text-[12.5px] text-[#9ca3af]">{s.sub}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-
-          </div>
-        </div>
-      </section>
-
-
-
-      {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §2  PRODUKTY — Dark, 2x2 grid of product categories              */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section id="jak-to-funguje" className="relative overflow-hidden bg-[#0a0a0a] text-white">
+      <section id="jak-to-funguje" className="relative overflow-hidden bg-[#151633] text-white">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background: "radial-gradient(50% 60% at 50% 0%, rgba(99,102,241,0.10), transparent 70%)",
+            background: "radial-gradient(58% 55% at 50% -8%, rgba(129,140,248,0.45), transparent 60%), radial-gradient(50% 52% at 88% 2%, rgba(167,139,250,0.36), transparent 60%), radial-gradient(48% 58% at 6% 30%, rgba(56,189,248,0.22), transparent 62%)",
           }}
         />
         <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
@@ -2477,10 +2353,161 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* §1  FEATURES — Light section with big product visual + 3 cards   */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <section className="relative overflow-hidden bg-[#fafafa]">
+        {/* Ambient tint — ties the light section to the dark hero above */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
+          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(99,102,241,0.055), transparent 70%)" }}
+        />
+        <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
+
+          {/* ── Unified bento grid: 3 feature cards + 4 stat cards ── */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-12">
+
+            {/* ── Feature cards — span 4 cols each on 12-col grid ── */}
+            {[
+              {
+                eyebrow: "Editor",
+                stat: "100%",
+                title: en ? "Click and edit." : "Klikni a uprav.",
+                desc: en ? "No backend, no templates in code. You work directly on the page." : "Žádný backend, žádné šablony v kódu. Pracujete přímo na stránce.",
+                accent: "#6366f1",
+                glow: "rgba(99,102,241,0.14)",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                ),
+              },
+              {
+                eyebrow: en ? "Templates" : "Šablony",
+                stat: "100+",
+                title: en ? "Pro templates." : "Profi šablon.",
+                desc: en ? "Pick an industry and get a ready-made website with content. Add your business name and you are close." : "Vyberete obor, dostanete hotový web s obsahem. Stačí dopsat název firmy.",
+                accent: "#0ea5e9",
+                glow: "rgba(14,165,233,0.14)",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" />
+                  </svg>
+                ),
+              },
+              {
+                eyebrow: en ? "Performance" : "Výkon",
+                stat: "99/100",
+                title: "PageSpeed.",
+                desc: en ? "EU hosting, automatic image optimization, and SEO. No configuration needed." : "EU hosting, automatická optimalizace obrázků a SEO. Bez konfigurace.",
+                accent: "#10b981",
+                glow: "rgba(16,185,129,0.14)",
+                icon: (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9z" />
+                  </svg>
+                ),
+              },
+            ].map((f, i) => (
+              <Reveal
+                key={f.eyebrow}
+                delay={0.2 + i * 0.08}
+                as="article"
+                className="group relative col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white p-6 shadow-[0_1px_3px_rgba(10,10,10,0.04)] sm:col-span-1 sm:p-8 lg:col-span-4 transition-all duration-500 ease-out hover:-translate-y-[4px] hover:border-[#dfe0ea] hover:shadow-[0_24px_56px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]"
+              >
+                {/* Accent hairline — subtle identity strip at the top */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, transparent, ${f.accent}66, transparent)` }}
+                />
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+                  style={{ background: `radial-gradient(ellipse 100% 70% at 10% -10%, ${f.glow}, transparent 60%)` }}
+                />
+                {/* Icon + label */}
+                <div className="relative mb-5 flex items-center gap-3">
+                  <div
+                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
+                    style={{ background: `linear-gradient(135deg, ${f.accent} 0%, ${f.accent}bb 100%)`, boxShadow: `0 4px 14px ${f.glow}` }}
+                  >
+                    {f.icon}
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: f.accent }}>{f.eyebrow}</span>
+                </div>
+                {/* Big stat */}
+                <div
+                  className="relative mb-2 font-bold leading-none tracking-[-0.045em] text-[#0a0a0a]"
+                  style={{ fontSize: "clamp(36px, 4.5vw, 60px)" }}
+                >
+                  {f.stat}
+                </div>
+                <h3 className="relative text-[17px] font-semibold tracking-[-0.01em] text-[#0a0a0a]">{f.title}</h3>
+                <p className="relative mt-2.5 text-[13.5px] leading-[1.7] text-[#6b7280]">{f.desc}</p>
+                {/* Bottom line */}
+                <div
+                  className="absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-500 ease-out group-hover:w-full"
+                  style={{ background: `linear-gradient(90deg, ${f.accent}, transparent)` }}
+                />
+              </Reveal>
+            ))}
+
+            {/* ── Stat panel — one unified strip with hairline dividers ── */}
+            <Reveal
+              delay={0.38}
+              as="div"
+              className="col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white shadow-[0_1px_3px_rgba(10,10,10,0.04)] lg:col-span-12"
+            >
+              <div className="grid grid-cols-2 lg:grid-cols-4">
+                {[
+                  { value: 500, suffix: "+",    label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
+                  { value: 270, suffix: "+",    label: en ? "Edge locations" : "Edge lokalit", sub: en ? "Worldwide CDN" : "CDN po celém světě", decimals: 0 },
+                  { value: 4.9, suffix: "★",   label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
+                  { value: 5,   suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
+                ].map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={`group flex flex-col justify-between gap-5 border-[#eef0f5] p-5 transition-colors duration-300 hover:bg-[#fafaff] sm:p-7 ${i % 2 === 1 ? "border-l" : ""} ${i >= 2 ? "border-t" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l" : ""}`}
+                  >
+                    <div
+                      className="font-bold leading-none tracking-[-0.04em] text-[#0a0a0a]"
+                      style={{ fontSize: "clamp(26px, 3.5vw, 46px)" }}
+                    >
+                      {s.decimals === 1 ? (
+                        <span><CountUpDecimal to={s.value} duration={1.8} decimals={1} />{s.suffix}</span>
+                      ) : (
+                        <CountUp to={s.value} suffix={s.suffix} duration={1.8} />
+                      )}
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-semibold text-[#0a0a0a]">{s.label}</div>
+                      <div className="mt-0.5 text-[12.5px] text-[#9ca3af]">{s.sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §3.5  TESTIMONIALS — Real customer quotes for social proof       */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section id="reference" className="relative bg-[#fafafa]">
-        <TestimonialsSlider locale={locale} />
+      <section id="reference" className="relative overflow-hidden bg-[#151633]">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.85]" style={{ background: "radial-gradient(58% 55% at 50% -8%, rgba(129,140,248,0.45), transparent 60%), radial-gradient(50% 52% at 88% 2%, rgba(167,139,250,0.36), transparent 60%), radial-gradient(48% 58% at 6% 30%, rgba(56,189,248,0.22), transparent 62%)" }} />
+        <div className="relative">
+          <TestimonialsSlider locale={locale} />
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
@@ -2491,7 +2518,8 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §5  FINAL CTA — Split layout with device mockup                  */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-[#000]">
+      <section className="relative overflow-hidden bg-[#151633]">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.8]" style={{ background: "radial-gradient(58% 55% at 50% -8%, rgba(129,140,248,0.45), transparent 60%), radial-gradient(50% 52% at 88% 2%, rgba(167,139,250,0.36), transparent 60%), radial-gradient(48% 58% at 6% 30%, rgba(56,189,248,0.22), transparent 62%)" }} />
         {/* Top hairline — softens the light→dark transition */}
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-px"

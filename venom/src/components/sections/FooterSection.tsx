@@ -19916,98 +19916,167 @@ function FooterHair04({ content, sectionId, tenantSlug, isAdmin }: { content: Re
   );
 }
 
-// barber-06-footer — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
-// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+// barber-06-footer — SEKCE 8. Čtyřsloupcová patička, dark & gold.
+// Pole: siteName, tagline, monogram, address, phone, phoneHref, email,
+// navLinks[].{label,href}, hoursRows[].{day,time}, facebook, instagram, copyright, gdprHref.
 function FooterBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-    const siteName  = String(content.siteName  ?? "Impresiv Studio");
-    const address   = String(content.address   ?? "");
-    const phone     = String(content.phone     ?? "");
-    const email     = String(content.email     ?? "");
-    const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
-    const gdprHref  = String(content.gdprHref  ?? "/gdpr");
-    const facebook  = String(content.facebook  ?? "");
-    const instagram = String(content.instagram ?? "");
-    const GOLD  = "#FFDF25";
-    const DARK  = "#0a0a0a";
-    const LATO  = "'Lato', sans-serif";
+  const siteName = String(content.siteName ?? "ALFA Barbershop");
+  const tagline = String(content.tagline ?? "Barbershop · Praha");
+  const monogram = String(content.monogram ?? siteName.trim().charAt(0).toUpperCase());
+  const address = String(content.address ?? "");
+  const phone = String(content.phone ?? "");
+  const phoneHref = String(content.phoneHref ?? (phone ? `tel:${phone.replace(/\s/g, "")}` : ""));
+  const email = String(content.email ?? "");
+  const facebook = String(content.facebook ?? "");
+  const instagram = String(content.instagram ?? "");
+  const gdprHref = String(content.gdprHref ?? "/gdpr");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const navLinks = ((content.navLinks as Array<{ label: string; href: string }>) ?? []).filter((l) => l && l.label);
+  const hoursRows = ((content.hoursRows as Array<{ day: string; time: string }>) ?? []).filter((r) => r && (r.day || r.time));
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
-    return (
-      <footer data-template="barber-06" style={{ backgroundColor: DARK, borderTop: "1px solid rgba(255,223,37,0.2)" }}>
-        {/* Hlavní řádek */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 32,
-          padding: "52px clamp(32px,6vw,100px)",
-        }}>
-          {/* Logo vlevo */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <span style={{ fontFamily: LATO, fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>
-              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+  return (
+    <footer data-template="barber-06" className="b06f-footer">
+      <style>{`
+        .b06f-footer {
+          background: var(--color-secondary, #0A0A0A); font-family: 'Lato', system-ui, sans-serif;
+          border-top: 1px solid rgba(255,193,7,0.28);
+        }
+        .b06f-inner {
+          max-width: 84rem; margin: 0 auto;
+          padding: clamp(3rem, 6vw, 4.6rem) clamp(1.15rem, 4vw, 3rem) clamp(1.8rem, 3vw, 2.4rem);
+          display: grid; grid-template-columns: 1.3fr 0.8fr 1fr 1fr; gap: clamp(2rem, 4vw, 3.4rem);
+        }
+        .b06f-brand-row { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1rem; }
+        .b06f-mono {
+          width: 2.9rem; height: 2.9rem; flex-shrink: 0;
+          border: 2px solid var(--color-primary, #FFC107); color: var(--color-primary, #FFC107);
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.5rem; line-height: 1;
+        }
+        .b06f-name {
+          font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.6rem; letter-spacing: 0.04em;
+          text-transform: uppercase; color: #fff; display: block; line-height: 1.05;
+        }
+        .b06f-tag {
+          font-size: 0.66rem; font-weight: 900; letter-spacing: 0.26em; text-transform: uppercase;
+          color: var(--color-primary, #FFC107); display: block; margin-top: 0.2rem;
+        }
+        .b06f-addr { font-size: 0.92rem; line-height: 1.65; color: rgba(255,255,255,0.55); margin: 0 0 1.4rem; max-width: 26ch; }
+        .b06f-social { display: flex; gap: 0.55rem; }
+        .b06f-soc {
+          width: 2.5rem; height: 2.5rem; border-radius: 999px;
+          border: 1px solid rgba(255,193,7,0.4); color: var(--color-primary, #FFC107);
+          display: inline-flex; align-items: center; justify-content: center;
+          transition: background 0.25s, color 0.25s, transform 0.25s;
+        }
+        .b06f-soc:hover { background: var(--color-primary, #FFC107); color: #0a0a0a; transform: translateY(-2px); }
+        .b06f-h {
+          font-size: 0.68rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;
+          color: var(--color-primary, #FFC107); margin: 0 0 1.1rem;
+        }
+        .b06f-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.65rem; }
+        .b06f-list a, .b06f-list span { font-size: 0.94rem; color: rgba(255,255,255,0.62); text-decoration: none; transition: color 0.25s; }
+        .b06f-list a:hover { color: var(--color-primary, #FFC107); }
+        /* bez omezení šířky by se den a čas rozjely na opačné konce celého sloupce */
+        .b06f-hrow { display: flex; justify-content: space-between; gap: 0.9rem; font-size: 0.9rem; max-width: 13rem; }
+        .b06f-hday { color: rgba(255,255,255,0.55); }
+        .b06f-htime { font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1rem; letter-spacing: 0.04em; color: #fff; white-space: nowrap; }
+        /* spodní pás: copyright vlevo, credit vpravo — na JEDNOM řádku */
+        .b06f-bottom {
+          max-width: 84rem; margin: 0 auto;
+          padding: 1.2rem clamp(1.15rem, 4vw, 3rem) 1.6rem;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          display: flex; align-items: center; justify-content: space-between;
+          flex-wrap: wrap; gap: 0.8rem 1.4rem;
+        }
+        .b06f-legal {
+          margin: 0; font-size: 0.78rem; color: rgba(255,255,255,0.42);
+          display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .b06f-legal a { color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.25s; }
+        .b06f-legal a:hover { color: var(--color-primary, #FFC107); }
+        .b06f-dot { opacity: 0.4; }
+        @media (max-width: 899px) {
+          .b06f-inner { grid-template-columns: 1fr 1fr; gap: 2.2rem; }
+        }
+        @media (max-width: 559px) {
+          .b06f-inner { grid-template-columns: 1fr; }
+          .b06f-bottom { justify-content: flex-start; }
+        }
+        @media (prefers-reduced-motion: reduce) { .b06f-soc, .b06f-list a, .b06f-legal a { transition: none; } }
+      `}</style>
+
+      <div className="b06f-inner">
+        <div>
+          <div className="b06f-brand-row">
+            <span className="b06f-mono" aria-hidden>{monogram}</span>
+            <span>
+              <span className="b06f-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+              <span className="b06f-tag"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
             </span>
-            <span style={{ fontFamily: LATO, fontSize: 11, fontWeight: 300, color: GOLD, letterSpacing: "0.25em", textTransform: "uppercase" }}>Hair Salon</span>
           </div>
-
-          {/* Kontaktní info uprostřed */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center", textAlign: "center" }}>
-            {address && (
-              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p"
-                style={{ fontFamily: LATO, fontSize: 14, fontWeight: 300, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.5 }} />
-            )}
-            <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
-              {phone && (
-                <a href={`tel:+420${phone.replace(/\s/g,"")}`}
-                  style={{ fontFamily: LATO, fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
-                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
-                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          {address && (
+            <p className="b06f-addr"><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></p>
+          )}
+          {(facebook || instagram) && (
+            <div className="b06f-social">
+              {facebook && (
+                <a href={facebook} target="_blank" rel="noopener noreferrer" className="b06f-soc" aria-label="Facebook">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
                 </a>
               )}
-              {email && (
-                <a href={`mailto:${email}`}
-                  style={{ fontFamily: LATO, fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
-                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
-                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              {instagram && (
+                <a href={instagram} target="_blank" rel="noopener noreferrer" className="b06f-soc" aria-label="Instagram">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
                 </a>
               )}
             </div>
-          </div>
-
-          {/* Sociální sítě vpravo */}
-          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
-            {facebook && (
-              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-              </a>
-            )}
-            {instagram && (
-              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
-            )}
-          </div>
+          )}
         </div>
 
-        {/* Copyright bar */}
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "18px clamp(32px,6vw,100px)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p"
-            style={{ fontFamily: LATO, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", margin: 0 }} />
-          <a href={gdprHref}
-            style={{ fontFamily: LATO, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
-            onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-            onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.4)"; }}>
-            Ochrana osobních údajů
-          </a>
+        {navLinks.length > 0 && (
+          <div>
+            <p className="b06f-h">Navigace</p>
+            <ul className="b06f-list">
+              {navLinks.map((l, i) => (
+                <li key={i}><a href={resolve(l.href)}>{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div>
+          <p className="b06f-h">Kontakt</p>
+          <ul className="b06f-list">
+            {phone && <li><a href={phoneHref}>{phone}</a></li>}
+            {email && <li><a href={`mailto:${email}`}>{email}</a></li>}
+          </ul>
         </div>
-      </footer>
-    );
-  }
+
+        {hoursRows.length > 0 && (
+          <div>
+            <p className="b06f-h">Otevřeno</p>
+            <ul className="b06f-list">
+              {hoursRows.map((r, i) => (
+                <li className="b06f-hrow" key={i}>
+                  <span className="b06f-hday">{r.day}</span>
+                  {r.time && <span className="b06f-htime">{r.time}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <div className="b06f-bottom">
+        <p className="b06f-legal">
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          <span className="b06f-dot">·</span>
+          <a href={resolve(gdprHref)}>Ochrana osobních údajů</a>
+        </p>
+        <WeberoCredit />
+      </div>
+    </footer>
+  );
+}
