@@ -24,7 +24,7 @@
         "href": "/#anglictina"
       },
       {
-        "label": "MiniSmečka",
+        "label": "Mini Kroužek",
         "href": "/#minismecka"
       },
       {
@@ -68,7 +68,7 @@
       {
         "icon": "star",
         "title": "PARTA",
-        "description": "Smečka kamarádů, se kterými se nebojíš ničeho",
+        "description": "Parta kamarádů, se kterými se nebojíš ničeho",
         "imageUrl": "/assets/kids-01/2d481fa0e3-2.jpg",
         "linkText": "Co děláme",
         "linkHref": "/aktivity"
@@ -173,7 +173,7 @@
     ]
   },
   "cta": {
-    "heading": "Zapište dítě do Lesní Smečky",
+    "heading": "Zapište dítě do Demo Kroužky",
     "subheading": "Místa jsou omezená — smečka čítá nejvýše 12 dětí. Neotálejte!",
     "ctaText": "NEZÁVAZNÁ PŘIHLÁŠKA",
     "ctaHref": "/kontakt",
@@ -258,7 +258,7 @@
     "practicalHeading": "Praktické věci",
     "practicalItems": [
       "Kroužky probíhají 1× týdně, každé setkání trvá 90 minut.",
-      "Smečku tvoří 10–12 dětí a vedou ji 2 proškolení vedoucí.",
+      "Parta tvoří 10–12 dětí a vedou ji 2 proškolení vedoucí.",
       "Sraz vždy na dohodnutém místě v přírodě, kousek od zastávky MHD.",
       "Na výpravách platí pravidlo: žádný mobil, jen lidi a příroda.",
       "Roční předplatné s možností rozložení do splátek.",
@@ -349,8 +349,8 @@
     ],
     "phone": "704 123 456",
     "email": "info@demo.cz",
-    "address": "Přírodní 7, 150 00 Praha 5",
-    "facebook": "https://facebook.com/lesni-smecka",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/lesni.smecka",
     "legalName": "Demo Kroužky z.s.",
     "ico": "09876543",
@@ -380,7 +380,7 @@
     },
     "kontakt": {
       "seoTitle": "Kontakt | Demo Kroužky",
-      "seoDescription": "Zapište dítě do Lesní Smečky — napište nebo zavolejte.",
+      "seoDescription": "Zapište dítě do Demo Kroužky — napište nebo zavolejte.",
       "hero": {
         "heading": "Pojďme se domluvit",
         "subheading": "Napište nám nebo zavolejte — rádi odpovíme."

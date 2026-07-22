@@ -98,8 +98,16 @@ def demo_contacts(key):
         (r'kurzy@lingvista-akademie\.cz', 'info@demo.cz'),
         (r'775\s?388\s?210', '704 123 456'),
         (r'602\s?987\s?543', '704 123 456'),
-        (r'Přírodní 7, 150 00 Praha 5 — Smíchov', 'Ukázková 123, 110 00 Praha 1'),
+        (r'Přírodní 7[^"]*?Praha 5[^"]*?(?=")', 'Ukázková 123, 110 00 Praha 1'),
+        (r'Přírodní 7', 'Ukázková 123'),
         (r'Náměstí Svobody 14, 602 00 Brno', 'Ukázková 123, 110 00 Praha 1'),
+        (r'(facebook|instagram|linkedin|youtube)\.com/lesni-smecka', r'\1.com/demo'),
+        (r'(facebook|instagram|linkedin|youtube)\.com/lingvista[a-z-]*', r'\1.com/demo'),
+        (r'Lingvista Jazyková akademie', 'Demo Jazyková škola'),
+        # čeština skloňuje — pokrýt VŠECHNY pády, ne jen 1. (past: „do Lesní Smečky")
+        (r'Lesní [Ss]meč(ka|ky|ce|ku|ko|kou)', 'Demo Kroužky'),
+        (r'MiniSmečka', 'Mini Kroužek'),
+        (r'Smeč(ka|ky|ce|ku|ko|kou)', 'Parta'),
         (r'Lesní Smečka', 'Demo Kroužky'),
         (r'Lingvista akademie', 'Demo Jazyková škola'),
         (r'Lingvista', 'Demo Jazyková škola'),
@@ -113,6 +121,27 @@ def demo_contacts(key):
     print("  ✓ %s: %d náhrad kontaktů/brandu v cs.json" % (key, n))
 
 
+def lang_footer_fix():
+    """Patička lang-01 měla DVA sloupce „Kontakt", druhý prázdný; copyright se po
+    přejmenování brandu zdvojil („Demo Jazyková škola Jazyková akademie")."""
+    import json as _j
+    p = ROOT / "src/templates/lang-01/content/cs.json"
+    d = _j.loads(p.read_text()); f = d.get("footer", {})
+    changed = False
+    if "Jazyková akademie" in str(f.get("copyright", "")):
+        f["copyright"] = "© 2026 Demo Studio s.r.o. | IČO: 12345678 | DIČ: CZ12345678"; changed = True
+    for g in f.get("navGroups", []):
+        if g.get("label") == "Kontakt" and not g.get("links"):
+            g["label"] = "Škola"
+            g["links"] = [{"label": "Jak to funguje", "href": "/jak-to-funguje"},
+                          {"label": "Letní tábory", "href": "/tabory"},
+                          {"label": "Kontakt", "href": "/kontakt"}]
+            changed = True
+    if changed:
+        p.write_text(_j.dumps(d, ensure_ascii=False, indent=2) + "\n")
+    print("  %s lang-01 patička" % ("✓" if changed else "="))
+
+
 if __name__ == "__main__":
     print("kids-01 + lang-01 — dokončení")
     footer_credit("FooterKids01")
@@ -120,4 +149,5 @@ if __name__ == "__main__":
     for k in ("kids-01", "lang-01"):
         manifest(k)
         demo_contacts(k)
+    lang_footer_fix()
     print("hotovo.")

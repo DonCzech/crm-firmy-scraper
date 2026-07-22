@@ -172,13 +172,13 @@
   "footer": {
     "siteName": "Demo Jazyková škola",
     "logoUrl": "",
-    "tagline": "Jazyková akademie s 28 lety zkušeností. 7 jazyků pro děti, dospělé i firmy.",
+    "tagline": "Jazyková škola s 28 lety zkušeností. 7 jazyků pro děti, dospělé i firmy.",
     "phone": "704 123 456",
     "email": "info@demo.cz",
-    "facebook": "https://facebook.com/lingvista",
-    "instagram": "https://instagram.com/lingvista",
-    "linkedin": "https://linkedin.com/lingvista",
-    "copyright": "© 2026 Demo Jazyková škola Jazyková akademie. Všechna práva vyhrazena.",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "linkedin": "https://linkedin.com/demo",
+    "copyright": "© 2026 Demo Studio s.r.o. | IČO: 12345678 | DIČ: CZ12345678",
     "navGroups": [
       {
         "label": "Kurzy",
@@ -202,8 +202,21 @@
         ]
       },
       {
-        "label": "Kontakt",
-        "links": []
+        "label": "Škola",
+        "links": [
+          {
+            "label": "Jak to funguje",
+            "href": "/jak-to-funguje"
+          },
+          {
+            "label": "Letní tábory",
+            "href": "/tabory"
+          },
+          {
+            "label": "Kontakt",
+            "href": "/kontakt"
+          }
+        ]
       }
     ]
   },

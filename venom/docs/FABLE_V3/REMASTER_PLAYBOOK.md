@@ -21,8 +21,8 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 5 | hair-02 | hair-02-demo | 414 (+showcase 415) | kompletně | ✅ DONE |
 | 6 | hair-03 | hair-03-v2 | 407 (+showcase 420) | kompletně | ✅ DONE |
 | 7 | hair-04 | hair-04-v2 | 419 | kompletně | ✅ DONE |
-| 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
-| 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
+| 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ✅ DONE |
+| 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ✅ DONE |
 | 10 | malir-02 | malir-02-demo | 1163 | kompletně | ✅ DONE |
 | 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | ✅ DONE |
 
@@ -384,3 +384,32 @@ takže krémová pozadí a růžové kaňky přežily první průchod. Správně
 **NOVÁ PAST — `add_dispatch` u blokových variant:** vkládá řádek ZA kotvu; když je kotva
 `if (variant === "x") {`, spadne nový dispatch DOVNITŘ bloku (tsc: „no overlap"). U blokových
 kotev vkládej PŘED.
+
+## 5h. KIDS-01 + LANG-01 — ✅ DONE (2026-07-22) · BĚH KOMPLETNÍ
+
+Rozsah byl „vylepšit", ne full redo — obě šablony měly slušný layout, ale tři systémové vady.
+Presety: kids forest/sky/sunset · lang indigo/coral/teal. Obě v3.0.0 + tags v3 + WeberoCredit.
+
+**⚠️ NEJZÁKEŘNĚJŠÍ VADA CELÉHO BĚHU — neviditelný obsah:**
+Sekce startují na `opacity: 0` a čekají, až jim IntersectionObserver přidá třídu `.vis`.
+U kids-01 se observer **nespustil vůbec** (`vis=false` i po plném proscrollování), takže
+statistiky, benefity a kontakt byly pro návštěvníka TRVALE NEVIDITELNÉ — jen barevné pásy.
+**Konzole přitom mlčela a validate/tsc prošly** ⇒ žádná automatická kontrola to nechytí.
+Fix: pojistka `setTimeout(() => setVis(true), 1200)` v každém observer efektu (9 komponent).
+Animace musí být bonus, ne podmínka čitelnosti. Kontrola:
+```js
+[...document.querySelectorAll("section,div")].filter(e => parseFloat(getComputedStyle(e).opacity) < .15 && e.getBoundingClientRect().height > 80).length
+```
+
+**PAST V MÉM VLASTNÍM NÁSTROJI:** `_shot-master.mjs` fotil `fullPage` bez scrollování, takže
+u šablon se scroll-reveal vracel PRÁZDNÉ barevné bloky → falešně negativní vizuální kontrola.
+Nově skript stránku proscrolluje (desktop i mobil) a teprve pak fotí.
+
+**PAST — čeština skloňuje:** hledání residuí na `grep 'Lesní Smečka'` vrátilo 0, ale ve stránce
+bylo „Zapište dítě do Lesní Smeč**ky**". Vždy hledej na kmen (`Smeč`, `Lingvist`), ne na 1. pád.
+Residua byla ještě ve dvou dalších místech: **`pages.title`** (plní skrytý `<h1>`) a
+v **sociálních odkazech** (`facebook.com/lesni-smecka`). Kontrola všech tenantů:
+`curl -s localhost:3015/demo/<slug> | grep -ocE '<kmen1>|<kmen2>'` → 0 na v2 i showcase.
+
+Drobné: lang-01 měl v patičce DVA sloupce „Kontakt", druhý prázdný (naplněn na „Škola");
+copyright se po přejmenování brandu zdvojil.
