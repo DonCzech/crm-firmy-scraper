@@ -21682,108 +21682,130 @@ function AboutHair04Split({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-// barber-06-about — obnoveno z původní šablony hair-04 „Impresiv Studio" (commit 6e106fdb).
-// hair-04 byla remasterována na „Studio Pop"; tahle barber podoba žije dál samostatně.
+// barber-06-about — SEKCE 5. Split s portrétem v obloukovém rámu, statistiky a podpis.
+// Pole: eyebrow, title, body, body2, image, stats[].{value,label}, signature, signatureRole.
 function AboutBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-    const title  = String(content.title  ?? "Impresivní střihy. Už 10 let.");
-    const body   = String(content.body   ?? "");
-    const body2  = String(content.body2  ?? "");
-    const image  = String(content.image  ?? "");
-    const GOLD   = "#FFDF25";
-    const DARK   = "#0d0d0d";
-    const LATO   = "'Lato', sans-serif";
-    const PLACEHOLDER = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=900&fit=crop&fm=webp";
+  const eyebrow = String(content.eyebrow ?? "O nás");
+  const title = String(content.title ?? "");
+  const body = String(content.body ?? "");
+  const body2 = String(content.body2 ?? "");
+  const image = String(content.image ?? "");
+  const stats = (content.stats as Array<{ value: string; label: string }>) ?? [];
+  const signature = String(content.signature ?? "");
+  const signatureRole = String(content.signatureRole ?? "");
+  const _r = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  void _r;
 
-    return (
-      <section
-        id="o-nas"
-        data-template="barber-06"
-        style={{ backgroundColor: DARK, display: "flex", minHeight: 520, flexWrap: "wrap" }}
-      >
-        <style>{`
-          @media (max-width: 768px) {
-            section[data-template="barber-06"]#o-nas { flex-direction: column; }
-            section[data-template="barber-06"]#o-nas > div:first-child {
-              flex: 1 1 100% !important;
-              padding: 48px 24px !important;
-            }
-            section[data-template="barber-06"]#o-nas > div:last-child {
-              min-height: 280px;
-              flex: 1 1 100% !important;
-            }
-          }
-        `}</style>
-        {/* Levý sloupec — text */}
-        <div
-          style={{
-            flex: "1 1 50%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "72px clamp(40px, 6vw, 120px)",
-          }}
-        >
-          {/* Gold dekorační linka */}
-          <div style={{ width: 48, height: 3, backgroundColor: GOLD, marginBottom: 28 }} aria-hidden />
+  return (
+    <section id="o-nas" data-section-type="about" data-variant="barber-06-about" className="b06a-section" data-template="barber-06">
+      <style>{`
+        .b06a-section {
+          scroll-margin-top: 5rem;
+          background: var(--color-background, #121212); font-family: 'Lato', system-ui, sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.15rem, 4vw, 3rem);
+        }
+        .b06a-inner {
+          max-width: 84rem; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr;
+          gap: clamp(2.5rem, 6vw, 5rem); align-items: center;
+        }
+        .b06a-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.8rem; margin-bottom: 1.1rem;
+          font-size: 0.74rem; font-weight: 900; letter-spacing: 0.28em; text-transform: uppercase;
+          color: var(--color-primary, #FFC107);
+        }
+        .b06a-eyebrow::before { content: ""; width: 36px; height: 2px; background: var(--color-primary, #FFC107); }
+        .b06a-title {
+          font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; text-transform: uppercase;
+          font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 0.98; letter-spacing: 0.01em;
+          color: #fff; margin: 0 0 1.2rem; text-wrap: balance;
+        }
+        .b06a-lead { font-size: clamp(1.02rem, 1.4vw, 1.14rem); line-height: 1.62; color: rgba(255,255,255,0.86); margin: 0 0 1.1rem; max-width: 50ch; }
+        .b06a-body { font-size: 0.98rem; line-height: 1.75; color: rgba(255,255,255,0.6); margin: 0 0 1.1rem; max-width: 54ch; }
+        .b06a-stats { display: flex; flex-wrap: wrap; gap: clamp(1.4rem, 3vw, 2.8rem); margin: 2rem 0 1.8rem; }
+        .b06a-stat { padding-left: 1.3rem; border-left: 2px solid var(--color-primary, #FFC107); }
+        .b06a-stat:first-child { padding-left: 0; border-left: none; }
+        .b06a-stat-v {
+          font-family: 'Bebas Neue', Impact, sans-serif; font-size: clamp(1.9rem, 3vw, 2.5rem);
+          letter-spacing: 0.03em; color: #fff; display: block; line-height: 1; margin-bottom: 0.3rem;
+        }
+        .b06a-stat-l { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.52); }
+        .b06a-sign { padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,0.14); }
+        .b06a-sign-n {
+          font-family: 'Bebas Neue', Impact, sans-serif; font-size: 1.2rem; letter-spacing: 0.05em;
+          color: var(--color-primary, #FFC107); display: block;
+        }
+        .b06a-sign-r { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+        .b06a-media { position: relative; }
+        /* zlatý offset rám kopírující obloukový tvar ze sekce služeb */
+        .b06a-media::before {
+          content: ""; position: absolute; inset: 1.5rem -1.5rem -1.5rem 1.5rem;
+          border: 2px solid var(--color-primary, #FFC107); border-radius: 999px 999px 6px 6px;
+          opacity: 0.55; z-index: 0;
+        }
+        .b06a-photo {
+          position: relative; z-index: 1; display: block; aspect-ratio: 4 / 5; overflow: hidden;
+          border-radius: 999px 999px 6px 6px; background: #1a1a1a;
+        }
+        .b06a-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 899px) {
+          .b06a-inner { grid-template-columns: 1fr; gap: 3rem; }
+          .b06a-media::before { inset: 1rem -1rem -1rem 1rem; }
+          .b06a-media { max-width: 22rem; margin: 0 auto; }
+        }
+      `}</style>
 
-          <h2 style={{
-            fontFamily: LATO,
-            fontSize: "clamp(26px, 2.8vw, 40px)",
-            fontWeight: 700,
-            color: "#ffffff",
-            lineHeight: 1.25,
-            margin: "0 0 28px",
-          }}>
+      <div className="b06a-inner">
+        <div>
+          <span className="b06a-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
+          <h2 className="b06a-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-
-          <p style={{
-            fontFamily: LATO,
-            fontSize: 16,
-            fontWeight: 300,
-            color: "rgba(255,255,255,0.8)",
-            lineHeight: 1.85,
-            margin: "0 0 20px",
-            maxWidth: 480,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-
+          {body && (
+            <p className="b06a-lead">
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          )}
           {body2 && (
-            <p style={{
-              fontFamily: LATO,
-              fontSize: 16,
-              fontWeight: 300,
-              color: "rgba(255,255,255,0.8)",
-              lineHeight: 1.85,
-              margin: 0,
-              maxWidth: 480,
-            }}>
+            <p className="b06a-body">
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
             </p>
           )}
+          {stats.length > 0 && (
+            <div className="b06a-stats">
+              {stats.map((s, i) => (
+                <div className="b06a-stat" key={i}>
+                  <span className="b06a-stat-v">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+                  </span>
+                  <span className="b06a-stat-l">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          {signature && (
+            <div className="b06a-sign">
+              <span className="b06a-sign-n">
+                <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+              </span>
+              <span className="b06a-sign-r">
+                <GenericEditableText sectionId={sectionId} field="signatureRole" value={signatureRole} tag="span" />
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Pravý sloupec — foto edge-to-edge */}
-        <div style={{ flex: "1 1 50%", position: "relative", minHeight: 420 }}>
-          <GenericEditableImage
-            sectionId={sectionId}
-            field="image"
-            src={image || PLACEHOLDER}
-            alt={title}
-            className="absolute inset-0 w-full h-full"
-            style={{ position: "absolute" }}
-          >
-            <Image
-              src={image || PLACEHOLDER}
-              alt={title}
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              unoptimized={shouldSkipNextImageOptimization(image || PLACEHOLDER)}
-            />
-          </GenericEditableImage>
-        </div>
-      </section>
-    );
-  }
+        {image && (
+          <div className="b06a-media">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={signature || title} className="b06a-photo">
+              <img src={image} alt={signature || title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}

@@ -96,10 +96,27 @@
     "ctaHref": "/#rezervace"
   },
   "about": {
-    "title": "Impresivní střihy. Už 10 let.",
-    "body": "Od roku 2013 jsme se stali synonymem pro precizní střihy a styling. Naší vizí je poskytovat nejen střihy, barvení vlasů a úpravy vousů, ale také vytvářet jedinečné účesy, které zdůrazní vaši osobnost a krásu. Chceme, abyste byli zkrátka – Impresivní!",
-    "body2": "Velmi si vážíme dlouhodobých vztahů s našimi zákazníky. Naší největší motivací je vaše spokojenost. Jsme odhodlaní vám poskytovat špičkové služby za poctivé ceny.",
-    "image": ""
+    "eyebrow": "O nás",
+    "title": "Řemeslo, ne linka na střihy",
+    "body": "Otevřeli jsme v roce 2013 s jednoduchým záměrem — dělat pánské střihy tak, aby držely tvar i po třech týdnech. Žádný spěch, na jednoho klienta máme vždycky dost času.",
+    "body2": "Specializujeme se na střih, úpravu vousů a holení břitvou. Poradíme, co vám sedne a co ráno reálně zvládnete sami. Ceny máme férové a nikdy vás netlačíme do něčeho, co nepotřebujete.",
+    "image": "https://images.unsplash.com/photo-1614289371518-722f2615943d?w=1000&h=1250&fit=crop&auto=format&q=82",
+    "stats": [
+      {
+        "value": "13 let",
+        "label": "na Žižkově"
+      },
+      {
+        "value": "5",
+        "label": "barberů v týmu"
+      },
+      {
+        "value": "4,9 / 5",
+        "label": "186 hodnocení"
+      }
+    ],
+    "signature": "Tomáš Demo",
+    "signatureRole": "zakladatel & master barber"
   },
   "gallery": {
     "images": [
