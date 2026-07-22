@@ -159,9 +159,10 @@ export function PricingPageContent({ locale = "cs" }: { locale?: PlatformLocale 
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[#151633] text-white">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.5]"
-             style={{ background: "radial-gradient(55% 55% at 50% -5%, rgba(99,102,241,0.42), transparent 62%), radial-gradient(45% 45% at 85% 10%, rgba(139,92,246,0.28), transparent 60%)" }} />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        <div className="pointer-events-none absolute inset-0 opacity-[0.9]"
+             style={{ background: "radial-gradient(58% 55% at 50% -8%, rgba(129,140,248,0.55), transparent 60%), radial-gradient(50% 52% at 86% 0%, rgba(167,139,250,0.45), transparent 60%), radial-gradient(48% 58% at 6% 26%, rgba(56,189,248,0.28), transparent 62%)" }} />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(199,210,254,0.5), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07]"
              style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "56px 56px", maskImage: "radial-gradient(70% 60% at 50% 15%, #000, transparent 80%)", WebkitMaskImage: "radial-gradient(70% 60% at 50% 15%, #000, transparent 80%)" }} />
         <div className="relative mx-auto max-w-[1180px] px-6 pt-[130px] pb-16 text-center lg:px-10 lg:pt-[160px] lg:pb-20">
           <p className="mb-5 text-[12px] font-semibold uppercase text-[#a5b4fc]" style={{ letterSpacing: "0.22em" }}>{c.eyebrow}</p>

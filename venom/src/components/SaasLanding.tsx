@@ -1760,18 +1760,6 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
                 }}
                 onClick={(e) => handleCardClick(e, slide.key)}
               >
-                {/* Browser chrome — makes the screenshot unmistakably a website */}
-                <div className="flex flex-shrink-0 items-center gap-1.5 border-b border-[#ececec] bg-[#f7f7f7] px-3 py-[7px]">
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#ff5f57]" />
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#febc2e]" />
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#28c840]" />
-                  <div className="mx-auto flex items-center gap-1 rounded-[5px] bg-white px-2.5 py-[3px] text-[9px] font-medium text-[#555] shadow-[0_0_0_1px_rgba(0,0,0,0.05)]">
-                    <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" aria-hidden>
-                      <rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 018 0v4" />
-                    </svg>
-                    {slide.domain}
-                  </div>
-                </div>
                 {/* Screenshot — click the pill to step-scroll through the template */}
                 <div
                   ref={(el) => { if (el) screenRefs.current.set(i, el); else screenRefs.current.delete(i); }}
@@ -1840,10 +1828,10 @@ function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; lo
                     </button>
                   </div>
                 </div>
-                {/* Dimming overlay for inactive cards */}
+                {/* Dimming overlay for inactive cards — light touch, keeps side previews readable */}
                 <div
                   className="pointer-events-none absolute inset-0 transition-opacity duration-700"
-                  style={{ background: "rgba(0,0,0,0.35)", opacity: isActive ? 0 : 1 }}
+                  style={{ background: "rgba(0,0,0,0.15)", opacity: isActive ? 0 : 1 }}
                 />
               </div>
             );
@@ -2135,6 +2123,50 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* §0.5  TEMPLATES — Light gallery, moved above the bento grid      */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <section id="sablony" className="relative bg-white">
+        <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
+
+          {/* Header — animations disabled */}
+          <div className="mx-auto mb-12 max-w-[820px] text-center lg:mb-16">
+            <p
+              className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
+              style={{ letterSpacing: "0.16em" }}
+            >
+              {en ? "Templates" : "Šablony"}
+            </p>
+            <h2
+              className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
+              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
+            >
+              100+ {en ? "templates." : "šablon."}<br />
+              <span className="text-[#9ca3af]">{en ? "For every industry." : "Pro každý obor."}</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
+              {en
+                ? "Every template includes a homepage, subpages, images, and copy. Add your business name and publish."
+                : "Každá šablona má homepage, podstránky, obrázky i texty. Stačí dopsat název firmy a publikovat."}
+            </p>
+          </div>
+
+          <TemplatesGallery templates={galleryTemplates} locale={locale} onOpen={(tpl) => openModal(tpl)} />
+
+          {/* Bottom CTA */}
+          <Reveal delay={0.3} className="mt-14 flex flex-col items-center gap-4">
+            <a
+              href="/ukazka-sablon"
+              className="inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-7 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1a1a1a]"
+            >
+              {en ? "Browse all 100+ templates" : "Prohlédnout všech 100+ šablon"}
+              <ArrowRight className="h-4 w-4" />
+            </a>
+            <p className="text-[13px] text-[#888]">{en ? "We add 2-3 new templates every month." : "Pravidelně přidáváme 2–3 nové šablony každý měsíc."}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §1  FEATURES — Light section with big product visual + 3 cards   */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden bg-[#fafafa]">
@@ -2144,65 +2176,6 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
           style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(99,102,241,0.055), transparent 70%)" }}
         />
         <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
-
-          {/* Header — animations disabled */}
-          <div className="mx-auto mb-12 max-w-[820px] text-center lg:mb-16">
-            <p
-              className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
-              style={{ letterSpacing: "0.16em" }}
-            >
-              {en ? "Live demo" : "Živá ukázka"}
-            </p>
-            <h2
-              className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
-              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
-            >
-              {en ? "This is what your website will look like." : "Takhle bude vypadat váš web."}<br />
-              <span className="text-[#9ca3af]">{en ? "Live, not a mockup." : "Naživo, ne na obrázku."}</span>
-            </h2>
-            <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
-              {en
-                ? "The monitor below is running a real Webero template — scroll through it and click around. Templates, editor, hosting, and SEO, all for one fair price, without a developer."
-                : "Na monitoru níže běží skutečná šablona z Webera — posouvejte se v ní a klikejte. Šablony, editor, hosting i SEO dostanete za jednu férovou cenu, bez programátora."}
-            </p>
-          </div>
-
-          {/* Big product visual — Apple Studio Display + iPhone side-by-side */}
-          <Reveal delay={0.15} className="relative mx-auto mb-16 max-w-[1320px]">
-            {/* Soft ambient glow anchoring the devices to the ground */}
-            <div
-              className="pointer-events-none absolute -inset-x-16 -bottom-14 top-16"
-              style={{ background: "radial-gradient(55% 60% at 50% 68%, rgba(99,102,241,0.09), transparent 72%)" }}
-            />
-            <div className="relative mx-auto flex flex-col items-center justify-center gap-8 pb-2 sm:flex-row sm:items-end sm:gap-8 md:gap-10">
-
-              {/* ───── Apple Studio Display with live iframe + interactive hotspots ───── */}
-              <div className="relative hidden w-full flex-1 max-w-[880px] sm:block">
-                <LiveDesktopFrame demoUrl={heroDesktopDemoUrl} maxWidth={880} compact locale={locale} />
-
-                <Hotspot
-                  id="pagespeed" activeId={activeHotspot} setActiveId={setActiveHotspot}
-                  top="38%" right="-32px"
-                  side="left"
-                  tone="green"
-                  label={en ? "Speed & SEO" : "Rychlost & SEO"}
-                  value="PageSpeed 90–100"
-                  detail={en ? "Edge cache in 270+ cities, AVIF/WebP optimization, automatic sitemap, and JSON-LD. Built to be easy for Google to index." : "Edge cache ve 270+ městech, AVIF/WebP optimalizace, auto sitemap a JSON-LD. Google vás bude rád indexovat."}
-                  icon={(
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M13 2L3 14h9l-1 8 10-12h-9z" />
-                    </svg>
-                  )}
-                />
-              </div>
-
-              {/* ───── iPhone with live mobile-viewport iframe — mobile only ───── */}
-              <div className="relative flex-shrink-0 sm:hidden">
-                <LiveMobileFrame demoUrl={heroMobileDemoUrl} locale={locale} />
-              </div>
-
-            </div>
-          </Reveal>
 
           {/* ── Unified bento grid: 3 feature cards + 4 stat cards ── */}
           <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-12">
@@ -2363,7 +2336,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
 
           <div className="space-y-6 lg:space-y-8">
 
-            {/* ── Webové stránky — real templates: peak-cut + barber-03 ── */}
+            {/* ── Webové stránky — real templates: arch-01 + peak-cut ── */}
             <article className="group relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors duration-500 hover:border-white/20">
               <div
                 className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
@@ -2412,12 +2385,12 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
                       <span className="h-2 w-2 rounded-full bg-white/20" />
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/templates/peak-cut/showcase/desktop-hero.webp" alt={en ? "Website template — Peak Cut barbershop" : "Šablona webu — barbershop Peak Cut"} className="aspect-[16/9] w-full object-cover object-top" loading="lazy" />
+                    <img src="/templates/arch-01/showcase/hero-card.webp" alt={en ? "Website template — Architekta studio" : "Šablona webu — studio Architekta"} className="aspect-[16/9] w-full object-cover object-top" loading="lazy" />
                   </div>
                   <div className="absolute -bottom-10 right-6 z-10 w-[120px] overflow-hidden rounded-[22px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] transition-transform duration-700 ease-out group-hover:-translate-y-3 sm:w-[140px] lg:right-12 lg:w-[160px]">
                     <div className="overflow-hidden rounded-[16px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/templates/barber-03/showcase/mobile-hero.webp" alt={en ? "Mobile view — Barbery" : "Mobilní zobrazení — Barbery"} className="aspect-[9/17] w-full object-cover object-top" loading="lazy" />
+                      <img src="/templates/peak-cut/showcase/mobile-hero.webp" alt={en ? "Mobile view — Peak Cut barbershop" : "Mobilní zobrazení — barbershop Peak Cut"} className="aspect-[9/17] w-full object-cover object-top" loading="lazy" />
                     </div>
                   </div>
                 </div>
@@ -2500,50 +2473,6 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
             </article>
 
           </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* §3  TEMPLATES — Light gallery with browser-chrome cards          */}
-      {/* ══════════════════════════════════════════════════════════════════ */}
-      <section id="sablony" className="relative bg-white">
-        <div className="mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
-
-          {/* Header — animations disabled */}
-          <div className="mx-auto mb-12 max-w-[820px] text-center lg:mb-16">
-            <p
-              className="mb-4 text-[12px] font-semibold uppercase text-[#6366f1]"
-              style={{ letterSpacing: "0.16em" }}
-            >
-              {en ? "Templates" : "Šablony"}
-            </p>
-            <h2
-              className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
-              style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
-            >
-              100+ {en ? "templates." : "šablon."}<br />
-              <span className="text-[#9ca3af]">{en ? "For every industry." : "Pro každý obor."}</span>
-            </h2>
-            <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
-              {en
-                ? "Every template includes a homepage, subpages, images, and copy. Add your business name and publish."
-                : "Každá šablona má homepage, podstránky, obrázky i texty. Stačí dopsat název firmy a publikovat."}
-            </p>
-          </div>
-
-          <TemplatesGallery templates={galleryTemplates} locale={locale} onOpen={(tpl) => openModal(tpl)} />
-
-          {/* Bottom CTA */}
-          <Reveal delay={0.3} className="mt-14 flex flex-col items-center gap-4">
-            <a
-              href="/ukazka-sablon"
-              className="inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-7 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1a1a1a]"
-            >
-              {en ? "Browse all 100+ templates" : "Prohlédnout všech 100+ šablon"}
-              <ArrowRight className="h-4 w-4" />
-            </a>
-            <p className="text-[13px] text-[#888]">{en ? "We add 2-3 new templates every month." : "Pravidelně přidáváme 2–3 nové šablony každý měsíc."}</p>
-          </Reveal>
         </div>
       </section>
 

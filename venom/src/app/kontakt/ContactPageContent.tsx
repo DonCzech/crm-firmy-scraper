@@ -151,9 +151,10 @@ export function ContactPageContent({ locale = "cs" }: { locale?: PlatformLocale 
       <PlatformHeader forceSolid locale={locale} />
 
       <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.5]"
-             style={{ background: "radial-gradient(55% 50% at 20% 0%, rgba(99,102,241,0.42), transparent 62%), radial-gradient(45% 45% at 92% 12%, rgba(139,92,246,0.30), transparent 60%)" }} />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        <div className="pointer-events-none absolute inset-0 opacity-[0.9]"
+             style={{ background: "radial-gradient(55% 55% at 16% -6%, rgba(129,140,248,0.55), transparent 60%), radial-gradient(50% 52% at 94% 8%, rgba(167,139,250,0.45), transparent 60%), radial-gradient(46% 55% at 58% 34%, rgba(56,189,248,0.24), transparent 62%)" }} />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(199,210,254,0.5), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07]"
              style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "56px 56px", maskImage: "radial-gradient(75% 60% at 30% 10%, #000, transparent 82%)", WebkitMaskImage: "radial-gradient(75% 60% at 30% 10%, #000, transparent 82%)" }} />
 
         <div className="relative mx-auto grid max-w-[1180px] gap-14 px-6 pt-[128px] pb-24 lg:grid-cols-[1fr_minmax(440px,520px)] lg:gap-16 lg:px-10 lg:pt-[160px] lg:pb-32">

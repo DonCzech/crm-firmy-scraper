@@ -490,7 +490,8 @@ export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templ
   }, []);
 
   useEffect(() => {
-    if (initialTemplate) return;
+    /* Načítáme i s initialTemplate — katalog nese demoUrl, bez kterého by
+       náhled spadl na statický obrázek místo živé stránky. */
     if (catalogTemplates && catalogTemplates.length > 0) return;
     if (fetchedTemplates) return;
     setFetching(true);
