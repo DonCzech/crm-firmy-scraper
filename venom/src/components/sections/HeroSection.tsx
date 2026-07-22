@@ -30011,9 +30011,9 @@ function HeroHair03Page({ content, sectionId, tenantSlug, isAdmin }: { content: 
         .h03hp-crumb a:hover { color: #E9A7AE; }
         .h03hp-title {
           font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(2.1rem, 5.2vw, 3.8rem); line-height: 1.02; color: #fff; margin: 0 0 0.9rem; text-wrap: balance;
+          font-size: clamp(2.1rem, 5.2vw, 3.8rem); line-height: 1.02; color: #fff !important; margin: 0 0 0.9rem; text-wrap: balance;
         }
-        .h03hp-sub { font-size: 1.02rem; line-height: 1.65; color: rgba(241,238,234,0.78); max-width: 52ch; margin: 0; }
+        .h03hp-sub { font-size: 1.02rem; line-height: 1.65; color: rgba(241,238,234,0.78) !important; max-width: 52ch; margin: 0; }
       `}</style>
       {image && (
         <GenericEditableImage
@@ -30175,9 +30175,9 @@ function HeroMalir02Page({ content, sectionId, tenantSlug, isAdmin }: { content:
         .m02hp-crumb a:hover { color: var(--color-primary, #2C49D6); }
         .m02hp-title {
           font-family: var(--font-heading, 'Sora', sans-serif); font-weight: 700; letter-spacing: -0.02em;
-          font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.06; color: #fff; margin: 0 0 0.8rem; text-wrap: balance;
+          font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.06; color: #fff !important; margin: 0 0 0.8rem; text-wrap: balance;
         }
-        .m02hp-sub { font-size: 1.02rem; line-height: 1.65; color: rgba(255,255,255,0.8); max-width: 52ch; margin: 0; }
+        .m02hp-sub { font-size: 1.02rem; line-height: 1.65; color: rgba(255,255,255,0.8) !important; max-width: 52ch; margin: 0; }
       `}</style>
       {image && (
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="m02hp-photo"
@@ -30256,9 +30256,9 @@ function HeroKids01Page({ content, sectionId, tenantSlug, isAdmin }: { content: 
         .k01hp-crumb a:hover { color: var(--color-primary, #2F7D46); }
         .k01hp-title {
           font-family: 'Nunito', 'Roboto', sans-serif; font-weight: 800; letter-spacing: -0.01em;
-          font-size: clamp(2.2rem, 5.4vw, 3.6rem); line-height: 1.05; color: #fff; margin: 0 0 0.9rem; text-wrap: balance;
+          font-size: clamp(2.2rem, 5.4vw, 3.6rem); line-height: 1.05; color: #fff !important; margin: 0 0 0.9rem; text-wrap: balance;
         }
-        .k01hp-sub { font-size: 1.08rem; line-height: 1.6; color: rgba(255,255,255,0.85); max-width: 54ch; margin: 0 auto; }
+        .k01hp-sub { font-size: 1.08rem; line-height: 1.6; color: rgba(255,255,255,0.85) !important; max-width: 54ch; margin: 0 auto; }
       `}</style>
       {image && (
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="k01hp-photo"
@@ -30295,10 +30295,10 @@ function HeroLang01Page({ content, sectionId, tenantSlug, isAdmin }: { content: 
         .l01hp-crumb a:hover { color: var(--color-primary, #e63946); }
         .l01hp-title {
           font-weight: 800; letter-spacing: -0.02em; font-size: clamp(2.1rem, 4.8vw, 3.4rem);
-          line-height: 1.06; color: #fff; margin: 0 0 0.8rem; text-wrap: balance;
+          line-height: 1.06; color: #fff !important; margin: 0 0 0.8rem; text-wrap: balance;
         }
         .l01hp-rule { display: block; width: 64px; height: 4px; border-radius: 2px; background: var(--color-primary, #e63946); margin-bottom: 1rem; }
-        .l01hp-sub { font-size: 1.05rem; line-height: 1.65; color: rgba(255,255,255,0.78); max-width: 54ch; margin: 0; }
+        .l01hp-sub { font-size: 1.05rem; line-height: 1.65; color: rgba(255,255,255,0.78) !important; max-width: 54ch; margin: 0; }
       `}</style>
       <div className="l01hp-inner">
         <div className="l01hp-crumb"><a href={resolve("/")}>Úvod</a> <span aria-hidden>/</span> {title}</div>
