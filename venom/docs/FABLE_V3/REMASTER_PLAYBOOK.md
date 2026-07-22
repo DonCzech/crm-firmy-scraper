@@ -430,3 +430,63 @@ na 11 tenantech · 0 residuí reálných firem · titulky/og/JSON-LD odpovídaj�
 
 `_hidden-sweep.mjs` vědomě ignoruje **zavřené overlay menu** (`-ov`/`-overlay`) a **neaktivní
 snímky crossfade slideru** (`slide`) — tam je `opacity:0` správně.
+
+## 5i. BARBER-06 „ALFA Barbershop" — ✅ DONE (2026-07-22)
+
+Vznik: uživatel u hair-04 řekl „rekl jsem upravit ne kompletně předělat". Nová
+hair-04 (Studio Pop) zůstala, PŮVODNÍ hair-04 obnovena z commitu `6e106fdb` jako
+samostatná barber šablona `barber-06` (tenant `barber-06-v2`, id 1324).
+Stavěno **sekci po sekci se schvalováním uživatele**, ne dávkově.
+
+8 sekcí: navbar · hero · služby · zlatý CTA pás · o nás · galerie ·
+rezora widget · kontakt · patička. Paleta gold `#FFC107` / noir `#0A0A0A`,
+Bebas Neue + Lato, presety alfa/steel/crimson.
+
+### Zpětná vazba uživatele (co se muselo předělat podruhé)
+- **„kosočtverce uprav na jiný tvar"** → kosočtverce ve službách nahrazeny oblouky
+  (`border-radius: 999px 999px 6px 6px`), ten tvar se pak stal motivem šablony
+  (echo v rámu portrétu, v ikonách).
+- **„nech tam jen 3 služby"** — méně je víc, 6 dlaždic působilo jako ceník.
+- **badge překrýval cenu na mobilu** („kurva tohle oprav") → zlaté číslo bylo
+  kotvené ke KARTĚ; muselo dostat vlastní `.b06s-mediawrap { position: relative }`,
+  aby viselo na fotce.
+- **„netrefil si rámeček"** — offsetový obloukový rám ukazoval jen tenkou zlatou
+  čáru vpravo, četlo se to jako zbloudilý barevný sloupec. Řešení: obrys
+  obepínající celý oblouk ze všech stran (`.b06a-media::before`, `inset: 0`).
+- **hover galerie „laciný v prohlížeči"** → `cursor: zoom-in` (lupa) +
+  grayscale→barva je levný efekt. Premium: gradient zdola, zlatý kroužek
+  s expand ikonou (scale 0.7→1 + backdrop blur), prostrkaný popisek zdola,
+  tenký zlatý rám kreslený uvnitř, jemnější zoom 1.05/0.9 s.
+
+### PASTI (nové, platí obecně)
+1. **Přejmenování verze v `template_versions` rozbije tenanta.** Tenant na ni
+   ukazuje přes `tenants.template_version`. Rename `1.0.7` → `1.0.7a` = sekce
+   dostanou PRÁZDNÝ obsah (u kontaktu zmizely všechny dlaždice). Verzi bumpovat
+   VŽDY na obou místech současně.
+2. **Rezora widget potřebuje `content_source='v2'`.** S `legacy` nedostane obsah
+   `home.rezervace`, tedy ani `providerSlug` → klient nemá slug, fetch se ani
+   nespustí a widget je prázdný BEZ jediné chyby v konzoli. (Dřívější poznámka
+   „rezoru nech legacy" platila jen pro NEresetování overrides, ne pro zdroj.)
+3. **`if (prefetch) return` v `rezora/core.ts`** přeskakoval klientský fetch i když
+   server prefetch vrátil poskytovatele s PRÁZDNÝMI službami → SSR služby vykreslil,
+   hydratace je smazala, klient nikdy nedotáhl. Opraveno na `prefetch.services.length > 0`.
+   Platilo pro VŠECHNY šablony s widgetem.
+4. **`grep 'rz-svc'` v curl HTML lže** — třída je i v `<style>` bloku. Počítat
+   `rz-svc__name` nebo měřit `.rz-svc` v DOM přes Playwright.
+5. **`el.screenshot()` na selektoru `footer`** chytne patičku uvnitř Google Maps
+   iframe („Was this helpful?"). Cílit na vlastní třídu (`.b06f-footer`).
+6. **`fullPage: true` přebije `clip`** — screenshot pak začne na vršku stránky.
+   Buď clip, nebo fullPage, ne obojí.
+7. **Google Maps iframe neumí dark styl bez API klíče.** `filter: invert(0.92)
+   hue-rotate(180deg)` ho převrátí do tmavého režimu; POI značky vyjdou jantarově,
+   což u zlaté palety ladí. Bez toho mapa svítí bíle uprostřed tmavé stránky.
+8. **Iframe mapy potřebuje ~6 s** na dlaždice — dřívější screenshot ukáže prázdný
+   tmavý obdélník a vypadá to jako rozbitá sekce.
+9. **Obnova komponent z gitu**: chybí proměnné rodičovského scope a `replace_fn`
+   musí umět odsazené `  }` jako konec funkce (viz `_remaster_lib.py`).
+   Plošný řádkový filtr smaže deklarace i jiným komponentám — revert a znovu ručně.
+
+### Kontrola (ALL PASS)
+0 nálezů `impresiv|kim impressive|hair salon` v renderovaném HTML · 0 konzolových
+chyb · 0 overflow 320–1440 · rezora 3 služby SSR i po hydrataci · patičkový
+credit na jednom řádku · mobil 1 sloupec · `validate:template barber-06` PASS · tsc 0
