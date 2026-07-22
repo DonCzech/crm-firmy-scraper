@@ -63,11 +63,18 @@ if (!APPLY) {
   process.exit(0);
 }
 
+// POZOR: `jsonb_set(settings, '{content,apiBaseUrl}', …, true)` chybějící objekt
+// `content` NEVYTVOŘÍ — create_missing doplní jen poslední klíč cesty, a když
+// prostřední úroveň chybí, vrátí se řádek beze změny. Čerstvě naseedované sekce
+// takový objekt nemají, takže je předchozí verze skriptu tiše přeskakovala
+// (widget pak zůstal bez poskytovatele). Proto `content` nejdřív složíme.
 const { rows: updated } = await pool.query(
   `UPDATE sections
-      SET settings = jsonb_set(
-            jsonb_set(settings, '{content,apiBaseUrl}',   to_jsonb($1::text), true),
-            '{content,providerSlug}', to_jsonb($2::text), true),
+      SET settings = coalesce(settings, '{}'::jsonb)
+                     || jsonb_build_object('content',
+                          coalesce(settings->'content', '{}'::jsonb)
+                          || jsonb_build_object('apiBaseUrl', $1::text,
+                                                'providerSlug', $2::text)),
           updated_at = now()
     WHERE ${TARGET}
     RETURNING id`,
