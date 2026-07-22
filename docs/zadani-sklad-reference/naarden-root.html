@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Naarden</title>
+
+    
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<link href="/components/fontawesome/css/fontawesome.min.css" rel="stylesheet">
+<link href="/components/fontawesome/css/solid.min.css" rel="stylesheet">
+<link href="/components/fontawesome/css/regular.min.css" rel="stylesheet">
+<link href="/components/simplelightbox/dist/simplelightbox.min.css" rel="stylesheet">
+<link href="/dist/css/main.css?1.0.12" rel="stylesheet">
+<link href="https://cdn.wdlerp.com/app/naarden/portal/b2b/favicon.png" rel="icon">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109292798-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', "UA-109292798-1");
+    </script>
+
+
+</head>
+<body>
+
+<div class="landing">
+    <div class="landing-image">
+        <img src="/img/portal-landing1.svg">
+    </div>
+    <div class="landing-content">
+        <div>
+            <ul class="nav justify-content-center mb-5">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/">
+                        Login
+                    </a>
+                </li>
+                <!--
+                <li class="nav-item">
+                    <a n:href="Sign:up" class="nav-link">
+                        Register
+                    </a>
+                </li>
+                -->
+            </ul>
+
+
+            <h5 class="title">Login to the portal</h5>
+
+            <form action="/" method="post" id="frm-signInForm" class="form-horizontal">
+
+                <div class="row">
+                    <div class="col-xl-4 col-lg-6">    
+                        <div class="form-group">
+                            <label class="sr-only" for="frm-signInForm-email">E-mail</label>
+                            <input type="email" name="email" placeholder="&#64;" class="form-control" id="frm-signInForm-email" required data-nette-rules='[{"op":":filled","msg":"E-mail is required"}]'>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6">
+                        <div class="form-group">
+                            <label class="sr-only" for="frm-signInForm-password">Password</label>
+                            <input type="password" name="password" placeholder="Password" class="form-control" id="frm-signInForm-password" required data-nette-rules='[{"op":":filled","msg":"Password is required"}]'>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 float-right">
+                        <input class="btn btn-primary btn-block" type="submit" name="send" value="Sign in">
+                    </div>
+                </div>
+            <input type="hidden" name="_do" value="signInForm-submit"></form>
+
+
+            <div class="intro my-5">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/components/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+<script src="/components/nette.ajax.js/nette.ajax.js"></script>
+<script src="/components/nette.ajax.js/extensions/diagnostics.dumps.ajax.js"></script>
+<script src="/components/nette.ajax.js/extensions/spinner.ajax.js"></script>
+<script src="/components/simplelightbox/dist/simple-lightbox.min.js"></script>
+<script src="/dist/js/netteForms.min.js"></script>
+<script src="/dist/js/main.js?1.0.12"></script>
+
+<script>
+  (function(w,d,x,n,u,t,p,f,s,o){f='LHInsights';w[n]=w[f]=w[f]||function(n,d){
+  (w[f].q=w[f].q||[]).push([n,d])};w[f].l=1*new Date();w[f].p=p;s=d.createElement(x);
+  s.async=1;s.src=u+'?t='+t+(p?'&p='+p:'');o=d.getElementsByTagName(x)[0];o.parentNode.insertBefore(s,o)
+  })(window,document,'script','lhi','//www.lhinsights.com/agent.js','MKeSrCi5SdOIwmU');
+
+  lhi('pageview');
+</script>    
+    
+</body>
+</html>

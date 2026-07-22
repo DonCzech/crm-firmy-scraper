@@ -440,9 +440,11 @@ function TemplateCard({
       onMouseLeave={resetScroll}
     >
       {/* Image with scroll-on-hover */}
+      {/* Jednotný rám kolem každého snímku — sjednotí i velmi odlišné grafiky */}
+      <div className="rounded-2xl border border-[#ececec] bg-white p-2.5 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.06)] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[#0a0a0a]/15 group-hover:shadow-[0_30px_60px_-24px_rgba(0,0,0,0.22)]">
       <div
         ref={wrapRef}
-        className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#fafafa] shadow-[0_2px_8px_-2px_rgba(0,0,0,0.06)] transition-shadow duration-300 group-hover:shadow-[0_30px_60px_-20px_rgba(0,0,0,0.18)]"
+        className="relative aspect-[16/10] w-full overflow-hidden rounded-[12px] bg-[#f5f5f7] ring-1 ring-black/[0.06]"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -478,6 +480,7 @@ function TemplateCard({
             </button>
           </div>
         </div>
+      </div>
       </div>
       {/* Caption — name first, then industry */}
       <div className="mt-5">
@@ -990,7 +993,7 @@ function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?
           style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
         >
           {locale === "en" ? "One price." : "Jedna cena."}<br />
-          <span className="text-[#9ca3af]">{locale === "en" ? "Everything included." : "Vše v ceně."}</span>
+          <span className="text-[#6b7280]">{locale === "en" ? "Everything included." : "Vše v ceně."}</span>
         </h2>
         <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
           {locale === "en"
@@ -2000,14 +2003,6 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/55" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(0,0,0,0.45)_100%)]" />
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
-          }}
-        />
 
         {/* Content stack — sized to fit MacBook Air 13" (≈800px) without scroll */}
         <div className="relative z-10 flex min-h-[100svh] flex-col items-center justify-center px-4 pb-6 pt-[88px] sm:px-6 sm:pt-[96px] lg:px-8">
@@ -2149,12 +2144,12 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
               style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
             >
               100+ {en ? "templates." : "šablon."}<br />
-              <span className="text-[#9ca3af]">{en ? "For every industry." : "Pro každý obor."}</span>
+              <span className="text-[#6b7280]">{en ? "None of them looks like one." : "Ani jedna nevypadá jako šablona."}</span>
             </h2>
             <p className="mx-auto mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
               {en
-                ? "Every template includes a homepage, subpages, images, and copy. Add your business name and publish."
-                : "Každá šablona má homepage, podstránky, obrázky i texty. Stačí dopsat název firmy a publikovat."}
+                ? "Homepage, subpages, images, and copy — all included. Add your business name and publish."
+                : "Homepage, podstránky, obrázky i texty — vše je uvnitř. Stačí dopsat název firmy a publikovat."}
             </p>
           </div>
 
@@ -2206,7 +2201,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
               style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: "1.05" }}
             >
               {en ? "Thousands of needs." : "Tisíce potřeb."}<br />
-              <span className="text-white/55">{en ? "One solid solution." : "Jedno solidní řešení."}</span>
+              <span className="text-[#a5b4fc]">{en ? "One solid solution." : "Jedno solidní řešení."}</span>
             </h2>
           </div>
 
@@ -2263,7 +2258,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/templates/arch-01/showcase/hero-card.webp" alt={en ? "Website template — Architekta studio" : "Šablona webu — studio Architekta"} className="aspect-[16/9] w-full object-cover object-top" loading="lazy" />
                   </div>
-                  <div className="absolute -bottom-10 right-6 z-10 w-[120px] overflow-hidden rounded-[22px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] transition-transform duration-700 ease-out group-hover:-translate-y-3 sm:w-[140px] lg:right-12 lg:w-[160px]">
+                  <div className="absolute bottom-6 right-6 z-10 w-[120px] overflow-hidden rounded-[22px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.9)] transition-transform duration-700 ease-out group-hover:-translate-y-3 sm:w-[140px] lg:right-12 lg:w-[160px]">
                     <div className="overflow-hidden rounded-[16px]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src="/templates/peak-cut/showcase/mobile-hero.webp" alt={en ? "Mobile view — Peak Cut barbershop" : "Mobilní zobrazení — barbershop Peak Cut"} className="aspect-[9/17] w-full object-cover object-top" loading="lazy" />
@@ -2440,7 +2435,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
                 >
                   {f.stat}
                 </div>
-                <h3 className="relative text-[17px] font-semibold tracking-[-0.01em] text-[#0a0a0a]">{f.title}</h3>
+                <h3 className="relative font-sans text-[17px] font-semibold tracking-[-0.01em] text-[#0a0a0a]">{f.title}</h3>
                 <p className="relative mt-2.5 text-[13.5px] leading-[1.7] text-[#6b7280]">{f.desc}</p>
                 {/* Bottom line */}
                 <div
