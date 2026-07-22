@@ -14,7 +14,7 @@ SEC = ROOT / "src/components/sections"
 
 FNS = {
     "NavbarSection.tsx": ["NavbarMalir02"],
-    "HeroSection.tsx": [],           # hero je inline blok, řeší se zvlášť níže
+    "HeroSection.tsx": ["HeroMalir02", "HeroMalir02Page"],
     "AboutSection.tsx": ["AboutMalir02"],
     "ServicesSection.tsx": ["ServicesMalir02", "PricingMalir02"],
     "PromoSection.tsx": ["PromoMalir02"],

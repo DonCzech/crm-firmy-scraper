@@ -23,7 +23,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 7 | hair-04 | hair-04-v2 | 419 | kompletně | ✅ DONE |
 | 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
 | 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
-| 10 | malir-02 | malir-02-demo | 1163 | kompletně | ⏳ |
+| 10 | malir-02 | malir-02-demo | 1163 | kompletně | ✅ DONE |
 | 11 | ucetni-01 | ucetni-01-v2 | 960 | kompletně | ⏳ |
 
 **AKTUÁLNÍ BĚH (zadání 2026-07-21, závazný rozsah):** řádky 5–11 = přesně těchto 7 šablon, nic
@@ -327,3 +327,31 @@ navbar vytažen z hera do samostatné sekce; z onepage na multipage.
 **NOVÉ v nástrojích:** `_align-tenant-sections.mjs` nově **zakládá chybějící stránky**
 (hair-04 měl v DB jen `home`) — u onepage šablon tedy stačí popsat podstránky v manifestu.
 POZOR: šablona může mít i test tenanta (`hair-04-test-zz`, id 481) — align jede přes všechny.
+
+## 5f. MALIR-02 — ✅ DONE (2026-07-22)
+
+„Ultramarine & Chalk": chalk `#F5F6FA`, inkoust `#15182B`, ultramarín `#2C49D6`
+(hover `#1F35A8`), border `#E1E4EF`, muted `#6B7086`; **Sora + Rubik**. Vědomě NE měděná
+(playbook §6 — klempir-01 má copper). Design byl solidní, měnil se hlavně SYSTÉM.
+
+**⚠️ NEJDŮLEŽITĚJŠÍ ZJIŠTĚNÍ BĚHU — obsah tenanta žije na ČTYŘECH místech, ne dvou:**
+1. `template_versions.default_demo_content` (ze seedu)
+2. `sections.content_overrides`
+3. **`sections.settings->'content'`** ← tady přežíval starý brand klonu (31 řádků u malir-02)
+4. **`tenant_data_slots`** (brand.name, contact.phone/email/address) ← plní `<title>`, `og:*`,
+   `twitter:*` a JSON-LD LocalBusiness. Bez nich zůstane starý brand v `<head>`, i když je
+   tělo stránky čisté!
+`_align-tenant-sections.mjs` teď maže (3); na (4) je `scripts/_sync-tenant-slots.mjs <key>`.
+**Důkaz demo dat dělej vždy na RENDEROVANÉM HTML**, ne v DB:
+`curl -s localhost:3015/demo/<slug> | grep -ocE '<reálné jméno>|<reálný telefon>'` → musí být 0.
+
+**Audit slotů napříč rozsahem odhalil další reálně vypadající firmy** (opravit při remasteru):
+`lang-01-v2` = „Lingvista akademie“, kurzy@lingvista-akademie.cz, 602 987 543, Nám. Svobody Brno ·
+`kids-01-v2` = „Lesní Smečka“, ahoj@lesni-smecka.cz, 775 388 210.
+
+**Další pasti z malir-02:**
+- `hero-malir-02-page` používalo 5 podstránek v DB, ale komponenta NEEXISTOVALA (past §0 potvrzena).
+- Kontaktní formulář posílal na `/api/contact` místo `/api/demo/<slug>/contact`.
+- 0× `var(--color-*)` v 10 komponentách ⇒ mood presety ani Studio color picker nemohly fungovat.
+  Tokenizace = mechanická náhrada hexů; POZOR, hero delegoval na komponentu mimo inline blok
+  (`HeroMalir02` na ř. ~22974), takže první průchod ho minul a CTA zůstalo oranžové.

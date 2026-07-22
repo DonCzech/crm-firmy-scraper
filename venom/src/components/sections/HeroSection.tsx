@@ -22975,9 +22975,9 @@ function HeroMalir02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
   const c = content as Record<string, unknown>;
   const [current, setCurrent] = useState(0);
 
-  const ORANGE  = "#ff914d";
+  const ORANGE  = "var(--color-primary, #ff914d)";
   const WHITE   = "#ffffff";
-  const POPPINS = "'Poppins', sans-serif";
+  const POPPINS = "var(--font-body, 'Rubik', sans-serif)";
 
   type Slide = { image: string; heading: string; subheading: string; ctaLabel: string; ctaHref: string };
   const defaultSlides: Slide[] = [

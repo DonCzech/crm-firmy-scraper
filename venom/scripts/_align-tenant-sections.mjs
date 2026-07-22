@@ -126,6 +126,15 @@ for (const t of tenants) {
            WHERE tenant_id = $1 AND content_overrides <> '{}'::jsonb AND section_variant <> ALL($2::text[])`,
         [t.id, KEEP]
       );
+  // POZOR: obsah žije i v settings->'content' (třetí úložiště vedle content_overrides
+  // a template_versions.default_demo_content) — u malir-02 tam přežíval starý brand klonu.
+  const r3 = dry
+    ? { rowCount: 0 }
+    : await c.query(
+        `UPDATE sections SET settings = settings - 'content'
+           WHERE tenant_id = $1 AND settings ? 'content'`,
+        [t.id]
+      );
   const r2 = dry
     ? { rowCount: 0 }
     : await c.query(
@@ -133,7 +142,7 @@ for (const t of tenants) {
            WHERE tenant_id = $1`,
         [t.id, JSON.stringify(TOKENS)]
       );
-  console.log(`   overrides reset: ${r1.rowCount}, designTokens: ${r2.rowCount}`);
+  console.log(`   overrides reset: ${r1.rowCount}, settings.content smazáno: ${r3.rowCount}, designTokens: ${r2.rowCount}`);
 }
 
 await c.end();
