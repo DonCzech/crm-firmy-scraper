@@ -490,3 +490,58 @@ Bebas Neue + Lato, presety alfa/steel/crimson.
 0 nálezů `impresiv|kim impressive|hair salon` v renderovaném HTML · 0 konzolových
 chyb · 0 overflow 320–1440 · rezora 3 služby SSR i po hydrataci · patičkový
 credit na jednom řádku · mobil 1 sloupec · `validate:template barber-06` PASS · tsc 0
+
+## 6c. PRODUKČNÍ SWEEP REZIDUA (2026-07-22) — past, na kterou jsem naletěl 2×
+
+Po deployi jsem projel všech 8 živých šablon `curl | grep -icE 'impresiv|kim impressive'`.
+**hair-04-v2 (Studio Pop) vrátila 3 nálezy** — a to jsem tu šablonu prohlásil za DONE.
+
+Nadpis sekce o nás zněl **„Impresivní střihy. Už 13 let."** = slovní hříčka na
+konkurenta *Kim Impressive*. U barber-06 jsem ji odstranil, u remasterované
+hair-04 přežila, protože jsem hledal jen jméno „Impresiv Studio", ne hříčku.
+
+### Pravidla (ZÁVAZNÁ)
+1. **Grep podle KMENE, ne celého jména.** `mpresiv` (bez prvního písmene, kvůli
+   velikosti i skloňování), ne `Impresiv Studio`. Stejně jako u české deklinace
+   `Lesní Smeč` místo `Lesní Smečka`.
+2. **Hledat ve VŠECH ČTYŘECH úložištích, ne jen v `content_overrides`:**
+   - `template_versions.default_sections`
+   - `sections.content_overrides`
+   - `sections.settings` ← tady se schovávalo `siteName "Impresiv Studio"`
+     u hero sekce hair-04-v2; první kontrola ho minula
+   - `tenant_data_slots`
+   Plus zdrojové soubory: `template.json`, `content/cs.json`, `skin.css`
+   (i v KOMENTÁŘÍCH — `/* hair-04 — Impresiv Studio — design reference */`).
+3. **Slovní hříčky na jméno konkurenta jsou reziduum**, i když je slovo česky
+   legitimní („impresivní", „kreativní" u Kreativ s.r.o.). Odchytí je jen čtení
+   textu, ne grep na jméno.
+4. **Důkaz musí být na PRODUKCI**, ne na localhostu — rendered HTML živé domény.
+   Lokální „0 nálezů" neznamená nic, dokud není nasazeno.
+
+### Jednorázový sweep celé platformy
+```sql
+-- verze šablon
+SELECT tp.key, tv.version FROM template_versions tv JOIN templates tp ON tp.id=tv.template_id
+WHERE tv.default_sections::text ILIKE '%mpresiv%';
+-- sekce tenantů (OBĚ jsonb kolonky!)
+SELECT t.slug, count(*) FROM sections s JOIN pages p ON p.id=s.page_id JOIN tenants t ON t.id=p.tenant_id
+WHERE s.content_overrides::text ILIKE '%mpresiv%' OR s.settings::text ILIKE '%mpresiv%' GROUP BY 1;
+```
+
+## 6d. KATALOG ŠABLON — náhled je povinný, jinak je šablona neviditelná
+
+Build vypisuje `Skipped N templates without a gallery preview: …`. Šablona bez
+`public/templates/<key>/showcase/desktop-full.webp` se **nezobrazí v přehledu
+šablon**, i když demo URL funguje. Je to jen `console.warn`, nic nespadne —
+snadno přehlédnutelné. Konvence: full-page screenshot, šířka 1280, webp q80.
+POZOR: mapa v kontaktu potřebuje ~9 s na dlaždice, jinak je na náhledu prázdný
+tmavý obdélník.
+
+## 6e. GIT — proč push padal na HTTP 500
+
+`rezervace/.next/` bylo trackované: jeden webpack pack má 45 MB, dohromady ~100 MB
+na commit. Push 60 commitů → `RPC failed; HTTP 500` / `send-pack: unexpected
+disconnect`. `venom/.next/` v .gitignore byl, rezervace chyběla. Untrackováno
+(`git rm -r --cached`) + doplněno do .gitignore. Pomáhá i `git config
+http.postBuffer 524288000` a push po dávkách (`git push origin <sha>:main`).
+NEKOMITOVAT `backups/` (1,4 GB) a `sklad/` (565 MB) — GitHub má limit 100 MB/soubor.
