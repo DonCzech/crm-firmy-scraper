@@ -73,6 +73,9 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
   if (variant === "hair-03-blog-cards") {
     return <BlogHair03 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hair-04-blog") {
+    return <BlogHair04 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   return <BlogPreviewDefault content={content} variant={variant} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 }
 
@@ -1980,6 +1983,80 @@ function BlogHair03({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
           ))}
         </div>
         {buttonText && <a href={resolve("/blog")} className="h03bl-all">{buttonText}</a>}
+      </div>
+    </section>
+  );
+}
+
+// hair-04-blog — V3 Studio Pop: karty s fotkou 3/2, violet datem a hairline patičkou.
+// Nahrazuje generický 'default' (renderoval kancelářské stock fotky u barbershopu).
+function BlogHair04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  type P = { title?: string; excerpt?: string; image?: string; href?: string; date?: string };
+  const tagline = String(content.tagline ?? "Magazín");
+  const title = String(content.title ?? "Z našeho blogu");
+  const posts = (content.posts as P[]) ?? [];
+  const buttonText = String(content.buttonText ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section id="blog" data-section-type="blog-preview" data-variant="hair-04-blog" className="h04bl-section" data-template="hair-04">
+      <style>{`
+        .h04bl-section { background: var(--color-bg, #F5F4FA); font-family: 'Epilogue', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .h04bl-inner { max-width: 82rem; margin: 0 auto; }
+        .h04bl-head { max-width: 44rem; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h04-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700;
+          letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-primary, #6D4AFF);
+        }
+        .h04-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #6D4AFF); }
+        .h04bl-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em;
+          font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.06; color: var(--color-text, #17132A); margin: 0; text-wrap: balance; }
+        .h04bl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 2.6vw, 2.1rem); }
+        .h04bl-card { display: flex; flex-direction: column; text-decoration: none; background: var(--color-surface, #fff);
+          border-radius: 14px; overflow: hidden; transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s; }
+        .h04bl-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(23,19,42,0.12); }
+        .h04bl-photo { aspect-ratio: 3 / 2; overflow: hidden; display: block; background: #E4E1F2; }
+        .h04bl-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .h04bl-card:hover .h04bl-photo img { transform: scale(1.05); }
+        .h04bl-body { padding: 1.3rem 1.5rem 1.5rem; display: flex; flex-direction: column; flex: 1; }
+        .h04bl-date { font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-primary, #6D4AFF); display: block; margin-bottom: 0.5rem; }
+        .h04bl-h { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.12rem; line-height: 1.3;
+          color: var(--color-text, #17132A); margin: 0 0 0.6rem; }
+        .h04bl-x { font-size: 0.93rem; line-height: 1.62; color: var(--color-text-muted, #6A6382); margin: 0 0 1rem; flex: 1; }
+        .h04bl-more { font-size: 0.86rem; font-weight: 600; color: var(--color-primary, #6D4AFF);
+          padding-top: 0.8rem; border-top: 1px solid var(--color-border, #E4E1F2); }
+        .h04bl-all { display: inline-flex; align-items: center; margin-top: clamp(2rem, 4vw, 2.8rem);
+          padding: 0.95rem 2rem; border-radius: 999px; background: var(--color-primary, #6D4AFF); color: #fff;
+          font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: background 0.25s, transform 0.25s; }
+        .h04bl-all:hover { background: var(--color-accent, #5233E0); transform: translateY(-2px); }
+        @media (max-width: 899px) { .h04bl-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .h04bl-card, .h04bl-photo img { transition: none; } }
+      `}</style>
+      <div className="h04bl-inner">
+        <div className="h04bl-head">
+          <span className="h04-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h04bl-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+        </div>
+        <div className="h04bl-grid">
+          {posts.map((p, i) => (
+            <a className="h04bl-card" key={i} href={resolve(p.href ?? "/blog")}>
+              {p.image && (
+                <GenericEditableImage sectionId={sectionId} field={`posts.${i}.image`} src={p.image} alt={p.title ?? ""} className="h04bl-photo">
+                  <img src={p.image} alt={p.title ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              )}
+              <div className="h04bl-body">
+                <span className="h04bl-date"><GenericEditableText sectionId={sectionId} field={`posts.${i}.date`} value={p.date ?? ""} tag="span" /></span>
+                <h3 className="h04bl-h"><GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={p.title ?? ""} tag="span" /></h3>
+                <p className="h04bl-x"><GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={p.excerpt ?? ""} tag="span" /></p>
+                <span className="h04bl-more">Číst dál →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        {buttonText && <a href={resolve("/blog")} className="h04bl-all">{buttonText}</a>}
       </div>
     </section>
   );

@@ -123,136 +123,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
 
   // hair-04: 3-col, diamond foto s gold borderem, tmavé bg, gold nadpisy — 1:1 kim-impressive.cz
   if (variant === "hair-04-service-cards") {
-    type Item04 = { title?: string; body?: string; image?: string };
-    const items = (content.items as Item04[]) ?? [];
-    const GOLD  = "#FFDF25";
-    const LATO  = "'Lato', sans-serif";
-    const PLACEHOLDERS = [
-      "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&h=400&fit=crop&crop=face&fm=webp",
-      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop&crop=face&fm=webp",
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=face&fm=webp",
-    ];
-
-    return (
-      <section
-        id="sluzby"
-        data-template="hair-04"
-        style={{ backgroundColor: "#0d0d0d", padding: "80px 24px 90px" }}
-      >
-        <style>{`
-          [data-template="hair-04"] .h04-card {
-            transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
-          }
-          [data-template="hair-04"] .h04-card:hover {
-            transform: translateY(-10px);
-          }
-          [data-template="hair-04"] .h04-diamond {
-            transition: box-shadow 0.35s ease, border-color 0.35s ease;
-          }
-          [data-template="hair-04"] .h04-card:hover .h04-diamond {
-            box-shadow: 0 0 32px rgba(255,223,37,0.45), 0 0 8px rgba(255,223,37,0.25);
-            border-color: #fff;
-          }
-          [data-template="hair-04"] .h04-title {
-            transition: color 0.3s ease;
-          }
-          [data-template="hair-04"] .h04-card:hover .h04-title {
-            color: #ffffff;
-          }
-        `}</style>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "clamp(40px, 6vw, 100px)",
-            flexWrap: "wrap",
-            maxWidth: 1200,
-            margin: "0 auto",
-          }}
-        >
-          {items.map((it, i) => {
-            const imgSrc = it.image || PLACEHOLDERS[i] || "";
-            return (
-              <div
-                key={i}
-                className="h04-card"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center",
-                  flex: "1 1 260px",
-                  maxWidth: 320,
-                }}
-              >
-                {/* Diamond foto */}
-                <div
-                  className="h04-diamond"
-                  style={{
-                    width: 190,
-                    height: 190,
-                    transform: "rotate(45deg)",
-                    overflow: "hidden",
-                    border: `2px solid ${GOLD}`,
-                    flexShrink: 0,
-                    marginBottom: 56,
-                    position: "relative",
-                  }}
-                >
-                  <GenericEditableImage
-                    sectionId={sectionId}
-                    field={`items.${i}.image`}
-                    src={imgSrc}
-                    alt={it.title ?? ""}
-                    className="absolute inset-0"
-                    style={{ position: "absolute", inset: 0 }}
-                  >
-                    {imgSrc ? (
-                      <Image
-                        src={imgSrc}
-                        alt={it.title ?? ""}
-                        fill
-                        sizes="270px"
-                        className="object-cover"
-                        style={{ transform: "rotate(-45deg) scale(1.45)", transformOrigin: "center" }}
-                        unoptimized={shouldSkipNextImageOptimization(imgSrc)}
-                      />
-                    ) : (
-                      <div style={{ position: "absolute", inset: 0, backgroundColor: "#1a1a1a" }} />
-                    )}
-                  </GenericEditableImage>
-                </div>
-
-                {/* Název — gold */}
-                <h3 className="h04-title" style={{
-                  fontFamily: LATO,
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: GOLD,
-                  margin: "0 0 16px",
-                  lineHeight: 1.3,
-                }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={it.title ?? ""} tag="span" />
-                </h3>
-
-                {/* Popis — bílý */}
-                <p style={{
-                  fontFamily: LATO,
-                  fontSize: 15,
-                  fontWeight: 300,
-                  color: "rgba(255,255,255,0.85)",
-                  lineHeight: 1.75,
-                  margin: 0,
-                  maxWidth: 280,
-                }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.body`} value={it.body ?? ""} tag="span" />
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    );
+    return <ServicesHair04 content={content} sectionId={sectionId} />;
   }
 
   if (variant === "beauty-01-services-3col") return <Beauty01Services3col content={content} sectionId={sectionId} />;
@@ -16881,6 +16752,84 @@ function ServicesHair03({ content, sectionId }: { content: Record<string, unknow
             </div>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+// hair-04-service-cards — V3 Studio Pop: foto karty s cenou (nahrazuje kosočtvercové
+// rámy, které usekávaly hlavy). Pole: tagline/title/subtitle, items[].{name,description,
+// price,duration,image}.
+function ServicesHair04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type I = { name?: string; title?: string; description?: string; body?: string; price?: string; duration?: string; image?: string };
+  const tagline = String(content.tagline ?? "Služby");
+  const title = String(content.title ?? "Naše služby");
+  const subtitle = String(content.subtitle ?? "");
+  const items = ((content.items ?? content.services) as I[]) ?? [];
+  return (
+    <section id="sluzby" data-section-type="services" data-variant="hair-04-service-cards" className="h04sv-section" data-template="hair-04">
+      <style>{`
+        .h04sv-section { background: var(--color-surface, #FFFFFF); font-family: 'Epilogue', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .h04sv-inner { max-width: 82rem; margin: 0 auto; }
+        .h04sv-head { max-width: 44rem; margin-bottom: clamp(2.4rem, 5vw, 3.4rem); }
+        .h04-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700;
+          letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-primary, #6D4AFF);
+        }
+        .h04-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #6D4AFF); }
+        .h04sv-title {
+          font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em;
+          font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.06; color: var(--color-text, #17132A);
+          margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h04sv-sub { font-size: 1.02rem; line-height: 1.65; color: var(--color-text-muted, #6A6382); margin: 0; }
+        .h04sv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 2.6vw, 2.1rem); }
+        .h04sv-card { display: flex; flex-direction: column; background: var(--color-bg, #F5F4FA);
+          border-radius: 14px; overflow: hidden; transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s; }
+        .h04sv-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(23,19,42,0.12); }
+        .h04sv-media { aspect-ratio: 16 / 10; overflow: hidden; display: block; background: #E4E1F2; }
+        .h04sv-media img { width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .h04sv-card:hover .h04sv-media img { transform: scale(1.05); }
+        .h04sv-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; flex: 1; }
+        .h04sv-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.2rem;
+          letter-spacing: -0.01em; color: var(--color-text, #17132A); margin: 0 0 0.5rem; }
+        .h04sv-desc { font-size: 0.94rem; line-height: 1.62; color: var(--color-text-muted, #6A6382); margin: 0 0 1.1rem; flex: 1; }
+        .h04sv-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+          padding-top: 0.9rem; border-top: 1px solid var(--color-border, #E4E1F2); }
+        .h04sv-price { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--color-primary, #6D4AFF); }
+        .h04sv-dur { font-size: 0.85rem; color: var(--color-text-muted, #6A6382); }
+        @media (max-width: 1023px) { .h04sv-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 639px) { .h04sv-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { .h04sv-card, .h04sv-media img { transition: none; } }
+      `}</style>
+      <div className="h04sv-inner">
+        <div className="h04sv-head">
+          <span className="h04-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h04sv-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {subtitle && <p className="h04sv-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        </div>
+        <div className="h04sv-grid">
+          {items.map((it, i) => (
+            <article className="h04sv-card" key={i}>
+              {it.image && (
+                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={it.image} alt={it.name ?? it.title ?? ""} className="h04sv-media">
+                  <img src={it.image} alt={it.name ?? it.title ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </GenericEditableImage>
+              )}
+              <div className="h04sv-body">
+                <h3 className="h04sv-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={it.name ?? it.title ?? ""} tag="span" /></h3>
+                <p className="h04sv-desc"><GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={it.description ?? it.body ?? ""} tag="span" /></p>
+                <div className="h04sv-meta">
+                  <span className="h04sv-price"><GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={it.price ?? ""} tag="span" /></span>
+                  <span className="h04sv-dur"><GenericEditableText sectionId={sectionId} field={`items.${i}.duration`} value={it.duration ?? ""} tag="span" /></span>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

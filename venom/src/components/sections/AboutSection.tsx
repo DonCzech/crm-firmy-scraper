@@ -99,107 +99,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
 
   // hair-04: 2-col split — text vlevo (tmavé bg), foto vpravo edge-to-edge — 1:1 kim-impressive.cz
   if (variant === "about-hair-04-split") {
-    const title  = String(content.title  ?? "Impresivní střihy. Už 10 let.");
-    const body   = String(content.body   ?? "");
-    const body2  = String(content.body2  ?? "");
-    const image  = String(content.image  ?? "");
-    const GOLD   = "#FFDF25";
-    const DARK   = "#0d0d0d";
-    const LATO   = "'Lato', sans-serif";
-    const PLACEHOLDER = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=900&fit=crop&fm=webp";
-
-    return (
-      <section
-        id="o-nas"
-        data-template="hair-04"
-        style={{ backgroundColor: DARK, display: "flex", minHeight: 520, flexWrap: "wrap" }}
-      >
-        <style>{`
-          @media (max-width: 768px) {
-            section[data-template="hair-04"]#o-nas { flex-direction: column; }
-            section[data-template="hair-04"]#o-nas > div:first-child {
-              flex: 1 1 100% !important;
-              padding: 48px 24px !important;
-            }
-            section[data-template="hair-04"]#o-nas > div:last-child {
-              min-height: 280px;
-              flex: 1 1 100% !important;
-            }
-          }
-        `}</style>
-        {/* Levý sloupec — text */}
-        <div
-          style={{
-            flex: "1 1 50%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            padding: "72px clamp(40px, 6vw, 120px)",
-          }}
-        >
-          {/* Gold dekorační linka */}
-          <div style={{ width: 48, height: 3, backgroundColor: GOLD, marginBottom: 28 }} aria-hidden />
-
-          <h2 style={{
-            fontFamily: LATO,
-            fontSize: "clamp(26px, 2.8vw, 40px)",
-            fontWeight: 700,
-            color: "#ffffff",
-            lineHeight: 1.25,
-            margin: "0 0 28px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-
-          <p style={{
-            fontFamily: LATO,
-            fontSize: 16,
-            fontWeight: 300,
-            color: "rgba(255,255,255,0.8)",
-            lineHeight: 1.85,
-            margin: "0 0 20px",
-            maxWidth: 480,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-
-          {body2 && (
-            <p style={{
-              fontFamily: LATO,
-              fontSize: 16,
-              fontWeight: 300,
-              color: "rgba(255,255,255,0.8)",
-              lineHeight: 1.85,
-              margin: 0,
-              maxWidth: 480,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
-            </p>
-          )}
-        </div>
-
-        {/* Pravý sloupec — foto edge-to-edge */}
-        <div style={{ flex: "1 1 50%", position: "relative", minHeight: 420 }}>
-          <GenericEditableImage
-            sectionId={sectionId}
-            field="image"
-            src={image || PLACEHOLDER}
-            alt={title}
-            className="absolute inset-0 w-full h-full"
-            style={{ position: "absolute" }}
-          >
-            <Image
-              src={image || PLACEHOLDER}
-              alt={title}
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              unoptimized={shouldSkipNextImageOptimization(image || PLACEHOLDER)}
-            />
-          </GenericEditableImage>
-        </div>
-      </section>
-    );
+    return <AboutHair04Split content={content as Record<string, unknown>} sectionId={sectionId} />;
   }
 
   // hair-02: white bg, centered col-10, teal h6 tagline + big H1 + body paragraphs + CTA + brands bar
@@ -21704,6 +21604,78 @@ function AboutHair03Founder({ content, sectionId }: { content: Record<string, un
             </div>
           )}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// about-hair-04-split — V3 Studio Pop: vlevo eyebrow + H2 + odstavce + statistiky,
+// vpravo foto radius 14 s violet offsetem. Pole: tagline/title/body/body2/image/stats.
+function AboutHair04Split({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const tagline = String(content.tagline ?? "O nás");
+  const title = String(content.title ?? "");
+  const body = String(content.body ?? "");
+  const body2 = String(content.body2 ?? "");
+  const image = String(content.image ?? "");
+  const stats = (content.stats as Array<{ value: string; label: string }>) ?? [];
+  return (
+    <section id="o-nas" data-section-type="about" data-variant="about-hair-04-split" className="h04ab-section" data-template="hair-04">
+      <style>{`
+        .h04ab-section { background: var(--color-bg, #F5F4FA); font-family: 'Epilogue', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .h04ab-inner { max-width: 82rem; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr;
+          gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+        .h04-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700;
+          letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-primary, #6D4AFF);
+        }
+        .h04-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #6D4AFF); }
+        .h04ab-title {
+          font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em;
+          font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.06; color: var(--color-text, #17132A);
+          margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .h04ab-p { font-size: 1rem; line-height: 1.75; color: var(--color-text-muted, #6A6382); margin: 0 0 1.1rem; max-width: 54ch; }
+        .h04ab-stats { display: flex; gap: clamp(1.4rem, 3vw, 2.6rem); margin-top: 2rem; flex-wrap: wrap; }
+        .h04ab-stat { padding-left: 1.3rem; border-left: 2px solid var(--color-primary, #6D4AFF); }
+        .h04ab-stat:first-child { padding-left: 0; border-left: none; }
+        .h04ab-stat-v { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+          font-weight: 700; color: var(--color-text, #17132A); line-height: 1; display: block; margin-bottom: 0.3rem; }
+        .h04ab-stat-l { font-size: 0.85rem; color: var(--color-text-muted, #6A6382); }
+        .h04ab-media { position: relative; }
+        .h04ab-media::before { content: ""; position: absolute; inset: 1.4rem -1.4rem -1.4rem 1.4rem;
+          border-radius: 14px; background: var(--color-primary, #6D4AFF); opacity: 0.16; z-index: 0; }
+        .h04ab-photo { position: relative; z-index: 1; border-radius: 14px; overflow: hidden;
+          aspect-ratio: 4 / 5; display: block; background: #E4E1F2; }
+        .h04ab-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 899px) { .h04ab-inner { grid-template-columns: 1fr; gap: 3rem; }
+          .h04ab-media::before { inset: 1rem -1rem -1rem 1rem; } }
+      `}</style>
+      <div className="h04ab-inner">
+        <div>
+          <span className="h04-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h04ab-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {body && <p className="h04ab-p"><GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" /></p>}
+          {body2 && <p className="h04ab-p"><GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" /></p>}
+          {stats.length > 0 && (
+            <div className="h04ab-stats">
+              {stats.map((s, i) => (
+                <div className="h04ab-stat" key={i}>
+                  <span className="h04ab-stat-v"><GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" /></span>
+                  <span className="h04ab-stat-l"><GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" /></span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        {image && (
+          <div className="h04ab-media">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="h04ab-photo">
+              <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          </div>
+        )}
       </div>
     </section>
   );

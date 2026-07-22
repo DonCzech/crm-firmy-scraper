@@ -1,37 +1,78 @@
 {
   "colors": {
-    "primary":    "#92a8d1",
-    "secondary":  "#7a90ba",
-    "background": "#ffffff",
-    "surface":    "#f5f7fb",
-    "text":       "#333333",
-    "textMuted":  "#666666",
-    "accent":     "#92a8d1",
-    "border":     "rgba(146,168,209,0.3)"
+    "primary": "#6D4AFF",
+    "secondary": "#17132A",
+    "background": "#F5F4FA",
+    "surface": "#FFFFFF",
+    "text": "#17132A",
+    "textMuted": "#6A6382",
+    "accent": "#5233E0",
+    "border": "#E4E1F2"
   },
   "typography": {
-    "fontHeading": "'Lato', sans-serif",
-    "fontBody":    "'Lato', sans-serif",
+    "fontHeading": "'Space Grotesk', sans-serif",
+    "fontBody": "'Epilogue', sans-serif",
     "scale": "comfortable"
   },
   "radius": {
-    "sm":   "0px",
-    "md":   "4px",
-    "lg":   "8px",
-    "pill": "0px"
+    "sm": "10px",
+    "md": "12px",
+    "lg": "14px",
+    "pill": "999px"
   },
   "spacing": {
     "personality": "spacious",
     "section": "comfortable"
   },
   "shadows": {
-    "sm": "0 1px 3px rgba(0,0,0,0.08)",
-    "md": "0 4px 16px rgba(0,0,0,0.10)",
-    "lg": "0 12px 40px rgba(0,0,0,0.14)"
+    "sm": "0 1px 3px rgba(23,19,42,0.07)",
+    "md": "0 8px 24px rgba(23,19,42,0.10)",
+    "lg": "0 18px 48px rgba(23,19,42,0.14)"
   },
   "animation": {
-    "ease": "cubic-bezier(0.4,0,0.2,1)",
-    "duration": "250ms",
+    "ease": "cubic-bezier(0.22,1,0.36,1)",
+    "duration": "280ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "pop": {
+      "label": "Pop — elektrická violet (default)",
+      "tokens": {
+        "colorPrimary": "#6D4AFF",
+        "colorAccent": "#5233E0",
+        "colorSecondary": "#17132A",
+        "colorBackground": "#F5F4FA",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#17132A",
+        "colorTextMuted": "#6A6382",
+        "colorBorder": "#E4E1F2"
+      }
+    },
+    "citrus": {
+      "label": "Citrus — svěží oranžová",
+      "tokens": {
+        "colorPrimary": "#F0552B",
+        "colorAccent": "#C93F1B",
+        "colorSecondary": "#221510",
+        "colorBackground": "#FAF6F3",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#221510",
+        "colorTextMuted": "#75665F",
+        "colorBorder": "#EDE2DA"
+      }
+    },
+    "mint": {
+      "label": "Mint — chladná zelená",
+      "tokens": {
+        "colorPrimary": "#0F9D76",
+        "colorAccent": "#0B7C5D",
+        "colorSecondary": "#0F1D19",
+        "colorBackground": "#F2F8F5",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#0F1D19",
+        "colorTextMuted": "#5F7069",
+        "colorBorder": "#DCEAE3"
+      }
+    }
   }
 }

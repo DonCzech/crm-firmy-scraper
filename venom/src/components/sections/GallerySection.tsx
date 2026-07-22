@@ -140,17 +140,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
 
   // hair-04: dark bg, gold nadpis, 4-up smooth CSS slider s arrow nav + lightbox
   if (variant === "hair-04-carousel") {
-    return (
-      <Hair04Carousel
-        content={content}
-        sectionId={sectionId}
-        images={images}
-        activeImage={activeImage}
-        setActiveImage={setActiveImage}
-        slideIndex={slideIndex}
-        setSlideIndex={setSlideIndex}
-      />
-    );
+    return <GalleryHair04 content={content as Record<string, unknown>} sectionId={sectionId} />;
   }
 
   // hair-03: white bg, centered H2 40px, large main slide + thumbnail strip
@@ -8723,6 +8713,54 @@ function GalleryHair03({ content, sectionId }: { content: Record<string, unknown
           {images.map((im, i) => (
             <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h03g-item">
               <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "grayscale(1)" }} />
+            </GenericEditableImage>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// hair-04-carousel — V3 Studio Pop: tmavá mřížka 3 sloupce s hover zoomem
+// (nahrazuje karusel s useknutými fotkami). Pole: tagline/title/subtitle, images[].
+function GalleryHair04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type Img = { url?: string; alt?: string };
+  const tagline = String(content.tagline ?? "Galerie");
+  const title = String(content.title ?? "Galerie");
+  const subtitle = String(content.subtitle ?? "");
+  const images = ((content.images as Img[]) ?? []).filter((i) => i && i.url);
+  return (
+    <section id="galerie" data-section-type="gallery" data-variant="hair-04-carousel" className="h04g-section" data-template="hair-04">
+      <style>{`
+        .h04g-section { background: var(--color-secondary, #17132A); font-family: 'Epilogue', sans-serif;
+          padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .h04g-inner { max-width: 82rem; margin: 0 auto; }
+        .h04g-head { max-width: 44rem; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .h04g-eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.1rem;
+          font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700;
+          letter-spacing: 0.18em; text-transform: uppercase; color: #C3B2FF; }
+        .h04g-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #6D4AFF); }
+        .h04g-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em;
+          font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1.06; color: #fff; margin: 0 0 0.9rem; text-wrap: balance; }
+        .h04g-sub { font-size: 1rem; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0; }
+        .h04g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.5vw, 1.2rem); }
+        .h04g-item { aspect-ratio: 4 / 5; overflow: hidden; display: block; border-radius: 14px; background: #241E3D; }
+        .h04g-item img { width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+        .h04g-item:hover img { transform: scale(1.06); }
+        @media (max-width: 899px) { .h04g-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (prefers-reduced-motion: reduce) { .h04g-item img { transition: none; } }
+      `}</style>
+      <div className="h04g-inner">
+        <div className="h04g-head">
+          <span className="h04g-eyebrow"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></span>
+          <h2 className="h04g-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {subtitle && <p className="h04g-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        </div>
+        <div className="h04g-grid">
+          {images.map((im, i) => (
+            <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h04g-item">
+              <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </GenericEditableImage>
           ))}
         </div>

@@ -114,280 +114,10 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   // Fixed sticky navbar: dark semi-transparent strip (rgba(0,0,0,0.55)), logo vlevo, nav vpravo.
   // bg foto 100vh, overlay rgba(0,0,0,0.24), H1 bílý v tmavém boxu, 2× pill CTA gold border.
   if (variant === "hero-hair-04-with-navbar") {
-    const heroBgTab   = String((content as Record<string,unknown>).__heroBgTab ?? "image");
-    const heroBgColor = String((content as Record<string,unknown>).__heroBgColor ?? "#1a1a1a");
-    const bg          = String(content.backgroundImage ?? "");
-    const siteName    = String(content.siteName ?? "Impresiv Studio");
-    const logoUrl     = String(content.logoUrl ?? "");
-    const links       = (content.links as Array<{ label: string; href: string }>) ?? [];
-    const title       = String(content.title ?? "Je čas se ostříhat? Posaďte se k nám.");
-    const ctaPrimText = String(content.ctaPrimaryText ?? "Ceník a rezervace");
-    const ctaPrimHref = String(content.ctaPrimaryHref ?? "/#cenik");
-    const ctaSecText  = String(content.ctaSecondaryText ?? "Chci se ostříhat hned");
-    const ctaSecHref  = String(content.ctaSecondaryHref ?? "/#kontakt");
-
-    const WHITE = "#ffffff";
-    const GOLD  = "#FFDF25";
-    const LATO  = "'Lato', sans-serif";
-    const NAV_H = 113; // px — výška sticky navbaru
-
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    /* Logo — HTML elementy (SVG text nefunguje bez načteného fontu v browseru) */
-    const logoEl = (
-      <div style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
-        {/* Lettermark */}
-        <span style={{ fontFamily: LATO, fontSize: 64, fontWeight: 900, color: WHITE, lineHeight: 1, letterSpacing: "-2px", userSelect: "none" }}>A</span>
-        {/* Svislý oddělovač */}
-        <span aria-hidden style={{ display: "block", width: 1, height: 64, backgroundColor: "rgba(255,255,255,0.3)", flexShrink: 0 }} />
-        {/* Text vpravo */}
-        <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.08em", lineHeight: 1.2, whiteSpace: "nowrap" }}>Alfa</span>
-          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.08em", lineHeight: 1.2, whiteSpace: "nowrap" }}>Barbershop</span>
-          <span style={{ fontFamily: LATO, fontSize: 10, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.25em", lineHeight: 1.4, textTransform: "uppercase", whiteSpace: "nowrap" }}>Hair Salon</span>
-        </span>
-      </div>
-    );
-
-    return (
-      <>
-      <style>{`
-        html { scroll-behavior: smooth; }
-        @media (max-width: 768px) {
-          [data-template="hair-04"] .h04-hero-content { padding-top: 80px !important; }
-          [data-template="hair-04"] .h04-title-box { max-width: 90% !important; padding: 4% 5% !important; }
-          [data-template="hair-04"] .h04-cta-row { flex-direction: column; align-items: center; gap: 14px !important; }
-          [data-template="hair-04"] .h04-cta-row a { padding: 14px 32px !important; font-size: 16px !important; }
-        }
-      `}</style>
-      <section
-        id="uvod"
-        style={{ position: "relative", height: 600, overflow: "hidden", backgroundColor: "#1a1a1a" }}
-        data-template="hair-04"
-      >
-        {/* Fotografie na pozadí */}
-        {heroBgTab === "color" ? (
-          <div style={{ position: "absolute", inset: 0, backgroundColor: heroBgColor }} />
-        ) : bg ? (
-          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="hero" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
-            <Image src={bg} alt="hero" fill className="object-cover" style={{ objectPosition: bgFocusStyle }} priority sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
-          </GenericEditableImage>
-        ) : (
-          <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(135deg, #4a6080 0%, #92a8d1 50%, #2c3e50 100%)" }} />
-        )}
-
-        {/* Tmavý overlay přes celé hero */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.24)", pointerEvents: "none" }} />
-
-        {/* ═══ STICKY NAVBAR — position: fixed, tmavý pruh ═══ */}
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: 1000,
-            backgroundColor: "rgba(0,0,0,0.55)",
-            backdropFilter: "blur(3px)",
-          }}
-        >
-          {/* Desktop nav */}
-          <div
-            className="hidden lg:flex"
-            style={{ width: "100%", alignItems: "center", minHeight: NAV_H, paddingLeft: 137, paddingRight: 137 }}
-          >
-            {/* Logo — vlevo */}
-            <a
-              href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
-              style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}
-              aria-label={siteName}
-            >
-              {logoUrl
-                ? <img loading="eager" src={logoUrl} alt={siteName} style={{ maxHeight: 80, display: "block" }} />
-                : logoEl
-              }
-            </a>
-
-            {/* Nav links — úplně vpravo, těsně u okraje */}
-            <nav style={{ marginLeft: "auto", display: "flex", alignItems: "center" }} aria-label="Hlavní menu">
-              {links.map((l, i) => (
-                <a
-                  key={`h4-nav-${i}`}
-                  href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-                  onClick={isAdmin ? (e) => e.preventDefault() : undefined}
-                  style={{
-                    fontFamily: LATO,
-                    fontSize: 18,
-                    fontWeight: i === 0 ? 400 : 100,
-                    color: i === 0 ? GOLD : WHITE,
-                    textDecoration: "none",
-                    padding: "0.7em 1.15em",
-                    display: "inline-block",
-                    whiteSpace: "nowrap",
-                    letterSpacing: "0.01em",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = i === 0 ? GOLD : WHITE; }}
-                >
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* Mobile nav — hamburger row */}
-          <div className="flex lg:hidden items-center justify-between" style={{ padding: "0 20px", height: 64 }}>
-            <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-              {logoUrl
-                ? <img loading="eager" src={logoUrl} alt={siteName} style={{ maxWidth: 100, maxHeight: 50, objectFit: "contain" }} />
-                : (
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontFamily: LATO, fontSize: 38, fontWeight: 900, color: WHITE, lineHeight: 1 }}>A</span>
-                    <span aria-hidden style={{ display: "block", width: 1, height: 36, backgroundColor: "rgba(255,255,255,0.3)", flexShrink: 0 }} />
-                    <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                      <span style={{ fontFamily: LATO, fontSize: 12, fontWeight: 700, color: WHITE, letterSpacing: "0.06em", lineHeight: 1.05, whiteSpace: "nowrap" }}>Alfa</span>
-                      <span style={{ fontFamily: LATO, fontSize: 12, fontWeight: 700, color: WHITE, letterSpacing: "0.06em", lineHeight: 1.05, whiteSpace: "nowrap" }}>Barbershop</span>
-                      <span style={{ fontFamily: LATO, fontSize: 8, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.18em", textTransform: "uppercase" }}>HAIR SALON</span>
-                    </span>
-                  </div>
-                )
-              }
-            </a>
-            {/* Hamburger button — 3 pruhy → X */}
-            <button
-              onClick={() => setMenuOpen(o => !o)}
-              style={{ background: "none", border: "none", cursor: "pointer", padding: 10, display: "flex", flexDirection: "column", gap: 5, alignItems: "center", justifyContent: "center" }}
-              aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
-              aria-expanded={menuOpen}
-            >
-              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE, borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none" }} />
-              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE, borderRadius: 2, transition: "opacity 0.25s", opacity: menuOpen ? 0 : 1 }} />
-              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE, borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none" }} />
-            </button>
-          </div>
-
-          {/* Mobile dropdown menu */}
-          <div
-            className="lg:hidden"
-            style={{
-              overflow: "hidden",
-              maxHeight: menuOpen ? `${links.length * 56 + 16}px` : "0px",
-              transition: "max-height 0.35s cubic-bezier(.4,0,.2,1)",
-              borderTop: menuOpen ? "1px solid rgba(255,255,255,0.1)" : "none",
-            }}
-          >
-            <nav style={{ display: "flex", flexDirection: "column", padding: "8px 0" }}>
-              {links.map((l, i) => (
-                <a
-                  key={`h4-mob-${i}`}
-                  href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-                  onClick={isAdmin ? (e) => e.preventDefault() : () => setMenuOpen(false)}
-                  style={{
-                    fontFamily: LATO,
-                    fontSize: 16,
-                    fontWeight: i === 0 ? 500 : 300,
-                    color: i === 0 ? GOLD : WHITE,
-                    textDecoration: "none",
-                    padding: "14px 24px",
-                    display: "block",
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
-                    letterSpacing: "0.03em",
-                  }}
-                >
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                </a>
-              ))}
-            </nav>
-          </div>
-        </div>
-
-        {/* ═══ HERO CONTENT — posunutý pod fixed navbar ═══ */}
-        <div
-          className="h04-hero-content"
-          style={{
-            position: "relative",
-            zIndex: 30,
-            pointerEvents: "none",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: 600,
-            flexDirection: "column",
-            paddingTop: NAV_H + 20,
-            paddingBottom: 20,
-            paddingLeft: "2%",
-            paddingRight: "2%",
-            boxSizing: "border-box",
-          }}
-        >
-          {/* H1 v tmavém boxu */}
-          <div
-            style={{
-              backgroundColor: "#00000085",
-              borderRadius: 20,
-              padding: "3% 4%",
-              maxWidth: "44%",
-              textAlign: "center",
-              marginBottom: "2.5%",
-              pointerEvents: "auto",
-            }}
-          >
-            <GenericEditableText
-              sectionId={sectionId}
-              field="title"
-              value={title}
-              tag="h1"
-              style={{
-                fontFamily: LATO,
-                fontSize: "clamp(22px, 2.8vw, 46px)",
-                fontWeight: 700,
-                color: WHITE,
-                lineHeight: 1.35,
-                margin: 0,
-              }}
-            />
-          </div>
-
-          {/* 2× CTA buttony — pill, gold border, +20% oproti originálu */}
-          <div className="h04-cta-row" style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center", pointerEvents: "auto" }}>
-            {[
-              { text: ctaPrimText, field: "ctaPrimaryText",   href: ctaPrimHref },
-              { text: ctaSecText,  field: "ctaSecondaryText", href: ctaSecHref  },
-            ].map(({ text, field, href }) => (
-              <a
-                key={field}
-                href={resolveDemoHref(href, tenantSlug, isAdmin)}
-                onClick={isAdmin ? (e) => e.preventDefault() : undefined}
-                style={{
-                  fontFamily: LATO,
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: GOLD,
-                  backgroundColor: "rgba(0,0,0,0.55)",
-                  border: `2px solid ${GOLD}`,
-                  borderRadius: 60,
-                  padding: "18px 52px",
-                  textDecoration: "none",
-                  display: "inline-block",
-                  transition: "color 0.2s, border-color 0.2s",
-                  whiteSpace: "nowrap",
-                  textAlign: "center",
-                  position: "relative",
-                  zIndex: 31,
-                  pointerEvents: "auto",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.color = WHITE; e.currentTarget.style.borderColor = WHITE; }}
-                onMouseLeave={e => { e.currentTarget.style.color = GOLD; e.currentTarget.style.borderColor = GOLD; }}
-              >
-                <GenericEditableText sectionId={sectionId} field={field} value={text} tag="span" />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-      </>
-    );
+    return <HeroHair04 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-hair-04-page") {
+    return <HeroHair04Page content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "hero-luxury-dark") {
@@ -30296,6 +30026,124 @@ function HeroHair03Page({ content, sectionId, tenantSlug, isAdmin }: { content: 
         <div className="h03hp-crumb"><a href={resolve("/")}>Domů</a> <span aria-hidden>/</span> {title}</div>
         <h1 className="h03hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
         {subtitle && <p className="h03hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+      </div>
+    </section>
+  );
+}
+
+// hero-hair-04-with-navbar — V3 Studio Pop: čistý cinematic hero (navbar je nově
+// samostatná sekce hair-04-navbar). Fullbleed fotka, scrim, Space Grotesk H1,
+// dvojice CTA, spodní meta pás. Pole: backgroundImage, eyebrow, title, subtitle,
+// ctaPrimaryText/Href, ctaSecondaryText/Href, meta[].
+function HeroHair04({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const eyebrow = String(content.eyebrow ?? "Barbershop · Praha 3");
+  const title = String(content.title ?? "Je čas se ostříhat?");
+  const subtitle = String(content.subtitle ?? "");
+  const c1t = String(content.ctaPrimaryText ?? "Ceník a rezervace");
+  const c1h = String(content.ctaPrimaryHref ?? "/sluzby");
+  const c2t = String(content.ctaSecondaryText ?? "Zavolat");
+  const c2h = String(content.ctaSecondaryHref ?? "/kontakt");
+  const meta = (content.meta as Array<{ value: string; label: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section id="uvod" className="h04h-hero" data-template="hair-04">
+      <style>{`
+        .h04h-hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end;
+          overflow: hidden; background: var(--color-secondary, #17132A); font-family: 'Epilogue', sans-serif; }
+        .h04h-photo { position: absolute; inset: 0; }
+        .h04h-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .h04h-scrim { position: absolute; inset: 0;
+          background: linear-gradient(180deg, rgba(23,19,42,0.5) 0%, rgba(23,19,42,0.24) 38%, rgba(23,19,42,0.88) 100%); }
+        .h04h-inner { position: relative; z-index: 2; width: 100%; max-width: 82rem; margin: 0 auto;
+          padding: 0 clamp(1.25rem, 4vw, 2.75rem) clamp(3rem, 6vw, 4.5rem); }
+        .h04h-eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; margin-bottom: 1.2rem;
+          font-family: 'Space Grotesk', sans-serif; font-size: 0.76rem; font-weight: 700;
+          letter-spacing: 0.18em; text-transform: uppercase; color: #C3B2FF; }
+        .h04h-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--color-primary, #6D4AFF); }
+        .h04h-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.03em;
+          font-size: clamp(2.6rem, 6.6vw, 5rem); line-height: 1.02; color: #fff; margin: 0 0 1.2rem;
+          text-wrap: balance; max-width: 17ch; }
+        .h04h-sub { font-size: clamp(1rem, 1.4vw, 1.12rem); line-height: 1.65; color: rgba(255,255,255,0.85); max-width: 46ch; margin: 0 0 2.1rem; }
+        .h04h-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+        .h04h-btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2.1rem;
+          border-radius: 999px; font-size: 0.97rem; font-weight: 600; text-decoration: none;
+          transition: transform 0.25s, background 0.25s; }
+        .h04h-btn-p { background: var(--color-primary, #6D4AFF); color: #fff; box-shadow: 0 10px 30px rgba(109,74,255,0.42); }
+        .h04h-btn-p:hover { background: var(--color-accent, #5233E0); transform: translateY(-2px); }
+        .h04h-btn-g { color: #fff; border: 1px solid rgba(255,255,255,0.45); }
+        .h04h-btn-g:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+        .h04h-meta { display: flex; flex-wrap: wrap; gap: clamp(1.5rem, 4vw, 3.2rem);
+          margin-top: clamp(2.2rem, 5vw, 3.2rem); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); }
+        .h04h-meta-v { font-family: 'Space Grotesk', sans-serif; font-size: 1.65rem; font-weight: 700;
+          color: #fff; display: block; line-height: 1; margin-bottom: 0.3rem; }
+        .h04h-meta-l { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+        @media (max-width: 767px) { .h04h-hero { min-height: 88vh; } .h04h-btn { flex: 1 1 auto; } }
+        @media (prefers-reduced-motion: reduce) { .h04h-btn { transition: none; } }
+      `}</style>
+      {image && (
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="h04h-photo"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }} priority>
+          <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        </GenericEditableImage>
+      )}
+      <div className="h04h-scrim" aria-hidden />
+      <div className="h04h-inner">
+        <span className="h04h-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+        <h1 className="h04h-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="h04h-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        <div className="h04h-ctas">
+          <a href={resolve(c1h)} data-btn="primary" className="h04h-btn h04h-btn-p">{c1t}</a>
+          <a href={resolve(c2h)} className="h04h-btn h04h-btn-g">{c2t}</a>
+        </div>
+        {meta.length > 0 && (
+          <div className="h04h-meta">
+            {meta.map((m, i) => (
+              <div key={i}>
+                <span className="h04h-meta-v"><GenericEditableText sectionId={sectionId} field={`meta.${i}.value`} value={m.value} tag="span" /></span>
+                <span className="h04h-meta-l"><GenericEditableText sectionId={sectionId} field={`meta.${i}.label`} value={m.label} tag="span" /></span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// hero-hair-04-page — podstránkový hero Studio Pop: světlý pás, drobečky, Space Grotesk H1.
+function HeroHair04Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section className="h04hp-wrap" data-template="hair-04">
+      <style>{`
+        .h04hp-wrap { background: var(--color-bg, #F5F4FA); font-family: 'Epilogue', sans-serif;
+          padding: calc(4.9rem + clamp(2.5rem, 6vw, 4.5rem)) clamp(1.25rem, 4vw, 2.75rem) 0; }
+        .h04hp-inner { max-width: 82rem; margin: 0 auto; }
+        .h04hp-crumb { font-size: 0.82rem; color: var(--color-text-muted, #6A6382); margin-bottom: 1rem; }
+        .h04hp-crumb a { color: var(--color-text-muted, #6A6382); text-decoration: none; }
+        .h04hp-crumb a:hover { color: var(--color-primary, #6D4AFF); }
+        .h04hp-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.03em;
+          font-size: clamp(2.3rem, 5vw, 3.8rem); line-height: 1.04; color: var(--color-text, #17132A);
+          margin: 0 0 0.9rem; text-wrap: balance; }
+        .h04hp-sub { font-size: 1.04rem; line-height: 1.65; color: var(--color-text-muted, #6A6382); max-width: 52ch; margin: 0; }
+        .h04hp-photo { margin-top: clamp(2rem, 5vw, 3.2rem); border-radius: 14px; overflow: hidden; aspect-ratio: 21 / 8; display: block; }
+        .h04hp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        @media (max-width: 767px) { .h04hp-photo { aspect-ratio: 16 / 9; } }
+      `}</style>
+      <div className="h04hp-inner">
+        <div className="h04hp-crumb"><a href={resolve("/")}>Domů</a> <span aria-hidden>/</span> {title}</div>
+        <h1 className="h04hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="h04hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        {image && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="h04hp-photo">
+            <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </GenericEditableImage>
+        )}
       </div>
     </section>
   );

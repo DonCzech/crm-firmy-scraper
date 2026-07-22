@@ -54,11 +54,17 @@ for (const t of tenants) {
       `SELECT id FROM pages WHERE tenant_id = $1 AND slug = $2`,
       [t.id, page.slug]
     );
-    if (!prows.length) {
-      console.log(`   ! stránka ${page.slug} v DB chybí — přeskočeno (založ ji ručně)`);
-      continue;
+    let pageId = prows[0]?.id;
+    if (!pageId) {
+      if (dry) { console.log(`   + stránka ${page.slug} by se založila`); continue; }
+      const ins = await c.query(
+        `INSERT INTO pages (tenant_id, slug, title, is_homepage, status)
+         VALUES ($1, $2, $3, $4, 'published') RETURNING id`,
+        [t.id, page.slug, page.title ?? page.slug, !!page.isHomepage]
+      );
+      pageId = ins.rows[0].id;
+      console.log(`   + založena stránka ${page.slug} (id ${pageId})`);
     }
-    const pageId = prows[0].id;
     const { rows: existing } = await c.query(
       `SELECT id, section_type, section_variant, order_index FROM sections
         WHERE page_id = $1 ORDER BY order_index`,

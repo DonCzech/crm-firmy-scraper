@@ -2579,179 +2579,120 @@ function NavbarHair03({ content, variant: _v, isAdmin, tenantSlug, sectionId }: 
   );
 }
 
-// ---------------------------------------------------------------------------
-// hair-04-navbar — Impresiv Studio (kim-impressive.cz inspirace)
-// Originál: position:fixed; bg:#92a8d1; logo 120×81px vlevo; nav flex-end
-// Container: width:100% padding:0 20px; links: padding:0.9em 1em; align-items:stretch
-// ---------------------------------------------------------------------------
+// hair-04-navbar — Studio Pop · V3: blur sticky bar, Space Grotesk wordmark s violet
+// tečkou, underline-slide linky, violet pill CTA, overlay menu + sticky mobilní CTA lišta.
 function NavbarHair04({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const siteName = String(content.siteName ?? "Impresiv Studio");
-  const logoUrl  = String(content.logoUrl ?? "");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  useEffect(() => {
+    const s = () => setScrolled(window.scrollY > 30);
+    s(); window.addEventListener("scroll", s, { passive: true });
+    return () => window.removeEventListener("scroll", s);
+  }, []);
+  useEffect(() => {
+    if (!open) return;
+    document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", h); };
+  }, [open]);
 
-  const BG   = "#92a8d1";
-  const TEXT = "#ffffff";
-  const LATO = "'Lato', sans-serif";
-
-  /* Demo logo — bílý wordmark na průhledném bg, proporce 120×81 jako originál */
-  const LogoSvg = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 81" width="120" height="81" aria-label={siteName}>
-      {/* Dekorativní linka nahoře */}
-      <line x1="0" y1="10" x2="120" y2="10" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-      {/* Hlavní název */}
-      <text
-        x="60" y="46"
-        textAnchor="middle"
-        fontFamily={LATO}
-        fontSize="22"
-        fontWeight="700"
-        fill={TEXT}
-        letterSpacing="2"
-      >IMPRESIV</text>
-      {/* Podtitulek */}
-      <text
-        x="60" y="64"
-        textAnchor="middle"
-        fontFamily={LATO}
-        fontSize="10"
-        fontWeight="300"
-        fill="rgba(255,255,255,0.85)"
-        letterSpacing="4"
-      >STUDIO</text>
-      {/* Dekorativní linka dole */}
-      <line x1="0" y1="72" x2="120" y2="72" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
-    </svg>
-  );
+  const siteName = String(content.siteName ?? "Studio Pop");
+  const phone = String(content.phone ?? "+420 704 123 456");
+  const ctaText = String(content.ctaText ?? "Rezervovat");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
     <>
-      <header
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          zIndex: 1000,
-          backgroundColor: BG,
-        }}
-        data-template="hair-04"
-      >
-        {/* ── Desktop — align-items:stretch, žádná fixed výška (řídí se logem 81px) ── */}
-        <div
-          className="hidden lg:flex"
-          style={{
-            width: "100%",
-            padding: "0 20px",
-            alignItems: "stretch",
-          }}
-        >
-          {/* Logo vlevo — padding-right:1em jako originál */}
-          <div style={{ paddingRight: "1em", display: "flex", alignItems: "center" }}>
-            <a
-              href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
-              style={{ textDecoration: "none", display: "block" }}
-              aria-label={siteName}
-            >
-              <GenericEditableImage
-                sectionId={sectionId}
-                field="logoUrl"
-                src={logoUrl}
-                alt={siteName}
-                className="relative"
-                style={{ width: 120, height: 81 }}
-              >
-                {logoUrl
-                  ? <img loading="eager" src={logoUrl} alt={siteName} style={{ maxWidth: 120, display: "block" }} />
-                  : <LogoSvg />
-                }
-              </GenericEditableImage>
-            </a>
-          </div>
-
-          {/* Nav — margin-left:auto, justify-content:flex-end, align-items:center */}
-          <nav
-            style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
-            aria-label="Hlavní menu"
-          >
-            {links.map((l, i) => (
-              <a
-                key={`h4-nav-${i}`}
-                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-                style={{
-                  fontFamily: LATO,
-                  fontSize: 14,
-                  fontWeight: 400,
-                  color: TEXT,
-                  textDecoration: "none",
-                  padding: "0.9em 1em",
-                  display: "inline-block",
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
-                onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-              >
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        {/* ── Mobile ── */}
-        <div
-          className="flex lg:hidden items-center justify-between"
-          style={{ padding: "0 16px", height: 64 }}
-        >
-          <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName} style={{ display: "flex", alignItems: "center" }}>
-            {logoUrl
-              ? <img loading="eager" src={logoUrl} alt={siteName} style={{ maxWidth: 90, maxHeight: 48, objectFit: "contain" }} />
-              : (
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 44" width="110" height="40" aria-label={siteName}>
-                  <text x="4" y="28" fontFamily={LATO} fontSize="20" fontWeight="700" fill={TEXT} letterSpacing="1.5">IMPRESIV</text>
-                  <text x="4" y="40" fontFamily={LATO} fontSize="9" fontWeight="300" fill="rgba(255,255,255,0.8)" letterSpacing="3">STUDIO</text>
-                </svg>
-              )
-            }
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Epilogue:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style>{`
+        .h04n-bar {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100; font-family: 'Epilogue', sans-serif;
+          background: rgba(245,244,250,${scrolled ? "0.95" : "0.86"});
+          -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+          border-bottom: 1px solid var(--color-border, #E4E1F2); transition: background 0.3s;
+        }
+        .h04n-inner { max-width: 82rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.75rem);
+          height: 4.9rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+        .h04n-logo { display: flex; align-items: center; gap: 0.45rem; text-decoration: none; flex-shrink: 0; }
+        .h04n-word { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700;
+          letter-spacing: -0.02em; color: var(--color-text, #17132A); line-height: 1; }
+        .h04n-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--color-primary, #6D4AFF); }
+        .h04n-links { display: flex; align-items: center; gap: 1.7rem; list-style: none; margin: 0; padding: 0; }
+        .h04n-links a { position: relative; font-size: 0.94rem; font-weight: 500; color: #5A5370;
+          text-decoration: none; padding: 0.35rem 0; transition: color 0.2s; }
+        .h04n-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+          background: var(--color-primary, #6D4AFF); transition: right 0.28s cubic-bezier(0.22,1,0.36,1); }
+        .h04n-links a:hover { color: var(--color-text, #17132A); }
+        .h04n-links a:hover::after { right: 0; }
+        .h04n-right { display: flex; align-items: center; gap: 1.1rem; }
+        .h04n-phone { font-size: 0.92rem; font-weight: 600; color: var(--color-text, #17132A); text-decoration: none; white-space: nowrap; }
+        .h04n-cta { display: inline-flex; align-items: center; padding: 0.72rem 1.6rem; border-radius: 999px;
+          background: var(--color-primary, #6D4AFF); color: #fff; font-size: 0.9rem; font-weight: 600;
+          text-decoration: none; white-space: nowrap; box-shadow: 0 6px 18px rgba(109,74,255,0.3);
+          transition: background 0.25s, transform 0.25s; }
+        .h04n-cta:hover { background: var(--color-accent, #5233E0); transform: translateY(-1px); }
+        .h04n-burger { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--color-text, #17132A); }
+        .h04n-ov { position: fixed; inset: 0; background: var(--color-secondary, #17132A); z-index: 200;
+          display: flex; flex-direction: column; padding: 1.1rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+          opacity: 0; pointer-events: none; transition: opacity 0.25s ease; font-family: 'Epilogue', sans-serif; }
+        .h04n-ov[data-open="true"] { opacity: 1; pointer-events: auto; }
+        .h04n-ov-top { display: flex; align-items: center; justify-content: space-between; height: 3.7rem; }
+        .h04n-ov-word { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: #F5F4FA; }
+        .h04n-ov-close { background: none; border: none; color: #F5F4FA; font-size: 2rem; line-height: 1; cursor: pointer; padding: 4px 10px; }
+        .h04n-ov-links { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.2rem; }
+        .h04n-ov-links a { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 6.6vw, 2.5rem);
+          font-weight: 700; letter-spacing: -0.02em; color: #F5F4FA; text-decoration: none; padding: 0.45rem 0;
+          border-bottom: 1px solid rgba(245,244,250,0.13);
+          opacity: 0; transform: translateY(14px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .h04n-ov[data-open="true"] .h04n-ov-links a { opacity: 1; transform: none; }
+        .h04n-ov-links a:nth-child(1) { transition-delay: 0.05s; } .h04n-ov-links a:nth-child(2) { transition-delay: 0.1s; }
+        .h04n-ov-links a:nth-child(3) { transition-delay: 0.15s; } .h04n-ov-links a:nth-child(4) { transition-delay: 0.2s; }
+        .h04n-ov-links a:nth-child(5) { transition-delay: 0.25s; } .h04n-ov-links a:nth-child(6) { transition-delay: 0.3s; }
+        .h04n-ov-cta { display: flex; align-items: center; justify-content: center; padding: 1.05rem;
+          border-radius: 999px; background: var(--color-primary, #6D4AFF); color: #fff; font-weight: 600; text-decoration: none; }
+        .h04n-mb { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+          padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom));
+          background: rgba(245,244,250,0.95); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+          border-top: 1px solid var(--color-border, #E4E1F2); }
+        .h04n-mb-cta { display: flex; align-items: center; justify-content: center; padding: 0.9rem;
+          border-radius: 999px; background: var(--color-primary, #6D4AFF); color: #fff; font-size: 0.95rem; font-weight: 600; text-decoration: none; }
+        @media (max-width: 1023px) {
+          .h04n-links, .h04n-phone, .h04n-cta { display: none; }
+          .h04n-burger { display: block; } .h04n-mb { display: block; } .h04n-inner { height: 4.3rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { .h04n-ov, .h04n-ov-links a, .h04n-cta { transition: none; } }
+      `}</style>
+      <header className="h04n-bar" data-template="hair-04">
+        <div className="h04n-inner">
+          <a href={resolve("/")} className="h04n-logo" aria-label={siteName}>
+            <span className="h04n-word"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+            <span className="h04n-dot" aria-hidden />
           </a>
-          <button
-            style={{ background: "none", border: "none", cursor: "pointer", padding: 8, display: "flex", flexDirection: "column", gap: 5 }}
-            onClick={() => setOpen(!open)}
-            aria-label="Menu"
-            aria-expanded={open}
-          >
-            <span style={{ display: "block", width: 24, height: 2, backgroundColor: TEXT }} />
-            <span style={{ display: "block", width: 24, height: 2, backgroundColor: TEXT }} />
-            <span style={{ display: "block", width: 24, height: 2, backgroundColor: TEXT }} />
-          </button>
+          <ul className="h04n-links">{links.map((l, i) => (<li key={i}><a href={resolve(l.href)}>{l.label}</a></li>))}</ul>
+          <div className="h04n-right">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="h04n-phone">{phone}</a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="h04n-cta">{ctaText}</a>
+            <button className="h04n-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+          </div>
         </div>
       </header>
-
-      {/* Mobile drawer */}
-      {open && (
-        <div
-          style={{
-            position: "fixed", inset: 0, zIndex: 1100,
-            backgroundColor: BG,
-            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 32,
-          }}
-        >
-          <button
-            style={{ position: "absolute", top: 20, right: 20, background: "none", border: "none", cursor: "pointer", fontSize: 28, color: TEXT, lineHeight: 1 }}
-            onClick={() => setOpen(false)}
-            aria-label="Zavřít"
-          >✕</button>
-          {links.map((l, i) => (
-            <a
-              key={`h4-mob-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={{ fontFamily: LATO, color: TEXT, fontSize: 20, fontWeight: 400, textDecoration: "none" }}
-              onClick={() => setOpen(false)}
-            >
-              {l.label}
-            </a>
-          ))}
+      <div className="h04n-ov" data-open={open} aria-hidden={!open}>
+        <div className="h04n-ov-top">
+          <span className="h04n-ov-word">{siteName}</span>
+          <button className="h04n-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
         </div>
-      )}
+        <nav className="h04n-ov-links">{links.map((l, i) => (<a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>{l.label}</a>))}</nav>
+        <a href={resolve(ctaHref)} data-btn="primary" className="h04n-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+      </div>
+      <div className="h04n-mb" aria-hidden={open}>
+        <a href={resolve(ctaHref)} className="h04n-mb-cta">{ctaText}</a>
+      </div>
     </>
   );
 }

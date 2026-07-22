@@ -68,85 +68,7 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
 
   // hair-04: žlutý bar, text vlevo, tmavé pill tlačítko s telefonem vpravo — 1:1 kim-impressive.cz
   if (variant === "hair-04-cta-phone") {
-    const title     = String((content as Record<string,unknown>).title ?? "Nechcete čekat? Zkuste nám zavolat");
-    const phone     = String((content as Record<string,unknown>).phone ?? "704 123 456");
-    const phoneHref = String((content as Record<string,unknown>).phoneHref ?? "tel:+420704123456");
-    const GOLD      = "#FFDF25";
-    const DARK      = "#0d0d0d";
-    const LATO      = "'Lato', sans-serif";
-
-    return (
-      <>
-      <style>{`
-        @media (max-width: 640px) {
-          [data-template="hair-04"] .h04-cta-phone-wrap {
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-            padding: 28px 24px !important;
-            gap: 20px !important;
-          }
-          [data-template="hair-04"] .h04-cta-phone-btn {
-            width: 100% !important;
-            text-align: center !important;
-            padding: 18px 24px !important;
-          }
-        }
-      `}</style>
-      <section
-        data-template="hair-04"
-        style={{ backgroundColor: GOLD, padding: "0 clamp(20px, 8vw, 140px)" }}
-      >
-        <div
-          className="h04-cta-phone-wrap"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            minHeight: 110,
-            gap: 32,
-          }}
-        >
-          <GenericEditableText
-            sectionId={sectionId}
-            field="title"
-            value={title}
-            tag="p"
-            style={{
-              fontFamily: LATO,
-              fontSize: "clamp(18px, 2vw, 26px)",
-              fontWeight: 400,
-              color: DARK,
-              margin: 0,
-              lineHeight: 1.3,
-            }}
-          />
-          <a
-            href={phoneHref}
-            className="h04-cta-phone-btn"
-            style={{
-              fontFamily: LATO,
-              fontSize: "clamp(16px, 1.5vw, 20px)",
-              fontWeight: 500,
-              color: GOLD,
-              backgroundColor: DARK,
-              borderRadius: 50,
-              padding: "16px 36px",
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-              flexShrink: 0,
-              transition: "background 0.2s, color 0.2s",
-              display: "block",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#222"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-          </a>
-        </div>
-      </section>
-      </>
-    );
+    return <CtaHair04Phone content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   // beauty-01 — Sand-Cream Editorial Wellness CTA
@@ -5296,6 +5218,52 @@ function CtaHair01({ content, sectionId, tenantSlug, isAdmin }: { content: Recor
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
+      </div>
+    </section>
+  );
+}
+
+// hair-04-cta-phone — V3 Studio Pop: violet pás s telefonem (nahrazuje křiklavý žlutý).
+// Pole: title, subtitle, phone, phoneHref, ctaText, ctaHref.
+function CtaHair04Phone({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const phone = String(content.phone ?? "");
+  const phoneHref = String(content.phoneHref ?? (phone ? `tel:${phone.replace(/\s/g, "")}` : "#"));
+  const ctaText = String(content.ctaText ?? "");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section className="h04ct-section" data-template="hair-04">
+      <style>{`
+        .h04ct-section { background: var(--color-primary, #6D4AFF); font-family: 'Epilogue', sans-serif;
+          padding: clamp(2.8rem, 6vw, 4.2rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .h04ct-inner { max-width: 82rem; margin: 0 auto; display: flex; align-items: center;
+          justify-content: space-between; gap: 1.8rem; flex-wrap: wrap; }
+        .h04ct-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em;
+          font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.15; color: #fff; margin: 0 0 0.4rem; text-wrap: balance; }
+        .h04ct-sub { font-size: 0.98rem; line-height: 1.6; color: rgba(255,255,255,0.82); margin: 0; max-width: 46ch; }
+        .h04ct-actions { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
+        .h04ct-phone { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 2rem;
+          border-radius: 999px; background: #fff; color: var(--color-primary, #6D4AFF);
+          font-family: 'Space Grotesk', sans-serif; font-size: 1.02rem; font-weight: 700;
+          text-decoration: none; white-space: nowrap; transition: transform 0.25s; }
+        .h04ct-phone:hover { transform: translateY(-2px); }
+        .h04ct-link { display: inline-flex; align-items: center; padding: 0.95rem 1.8rem; border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.5); color: #fff; font-size: 0.95rem; font-weight: 600;
+          text-decoration: none; white-space: nowrap; transition: background 0.25s; }
+        .h04ct-link:hover { background: rgba(255,255,255,0.14); }
+        @media (prefers-reduced-motion: reduce) { .h04ct-phone { transition: none; } }
+      `}</style>
+      <div className="h04ct-inner">
+        <div>
+          <h2 className="h04ct-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h2>
+          {subtitle && <p className="h04ct-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+        </div>
+        <div className="h04ct-actions">
+          {phone && <a href={phoneHref} className="h04ct-phone">{phone}</a>}
+          {ctaText && <a href={resolve(ctaHref)} className="h04ct-link">{ctaText}</a>}
+        </div>
       </div>
     </section>
   );

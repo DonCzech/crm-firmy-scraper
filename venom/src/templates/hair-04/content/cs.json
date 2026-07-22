@@ -1,155 +1,344 @@
 {
   "navbar": {
-    "siteName": "Impresiv Studio",
+    "siteName": "Studio Pop",
     "logoUrl": "",
     "phone": "+420 704 123 456",
-    "email": "email@demo.cz",
+    "ctaText": "Rezervovat",
+    "ctaHref": "/kontakt",
     "links": [
       {
         "label": "Úvod",
         "href": "/"
       },
       {
-        "label": "O nás",
-        "href": "/#o-nas"
-      },
-      {
-        "label": "Ceník",
-        "href": "/#cenik"
+        "label": "Služby",
+        "href": "/sluzby"
       },
       {
         "label": "Galerie",
-        "href": "/#galerie"
+        "href": "/galerie"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
       },
       {
         "label": "Kontakt",
-        "href": "/#kontakt"
+        "href": "/kontakt"
+      }
+    ],
+    "socials": [
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
       }
     ]
   },
   "hero": {
-    "siteName": "Impresiv Studio",
-    "logoUrl": "",
-    "links": [
-      {
-        "label": "Úvod",
-        "href": "/"
-      },
-      {
-        "label": "Krátce o nás",
-        "href": "/#o-nas"
-      },
-      {
-        "label": "Ceník",
-        "href": "/#cenik"
-      },
-      {
-        "label": "Galerie",
-        "href": "/#galerie"
-      },
-      {
-        "label": "Kontakt",
-        "href": "/#kontakt"
-      }
-    ],
+    "eyebrow": "Barbershop · Praha 3",
     "title": "Je čas se ostříhat? Posaďte se k nám.",
+    "subtitle": "Pánské střihy, vousy a holení břitvou. Bez objednávky do deseti minut, s objednávkou přesně na čas.",
+    "backgroundImage": "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1920&h=1200&fit=crop&auto=format&q=80",
     "ctaPrimaryText": "Ceník a rezervace",
-    "ctaPrimaryHref": "/#cenik",
-    "ctaSecondaryText": "Chci se ostříhat hned",
-    "ctaSecondaryHref": "/#kontakt",
-    "backgroundImage": "/assets/hair-04/0a3ae20d01-salon-inside-bg.jpg"
+    "ctaPrimaryHref": "/sluzby",
+    "ctaSecondaryText": "Zavolat",
+    "ctaSecondaryHref": "/kontakt",
+    "meta": [
+      {
+        "value": "13 let",
+        "label": "na Žižkově"
+      },
+      {
+        "value": "5",
+        "label": "barberů v týmu"
+      },
+      {
+        "value": "4,9",
+        "label": "hodnocení na Google"
+      }
+    ]
   },
   "services": {
+    "tagline": "Ceník",
     "title": "Naše služby",
+    "subtitle": "Ceny platí pro všechny barbery v týmu. Studenti mají 15 % dolů každé úterý.",
     "items": [
       {
-        "name": "Precizní střih a styling",
-        "title": "Precizní střih a styling",
-        "body": "Potřebujete moderní nebo klasický účes? Pak jsme tu pro vás. Zastavte se pro precizní účes, střih nebo úpravu vousů.",
-        "description": "Potřebujete moderní nebo klasický účes? Pak jsme tu pro vás. Zastavte se pro precizní účes, střih nebo úpravu vousů.",
-        "image": ""
+        "name": "Pánský střih",
+        "title": "Pánský střih",
+        "description": "Konzultace, mytí, střih nůžkami i strojkem a styling.",
+        "body": "Konzultace, mytí, střih nůžkami i strojkem a styling.",
+        "price": "od 590 Kč",
+        "duration": "45 min",
+        "image": "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
-        "name": "Barvení vlasů",
-        "title": "Barvení vlasů",
-        "body": "Chcete něco víc? Třeba vaši oblíbenou barvu? Vybíráme si kvalitní a ověřené barvy. Přijďte se přesvědčit sami.",
-        "description": "Chcete něco víc? Třeba vaši oblíbenou barvu? Vybíráme si kvalitní a ověřené barvy. Přijďte se přesvědčit sami.",
-        "image": ""
+        "name": "Střih a vousy",
+        "title": "Střih a vousy",
+        "description": "Kompletní úprava: střih vlasů plus tvarování a zastřižení vousů.",
+        "body": "Kompletní úprava: střih vlasů plus tvarování a zastřižení vousů.",
+        "price": "od 890 Kč",
+        "duration": "70 min",
+        "image": "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=900&h=600&fit=crop&auto=format&q=80"
       },
       {
-        "name": "Záruka spokojenosti",
-        "title": "Záruka spokojenosti",
-        "body": "Jsme umělci střihu. Za kvalitu už léta ručíme vlastním jménem. Naše nejvyšší motivace je vaše spokojenost.",
-        "description": "Jsme umělci střihu. Za kvalitu už léta ručíme vlastním jménem. Naše nejvyšší motivace je vaše spokojenost.",
-        "image": ""
+        "name": "Holení břitvou",
+        "title": "Holení břitvou",
+        "description": "Mokré holení s horkým ručníkem, olejem a balzámem po holení.",
+        "body": "Mokré holení s horkým ručníkem, olejem a balzámem po holení.",
+        "price": "od 690 Kč",
+        "duration": "45 min",
+        "image": "https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=900&h=600&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Kontura a detaily",
+        "title": "Kontura a detaily",
+        "description": "Doladění linií mezi střihy — krk, kotlety a přechody.",
+        "body": "Doladění linií mezi střihy — krk, kotlety a přechody.",
+        "price": "od 290 Kč",
+        "duration": "20 min",
+        "image": "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=900&h=600&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Péče o pleť",
+        "title": "Péče o pleť",
+        "description": "Čisticí maska a masáž obličeje po holení nebo samostatně.",
+        "body": "Čisticí maska a masáž obličeje po holení nebo samostatně.",
+        "price": "od 490 Kč",
+        "duration": "30 min",
+        "image": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=900&h=600&fit=crop&auto=format&q=80"
+      },
+      {
+        "name": "Dětský střih",
+        "title": "Dětský střih",
+        "description": "Pro kluky do 12 let. Bez spěchu a bez slz — máme trpělivost.",
+        "body": "Pro kluky do 12 let. Bez spěchu a bez slz — máme trpělivost.",
+        "price": "od 390 Kč",
+        "duration": "30 min",
+        "image": "https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=900&h=600&fit=crop&auto=format&q=80"
       }
     ]
   },
   "cta": {
     "title": "Nechcete čekat? Zkuste nám zavolat",
+    "subtitle": "Když se uvolní křeslo, vezmeme vás i bez objednávky.",
     "phone": "704 123 456",
-    "phoneHref": "tel:+420704123456"
+    "phoneHref": "tel:+420704123456",
+    "ctaText": "Rezervovat on-line",
+    "ctaHref": "/kontakt"
   },
   "about": {
-    "title": "Impresivní střihy. Už 10 let.",
-    "body": "Od roku 2013 jsme se stali synonymem pro precizní střihy a styling. Naší vizí je poskytovat nejen střihy, barvení vlasů a úpravy vousů, ale také vytvářet jedinečné účesy, které zdůrazní vaši osobnost a krásu. Chceme, abyste byli zkrátka – Impresivní!",
-    "body2": "Velmi si vážíme dlouhodobých vztahů s našimi zákazníky. Naší největší motivací je vaše spokojenost. Jsme odhodlaní vám poskytovat špičkové služby za poctivé ceny.",
-    "image": ""
+    "tagline": "O nás",
+    "title": "Impresivní střihy. Už 13 let.",
+    "body": "Od roku 2013 pomáháme mužům vypadat upraveně bez toho, aby nad tím museli přemýšlet. Specializujeme se na pánské střihy, úpravu vousů, styling a holení břitvou.",
+    "body2": "Každý účes stavíme na tom, jak vlasy rostou a kolik času jim ráno chcete věnovat. Zakládáme si na férových cenách a na tom, že vám nikdy neprodáme něco, co nepotřebujete.",
+    "image": "https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=1000&h=1250&fit=crop&auto=format&q=80",
+    "stats": [
+      {
+        "value": "13",
+        "label": "let na Žižkově"
+      },
+      {
+        "value": "5",
+        "label": "barberů v týmu"
+      },
+      {
+        "value": "4,9",
+        "label": "hodnocení na Google"
+      }
+    ]
   },
   "gallery": {
+    "tagline": "Galerie",
+    "title": "Jak to u nás vypadá",
+    "subtitle": "Interiér, nástroje a práce z posledních týdnů.",
     "images": [
       {
-        "url": "",
-        "alt": "Interiér salonu"
+        "url": "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Interiér barbershopu"
       },
       {
-        "url": "",
-        "alt": "Střih vlasů"
+        "url": "https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Barber při práci"
       },
       {
-        "url": "",
-        "alt": "Barvení vlasů"
+        "url": "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Fade strojkem"
       },
       {
-        "url": "",
-        "alt": "Styling"
+        "url": "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Kontura břitvou"
       },
       {
-        "url": "",
-        "alt": "Interiér 2"
+        "url": "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Strojky a nůžky"
       },
       {
-        "url": "",
-        "alt": "Výsledek"
+        "url": "https://images.unsplash.com/photo-1596728325488-58c87691e9af?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Holení břitvou"
+      }
+    ]
+  },
+  "testimonials": {
+    "tagline": "Recenze",
+    "title": "Co říkají klienti",
+    "rating": "4,9",
+    "ratingLabel": "průměr ze 186 hodnocení na Google",
+    "testimonials": [
+      {
+        "author": "Jakub S.",
+        "role": "klient od 2019",
+        "rating": "5",
+        "text": "Chodím sem šest let a ještě jsem neodešel nespokojený. Poradí i s tím, co ráno reálně zvládnu udělat sám."
+      },
+      {
+        "author": "Ondřej M.",
+        "role": "klient od 2023",
+        "rating": "5",
+        "text": "Přišel jsem bez objednávky v pátek odpoledne a vzali mě do dvaceti minut. Střih i vousy přesně podle domluvy."
+      },
+      {
+        "author": "Filip R.",
+        "role": "klient od 2021",
+        "rating": "5",
+        "text": "Holení břitvou je tady zážitek. Horký ručník, klid a výsledek vydrží dýl než z domácího strojku."
+      }
+    ]
+  },
+  "blog": {
+    "tagline": "Magazín",
+    "title": "Z našeho blogu",
+    "buttonText": "Všechny články",
+    "posts": [
+      {
+        "title": "Jak často chodit na střih",
+        "excerpt": "Podle typu střihu se interval liší od tří týdnů po dva měsíce. Poradíme, jak to poznat na sobě.",
+        "image": "https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=900&h=600&fit=crop&auto=format&q=80",
+        "href": "/blog",
+        "date": "16. 7. 2026"
+      },
+      {
+        "title": "Vousy: čím je mýt a čím ne",
+        "excerpt": "Šampon na vlasy vousy vysušuje. Projdeme, co doopravdy funguje a co je jen hezká lahvička.",
+        "image": "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=900&h=600&fit=crop&auto=format&q=80",
+        "href": "/blog",
+        "date": "9. 7. 2026"
+      },
+      {
+        "title": "Co dělat s pletí po holení",
+        "excerpt": "Podráždění po břitvě není nutnost. Tři kroky, které ho spolehlivě odstraní.",
+        "image": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=900&h=600&fit=crop&auto=format&q=80",
+        "href": "/blog",
+        "date": "28. 6. 2026"
       }
     ]
   },
   "contact": {
+    "tagline": "Kontakt",
     "title": "Kudy k nám",
+    "body": "Najdete nás kousek od náměstí, vchod z ulice. Bez objednávky berte ráno nebo mezi 14. a 16. hodinou.",
     "addressTitle": "Adresa a kontakty",
-    "address": "Ukázková 123, Praha 3",
-    "hours": "Pondělí – Pátek 9:00–18:00, So 9:00–14:00",
+    "address": "Ukázková 123, 130 00 Praha 3",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
     "phone": "704 123 456",
     "phoneHref": "tel:+420704123456",
     "email": "email@demo.cz",
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
-    "mapEmbedUrl": ""
+    "mapEmbedUrl": "",
+    "image": "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1200&h=750&fit=crop&auto=format&q=80"
   },
   "footer": {
-    "siteName": "Impresiv Studio",
-    "address": "Ukázková 123, 110 00 Praha 1",
+    "siteName": "Studio Pop",
+    "heading": "Těšíme se na vás",
+    "tagline": "Barbershop na Žižkově. Střihy, vousy a holení břitvou.",
+    "ctaText": "Rezervovat",
+    "ctaHref": "/kontakt",
+    "address": "Ukázková 123, 130 00 Praha 3",
     "phone": "704 123 456",
     "email": "email@demo.cz",
-    "copyright": "© 2024 Impresiv Studio. Všechna práva vyhrazena.",
+    "hoursList": [
+      {
+        "days": "Pondělí – Pátek",
+        "time": "9:00 – 18:00"
+      },
+      {
+        "days": "Sobota",
+        "time": "9:00 – 14:00"
+      },
+      {
+        "days": "Neděle",
+        "time": "Zavřeno"
+      }
+    ],
+    "links": [
+      {
+        "label": "Úvod",
+        "href": "/"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Blog",
+        "href": "/blog"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "socials": [
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      }
+    ],
+    "copyright": "© 2026 Demo Studio s.r.o. | IČO: 12345678 | DIČ: CZ12345678",
     "gdprHref": "/gdpr",
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo"
   },
+  "pages": {
+    "sluzby": {
+      "hero": {
+        "title": "Služby a ceník",
+        "subtitle": "Co u nás zvládneme a kolik to stojí.",
+        "backgroundImage": "https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "galerie": {
+      "hero": {
+        "title": "Galerie",
+        "subtitle": "Interiér, nástroje a práce z posledních týdnů.",
+        "backgroundImage": "https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    },
+    "kontakt": {
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Kde nás najdete a kdy máme otevřeno.",
+        "backgroundImage": "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=1800&h=700&fit=crop&auto=format&q=80"
+      }
+    }
+  },
   "home": {
     "rezervace": {
-      "title": "Objednejte se online",
-      "subtitle": "Vyberte službu, kadeřníka a čas. Potvrzení dorazí e-mailem.",
+      "title": "Objednejte se on-line",
+      "subtitle": "Vyberte službu, barbera a čas. Potvrzení dorazí e-mailem.",
       "providerSlug": "",
       "apiBaseUrl": ""
     }

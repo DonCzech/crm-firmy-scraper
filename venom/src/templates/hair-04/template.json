@@ -1,38 +1,52 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "hair-04",
-  "name": "Impresiv Studio",
+  "name": "Studio Pop",
   "industry": "hair",
   "skeleton": "service-personal",
-  "version": "0.1.0",
+  "version": "3.0.0",
+  "tags": [
+    "v3"
+  ],
   "baseTemplate": null,
-  "description": "Kadeřnický salon s steel-blue navbarem (#92a8d1), Lato, bílé pozadí — fullwidth hero, 3-col service cards, about 2-col, galerie carousel. Inspirováno kim-impressive.cz.",
-  "sectionOrderNote": "Navbar → Hero (fullwidth) → Services (3 cards) → CTA bar (phone) → About (2-col) → Gallery (carousel) → Contact → Footer",
+  "description": "V3 „Studio Pop“ — pánský barbershop ve svěží pop paletě (violet #6D4AFF, cool paper #F5F4FA, indigo #17132A), Space Grotesk + Epilogue, radius 14 a pill CTA. Cinematic hero, foto karty služeb s cenou, violet CTA pás s telefonem, tmavá galerie, recenze, blog modul a kontakt s reálným formulářem.",
+  "sectionOrderNote": "Rytmus dle V3_PLAYBOOK §1: hero (tmavý) → služby (bílá) → CTA pás (violet) → o nás (paper) → galerie (TMAVÁ) → recenze (bílá) → rezervace → blog (paper) → kontakt (bílá) → patička (tmavá). Žádné dvě tmavé sekce vedle sebe.",
   "skippedSections": [
-    {
-      "pos": 1,
-      "name": "Header",
-      "reason": "Navbar je embedded v hero sekci (transparentní overlay, Astra-style)"
-    },
     {
       "pos": 5,
       "name": "Pricing",
-      "reason": "kim-impressive.cz nemá ceník sekci na homepage"
+      "reason": "ceny jsou přímo na foto kartách služeb"
     },
     {
       "pos": 7,
       "name": "Team",
-      "reason": "kim-impressive.cz nemá team sekci"
-    },
-    {
-      "pos": 8,
-      "name": "Testimonials",
-      "reason": "kim-impressive.cz nemá recenze sekci"
+      "reason": "barbershop staví na značce, ne na jménech; tým je zmíněn v o nás"
     },
     {
       "pos": 11,
       "name": "FAQ",
-      "reason": "kim-impressive.cz nemá FAQ sekci"
+      "reason": "dotazy řeší rezervační widget a kontaktní formulář"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "cta",
+      "variant": "hair-04-cta-phone",
+      "reason": "violet pás s telefonem drží rytmus mezi světlými sekcemi a nese hlavní konverzi (volání bez objednávky)"
+    },
+    {
+      "type": "blog-preview",
+      "variant": "hair-04-blog",
+      "reason": "barbershop provozuje magazín — modul blogu je součástí šablony"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "inline rezervační widget Rezora — objednání přímo na stránce"
+    },
+    {
+      "type": "testimonials",
+      "variant": "hair-04-testimonials",
+      "reason": "recenze v šabloně úplně chyběly — bez sociálního důkazu neprodává"
     }
   ],
   "i18n": {
@@ -47,6 +61,11 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-04-navbar",
+          "contentRef": "navbar"
+        },
         {
           "type": "hero",
           "variant": "hero-hair-04-with-navbar",
@@ -73,9 +92,102 @@
           "contentRef": "gallery"
         },
         {
+          "type": "testimonials",
+          "variant": "hair-04-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
           "type": "rezora-widget",
-          "variant": "hair-04",
+          "variant": "editorial",
           "contentRef": "home.rezervace"
+        },
+        {
+          "type": "blog-preview",
+          "variant": "hair-04-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "contact",
+          "variant": "hair-04-contact",
+          "contentRef": "contact"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-04-page",
+          "contentRef": "pages.sluzby.hero"
+        },
+        {
+          "type": "services",
+          "variant": "hair-04-service-cards",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "hair-04-cta-phone",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "title": "Galerie",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-04-page",
+          "contentRef": "pages.galerie.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "hair-04-carousel",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "footer",
+          "variant": "hair-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "hair-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-hair-04-page",
+          "contentRef": "pages.kontakt.hero"
         },
         {
           "type": "contact",
@@ -92,11 +204,5 @@
   ],
   "content": {
     "default": "./content/cs.json"
-  },
-  "extraSections": [
-    {
-      "type": "rezora-widget",
-      "reason": "Inline rezervační widget Rezora — objednání přímo na stránce bez přesměrování"
-    }
-  ]
+  }
 }
