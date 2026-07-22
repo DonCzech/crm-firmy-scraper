@@ -99,8 +99,8 @@ for (const t of tenants) {
         );
       } else {
         await c.query(
-          `INSERT INTO sections (tenant_id, page_id, section_type, section_variant, order_index, is_visible, settings, content_overrides)
-           VALUES ($1, $2, $3, $4, $5, true, '{}'::jsonb, '{}'::jsonb)`,
+          `INSERT INTO sections (tenant_id, page_id, section_type, section_variant, order_index, is_visible, settings, content_overrides, content_source)
+           VALUES ($1, $2, $3, $4, $5, true, '{}'::jsonb, '{}'::jsonb, 'v2')`,
           [t.id, pageId, want.type, want.variant ?? "default", i]
         );
         created++;

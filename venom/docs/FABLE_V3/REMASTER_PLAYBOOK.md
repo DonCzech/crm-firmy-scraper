@@ -19,7 +19,7 @@ Studia, SEO/PageSpeed, rezora + blog moduly zkontrolovat na desktopu i mobilu.
 | 3 | ortho-01 | ortho-01-v2 | 684 | kompletně + VŠECHNY obrázky | ✅ DONE |
 | 4 | hair-01 | hair-01-v2 | 401 | kompletně | ✅ DONE |
 | 5 | hair-02 | hair-02-demo | 414 (+showcase 415) | kompletně | ✅ DONE |
-| 6 | hair-03 | hair-03-v2 | 407 (+showcase 420) | kompletně | ⏳ |
+| 6 | hair-03 | hair-03-v2 | 407 (+showcase 420) | kompletně | ✅ DONE |
 | 7 | hair-04 | hair-04-v2 | 419 | kompletně | ⏳ |
 | 8 | kids-01 | **kids-01-showcase** | **873** (+v2 896) | vylepšit + Webero credit | ⏳ |
 | 9 | lang-01 | **lang-01-showcase** | **884** (+v2 885) | vylepšit + Webero credit | ⏳ |
@@ -287,3 +287,24 @@ prázdného bílého boxu; `recenze` doplněna do manifestu; všechny fotky nov�
 - Unsplash `&crop=faces` zachrání fotku, kde by centrální ořez ukázal nesmysl (u nás věšák
   s pláštěnkami místo klientky).
 - Mřížka galerie se `span 2` výjimkami dělá díry a nerovné řady — jednotné dlaždice 4×2 vyhrály.
+
+## 5d. HAIR-03 — ✅ DONE (2026-07-21)
+
+„Noir & Oxblood" tmavý editorial: bone `#F1EEEA`, noir `#141110`, oxblood `#8E2B36`
+(hover `#6E1F28`), border `#E0D9D2`, muted `#6E645D`; **Archivo + Gantari**; radius 0.
+11 variant (`h03n/h03h/h03hp/h03ab/h03tm/h03sv/h03g/h03bl/h03rv/h03co/h03ft-*`).
+Presety oxblood/brass/steel. Šabloně ÚPLNĚ CHYBĚLY služby, recenze i kontaktní formulář
+(kontakt měl generický `default`) — doplněny. Footer byl holý copyright pás → 4 sloupce
++ WeberoCredit. Rozbitý slider s mikro-náhledy → mřížka. Brand residue „petra studio“.
+
+**NOVÁ PAST (stála by hodinu ladění):**
+- **`sections.content_source` musí být `'v2'`.** Nově vložené řádky dostanou default
+  `'legacy'` a renderer je NEKRMÍ z `template_versions.default_demo_content` ⇒ sekce se
+  vykreslí jen s fallback defaulty z komponenty (u hair-03: prázdný ceník, chybějící
+  recenze, kontakt bez údajů). `_align-tenant-sections.mjs` už `'v2'` nastavuje.
+  Kontrola: `SELECT section_type, content_source FROM sections WHERE tenant_id=<id>`.
+  Výjimka: `rezora-widget` nech `legacy` (sync ho drží zamrzlý a renderuje správně).
+- Rezora `editorial` preset sází nadpis KURZÍVOU záměrně — font ale dědí z motivu
+  správně (ověřeno `getComputedStyle`), takže to není bug; neopravovat.
+- `_shot-master.mjs` může chytit stránku uprostřed rekompilace (screenshot 1440×900
+  místo plné výšky) — když je výška podezřele malá, spusť znovu.
