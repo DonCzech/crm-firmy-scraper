@@ -413,3 +413,20 @@ v **sociálních odkazech** (`facebook.com/lesni-smecka`). Kontrola všech tenan
 
 Drobné: lang-01 měl v patičce DVA sloupce „Kontakt", druhý prázdný (naplněn na „Škola");
 copyright se po přejmenování brandu zdvojil.
+
+## 6b. ZÁVĚREČNÝ SWEEP BĚHU (2026-07-22) — všech 11 řádků §0 je ✅ DONE
+
+Doporučený finální průchod (spustit vždy po dokončení dávky, ne po každé šabloně):
+```bash
+npx tsc --noEmit                                   # 0
+for k in <klíče>; do pnpm validate:template $k; done
+for s in <slugy>; do node scripts/_console-check.mjs $s; done   # 0 chyb, 0 overflow
+node scripts/_hidden-sweep.mjs <slugy…>            # 0 trvale skrytých bloků
+# demo identita — VŽDY na renderovaném HTML, ne v DB, a na KMEN slova:
+for s in <slugy>; do curl -s localhost:3015/demo/$s | grep -ocE '<kmen1>|<kmen2>'; done   # 0
+```
+Výsledek: tsc 0 · validate PASS 7/7 · 0 chyb a 0 overflow na 7 šablonách · 0 skrytých bloků
+na 11 tenantech · 0 residuí reálných firem · titulky/og/JSON-LD odpovídají demo identitě.
+
+`_hidden-sweep.mjs` vědomě ignoruje **zavřené overlay menu** (`-ov`/`-overlay`) a **neaktivní
+snímky crossfade slideru** (`slide`) — tam je `opacity:0` správně.
