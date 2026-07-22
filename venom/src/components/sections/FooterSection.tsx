@@ -9024,7 +9024,8 @@ function FooterLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         <div className="lang01foot-bar">
           <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
         </div>
-      </footer>
+        <div style={{ display: "flex", justifyContent: "center", padding: "0 0 18px" }}><WeberoCredit /></div>
+    </footer>
     </>
   );
 }
@@ -9320,6 +9321,7 @@ function FooterKids01({ content, sectionId }: { content: Record<string, unknown>
           </div>
         </div>
       </div>
+      <div style={{ display: "flex", justifyContent: "center", padding: "0 0 18px" }}><WeberoCredit /></div>
     </footer>
   );
 }

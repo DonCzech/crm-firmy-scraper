@@ -1,8 +1,8 @@
 {
-  "siteName": "Lingvista Jazyková akademie",
+  "siteName": "Demo Jazyková škola Jazyková akademie",
   "siteDescription": "Skupinové i individuální kurzy 7 jazyků, příprava na mezinárodní zkoušky, firemní jazykové vzdělávání.",
   "navbar": {
-    "siteName": "Lingvista akademie",
+    "siteName": "Demo Jazyková škola",
     "logoUrl": "",
     "ctaText": "Zapsat se",
     "ctaHref": "/kurzy",
@@ -157,9 +157,9 @@
   "contact": {
     "heading": "Ozvěte se nám",
     "subheading": "Rádi poradíme s výběrem kurzu, sdělíme aktuální termíny a zašleme cenovou nabídku.",
-    "phone": "602 987 543",
-    "email": "kurzy@lingvista-akademie.cz",
-    "address": "Náměstí Svobody 14, 602 00 Brno",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
     "hours": "Po–Pá 8:00–19:00, So 9:00–13:00",
     "ctaText": "Odeslat dotaz",
     "formFields": {
@@ -170,15 +170,15 @@
     }
   },
   "footer": {
-    "siteName": "Lingvista akademie",
+    "siteName": "Demo Jazyková škola",
     "logoUrl": "",
     "tagline": "Jazyková akademie s 28 lety zkušeností. 7 jazyků pro děti, dospělé i firmy.",
-    "phone": "602 987 543",
-    "email": "kurzy@lingvista-akademie.cz",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
     "facebook": "https://facebook.com/lingvista",
     "instagram": "https://instagram.com/lingvista",
     "linkedin": "https://linkedin.com/lingvista",
-    "copyright": "© 2026 Lingvista Jazyková akademie. Všechna práva vyhrazena.",
+    "copyright": "© 2026 Demo Jazyková škola Jazyková akademie. Všechna práva vyhrazena.",
     "navGroups": [
       {
         "label": "Kurzy",
@@ -209,7 +209,7 @@
   },
   "pages": {
     "kurzy": {
-      "seoTitle": "Kurzy jazyků — Lingvista Jazyková akademie",
+      "seoTitle": "Kurzy jazyků — Demo Jazyková škola Jazyková akademie",
       "seoDescription": "Skupinové, individuální i firemní jazykové kurzy v Brně. 7 jazyků, malé skupiny, certifikovaní lektoři.",
       "hero": {
         "title": "Jazykové kurzy",
@@ -218,7 +218,7 @@
       }
     },
     "o-nas": {
-      "seoTitle": "O akademii — Lingvista Jazyková akademie",
+      "seoTitle": "O akademii — Demo Jazyková škola Jazyková akademie",
       "seoDescription": "28 let zkušeností v jazykovém vzdělávání. Přes 8 500 studentů ročně v Brně a okolí.",
       "hero": {
         "title": "O naší akademii",
@@ -227,7 +227,7 @@
       }
     },
     "kontakt": {
-      "seoTitle": "Kontakt — Lingvista Jazyková akademie",
+      "seoTitle": "Kontakt — Demo Jazyková škola Jazyková akademie",
       "seoDescription": "Navštivte nás na Náměstí Svobody 14 v Brně nebo nám napište. Rádi poradíme."
     }
   }

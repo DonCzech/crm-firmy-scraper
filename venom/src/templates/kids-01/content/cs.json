@@ -1,8 +1,8 @@
 {
-  "siteName": "Lesní Smečka",
+  "siteName": "Demo Kroužky",
   "siteDescription": "Outdoorové kroužky a příměstské tábory pro děti 5–14 let v přírodě.",
   "navbar": {
-    "siteName": "Lesní Smečka",
+    "siteName": "Demo Kroužky",
     "logoUrl": "",
     "ctaText": "Zapsat dítě",
     "ctaHref": "/kontakt",
@@ -47,12 +47,12 @@
   },
   "hero": {
     "tagline": "pro děti 5 až 14 let",
-    "heading": "Lesní Smečka",
+    "heading": "Demo Kroužky",
     "subheading": "Venkovní kroužky plné dobrodružství — kde příroda je největší hřiště",
     "ctaText": "Chci se zapsat",
     "ctaHref": "/kontakt",
     "imageUrl": "/assets/kids-01/36b3126a5b-web-homepage-1.png",
-    "imageAlt": "Děti v lese na kroužku Lesní Smečka"
+    "imageAlt": "Děti v lese na kroužku Demo Kroužky"
   },
   "pillars": {
     "heading": "Co tě u nás čeká?",
@@ -84,10 +84,10 @@
     ]
   },
   "about": {
-    "heading": "Pro koho je Lesní Smečka?",
+    "heading": "Pro koho je Demo Kroužky?",
     "imageUrl": "/assets/kids-01/3ab44d207e-db56d7b4-1cc2-47bf-857b-c2ac1a72e8ec_1_105_c.jpeg",
     "imageAlt": "Děti při outdoorových aktivitách v lese",
-    "tagline": "Lesní Smečka je místo, kde děti rostou — silné, sebejisté a plné života.",
+    "tagline": "Demo Kroužky je místo, kde děti rostou — silné, sebejisté a plné života.",
     "items": [
       "Pro děti od 5 do 14 let",
       "Pro ty, kdo mají rádi pohyb, ale nudí je halové sporty",
@@ -189,22 +189,22 @@
       {
         "text": "Syn se vrací z každého kroužku umazaný od hlavy k patě a se zářícíma očima. To je pro mě ta nejlepší zpětná vazba.",
         "author": "Petra M.",
-        "company": "Lesní Smečka"
+        "company": "Demo Kroužky"
       },
       {
-        "text": "Dcera se poprvé v životě sama přihlásila zpátky na kroužek. To se ještě nikdy nestalo. Lesní Smečka ji prostě dostala.",
+        "text": "Dcera se poprvé v životě sama přihlásila zpátky na kroužek. To se ještě nikdy nestalo. Demo Kroužky ji prostě dostala.",
         "author": "Lukáš V.",
-        "company": "Lesní Smečka"
+        "company": "Demo Kroužky"
       },
       {
         "text": "Konečně kroužek, kde nejde o výkon, ale o zážitek. Děti se tu naučí spolupracovat, pomáhat si a neztratit se v lese.",
         "author": "Michaela Š.",
-        "company": "Lesní Smečka"
+        "company": "Demo Kroužky"
       },
       {
         "text": "Vedoucí jsou skvělí — mají přirozenou autoritu a zároveň děti berou jako parťáky. Takoví lidi jsou vzácní.",
         "author": "Roman K.",
-        "company": "Lesní Smečka"
+        "company": "Demo Kroužky"
       }
     ]
   },
@@ -244,7 +244,7 @@
     ]
   },
   "benefits": {
-    "heading": "Co Lesní Smečka přinese vašemu dítěti",
+    "heading": "Co Demo Kroužky přinese vašemu dítěti",
     "imageUrl": "/assets/kids-01/04e685188e-5.jpg",
     "imageAlt": "Dítě při aktivitách v přírodě",
     "tagline": "Příroda formuje charakter lépe než jakákoli učebnice.",
@@ -269,7 +269,7 @@
     "heading": "Zaujalo vás to?",
     "subheading": "Napište nám nebo zavolejte — rádi odpovíme na všechny otázky.",
     "ctaText": "NAPSAT NÁM",
-    "ctaHref": "mailto:ahoj@lesni-smecka.cz",
+    "ctaHref": "mailto:info@demo.cz",
     "contactLabel": "Kontakt",
     "pricingHeading": "Cena kroužku",
     "pricingItems": [
@@ -291,12 +291,12 @@
       "Říčany — Voděradské bučiny",
       "Beroun — Karlické údolí"
     ],
-    "email": "ahoj@lesni-smecka.cz",
-    "phone": "775 388 210",
-    "address": "Přírodní 7, 150 00 Praha 5 — Smíchov"
+    "email": "info@demo.cz",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1"
   },
   "footer": {
-    "siteName": "Lesní Smečka",
+    "siteName": "Demo Kroužky",
     "logoUrl": "/templates/kids-01/logo.svg",
     "tagline": "Outdoorové kroužky a tábory pro děti 5–14 let v srdci přírody.",
     "columns": [
@@ -347,21 +347,21 @@
         ]
       }
     ],
-    "phone": "775 388 210",
-    "email": "ahoj@lesni-smecka.cz",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
     "address": "Přírodní 7, 150 00 Praha 5",
     "facebook": "https://facebook.com/lesni-smecka",
     "instagram": "https://instagram.com/lesni.smecka",
-    "legalName": "Lesní Smečka z.s.",
+    "legalName": "Demo Kroužky z.s.",
     "ico": "09876543",
     "dic": "CZ09876543",
-    "legalAddress": "Přírodní 7, 150 00 Praha 5 — Smíchov",
+    "legalAddress": "Ukázková 123, 110 00 Praha 1",
     "privacyHref": "/ochrana-udaju",
     "cookiesHref": "/cookies"
   },
   "pages": {
     "aktivity": {
-      "seoTitle": "Co děláme | Lesní Smečka",
+      "seoTitle": "Co děláme | Demo Kroužky",
       "seoDescription": "Lesní hry, woodcraft a divoké výpravy pro děti 5–14 let v přírodě.",
       "hero": {
         "title": "Co děláme",
@@ -370,7 +370,7 @@
       }
     },
     "nas-tym": {
-      "seoTitle": "Náš tým | Lesní Smečka",
+      "seoTitle": "Náš tým | Demo Kroužky",
       "seoDescription": "Poznejte naše vedoucí — zkušené outdooristy a srdcaře.",
       "hero": {
         "title": "Náš tým",
@@ -379,7 +379,7 @@
       }
     },
     "kontakt": {
-      "seoTitle": "Kontakt | Lesní Smečka",
+      "seoTitle": "Kontakt | Demo Kroužky",
       "seoDescription": "Zapište dítě do Lesní Smečky — napište nebo zavolejte.",
       "hero": {
         "heading": "Pojďme se domluvit",

@@ -1,10 +1,10 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "lang-01",
-  "name": "Lingvista",
+  "name": "Demo Jazyková škola",
   "industry": "lang",
   "skeleton": "service-personal",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "baseTemplate": null,
   "description": "Jazyková škola — bílý design, červený #e63946 akcent, tmavý #1a1a2e, Inter font. Sticky bílý navbar, hero s gradientem a kartou jazyků, stats bar tmavý, kurzy 3-col, CTA test úrovně, 4 kroky jak to funguje, tmavý footer. Inspirováno jipka.cz.",
   "sectionOrderNote": "Navbar → Hero → Stats → Services → CTA → Promo → Footer",
@@ -190,5 +190,8 @@
   ],
   "content": {
     "default": "./content/cs.json"
-  }
+  },
+  "tags": [
+    "v3"
+  ]
 }

@@ -3920,7 +3920,9 @@ function TestimonialsKids01({ content, sectionId }: { content: Record<string, un
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.1 });
     obs.observe(el);
-    return () => obs.disconnect();
+    // reveal-failsafe: kdyby observer nikdy nespustil, obsah nesmí zůstat neviditelný
+    const failsafe = setTimeout(() => setVis(true), 1200);
+    return () => { clearTimeout(failsafe); obs.disconnect(); };
   }, []);
 
   const BLUE  = "#009BDE";

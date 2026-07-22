@@ -2770,7 +2770,9 @@ function CtaKids01({ content, sectionId }: { content: Record<string, unknown>; s
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.15 });
     obs.observe(el);
-    return () => obs.disconnect();
+    // reveal-failsafe: kdyby observer nikdy nespustil, obsah nesmí zůstat neviditelný
+    const failsafe = setTimeout(() => setVis(true), 1200);
+    return () => { clearTimeout(failsafe); obs.disconnect(); };
   }, []);
 
   const FONT = "'Gotham Rounded', 'Nunito', 'Trebuchet MS', sans-serif";

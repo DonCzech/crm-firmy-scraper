@@ -1,28 +1,28 @@
 {
   "colors": {
-    "primary":    "#e63946",
-    "secondary":  "#1a1a2e",
+    "primary": "#e63946",
+    "secondary": "#1a1a2e",
     "background": "#ffffff",
-    "surface":    "#f8f9fc",
-    "text":       "#1a1a2e",
-    "textMuted":  "#a0a0b0",
-    "accent":     "#e63946",
-    "border":     "#eef0f3"
+    "surface": "#f8f9fc",
+    "text": "#1a1a2e",
+    "textMuted": "#a0a0b0",
+    "accent": "#e63946",
+    "border": "#eef0f3"
   },
   "typography": {
     "fontHeading": "'Inter', sans-serif",
-    "fontBody":    "'Inter', sans-serif",
-    "scale":       "comfortable"
+    "fontBody": "'Inter', sans-serif",
+    "scale": "comfortable"
   },
   "radius": {
-    "sm":   "8px",
-    "md":   "12px",
-    "lg":   "20px",
+    "sm": "8px",
+    "md": "12px",
+    "lg": "20px",
     "pill": "50px"
   },
   "spacing": {
     "personality": "normal",
-    "section":     "comfortable"
+    "section": "comfortable"
   },
   "shadows": {
     "sm": "0 1px 4px rgba(0,0,0,0.06)",
@@ -30,8 +30,49 @@
     "lg": "0 20px 50px rgba(0,0,0,0.10)"
   },
   "animation": {
-    "ease":      "cubic-bezier(.4,0,.2,1)",
-    "duration":  "200ms",
+    "ease": "cubic-bezier(.4,0,.2,1)",
+    "duration": "200ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "indigo": {
+      "label": "Indigo — studijní modrá (default)",
+      "tokens": {
+        "colorPrimary": "#3B4FB5",
+        "colorAccent": "#2C3B8C",
+        "colorSecondary": "#151A33",
+        "colorBackground": "#F5F6FC",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#151A33",
+        "colorTextMuted": "#626A8A",
+        "colorBorder": "#E1E4F2"
+      }
+    },
+    "coral": {
+      "label": "Coral — přátelská korálová",
+      "tokens": {
+        "colorPrimary": "#D9544E",
+        "colorAccent": "#AE3E39",
+        "colorSecondary": "#2B1614",
+        "colorBackground": "#FDF6F5",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#2B1614",
+        "colorTextMuted": "#7C6663",
+        "colorBorder": "#F1DFDD"
+      }
+    },
+    "teal": {
+      "label": "Teal — klidná tyrkysová",
+      "tokens": {
+        "colorPrimary": "#12776E",
+        "colorAccent": "#0C5A53",
+        "colorSecondary": "#0E211F",
+        "colorBackground": "#F2F9F8",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#0E211F",
+        "colorTextMuted": "#5C6E6B",
+        "colorBorder": "#D9EAE7"
+      }
+    }
   }
 }

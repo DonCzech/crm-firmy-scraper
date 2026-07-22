@@ -1,28 +1,28 @@
 {
   "colors": {
-    "primary":    "#009BDE",
-    "secondary":  "#1a3a2a",
+    "primary": "#009BDE",
+    "secondary": "#1a3a2a",
     "background": "#ffffff",
-    "surface":    "#f4f8f4",
-    "text":       "#1a2d1a",
-    "textMuted":  "#5a7a6a",
-    "accent":     "#ffc107",
-    "border":     "#dde8dd"
+    "surface": "#f4f8f4",
+    "text": "#1a2d1a",
+    "textMuted": "#5a7a6a",
+    "accent": "#ffc107",
+    "border": "#dde8dd"
   },
   "typography": {
     "fontHeading": "'Nunito', 'Roboto', sans-serif",
-    "fontBody":    "'Roboto', 'Inter', sans-serif",
-    "scale":       "comfortable"
+    "fontBody": "'Roboto', 'Inter', sans-serif",
+    "scale": "comfortable"
   },
   "radius": {
-    "sm":   "6px",
-    "md":   "10px",
-    "lg":   "18px",
+    "sm": "6px",
+    "md": "10px",
+    "lg": "18px",
     "pill": "50px"
   },
   "spacing": {
     "personality": "normal",
-    "section":     "comfortable"
+    "section": "comfortable"
   },
   "shadows": {
     "sm": "0 1px 4px rgba(0,0,0,0.07)",
@@ -30,8 +30,49 @@
     "lg": "0 16px 48px rgba(0,0,0,0.12)"
   },
   "animation": {
-    "ease":      "cubic-bezier(.4,0,.2,1)",
-    "duration":  "200ms",
+    "ease": "cubic-bezier(.4,0,.2,1)",
+    "duration": "200ms",
     "intensity": "subtle"
+  },
+  "presets": {
+    "forest": {
+      "label": "Forest — lesní zelená (default)",
+      "tokens": {
+        "colorPrimary": "#2F7D46",
+        "colorAccent": "#215C33",
+        "colorSecondary": "#16281C",
+        "colorBackground": "#F5FAF6",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#16281C",
+        "colorTextMuted": "#5E6F63",
+        "colorBorder": "#DCE9DF"
+      }
+    },
+    "sky": {
+      "label": "Sky — hravá modrá",
+      "tokens": {
+        "colorPrimary": "#1E88D6",
+        "colorAccent": "#1668A8",
+        "colorSecondary": "#10222F",
+        "colorBackground": "#F2F8FD",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#10222F",
+        "colorTextMuted": "#5C6B77",
+        "colorBorder": "#D9E7F2"
+      }
+    },
+    "sunset": {
+      "label": "Sunset — teplá oranžová",
+      "tokens": {
+        "colorPrimary": "#E2701E",
+        "colorAccent": "#B85714",
+        "colorSecondary": "#2A1A10",
+        "colorBackground": "#FDF7F2",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#2A1A10",
+        "colorTextMuted": "#79675B",
+        "colorBorder": "#F0E2D6"
+      }
+    }
   }
 }
