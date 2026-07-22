@@ -264,6 +264,9 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
     if (variant === "hair-04-testimonials") {
     return <TestimonialsHair04 content={content} sectionId={sectionId} />;
   }
+    if (variant === "lang-01-testimonials") {
+    return <TestimonialsLang01 content={content} sectionId={sectionId} />;
+  }
 
   if (variant === "testimonials-peak-cut-grid") {
     // peak-cut (aka barber-05) — Brutalist Atelier White testimonials
@@ -6447,6 +6450,63 @@ function TestimonialsHair04({ content, sectionId }: { content: Record<string, un
                 <span>
                   <span className="h04rv-name"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.author`} value={t.author ?? ""} tag="span" /></span>
                   <span className="h04rv-role"><GenericEditableText sectionId={sectionId} field={`testimonials.${i}.role`} value={t.role ?? ""} tag="span" /></span>
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// lang-01-testimonials — reference studentů. Iniciálové avatary (žádné stock portréty),
+// červené hvězdy, světlá sekce pro rytmus mezi navy pásy.
+function TestimonialsLang01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type T = { author?: string; role?: string; text?: string; rating?: string };
+  const eyebrow = String(content.eyebrow ?? "Reference");
+  const heading = String(content.heading ?? "Co říkají studenti");
+  const items = ((content.items ?? content.testimonials) as T[]) ?? [];
+  const ini = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  return (
+    <section id="reference" data-section-type="testimonials" data-variant="lang-01-testimonials" className="l01tm-section" data-template="lang-01">
+      <style>{`
+        .l01tm-section { background: var(--color-bg, #f7f8fc); font-family: 'Inter', -apple-system, sans-serif;
+          padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .l01tm-inner { max-width: 1200px; margin: 0 auto; }
+        .l01tm-head { text-align: center; margin-bottom: clamp(2.2rem, 4vw, 3rem); }
+        .l01tm-eyebrow { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--color-primary, #e63946); margin-bottom: 0.7rem; }
+        .l01tm-title { font-weight: 800; letter-spacing: -0.02em; font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+          line-height: 1.1; color: var(--color-text, #1a1a2e); margin: 0; text-wrap: balance; }
+        .l01tm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.2rem, 2.4vw, 1.8rem); }
+        .l01tm-card { background: #fff; border: 1px solid var(--color-border, #e6e8f0); border-radius: 14px;
+          padding: clamp(1.4rem, 2.4vw, 1.9rem); display: flex; flex-direction: column; }
+        .l01tm-stars { color: var(--color-primary, #e63946); font-size: 0.92rem; letter-spacing: 0.15em; margin-bottom: 0.9rem; }
+        .l01tm-text { font-size: 1rem; line-height: 1.68; color: var(--color-text, #1a1a2e); margin: 0 0 1.3rem; flex: 1; }
+        .l01tm-who { display: flex; align-items: center; gap: 0.8rem; }
+        .l01tm-av { width: 2.7rem; height: 2.7rem; border-radius: 999px; flex-shrink: 0; display: flex;
+          align-items: center; justify-content: center; background: var(--color-secondary, #1a1a2e);
+          color: #fff; font-size: 0.86rem; font-weight: 700; }
+        .l01tm-name { font-weight: 700; font-size: 0.96rem; color: var(--color-text, #1a1a2e); display: block; }
+        .l01tm-role { font-size: 0.84rem; color: var(--color-text-muted, #6b7280); }
+        @media (max-width: 899px) { .l01tm-grid { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="l01tm-inner">
+        <div className="l01tm-head">
+          <span className="l01tm-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></span>
+          <h2 className="l01tm-title"><GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" /></h2>
+        </div>
+        <div className="l01tm-grid">
+          {items.map((t, i) => (
+            <figure className="l01tm-card" key={i}>
+              <div className="l01tm-stars" role="img" aria-label={`Hodnocení ${t.rating ?? "5"} z 5`}>{"★".repeat(Number(t.rating ?? 5) || 5)}</div>
+              <blockquote className="l01tm-text"><GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={t.text ?? ""} tag="span" /></blockquote>
+              <figcaption className="l01tm-who">
+                <span className="l01tm-av" aria-hidden>{ini(t.author ?? "")}</span>
+                <span>
+                  <span className="l01tm-name"><GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={t.author ?? ""} tag="span" /></span>
+                  <span className="l01tm-role"><GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={t.role ?? ""} tag="span" /></span>
                 </span>
               </figcaption>
             </figure>

@@ -9315,13 +9315,13 @@ function FooterKids01({ content, sectionId }: { content: Record<string, unknown>
             {dic && <> | DIČ: {dic}</>}
             {legalAddr && <> | {legalAddr}</>}
           </p>
-          <div style={{ display: "flex", gap: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
             <a href={privacyHref} className="k01foot-link" style={{ fontSize: "0.78rem" }}>Ochrana osobních údajů</a>
             <a href={cookiesHref} className="k01foot-link" style={{ fontSize: "0.78rem" }}>Cookies</a>
+            <WeberoCredit />
           </div>
         </div>
       </div>
-      <div style={{ display: "flex", justifyContent: "center", padding: "0 0 18px" }}><WeberoCredit /></div>
     </footer>
   );
 }
@@ -10622,17 +10622,15 @@ function FooterUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: 
           <p className="ucn01ft-copy">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </p>
-          {legalLinks.length > 0 && (
-            <div className="ucn01ft-legal">
-              {legalLinks.map((l, i) => (
-                <a key={i} href={resolveHref(l.href ?? "#")} className="ucn01ft-legal-link">
-                  <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label ?? ""} tag="span" />
-                </a>
-              ))}
-            </div>
-          )}
+          <div className="ucn01ft-legal" style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+            {legalLinks.map((l, i) => (
+              <a key={i} href={resolveHref(l.href ?? "#")} className="ucn01ft-legal-link">
+                <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label ?? ""} tag="span" />
+              </a>
+            ))}
+            <WeberoCredit />
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", padding: "0 0 18px" }}><WeberoCredit /></div>
     </footer>
     </>
   );

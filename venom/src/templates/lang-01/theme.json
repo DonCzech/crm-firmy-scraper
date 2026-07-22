@@ -1,13 +1,13 @@
 {
   "colors": {
-    "primary": "#e63946",
-    "secondary": "#1a1a2e",
-    "background": "#ffffff",
-    "surface": "#f8f9fc",
-    "text": "#1a1a2e",
-    "textMuted": "#a0a0b0",
-    "accent": "#e63946",
-    "border": "#eef0f3"
+    "primary": "#E63946",
+    "secondary": "#1A1A2E",
+    "background": "#F7F8FC",
+    "surface": "#FFFFFF",
+    "text": "#1A1A2E",
+    "textMuted": "#6B7280",
+    "accent": "#C22D39",
+    "border": "#E6E8F0"
   },
   "typography": {
     "fontHeading": "'Inter', sans-serif",
@@ -35,8 +35,21 @@
     "intensity": "subtle"
   },
   "presets": {
+    "crimson": {
+      "label": "Crimson — sytá červená (default)",
+      "tokens": {
+        "colorPrimary": "#E63946",
+        "colorAccent": "#C22D39",
+        "colorSecondary": "#1A1A2E",
+        "colorBackground": "#F7F8FC",
+        "colorSurface": "#FFFFFF",
+        "colorText": "#1A1A2E",
+        "colorTextMuted": "#6B7280",
+        "colorBorder": "#E6E8F0"
+      }
+    },
     "indigo": {
-      "label": "Indigo — studijní modrá (default)",
+      "label": "Indigo — studijní modrá",
       "tokens": {
         "colorPrimary": "#3B4FB5",
         "colorAccent": "#2C3B8C",
@@ -46,19 +59,6 @@
         "colorText": "#151A33",
         "colorTextMuted": "#626A8A",
         "colorBorder": "#E1E4F2"
-      }
-    },
-    "coral": {
-      "label": "Coral — přátelská korálová",
-      "tokens": {
-        "colorPrimary": "#D9544E",
-        "colorAccent": "#AE3E39",
-        "colorSecondary": "#2B1614",
-        "colorBackground": "#FDF6F5",
-        "colorSurface": "#FFFFFF",
-        "colorText": "#2B1614",
-        "colorTextMuted": "#7C6663",
-        "colorBorder": "#F1DFDD"
       }
     },
     "teal": {

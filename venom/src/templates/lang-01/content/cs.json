@@ -1,5 +1,5 @@
 {
-  "siteName": "Demo Jazyková škola Jazyková akademie",
+  "siteName": "Demo Jazyková škola",
   "siteDescription": "Skupinové i individuální kurzy 7 jazyků, příprava na mezinárodní zkoušky, firemní jazykové vzdělávání.",
   "navbar": {
     "siteName": "Demo Jazyková škola",
@@ -225,23 +225,71 @@
       "seoTitle": "Kurzy jazyků — Demo Jazyková škola Jazyková akademie",
       "seoDescription": "Skupinové, individuální i firemní jazykové kurzy v Brně. 7 jazyků, malé skupiny, certifikovaní lektoři.",
       "hero": {
-        "title": "Jazykové kurzy",
-        "heading": "Jazykové kurzy",
-        "subheading": "Skupinové, individuální i firemní výuka — nové skupiny startují každý měsíc."
+        "title": "Naše kurzy",
+        "heading": "Naše kurzy",
+        "subheading": "Skupinové, individuální i firemní kurzy sedmi jazyků.",
+        "subtitle": "Skupinové, individuální i firemní kurzy sedmi jazyků."
       }
     },
     "o-nas": {
       "seoTitle": "O akademii — Demo Jazyková škola Jazyková akademie",
       "seoDescription": "28 let zkušeností v jazykovém vzdělávání. Přes 8 500 studentů ročně v Brně a okolí.",
       "hero": {
-        "title": "O naší akademii",
-        "heading": "O naší akademii",
-        "subheading": "28 let zkušeností, 8 500 spokojených studentů ročně a tým 34 lektorů."
+        "title": "O škole",
+        "heading": "O škole",
+        "subheading": "28 let zkušeností, rodilí mluvčí a malé skupiny.",
+        "subtitle": "28 let zkušeností, rodilí mluvčí a malé skupiny."
       }
     },
     "kontakt": {
       "seoTitle": "Kontakt — Demo Jazyková škola Jazyková akademie",
-      "seoDescription": "Navštivte nás na Náměstí Svobody 14 v Brně nebo nám napište. Rádi poradíme."
+      "seoDescription": "Navštivte nás na Náměstí Svobody 14 v Brně nebo nám napište. Rádi poradíme.",
+      "hero": {
+        "title": "Kontakt",
+        "heading": "Kontakt",
+        "subtitle": "Ozvěte se — poradíme s výběrem kurzu i úrovní.",
+        "subheading": "Ozvěte se — poradíme s výběrem kurzu i úrovní."
+      }
+    },
+    "reference": {
+      "hero": {
+        "title": "Reference",
+        "heading": "Reference",
+        "subtitle": "Zkušenosti studentů, kteří u nás dokončili kurz.",
+        "subheading": "Zkušenosti studentů, kteří u nás dokončili kurz."
+      }
+    }
+  },
+  "testimonials": {
+    "eyebrow": "Reference",
+    "heading": "Co říkají studenti",
+    "items": [
+      {
+        "author": "Markéta V.",
+        "role": "Angličtina B2, skupinový kurz",
+        "rating": "5",
+        "text": "Za dva semestry jsem se dostala z „rozumím, ale nemluvím“ do stavu, kdy vedu hovory s kolegy z Irska. Malá skupina byla klíčová."
+      },
+      {
+        "author": "Petr N.",
+        "role": "Němčina A2, individuálně",
+        "rating": "5",
+        "text": "Lektor přizpůsobil výuku mojí práci — probírali jsme přesně tu slovní zásobu, kterou potřebuju na jednání. Termíny si posouvám podle potřeby."
+      },
+      {
+        "author": "Klára D.",
+        "role": "Španělština A1",
+        "rating": "5",
+        "text": "Šla jsem do toho bez znalostí a po roce jsem si v Madridu objednala v restauraci a domluvila ubytování. Přesně to jsem chtěla."
+      }
+    ]
+  },
+  "home": {
+    "rezervace": {
+      "title": "Zapište se do kurzu",
+      "subtitle": "Vyberte jazyk, úroveň a termín — ozveme se s potvrzením.",
+      "providerSlug": "",
+      "apiBaseUrl": ""
     }
   }
 }

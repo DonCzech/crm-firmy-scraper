@@ -4,7 +4,70 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
+import { useGenericInlineEditor } from "@/components/tenant/GenericInlineEditorContext";
 import { shouldSkipNextImageOptimization } from "@/lib/image-source";
+
+// Sdílený lightbox pro foto galerie (hair-02/03/04). V public módu klik na dlaždici
+// otevře fotku přes celou obrazovku; v Studiu se NEaktivuje (klik patří editoru obrázku).
+// Esc a šipky ovládají, pozadí zavírá, prefers-reduced-motion respektováno.
+function GalleryLightbox({ images, index, onClose, onNav }: {
+  images: Array<{ url?: string; alt?: string }>;
+  index: number | null;
+  onClose: () => void;
+  onNav: (dir: number) => void;
+}) {
+  useEffect(() => {
+    if (index === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowRight") onNav(1);
+      else if (e.key === "ArrowLeft") onNav(-1);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = ""; };
+  }, [index, onClose, onNav]);
+
+  if (index === null || !images[index]) return null;
+  const im = images[index];
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Prohlížeč fotografií"
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 2000, display: "flex", alignItems: "center", justifyContent: "center",
+        background: "rgba(12,10,9,0.92)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
+        padding: "clamp(1rem, 4vw, 3rem)",
+      }}
+    >
+      <button aria-label="Zavřít" onClick={onClose} style={{
+        position: "absolute", top: "max(1rem, env(safe-area-inset-top))", right: "1.2rem", zIndex: 2, width: 46, height: 46,
+        borderRadius: 999, border: "1px solid rgba(255,255,255,0.35)", background: "rgba(0,0,0,0.35)", color: "#fff",
+        fontSize: 26, lineHeight: 1, cursor: "pointer",
+      }}>×</button>
+      {images.length > 1 && (
+        <>
+          <button aria-label="Předchozí" onClick={(e) => { e.stopPropagation(); onNav(-1); }} style={navBtn("left")}>‹</button>
+          <button aria-label="Další" onClick={(e) => { e.stopPropagation(); onNav(1); }} style={navBtn("right")}>›</button>
+        </>
+      )}
+      <figure style={{ margin: 0, maxWidth: "92vw", maxHeight: "88vh", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.9rem" }} onClick={(e) => e.stopPropagation()}>
+        <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ maxWidth: "92vw", maxHeight: im.alt ? "80vh" : "88vh", objectFit: "contain", borderRadius: 8, boxShadow: "0 24px 80px rgba(0,0,0,0.5)" }} />
+        {im.alt && <figcaption style={{ color: "rgba(255,255,255,0.82)", fontSize: "0.92rem", textAlign: "center", maxWidth: "60ch" }}>{im.alt}</figcaption>}
+      </figure>
+    </div>
+  );
+}
+
+function navBtn(side: "left" | "right") {
+  return {
+    position: "absolute", [side]: "clamp(0.5rem, 2vw, 1.6rem)", top: "50%", transform: "translateY(-50%)", zIndex: 2,
+    width: 52, height: 52, borderRadius: 999, border: "1px solid rgba(255,255,255,0.3)", background: "rgba(0,0,0,0.35)",
+    color: "#fff", fontSize: 30, lineHeight: 1, cursor: "pointer",
+  } as const;
+}
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (isAdmin) return "#";
@@ -8603,6 +8666,9 @@ function GalleryHair02({ content, sectionId }: { content: Record<string, unknown
   const title = String(content.title ?? "Naše práce");
   const subtitle = String(content.subtitle ?? "");
   const images = ((content.images as Img[]) ?? []).filter((i) => i && i.url);
+  const editor = useGenericInlineEditor();
+  const [lb, setLb] = useState<number | null>(null);
+  const navLb = useCallback((dir: number) => setLb((v) => v === null ? v : (v + dir + images.length) % images.length), [images.length]);
 
   return (
     <section id="galerie" data-section-type="gallery" data-variant="hair-02-gallery" className="h02g-section" data-template="hair-02">
@@ -8629,11 +8695,13 @@ function GalleryHair02({ content, sectionId }: { content: Record<string, unknown
         .h02g-item {
           border-radius: 20px; overflow: hidden; aspect-ratio: 3 / 4; display: block; background: #F3E3DC;
         }
+        .h02g-cell { position: relative; display: block; border-radius: inherit; }
+        .h02g-item { cursor: zoom-in; }
         .h02g-item img {
           width: 100%; height: 100%; object-fit: cover; display: block;
           transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
         }
-        .h02g-item:hover img { transform: scale(1.05); }
+        .h02g-cell:hover img { transform: scale(1.05); }
         @media (max-width: 899px) { .h02g-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (prefers-reduced-motion: reduce) { .h02g-item img { transition: none; } }
       `}</style>
@@ -8653,12 +8721,15 @@ function GalleryHair02({ content, sectionId }: { content: Record<string, unknown
         </div>
         <div className="h02g-grid">
           {images.map((im, i) => (
-            <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h02g-item">
+            <div key={i} className="h02g-cell" onClick={() => { if (!editor.isAdmin) setLb(i); }}>
+              <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h02g-item">
               <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </GenericEditableImage>
+            </div>
           ))}
         </div>
       </div>
+      <GalleryLightbox images={images} index={lb} onClose={() => setLb(null)} onNav={navLb} />
     </section>
   );
 }
@@ -8672,6 +8743,9 @@ function GalleryHair03({ content, sectionId }: { content: Record<string, unknown
   const title = String(content.title ?? "Jak to u nás vypadá");
   const subtitle = String(content.subtitle ?? "");
   const images = ((content.images as Img[]) ?? []).filter((i) => i && i.url);
+  const editor = useGenericInlineEditor();
+  const [lb, setLb] = useState<number | null>(null);
+  const navLb = useCallback((dir: number) => setLb((v) => v === null ? v : (v + dir + images.length) % images.length), [images.length]);
 
   return (
     <section id="galerie" data-section-type="gallery" data-variant="hair-03-gallery-slider" className="h03g-section" data-template="hair-03">
@@ -8695,11 +8769,13 @@ function GalleryHair03({ content, sectionId }: { content: Record<string, unknown
         .h03g-sub { font-size: 1rem; line-height: 1.65; color: rgba(241,238,234,0.72); margin: 0; }
         .h03g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.5vw, 1.2rem); }
         .h03g-item { aspect-ratio: 4 / 5; overflow: hidden; display: block; background: #23201E; }
+        .h03g-cell { position: relative; display: block; border-radius: inherit; }
+        .h03g-item { cursor: zoom-in; }
         .h03g-item img {
           width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1);
           transition: transform 0.7s cubic-bezier(0.22,1,0.36,1), filter 0.5s ease;
         }
-        .h03g-item:hover img { transform: scale(1.05); filter: grayscale(0); }
+        .h03g-cell:hover img { transform: scale(1.05); filter: grayscale(0); }
         @media (max-width: 899px) { .h03g-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (prefers-reduced-motion: reduce) { .h03g-item img { transition: none; } }
       `}</style>
@@ -8711,12 +8787,15 @@ function GalleryHair03({ content, sectionId }: { content: Record<string, unknown
         </div>
         <div className="h03g-grid">
           {images.map((im, i) => (
-            <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h03g-item">
+            <div key={i} className="h03g-cell" onClick={() => { if (!editor.isAdmin) setLb(i); }}>
+              <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h03g-item">
               <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "grayscale(1)" }} />
             </GenericEditableImage>
+            </div>
           ))}
         </div>
       </div>
+      <GalleryLightbox images={images} index={lb} onClose={() => setLb(null)} onNav={navLb} />
     </section>
   );
 }
@@ -8729,6 +8808,9 @@ function GalleryHair04({ content, sectionId }: { content: Record<string, unknown
   const title = String(content.title ?? "Galerie");
   const subtitle = String(content.subtitle ?? "");
   const images = ((content.images as Img[]) ?? []).filter((i) => i && i.url);
+  const editor = useGenericInlineEditor();
+  const [lb, setLb] = useState<number | null>(null);
+  const navLb = useCallback((dir: number) => setLb((v) => v === null ? v : (v + dir + images.length) % images.length), [images.length]);
   return (
     <section id="galerie" data-section-type="gallery" data-variant="hair-04-carousel" className="h04g-section" data-template="hair-04">
       <style>{`
@@ -8745,9 +8827,11 @@ function GalleryHair04({ content, sectionId }: { content: Record<string, unknown
         .h04g-sub { font-size: 1rem; line-height: 1.65; color: rgba(255,255,255,0.72); margin: 0; }
         .h04g-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.5vw, 1.2rem); }
         .h04g-item { aspect-ratio: 4 / 5; overflow: hidden; display: block; border-radius: 14px; background: #241E3D; }
+        .h04g-cell { position: relative; display: block; border-radius: inherit; }
+        .h04g-item { cursor: zoom-in; }
         .h04g-item img { width: 100%; height: 100%; object-fit: cover; display: block;
           transition: transform 0.7s cubic-bezier(0.22,1,0.36,1); }
-        .h04g-item:hover img { transform: scale(1.06); }
+        .h04g-cell:hover img { transform: scale(1.06); }
         @media (max-width: 899px) { .h04g-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (prefers-reduced-motion: reduce) { .h04g-item img { transition: none; } }
       `}</style>
@@ -8759,12 +8843,15 @@ function GalleryHair04({ content, sectionId }: { content: Record<string, unknown
         </div>
         <div className="h04g-grid">
           {images.map((im, i) => (
-            <GenericEditableImage key={i} sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h04g-item">
+            <div key={i} className="h04g-cell" onClick={() => { if (!editor.isAdmin) setLb(i); }}>
+              <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={im.url ?? ""} alt={im.alt ?? ""} className="h04g-item">
               <img src={im.url ?? ""} alt={im.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </GenericEditableImage>
+            </div>
           ))}
         </div>
       </div>
+      <GalleryLightbox images={images} index={lb} onClose={() => setLb(null)} onNav={navLb} />
     </section>
   );
 }

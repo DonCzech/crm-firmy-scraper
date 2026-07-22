@@ -2687,6 +2687,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-autoskola-01-page") {
     return <HeroAutoskola01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-lang-01-page") return <HeroLang01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "lang-01-hero") {
     return <HeroLang01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -2696,6 +2697,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-edu-01-page") {
     return <HeroEdu01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-kids-01-page") return <HeroKids01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "kids-01-hero") {
     return <HeroKids01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -16072,7 +16074,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           align-items: center;
           padding: 16px 24px;
           background: ${YELLOW};
-          color: ${DARK};
+          color: var(--color-on-primary, #fff);
           font-family: ${FONT_B};
           font-size: 1rem;
           font-weight: 500;
@@ -16189,10 +16191,8 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h1>
 
-            {/* SVG animated underline — draws/erases in loop, 1:1 with original */}
-            <svg className="ucn01hero-underline" xmlns="http://www.w3.org/2000/svg" width="155" height="60" viewBox="0 0 158 63" fill="none" aria-hidden="true">
-              <path d="M1.5 1.5C25 11.5 49 25.5 122.183 30.1813C131.78 30.2819 149.316 30.2746 155.157 20.3363C155.857 19.1456 157.756 12.8026 155.157 12.1097C153.532 11.6764 149.838 13.0366 148.448 13.3909C141.776 15.0915 135.594 17.9181 129.533 21.1455C124.647 23.7475 109.458 30.0968 109.371 37.329C109.305 42.8004 124.609 44.3234 127.881 45.0161C129.281 45.3124 138.37 45.2795 139.5 49C140.138 51.1009 135.5 57 132 61.5" stroke={DARK} strokeWidth="2.4" strokeLinecap="round" fill="none"/>
-            </svg>
+            {/* akcentová linka pod H1 (nahradila okopírovaný „hand-drawn" podpis z cizího webu) */}
+            <span aria-hidden style={{ display: "block", width: 68, height: 3, borderRadius: 2, background: "var(--color-primary, #17395E)", margin: "18px 0 4px" }} />
 
             <p className="ucn01hero-subtitle">
               <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
@@ -30227,6 +30227,84 @@ function HeroUcetni01Page({ content, sectionId, tenantSlug, isAdmin }: { content
             <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </GenericEditableImage>
         )}
+      </div>
+    </section>
+  );
+}
+
+// hero-kids-01-page — podstránkový hero (Demo Kroužky). V DB ho používaly lokality/tabory,
+// ale komponenta NEEXISTOVALA → rozbitý top stránky. Přírodní zelený pás, drobečky, foto.
+function HeroKids01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? content.heading ?? "");
+  const subtitle = String(content.subtitle ?? content.subheading ?? "");
+  const image = String(content.backgroundImage ?? content.image ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section className="k01hp-wrap" data-template="kids-01">
+      <style>{`
+        .k01hp-wrap {
+          position: relative; overflow: hidden; background: var(--color-secondary, #16281C);
+          font-family: 'Nunito', 'Roboto', sans-serif;
+          padding: calc(4.6rem + clamp(2.5rem, 6vw, 4.5rem)) clamp(1.25rem, 4vw, 2.75rem) clamp(2.5rem, 6vw, 4.5rem);
+        }
+        .k01hp-photo { position: absolute; inset: 0; opacity: 0.32; }
+        .k01hp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .k01hp-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,40,28,0.78), rgba(22,40,28,0.9)); }
+        .k01hp-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; text-align: center; }
+        .k01hp-crumb { font-size: 0.85rem; color: rgba(255,255,255,0.68); margin-bottom: 1rem; }
+        .k01hp-crumb a { color: rgba(255,255,255,0.68); text-decoration: none; }
+        .k01hp-crumb a:hover { color: var(--color-primary, #2F7D46); }
+        .k01hp-title {
+          font-family: 'Nunito', 'Roboto', sans-serif; font-weight: 800; letter-spacing: -0.01em;
+          font-size: clamp(2.2rem, 5.4vw, 3.6rem); line-height: 1.05; color: #fff; margin: 0 0 0.9rem; text-wrap: balance;
+        }
+        .k01hp-sub { font-size: 1.08rem; line-height: 1.6; color: rgba(255,255,255,0.85); max-width: 54ch; margin: 0 auto; }
+      `}</style>
+      {image && (
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="k01hp-photo"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", opacity: 0.32 }}>
+          <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        </GenericEditableImage>
+      )}
+      <div className="k01hp-scrim" aria-hidden />
+      <div className="k01hp-inner">
+        <div className="k01hp-crumb"><a href={resolve("/")}>Úvod</a> <span aria-hidden>/</span> {title}</div>
+        <h1 className="k01hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        {subtitle && <p className="k01hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
+      </div>
+    </section>
+  );
+}
+
+// hero-lang-01-page — podstránkový hero (jazyková škola). Podstránky dřív jely na
+// generickém `hero-centered`. Navy pás s červeným akcentem a drobečky.
+function HeroLang01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const title = String(content.title ?? content.heading ?? "");
+  const subtitle = String(content.subtitle ?? content.subheading ?? "");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  return (
+    <section className="l01hp-wrap" data-template="lang-01">
+      <style>{`
+        .l01hp-wrap {
+          background: var(--color-secondary, #1a1a2e); font-family: 'Inter', -apple-system, sans-serif;
+          padding: calc(4.6rem + clamp(2.5rem, 6vw, 4.2rem)) clamp(1.25rem, 4vw, 2.75rem) clamp(2.5rem, 6vw, 4.2rem);
+        }
+        .l01hp-inner { max-width: 1200px; margin: 0 auto; }
+        .l01hp-crumb { font-size: 0.84rem; color: rgba(255,255,255,0.6); margin-bottom: 0.9rem; }
+        .l01hp-crumb a { color: rgba(255,255,255,0.6); text-decoration: none; }
+        .l01hp-crumb a:hover { color: var(--color-primary, #e63946); }
+        .l01hp-title {
+          font-weight: 800; letter-spacing: -0.02em; font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+          line-height: 1.06; color: #fff; margin: 0 0 0.8rem; text-wrap: balance;
+        }
+        .l01hp-rule { display: block; width: 64px; height: 4px; border-radius: 2px; background: var(--color-primary, #e63946); margin-bottom: 1rem; }
+        .l01hp-sub { font-size: 1.05rem; line-height: 1.65; color: rgba(255,255,255,0.78); max-width: 54ch; margin: 0; }
+      `}</style>
+      <div className="l01hp-inner">
+        <div className="l01hp-crumb"><a href={resolve("/")}>Úvod</a> <span aria-hidden>/</span> {title}</div>
+        <h1 className="l01hp-title"><GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" /></h1>
+        <span className="l01hp-rule" aria-hidden />
+        {subtitle && <p className="l01hp-sub"><GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" /></p>}
       </div>
     </section>
   );

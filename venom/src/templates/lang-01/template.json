@@ -57,6 +57,18 @@
     {
       "type": "promo",
       "reason": "Jak to funguje — 4 kroky od přihlášky k certifikaci"
+    },
+    {
+      "type": "rezora-widget",
+      "reason": "inline zápis do kurzu přímo na stránce"
+    },
+    {
+      "type": "testimonials",
+      "reason": "reference studentů — homepage bez sociálního důkazu neprodávala"
+    },
+    {
+      "type": "contact",
+      "reason": "kontaktní sekce s reálným formulářem; obsah v cs.json existoval, ale nikde se nerenderoval"
     }
   ],
   "i18n": {
@@ -102,6 +114,21 @@
           "contentRef": "promo"
         },
         {
+          "type": "testimonials",
+          "variant": "lang-01-testimonials",
+          "contentRef": "testimonials"
+        },
+        {
+          "type": "rezora-widget",
+          "variant": "soft",
+          "contentRef": "home.rezervace"
+        },
+        {
+          "type": "contact",
+          "variant": "lang-01-contact",
+          "contentRef": "contact"
+        },
+        {
           "type": "footer",
           "variant": "lang-01-footer",
           "contentRef": "footer"
@@ -111,8 +138,6 @@
     {
       "slug": "kurzy",
       "title": "Kurzy",
-      "seoTitleKey": "pages.kurzy.seoTitle",
-      "seoDescriptionKey": "pages.kurzy.seoDescription",
       "sections": [
         {
           "type": "navbar",
@@ -121,13 +146,18 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-lang-01-page",
           "contentRef": "pages.kurzy.hero"
         },
         {
           "type": "services",
           "variant": "lang-01-services",
           "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "lang-01-cta",
+          "contentRef": "cta"
         },
         {
           "type": "footer",
@@ -139,8 +169,6 @@
     {
       "slug": "o-nas",
       "title": "O škole",
-      "seoTitleKey": "pages.o-nas.seoTitle",
-      "seoDescriptionKey": "pages.o-nas.seoDescription",
       "sections": [
         {
           "type": "navbar",
@@ -149,13 +177,44 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-lang-01-page",
           "contentRef": "pages.o-nas.hero"
         },
         {
           "type": "promo",
           "variant": "lang-01-promo",
           "contentRef": "promo"
+        },
+        {
+          "type": "stats",
+          "variant": "lang-01-stats",
+          "contentRef": "stats"
+        },
+        {
+          "type": "footer",
+          "variant": "lang-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "reference",
+      "title": "Reference",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "lang-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-lang-01-page",
+          "contentRef": "pages.reference.hero"
+        },
+        {
+          "type": "testimonials",
+          "variant": "lang-01-testimonials",
+          "contentRef": "testimonials"
         },
         {
           "type": "footer",
@@ -167,8 +226,6 @@
     {
       "slug": "kontakt",
       "title": "Kontakt",
-      "seoTitleKey": "pages.kontakt.seoTitle",
-      "seoDescriptionKey": "pages.kontakt.seoDescription",
       "sections": [
         {
           "type": "navbar",
@@ -176,8 +233,13 @@
           "contentRef": "navbar"
         },
         {
+          "type": "hero",
+          "variant": "hero-lang-01-page",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
           "type": "contact",
-          "variant": "autoskola-01-contact",
+          "variant": "lang-01-contact",
           "contentRef": "contact"
         },
         {

@@ -366,7 +366,9 @@
       "hero": {
         "title": "Co děláme",
         "heading": "Co děláme",
-        "subheading": "Lesní hry, woodcraft a výpravy pro děti 5–14 let"
+        "subheading": "Lesní hry, woodcraft a divoké výpravy pro děti 5–14 let.",
+        "subtitle": "Lesní hry, woodcraft a divoké výpravy pro děti 5–14 let.",
+        "backgroundImage": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     },
     "nas-tym": {
@@ -375,16 +377,70 @@
       "hero": {
         "title": "Náš tým",
         "heading": "Náš tým",
-        "subheading": "Zkušení vedoucí, kteří mají přírodu v krvi"
+        "subheading": "Průvodci s pedagogickým vzděláním a láskou k přírodě.",
+        "subtitle": "Průvodci s pedagogickým vzděláním a láskou k přírodě.",
+        "backgroundImage": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     },
     "kontakt": {
       "seoTitle": "Kontakt | Demo Kroužky",
       "seoDescription": "Zapište dítě do Demo Kroužky — napište nebo zavolejte.",
       "hero": {
-        "heading": "Pojďme se domluvit",
-        "subheading": "Napište nám nebo zavolejte — rádi odpovíme."
+        "heading": "Kontakt",
+        "subheading": "Ozvěte se nám — rádi odpovíme na všechny otázky.",
+        "title": "Kontakt",
+        "subtitle": "Ozvěte se nám — rádi odpovíme na všechny otázky.",
+        "backgroundImage": "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1800&h=800&fit=crop&auto=format&q=80"
+      }
+    },
+    "lokality": {
+      "hero": {
+        "title": "Kde nás najdete",
+        "heading": "Kde nás najdete",
+        "subtitle": "Scházíme se na okrajích lesů po celé Praze a okolí.",
+        "subheading": "Scházíme se na okrajích lesů po celé Praze a okolí.",
+        "backgroundImage": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1800&h=800&fit=crop&auto=format&q=80"
+      }
+    },
+    "tabory": {
+      "hero": {
+        "title": "Příměstské tábory",
+        "heading": "Příměstské tábory",
+        "subtitle": "Prázdninové týdny plné dobrodružství v přírodě.",
+        "subheading": "Prázdninové týdny plné dobrodružství v přírodě.",
+        "backgroundImage": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     }
+  },
+  "gallery": {
+    "tagline": "Lokality",
+    "title": "Kde nás najdete",
+    "subtitle": "Scházíme se na okrajích lesů a v parcích po celé Praze a okolí. Vyberte si tu nejbližší.",
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&h=700&fit=crop&auto=format&q=80",
+        "alt": "Lesní stezka — Praha 5, Prokopské údolí"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=900&h=700&fit=crop&auto=format&q=80",
+        "alt": "Alej v parku — Praha 6, Hvězda"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=900&h=700&fit=crop&auto=format&q=80",
+        "alt": "Louka na hry — Praha 4, Kunratický les"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&h=700&fit=crop&auto=format&q=80",
+        "alt": "Tábořiště pro příměstské tábory"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1520095972714-909e91b038e5?w=900&h=700&fit=crop&auto=format&q=80",
+        "alt": "Základna u lesa — Středočeský kraj"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1476234251651-f353703a034d?w=900&h=700&fit=crop&auto=format&q=80",
+        "alt": "Klidové místo na čtení a povídání"
+      }
+    ]
   }
 }

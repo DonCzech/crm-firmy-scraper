@@ -44,9 +44,9 @@
   },
   "hero": {
     "eyebrow": "Kadeřnický ateliér · Praha 1",
-    "title": "Střih jako podpis",
-    "subtitle": "Pracujeme s tvarem, ne s trendem. Každý střih stavíme na struktuře vašich vlasů, aby držel i po měsíci bez úprav.",
-    "image": "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&h=1200&fit=crop&auto=format&q=80",
+    "title": "Vlasy jako umění",
+    "subtitle": "Střih, barva a péče pro ženy, které vědí, co chtějí. Pracujeme s tvarem i odstínem tak, aby výsledek držel týdny.",
+    "image": "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=1920&h=1200&fit=crop&auto=format&q=80",
     "ctaText": "Chci se objednat",
     "ctaHref": "/kontakt",
     "ctaSecondaryText": "Prohlédnout kolekci",
@@ -68,14 +68,14 @@
   },
   "about": {
     "tagline": "O ateliéru",
-    "title": "Malý ateliér, žádná linka na střihy",
+    "title": "Malý ateliér, velká péče o barvu",
     "body": "Otevřela jsem Ateliér Noir v roce 2014, protože jsem chtěla dělat vlasy jinak než na běžce — jeden klient, jeden kadeřník, dost času.",
     "paragraphs": [
       "Každou návštěvu začínáme rozborem: jak vlasy rostou, kde se lámou a co s nimi zvládnete doma. Teprve pak sáhneme po nůžkách. Díky tomu odcházíte se střihem, který se nerozpadne, jakmile ho poprvé umyjete sami.",
       "Barvíme technikami s měkkým přechodem a pracujeme i s odbarvenými vlasy — ale jen tehdy, když je vlas unese. Když ne, řekneme to na rovinu a navrhneme postup na několik návštěv.",
       "Ateliér je unisex. Stejnou péči věnujeme dámskému střihu i úpravě vousů."
     ],
-    "image": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1000&h=1250&fit=crop&auto=format&q=80",
+    "image": "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=1000&h=1250&fit=crop&auto=format&q=80",
     "signature": "Petra Demová",
     "signatureRole": "zakladatelka ateliéru"
   },
@@ -89,21 +89,14 @@
         "description": "Rozbor vlasů, mytí, střih a styling včetně návodu na domácí úpravu.",
         "price": "od 990 Kč",
         "duration": "60 min",
-        "image": "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=500&h=500&fit=crop&auto=format&q=80"
+        "image": "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&h=500&fit=crop&auto=format&q=80"
       },
       {
-        "name": "Pánský střih",
-        "description": "Střih nůžkami i strojkem, zastřižení vousů a finální styling.",
-        "price": "od 550 Kč",
+        "name": "Foukaná & styling",
+        "description": "Vyfoukání do vln nebo do hladka, společenský styling na akci.",
+        "price": "od 590 Kč",
         "duration": "45 min",
-        "image": "https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=500&h=500&fit=crop&auto=format&q=80"
-      },
-      {
-        "name": "Holení břitvou",
-        "description": "Klasické mokré holení s horkým ručníkem a péčí po holení.",
-        "price": "od 690 Kč",
-        "duration": "45 min",
-        "image": "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=500&h=500&fit=crop&auto=format&q=80"
+        "image": "https://images.unsplash.com/photo-1583001809873-a128495da465?w=500&h=500&fit=crop&auto=format&q=80"
       },
       {
         "name": "Barvení & přechody",
@@ -113,11 +106,18 @@
         "image": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=500&h=500&fit=crop&auto=format&q=80"
       },
       {
+        "name": "Kreativní barvy",
+        "description": "Sytá móda i pastely — od růžové po duhu, s péčí o kondici vlasu.",
+        "price": "od 2 890 Kč",
+        "duration": "210 min",
+        "image": "https://images.unsplash.com/photo-1554519515-242161756769?w=500&h=500&fit=crop&auto=format&q=80"
+      },
+      {
         "name": "Střih kudrnatých vlasů",
         "description": "Střih nasucho po jednotlivých pramenech podle tvaru kudrny.",
         "price": "od 1 290 Kč",
         "duration": "90 min",
-        "image": "https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=500&h=500&fit=crop&auto=format&q=80"
+        "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=500&h=500&fit=crop&auto=format&q=80"
       },
       {
         "name": "Péče & regenerace",
@@ -147,10 +147,10 @@
         "specialty": "Balayage, airtouch a náročné odbarvování."
       },
       {
-        "name": "Martin Demo",
-        "role": "Barber",
-        "image": "https://images.unsplash.com/photo-1614289371518-722f2615943d?w=800&h=1067&fit=crop&auto=format&q=80",
-        "specialty": "Pánské střihy, vousy a holení břitvou."
+        "name": "Nikola Ukázková",
+        "role": "Stylistka",
+        "image": "https://images.unsplash.com/photo-1583001809873-a128495da465?w=800&h=1067&fit=crop&auto=format&q=80",
+        "specialty": "Střihy, foukaná a společenské účesy."
       }
     ]
   },
@@ -160,24 +160,24 @@
     "subtitle": "Ateliér, nástroje a práce z posledních měsíců.",
     "images": [
       {
+        "url": "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Vlny natočené žehličkou"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Barevná proměna"
+      },
+      {
         "url": "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=1000&fit=crop&auto=format&q=80",
         "alt": "Interiér ateliéru"
       },
       {
         "url": "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=800&h=1000&fit=crop&auto=format&q=80",
-        "alt": "Pracoviště s černými stěnami"
+        "alt": "Pracoviště se zrcadly"
       },
       {
-        "url": "https://images.unsplash.com/photo-1512690459411-b9245aed614b?w=800&h=1000&fit=crop&auto=format&q=80",
-        "alt": "Historické holičské křeslo"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1621607512214-68297480165e?w=800&h=1000&fit=crop&auto=format&q=80",
-        "alt": "Nůžky a fén na pracovním pultu"
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=800&h=1000&fit=crop&auto=format&q=80",
-        "alt": "Střih kudrnatých vlasů"
+        "url": "https://images.unsplash.com/photo-1554519515-242161756769?w=800&h=1000&fit=crop&auto=format&q=80",
+        "alt": "Kreativní barvení"
       },
       {
         "url": "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=800&h=1000&fit=crop&auto=format&q=80",
@@ -335,14 +335,14 @@
       "hero": {
         "title": "Náš tým",
         "subtitle": "Lidé, kteří se o vaše vlasy postarají.",
-        "backgroundImage": "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1800&h=800&fit=crop&auto=format&q=80"
+        "backgroundImage": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     },
     "kolekce": {
       "hero": {
         "title": "Kolekce",
         "subtitle": "Ukázky naší práce a atmosféra ateliéru.",
-        "backgroundImage": "https://images.unsplash.com/photo-1521146764736-56c929d59c83?w=1800&h=800&fit=crop&auto=format&q=80"
+        "backgroundImage": "https://images.unsplash.com/photo-1554519515-242161756769?w=1800&h=800&fit=crop&auto=format&q=80"
       }
     },
     "kontakt": {

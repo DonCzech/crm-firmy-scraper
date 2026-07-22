@@ -1,13 +1,13 @@
 {
   "colors": {
-    "primary": "#2C49D6",
-    "secondary": "#15182B",
-    "background": "#F5F6FA",
+    "primary": "#2F6B4E",
+    "secondary": "#17231C",
+    "background": "#F4F7F4",
     "surface": "#FFFFFF",
-    "text": "#15182B",
-    "textMuted": "#6B7086",
-    "accent": "#1F35A8",
-    "border": "#E1E4EF"
+    "text": "#17231C",
+    "textMuted": "#66705F",
+    "accent": "#21503A",
+    "border": "#DEE8E0"
   },
   "typography": {
     "fontHeading": "'Sora', sans-serif",
@@ -35,43 +35,43 @@
     "intensity": "subtle"
   },
   "presets": {
-    "ultramarine": {
-      "label": "Ultramarine — sytá modrá (default)",
+    "sage": {
+      "label": "Sage — přírodní zelená (default)",
       "tokens": {
-        "colorPrimary": "#2C49D6",
-        "colorAccent": "#1F35A8",
-        "colorSecondary": "#15182B",
-        "colorBackground": "#F5F6FA",
+        "colorPrimary": "#2F6B4E",
+        "colorAccent": "#21503A",
+        "colorSecondary": "#17231C",
+        "colorBackground": "#F4F7F4",
         "colorSurface": "#FFFFFF",
-        "colorText": "#15182B",
-        "colorTextMuted": "#6B7086",
-        "colorBorder": "#E1E4EF"
+        "colorText": "#17231C",
+        "colorTextMuted": "#66705F",
+        "colorBorder": "#DEE8E0"
       }
     },
-    "ochre": {
-      "label": "Ochre — zemitá okrová",
+    "clay": {
+      "label": "Clay — teplá terakota",
       "tokens": {
-        "colorPrimary": "#C08A2E",
-        "colorAccent": "#9A6C1F",
-        "colorSecondary": "#221D14",
-        "colorBackground": "#FAF7F1",
+        "colorPrimary": "#B0563A",
+        "colorAccent": "#8C4029",
+        "colorSecondary": "#241610",
+        "colorBackground": "#FAF6F3",
         "colorSurface": "#FFFFFF",
-        "colorText": "#221D14",
-        "colorTextMuted": "#736B5C",
-        "colorBorder": "#EBE4D7"
+        "colorText": "#241610",
+        "colorTextMuted": "#786A61",
+        "colorBorder": "#EDE1D9"
       }
     },
-    "forest": {
-      "label": "Forest — tlumená zelená",
+    "slate": {
+      "label": "Slate — chladná břidlice",
       "tokens": {
-        "colorPrimary": "#2F6B4F",
-        "colorAccent": "#22513B",
-        "colorSecondary": "#131C17",
-        "colorBackground": "#F3F7F4",
+        "colorPrimary": "#3E5566",
+        "colorAccent": "#2C3F4D",
+        "colorSecondary": "#141B21",
+        "colorBackground": "#F4F6F8",
         "colorSurface": "#FFFFFF",
-        "colorText": "#131C17",
-        "colorTextMuted": "#65746B",
-        "colorBorder": "#DEE8E1"
+        "colorText": "#141B21",
+        "colorTextMuted": "#63707A",
+        "colorBorder": "#E0E5E9"
       }
     }
   }

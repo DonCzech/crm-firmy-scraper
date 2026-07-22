@@ -74,6 +74,10 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "hair-03-contact") {
     return <ContactHair03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "lang-01-contact") {
+    return <ContactLang01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+    return <ContactHair03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "tattoo-01-contact") {
     return <ContactTattoo01 content={content} sectionId={sectionId} />;
   }
@@ -15337,6 +15341,108 @@ function ContactHair03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           {status === "success" && <p className="h03co-msg" data-kind="success" role="status">Děkujeme, ozveme se vám do 24 hodin.</p>}
           {status === "error" && <p className="h03co-msg" data-kind="error" role="alert">{errorMsg}</p>}
           <p className="h03co-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+// lang-01-contact — kontakt s REÁLNÝM formulářem (POST /api/demo/<slug>/contact).
+// Nahrazuje cizí variantu `autoskola-01-contact`, která se sem zatoulala z jiné šablony.
+function ContactLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const heading = String(content.heading ?? "Ozvěte se nám");
+  const subheading = String(content.subheading ?? "");
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const address = String(content.address ?? "");
+  const hours = String(content.hours ?? "");
+
+  const [name, setName] = useState("");
+  const [mail, setMail] = useState("");
+  const [tel, setTel] = useState("");
+  const [message, setMessage] = useState("");
+  const [hp, setHp] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin || hp || !tenantSlug) return;
+    setStatus("sending"); setErrorMsg("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email: mail, phone: tel, message, website: hp }),
+      });
+      const json = (await res.json()) as { error?: string };
+      if (!res.ok) { setErrorMsg(json.error ?? "Nepodařilo se odeslat zprávu."); setStatus("error"); }
+      else { setStatus("success"); setName(""); setMail(""); setTel(""); setMessage(""); }
+    } catch { setErrorMsg("Nepodařilo se odeslat zprávu. Zkuste to znovu."); setStatus("error"); }
+  }
+
+  return (
+    <section id="kontakt" data-section-type="contact" data-variant="lang-01-contact" className="l01co-section" data-template="lang-01">
+      <style>{`
+        .l01co-section { background: var(--color-surface, #ffffff); font-family: 'Inter', -apple-system, sans-serif;
+          padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 4vw, 2.75rem); }
+        .l01co-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr;
+          gap: clamp(2.2rem, 5vw, 4rem); align-items: start; }
+        .l01co-eyebrow { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em;
+          text-transform: uppercase; color: var(--color-primary, #e63946); margin-bottom: 0.7rem; }
+        .l01co-title { font-weight: 800; letter-spacing: -0.02em; font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+          line-height: 1.1; color: var(--color-text, #1a1a2e); margin: 0 0 0.9rem; text-wrap: balance; }
+        .l01co-sub { font-size: 1.02rem; line-height: 1.65; color: var(--color-text-muted, #6b7280); margin: 0 0 1.8rem; max-width: 46ch; }
+        .l01co-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+          padding: 0.85rem 0; border-bottom: 1px solid var(--color-border, #e6e8f0); }
+        .l01co-row:first-of-type { border-top: 1px solid var(--color-border, #e6e8f0); }
+        .l01co-k { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted, #6b7280); }
+        .l01co-v { font-size: 0.98rem; font-weight: 600; color: var(--color-text, #1a1a2e); text-align: right; text-decoration: none; }
+        a.l01co-v:hover { color: var(--color-primary, #e63946); }
+        .l01co-form { background: var(--color-bg, #f7f8fc); border-radius: 14px; padding: clamp(1.5rem, 3vw, 2.2rem); }
+        .l01co-form h3 { font-weight: 800; font-size: 1.25rem; color: var(--color-text, #1a1a2e); margin: 0 0 1.3rem; }
+        .l01co-f { margin-bottom: 0.95rem; }
+        .l01co-f label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--color-text-muted, #6b7280); margin-bottom: 0.35rem; }
+        .l01co-f input, .l01co-f textarea { width: 100%; padding: 0.78rem 1rem; border-radius: 10px; box-sizing: border-box;
+          border: 1px solid var(--color-border, #e6e8f0); background: #fff; color: var(--color-text, #1a1a2e);
+          font-family: inherit; font-size: 0.95rem; }
+        .l01co-f input:focus, .l01co-f textarea:focus { outline: 2px solid var(--color-primary, #e63946); outline-offset: 1px; border-color: transparent; }
+        .l01co-f textarea { min-height: 6.5rem; resize: vertical; }
+        .l01co-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+        .l01co-submit { width: 100%; padding: 0.95rem 1.5rem; border: none; border-radius: 10px; cursor: pointer;
+          background: var(--color-primary, #e63946); color: #fff; font-family: inherit; font-size: 0.98rem;
+          font-weight: 700; transition: transform 0.2s, filter 0.2s; }
+        .l01co-submit:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(0.94); }
+        .l01co-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .l01co-note { font-size: 0.79rem; line-height: 1.5; color: var(--color-text-muted, #6b7280); margin: 0.85rem 0 0; }
+        .l01co-msg { font-size: 0.9rem; margin: 0.85rem 0 0; padding: 0.7rem 1rem; border-radius: 10px; }
+        .l01co-msg[data-kind="success"] { background: #e4f0e8; color: #1f5133; }
+        .l01co-msg[data-kind="error"] { background: #fbe3e5; color: #8a232e; }
+        @media (max-width: 899px) { .l01co-inner { grid-template-columns: 1fr; } }
+      `}</style>
+      <div className="l01co-inner">
+        <div>
+          <span className="l01co-eyebrow">Kontakt</span>
+          <h2 className="l01co-title"><GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" /></h2>
+          {subheading && <p className="l01co-sub"><GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" /></p>}
+          {phone && <div className="l01co-row"><span className="l01co-k">Telefon</span><a className="l01co-v" href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a></div>}
+          {email && <div className="l01co-row"><span className="l01co-k">E-mail</span><a className="l01co-v" href={`mailto:${email}`}>{email}</a></div>}
+          {address && <div className="l01co-row"><span className="l01co-k">Adresa</span><span className="l01co-v"><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></span></div>}
+          {hours && <div className="l01co-row"><span className="l01co-k">Otevřeno</span><span className="l01co-v"><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></span></div>}
+        </div>
+        <form className="l01co-form" onSubmit={handleSubmit} style={{ position: "relative" }}>
+          <h3>Napište nám</h3>
+          <div className="l01co-f"><label htmlFor={`l01-n-${sectionId}`}>Jméno *</label><input id={`l01-n-${sectionId}`} required value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" /></div>
+          <div className="l01co-f"><label htmlFor={`l01-e-${sectionId}`}>E-mail *</label><input id={`l01-e-${sectionId}`} type="email" required value={mail} onChange={(e) => setMail(e.target.value)} autoComplete="email" /></div>
+          <div className="l01co-f"><label htmlFor={`l01-t-${sectionId}`}>Telefon</label><input id={`l01-t-${sectionId}`} value={tel} onChange={(e) => setTel(e.target.value)} autoComplete="tel" /></div>
+          <div className="l01co-f"><label htmlFor={`l01-m-${sectionId}`}>Zpráva *</label><textarea id={`l01-m-${sectionId}`} required value={message} onChange={(e) => setMessage(e.target.value)} /></div>
+          <div className="l01co-hp" aria-hidden>
+            <label htmlFor={`l01-w-${sectionId}`}>Nevyplňujte</label>
+            <input id={`l01-w-${sectionId}`} tabIndex={-1} autoComplete="off" value={hp} onChange={(e) => setHp(e.target.value)} />
+          </div>
+          <button type="submit" className="l01co-submit" disabled={status === "sending"}>{status === "sending" ? "Odesílám…" : "Odeslat zprávu"}</button>
+          {status === "success" && <p className="l01co-msg" data-kind="success" role="status">Děkujeme, ozveme se vám do 24 hodin.</p>}
+          {status === "error" && <p className="l01co-msg" data-kind="error" role="alert">{errorMsg}</p>}
+          <p className="l01co-note">Odesláním souhlasíte se zpracováním osobních údajů za účelem vyřízení poptávky.</p>
         </form>
       </div>
     </section>

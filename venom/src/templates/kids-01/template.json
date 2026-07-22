@@ -131,7 +131,7 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-kids-01-page",
           "contentRef": "pages.aktivity.hero"
         },
         {
@@ -159,13 +159,75 @@
         },
         {
           "type": "hero",
-          "variant": "hero-centered",
+          "variant": "hero-kids-01-page",
           "contentRef": "pages.nas-tym.hero"
         },
         {
           "type": "team",
           "variant": "kids-01-team",
           "contentRef": "team"
+        },
+        {
+          "type": "footer",
+          "variant": "kids-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "lokality",
+      "title": "Kde nás najdete",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "kids-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-kids-01-page",
+          "contentRef": "pages.lokality.hero"
+        },
+        {
+          "type": "gallery",
+          "variant": "gallery-universal",
+          "contentRef": "gallery"
+        },
+        {
+          "type": "cta",
+          "variant": "kids-01-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "kids-01-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "tabory",
+      "title": "Příměstské tábory",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "kids-01-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-kids-01-page",
+          "contentRef": "pages.tabory.hero"
+        },
+        {
+          "type": "services",
+          "variant": "kids-01-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "kids-01-cta",
+          "contentRef": "cta"
         },
         {
           "type": "footer",
@@ -184,6 +246,11 @@
           "type": "navbar",
           "variant": "kids-01-navbar",
           "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "hero-kids-01-page",
+          "contentRef": "pages.kontakt.hero"
         },
         {
           "type": "contact",
