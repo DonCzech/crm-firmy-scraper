@@ -2110,7 +2110,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           </p>
 
           {/* Subtitle */}
-          <p style={{ margin: "30px 0 0", fontFamily: FONT, fontWeight: 400, fontSize: "clamp(15px, 1.4vw, 18px)", lineHeight: 1.6, color: "rgba(255,255,255,0.86)", maxWidth: 520 }}>
+          <p style={{ margin: "30px 0 0", fontFamily: FONT, fontWeight: 400, fontSize: "clamp(15px, 1.4vw, 18px)", lineHeight: 1.6, color: "rgba(255,255,255,0.86)", maxWidth: 330, textWrap: "balance" }}>
             <GenericEditableText sectionId={sectionId} field="subtitle" value={sub} tag="span" />
           </p>
 

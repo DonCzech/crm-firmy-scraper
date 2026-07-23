@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, Fragment } from "react";
+import { createPortal } from "react-dom";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { OptimizedPicture } from "@/components/OptimizedPicture";
@@ -2932,14 +2933,16 @@ function DiamondMark({ color, size = 30 }: { color: string; size?: number }) {
 
 function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  // __solidHeader = stránka bez tmavého hero (např. /rezervace) → navbar vždy solid (čitelný na světlém)
+  const solidHeader = !!(content as Record<string, unknown>).__solidHeader;
+  const [scrolled, setScrolled] = useState(solidHeader);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(solidHeader || window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [solidHeader]);
 
   const siteName = String(content.siteName ?? "Séra Beauty");
   const logoUrl  = String(content.logoUrl ?? "");
@@ -3029,11 +3032,13 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
           )}
-          <a href={navR(ctaHref)} data-btn="primary" className="bc2-cta inline-flex items-center"
-            style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", padding: "13px 22px", borderRadius: 6, whiteSpace: "nowrap", boxShadow: scrolled ? "0 8px 22px rgba(82,62,53,0.24)" : "none", transition: "background-color .3s ease, box-shadow .3s ease, transform .3s ease" }}>
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <span aria-hidden="true" className="bc2-cta-arrow" style={{ marginLeft: 9, transition: "transform .3s ease" }}>→</span>
-          </a>
+          {!solidHeader && (
+            <a href={navR(ctaHref)} data-btn="primary" className="bc2-cta inline-flex items-center"
+              style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", padding: "13px 22px", borderRadius: 6, whiteSpace: "nowrap", boxShadow: scrolled ? "0 8px 22px rgba(82,62,53,0.24)" : "none", transition: "background-color .3s ease, box-shadow .3s ease, transform .3s ease" }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <span aria-hidden="true" className="bc2-cta-arrow" style={{ marginLeft: 9, transition: "transform .3s ease" }}>→</span>
+            </a>
+          )}
         </div>
       </div>
 
@@ -3050,9 +3055,9 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
         </button>
       </div>
 
-      {/* Mobile drawer */}
-      {open && (
-        <div className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-7" style={{ backgroundColor: "#0F0D0A", fontFamily: FONT }}>
+      {/* Mobile drawer — portal do body (mimo backdrop-filter containing block navbaru) */}
+      {open && typeof document !== "undefined" && createPortal(
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-7" style={{ backgroundColor: "#0F0D0A", fontFamily: FONT }}>
           <button className="absolute top-6 right-6 bg-transparent border-0 cursor-pointer p-2" style={{ color: CREAM }} onClick={() => setOpen(false)} aria-label="Zavřít menu">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/></svg>
           </button>
@@ -3062,13 +3067,16 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
               {l.label}
             </a>
           ))}
-          <a href={navR(ctaHref)} data-btn="primary" style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 13, fontWeight: 700, padding: "15px 34px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.14em", textDecoration: "none", marginTop: 6 }} onClick={() => setOpen(false)}>
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+          {!solidHeader && (
+            <a href={navR(ctaHref)} data-btn="primary" style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 13, fontWeight: 700, padding: "15px 34px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.14em", textDecoration: "none", marginTop: 6 }} onClick={() => setOpen(false)}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+          )}
           {phone && (
             <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: "rgba(255,255,255,0.7)", fontFamily: FONT, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none" }}>{phone}</a>
           )}
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );
