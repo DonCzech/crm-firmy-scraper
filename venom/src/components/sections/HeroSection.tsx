@@ -2074,12 +2074,12 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: String(cc.imagePosition ?? "center 45%") }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
         </GenericEditableImage>
 
-        {/* Gradient overlays — jemné, fotka zůstává jasná; text drží text-shadow */}
+        {/* Gradient overlays — silný scrim vlevo/dole za textem (čitelnost), fotka vpravo jasná */}
         <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
-          background: "linear-gradient(180deg, rgba(20,15,12,0.34) 0%, rgba(20,15,12,0.04) 26%, rgba(20,15,12,0.05) 52%, rgba(20,15,12,0.58) 100%)",
+          background: "linear-gradient(180deg, rgba(18,13,10,0.42) 0%, rgba(18,13,10,0.16) 30%, rgba(18,13,10,0.22) 55%, rgba(18,13,10,0.7) 100%)",
         }} />
-        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
-          background: "linear-gradient(94deg, rgba(20,15,12,0.5) 0%, rgba(20,15,12,0.14) 38%, rgba(20,15,12,0) 64%)",
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none bc2-hero-scrim" style={{
+          background: "linear-gradient(94deg, rgba(18,13,10,0.75) 0%, rgba(18,13,10,0.5) 26%, rgba(18,13,10,0.18) 52%, rgba(18,13,10,0) 72%)",
         }} />
 
         {/* Content — left aligned, vertically centered */}
