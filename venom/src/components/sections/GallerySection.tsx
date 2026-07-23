@@ -126,6 +126,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   if (variant === "signal-01-cases") return <CasesSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-beforeafter") return <BeforeAfterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hair-02-gallery") return <GalleryHair02 content={content} sectionId={sectionId} />;
+  if (variant === "beauty-02-instagram") return <InstagramBeauty02 content={content} sectionId={sectionId} />;
   if (variant === "gallery-universal") {
     return <GalleryUniversal
       content={content}
@@ -8970,6 +8971,63 @@ function GalleryBarber06({ content, sectionId }: { content: Record<string, unkno
         </div>
       </div>
       <GalleryLightbox images={images} index={lb} onClose={() => setLb(null)} onNav={navLb} />
+    </section>
+  );
+}
+
+// ── beauty-02-instagram — Séra Beauty Instagram modul ───────────────────────
+function InstagramBeauty02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const cc = content as Record<string, unknown>;
+  const eyebrowRaw = cc.eyebrow;
+  const titleRaw = cc.title;
+  const eyebrow = eyebrowRaw === undefined ? "Instagram" : String(eyebrowRaw);
+  const title = titleRaw === undefined ? "Sledujte nás" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+  const handle = String(cc.handle ?? "@sera.beauty");
+  const profileUrl = String(cc.profileUrl ?? "https://instagram.com");
+  const ctaText = String(cc.ctaText ?? "Sledovat");
+  const images = (cc.images as Array<{ url?: string; alt?: string }>) ?? [];
+  const FONT = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+  const BROWN = "#523E35";
+  const GOLD = "#B98A54";
+  const DARK = "#1A210F";
+  const MUTED = "#6B5D52";
+  if (images.length === 0) return null;
+
+  return (
+    <section id="instagram" className="relative w-full bc2-ig" data-template="beauty-02" style={{ backgroundColor: "#FFFFFF" }}>
+      <div className="mx-auto" style={{ maxWidth: 1280, padding: "clamp(64px,8vw,120px) clamp(24px,5vw,64px)" }}>
+        {showHeader && (
+          <div className="bc2-ig-head bc2-reveal">
+            <div className="flex items-center justify-center" style={{ gap: 12, marginBottom: 16 }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill={GOLD} stroke="none" /></svg>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD }} />
+            </div>
+            <h2 style={{ margin: "0 0 8px", fontFamily: FONT, fontWeight: 800, fontSize: "clamp(28px,4vw,50px)", lineHeight: 1.04, letterSpacing: "-0.02em", color: DARK, textAlign: "center" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="bc2-ig-handle" style={{ display: "inline-block", fontFamily: FONT, fontSize: "clamp(15px,1.5vw,18px)", fontWeight: 700, color: BROWN, textDecoration: "none", textAlign: "center", width: "100%", transition: "color .3s ease" }}>
+              <GenericEditableText sectionId={sectionId} field="handle" value={handle} tag="span" />
+            </a>
+          </div>
+        )}
+        <div className="bc2-ig-grid bc2-reveal">
+          {images.slice(0, 8).map((im, i) => (
+            <a key={`bc2-ig-${i}`} href={profileUrl} target="_blank" rel="noopener noreferrer" className="bc2-ig-cell" aria-label={im.alt || "Instagram příspěvek"}>
+              <img src={im.url || ""} alt={im.alt || ""} loading="lazy" />
+              <span className="bc2-ig-ov" aria-hidden="true">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 21s-7-4.35-9.5-8.5C.8 9.6 2.2 6 5.5 6c1.9 0 3.2 1.1 4.5 2.5C11.3 7.1 12.6 6 14.5 6 17.8 6 19.2 9.6 21.5 12.5 19 16.65 12 21 12 21z" /></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+        <div className="bc2-ig-cta-wrap">
+          <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="bc2-ig-cta" style={{ fontFamily: FONT }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+      </div>
     </section>
   );
 }

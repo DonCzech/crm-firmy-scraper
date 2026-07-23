@@ -21829,6 +21829,20 @@ function AboutBeauty02({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const ctaText = String(cc.ctaText ?? "Objevte naše procedury");
   const ctaHref = String(cc.ctaHref ?? "/beauty-procedury");
   const hoursChip = String(cc.hoursChip ?? "Otevřeno 7 dní · 13:00–22:30");
+  const videoUrl = String(cc.videoUrl ?? "");
+  const [videoOpen, setVideoOpen] = useState(false);
+  const [lbIndex, setLbIndex] = useState<number | null>(null);
+  const lbImgs = [0, 1, 2].map((i) => ({ url: img(i, ""), alt: alt(i, "") })).filter((x) => x.url);
+  useEffect(() => {
+    if (lbIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLbIndex(null);
+      else if (e.key === "ArrowRight") setLbIndex((v) => (v === null ? v : (v + 1) % lbImgs.length));
+      else if (e.key === "ArrowLeft") setLbIndex((v) => (v === null ? v : (v - 1 + lbImgs.length) % lbImgs.length));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lbIndex, lbImgs.length]);
   const siteMode = String(cc.siteMode ?? "multipage");
   const resolveH = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
 
@@ -21843,15 +21857,31 @@ function AboutBeauty02({ content, sectionId, tenantSlug, isAdmin }: { content: R
         <div className="bc2-about-grid">
           {/* Foto koláž */}
           <div className="bc2-about-collage bc2-reveal">
-            <GenericEditableImage sectionId={sectionId} field="images.0.url" src={img(0, "/templates/beauty-02/img/about-1.webp")} alt={alt(0, "Interiér studia")} className="bc2-about-photo bc2-about-big">
-              <img src={img(0, "/templates/beauty-02/img/about-1.webp")} alt={alt(0, "Interiér studia")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </GenericEditableImage>
-            <GenericEditableImage sectionId={sectionId} field="images.1.url" src={img(1, "/templates/beauty-02/img/about-2.webp")} alt={alt(1, "Ošetření")} className="bc2-about-photo bc2-about-s1">
-              <img src={img(1, "/templates/beauty-02/img/about-2.webp")} alt={alt(1, "Ošetření")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </GenericEditableImage>
-            <GenericEditableImage sectionId={sectionId} field="images.2.url" src={img(2, "/templates/beauty-02/img/about-3.webp")} alt={alt(2, "Vlasová péče")} className="bc2-about-photo bc2-about-s2">
-              <img src={img(2, "/templates/beauty-02/img/about-3.webp")} alt={alt(2, "Vlasová péče")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </GenericEditableImage>
+            <div className="bc2-about-big" style={{ position: "relative" }}>
+              <GenericEditableImage sectionId={sectionId} field="images.0.url" src={img(0, "/templates/beauty-02/img/about-1.webp")} alt={alt(0, "Interiér studia")} className="bc2-about-photo" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}>
+                <img src={img(0, "/templates/beauty-02/img/about-1.webp")} alt={alt(0, "Interiér studia")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+              {videoUrl && !isAdmin ? (
+                <button type="button" className="bc2-about-play" aria-label="Přehrát video" onClick={() => setVideoOpen(true)}>
+                  <span className="bc2-about-play__ring" aria-hidden="true" />
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+                </button>
+              ) : !isAdmin && (
+                <button type="button" className="bc2-about-zoom" aria-label="Zvětšit fotku" onClick={() => setLbIndex(0)}><ZoomIcon /></button>
+              )}
+            </div>
+            <div className="bc2-about-s1" style={{ position: "relative" }}>
+              <GenericEditableImage sectionId={sectionId} field="images.1.url" src={img(1, "/templates/beauty-02/img/about-2.webp")} alt={alt(1, "Ošetření")} className="bc2-about-photo" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}>
+                <img src={img(1, "/templates/beauty-02/img/about-2.webp")} alt={alt(1, "Ošetření")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+              {!isAdmin && <button type="button" className="bc2-about-zoom" aria-label="Zvětšit fotku" onClick={() => setLbIndex(1)}><ZoomIcon /></button>}
+            </div>
+            <div className="bc2-about-s2" style={{ position: "relative" }}>
+              <GenericEditableImage sectionId={sectionId} field="images.2.url" src={img(2, "/templates/beauty-02/img/about-3.webp")} alt={alt(2, "Vlasová péče")} className="bc2-about-photo" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}>
+                <img src={img(2, "/templates/beauty-02/img/about-3.webp")} alt={alt(2, "Vlasová péče")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+              {!isAdmin && <button type="button" className="bc2-about-zoom" aria-label="Zvětšit fotku" onClick={() => setLbIndex(2)}><ZoomIcon /></button>}
+            </div>
             {/* Floating chip */}
             <div className="bc2-about-chip" style={{ fontFamily: FONT }}>
               <svg width="18" height="18" viewBox="0 0 40 40" fill="none" stroke="#C9A26A" strokeWidth={2.2} aria-hidden="true"><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
@@ -21888,6 +21918,45 @@ function AboutBeauty02({ content, sectionId, tenantSlug, isAdmin }: { content: R
           </div>
         </div>
       </div>
+      {videoOpen && videoUrl && (
+        <div className="bc2-about-modal" role="dialog" aria-modal="true" onClick={() => setVideoOpen(false)}>
+          <button type="button" className="bc2-about-modal__x" aria-label="Zavřít video" onClick={() => setVideoOpen(false)}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" /></svg>
+          </button>
+          <div className="bc2-about-modal__in" onClick={(e) => e.stopPropagation()}>
+            <video src={videoUrl} controls autoPlay playsInline style={{ width: "100%", height: "100%", display: "block", borderRadius: 14 }} />
+          </div>
+        </div>
+      )}
+      {lbIndex !== null && lbImgs[lbIndex] && (
+        <div className="bc2-lb" role="dialog" aria-modal="true" onClick={() => setLbIndex(null)}>
+          <button type="button" className="bc2-lb-x" aria-label="Zavřít" onClick={() => setLbIndex(null)}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" /></svg>
+          </button>
+          {lbImgs.length > 1 && (
+            <button type="button" className="bc2-lb-nav bc2-lb-prev" aria-label="Předchozí" onClick={(e) => { e.stopPropagation(); setLbIndex((v) => (v === null ? v : (v - 1 + lbImgs.length) % lbImgs.length)); }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          )}
+          <img className="bc2-lb-img" src={lbImgs[lbIndex].url} alt={lbImgs[lbIndex].alt} onClick={(e) => e.stopPropagation()} />
+          {lbImgs.length > 1 && (
+            <button type="button" className="bc2-lb-nav bc2-lb-next" aria-label="Další" onClick={(e) => { e.stopPropagation(); setLbIndex((v) => (v === null ? v : (v + 1) % lbImgs.length)); }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          )}
+          <span className="bc2-lb-count" aria-hidden="true">{String(lbIndex + 1).padStart(2, "0")} / {String(lbImgs.length).padStart(2, "0")}</span>
+        </div>
+      )}
     </section>
+  );
+}
+
+export function ZoomIcon() {
+  return (
+    <span className="bc2-zoom-badge" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M8 3H5.5A2.5 2.5 0 0 0 3 5.5V8M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16M16 21h2.5a2.5 2.5 0 0 0 2.5-2.5V16" />
+      </svg>
+    </span>
   );
 }

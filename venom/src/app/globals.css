@@ -3352,6 +3352,36 @@ nav[data-template="barber-03"] a.b03-drawer-link:focus-visible {
 [data-template="beauty-02"] .bc2-about-photo:hover img { filter: none; transform: scale(1.06); }
 [data-template="beauty-02"] .bc2-about-big { grid-row: 1 / span 2; }
 [data-template="beauty-02"] .bc2-about-chip { position: absolute; left: -14px; bottom: 26px; z-index: 3; display: inline-flex; align-items: center; gap: 10px; background: #523E35; padding: 13px 20px; border-radius: 8px; box-shadow: 0 16px 40px rgba(26,33,15,0.28); }
+[data-template="beauty-02"] .bc2-about-play { position: absolute; inset: 0; margin: auto; width: 82px; height: 82px; border-radius: 50%; border: 0; cursor: pointer; z-index: 4; display: flex; align-items: center; justify-content: center; color: #fff; background: rgba(82,62,53,0.82); backdrop-filter: blur(4px); box-shadow: 0 16px 40px rgba(26,33,15,0.4); transition: transform .3s ease, background-color .3s ease; }
+[data-template="beauty-02"] .bc2-about-play:hover { transform: scale(1.08); background: #523E35; }
+[data-template="beauty-02"] .bc2-about-play svg { margin-left: 3px; }
+[data-template="beauty-02"] .bc2-about-play__ring { position: absolute; inset: -10px; border-radius: 50%; border: 2px solid rgba(201,162,106,0.7); animation: bc2PlayPulse 2.2s ease-out infinite; }
+@keyframes bc2PlayPulse { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.35); opacity: 0; } }
+[data-template="beauty-02"] .bc2-about-modal { position: fixed; inset: 0; z-index: 9999; background: rgba(12,9,7,0.9); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: clamp(16px,4vw,48px); animation: bc2ModalIn .3s ease; }
+@keyframes bc2ModalIn { from { opacity: 0; } to { opacity: 1; } }
+[data-template="beauty-02"] .bc2-about-modal__in { width: min(880px, 100%); max-height: 86vh; aspect-ratio: 9/16; }
+@media (min-aspect-ratio: 1/1) { [data-template="beauty-02"] .bc2-about-modal__in { aspect-ratio: auto; height: 86vh; width: auto; } }
+[data-template="beauty-02"] .bc2-about-modal__in video { max-height: 86vh; object-fit: contain; background: #000; }
+[data-template="beauty-02"] .bc2-about-modal__x { position: absolute; top: 22px; right: 26px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color .3s ease; }
+[data-template="beauty-02"] .bc2-about-modal__x:hover { background: #C9A26A; color: #2A211C; border-color: #C9A26A; }
+/* zoom overlay na fotkách — centered gold ring (luxe) */
+[data-template="beauty-02"] .bc2-about-zoom,
+[data-template="beauty-02"] .bc2-svc-zoom { position: absolute; inset: 0; z-index: 3; border: 0; background: transparent; cursor: url('/bc2-zoom-cursor.svg') 23 23, zoom-in; display: flex; align-items: center; justify-content: center; color: #fff; opacity: 0; transition: opacity .4s ease, background-color .4s ease; }
+[data-template="beauty-02"] .bc2-about-zoom:hover,
+[data-template="beauty-02"] .bc2-svc-zoom:hover { opacity: 1; background: transparent; }
+/* jen kurzor — žádný overlay badge */
+[data-template="beauty-02"] .bc2-zoom-badge { display: none; }
+/* lightbox */
+[data-template="beauty-02"] .bc2-lb { position: fixed; inset: 0; z-index: 9999; background: rgba(12,9,7,0.92); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; padding: clamp(20px,5vw,64px); animation: bc2ModalIn .3s ease; }
+[data-template="beauty-02"] .bc2-lb-img { max-width: min(1100px, 92vw); max-height: 86vh; object-fit: contain; border-radius: 12px; box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+[data-template="beauty-02"] .bc2-lb-x { position: absolute; top: 22px; right: 26px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color .3s ease; }
+[data-template="beauty-02"] .bc2-lb-x:hover { background: #C9A26A; color: #2A211C; border-color: #C9A26A; }
+[data-template="beauty-02"] .bc2-lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 54px; height: 54px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color .3s ease, transform .3s ease; }
+[data-template="beauty-02"] .bc2-lb-prev { left: clamp(16px,3vw,42px); }
+[data-template="beauty-02"] .bc2-lb-next { right: clamp(16px,3vw,42px); }
+[data-template="beauty-02"] .bc2-lb-nav:hover { background: #C9A26A; color: #2A211C; border-color: #C9A26A; }
+[data-template="beauty-02"] .bc2-lb-count { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); font-family: var(--font-montserrat), 'Montserrat', system-ui, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: rgba(255,255,255,0.85); }
+@media (max-width: 620px) { [data-template="beauty-02"] .bc2-lb-nav { width: 44px; height: 44px; } }
 [data-template="beauty-02"] .bc2-about-cta:hover { background-color: #6B5142 !important; transform: translateY(-2px); }
 [data-template="beauty-02"] .bc2-about-cta:hover .bc2-about-cta-arrow { transform: translateX(6px); }
 /* reveal (inner elements only — nikdy na section wrapper) */
@@ -3388,6 +3418,19 @@ nav[data-template="barber-03"] a.b03-drawer-link:focus-visible {
   [data-template="beauty-02"] .bc2-svc-photo { order: -1; height: clamp(240px, 60vw, 340px); }
   [data-template="beauty-02"] .bc2-svc-counter { display: none; }
 }
+/* instagram */
+[data-template="beauty-02"] .bc2-ig-head { text-align: center; margin-bottom: clamp(32px,4vw,48px); }
+[data-template="beauty-02"] .bc2-ig-handle:hover { color: #B98A54 !important; }
+[data-template="beauty-02"] .bc2-ig-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+[data-template="beauty-02"] .bc2-ig-cell { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: 12px; box-shadow: 0 12px 30px rgba(26,33,15,0.1); }
+[data-template="beauty-02"] .bc2-ig-cell img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s cubic-bezier(.22,1,.36,1), filter .5s ease; }
+[data-template="beauty-02"] .bc2-ig-cell:hover img { transform: scale(1.08); filter: brightness(0.72); }
+[data-template="beauty-02"] .bc2-ig-ov { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.7); transition: opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1); }
+[data-template="beauty-02"] .bc2-ig-cell:hover .bc2-ig-ov { opacity: 1; transform: scale(1); }
+[data-template="beauty-02"] .bc2-ig-cta-wrap { text-align: center; margin-top: clamp(30px,4vw,44px); }
+[data-template="beauty-02"] .bc2-ig-cta { display: inline-flex; align-items: center; gap: 10px; padding: 15px 32px; border-radius: 999px; background: linear-gradient(120deg, #523E35, #6B5142); color: #fff; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; box-shadow: 0 16px 34px -16px rgba(82,62,53,0.7); transition: transform .3s ease, box-shadow .3s ease; }
+[data-template="beauty-02"] .bc2-ig-cta:hover { transform: translateY(-2px); box-shadow: 0 22px 44px -18px rgba(82,62,53,0.8); }
+@media (max-width: 860px) { [data-template="beauty-02"] .bc2-ig-grid { grid-template-columns: repeat(2, 1fr); } }
 /* footer */
 [data-template="beauty-02"] .bc2-footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: clamp(32px,4vw,56px); }
 [data-template="beauty-02"] .bc2-footer-link:hover { color: #C9A26A !important; }

@@ -16951,6 +16951,18 @@ function ServicesBeauty02Carousel({ content, sectionId, tenantSlug, isAdmin }: {
   const [active, setActive] = useState(0);
   const n = items.length || 1;
   const go = (i: number) => setActive(((i % n) + n) % n);
+  const [lbIndex, setLbIndex] = useState<number | null>(null);
+  const lbImgs = items.map((it) => ({ url: String(it.image ?? ""), alt: String(it.name ?? "") })).filter((x) => x.url);
+  useEffect(() => {
+    if (lbIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLbIndex(null);
+      else if (e.key === "ArrowRight") setLbIndex((v) => (v === null ? v : (v + 1) % lbImgs.length));
+      else if (e.key === "ArrowLeft") setLbIndex((v) => (v === null ? v : (v - 1 + lbImgs.length) % lbImgs.length));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lbIndex, lbImgs.length]);
 
   const FONT = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
   const BROWN = "#523E35";
@@ -17008,6 +17020,13 @@ function ServicesBeauty02Carousel({ content, sectionId, tenantSlug, isAdmin }: {
                     <span aria-hidden="true" className="bc2-svc-photo-badge">
                       <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="#C9A26A" strokeWidth={2.4}><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
                     </span>
+                    {!isAdmin && (
+                      <button type="button" className="bc2-svc-zoom" aria-label="Zvětšit fotku" onClick={(e) => { e.stopPropagation(); setLbIndex(i); }}>
+                        <span className="bc2-zoom-badge" aria-hidden="true">
+                          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5.5A2.5 2.5 0 0 0 3 5.5V8M16 3h2.5A2.5 2.5 0 0 1 21 5.5V8M8 21H5.5A2.5 2.5 0 0 1 3 18.5V16M16 21h2.5a2.5 2.5 0 0 0 2.5-2.5V16" /></svg>
+                        </span>
+                      </button>
+                    )}
                   </GenericEditableImage>
                 </div>
               </div>
@@ -17036,6 +17055,25 @@ function ServicesBeauty02Carousel({ content, sectionId, tenantSlug, isAdmin }: {
           </div>
         </div>
       </div>
+      {lbIndex !== null && lbImgs[lbIndex] && (
+        <div className="bc2-lb" role="dialog" aria-modal="true" onClick={() => setLbIndex(null)}>
+          <button type="button" className="bc2-lb-x" aria-label="Zavřít" onClick={() => setLbIndex(null)}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" /></svg>
+          </button>
+          {lbImgs.length > 1 && (
+            <button type="button" className="bc2-lb-nav bc2-lb-prev" aria-label="Předchozí" onClick={(e) => { e.stopPropagation(); setLbIndex((v) => (v === null ? v : (v - 1 + lbImgs.length) % lbImgs.length)); }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          )}
+          <img className="bc2-lb-img" src={lbImgs[lbIndex].url} alt={lbImgs[lbIndex].alt} onClick={(e) => e.stopPropagation()} />
+          {lbImgs.length > 1 && (
+            <button type="button" className="bc2-lb-nav bc2-lb-next" aria-label="Další" onClick={(e) => { e.stopPropagation(); setLbIndex((v) => (v === null ? v : (v + 1) % lbImgs.length)); }}>
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </button>
+          )}
+          <span className="bc2-lb-count" aria-hidden="true">{String(lbIndex + 1).padStart(2, "0")} / {String(lbImgs.length).padStart(2, "0")}</span>
+        </div>
+      )}
     </section>
   );
 }
