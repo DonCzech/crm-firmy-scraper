@@ -2074,12 +2074,12 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: String(cc.imagePosition ?? "center 45%") }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
         </GenericEditableImage>
 
-        {/* Gradient overlays — top pro navbar, bottom-left pro text */}
+        {/* Gradient overlays — jemné, fotka zůstává jasná; text drží text-shadow */}
         <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
-          background: "linear-gradient(180deg, rgba(15,13,10,0.55) 0%, rgba(15,13,10,0.12) 26%, rgba(15,13,10,0.20) 55%, rgba(15,13,10,0.82) 100%)",
+          background: "linear-gradient(180deg, rgba(20,15,12,0.34) 0%, rgba(20,15,12,0.04) 26%, rgba(20,15,12,0.05) 52%, rgba(20,15,12,0.58) 100%)",
         }} />
         <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
-          background: "linear-gradient(96deg, rgba(15,13,10,0.62) 0%, rgba(15,13,10,0.20) 42%, rgba(15,13,10,0) 68%)",
+          background: "linear-gradient(94deg, rgba(20,15,12,0.5) 0%, rgba(20,15,12,0.14) 38%, rgba(20,15,12,0) 64%)",
         }} />
 
         {/* Content — left aligned, vertically centered */}
@@ -2099,7 +2099,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           </div>
 
           {/* H1 — Montserrat 800 obří, dva řádky */}
-          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, color: "#FFFFFF", lineHeight: 0.94, letterSpacing: "-0.035em", textShadow: "0 4px 40px rgba(0,0,0,0.35)", fontSize: "clamp(52px, 9vw, 118px)" }}>
+          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, color: "#FFFFFF", lineHeight: 0.94, letterSpacing: "-0.035em", textShadow: "0 2px 20px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.4)", fontSize: "clamp(52px, 9vw, 118px)" }}>
             <GenericEditableText sectionId={sectionId} field="titleLine1" value={line1} tag="span" style={{ display: "block" }} />
             <GenericEditableText sectionId={sectionId} field="titleLine2" value={line2} tag="span" style={{ display: "block" }} />
           </h1>
@@ -2171,9 +2171,11 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     return (
       <section id="hero" className="relative w-full overflow-hidden bc2-hero bc2-hero-page" data-template="beauty-02" style={{ backgroundColor: "#0F0D0A" }}>
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
-          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: String(cc.imagePosition ?? "center 45%"), filter: "grayscale(0.22) brightness(0.66)" }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
+          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: String(cc.imagePosition ?? "center 40%") }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
         </GenericEditableImage>
-        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(15,13,10,0.72) 0%, rgba(15,13,10,0.45) 55%, rgba(15,13,10,0.78) 100%)" }} />
+        {/* Teplý overlay — fotka zůstává jasná, text čitelný */}
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(30,22,17,0.5) 0%, rgba(30,22,17,0.32) 45%, rgba(30,22,17,0.55) 100%)" }} />
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ background: "linear-gradient(96deg, rgba(30,22,17,0.5) 0%, rgba(30,22,17,0.18) 45%, rgba(30,22,17,0.05) 70%)" }} />
         <div className="relative z-[2] mx-auto w-full flex flex-col justify-center items-start" style={{ maxWidth: 1440, minHeight: "clamp(300px,32vw,400px)", padding: "clamp(110px,13vw,150px) clamp(24px,5vw,64px) clamp(40px,5vw,56px)" }}>
           <nav className="bc2-crumb flex items-center" style={{ gap: 10, marginBottom: 18, fontFamily: FONT }} aria-label="Drobečková navigace">
             <a href={resolveH(crumbHref)} className="bc2-crumb-link" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", textDecoration: "none", transition: "color .3s ease" }}>
@@ -2186,7 +2188,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             <span aria-hidden="true" style={{ width: 42, height: 1.5, backgroundColor: GOLD, display: "block" }} />
             <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke={GOLD} strokeWidth={2} aria-hidden="true"><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
           </div>
-          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, color: "#FFFFFF", fontSize: "clamp(34px,6vw,72px)", lineHeight: 1.0, letterSpacing: "-0.03em", textShadow: "0 4px 30px rgba(0,0,0,0.4)" }}>
+          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, color: "#FFFFFF", fontSize: "clamp(34px,6vw,72px)", lineHeight: 1.0, letterSpacing: "-0.03em", textShadow: "0 2px 18px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.4)" }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
           {subtitle && (
