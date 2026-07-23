@@ -2963,11 +2963,12 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
 
   return (
     <header
-      className="sticky top-0 z-50 bc2-nav"
+      className="fixed top-0 left-0 right-0 z-50 bc2-nav"
       data-template="beauty-02"
       data-scrolled={scrolled ? "yes" : "no"}
       style={{
         fontFamily: FONT,
+        width: "100%",
         backgroundColor: scrolled ? "rgba(255,255,255,0.94)" : "transparent",
         backdropFilter: scrolled ? "blur(14px)" : "none",
         WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
@@ -2978,8 +2979,8 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
     >
       {/* Desktop */}
       <div
-        className="hidden lg:flex items-center max-w-[1400px] mx-auto"
-        style={{ height: scrolled ? 76 : 92, padding: "0 clamp(28px,4vw,64px)", gap: 28, transition: "height .5s ease" }}
+        className="hidden lg:flex items-center max-w-[1560px] mx-auto"
+        style={{ height: scrolled ? 76 : 92, padding: "0 clamp(20px,3vw,44px)", gap: 20, transition: "height .5s ease" }}
       >
         {/* Brand */}
         <a href={homeHref} className="shrink-0 flex items-center gap-3" aria-label={siteName} style={{ textDecoration: "none", color: fg }}>
@@ -3003,13 +3004,13 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
         </a>
 
         {/* Nav links — center */}
-        <nav className="flex items-center mx-auto" style={{ gap: 30 }}>
+        <nav className="flex items-center mx-auto" style={{ gap: 26 }}>
           {links.map((l, i) => (
             <a
               key={`bc2-nav-${i}`}
               href={navR(l.href)}
               className="bc2-nav-link relative"
-              style={{ fontFamily: FONT, fontSize: 11.5, fontWeight: 600, color: fgMuted, textTransform: "uppercase", letterSpacing: "0.16em", textDecoration: "none", paddingBottom: 7, whiteSpace: "nowrap", transition: "color .3s ease" }}
+              style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, color: fgMuted, textTransform: "uppercase", letterSpacing: "0.08em", textDecoration: "none", paddingBottom: 7, whiteSpace: "nowrap", transition: "color .3s ease" }}
             >
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" style={{ whiteSpace: "nowrap" }} />
               <span aria-hidden="true" className="bc2-nav-underline" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 1.5, backgroundColor: scrolled ? BROWN : CREAM, transformOrigin: "left", transform: "scaleX(0)", transition: "transform .4s cubic-bezier(.22,1,.36,1)" }} />
@@ -3017,25 +3018,19 @@ function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }
           ))}
         </nav>
 
-        {/* Right — phone + lang + CTA */}
-        <div className="flex items-center shrink-0" style={{ gap: 20 }}>
+        {/* Right — phone + CTA */}
+        <div className="flex items-center shrink-0" style={{ gap: 16 }}>
           {phone && (
             <a href={`tel:${phone.replace(/\s/g, "")}`} className="bc2-nav-phone inline-flex items-center gap-2"
-              style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, color: fg, letterSpacing: "0.02em", whiteSpace: "nowrap", textDecoration: "none", transition: "color .3s ease, opacity .3s ease" }}>
+              style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: fg, letterSpacing: "0.02em", whiteSpace: "nowrap", textDecoration: "none", transition: "color .3s ease, opacity .3s ease" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
           )}
-          <span aria-hidden="true" style={{ width: 1, height: 20, backgroundColor: scrolled ? "rgba(82,62,53,0.2)" : "rgba(255,255,255,0.28)" }} />
-          <div className="flex items-center gap-1.5" style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em" }}>
-            <span style={{ color: fg }}>CS</span>
-            <span style={{ color: fgMuted, opacity: 0.5 }}>/</span>
-            <a href="#" className="bc2-lang" style={{ color: fgMuted, textDecoration: "none", transition: "color .3s ease" }}>EN</a>
-          </div>
           <a href={navR(ctaHref)} data-btn="primary" className="bc2-cta inline-flex items-center"
-            style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none", padding: "13px 24px", borderRadius: 6, whiteSpace: "nowrap", boxShadow: scrolled ? "0 8px 22px rgba(82,62,53,0.24)" : "none", transition: "background-color .3s ease, box-shadow .3s ease, transform .3s ease" }}>
+            style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", padding: "13px 22px", borderRadius: 6, whiteSpace: "nowrap", boxShadow: scrolled ? "0 8px 22px rgba(82,62,53,0.24)" : "none", transition: "background-color .3s ease, box-shadow .3s ease, transform .3s ease" }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             <span aria-hidden="true" className="bc2-cta-arrow" style={{ marginLeft: 9, transition: "transform .3s ease" }}>→</span>
           </a>
