@@ -2071,7 +2071,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
       >
         {/* Bg foto */}
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
-          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: "center 30%" }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
+          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: String(cc.imagePosition ?? "center 45%") }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
         </GenericEditableImage>
 
         {/* Gradient overlays — top pro navbar, bottom-left pro text */}
@@ -2171,7 +2171,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     return (
       <section id="hero" className="relative w-full overflow-hidden bc2-hero bc2-hero-page" data-template="beauty-02" style={{ backgroundColor: "#0F0D0A" }}>
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
-          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: "center 35%", filter: "grayscale(0.3) brightness(0.62)" }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
+          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: String(cc.imagePosition ?? "center 45%"), filter: "grayscale(0.22) brightness(0.66)" }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
         </GenericEditableImage>
         <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(15,13,10,0.72) 0%, rgba(15,13,10,0.45) 55%, rgba(15,13,10,0.78) 100%)" }} />
         <div className="relative z-[2] mx-auto w-full flex flex-col justify-center items-start" style={{ maxWidth: 1440, minHeight: "clamp(300px,32vw,400px)", padding: "clamp(110px,13vw,150px) clamp(24px,5vw,64px) clamp(40px,5vw,56px)" }}>
