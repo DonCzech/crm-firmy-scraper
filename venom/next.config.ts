@@ -80,7 +80,11 @@ const nextConfig: NextConfig = {
   },
 
   async redirects() {
-    return [];
+    return [
+      // Index výpisu šablon zrušen — katalog žije na /vybrat-design.
+      // Detail /ukazka-sablon/<key> zůstává (cíl „Celý náhled" z galerie).
+      { source: "/ukazka-sablon", destination: "/vybrat-design", permanent: true },
+    ];
   },
 
   images: {
@@ -120,7 +124,6 @@ const nextConfig: NextConfig = {
   // Specific routes that DO need certain public/templates files (existsSync gates).
   // These end up in just that route's bundle, not all functions.
   outputFileTracingIncludes: {
-    "app/ukazka-sablon/page": ["public/templates/*/preview.png"],
     "app/ukazka-sablon/[key]/page": [
       "public/templates/*/preview.png",
       "public/templates/*/showcase/*.png",

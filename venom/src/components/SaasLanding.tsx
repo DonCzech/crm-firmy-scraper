@@ -2158,7 +2158,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
           {/* Bottom CTA */}
           <Reveal delay={0.3} className="mt-14 flex flex-col items-center gap-4">
             <a
-              href="/ukazka-sablon"
+              href="/vybrat-design"
               className="inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-7 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1a1a1a]"
             >
               {en ? "Browse all 100+ templates" : "Prohlédnout všech 100+ šablon"}
@@ -2239,7 +2239,7 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
                     ))}
                   </ul>
                   <a
-                    href="/ukazka-sablon"
+                    href="/vybrat-design"
                     className="mt-8 inline-flex items-center gap-2 text-[14.5px] font-semibold text-white transition hover:text-[#a5b4fc]"
                   >
                     {en ? "Browse templates" : "Prohlédnout šablony"}
