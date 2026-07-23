@@ -146,15 +146,8 @@ export default async function ShowcaseDetailPage({ params }: Props) {
 
   return (
     <>
-      <PlatformHeader
-        forceSolid
-        navItems={[
-          { label: "PŘEHLED", href: "#top" },
-          { label: "EDITOR",  href: "#editor" },
-          ...(gallery.length > 0 ? [{ label: "SEKCE", href: "#sekce" }] : []),
-          ...(related.length > 0 ? [{ label: "PODOBNÉ", href: "#podobne" }] : []),
-        ]}
-      />
+      {/* Same header as the homepage — default site nav (kept solid over the white hero) */}
+      <PlatformHeader forceSolid />
       <main className="bg-white text-[#0a0a0a] pt-[64px] lg:pt-[72px]">
 
         {/* ── HERO ─────────────────────────────────────────────────────── */}

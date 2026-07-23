@@ -39,7 +39,7 @@ const PLANS_CS: Plan[] = [
   },
   {
     key: "custom", name: "Na míru", tagline: "Postavíme cokoliv.",
-    price: "Na míru", priceSuffix: "", priceNote: "nabídka do 24 hodin", cta: "Poptat projekt", ctaHref: "/kontakt",
+    price: "Individuální", priceSuffix: "", priceNote: "Kalkulace do 24 hodin", cta: "Poptat projekt", ctaHref: "/kontakt",
     bullets: ["Design i funkce na míru", "Aplikace, SaaS, cokoliv", "Přednostní podpora"],
   },
 ];
@@ -57,7 +57,7 @@ const PLANS_EN: Plan[] = [
   },
   {
     key: "custom", name: "Custom", tagline: "We build anything.",
-    price: "Custom", priceSuffix: "", priceNote: "quote within 24h", cta: "Request a project", ctaHref: "/kontakt",
+    price: "On request", priceSuffix: "", priceNote: "quote within 24h", cta: "Request a project", ctaHref: "/kontakt",
     bullets: ["Design & features to spec", "Apps, SaaS, anything", "Priority support"],
   },
 ];
@@ -180,59 +180,106 @@ export function PricingPageContent({ locale = "cs" }: { locale?: PlatformLocale 
       </section>
 
       {/* ── PLANS ────────────────────────────────────────────────────────── */}
-      <section className="bg-white">
-        <div className="mx-auto max-w-[1180px] px-6 pt-16 pb-14 lg:px-10 lg:pt-20 lg:pb-16">
+      <section className="relative overflow-hidden bg-white">
+        {/* Soft brand canvas — violet crown + a grid that fades into the page */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[560px]"
+          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(99,102,241,0.06), transparent 72%)" }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: "linear-gradient(#6366f1 1px, transparent 1px), linear-gradient(90deg,#6366f1 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage: "radial-gradient(72% 50% at 50% 0%, #000, transparent 76%)",
+            WebkitMaskImage: "radial-gradient(72% 50% at 50% 0%, #000, transparent 76%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-[1180px] px-6 pt-16 pb-14 lg:px-10 lg:pt-20 lg:pb-16">
           <div className="grid gap-5 lg:grid-cols-3 lg:gap-6">
             {plans.map((p) => {
-              const dark = !!p.highlight;
+              const featured = !!p.highlight;
               const href = p.ctaHref === "/kontakt" ? contactHref : platformPath(p.ctaHref, locale);
-              return (
-                <div key={p.key}
-                     className={dark
-                       ? "relative flex flex-col overflow-hidden rounded-[26px] bg-[#0a0a0a] p-8 text-white shadow-[0_40px_80px_-30px_rgba(0,0,0,0.4)] lg:p-9"
-                       : "relative flex flex-col overflow-hidden rounded-[26px] border border-[#ececec] bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#0a0a0a]/15 hover:shadow-[0_28px_56px_-28px_rgba(0,0,0,0.18)] lg:p-9"}>
-                  {dark && (
-                    <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full opacity-70 blur-3xl"
-                         style={{ background: "radial-gradient(circle, rgba(99,102,241,0.6), transparent 70%)" }} />
+
+              const badge = featured ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#6366f1]/12 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[#4338ca]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#6366f1]" /> {c.popular}
+                </span>
+              ) : p.badge ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#10b981]/12 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[#047857]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#10b981]" /> {p.badge}
+                </span>
+              ) : null;
+
+              const card = (
+                <div
+                  className={featured
+                    ? "relative flex h-full w-full flex-col overflow-hidden rounded-[26px] p-8 lg:p-9"
+                    : "group relative flex h-full w-full flex-col overflow-hidden rounded-[26px] border border-[#ececec] bg-white p-8 transition duration-300 hover:-translate-y-1 hover:border-[#6366f1]/25 hover:shadow-[0_28px_56px_-28px_rgba(0,0,0,0.18)] lg:p-9"}
+                  style={featured ? { background: "linear-gradient(180deg,#ffffff 0%,#f5f3ff 100%)" } : undefined}
+                >
+                  {featured && (
+                    <div
+                      className="pointer-events-none absolute -right-16 -top-24 h-64 w-64 rounded-full opacity-70 blur-3xl"
+                      style={{ background: "radial-gradient(circle, rgba(129,140,248,0.32), transparent 70%)" }}
+                    />
                   )}
 
-                  <div className="relative flex min-h-[24px] items-center gap-2">
-                    {dark && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-white">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#4ade80]" /> {c.popular}
-                      </span>
-                    )}
-                    {p.badge && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#6366f1]/12 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[#4338ca]">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#6366f1]" /> {p.badge}
-                      </span>
-                    )}
-                  </div>
+                  <div className="relative flex min-h-[24px] items-center gap-2">{badge}</div>
 
-                  <h2 className={`relative mt-6 font-sans font-semibold tracking-[-0.02em] ${dark ? "text-white" : "text-[#0a0a0a]"}`}
-                      style={{ fontSize: "clamp(24px, 2.6vw, 30px)", lineHeight: "1.1" }}>{p.name}</h2>
-                  <p className={`relative mt-2.5 text-[14px] leading-[1.5] ${dark ? "text-white/65" : "text-[#6b7280]"}`}>{p.tagline}</p>
+                  <h2
+                    className="relative mt-6 font-sans font-semibold tracking-[-0.02em] text-[#0a0a0a]"
+                    style={{ fontSize: "clamp(24px, 2.6vw, 30px)", lineHeight: "1.1" }}
+                  >
+                    {p.name}
+                  </h2>
+                  <p className="relative mt-2.5 text-[14px] leading-[1.5] text-[#6b7280]">{p.tagline}</p>
 
-                  <div className="relative mt-7">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className={`font-sans font-semibold tracking-[-0.03em] ${dark ? "text-white" : "text-[#0a0a0a]"}`}
-                            style={{ fontSize: "clamp(46px, 5.5vw, 68px)", lineHeight: "0.95" }}>{p.price}</span>
-                      {p.priceSuffix && <span className={`text-[14px] font-medium ${dark ? "text-white/50" : "text-[#9ca3af]"}`}>{p.priceSuffix}</span>}
-                    </div>
-                    <p className={`mt-2 text-[12.5px] ${dark ? "text-white/45" : "text-[#9ca3af]"}`}>{p.priceNote}</p>
-                  </div>
+                  {(() => {
+                    // Split an optional "from"/"od" prefix; render word-prices (Custom) smaller so
+                    // nothing overflows and all three columns keep an aligned baseline.
+                    const m = p.price.match(/^(from|od)\s+(.+)$/i);
+                    const prefix = m ? m[1] : null;
+                    const main = m ? m[2] : p.price;
+                    const isWord = !/\d/.test(main);
+                    const size = isWord ? "clamp(28px, 3vw, 40px)" : "clamp(44px, 5.2vw, 64px)";
+                    return (
+                      <div className="relative mt-7 flex min-h-[92px] flex-col justify-end">
+                        <div className="flex flex-wrap items-baseline gap-x-1.5">
+                          {prefix && <span className="text-[15px] font-medium text-[#9ca3af]">{prefix}</span>}
+                          <span
+                            className="whitespace-nowrap font-sans font-semibold tracking-[-0.03em]"
+                            style={featured
+                              ? { fontSize: size, lineHeight: "0.95", background: "linear-gradient(135deg,#6366f1,#818cf8)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }
+                              : { fontSize: size, lineHeight: "0.95", color: "#0a0a0a" }}
+                          >
+                            {main}
+                          </span>
+                          {p.priceSuffix && <span className="text-[14px] font-medium text-[#9ca3af]">{p.priceSuffix}</span>}
+                        </div>
+                        <p className="mt-2 text-[12.5px] text-[#9ca3af]">{p.priceNote}</p>
+                      </div>
+                    );
+                  })()}
 
-                  <Link href={href}
-                        className={dark
-                          ? "relative mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-[14.5px] font-semibold text-[#0a0a0a] transition hover:bg-white/90"
-                          : "relative mt-7 inline-flex items-center justify-center gap-2 rounded-full border border-[#0a0a0a] bg-white px-6 py-3.5 text-[14.5px] font-semibold text-[#0a0a0a] transition hover:bg-[#0a0a0a] hover:text-white"}>
-                    {p.cta} <ArrowRight size={15} />
+                  <Link
+                    href={href}
+                    className={featured
+                      ? "group/cta relative mt-7 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-[14.5px] font-semibold text-white shadow-[0_16px_36px_-14px_rgba(99,102,241,0.7)] transition hover:brightness-[1.08]"
+                      : "relative mt-7 inline-flex items-center justify-center gap-2 rounded-full border border-[#0a0a0a] bg-white px-6 py-3.5 text-[14.5px] font-semibold text-[#0a0a0a] transition hover:bg-[#0a0a0a] hover:text-white"}
+                    style={featured ? { background: "linear-gradient(135deg,#6366f1,#818cf8)" } : undefined}
+                  >
+                    {p.cta} <ArrowRight size={15} className={featured ? "transition-transform group-hover/cta:translate-x-0.5" : ""} />
                   </Link>
 
-                  <ul className={`relative mt-8 space-y-3 border-t pt-7 ${dark ? "border-white/10" : "border-[#ececec]"}`}>
+                  <ul className="relative mt-8 space-y-3 border-t border-[#ececec] pt-7">
                     {p.bullets.map((b) => (
-                      <li key={b} className={`flex items-start gap-3 text-[14px] ${dark ? "text-white/85" : "text-[#1f2937]"}`}>
-                        <span className={`mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-full ${dark ? "bg-[#22c55e]/15 text-[#86efac]" : "bg-[#22c55e]/12 text-[#15803d]"}`}>
+                      <li key={b} className="flex items-start gap-3 text-[14px] text-[#1f2937]">
+                        <span
+                          className={featured
+                            ? "mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-full bg-[#6366f1]/12 text-[#4338ca]"
+                            : "mt-0.5 grid h-5 w-5 flex-shrink-0 place-items-center rounded-full bg-[#22c55e]/12 text-[#15803d]"}
+                        >
                           <Check size={11} strokeWidth={3} />
                         </span>
                         {b}
@@ -241,11 +288,26 @@ export function PricingPageContent({ locale = "cs" }: { locale?: PlatformLocale 
                   </ul>
                 </div>
               );
+
+              return featured ? (
+                <div
+                  key={p.key}
+                  className="relative h-full rounded-[27.5px] p-[1.5px]"
+                  style={{ background: "linear-gradient(160deg,#c4b5fd,#818cf8 48%,#a5b4fc)", boxShadow: "0 44px 90px -42px rgba(99,102,241,0.55)" }}
+                >
+                  {card}
+                </div>
+              ) : (
+                <div key={p.key} className="h-full">{card}</div>
+              );
             })}
           </div>
 
           {/* Compact add-on row */}
-          <div className="mt-8 rounded-[22px] border border-[#ececec] bg-[#fafafa] px-6 py-6 lg:px-8">
+          <div
+            className="relative mt-8 overflow-hidden rounded-[22px] border border-[#ececec] px-6 py-6 lg:px-8"
+            style={{ background: "linear-gradient(180deg,#fafafa 0%,#f5f4ff 100%)" }}
+          >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h3 className="text-[15px] font-semibold text-[#0a0a0a]">{c.addonsTitle}</h3>
@@ -253,7 +315,10 @@ export function PricingPageContent({ locale = "cs" }: { locale?: PlatformLocale 
               </div>
               <div className="flex flex-wrap gap-2">
                 {addons.map((a) => (
-                  <span key={a.name} className="inline-flex items-center gap-2 rounded-full border border-[#e5e7eb] bg-white px-3.5 py-2 text-[13px] font-medium text-[#0a0a0a]">
+                  <span
+                    key={a.name}
+                    className="inline-flex items-center gap-2 rounded-full border border-[#e5e7eb] bg-white px-3.5 py-2 text-[13px] font-medium text-[#0a0a0a] transition-colors hover:border-[#6366f1]/40"
+                  >
                     {a.name} <span className="text-[#6366f1]">{a.price}</span>
                   </span>
                 ))}

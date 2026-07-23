@@ -110,7 +110,11 @@ export const metadata: Metadata = {
     images: ["/templates/arch-01/hero-1.webp"],
   },
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: "/apple-icon.png",
   },
 };
 
@@ -130,7 +134,7 @@ const schemaOrganization = {
   "@id": `${BASE}/#organization`,
   name: "Webero s.r.o.",
   url: BASE,
-  logo: `${BASE}/favicon.ico`,
+  logo: `${BASE}/apple-icon.png`,
   description: "Professional websites without a developer for local businesses.",
   contactPoint: {
     "@type": "ContactPoint",

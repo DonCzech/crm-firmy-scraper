@@ -177,6 +177,44 @@ function PageSpeedBadge({ className = "", delay = 0 }: { className?: string; del
   );
 }
 
+/* ── Speed meter — fills to target % on scroll into view (rAF + IO) ─────── */
+function SpeedMeter({ to = 99 }: { to?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [w, setW] = useState(0);
+  const started = useRef(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        obs.disconnect();
+        const t0 = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min((now - t0) / 1500, 1);
+          const ease = 1 - Math.pow(1 - t, 3);
+          setW(ease * to);
+          if (t < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    }, { rootMargin: "-60px" });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [to]);
+  return (
+    <div ref={ref} className="relative h-2.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
+      <div
+        className="absolute inset-y-0 left-0 rounded-full"
+        style={{ width: `${w}%`, background: "linear-gradient(90deg,#34d399,#10b981)", boxShadow: "0 0 18px rgba(16,185,129,0.45)" }}
+      />
+      {[25, 50, 75].map((p) => (
+        <span key={p} className="absolute top-0 h-full w-px bg-[#07070e]/70" style={{ left: `${p}%` }} />
+      ))}
+    </div>
+  );
+}
+
 /* ── Interactive hotspot — pulsing dot with click-to-reveal mini badge ──── */
 type HotspotTone = "green" | "indigo" | "emerald" | "amber" | "rose";
 
@@ -579,20 +617,6 @@ function TemplatesGallery({ templates, onOpen, locale = "cs" }: { templates?: Te
           </Reveal>
         ))}
       </div>
-
-      {/* Show more — reveals the next batch within the selected category */}
-      {filtered.length > visible && (
-        <div className="mt-12 flex justify-center">
-          <button
-            onClick={() => setVisible(v => v + PAGE_SIZE)}
-            className="inline-flex items-center gap-2 rounded-full border border-[#e5e5e5] bg-white px-7 py-3 text-[13.5px] font-semibold text-[#0a0a0a] transition hover:border-[#0a0a0a]"
-          >
-            {en
-              ? `Show more templates (${filtered.length - visible})`
-              : `Zobrazit další šablony (${filtered.length - visible})`}
-          </button>
-        </div>
-      )}
 
       {/* Empty state */}
       {filtered.length === 0 && (
@@ -2348,141 +2372,253 @@ export function SaasLanding({ locale = "cs", approvedTemplates = [], galleryTemp
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
-      {/* §1  FEATURES — Light section with big product visual + 3 cards   */}
+      {/* §1  WHY IT WORKS — Dark spotlight, 3 kinetic pillars + trust bar  */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-[#fafafa]">
-        {/* Ambient tint — ties the light section to the dark hero above */}
+      <section className="relative overflow-hidden bg-[#07070e]">
+        {/* Spotlight wash — violet crown + emerald floor, cinematic depth */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
-          style={{ background: "radial-gradient(60% 100% at 50% 0%, rgba(99,102,241,0.055), transparent 70%)" }}
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(72% 62% at 50% -6%, rgba(129,140,248,0.24), transparent 62%), radial-gradient(46% 48% at 88% 12%, rgba(167,139,250,0.14), transparent 60%), radial-gradient(44% 55% at 6% 88%, rgba(16,185,129,0.10), transparent 60%)",
+          }}
         />
-        <div className="relative mx-auto max-w-[1280px] px-6 py-20 lg:px-10 lg:py-28">
+        {/* Fine grid, masked to a soft vignette so it fades at the edges */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
+          style={{
+            backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg,#fff 1px, transparent 1px)",
+            backgroundSize: "72px 72px",
+            maskImage: "radial-gradient(78% 68% at 50% 32%, #000 42%, transparent 86%)",
+            WebkitMaskImage: "radial-gradient(78% 68% at 50% 32%, #000 42%, transparent 86%)",
+          }}
+        />
+        {/* Top hairline — hands the eye down from the section above */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(129,140,248,0.45), transparent)" }} />
 
-          {/* ── Unified bento grid: 3 feature cards + 4 stat cards ── */}
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-12">
+        <div className="relative mx-auto max-w-[1200px] px-6 py-24 lg:px-10 lg:py-32">
 
-            {/* ── Feature cards — span 4 cols each on 12-col grid ── */}
+          {/* ── Header ── */}
+          <div className="mx-auto mb-14 max-w-[820px] text-center lg:mb-20">
+            <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 backdrop-blur-sm">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-indigo-400" />
+              </span>
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.24em] text-indigo-200/80">{en ? "Why Webero" : "Proč Webero"}</span>
+            </div>
+            <h2 className="font-sans font-semibold tracking-[-0.025em] text-white" style={{ fontSize: "clamp(33px,4.4vw,56px)", lineHeight: 1.06 }}>
+              {en ? "Built to feel " : "Uděláno tak, aby to šlo "}
+              <span style={{ background: "linear-gradient(100deg,#c7d2fe,#a5b4fc 52%,#c4b5fd)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+                {en ? "effortless." : "samo."}
+              </span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-[560px] text-[15.5px] leading-[1.7] text-white/55">
+              {en
+                ? "Three things carry the whole platform — a live editor, ready-made templates, and speed you never configure."
+                : "Tři věci nesou celou platformu — živý editor, hotové šablony a rychlost, kterou nikdy nenastavujete."}
+            </p>
+          </div>
+
+          {/* ── Three kinetic pillars ── */}
+          <div className="grid gap-5 lg:grid-cols-3 lg:gap-6">
             {[
               {
                 eyebrow: "Editor",
-                stat: "100%",
+                accent: "#818cf8",
+                glow: "rgba(129,140,248,0.16)",
+                num: <CountUp to={100} suffix="%" duration={1.6} />,
+                sup: null,
                 title: en ? "Click and edit." : "Klikni a uprav.",
-                desc: en ? "No backend, no templates in code. You work directly on the page." : "Žádný backend, žádné šablony v kódu. Pracujete přímo na stránce.",
-                accent: "#6366f1",
-                glow: "rgba(99,102,241,0.14)",
+                desc: en ? "No backend, no template code. You change the text right where you see it." : "Žádný backend, žádný kód šablon. Text měníte přímo tam, kde ho vidíte.",
                 icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
                   </svg>
+                ),
+                visual: (
+                  <div className="relative mt-auto flex h-[148px] flex-col justify-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-[#0c0c17] p-4">
+                    <div className="inline-flex w-max items-center gap-0.5 rounded-lg border border-white/10 bg-white/[0.05] p-1 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.6)]">
+                      {["B", "i", "U"].map((t, k) => (
+                        <span key={t} className={`grid h-6 w-6 place-items-center rounded-md text-[12px] text-white/70 ${k === 0 ? "bg-white/10 font-semibold text-white" : k === 1 ? "italic" : "underline"}`}>{t}</span>
+                      ))}
+                      <span className="mx-1 h-4 w-px bg-white/10" />
+                      <span className="h-4 w-4 rounded-full" style={{ background: "linear-gradient(135deg,#818cf8,#6366f1)" }} />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-2.5 w-3/5 rounded-full bg-white/12" />
+                      <div className="flex items-center">
+                        <span className="h-2.5 w-[38%] rounded-full bg-indigo-400/45" />
+                        <span className="wb-caret ml-[1px] inline-block h-4 w-[2px] bg-indigo-200" />
+                      </div>
+                    </div>
+                    <svg className="absolute bottom-3.5 right-4 h-5 w-5 drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]" viewBox="0 0 24 24" fill="white" stroke="#0c0c17" strokeWidth="1.4">
+                      <path d="M4 2l6 16 2.5-6.5L19 9 4 2z" />
+                    </svg>
+                  </div>
                 ),
               },
               {
                 eyebrow: en ? "Templates" : "Šablony",
-                stat: "100+",
-                title: en ? "Pro templates." : "Profi šablon.",
-                desc: en ? "Pick an industry and get a ready-made website with content. Add your business name and you are close." : "Vyberete obor, dostanete hotový web s obsahem. Stačí dopsat název firmy.",
-                accent: "#0ea5e9",
-                glow: "rgba(14,165,233,0.14)",
+                accent: "#38bdf8",
+                glow: "rgba(56,189,248,0.16)",
+                num: <CountUp to={100} suffix="+" duration={1.6} />,
+                sup: null,
+                title: en ? "Pro templates." : "Profi šablony.",
+                desc: en ? "Pick your industry and get a finished site with real content. Add your name — you're close." : "Vyberete obor a dostanete hotový web s reálným obsahem. Dopíšete název — a je hotovo.",
                 icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" />
                   </svg>
+                ),
+                visual: (
+                  <div className="relative mt-auto flex h-[148px] items-center overflow-hidden rounded-xl border border-white/10 bg-[#0c0c17] p-3">
+                    <div className="wb-drift flex w-max gap-2.5">
+                      {[
+                        "/templates/arch-01/showcase/hero-card.webp",
+                        "/templates/barber-04/showcase/desktop-hero.webp",
+                        "/templates/eshop-07/showcase/desktop-hero.webp",
+                        "/templates/clinic-02/showcase/hero-card.webp",
+                        "/templates/eshop-08/showcase/desktop-hero.webp",
+                        "/templates/solar-03/showcase/hero-card.webp",
+                      ].concat([
+                        "/templates/arch-01/showcase/hero-card.webp",
+                        "/templates/barber-04/showcase/desktop-hero.webp",
+                        "/templates/eshop-07/showcase/desktop-hero.webp",
+                        "/templates/clinic-02/showcase/hero-card.webp",
+                        "/templates/eshop-08/showcase/desktop-hero.webp",
+                        "/templates/solar-03/showcase/hero-card.webp",
+                      ]).map((src, k) => (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img key={k} src={src} alt="" aria-hidden="true" className="h-[112px] w-[172px] flex-shrink-0 rounded-lg border border-white/10 object-cover object-top" loading="lazy" />
+                      ))}
+                    </div>
+                    <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#0c0c17] to-transparent" />
+                    <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#0c0c17] to-transparent" />
+                  </div>
                 ),
               },
               {
                 eyebrow: en ? "Performance" : "Výkon",
-                stat: "99/100",
+                accent: "#34d399",
+                glow: "rgba(52,211,153,0.16)",
+                num: <CountUp to={99} duration={1.8} />,
+                sup: "/100",
                 title: "PageSpeed.",
-                desc: en ? "EU hosting, automatic image optimization, and SEO. No configuration needed." : "EU hosting, automatická optimalizace obrázků a SEO. Bez konfigurace.",
-                accent: "#10b981",
-                glow: "rgba(16,185,129,0.14)",
+                desc: en ? "EU hosting, automatic image optimization, and SEO — with nothing to set up." : "EU hosting, automatická optimalizace obrázků a SEO — bez jediného nastavení.",
                 icon: (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M13 2L3 14h9l-1 8 10-12h-9z" />
                   </svg>
                 ),
+                visual: (
+                  <div className="mt-auto flex h-[148px] flex-col justify-center gap-3.5 rounded-xl border border-white/10 bg-[#0c0c17] p-4">
+                    {[{ l: en ? "Mobile" : "Mobil", v: 99 }, { l: "Desktop", v: 100 }].map((row) => (
+                      <div key={row.l}>
+                        <div className="mb-1.5 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
+                          <span>{row.l}</span>
+                          <span className="tabular-nums text-emerald-300/80"><CountUp to={row.v} duration={1.6} /></span>
+                        </div>
+                        <SpeedMeter to={row.v} />
+                      </div>
+                    ))}
+                  </div>
+                ),
               },
-            ].map((f, i) => (
+            ].map((p, i) => (
               <Reveal
-                key={f.eyebrow}
-                delay={0.2 + i * 0.08}
+                key={p.eyebrow}
+                delay={0.15 + i * 0.09}
                 as="article"
-                className="group relative col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white p-6 shadow-[0_1px_3px_rgba(10,10,10,0.04)] sm:col-span-1 sm:p-8 lg:col-span-4 transition-all duration-500 ease-out hover:-translate-y-[4px] hover:border-[#dfe0ea] hover:shadow-[0_24px_56px_rgba(0,0,0,0.08),0_4px_16px_rgba(0,0,0,0.04)]"
+                className="group relative flex flex-col overflow-hidden rounded-[22px] border border-white/[0.08] bg-white/[0.02] p-7 backdrop-blur-sm transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-white/[0.16] hover:bg-white/[0.035] lg:p-8"
               >
-                {/* Accent hairline — subtle identity strip at the top */}
+                {/* accent top hairline */}
                 <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-60 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: `linear-gradient(90deg, transparent, ${f.accent}66, transparent)` }}
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px opacity-50 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(90deg, transparent, ${p.accent}88, transparent)` }}
                 />
+                {/* hover glow */}
                 <div
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-                  style={{ background: `radial-gradient(ellipse 100% 70% at 10% -10%, ${f.glow}, transparent 60%)` }}
+                  style={{ background: `radial-gradient(ellipse 110% 60% at 15% -10%, ${p.glow}, transparent 60%)` }}
                 />
-                {/* Icon + label */}
-                <div className="relative mb-5 flex items-center gap-3">
+                {/* icon + mono eyebrow */}
+                <div className="relative mb-7 flex items-center gap-3">
                   <div
                     className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
-                    style={{ background: `linear-gradient(135deg, ${f.accent} 0%, ${f.accent}bb 100%)`, boxShadow: `0 4px 14px ${f.glow}` }}
+                    style={{ background: `linear-gradient(135deg, ${p.accent} 0%, ${p.accent}bb 100%)`, boxShadow: `0 6px 18px ${p.glow}` }}
                   >
-                    {f.icon}
+                    {p.icon}
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: f.accent }}>{f.eyebrow}</span>
+                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em]" style={{ color: p.accent }}>{p.eyebrow}</span>
                 </div>
-                {/* Big stat */}
+                {/* giant numeral — same sans family as the rest of the homepage */}
                 <div
-                  className="relative mb-2 font-bold leading-none tracking-[-0.045em] text-[#0a0a0a]"
-                  style={{ fontSize: "clamp(36px, 4.5vw, 60px)" }}
+                  className="relative mb-4 flex items-baseline font-sans font-semibold leading-none tracking-[-0.04em] tabular-nums text-white"
+                  style={{ fontSize: "clamp(52px,6.5vw,80px)" }}
                 >
-                  {f.stat}
+                  {p.num}
+                  {p.sup && <span className="ml-1 font-medium text-white/30" style={{ fontSize: "0.36em" }}>{p.sup}</span>}
                 </div>
-                <h3 className="relative font-sans text-[17px] font-semibold tracking-[-0.01em] text-[#0a0a0a]">{f.title}</h3>
-                <p className="relative mt-2.5 text-[13.5px] leading-[1.7] text-[#6b7280]">{f.desc}</p>
-                {/* Bottom line */}
+                <h3 className="relative font-sans text-[18px] font-semibold tracking-[-0.01em] text-white">{p.title}</h3>
+                <p className="relative mt-2.5 min-h-[3.4em] text-[13.5px] leading-[1.7] text-white/50">{p.desc}</p>
+                {/* live footer visual (equal height, pinned to the bottom) */}
+                <div className="relative mt-7 flex flex-1 flex-col">{p.visual}</div>
+                {/* bottom sweep line */}
                 <div
-                  className="absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-500 ease-out group-hover:w-full"
-                  style={{ background: `linear-gradient(90deg, ${f.accent}, transparent)` }}
+                  className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-0 transition-all duration-500 ease-out group-hover:w-full"
+                  style={{ background: `linear-gradient(90deg, ${p.accent}, transparent)` }}
                 />
               </Reveal>
             ))}
-
-            {/* ── Stat panel — one unified strip with hairline dividers ── */}
-            <Reveal
-              delay={0.38}
-              as="div"
-              className="col-span-2 overflow-hidden rounded-2xl border border-[#e8e8ef] bg-white shadow-[0_1px_3px_rgba(10,10,10,0.04)] lg:col-span-12"
-            >
-              <div className="grid grid-cols-2 lg:grid-cols-4">
-                {[
-                  { value: 500, suffix: "+",    label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
-                  { value: 270, suffix: "+",    label: en ? "Edge locations" : "Edge lokalit", sub: en ? "Worldwide CDN" : "CDN po celém světě", decimals: 0 },
-                  { value: 4.9, suffix: "★",   label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
-                  { value: 5,   suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
-                ].map((s, i) => (
-                  <div
-                    key={s.label}
-                    className={`group flex flex-col justify-between gap-5 border-[#eef0f5] p-5 transition-colors duration-300 hover:bg-[#fafaff] sm:p-7 ${i % 2 === 1 ? "border-l" : ""} ${i >= 2 ? "border-t" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l" : ""}`}
-                  >
-                    <div
-                      className="font-bold leading-none tracking-[-0.04em] text-[#0a0a0a]"
-                      style={{ fontSize: "clamp(26px, 3.5vw, 46px)" }}
-                    >
-                      {s.decimals === 1 ? (
-                        <span><CountUpDecimal to={s.value} duration={1.8} decimals={1} />{s.suffix}</span>
-                      ) : (
-                        <CountUp to={s.value} suffix={s.suffix} duration={1.8} />
-                      )}
-                    </div>
-                    <div>
-                      <div className="text-[14px] font-semibold text-[#0a0a0a]">{s.label}</div>
-                      <div className="mt-0.5 text-[12.5px] text-[#9ca3af]">{s.sub}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-
           </div>
+
+          {/* ── Trust bar — one unified dark-glass strip ── */}
+          <Reveal
+            delay={0.42}
+            as="div"
+            className="mt-6 overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm"
+          >
+            <div className="grid grid-cols-2 lg:grid-cols-4">
+              {[
+                { value: 500, suffix: "+", label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
+                { value: 270, suffix: "+", label: en ? "Edge locations" : "Edge lokalit", sub: en ? "Worldwide CDN" : "CDN po celém světě", decimals: 0 },
+                { value: 4.9, suffix: "★", label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
+                { value: 5, suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
+              ].map((s, i) => (
+                <div
+                  key={s.label}
+                  className={`group flex flex-col justify-between gap-5 border-white/[0.07] p-5 transition-colors duration-300 hover:bg-white/[0.02] sm:p-7 ${i % 2 === 1 ? "border-l" : ""} ${i >= 2 ? "border-t" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l" : ""}`}
+                >
+                  <div
+                    className="flex items-baseline font-sans font-semibold leading-none tracking-[-0.03em] tabular-nums text-white"
+                    style={{ fontSize: "clamp(30px, 3.8vw, 48px)" }}
+                  >
+                    {s.decimals === 1 ? (
+                      <span><CountUpDecimal to={s.value} duration={1.8} decimals={1} /><span className="text-amber-300">{s.suffix}</span></span>
+                    ) : (
+                      <CountUp to={s.value} suffix={s.suffix} duration={1.8} />
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-[14px] font-semibold text-white">{s.label}</div>
+                    <div className="mt-0.5 text-[12.5px] text-white/45">{s.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
         </div>
+
+        <style jsx global>{`
+          @keyframes wbCaret { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+          .wb-caret { animation: wbCaret 1.05s steps(1) infinite; }
+          @keyframes wbDrift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+          .wb-drift { animation: wbDrift 30s linear infinite; will-change: transform; }
+          .wb-drift:hover { animation-play-state: paused; }
+          @media (prefers-reduced-motion: reduce) { .wb-drift { animation: none; } .wb-caret { animation: none; opacity: 1; } }
+        `}</style>
       </section>
 
 
