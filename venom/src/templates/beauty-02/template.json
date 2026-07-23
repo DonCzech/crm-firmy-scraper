@@ -1,0 +1,44 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "beauty-02",
+  "name": "Séra Beauty",
+  "industry": "beauty",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Městské beauty & wellness studio, warm coffee brown #523E35 + olivově-černý #1A210F, Montserrat 800 display, diamantový motiv. Cinematic full-bleed hero, foto koláž about, service carousel (vlasové / po saunování / beauty procedúry). beautycentral.cz DNA povýšené na award-winning.",
+  "sectionOrderNote": "navbar → hero (fullbleed) → about (foto koláž + KRÁSA A ODPOČINEK) → services (3-slide carousel) → footer (3 sloupce). Podstránky: vlasove-procedury, po-saunovani, beauty-procedury, rezervace, kontakty.",
+  "skippedSections": [
+    { "pos": 5, "name": "Pricing", "reason": "originál nemá samostatný ceník na homepage — ceny jsou na podstránkách procedur" },
+    { "pos": 6, "name": "Gallery", "reason": "originál nemá samostatnou galerii na homepage — foto koláž je součástí about a service carouselu" },
+    { "pos": 7, "name": "Team", "reason": "originál nemá sekci týmu na homepage" },
+    { "pos": 9, "name": "Booking/CTA", "reason": "rezervační CTA je v navbaru + service kartách + na /rezervace" },
+    { "pos": 8, "name": "Testimonials", "reason": "originál nemá recenze na homepage" },
+    { "pos": 10, "name": "Locations", "reason": "jediná pobočka — adresa v patičce a na /kontakty" },
+    { "pos": 11, "name": "FAQ", "reason": "originál nemá FAQ sekci" }
+  ],
+  "extraSections": [
+    { "type": "services", "reason": "Service carousel — 3 kategorie procedur v posuvném prezentéru (vlasové / po saunování / beauty)" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs", "en"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "beauty-02-nav",       "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-beauty-02",      "contentRef": "hero" },
+        { "type": "about",    "variant": "about-beauty-02",     "contentRef": "about" },
+        { "type": "services", "variant": "beauty-02-carousel",  "contentRef": "services" },
+        { "type": "footer",   "variant": "beauty-02-footer",    "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

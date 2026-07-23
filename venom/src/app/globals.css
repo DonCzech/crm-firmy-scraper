@@ -3325,6 +3325,18 @@ nav[data-template="barber-03"] a.b03-drawer-link:focus-visible {
   .ff-anim-fade-in,.ff-anim-slide-up,.ff-anim-slide-right,.ff-anim-zoom-in { animation: none; }
 }
 
+/* ── beauty-02 skin — Séra Beauty (warm coffee / olive-black, Montserrat) ──── */
+[data-template="beauty-02"] .bc2-nav-link:hover .bc2-nav-underline { transform: scaleX(1); }
+[data-template="beauty-02"][data-scrolled="yes"] .bc2-nav-link:hover { color: #1A210F !important; }
+[data-template="beauty-02"][data-scrolled="no"]  .bc2-nav-link:hover { color: #FFFFFF !important; }
+[data-template="beauty-02"] .bc2-nav-phone:hover { opacity: 0.7; }
+[data-template="beauty-02"] .bc2-lang:hover { color: #523E35 !important; }
+[data-template="beauty-02"][data-scrolled="no"] .bc2-lang:hover { color: #FFFFFF !important; }
+[data-template="beauty-02"] .bc2-cta:hover { background-color: #6B5142 !important; transform: translateY(-2px); }
+[data-template="beauty-02"] .bc2-cta:hover .bc2-cta-arrow { transform: translateX(6px); }
+[data-template="beauty-02"] a:hover .bc2-mark { transform: rotate(-8deg) scale(1.06); }
+[data-template="beauty-02"] .bc2-mob-link:hover { color: #C9A26A !important; }
+
 /* ── beauty-01 skin — Sand-Cream Editorial Wellness ──────────────────────── */
 [data-template="beauty-01"] {
   --b01-paper: #FFF8F1;
