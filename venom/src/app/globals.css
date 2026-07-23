@@ -3343,6 +3343,29 @@ nav[data-template="barber-03"] a.b03-drawer-link:focus-visible {
 [data-template="beauty-02"] .bc2-hero-sec:hover .bc2-hero-sec-arrow { transform: translateX(5px); }
 [data-template="beauty-02"] .bc2-hero-img { transition: transform 8s ease-out; }
 [data-template="beauty-02"] .bc2-hero:hover .bc2-hero-img { transform: scale(1.05); }
+/* about */
+[data-template="beauty-02"] .bc2-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px,5vw,72px); align-items: center; }
+[data-template="beauty-02"] .bc2-about-collage { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; grid-template-rows: 1fr 1fr; gap: 14px; height: clamp(420px, 46vw, 560px); }
+[data-template="beauty-02"] .bc2-about-photo { position: relative; overflow: hidden; border-radius: 14px; height: 100%; box-shadow: 0 18px 44px rgba(26,33,15,0.12); }
+[data-template="beauty-02"] .bc2-about-photo img { filter: grayscale(0.22) saturate(0.9); transition: filter 0.7s cubic-bezier(.22,1,.36,1), transform 0.9s cubic-bezier(.22,1,.36,1); }
+[data-template="beauty-02"] .bc2-about-photo:hover img { filter: none; transform: scale(1.06); }
+[data-template="beauty-02"] .bc2-about-big { grid-row: 1 / span 2; }
+[data-template="beauty-02"] .bc2-about-chip { position: absolute; left: -14px; bottom: 26px; z-index: 3; display: inline-flex; align-items: center; gap: 10px; background: #523E35; padding: 13px 20px; border-radius: 8px; box-shadow: 0 16px 40px rgba(26,33,15,0.28); }
+[data-template="beauty-02"] .bc2-about-cta:hover { background-color: #6B5142 !important; transform: translateY(-2px); }
+[data-template="beauty-02"] .bc2-about-cta:hover .bc2-about-cta-arrow { transform: translateX(6px); }
+/* reveal (inner elements only — nikdy na section wrapper) */
+[data-template="beauty-02"] .bc2-reveal { opacity: 0; transform: translateY(24px); animation: bc2FadeUp 0.9s cubic-bezier(.22,1,.36,1) forwards; }
+[data-template="beauty-02"] .bc2-about-text.bc2-reveal { animation-delay: 0.12s; }
+@keyframes bc2FadeUp { to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 860px) {
+  [data-template="beauty-02"] .bc2-about-grid { grid-template-columns: 1fr; gap: 40px; }
+  [data-template="beauty-02"] .bc2-about-collage { height: clamp(360px, 90vw, 480px); }
+  [data-template="beauty-02"] .bc2-about-chip { left: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-template="beauty-02"] .bc2-reveal { animation: none; opacity: 1; transform: none; }
+  [data-template="beauty-02"] .bc2-hero:hover .bc2-hero-img { transform: none; }
+}
 
 /* ── beauty-01 skin — Sand-Cream Editorial Wellness ──────────────────────── */
 [data-template="beauty-01"] {

@@ -42,6 +42,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "orbit-01-security") return <SecurityOrbit01 content={content} sectionId={sectionId} />;
   if (variant === "artist-01-about")          return <AboutArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "rekonstrukce-01-about")    return <AboutRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "about-beauty-02")          return <AboutBeauty02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "harmonie-01-highlights")     return <HighlightsHarmonie01 content={content} sectionId={sectionId} />;
   if (variant === "harmonie-01-about-ayurveda") return <AboutHarmonie01Ayurveda content={content} sectionId={sectionId} />;
   if (variant === "harmonie-01-benefits")       return <BenefitsHarmonie01 content={content} sectionId={sectionId} />;
@@ -21804,6 +21805,88 @@ function AboutBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: R
             </GenericEditableImage>
           </div>
         )}
+      </div>
+    </section>
+  );
+}
+
+// ── about-beauty-02 — Séra Beauty (foto koláž + KRÁSA A ODPOČINEK) ───────────
+function AboutBeauty02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const cc = content as Record<string, unknown>;
+  const eyebrowRaw = cc.eyebrow;
+  const titleRaw = cc.title;
+  const eyebrow = eyebrowRaw === undefined ? "Spojení absolutního relaxu ve městě" : String(eyebrowRaw);
+  const title = titleRaw === undefined ? "KRÁSA A ODPOČINEK" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
+  const paragraphs = (cc.paragraphs as string[]) ?? [
+    "V našem moderním studiu na Vás čeká široká nabídka vlasových, beauty i regeneračních procedur, které podtrhnou Vaši přirozenou krásu a pomohou tělu znovu načerpat energii.",
+    "Specializujeme se na vlasové procedury s použitím kvalitní profesionální kosmetiky, díky nimž budou Vaše vlasy zdravější, silnější a zářivější.",
+    "Nezapomínáme ani na klasické beauty procedury — od hloubkového čištění pleti, přes revitalizační masky, až po zkrášlující rituály, které Vám dopřejí pocit luxusu a uvolnění.",
+  ];
+  const images = (cc.images as Array<{ url?: string; alt?: string }>) ?? [];
+  const img = (i: number, def: string) => images[i]?.url || def;
+  const alt = (i: number, def: string) => images[i]?.alt || def;
+  const ctaText = String(cc.ctaText ?? "Objevte naše procedury");
+  const ctaHref = String(cc.ctaHref ?? "/beauty-procedury");
+  const hoursChip = String(cc.hoursChip ?? "Otevřeno 7 dní · 13:00–22:30");
+  const siteMode = String(cc.siteMode ?? "multipage");
+  const resolveH = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
+
+  const FONT = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+  const BROWN = "#523E35";
+  const DARK = "#1A210F";
+  const MUTED = "#6B5D52";
+
+  return (
+    <section id="about" className="relative w-full bc2-about" data-template="beauty-02" style={{ backgroundColor: "#FFFFFF" }}>
+      <div className="bc2-about-inner mx-auto" style={{ maxWidth: 1280, padding: "clamp(72px,9vw,132px) clamp(24px,5vw,64px)" }}>
+        <div className="bc2-about-grid">
+          {/* Foto koláž */}
+          <div className="bc2-about-collage bc2-reveal">
+            <GenericEditableImage sectionId={sectionId} field="images.0.url" src={img(0, "/templates/beauty-02/img/about-1.webp")} alt={alt(0, "Interiér studia")} className="bc2-about-photo bc2-about-big">
+              <img src={img(0, "/templates/beauty-02/img/about-1.webp")} alt={alt(0, "Interiér studia")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            <GenericEditableImage sectionId={sectionId} field="images.1.url" src={img(1, "/templates/beauty-02/img/about-2.webp")} alt={alt(1, "Ošetření")} className="bc2-about-photo bc2-about-s1">
+              <img src={img(1, "/templates/beauty-02/img/about-2.webp")} alt={alt(1, "Ošetření")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            <GenericEditableImage sectionId={sectionId} field="images.2.url" src={img(2, "/templates/beauty-02/img/about-3.webp")} alt={alt(2, "Vlasová péče")} className="bc2-about-photo bc2-about-s2">
+              <img src={img(2, "/templates/beauty-02/img/about-3.webp")} alt={alt(2, "Vlasová péče")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            {/* Floating chip */}
+            <div className="bc2-about-chip" style={{ fontFamily: FONT }}>
+              <svg width="18" height="18" viewBox="0 0 40 40" fill="none" stroke="#C9A26A" strokeWidth={2.2} aria-hidden="true"><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
+              <GenericEditableText sectionId={sectionId} field="hoursChip" value={hoursChip} tag="span" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.04em", color: "#FFFFFF" }} />
+            </div>
+          </div>
+
+          {/* Text */}
+          <div className="bc2-about-text bc2-reveal">
+            {showHeader && (
+              <>
+                <div className="flex items-center" style={{ gap: 14, marginBottom: 22 }}>
+                  <span aria-hidden="true" style={{ width: 40, height: 1.5, backgroundColor: BROWN, display: "block" }} />
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: BROWN }} />
+                </div>
+                <h2 style={{ margin: "0 0 30px", fontFamily: FONT, fontWeight: 800, fontSize: "clamp(30px,4.4vw,56px)", lineHeight: 1.02, letterSpacing: "-0.02em", textTransform: "uppercase", color: DARK }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              </>
+            )}
+            <div className="bc2-about-paras" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {paragraphs.map((p, i) => (
+                <p key={`bc2-para-${i}`} style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: i === 0 ? "clamp(16px,1.5vw,19px)" : "clamp(15px,1.3vw,16.5px)", lineHeight: 1.75, color: i === 0 ? DARK : MUTED }}>
+                  <GenericEditableText sectionId={sectionId} field={`paragraphs.${i}`} value={String(p)} tag="span" />
+                </p>
+              ))}
+            </div>
+            {ctaText && (
+              <a href={resolveH(ctaHref)} data-btn="primary" className="bc2-about-cta inline-flex items-center" style={{ marginTop: 38, fontFamily: FONT, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "16px 30px", backgroundColor: BROWN, color: "#FFFFFF", textDecoration: "none", borderRadius: 6, alignSelf: "flex-start", transition: "background-color .3s ease, transform .3s ease" }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span aria-hidden="true" className="bc2-about-cta-arrow" style={{ marginLeft: 11, transition: "transform .3s ease" }}>→</span>
+              </a>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );
