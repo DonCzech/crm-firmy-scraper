@@ -85,6 +85,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   if (variant === "orbit-01-footer") return <FooterOrbit01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "signal-01-footer") return <FooterSignal01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-footer") return <FooterProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "beauty-02-footer") return <FooterBeauty02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "artist-01-footer") return <FooterArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "eshop-05-footer") return <FooterEshop05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "eshop-06-footer") return <FooterEshop06 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -20076,6 +20077,128 @@ function FooterBarber06({ content, sectionId, tenantSlug, isAdmin }: { content: 
           <a href={resolve(gdprHref)}>Ochrana osobních údajů</a>
         </p>
         <WeberoCredit />
+      </div>
+    </footer>
+  );
+}
+
+// ── beauty-02-footer — Séra Beauty (dark brown, diamant, 3 sloupce + Webero) ──
+function FooterBeauty02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const cc = content as Record<string, unknown>;
+  const siteName = String(cc.siteName ?? "Séra Beauty");
+  const tagline = String(cc.tagline ?? "Krása a odpočinek v srdci města.");
+  const colServices = String(cc.colServices ?? "Druhy služeb");
+  const services = (cc.services as Array<{ label: string; href: string }>) ?? [];
+  const colHours = String(cc.colHours ?? "Otevírací doba");
+  const hours = (cc.hours as Array<{ day: string; value: string }>) ?? [];
+  const colContact = String(cc.colContact ?? "Kontakt");
+  const address = String(cc.address ?? "Ukázková 123");
+  const address2 = String(cc.address2 ?? "110 00 Praha 1");
+  const companyLine = String(cc.companyLine ?? "provozovatel je Séra Beauty s.r.o.");
+  const ico = String(cc.ico ?? "IČ: 12345678");
+  const phone = String(cc.phone ?? "704 123 456");
+  const email = String(cc.email ?? "email@demo.cz");
+  const socials = (cc.socials as Array<{ label: string; href: string }>) ?? [];
+  const legal = String(cc.legal ?? `${siteName} s.r.o. · Všechna práva vyhrazena`);
+  const siteMode = String(cc.siteMode ?? "multipage");
+  const resolveH = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
+  const year = new Date().getFullYear();
+
+  const FONT = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+  const GOLD = "#C9A26A";
+  const CREAM = "rgba(255,255,255,0.86)";
+  const MUTED = "rgba(255,255,255,0.5)";
+  const RULE = "rgba(255,255,255,0.12)";
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  const colHeadStyle: React.CSSProperties = { fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, marginBottom: 22 };
+  const linkStyle: React.CSSProperties = { fontFamily: FONT, fontSize: 14.5, fontWeight: 400, color: CREAM, textDecoration: "none", transition: "color .3s ease" };
+
+  return (
+    <footer className="relative w-full bc2-footer" data-template="beauty-02" style={{ backgroundColor: "#2A211C", fontFamily: FONT }}>
+      <div className="mx-auto" style={{ maxWidth: 1280, padding: "clamp(64px,7vw,96px) clamp(24px,5vw,64px) 0" }}>
+        <div className="bc2-footer-grid">
+          {/* Brand */}
+          <div className="bc2-footer-brand">
+            <a href={homeHref} className="inline-flex items-center gap-3" aria-label={siteName} style={{ textDecoration: "none", marginBottom: 20 }}>
+              <svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke={GOLD} strokeWidth={1.5} strokeLinejoin="round" aria-hidden="true"><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /><path d="M11 6 L15 15 L20 35 M29 6 L25 15 L20 35 M15 15 H25" /></svg>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" style={{ fontFamily: FONT, fontSize: 20, fontWeight: 800, letterSpacing: "0.14em", textTransform: "uppercase", color: "#FFFFFF" }} />
+            </a>
+            <p style={{ margin: "0 0 26px", fontFamily: FONT, fontSize: 14.5, fontWeight: 400, lineHeight: 1.6, color: MUTED, maxWidth: 280 }}>
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            {socials.length > 0 && (
+              <div className="flex items-center" style={{ gap: 12 }}>
+                {socials.map((s, i) => (
+                  <a key={`bc2-soc-${i}`} href={s.href || "#"} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="bc2-footer-soc inline-flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: "50%", border: `1px solid ${RULE}`, color: CREAM, transition: "background-color .3s ease, color .3s ease, border-color .3s ease" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Služby */}
+          <div className="bc2-footer-col">
+            <div style={colHeadStyle}><GenericEditableText sectionId={sectionId} field="colServices" value={colServices} tag="span" /></div>
+            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 13 }}>
+              {services.map((s, i) => (
+                <li key={`bc2-fs-${i}`}>
+                  <a href={resolveH(s.href)} className="bc2-footer-link" style={linkStyle}>
+                    <GenericEditableText sectionId={sectionId} field={`services.${i}.label`} value={s.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Otevírací doba */}
+          <div className="bc2-footer-col">
+            <div style={colHeadStyle}><GenericEditableText sectionId={sectionId} field="colHours" value={colHours} tag="span" /></div>
+            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 13 }}>
+              {hours.map((h, i) => (
+                <li key={`bc2-fh-${i}`} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                  <span style={{ fontFamily: FONT, fontSize: 13.5, fontWeight: 600, color: CREAM }}>
+                    <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                  </span>
+                  <span style={{ fontFamily: FONT, fontSize: 13.5, fontWeight: 400, color: GOLD }}>
+                    <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Kontakt */}
+          <div className="bc2-footer-col">
+            <div style={colHeadStyle}><GenericEditableText sectionId={sectionId} field="colContact" value={colContact} tag="span" /></div>
+            <address style={{ fontStyle: "normal", display: "flex", flexDirection: "column", gap: 12 }}>
+              <span style={{ fontFamily: FONT, fontSize: 14, lineHeight: 1.5, color: CREAM }}>
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /><br />
+                <GenericEditableText sectionId={sectionId} field="address2" value={address2} tag="span" />
+              </span>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="bc2-footer-link" style={linkStyle}>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <a href={`mailto:${email}`} className="bc2-footer-link" style={linkStyle}>
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
+              <span style={{ fontFamily: FONT, fontSize: 12.5, lineHeight: 1.5, color: MUTED, marginTop: 4 }}>
+                <GenericEditableText sectionId={sectionId} field="companyLine" value={companyLine} tag="span" /><br />
+                <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+              </span>
+            </address>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div style={{ height: 1, backgroundColor: RULE, marginTop: "clamp(48px,5vw,72px)" }} />
+        <div className="bc2-footer-bottom" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16, padding: "26px 0 30px" }}>
+          <p style={{ margin: 0, fontFamily: FONT, fontSize: 12.5, fontWeight: 400, color: MUTED }}>
+            © {year} <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
+          </p>
+          <WeberoCredit />
+        </div>
       </div>
     </footer>
   );

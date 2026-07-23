@@ -3387,6 +3387,18 @@ nav[data-template="barber-03"] a.b03-drawer-link:focus-visible {
   [data-template="beauty-02"] .bc2-svc-photo { order: -1; height: clamp(240px, 60vw, 340px); }
   [data-template="beauty-02"] .bc2-svc-counter { display: none; }
 }
+/* footer */
+[data-template="beauty-02"] .bc2-footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: clamp(32px,4vw,56px); }
+[data-template="beauty-02"] .bc2-footer-link:hover { color: #C9A26A !important; }
+[data-template="beauty-02"] .bc2-footer-soc:hover { background-color: #C9A26A !important; color: #2A211C !important; border-color: #C9A26A !important; }
+@media (max-width: 860px) {
+  [data-template="beauty-02"] .bc2-footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  [data-template="beauty-02"] .bc2-footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  [data-template="beauty-02"] .bc2-footer-grid { grid-template-columns: 1fr; }
+  [data-template="beauty-02"] .bc2-footer-bottom { flex-direction: column; align-items: flex-start; }
+}
 @media (prefers-reduced-motion: reduce) {
   [data-template="beauty-02"] .bc2-reveal { animation: none; opacity: 1; transform: none; }
   [data-template="beauty-02"] .bc2-hero:hover .bc2-hero-img { transform: none; }
