@@ -44,6 +44,7 @@ export const DESIGN_REGISTRY: Record<string, D> = {
   "hair-03": d(() => import("./designs/HairRail").then((m) => ({ default: m.HairRail }))),
   "hair-04": d(() => import("./designs/HairTimeline").then((m) => ({ default: m.HairTimeline }))),
   "beauty-01": d(() => import("./designs/BeautyGlow").then((m) => ({ default: m.BeautyGlow }))),
+  "beauty-02": d(() => import("./designs/BeautySera").then((m) => ({ default: m.BeautySera }))),
   "nails-01": d(() => import("./designs/NailsSwatch").then((m) => ({ default: m.NailsSwatch }))),
   "nails-02": d(() => import("./designs/NailsBubble").then((m) => ({ default: m.NailsBubble }))),
   "nails-03": d(() => import("./designs/NailsStudio").then((m) => ({ default: m.NailsStudio }))),

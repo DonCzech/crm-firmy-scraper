@@ -18,7 +18,8 @@
     { "pos": 11, "name": "FAQ", "reason": "originál nemá FAQ sekci" }
   ],
   "extraSections": [
-    { "type": "services", "reason": "Service carousel — 3 kategorie procedur v posuvném prezentéru (vlasové / po saunování / beauty)" }
+    { "type": "services", "reason": "Service carousel — 3 kategorie procedur v posuvném prezentéru (vlasové / po saunování / beauty)" },
+    { "type": "rezora-widget", "reason": "Inline rezervační widget (bespoke beauty-02 luxe split) — objednání termínu přímo na homepage" }
   ],
   "i18n": {
     "default": "cs",
@@ -34,6 +35,7 @@
         { "type": "hero",     "variant": "hero-beauty-02",      "contentRef": "hero" },
         { "type": "about",    "variant": "about-beauty-02",     "contentRef": "about" },
         { "type": "services", "variant": "beauty-02-carousel",  "contentRef": "services" },
+        { "type": "rezora-widget", "variant": "beauty-02",     "contentRef": "rezervace" },
         { "type": "footer",   "variant": "beauty-02-footer",    "contentRef": "footer" }
       ]
     }

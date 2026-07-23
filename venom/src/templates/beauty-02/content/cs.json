@@ -77,6 +77,13 @@
       }
     ]
   },
+  "rezervace": {
+    "mode": "service",
+    "title": "Objednejte se online",
+    "subtitle": "Vyberte proceduru, specialistku a čas — potvrzení dorazí e-mailem.",
+    "providerSlug": "vyzkousej",
+    "apiBaseUrl": "https://app.rezora.cz"
+  },
   "footer": {
     "siteName": "Séra Beauty",
     "logoUrl": "",
