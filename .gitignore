@@ -30,3 +30,6 @@ venom/screenlog.0
 venom/*.log
 venom/.runtime-dev-*.log
 rezervace/.next/
+backups/
+venom/backups/
+fakturina/.next/
