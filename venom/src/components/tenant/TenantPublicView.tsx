@@ -17,6 +17,10 @@ interface Props {
   sections: Section[];
   overrides?: TenantOverride[];
   isAdmin?: boolean;
+  /** Active language for astera-site sections (cs | en | ua). */
+  asteraLang?: "cs" | "en" | "ua";
+  /** Sub-page slug for astera-site sections (empty = home). */
+  asteraPageSlug?: string;
 }
 
 interface FaqItem { question: string; answer: string; }
@@ -131,7 +135,7 @@ function buildFaqSchema(sections: Section[]) {
   return buildFAQPage(faq);
 }
 
-export function TenantPublicView({ tenant, page: _page, sections: initialSections, overrides = [], isAdmin = false }: Props) {
+export function TenantPublicView({ tenant, page: _page, sections: initialSections, overrides = [], isAdmin = false, asteraLang = "cs", asteraPageSlug }: Props) {
   const [sections, setSections] = useState<Section[]>(initialSections);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -152,7 +156,8 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
 
   const visibleSections = sections.filter((s) => s.is_visible);
   const hasAsteraHome = visibleSections.some((s) => s.section_type === "astera-home");
-  const genericEditorEnabled = isAdmin && !hasAsteraHome;
+  const hasAsteraSite = visibleSections.some((s) => s.section_type === "astera-site");
+  const genericEditorEnabled = isAdmin && !hasAsteraHome && !hasAsteraSite;
 
   // Validate — navbar/footer must never appear inside section stream
   const navbarSections = visibleSections.filter((s) => s.section_type === "navbar");
@@ -185,6 +190,31 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
     setSections(prev => prev.map(s => (
       s.id === section.id ? { ...s, settings } : s
     )));
+  }, [tenant.slug]);
+
+  // astera-site: content is stored per language ({ cs, en, ua }); persist a
+  // single (lang, sectionKey) without clobbering the other languages.
+  const saveAsteraSite = useCallback(async (
+    section: Section,
+    sectionKey: string,
+    sectionContent: unknown,
+    lang: string,
+  ) => {
+    const current = sectionsRef.current.find(s => s.id === section.id) ?? section;
+    const prevSettings = (current.settings ?? {}) as Record<string, unknown>;
+    const prevContent = (prevSettings.content ?? {}) as Record<string, Record<string, unknown>>;
+    const prevLang = (prevContent[lang] ?? {}) as Record<string, unknown>;
+    const settings = {
+      ...prevSettings,
+      content: { ...prevContent, [lang]: { ...prevLang, [sectionKey]: sectionContent } },
+    };
+    const res = await fetch(`/api/demo/${tenant.slug}/sections/${section.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ settings }),
+    });
+    if (!res.ok) throw new Error("Failed to save astera section");
+    setSections(prev => prev.map(s => (s.id === section.id ? { ...s, settings } : s)));
   }, [tenant.slug]);
 
   const flushGenericSave = useCallback(async () => {
@@ -452,8 +482,15 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
                   section={patchedSection}
                   tenantId={tenant.id}
                   tenantSlug={tenant.slug}
-                  isAdmin={section.section_type === "astera-home" ? isAdmin : genericEditorEnabled}
+                  isAdmin={
+                    section.section_type === "astera-home" || section.section_type === "astera-site"
+                      ? isAdmin
+                      : genericEditorEnabled
+                  }
                   onSaveAsteraContent={saveAsteraContent}
+                  onSaveAsteraSite={saveAsteraSite}
+                  asteraLang={asteraLang}
+                  asteraPageSlug={asteraPageSlug}
                 />
               </AnimatedWrapper>
             );

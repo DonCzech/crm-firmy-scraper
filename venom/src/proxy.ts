@@ -50,9 +50,10 @@ export async function proxy(request: NextRequest) {
         });
 
         if (res.ok) {
-          const { slug, www_redirect } = (await res.json()) as {
+          const { slug, www_redirect, multilang } = (await res.json()) as {
             slug?: string;
             www_redirect?: string;
+            multilang?: boolean;
           };
           if (slug) {
             const hasWww = host.startsWith("www.");
@@ -70,8 +71,26 @@ export async function proxy(request: NextRequest) {
               return NextResponse.redirect(redirectUrl, 301);
             }
 
+            // Multi-language tenants (e.g. astera) use a language path prefix
+            // on their own domain (/en/sluzby). Internally the tenant renders
+            // under /demo/<slug> with the language as a ?lang= query, so strip a
+            // leading /cs|/en|/ua segment and fold it into the query. Gated on
+            // `multilang` so a normal tenant's page literally named "en" is safe.
+            let effectivePath = pathname;
+            let langPrefix = "";
+            if (multilang) {
+              const seg = pathname.split("/")[1];
+              if (seg === "cs" || seg === "en" || seg === "ua") {
+                langPrefix = seg;
+                effectivePath = pathname.slice(seg.length + 1) || "/";
+              }
+            }
+
             const rewriteUrl = request.nextUrl.clone();
-            rewriteUrl.pathname = `/demo/${slug}${pathname === "/" ? "" : pathname}`;
+            rewriteUrl.pathname = `/demo/${slug}${effectivePath === "/" ? "" : effectivePath}`;
+            if (langPrefix && langPrefix !== "cs") {
+              rewriteUrl.searchParams.set("lang", langPrefix);
+            }
             return NextResponse.rewrite(rewriteUrl);
           }
         }

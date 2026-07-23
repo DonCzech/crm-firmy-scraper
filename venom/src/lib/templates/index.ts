@@ -3,6 +3,7 @@ export { blankTemplate } from "./blank";
 export { wellnessTemplate } from "./wellness";
 export { lawyerTemplate } from "./lawyer";
 export { asteraTemplate } from "./astera";
+export { asteralightTemplate } from "./asteralight";
 export { cafe01Template } from "./cafe-01";
 export type { TemplateDefinition, DesignTokens, SectionConfig } from "./types";
 
@@ -11,6 +12,7 @@ import { blankTemplate } from "./blank";
 import { wellnessTemplate } from "./wellness";
 import { lawyerTemplate } from "./lawyer";
 import { asteraTemplate } from "./astera";
+import { asteralightTemplate } from "./asteralight";
 import { cafe01Template } from "./cafe-01";
 import type { TemplateDefinition } from "./types";
 
@@ -21,6 +23,8 @@ export const TEMPLATES: Record<string, TemplateDefinition> = {
   wellness: wellnessTemplate,
   lawyer: lawyerTemplate,
   astera: asteraTemplate,
+  // Private, full-site 1:1 astera clone (not in the public catalog).
+  asteralight: asteralightTemplate,
   "cafe-01": cafe01Template,
 };
 

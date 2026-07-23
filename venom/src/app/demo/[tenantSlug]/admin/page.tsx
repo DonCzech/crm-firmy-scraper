@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
 import { TenantStudioView as TenantEditorView } from "@/components/studio/TenantStudioView";
+import { AsteraStudioEditor } from "@/components/studio/AsteraStudioEditor";
 import { StudioThemeScript } from "@/components/studio/StudioThemeScript";
 import { resolveAllSections } from "@/lib/section-resolver";
 import type { Metadata } from "next";
@@ -50,6 +51,13 @@ export default async function TenantAdminPage({ params, searchParams }: Props) {
   // Resolve v2 section content (content_overrides → settings.content) so the
   // editor starts with the correct merged content rather than empty settings.
   const sections = await resolveAllSections(tenant, rawSections);
+
+  // astera-site tenants edit through astera's own native LiveEditor (1:1 with
+  // astera-web) rather than the generic StudioCanvas.
+  const asteraSection = sections.find((s) => s.section_type === "astera-site");
+  if (asteraSection) {
+    return <AsteraStudioEditor tenant={tenant} section={asteraSection} />;
+  }
 
   return (
     <>

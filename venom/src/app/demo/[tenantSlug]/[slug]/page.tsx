@@ -3,6 +3,7 @@ import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } f
 import { resolveAllSections } from "@/lib/section-resolver";
 import { withRezoraPrefetch } from "@/lib/rezora/prefetch";
 import { AsteraDemoPageTemplate } from "@/components/templates/AsteraDemoPageTemplate";
+import { AsteraSiteTemplate, type AsteraSiteContent } from "@/components/templates/AsteraSiteTemplate";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { ClonedSiteRenderer } from "@/components/tenant/ClonedSiteRenderer";
 import { TenantCustomCode } from "@/components/tenant/TenantCustomCode";
@@ -11,6 +12,7 @@ import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ tenantSlug: string; slug: string }>;
+  searchParams?: Promise<{ lang?: string }>;
 }
 
 export const revalidate = 60;
@@ -50,8 +52,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function TenantAsteraSubPage({ params }: Props) {
+export default async function TenantAsteraSubPage({ params, searchParams }: Props) {
   const { tenantSlug, slug } = await params;
+  const langParam = (await searchParams)?.lang;
+  const asteraLang = langParam === "en" || langParam === "ua" ? langParam : "cs";
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || tenant.status === "suspended") return notFound();
 
@@ -98,6 +102,22 @@ export default async function TenantAsteraSubPage({ params }: Props) {
   if (!homePage) return notFound();
 
   const sections = await getPageSections(tenant.id, homePage.id);
+
+  // astera-site (isolated @/astera module) — render the sub-page via AsteraSiteTemplate.
+  const asteraSiteSection = sections.find((section) => section.section_type === "astera-site");
+  if (asteraSiteSection) {
+    return (
+      <AsteraSiteTemplate
+        content={(asteraSiteSection.settings?.content ?? {}) as AsteraSiteContent}
+        tenantSlug={tenantSlug}
+        lang={asteraLang}
+        pageSlug={slug}
+        isAdmin={false}
+      />
+    );
+  }
+
+  // Legacy astera-home (single-language demo).
   const asteraSection = sections.find((section) => section.section_type === "astera-home");
   const content = asteraSection?.settings?.content as SiteContent | undefined;
   if (!asteraSection || !content || !(content.pages ?? []).some((page) => page.slug === slug)) return notFound();

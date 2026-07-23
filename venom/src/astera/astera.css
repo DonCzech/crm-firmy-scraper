@@ -1,0 +1,87 @@
+/**
+ * Scoped port of astera-web/src/app/globals.css.
+ *
+ * astera-web applies these as global rules (bare `body` / `h1..h6` / custom
+ * classes). Inside Venom that would leak across every tenant, so everything is
+ * scoped under `.astera-surface` — the wrapper the astera mount puts around the
+ * whole astera page. Tailwind itself is already imported by Venom's globals, and
+ * the astera components lean on inline styles + these custom classes rather than
+ * Tailwind utilities, so no `@theme` utility generation is needed here.
+ */
+
+.astera-surface {
+  /* astera brand tokens (astera globals @theme inline) */
+  --color-accent: #7c3bb2;
+  --color-accent-hover: #5f2a8d;
+  --color-text-dark: #1f1f1f;
+  --color-bg-gray: #f9f7f7;
+  --color-bg-blue: #f2f6fc;
+  --color-footer-bg: #f1f6fc;
+  --font-serif: var(--font-playfair), "Playfair Display", serif;
+  --font-sans: var(--font-poppins), "Poppins", sans-serif;
+
+  /* astera `body` base */
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1f1f1f;
+  background: #ffffff;
+  scroll-behavior: smooth;
+}
+
+.astera-surface :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-playfair), "Playfair Display", serif;
+  color: #1f1f1f;
+}
+
+.astera-surface h1 { font-size: 38px; line-height: 45px; letter-spacing: 1px; font-weight: 700; }
+.astera-surface h2 { font-size: 32px; line-height: 40px; font-weight: 700; }
+.astera-surface h3 { font-size: 20px; line-height: 26px; font-weight: 600; }
+.astera-surface h4 { font-size: 20px; line-height: 30px; font-weight: 500; }
+
+.astera-surface .btn-primary {
+  display: inline-block;
+  background-color: #7c3bb2;
+  color: #ffffff !important;
+  border-radius: 20px;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 50px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.astera-surface .btn-primary:hover { background-color: #5f2a8d; }
+
+.astera-surface .input-round {
+  background-color: #f1f6fc;
+  border: 1px solid #dde5f0;
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-size: 14px;
+  color: #1f1f1f;
+  outline: none;
+}
+.astera-surface .input-round:focus { border-color: #7c3bb2; }
+
+.astera-surface .roundit { border-radius: 12px; overflow: hidden; }
+
+.astera-surface .container-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+@media (max-width: 992px) {
+  .astera-surface h1 { font-size: 30px; line-height: 38px; }
+  .astera-surface h2 { font-size: 26px; line-height: 34px; }
+}
+@media (max-width: 640px) {
+  .astera-surface h1 { font-size: 26px; line-height: 34px; }
+  .astera-surface h2 { font-size: 22px; line-height: 30px; }
+  .astera-surface .btn-primary { padding: 10px 30px; }
+}

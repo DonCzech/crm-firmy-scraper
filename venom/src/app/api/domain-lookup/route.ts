@@ -12,8 +12,12 @@ export async function GET(req: NextRequest) {
   const domain = req.nextUrl.searchParams.get("domain");
   if (!domain) return Response.json({ error: "Missing domain" }, { status: 400 });
 
-  const row = await queryOne<{ slug: string; www_redirect: string }>(
-    `SELECT t.slug, d.www_redirect
+  const row = await queryOne<{ slug: string; www_redirect: string; multilang: boolean }>(
+    `SELECT t.slug, d.www_redirect,
+            EXISTS(
+              SELECT 1 FROM sections s
+              WHERE s.tenant_id = t.id AND s.section_type = 'astera-site'
+            ) AS multilang
      FROM tenants t
      JOIN domains d ON d.tenant_id = t.id
      WHERE d.domain = $1 AND d.verified = true`,
@@ -22,5 +26,5 @@ export async function GET(req: NextRequest) {
 
   if (!row) return Response.json({ slug: null }, { status: 200 });
 
-  return Response.json({ slug: row.slug, www_redirect: row.www_redirect });
+  return Response.json({ slug: row.slug, www_redirect: row.www_redirect, multilang: row.multilang === true });
 }

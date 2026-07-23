@@ -425,6 +425,17 @@ export async function initDb(): Promise<void> {
       created_at TIMESTAMPTZ DEFAULT now()
     );
 
+    -- ── Wheel-of-fortune leads (astera template widget) ──────────────────────
+    CREATE TABLE IF NOT EXISTS wheel_leads (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      email TEXT NOT NULL,
+      segment_label TEXT NOT NULL,
+      coupon TEXT DEFAULT '',
+      is_win BOOLEAN NOT NULL DEFAULT false,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+
     -- ── Platform settings (key-value store) ──────────────────────────────────
     CREATE TABLE IF NOT EXISTS platform_settings (
       key TEXT PRIMARY KEY,
@@ -1026,6 +1037,38 @@ export async function getTenantBySlug(slug: string): Promise<Tenant | null> {
 export async function getTenantById(id: number): Promise<Tenant | null> {
   return stripTenantSecrets(
     await queryOne<Tenant>("SELECT * FROM tenants WHERE id = $1", [id])
+  );
+}
+
+// ── Wheel-of-fortune leads (astera template widget) ──────────────────────────
+export interface WheelLead {
+  id: number;
+  email: string;
+  segment_label: string;
+  coupon: string;
+  is_win: boolean;
+  created_at: string;
+}
+
+export async function saveWheelLead(
+  tenantId: number,
+  email: string,
+  segmentLabel: string,
+  coupon: string,
+  isWin: boolean
+): Promise<void> {
+  await query(
+    "INSERT INTO wheel_leads (tenant_id, email, segment_label, coupon, is_win) VALUES ($1, $2, $3, $4, $5)",
+    [tenantId, email, segmentLabel, coupon, isWin]
+  );
+}
+
+export async function getWheelLeads(tenantId: number): Promise<WheelLead[]> {
+  return (
+    (await query<WheelLead>(
+      "SELECT id, email, segment_label, coupon, is_win, created_at FROM wheel_leads WHERE tenant_id = $1 ORDER BY created_at DESC LIMIT 500",
+      [tenantId]
+    )) ?? []
   );
 }
 

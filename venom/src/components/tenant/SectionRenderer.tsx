@@ -2,9 +2,12 @@ import type { CSSProperties } from "react";
 import type { Section } from "@/lib/db";
 import { ClonedSiteRenderer } from "./ClonedSiteRenderer";
 import { AsteraHomeTemplate } from "../templates/AsteraHomeTemplate";
+import { AsteraSiteTemplate, type AsteraSiteContent } from "../templates/AsteraSiteTemplate";
 import { SECTION_RENDERERS } from "@/sections/registry";
 import { SectionContentProvider } from "./SectionContentContext";
 import type { SiteContent } from "@/lib/content-types";
+import type { Lang } from "@/astera/lib/i18n";
+import type { SiteContent as AsteraLangContent } from "@/astera/lib/content-types";
 
 interface Props {
   section: Section;
@@ -12,9 +15,18 @@ interface Props {
   tenantSlug?: string;
   isAdmin: boolean;
   onSaveAsteraContent?: (section: Section, content: SiteContent) => Promise<void>;
+  // ── astera-site (isolated @/astera module, 3-language) ────────────────────
+  asteraLang?: Lang;
+  asteraPageSlug?: string;
+  onSaveAsteraSite?: (
+    section: Section,
+    sectionKey: keyof AsteraLangContent,
+    content: AsteraLangContent[keyof AsteraLangContent],
+    lang: Lang
+  ) => Promise<void>;
 }
 
-export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraContent }: Props) {
+export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraContent, asteraLang, asteraPageSlug, onSaveAsteraSite }: Props) {
   const content = (section.settings?.content ?? {}) as Record<string, unknown>;
   const variant = section.section_variant;
   const anchorId = (section.settings as { anchorId?: string } | undefined)?.anchorId;
@@ -45,6 +57,27 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
         onSaveContent={
           isAdmin && onSaveAsteraContent
             ? (nextContent) => onSaveAsteraContent(section, nextContent)
+            : undefined
+        }
+      />
+    );
+  }
+
+  if (section.section_type === "astera-site") {
+    // settings.content holds one astera SiteContent per language: { cs, en, ua }.
+    const langContent = (section.settings?.content ?? {}) as Partial<AsteraSiteContent>;
+    const lang = asteraLang ?? "cs";
+    return (
+      <AsteraSiteTemplate
+        content={langContent as AsteraSiteContent}
+        tenantSlug={tenantSlug ?? ""}
+        lang={lang}
+        isAdmin={isAdmin}
+        adminEmail={isAdmin ? `${tenantSlug}@demo.local` : undefined}
+        pageSlug={asteraPageSlug}
+        onSaveSection={
+          isAdmin && onSaveAsteraSite
+            ? (sectionKey, content, saveLang) => onSaveAsteraSite(section, sectionKey, content, saveLang)
             : undefined
         }
       />

@@ -17,7 +17,7 @@ export const revalidate = 300;
 
 interface Props {
   params: Promise<{ tenantSlug: string }>;
-  searchParams: Promise<{ kategorie?: string; strana?: string; znacka?: string; q?: string; vse?: string }>;
+  searchParams: Promise<{ kategorie?: string; strana?: string; znacka?: string; q?: string; vse?: string; lang?: string }>;
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
@@ -50,6 +50,8 @@ export async function generateMetadata({ params }: { params: Promise<{ tenantSlu
 
 export default async function TenantDemoPage({ params, searchParams }: Props) {
   const { tenantSlug } = await params;
+  const { lang: langParam } = await searchParams;
+  const asteraLang = langParam === "en" || langParam === "ua" ? langParam : "cs";
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || tenant.status === "suspended") return notFound();
 
@@ -151,7 +153,7 @@ export default async function TenantDemoPage({ params, searchParams }: Props) {
          
         dangerouslySetInnerHTML={{ __html: jsonLd }}
       />
-      <TenantPublicView tenant={tenant} page={page} sections={sections} overrides={overrides} isAdmin={false} />
+      <TenantPublicView tenant={tenant} page={page} sections={sections} overrides={overrides} isAdmin={false} asteraLang={asteraLang} />
       <TenantCustomCode tenantId={tenant.id} placement="body-end" />
     </>
   );
