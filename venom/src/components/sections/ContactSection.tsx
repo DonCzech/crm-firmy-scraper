@@ -69,6 +69,9 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "contact-beauty-01") {
     return <ContactBeauty01 content={content} sectionId={sectionId} />;
   }
+  if (variant === "contact-beauty-02") {
+    return <ContactBeauty02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={!!isAdmin} />;
+  }
   if (variant === "contact-hair-02-location") {
     return <ContactHair02Location content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -15659,5 +15662,188 @@ function ContactBarber06({ content, sectionId }: { content: Record<string, unkno
         </div>
       </div>
     </section>
+  );
+}
+
+// ── contact-beauty-02 — Séra Beauty (tmavý info panel + bílá form karta + mapa) ─
+function ContactBeauty02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const cc = content as Record<string, unknown>;
+  const eyebrowRaw = cc.eyebrow;
+  const headingRaw = cc.heading;
+  const eyebrow = eyebrowRaw === undefined ? "Kontaktujte nás" : String(eyebrowRaw);
+  const heading = headingRaw === undefined ? "Těšíme se na Vaši návštěvu" : String(headingRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim());
+  const subheading = String(cc.subheading ?? "Objednejte se online, napište nám nebo se zastavte přímo ve studiu v centru města.");
+  const phone   = String(cc.phone   ?? "704 123 456");
+  const email   = String(cc.email   ?? "email@demo.cz");
+  const address = String(cc.address ?? "Ukázková 123, 110 00 Praha 1");
+  const hours   = String(cc.hours   ?? "Pondělí – neděle: 13:00–22:30");
+  const mapEmbed = String(cc.mapEmbed ?? "");
+  const instagram = String(cc.instagram ?? "https://instagram.com");
+  const formTitle = String(cc.formTitle ?? "Napište nám");
+  const nameLabel = String(cc.nameLabel ?? "Jméno a příjmení");
+  const phoneLabel = String(cc.phoneLabel ?? "Telefon");
+  const emailLabel = String(cc.emailLabel ?? "E-mail");
+  const messageLabel = String(cc.messageLabel ?? "Vaše zpráva");
+  const consentLabel = String(cc.consentLabel ?? "Souhlasím se zpracováním osobních údajů za účelem vyřízení dotazu.");
+  const submitLabel = String(cc.submitLabel ?? "Odeslat zprávu");
+  const successTitle = String(cc.successTitle ?? "Děkujeme, zpráva odešla.");
+  const successBody  = String(cc.successBody ?? "Ozveme se Vám co nejdříve. Pro rychlé objednání využijte rezervaci online nebo nám zavolejte.");
+
+  const [name, setName] = useState("");
+  const [email2, setEmail2] = useState("");
+  const [phone2, setPhone2] = useState("");
+  const [message, setMessage] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (isAdmin) return;
+    if (honeypot) return;
+    if (!consent) { setErrorMsg("Pro odeslání potvrďte souhlas se zpracováním údajů."); setStatus("error"); return; }
+    if (!message.trim()) { setErrorMsg("Napište prosím Vaši zprávu."); setStatus("error"); return; }
+    if (!tenantSlug) { setStatus("success"); return; }
+    setStatus("sending"); setErrorMsg("");
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/contact`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email: email2, phone: phone2, message, website: honeypot }),
+      });
+      const json = await res.json().catch(() => ({})) as { error?: string };
+      if (!res.ok) { setErrorMsg(json.error ?? "Nepodařilo se odeslat zprávu."); setStatus("error"); }
+      else { setStatus("success"); setName(""); setEmail2(""); setPhone2(""); setMessage(""); setConsent(false); }
+    } catch {
+      setErrorMsg("Nepodařilo se odeslat zprávu. Zkuste to znovu, nebo nám zavolejte."); setStatus("error");
+    }
+  }
+
+  const rows: Array<{ label: string; value: string; href?: string; icon: React.ReactNode }> = [
+    { label: "Telefon", value: phone, href: `tel:${phone.replace(/\s/g, "")}`, icon: <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/> },
+    { label: "E-mail", value: email, href: `mailto:${email}`, icon: <><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/></> },
+    { label: "Adresa", value: address, icon: <><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></> },
+    { label: "Otevírací doba", value: hours, icon: <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></> },
+  ];
+  const F = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+
+  return (
+    <>
+      <style>{`
+        .bc2ct{background:#F6F1EB;padding:clamp(64px,8vw,112px) clamp(20px,5vw,64px);font-family:${F}}
+        .bc2ct *{font-family:${F}}
+        .bc2ct-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:0.95fr 1.05fr;gap:0;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px -54px rgba(26,33,15,.5)}
+        .bc2ct-info{position:relative;background:linear-gradient(160deg,#2A211C,#3A2C22);color:#fff;padding:clamp(32px,4vw,52px);overflow:hidden}
+        .bc2ct-info__glow{position:absolute;top:-70px;right:-50px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,106,.3),transparent 68%)}
+        .bc2ct-eyebrow{position:relative;font-size:11.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#C9A26A;display:inline-flex;align-items:center;gap:12px;margin:0 0 16px}
+        .bc2ct-eyebrow::before{content:'';width:32px;height:1.5px;background:#C9A26A}
+        .bc2ct-title{position:relative;font-size:clamp(1.6rem,2.6vw,2.3rem);font-weight:800;letter-spacing:-.02em;line-height:1.06;margin:0 0 14px;color:#fff}
+        .bc2ct-sub{position:relative;font-size:.95rem;line-height:1.6;color:rgba(255,255,255,.72);margin:0 0 30px;max-width:340px}
+        .bc2ct-rows{position:relative;display:grid;gap:18px;margin-bottom:28px}
+        .bc2ct-row{display:flex;align-items:flex-start;gap:14px}
+        .bc2ct-ic{width:44px;height:44px;border-radius:10px;background:rgba(201,162,106,.16);color:#C9A26A;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .bc2ct-lbl{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);display:block;margin-bottom:3px}
+        .bc2ct-val{font-weight:700;color:#fff;text-decoration:none;font-size:.96rem;transition:color .3s}
+        a.bc2ct-val:hover{color:#C9A26A}
+        .bc2ct-soc{position:relative;display:inline-flex;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.16);align-items:center;justify-content:center;color:#fff;transition:.3s}
+        .bc2ct-soc:hover{background:#C9A26A;color:#2A211C;border-color:#C9A26A}
+        .bc2ct-card{background:#fff;padding:clamp(28px,3.4vw,44px);color:#1A210F}
+        .bc2ct-ct{font-size:1.3rem;font-weight:800;letter-spacing:-.01em;margin:0 0 22px;color:#1A210F}
+        .bc2ct-f{margin-bottom:16px}
+        .bc2ct-f label{display:block;font-size:.78rem;font-weight:700;color:#1A210F;margin-bottom:6px}
+        .bc2ct-f input,.bc2ct-f textarea{width:100%;padding:13px 15px;border:1.5px solid rgba(82,62,53,.2);border-radius:10px;font-size:.95rem;color:#1A210F;background:#FBF8F4;transition:.16s;font-family:inherit}
+        .bc2ct-f input:focus,.bc2ct-f textarea:focus{outline:none;border-color:#523E35;background:#fff;box-shadow:0 0 0 3px rgba(82,62,53,.12)}
+        .bc2ct-f textarea{min-height:120px;resize:vertical}
+        .bc2ct-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .bc2ct-consent{display:flex;align-items:flex-start;gap:9px;font-size:.83rem;color:#6B5D52;line-height:1.45;margin:4px 0 18px}
+        .bc2ct-consent input{margin-top:3px;accent-color:#523E35;flex-shrink:0}
+        .bc2ct-submit{width:100%;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:16px;background:#523E35;color:#fff;font-weight:800;font-size:.92rem;letter-spacing:.08em;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;transition:.16s;box-shadow:0 16px 34px -18px rgba(82,62,53,.7)}
+        .bc2ct-submit:hover:not(:disabled){background:#6B5142;transform:translateY(-2px)}
+        .bc2ct-submit:disabled{opacity:.5;cursor:not-allowed}
+        .bc2ct-err{background:#fdecea;color:#b3261e;border:1px solid #f5c6c2;border-radius:9px;padding:11px 14px;font-size:.86rem;margin-bottom:14px}
+        .bc2ct-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+        .bc2ct-ok{text-align:center;padding:28px 8px}
+        .bc2ct-ok__c{width:64px;height:64px;border-radius:50%;background:rgba(82,62,53,.1);color:#523E35;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+        .bc2ct-ok h3{font-size:1.35rem;font-weight:800;margin:0 0 8px;color:#1A210F}
+        .bc2ct-ok p{color:#6B5D52;line-height:1.6;margin:0}
+        .bc2ct-map{max-width:1180px;margin:22px auto 0;border-radius:20px;overflow:hidden;box-shadow:0 30px 70px -50px rgba(26,33,15,.5);line-height:0}
+        .bc2ct-map iframe{width:100%;height:340px;border:0;display:block;filter:grayscale(.3) contrast(1.05)}
+        @media(max-width:820px){.bc2ct-inner{grid-template-columns:1fr}.bc2ct-2{grid-template-columns:1fr}}
+        @media(prefers-reduced-motion:reduce){.bc2ct-submit,.bc2ct-f input,.bc2ct-f textarea{transition:none}}
+      `}</style>
+      <section className="bc2ct" data-template="beauty-02" id="kontakt">
+        <div className="bc2ct-inner">
+          <div className="bc2ct-info">
+            <div className="bc2ct-info__glow" aria-hidden />
+            {showHeader && (
+              <>
+                <p className="bc2ct-eyebrow"><GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" /></p>
+                <h2 className="bc2ct-title"><GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" /></h2>
+              </>
+            )}
+            <p className="bc2ct-sub"><GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" /></p>
+            <div className="bc2ct-rows">
+              {rows.map((r, i) => (
+                <div key={i} className="bc2ct-row">
+                  <span className="bc2ct-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{r.icon}</svg></span>
+                  <span>
+                    <span className="bc2ct-lbl">{r.label}</span>
+                    {r.href ? <a href={r.href} className="bc2ct-val">{r.value}</a> : <span className="bc2ct-val">{r.value}</span>}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <a href={instagram} target="_blank" rel="noopener noreferrer" className="bc2ct-soc" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </div>
+
+          <div className="bc2ct-card">
+            {status === "success" ? (
+              <div className="bc2ct-ok" role="status" aria-live="polite">
+                <span className="bc2ct-ok__c"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+                <h3><GenericEditableText sectionId={sectionId} field="successTitle" value={successTitle} tag="span" /></h3>
+                <p><GenericEditableText sectionId={sectionId} field="successBody" value={successBody} tag="span" /></p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate>
+                <h3 className="bc2ct-ct"><GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="span" /></h3>
+                {status === "error" && <div className="bc2ct-err" role="alert">{errorMsg}</div>}
+                <div className="bc2ct-f">
+                  <label htmlFor={`bc2-name-${sectionId}`}><GenericEditableText sectionId={sectionId} field="nameLabel" value={nameLabel} tag="span" /></label>
+                  <input id={`bc2-name-${sectionId}`} type="text" value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" />
+                </div>
+                <div className="bc2ct-2">
+                  <div className="bc2ct-f">
+                    <label htmlFor={`bc2-phone-${sectionId}`}><GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" /></label>
+                    <input id={`bc2-phone-${sectionId}`} type="tel" value={phone2} onChange={(e) => setPhone2(e.target.value)} autoComplete="tel" />
+                  </div>
+                  <div className="bc2ct-f">
+                    <label htmlFor={`bc2-email-${sectionId}`}><GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" /></label>
+                    <input id={`bc2-email-${sectionId}`} type="email" value={email2} onChange={(e) => setEmail2(e.target.value)} required autoComplete="email" />
+                  </div>
+                </div>
+                <div className="bc2ct-f">
+                  <label htmlFor={`bc2-msg-${sectionId}`}><GenericEditableText sectionId={sectionId} field="messageLabel" value={messageLabel} tag="span" /></label>
+                  <textarea id={`bc2-msg-${sectionId}`} value={message} onChange={(e) => setMessage(e.target.value)} required />
+                </div>
+                <div className="bc2ct-hp" aria-hidden="true"><label>Web<input type="text" tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} /></label></div>
+                <label className="bc2ct-consent">
+                  <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+                  <GenericEditableText sectionId={sectionId} field="consentLabel" value={consentLabel} tag="span" />
+                </label>
+                <button type="submit" className="bc2ct-submit" disabled={status === "sending" || isAdmin}>
+                  {status === "sending" ? "Odesílám…" : <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+        {mapEmbed && (
+          <div className="bc2ct-map"><iframe src={mapEmbed} loading="lazy" title="Mapa" referrerPolicy="no-referrer-when-downgrade" /></div>
+        )}
+      </section>
+    </>
   );
 }

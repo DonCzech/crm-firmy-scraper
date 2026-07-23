@@ -3342,7 +3342,8 @@ nav[data-template="barber-03"] a.b03-drawer-link:focus-visible {
 [data-template="beauty-02"] .bc2-hero-sec:hover { color: #C9A26A !important; border-color: #C9A26A !important; }
 [data-template="beauty-02"] .bc2-hero-sec:hover .bc2-hero-sec-arrow { transform: translateX(5px); }
 [data-template="beauty-02"] .bc2-hero-img { transition: transform 8s ease-out; }
-[data-template="beauty-02"] .bc2-hero:hover .bc2-hero-img { transform: scale(1.05); }
+[data-template="beauty-02"] .bc2-hero:not(.bc2-hero-page):hover .bc2-hero-img { transform: scale(1.05); }
+[data-template="beauty-02"] .bc2-crumb-link:hover { color: #C9A26A !important; }
 /* about */
 [data-template="beauty-02"] .bc2-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px,5vw,72px); align-items: center; }
 [data-template="beauty-02"] .bc2-about-collage { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; grid-template-rows: 1fr 1fr; gap: 14px; height: clamp(420px, 46vw, 560px); }

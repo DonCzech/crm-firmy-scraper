@@ -2155,6 +2155,50 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     );
   }
 
+  // ── hero-beauty-02-page — slim banner podstránky ────────────────────────────
+  if (variant === "hero-beauty-02-page") {
+    const cc = content as Record<string, unknown>;
+    const bg      = String(cc.backgroundImage ?? "/templates/beauty-02/img/hero.webp");
+    const title   = String(cc.title ?? "Stránka");
+    const crumb   = String(cc.breadcrumb ?? "Domů");
+    const crumbHref = String(cc.breadcrumbHref ?? "/");
+    const subtitle = cc.subtitle === undefined ? "" : String(cc.subtitle);
+    const siteMode = String(cc.siteMode ?? "multipage");
+    const resolveH = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
+    const FONT  = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+    const GOLD  = "#C9A26A";
+
+    return (
+      <section id="hero" className="relative w-full overflow-hidden bc2-hero bc2-hero-page" data-template="beauty-02" style={{ backgroundColor: "#0F0D0A" }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
+          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: "center 35%", filter: "grayscale(0.3) brightness(0.62)" }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
+        </GenericEditableImage>
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(15,13,10,0.72) 0%, rgba(15,13,10,0.45) 55%, rgba(15,13,10,0.78) 100%)" }} />
+        <div className="relative z-[2] mx-auto w-full flex flex-col justify-center items-start" style={{ maxWidth: 1440, minHeight: "clamp(300px,32vw,400px)", padding: "clamp(110px,13vw,150px) clamp(24px,5vw,64px) clamp(40px,5vw,56px)" }}>
+          <nav className="bc2-crumb flex items-center" style={{ gap: 10, marginBottom: 18, fontFamily: FONT }} aria-label="Drobečková navigace">
+            <a href={resolveH(crumbHref)} className="bc2-crumb-link" style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", textDecoration: "none", transition: "color .3s ease" }}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={crumb} tag="span" />
+            </a>
+            <span aria-hidden="true" style={{ color: GOLD, fontSize: 12 }}>/</span>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD }}>{title}</span>
+          </nav>
+          <div className="flex items-center" style={{ gap: 14, marginBottom: 16 }}>
+            <span aria-hidden="true" style={{ width: 42, height: 1.5, backgroundColor: GOLD, display: "block" }} />
+            <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke={GOLD} strokeWidth={2} aria-hidden="true"><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
+          </div>
+          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, color: "#FFFFFF", fontSize: "clamp(34px,6vw,72px)", lineHeight: 1.0, letterSpacing: "-0.03em", textShadow: "0 4px 30px rgba(0,0,0,0.4)" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle && (
+            <p style={{ margin: "18px 0 0", fontFamily: FONT, fontWeight: 400, fontSize: "clamp(15px,1.4vw,18px)", lineHeight: 1.6, color: "rgba(255,255,255,0.82)", maxWidth: 560 }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      </section>
+    );
+  }
+
   // ── hero-massage-01-fullbleed ───────────────────────────────────────────────
   // Cinematic fullscreen spa hero — dark overlay, Cormorant 80px, gold accents,
   // diamond separator, outline CTA with shimmer, scroll-down chevron
