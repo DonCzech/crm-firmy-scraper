@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { cookies, headers } from "next/headers";
-import { Libre_Baskerville, Source_Sans_3, Oswald, Overpass, Overpass_Mono, Instrument_Serif } from "next/font/google";
+import { Libre_Baskerville, Source_Sans_3, Oswald, Overpass, Overpass_Mono, Instrument_Serif, Montserrat } from "next/font/google";
 import { CookieConsent } from "@/components/CookieConsent";
 import { LanguageSuggestionModal } from "@/components/LanguageSuggestionModal";
 import type { PlatformLocale } from "@/lib/platform-i18n";
@@ -46,6 +46,13 @@ const instrumentSerif = Instrument_Serif({
   weight: ["400"],
   style: ["normal", "italic"],
   variable: "--font-instrument-serif",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -238,7 +245,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     // suppressHydrationWarning: StudioThemeScript (admin) nastavuje data-vs-*
     // atributy na <html> ještě před hydratací (anti-FOUC tématu editoru) —
     // potlačení platí jen pro atributy tohoto elementu, ne pro potomky.
-    <html lang={locale} suppressHydrationWarning className={`${libreBaskerville.variable} ${sourceSans.variable} ${oswald.variable} ${overpass.variable} ${overpassMono.variable} ${instrumentSerif.variable}`}>
+    <html lang={locale} suppressHydrationWarning className={`${libreBaskerville.variable} ${sourceSans.variable} ${oswald.variable} ${overpass.variable} ${overpassMono.variable} ${instrumentSerif.variable} ${montserrat.variable}`}>
       <head>
         {/* next/font self-hosts all font files — no runtime Google Fonts requests */}
         {/* arch-01 LCP preload moved to src/app/page.tsx (landing only, not demo pages) */}

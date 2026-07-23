@@ -1,0 +1,106 @@
+{
+  "siteName": "Séra Beauty",
+  "tagline": "Beauty & wellness studio v srdci města.",
+  "navbar": {
+    "siteName": "Séra Beauty",
+    "logoUrl": "",
+    "links": [
+      { "label": "Úvod", "href": "/" },
+      { "label": "Vlasové procedúry", "href": "/vlasove-procedury" },
+      { "label": "Procedúry po saunování", "href": "/po-saunovani" },
+      { "label": "Beauty procedúry", "href": "/beauty-procedury" },
+      { "label": "Kontakty", "href": "/kontakty" }
+    ],
+    "phone": "704 123 456",
+    "phoneLabel": "Zavolejte nám",
+    "ctaText": "Rezervace online",
+    "ctaHref": "/rezervace",
+    "siteMode": "multipage"
+  },
+  "hero": {
+    "backgroundImage": "/templates/beauty-02/img/hero.webp",
+    "eyebrow": "Praha · Beauty studio",
+    "titleLine1": "Beauty",
+    "titleLine2": "procedúry",
+    "titleAccent": "v centru města",
+    "subtitle": "Spojení absolutního relaxu, péče a krásy na jednom místě.",
+    "ctaText": "Rezervovat termín",
+    "ctaHref": "/rezervace",
+    "secondaryText": "Naše procedury",
+    "secondaryHref": "/beauty-procedury",
+    "phone": "704 123 456"
+  },
+  "about": {
+    "eyebrow": "Spojení absolutního relaxu ve městě",
+    "title": "KRÁSA A ODPOČINEK",
+    "paragraphs": [
+      "V našem moderním studiu na Vás čeká široká nabídka vlasových, beauty i regeneračních procedur, které podtrhnou Vaši přirozenou krásu a pomohou tělu znovu načerpat energii.",
+      "Specializujeme se na vlasové procedury s použitím kvalitní profesionální kosmetiky, díky nimž budou Vaše vlasy zdravější, silnější a zářivější.",
+      "Nezapomínáme ani na klasické beauty procedury — od hloubkového čištění pleti, přes revitalizační masky, až po zkrášlující rituály, které Vám dopřejí pocit luxusu a uvolnění."
+    ],
+    "images": [
+      { "url": "/templates/beauty-02/img/about-1.webp", "alt": "Interiér studia" },
+      { "url": "/templates/beauty-02/img/about-2.webp", "alt": "Kosmetické ošetření" },
+      { "url": "/templates/beauty-02/img/about-3.webp", "alt": "Vlasová péče" }
+    ],
+    "ctaText": "O studiu",
+    "ctaHref": "/beauty-procedury"
+  },
+  "services": {
+    "eyebrow": "Naše procedury",
+    "title": "Co pro Vás máme",
+    "subtitle": "Tři světy péče pod jednou střechou.",
+    "items": [
+      {
+        "name": "Vlasové procedúry",
+        "eyebrow": "Dopřejte svým vlasům více",
+        "description": "Dopřejte svým vlasům dokonalou péči — začněte luxusním head spa, užijte si relaxační masáž, dopřejte jim hloubkovou výživu nebo prodloužení keratinem, a zakončete to precizním zastřižením konečků.",
+        "image": "/templates/beauty-02/img/service-hair.webp",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/vlasove-procedury"
+      },
+      {
+        "name": "Procedúry po saunování",
+        "eyebrow": "Regenerace a detox",
+        "description": "Po saunování si můžete dopřát relaxační i detoxikační ošetření, která podpoří regeneraci pokožky a celkovou harmonii organismu — peeling těla, lymfatická masáž nebo hloubkové čištění pleti.",
+        "image": "/templates/beauty-02/img/service-sauna.webp",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/po-saunovani"
+      },
+      {
+        "name": "Beauty procedúry",
+        "eyebrow": "Zkrášlující rituály",
+        "description": "Klasické beauty procedury pro dokonalý vzhled — prodloužení řas, barvení a úprava obočí, péče o rty a zkrášlující rituály, které podtrhnou Vaši přirozenou krásu.",
+        "image": "/templates/beauty-02/img/service-beauty.webp",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/beauty-procedury"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Séra Beauty",
+    "logoUrl": "",
+    "tagline": "Krása a odpočinek v srdci města.",
+    "colServices": "Druhy služeb",
+    "services": [
+      { "label": "Vlasové procedúry", "href": "/vlasove-procedury" },
+      { "label": "Procedúry po saunování", "href": "/po-saunovani" },
+      { "label": "Beauty procedúry", "href": "/beauty-procedury" }
+    ],
+    "colHours": "Otevírací doba",
+    "hours": [
+      { "day": "Pondělí – neděle", "value": "13:00 – 22:30" }
+    ],
+    "colContact": "Séra Beauty",
+    "address": "Ukázková 123",
+    "address2": "110 00 Praha 1",
+    "companyLine": "provozovatel je Séra Beauty s.r.o.",
+    "ico": "IČ: 12345678",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "socials": [
+      { "label": "Instagram", "href": "https://instagram.com" }
+    ],
+    "legal": "Séra Beauty s.r.o. · Všechna práva vyhrazena"
+  }
+}

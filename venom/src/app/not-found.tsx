@@ -68,7 +68,7 @@ export default function NotFound() {
               ← Zpět na homepage
             </Link>
             <Link
-              href="/ukazka-sablon"
+              href="/vybrat-design"
               className="inline-flex h-[52px] items-center justify-center rounded-full border border-[#e5e5e5] bg-white px-8 text-[14.5px] font-semibold text-[#0a0a0a] transition hover:border-[#0a0a0a]"
             >
               Prohlédnout šablony →

@@ -9,6 +9,7 @@
 import { access, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(SCRIPT_DIR, "..");
@@ -41,8 +42,14 @@ async function exists(file) {
 
 async function findPreview(slug) {
   for (const candidate of PREVIEW_CANDIDATES) {
-    if (await exists(join(PUBLIC_TEMPLATES_DIR, slug, candidate))) {
-      return `/templates/${slug}/${candidate}`;
+    const abs = join(PUBLIC_TEMPLATES_DIR, slug, candidate);
+    if (await exists(abs)) {
+      // Content-hash cache-buster: preview assets are served immutably
+      // (max-age=31536000) under a stable filename, so without a versioned
+      // URL browsers keep the old screenshot after a redesign. The hash
+      // changes only when the image bytes change → busts the cache exactly.
+      const v = createHash("md5").update(await readFile(abs)).digest("hex").slice(0, 8);
+      return `/templates/${slug}/${candidate}?v=${v}`;
     }
   }
   return null;

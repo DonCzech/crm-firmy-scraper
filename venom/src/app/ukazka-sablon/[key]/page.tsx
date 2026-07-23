@@ -7,7 +7,13 @@ import { PlatformHeader } from "@/components/PlatformHeader";
 import { PlatformFooter } from "@/components/PlatformFooter";
 import { ActivateButton } from "@/components/ActivateButton";
 import { queryOne, query } from "@/lib/db";
+import designCatalog from "@/generated/design-catalog.json";
 import { LiveDesktopFrame, LiveMobileFrame } from "./LiveFrames";
+
+/* Šablony viditelné v galerii /vybrat-design (a onboardingu) pochází z tohoto
+   filesystémového katalogu — bez ohledu na review_status. Detail musí být
+   dostupný pro tentýž set, jinak karty vedou na 404. */
+const CATALOG_KEYS = (designCatalog as { slug: string }[]).map((d) => d.slug);
 
 interface Props {
   params: Promise<{ key: string }>;
@@ -64,8 +70,10 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { key } = await params;
   const row = await queryOne<TemplateRow>(
-    "SELECT key, name, industry FROM templates WHERE key = $1 AND review_status = 'approved' AND status = 'active'",
-    [key]
+    `SELECT key, name, industry FROM templates
+      WHERE key = $1 AND status = 'active'
+        AND (review_status = 'approved' OR key = ANY($2::text[]))`,
+    [key, CATALOG_KEYS]
   );
   if (!row) return { title: "Ukázka šablony nenalezena — Webero" };
   return {
@@ -95,8 +103,9 @@ export default async function ShowcaseDetailPage({ params }: Props) {
   const row = await queryOne<TemplateRow & { primary_demo_slug: string | null }>(
     `SELECT id, key, name, industry, current_version, reviewed_at, primary_demo_slug
        FROM templates
-      WHERE key = $1 AND review_status = 'approved' AND status = 'active'`,
-    [key]
+      WHERE key = $1 AND status = 'active'
+        AND (review_status = 'approved' OR key = ANY($2::text[]))`,
+    [key, CATALOG_KEYS]
   );
   if (!row) return notFound();
 
@@ -152,7 +161,7 @@ export default async function ShowcaseDetailPage({ params }: Props) {
         <section id="top" className="scroll-mt-[80px] relative border-b border-[#ececec] bg-white">
           <div className="mx-auto max-w-[1280px] px-5 pt-6 sm:px-6 lg:px-10 lg:pt-10">
             <Link
-              href="/ukazka-sablon"
+              href="/vybrat-design"
               className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#666] hover:text-[#0a0a0a]"
               style={{ letterSpacing: "0.04em" }}
             >
@@ -510,7 +519,7 @@ export default async function ShowcaseDetailPage({ params }: Props) {
                   </h2>
                 </div>
                 <Link
-                  href="/ukazka-sablon"
+                  href="/vybrat-design"
                   className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#6366f1] hover:underline"
                 >
                   Všechny šablony

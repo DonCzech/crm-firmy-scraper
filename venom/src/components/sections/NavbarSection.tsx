@@ -2914,6 +2914,166 @@ function NavbarBeauty01({ content, variant: _v, isAdmin, tenantSlug, sectionId }
   );
 }
 
+// beauty-02-nav — Séra Beauty (beautycentral.cz DNA povýšené)
+// Transparentní přes cinematic hero → na scroll solid bílá s hairline.
+// Diamantový monogram + wordmark, Montserrat uppercase linky s hnědým underline-reveal,
+// telefon + CS/EN přepínač + solid brown CTA. Mobilní full-screen drawer.
+// Paleta: brown #523E35 / olive-black #1A210F / cream white, warm muted #6B5D52.
+// ---------------------------------------------------------------------------
+function DiamondMark({ color, size = 30 }: { color: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" stroke={color} strokeWidth={1.4} strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
+      <path d="M11 6 H29 L36 15 L20 35 L4 15 Z" />
+      <path d="M4 15 H36" />
+      <path d="M11 6 L15 15 L20 35 M29 6 L25 15 L20 35 M15 15 H25" />
+    </svg>
+  );
+}
+
+function NavbarBeauty02({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const siteName = String(content.siteName ?? "Séra Beauty");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const phone    = String(content.phone ?? "");
+  const ctaText  = String(content.ctaText ?? "Rezervace online");
+  const ctaHref  = String(content.ctaHref ?? "/rezervace");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const navR = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const FONT  = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+  const BROWN = "#523E35";
+  const DARK  = "#1A210F";
+  const MUTED = "#6B5D52";
+  const CREAM = "#FFFFFF";
+
+  // Colors flip based on scroll (transparent-over-hero vs solid)
+  const fg      = scrolled ? DARK : CREAM;
+  const fgMuted = scrolled ? MUTED : "rgba(255,255,255,0.82)";
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-50 bc2-nav"
+      data-template="beauty-02"
+      data-scrolled={scrolled ? "yes" : "no"}
+      style={{
+        fontFamily: FONT,
+        width: "100%",
+        backgroundColor: scrolled ? "rgba(255,255,255,0.94)" : "transparent",
+        backdropFilter: scrolled ? "blur(14px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(14px)" : "none",
+        borderBottom: scrolled ? "1px solid rgba(82,62,53,0.14)" : "1px solid rgba(255,255,255,0.14)",
+        boxShadow: scrolled ? "0 12px 34px rgba(26,33,15,0.08)" : "none",
+        transition: "background-color .5s ease, box-shadow .5s ease, border-color .5s ease",
+      }}
+    >
+      {/* Desktop */}
+      <div
+        className="hidden lg:flex items-center max-w-[1560px] mx-auto"
+        style={{ height: scrolled ? 76 : 92, padding: "0 clamp(20px,3vw,44px)", gap: 20, transition: "height .5s ease" }}
+      >
+        {/* Brand */}
+        <a href={homeHref} className="shrink-0 flex items-center gap-3" aria-label={siteName} style={{ textDecoration: "none", color: fg }}>
+          {logoUrl ? (
+            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} className="relative overflow-hidden" style={{ width: 168, height: 44 }}>
+              <img loading="eager" src={logoUrl} alt={siteName} style={{ width: 168, height: 44, objectFit: "contain" }} />
+            </GenericEditableImage>
+          ) : (
+            <span className="flex items-center gap-3" style={{ color: fg, transition: "color .5s ease" }}>
+              <span className="bc2-mark" style={{ transition: "transform .6s cubic-bezier(.22,1,.36,1)" }}>
+                <DiamondMark color={scrolled ? BROWN : CREAM} size={30} />
+              </span>
+              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span"
+                  style={{ fontFamily: FONT, fontSize: 17, fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase", color: fg, whiteSpace: "nowrap" }} />
+                <GenericEditableText sectionId={sectionId} field="brandTag" value={String((content as Record<string, unknown>).brandTag ?? "Beauty & wellness")} tag="span"
+                  style={{ fontFamily: FONT, fontSize: 8.5, fontWeight: 600, letterSpacing: "0.42em", textTransform: "uppercase", color: fgMuted, marginTop: 4 }} />
+              </span>
+            </span>
+          )}
+        </a>
+
+        {/* Nav links — center */}
+        <nav className="flex items-center mx-auto" style={{ gap: 26 }}>
+          {links.map((l, i) => (
+            <a
+              key={`bc2-nav-${i}`}
+              href={navR(l.href)}
+              className="bc2-nav-link relative"
+              style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, color: fgMuted, textTransform: "uppercase", letterSpacing: "0.08em", textDecoration: "none", paddingBottom: 7, whiteSpace: "nowrap", transition: "color .3s ease" }}
+            >
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" style={{ whiteSpace: "nowrap" }} />
+              <span aria-hidden="true" className="bc2-nav-underline" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 1.5, backgroundColor: scrolled ? BROWN : CREAM, transformOrigin: "left", transform: "scaleX(0)", transition: "transform .4s cubic-bezier(.22,1,.36,1)" }} />
+            </a>
+          ))}
+        </nav>
+
+        {/* Right — phone + CTA */}
+        <div className="flex items-center shrink-0" style={{ gap: 16 }}>
+          {phone && (
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="bc2-nav-phone inline-flex items-center gap-2"
+              style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: fg, letterSpacing: "0.02em", whiteSpace: "nowrap", textDecoration: "none", transition: "color .3s ease, opacity .3s ease" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          )}
+          <a href={navR(ctaHref)} data-btn="primary" className="bc2-cta inline-flex items-center"
+            style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", padding: "13px 22px", borderRadius: 6, whiteSpace: "nowrap", boxShadow: scrolled ? "0 8px 22px rgba(82,62,53,0.24)" : "none", transition: "background-color .3s ease, box-shadow .3s ease, transform .3s ease" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span aria-hidden="true" className="bc2-cta-arrow" style={{ marginLeft: 9, transition: "transform .3s ease" }}>→</span>
+          </a>
+        </div>
+      </div>
+
+      {/* Mobile bar */}
+      <div className="flex lg:hidden items-center justify-between" style={{ height: 66, padding: "0 20px" }}>
+        <a href={homeHref} aria-label={siteName} className="flex items-center gap-2.5" style={{ textDecoration: "none", color: fg }}>
+          <DiamondMark color={scrolled ? BROWN : CREAM} size={26} />
+          <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase", color: fg, whiteSpace: "nowrap" }}>{siteName}</span>
+        </a>
+        <button className="flex flex-col justify-between w-7 bg-transparent border-0 cursor-pointer p-0" style={{ height: 15 }} onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
+          <span className="block w-full" style={{ height: 2, backgroundColor: fg }} />
+          <span className="block w-full" style={{ height: 2, backgroundColor: fg }} />
+          <span className="block w-full" style={{ height: 2, backgroundColor: fg }} />
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-7" style={{ backgroundColor: "#0F0D0A", fontFamily: FONT }}>
+          <button className="absolute top-6 right-6 bg-transparent border-0 cursor-pointer p-2" style={{ color: CREAM }} onClick={() => setOpen(false)} aria-label="Zavřít menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/></svg>
+          </button>
+          <DiamondMark color="#C9A26A" size={38} />
+          {links.map((l, i) => (
+            <a key={`bc2-mob-${i}`} href={navR(l.href)} className="bc2-mob-link" style={{ fontFamily: FONT, color: CREAM, fontSize: 20, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.16em", textDecoration: "none", transition: "color .3s ease" }} onClick={() => setOpen(false)}>
+              {l.label}
+            </a>
+          ))}
+          <a href={navR(ctaHref)} data-btn="primary" style={{ backgroundColor: BROWN, color: CREAM, fontFamily: FONT, fontSize: 13, fontWeight: 700, padding: "15px 34px", borderRadius: 6, textTransform: "uppercase", letterSpacing: "0.14em", textDecoration: "none", marginTop: 6 }} onClick={() => setOpen(false)}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          {phone && (
+            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: "rgba(255,255,255,0.7)", fontFamily: FONT, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none" }}>{phone}</a>
+          )}
+        </div>
+      )}
+    </header>
+  );
+}
+
 // massage-01-navbar — Demo Masáže Praha
 // Layout: [Logo] | [telefon+divider] | [nav linky] | [divider+social IG/FB/TikTok]
 // BG #0A0A0A, gold #C9A962, text #F5F0E8, secondary #A09888, Inter font
@@ -3257,6 +3417,7 @@ export function NavbarSection(props: Props) {
   if (props.variant === "barber-06-navbar") return <NavbarBarber06 {...props} />;
   if (props.variant === "hair-04-navbar") return <NavbarHair04 {...props} />;
   if (props.variant === "beauty-01-topbar") return <NavbarBeauty01 {...props} />;
+  if (props.variant === "beauty-02-nav") return <NavbarBeauty02 {...props} />;
   if (props.variant === "massage-01-navbar") return <NavbarMassage01 {...props} />;
   if (props.variant === "tawan-01-navbar") return <NavbarTawan01 {...props} />;
   if (props.variant === "harmonie-01-navbar") return <NavbarHarmonie01 {...props} />;
