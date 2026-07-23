@@ -2034,6 +2034,127 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     );
   }
 
+  // ── hero-beauty-02 — Séra Beauty cinematic full-bleed ───────────────────────
+  if (variant === "hero-beauty-02") {
+    // beautycentral.cz DNA povýšené: full-bleed foto + tmavý gradient, Montserrat 800
+    // left-aligned obří H1 (line1/line2) + zlatý akcentový řádek, subtitle, brown CTA + ghost,
+    // spodní ledger (adresa / otevřeno / telefon). Navbar je fixed overlay → hero od top:0.
+    const cc = content as Record<string, unknown>;
+    const bg        = String(cc.backgroundImage ?? "/templates/beauty-02/img/hero.webp");
+    const eyebrow   = String(cc.eyebrow    ?? "Praha · Beauty studio");
+    const line1     = String(cc.titleLine1 ?? "Beauty");
+    const line2     = String(cc.titleLine2 ?? "procedúry");
+    const accentLn  = String(cc.titleAccent ?? "v centru města");
+    const sub       = String(cc.subtitle   ?? "Spojení absolutního relaxu, péče a krásy na jednom místě.");
+    const cta       = String(cc.ctaText    ?? "Rezervovat termín");
+    const href      = String(cc.ctaHref    ?? "/rezervace");
+    const secText   = String(cc.secondaryText ?? "Naše procedury");
+    const secHref   = String(cc.secondaryHref ?? "/beauty-procedury");
+    const siteMode  = String(cc.siteMode ?? "multipage");
+    type Ledger = { label?: string; value?: string };
+    const ledger: Ledger[] = (cc.ledger as Ledger[]) ?? [
+      { label: "Kde nás najdete", value: "Ukázková 123, Praha 1" },
+      { label: "Otevřeno", value: "Po–Ne  13:00–22:30" },
+      { label: "Rezervace", value: String(cc.phone ?? "704 123 456") },
+    ];
+    const FONT  = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+    const BROWN = "#523E35";
+    const GOLD  = "#C9A26A";
+    const resolveH = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
+
+    return (
+      <section
+        id="hero"
+        className="relative w-full overflow-hidden bc2-hero"
+        style={{ minHeight: "100svh", backgroundColor: "#0F0D0A" }}
+        data-template="beauty-02"
+      >
+        {/* Bg foto */}
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
+          <Image src={bg} alt="" fill className="object-cover bc2-hero-img" style={{ objectPosition: "center 30%" }} sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
+        </GenericEditableImage>
+
+        {/* Gradient overlays — top pro navbar, bottom-left pro text */}
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
+          background: "linear-gradient(180deg, rgba(15,13,10,0.55) 0%, rgba(15,13,10,0.12) 26%, rgba(15,13,10,0.20) 55%, rgba(15,13,10,0.82) 100%)",
+        }} />
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
+          background: "linear-gradient(96deg, rgba(15,13,10,0.62) 0%, rgba(15,13,10,0.20) 42%, rgba(15,13,10,0) 68%)",
+        }} />
+
+        {/* Content — left aligned, vertically centered */}
+        <div className="relative z-[2] mx-auto w-full flex flex-col justify-center items-start"
+          style={{
+            maxWidth: 1440,
+            minHeight: "100svh",
+            padding: "clamp(120px,16vw,180px) clamp(24px,5vw,64px) clamp(150px,16vw,200px)",
+          }}
+        >
+          {/* Eyebrow s hairline + diamant */}
+          <div className="bc2-hero-eyebrow flex items-center" style={{ gap: 14, marginBottom: 26 }}>
+            <span aria-hidden="true" style={{ width: 42, height: 1.5, backgroundColor: GOLD, display: "block" }} />
+            <svg width="14" height="14" viewBox="0 0 40 40" fill="none" stroke={GOLD} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }}><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+              style={{ fontFamily: FONT, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD }} />
+          </div>
+
+          {/* H1 — Montserrat 800 obří, dva řádky */}
+          <h1 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, color: "#FFFFFF", lineHeight: 0.94, letterSpacing: "-0.035em", textShadow: "0 4px 40px rgba(0,0,0,0.35)", fontSize: "clamp(52px, 9vw, 118px)" }}>
+            <GenericEditableText sectionId={sectionId} field="titleLine1" value={line1} tag="span" style={{ display: "block" }} />
+            <GenericEditableText sectionId={sectionId} field="titleLine2" value={line2} tag="span" style={{ display: "block" }} />
+          </h1>
+
+          {/* Zlatý akcentový řádek */}
+          <p style={{ margin: "14px 0 0", fontFamily: FONT, fontWeight: 500, color: GOLD, fontSize: "clamp(20px, 3.2vw, 40px)", letterSpacing: "-0.01em", lineHeight: 1.05, textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}>
+            <GenericEditableText sectionId={sectionId} field="titleAccent" value={accentLn} tag="span" />
+          </p>
+
+          {/* Subtitle */}
+          <p style={{ margin: "30px 0 0", fontFamily: FONT, fontWeight: 400, fontSize: "clamp(15px, 1.4vw, 18px)", lineHeight: 1.6, color: "rgba(255,255,255,0.86)", maxWidth: 520 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={sub} tag="span" />
+          </p>
+
+          {/* CTA cluster */}
+          <div className="bc2-hero-actions" style={{ marginTop: 40, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 22 }}>
+            {cta && (
+              <a href={resolveH(href)} data-btn="primary" className="bc2-hero-cta inline-flex items-center justify-center"
+                style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "18px 34px", backgroundColor: BROWN, color: "#FFFFFF", textDecoration: "none", borderRadius: 6, boxShadow: "0 16px 40px rgba(0,0,0,0.3)", transition: "background-color .3s ease, transform .3s ease" }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={cta} tag="span" />
+                <span aria-hidden="true" className="bc2-hero-cta-arrow" style={{ marginLeft: 12, display: "inline-block", transition: "transform .3s ease" }}>→</span>
+              </a>
+            )}
+            {secText && (
+              <a href={resolveH(secHref)} className="bc2-hero-sec inline-flex items-center gap-2"
+                style={{ fontFamily: FONT, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#FFFFFF", textDecoration: "none", paddingBottom: 5, borderBottom: "1px solid rgba(255,255,255,0.45)", transition: "color .3s ease, border-color .3s ease" }}>
+                <GenericEditableText sectionId={sectionId} field="secondaryText" value={secText} tag="span" />
+                <span aria-hidden="true" className="bc2-hero-sec-arrow" style={{ transition: "transform .3s ease" }}>→</span>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Spodní ledger */}
+        {ledger.length > 0 && (
+          <div className="absolute bottom-0 left-0 right-0 z-[2]" style={{ padding: "0 clamp(24px,5vw,64px) clamp(26px,3.5vw,44px)" }}>
+            <div aria-hidden="true" style={{ height: 1, backgroundColor: "rgba(201,162,106,0.32)", margin: "0 auto 20px", maxWidth: 1440 }} />
+            <div className="bc2-hero-ledger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 22, maxWidth: 1440, margin: "0 auto" }}>
+              {ledger.map((item, i) => (
+                <div key={`bc2-led-${i}`} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <span style={{ fontFamily: FONT, fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}>
+                    <GenericEditableText sectionId={sectionId} field={`ledger.${i}.label`} value={item.label ?? ""} tag="span" />
+                  </span>
+                  <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 600, color: "#FFFFFF" }}>
+                    <GenericEditableText sectionId={sectionId} field={`ledger.${i}.value`} value={item.value ?? ""} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  }
+
   // ── hero-massage-01-fullbleed ───────────────────────────────────────────────
   // Cinematic fullscreen spa hero — dark overlay, Cormorant 80px, gold accents,
   // diamond separator, outline CTA with shimmer, scroll-down chevron
