@@ -55,6 +55,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "proof-01-services") return <ServicesProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "proof-01-process")  return <ProcessProof01 content={content} sectionId={sectionId} />;
   if (variant === "proof-01-pricing")  return <PricingProof01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "beauty-02-carousel") return <ServicesBeauty02Carousel content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "pricing-photo-01")   return <PricingPhoto01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "artist-01-concerts") return <ConcertsArtist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "eshop-16-benefits")  return <BenefitsEshop16 content={content} sectionId={sectionId} />;
@@ -16927,6 +16928,112 @@ function ServicesBarber06({ content, sectionId, tenantSlug, isAdmin }: { content
               </div>
             </article>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── beauty-02-carousel — Séra Beauty service carousel (3 kategorie) ──────────
+function ServicesBeauty02Carousel({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const cc = content as Record<string, unknown>;
+  const eyebrowRaw = cc.eyebrow;
+  const titleRaw = cc.title;
+  const subtitleRaw = cc.subtitle;
+  const eyebrow = eyebrowRaw === undefined ? "Naše procedury" : String(eyebrowRaw);
+  const title = titleRaw === undefined ? "Co pro Vás máme" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Tři světy péče pod jednou střechou." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+  type Item = { name?: string; eyebrow?: string; description?: string; image?: string; ctaText?: string; ctaHref?: string };
+  const items = ((cc.items as Item[]) ?? []).filter(Boolean);
+  const siteMode = String(cc.siteMode ?? "multipage");
+  const resolveH = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
+  const [active, setActive] = useState(0);
+  const n = items.length || 1;
+  const go = (i: number) => setActive(((i % n) + n) % n);
+
+  const FONT = "var(--font-montserrat), 'Montserrat', system-ui, sans-serif";
+  const BROWN = "#523E35";
+  const GOLD = "#B98A54";
+  const DARK = "#1A210F";
+  const MUTED = "#6B5D52";
+
+  if (items.length === 0) return null;
+
+  return (
+    <section id="services" className="relative w-full bc2-svc" data-template="beauty-02" style={{ backgroundColor: "#F6F1EB" }}>
+      <div className="mx-auto" style={{ maxWidth: 1280, padding: "clamp(72px,9vw,128px) clamp(24px,5vw,64px)" }}>
+        {showHeader && (
+          <div className="bc2-svc-head bc2-reveal" style={{ marginBottom: "clamp(40px,5vw,64px)", maxWidth: 720 }}>
+            <div className="flex items-center" style={{ gap: 14, marginBottom: 20 }}>
+              <span aria-hidden="true" style={{ width: 40, height: 1.5, backgroundColor: BROWN, display: "block" }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: BROWN }} />
+            </div>
+            <h2 style={{ margin: 0, fontFamily: FONT, fontWeight: 800, fontSize: "clamp(30px,4.4vw,54px)", lineHeight: 1.03, letterSpacing: "-0.02em", color: DARK }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p style={{ margin: "16px 0 0", fontFamily: FONT, fontWeight: 400, fontSize: "clamp(15px,1.4vw,18px)", lineHeight: 1.6, color: MUTED }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
+
+        {/* Carousel */}
+        <div className="bc2-carousel bc2-reveal" role="group" aria-roledescription="carousel">
+          <div className="bc2-track" style={{ transform: `translateX(-${active * 100}%)`, transition: "transform .7s cubic-bezier(.5,0,.1,1)" }}>
+            {items.map((it, i) => (
+              <div className="bc2-slide" key={`bc2-slide-${i}`} aria-hidden={i !== active}>
+                <div className="bc2-slide-grid">
+                  {/* Text */}
+                  <div className="bc2-slide-text">
+                    <div className="flex items-center" style={{ gap: 12, marginBottom: 18 }}>
+                      <span aria-hidden="true" style={{ fontFamily: FONT, fontSize: 13, fontWeight: 800, color: GOLD, letterSpacing: "0.1em" }}>{String(i + 1).padStart(2, "0")}</span>
+                      <span aria-hidden="true" style={{ width: 28, height: 1.5, backgroundColor: GOLD, display: "block" }} />
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.eyebrow`} value={String(it.eyebrow ?? "")} tag="span" style={{ fontFamily: FONT, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD }} />
+                    </div>
+                    <h3 style={{ margin: "0 0 22px", fontFamily: FONT, fontWeight: 800, fontSize: "clamp(28px,3.8vw,48px)", lineHeight: 1.04, letterSpacing: "-0.02em", color: DARK }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={String(it.name ?? "")} tag="span" />
+                    </h3>
+                    <p style={{ margin: 0, fontFamily: FONT, fontWeight: 400, fontSize: "clamp(15px,1.35vw,17px)", lineHeight: 1.75, color: MUTED, maxWidth: 480 }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={String(it.description ?? "")} tag="span" />
+                    </p>
+                    <a href={resolveH(String(it.ctaHref ?? "/beauty-procedury"))} data-btn="primary" className="bc2-svc-cta inline-flex items-center" style={{ marginTop: 34, fontFamily: FONT, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", padding: "16px 30px", backgroundColor: BROWN, color: "#FFFFFF", textDecoration: "none", borderRadius: 6, alignSelf: "flex-start", transition: "background-color .3s ease, transform .3s ease" }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={String(it.ctaText ?? "Zjistit více")} tag="span" />
+                      <span aria-hidden="true" className="bc2-svc-cta-arrow" style={{ marginLeft: 11, transition: "transform .3s ease" }}>→</span>
+                    </a>
+                  </div>
+                  {/* Photo */}
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={String(it.image ?? "")} alt={String(it.name ?? "")} className="bc2-svc-photo">
+                    <img src={String(it.image ?? "")} alt={String(it.name ?? "")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    <span aria-hidden="true" className="bc2-svc-photo-badge">
+                      <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="#C9A26A" strokeWidth={2.4}><path d="M11 6 H29 L36 15 L20 35 L4 15 Z" /><path d="M4 15 H36" /></svg>
+                    </span>
+                  </GenericEditableImage>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Controls */}
+          <div className="bc2-svc-controls">
+            <div className="bc2-svc-arrows">
+              <button type="button" className="bc2-svc-arrow" aria-label="Předchozí" onClick={() => go(active - 1)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+              </button>
+              <button type="button" className="bc2-svc-arrow" aria-label="Další" onClick={() => go(active + 1)}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+              </button>
+            </div>
+            <div className="bc2-svc-dots" role="tablist">
+              {items.map((_, i) => (
+                <button type="button" key={`bc2-dot-${i}`} className={`bc2-svc-dot${i === active ? " is-active" : ""}`} aria-label={`Slide ${i + 1}`} aria-selected={i === active} role="tab" onClick={() => go(i)} />
+              ))}
+            </div>
+            <div className="bc2-svc-counter" aria-hidden="true" style={{ fontFamily: FONT }}>
+              <span style={{ color: DARK, fontWeight: 800 }}>{String(active + 1).padStart(2, "0")}</span>
+              <span style={{ color: MUTED }}> / {String(n).padStart(2, "0")}</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
