@@ -13,7 +13,8 @@ export async function GET() {
     const users = await sql`
       SELECT id, email, name, slug, avatar_color, avatar_url, bio, timezone, min_booking_hours, buffer_minutes,
              payment_cash, payment_transfer, bank_iban, bank_owner, payment_note,
-             require_email, require_phone, created_at
+             require_email, require_phone,
+             require_deposit, deposit_percent, sms_reminders, reminder_hours, default_locale, created_at
       FROM rez_users WHERE id = ${user.userId} LIMIT 1
     `
 
@@ -61,7 +62,8 @@ export async function PATCH(request: NextRequest) {
     // Update profile
     const { name, email, slug, bio, avatar_color, avatar_url, timezone, min_booking_hours, buffer_minutes,
             payment_cash, payment_transfer, bank_iban, bank_owner, payment_note,
-            require_email, require_phone } = body
+            require_email, require_phone,
+            require_deposit, deposit_percent, sms_reminders, reminder_hours, default_locale } = body
 
     await sql`
       UPDATE rez_users SET
@@ -80,7 +82,12 @@ export async function PATCH(request: NextRequest) {
         bank_owner = COALESCE(${bank_owner ?? null}, bank_owner),
         payment_note = COALESCE(${payment_note ?? null}, payment_note),
         require_email = COALESCE(${require_email ?? null}, require_email),
-        require_phone = COALESCE(${require_phone ?? null}, require_phone)
+        require_phone = COALESCE(${require_phone ?? null}, require_phone),
+        require_deposit = COALESCE(${require_deposit ?? null}, require_deposit),
+        deposit_percent = COALESCE(${deposit_percent ?? null}, deposit_percent),
+        sms_reminders = COALESCE(${sms_reminders ?? null}, sms_reminders),
+        reminder_hours = COALESCE(${reminder_hours ?? null}, reminder_hours),
+        default_locale = COALESCE(${default_locale ?? null}, default_locale)
       WHERE id = ${user.userId}
     `
 

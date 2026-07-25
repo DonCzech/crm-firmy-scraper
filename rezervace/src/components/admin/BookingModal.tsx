@@ -18,6 +18,7 @@ function StatusBadge({ status }: { status: string }) {
     cancelled: 'badge-cancelled',
     completed: 'badge-completed',
     pending: 'badge-pending',
+    no_show: 'badge-cancelled',
   }[status] || 'badge-pending'
 
   const labels = {
@@ -25,6 +26,7 @@ function StatusBadge({ status }: { status: string }) {
     cancelled: 'Zrušeno',
     completed: 'Dokončeno',
     pending: 'Čekající',
+    no_show: 'Nedostavil se',
   }[status] || status
 
   return <span className={classes}>{labels}</span>
@@ -46,6 +48,7 @@ export default function BookingModal({ booking, onClose, onStatusChange, onDelet
   const statusOptions = [
     { value: 'confirmed', label: 'Potvrdit' },
     { value: 'completed', label: 'Označit jako dokončeno' },
+    { value: 'no_show', label: 'Nedostavil se' },
     { value: 'cancelled', label: 'Zrušit rezervaci' },
     { value: 'pending', label: 'Nastavit jako čekající' },
   ].filter((opt) => opt.value !== booking.status)

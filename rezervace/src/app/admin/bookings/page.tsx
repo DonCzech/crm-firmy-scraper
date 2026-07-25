@@ -13,6 +13,7 @@ function StatusBadge({ status }: { status: string }) {
     cancelled: 'badge-cancelled',
     completed: 'badge-completed',
     pending: 'badge-pending',
+    no_show: 'badge-cancelled',
   }[status] || 'badge-pending'
 
   const labels = {
@@ -20,6 +21,7 @@ function StatusBadge({ status }: { status: string }) {
     cancelled: 'Zrušeno',
     completed: 'Dokončeno',
     pending: 'Čekající',
+    no_show: 'Nedostavil se',
   }[status] || status
 
   return <span className={classes}>{labels}</span>
@@ -85,6 +87,7 @@ export default function BookingsPage() {
     { value: 'confirmed', label: 'Potvrzeno' },
     { value: 'pending', label: 'Čekající' },
     { value: 'completed', label: 'Dokončeno' },
+    { value: 'no_show', label: 'Nedostavil se' },
     { value: 'cancelled', label: 'Zrušeno' },
   ]
 

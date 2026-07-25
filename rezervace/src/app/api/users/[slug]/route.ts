@@ -49,7 +49,7 @@ export async function GET(
     const users = await sql`
       SELECT id, name, slug, avatar_color, avatar_url, bio, timezone,
              payment_cash, payment_transfer, bank_iban, bank_owner, payment_note,
-             require_email, require_phone
+             require_email, require_phone, require_deposit, deposit_percent, default_locale
       FROM rez_users
       WHERE slug = ${slug}
       LIMIT 1

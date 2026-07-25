@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { format } from 'date-fns'
 import { cs } from 'date-fns/locale'
 import type { Service, BookingFormData } from '@/types'
+import { tFor, type Locale } from '@/lib/i18n'
 
 interface PaymentOptions {
   payment_cash: boolean
@@ -14,6 +15,8 @@ interface PaymentOptions {
   payment_note: string
   require_email: boolean
   require_phone: boolean
+  require_deposit: boolean
+  deposit_percent: number
 }
 
 interface Props {
@@ -23,7 +26,8 @@ interface Props {
   time: string
   staffName?: string
   providerSlug: string
-  onSubmit: (data: BookingFormData, paymentMethod: string) => Promise<void>
+  lang?: Locale
+  onSubmit: (data: BookingFormData, paymentMethod: string, extra?: { couponCode?: string; voucherCode?: string; consent?: boolean }) => Promise<void>
   onBack: () => void
 }
 
@@ -35,7 +39,8 @@ function addMinutesToTime(time: string, minutes: number): string {
   return `${String(endHour).padStart(2, '0')}:${String(endMinute).padStart(2, '0')}`
 }
 
-export default function BookingForm({ service, addons = [], date, time, staffName, providerSlug, onSubmit, onBack }: Props) {
+export default function BookingForm({ service, addons = [], date, time, staffName, providerSlug, lang = 'cs', onSubmit, onBack }: Props) {
+  const t = tFor(lang)
   const [form, setForm] = useState<BookingFormData>({
     clientName: '',
     clientEmail: '',
@@ -46,6 +51,13 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
   const [error, setError] = useState('')
   const [paymentOptions, setPaymentOptions] = useState<PaymentOptions | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'transfer' | ''>('')
+  const [couponCode, setCouponCode] = useState('')
+  const [couponState, setCouponState] = useState<{ valid: boolean; discount: number; reason?: string } | null>(null)
+  const [couponChecking, setCouponChecking] = useState(false)
+  const [voucherCode, setVoucherCode] = useState('')
+  const [voucherState, setVoucherState] = useState<{ valid: boolean; applied: number; reason?: string } | null>(null)
+  const [voucherChecking, setVoucherChecking] = useState(false)
+  const [consent, setConsent] = useState(false)
 
   useEffect(() => {
     fetch(`/api/users/${providerSlug}`)
@@ -61,6 +73,8 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
             payment_note: u.payment_note || '',
             require_email: u.require_email ?? true,
             require_phone: u.require_phone ?? false,
+            require_deposit: u.require_deposit ?? false,
+            deposit_percent: Number(u.deposit_percent) || 0,
           }
           setPaymentOptions(opts)
           // Auto-select if only one method enabled
@@ -84,22 +98,63 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  const servicePrice = Number(service.price) + addons.reduce((s, a) => s + Number(a.price), 0)
+
+  async function applyCoupon() {
+    const code = couponCode.trim()
+    if (!code) { setCouponState(null); return }
+    setCouponChecking(true)
+    try {
+      const res = await fetch(`/api/coupons/validate?slug=${providerSlug}&code=${encodeURIComponent(code)}&amount=${servicePrice}`)
+      const d = await res.json()
+      setCouponState({ valid: !!d.valid, discount: Number(d.discount) || 0, reason: d.reason })
+    } catch {
+      setCouponState({ valid: false, discount: 0, reason: t('couponInvalid') })
+    } finally {
+      setCouponChecking(false)
+    }
+  }
+
+  async function applyVoucher() {
+    const code = voucherCode.trim()
+    if (!code) { setVoucherState(null); return }
+    setVoucherChecking(true)
+    try {
+      const afterCoupon = Math.max(servicePrice - (couponState?.valid ? couponState.discount : 0), 0)
+      const res = await fetch(`/api/vouchers/validate?slug=${providerSlug}&code=${encodeURIComponent(code)}&amount=${afterCoupon}`)
+      const d = await res.json()
+      setVoucherState({ valid: !!d.valid, applied: Number(d.applied) || 0, reason: d.reason })
+    } catch {
+      setVoucherState({ valid: false, applied: 0, reason: t('couponInvalid') })
+    } finally {
+      setVoucherChecking(false)
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (multiplePaymentMethods && !paymentMethod) {
-      setError('Vyberte způsob platby')
+      setError(t('errPayment'))
       return
     }
     if (!form.clientEmail.trim() && !form.clientPhone.trim()) {
-      setError('Zadejte e-mail nebo telefon, abychom vás mohli kontaktovat')
+      setError(t('errContact'))
+      return
+    }
+    if (!consent) {
+      setError(t('errConsent'))
       return
     }
     setError('')
     setLoading(true)
     try {
-      await onSubmit(form, paymentMethod)
+      await onSubmit(form, paymentMethod, {
+        couponCode: couponState?.valid ? couponCode.trim() : '',
+        voucherCode: voucherState?.valid ? voucherCode.trim() : '',
+        consent,
+      })
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Nastala chyba. Zkuste to prosím znovu.')
+      setError(err instanceof Error ? err.message : t('errGeneric'))
     } finally {
       setLoading(false)
     }
@@ -109,6 +164,12 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
   const totalDuration = service.duration_minutes + addons.reduce((s, a) => s + a.duration_minutes, 0)
   const endTime = addMinutesToTime(time, totalDuration)
   const totalPrice = Number(service.price) + addons.reduce((s, a) => s + Number(a.price), 0)
+  const couponDiscount = couponState?.valid ? couponState.discount : 0
+  const voucherDiscount = voucherState?.valid ? voucherState.applied : 0
+  const discount = couponDiscount + voucherDiscount
+  const finalPrice = Math.max(totalPrice - discount, 0)
+  const depositPct = paymentOptions?.require_deposit ? Number(paymentOptions.deposit_percent) || 0 : 0
+  const depositAmount = depositPct > 0 ? Math.round((finalPrice * depositPct) / 100) : 0
 
   return (
     <div>
@@ -123,9 +184,9 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
           </svg>
         </button>
         <div>
-          <p className="text-[11px] uppercase tracking-[0.25em] text-accent-600 font-bold mb-1">Poslední krok</p>
-          <h2 className="font-display text-3xl lg:text-4xl text-ink-900 leading-tight">Vaše údaje</h2>
-          <p className="text-sm text-ink-400 mt-1.5">Vyplňte kontaktní informace</p>
+          <p className="text-[11px] uppercase tracking-[0.25em] text-accent-600 font-bold mb-1">{t('lastStep')}</p>
+          <h2 className="font-display text-3xl lg:text-4xl text-ink-900 leading-tight">{t('yourDetails')}</h2>
+          <p className="text-sm text-ink-400 mt-1.5">{t('fillContact')}</p>
         </div>
       </div>
 
@@ -156,7 +217,7 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-ink-700 mb-1.5">
-                Celé jméno <span className="text-accent-600">*</span>
+                {t('fullName')} <span className="text-accent-600">*</span>
               </label>
               <input
                 type="text"
@@ -171,9 +232,9 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
             </div>
             <div>
               <label className="block text-sm font-semibold text-ink-700 mb-1.5">
-                E-mailová adresa {requireEmail
+                {t('email')} {requireEmail
                   ? <span className="text-accent-600">*</span>
-                  : <span className="text-ink-400 font-normal text-xs">(nepovinné)</span>}
+                  : <span className="text-ink-400 font-normal text-xs">{t('optional')}</span>}
               </label>
               <input
                 type="email"
@@ -189,9 +250,9 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
 
           <div>
             <label className="block text-sm font-semibold text-ink-700 mb-1.5">
-              Telefonní číslo {requirePhone
+              {t('phone')} {requirePhone
                 ? <span className="text-accent-600">*</span>
-                : <span className="text-ink-400 font-normal text-xs">(nepovinné)</span>}
+                : <span className="text-ink-400 font-normal text-xs">{t('optional')}</span>}
             </label>
             <input
               type="tel"
@@ -206,7 +267,7 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
 
           <div>
             <label className="block text-sm font-semibold text-ink-700 mb-1.5">
-              Poznámky <span className="text-ink-400 font-normal text-xs">(nepovinné)</span>
+              {t('notes')} <span className="text-ink-400 font-normal text-xs">{t('optional')}</span>
             </label>
             <textarea
               name="clientNotes"
@@ -214,7 +275,7 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
               onChange={handleChange}
               className="input-field resize-none"
               rows={3}
-              placeholder="Co byste chtěli probrat nebo jiné informace..."
+              placeholder={t('notesPlaceholder')}
             />
           </div>
 
@@ -222,7 +283,7 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
           {paymentOptions && multiplePaymentMethods && (
             <div>
               <label className="block text-sm font-semibold text-ink-700 mb-2">
-                Způsob platby <span className="text-accent-600">*</span>
+                {t('payment')} <span className="text-accent-600">*</span>
               </label>
               <div className="grid grid-cols-2 gap-3">
                 {paymentOptions.payment_cash && (
@@ -243,8 +304,8 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
                       </svg>
                     </div>
                     <div>
-                      <p className={`text-sm font-bold ${paymentMethod === 'cash' ? 'text-cream' : 'text-ink-800'}`}>Hotově</p>
-                      <p className={`text-xs ${paymentMethod === 'cash' ? 'text-cream/60' : 'text-ink-400'}`}>Na místě</p>
+                      <p className={`text-sm font-bold ${paymentMethod === 'cash' ? 'text-cream' : 'text-ink-800'}`}>{t('cash')}</p>
+                      <p className={`text-xs ${paymentMethod === 'cash' ? 'text-cream/60' : 'text-ink-400'}`}>{t('cashHint')}</p>
                     </div>
                   </button>
                 )}
@@ -266,14 +327,108 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
                       </svg>
                     </div>
                     <div>
-                      <p className={`text-sm font-bold ${paymentMethod === 'transfer' ? 'text-cream' : 'text-ink-800'}`}>Převodem</p>
-                      <p className={`text-xs ${paymentMethod === 'transfer' ? 'text-cream/60' : 'text-ink-400'}`}>QR kód v potvrzení</p>
+                      <p className={`text-sm font-bold ${paymentMethod === 'transfer' ? 'text-cream' : 'text-ink-800'}`}>{t('transfer')}</p>
+                      <p className={`text-xs ${paymentMethod === 'transfer' ? 'text-cream/60' : 'text-ink-400'}`}>{t('transferHint')}</p>
                     </div>
                   </button>
                 )}
               </div>
             </div>
           )}
+
+          {/* Slevový kód */}
+          {totalPrice > 0 && (
+            <div>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">
+                {t('couponLabel')} <span className="text-ink-400 font-normal text-xs">{t('optional')}</span>
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponState(null) }}
+                  onBlur={applyCoupon}
+                  className="input-field flex-1"
+                  placeholder="KÓD"
+                />
+                <button type="button" onClick={applyCoupon} disabled={couponChecking} className="btn-secondary whitespace-nowrap">
+                  {couponChecking ? '…' : t('apply')}
+                </button>
+              </div>
+              {couponState && (
+                <p className={`text-xs mt-1.5 ${couponState.valid ? 'text-green-600' : 'text-accent-600'}`}>
+                  {couponState.valid
+                    ? `✓ ${t('couponDiscount')} ${couponDiscount.toLocaleString('cs-CZ')} ${service.currency}`
+                    : couponState.reason || t('couponInvalid')}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Dárkový poukaz */}
+          {totalPrice > 0 && (
+            <div>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">
+                {lang === 'en' ? 'Gift voucher' : 'Dárkový poukaz'} <span className="text-ink-400 font-normal text-xs">{t('optional')}</span>
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={voucherCode}
+                  onChange={(e) => { setVoucherCode(e.target.value.toUpperCase()); setVoucherState(null) }}
+                  onBlur={applyVoucher}
+                  className="input-field flex-1"
+                  placeholder={lang === 'en' ? 'CODE' : 'KÓD'}
+                />
+                <button type="button" onClick={applyVoucher} disabled={voucherChecking} className="btn-secondary whitespace-nowrap">
+                  {voucherChecking ? '…' : t('apply')}
+                </button>
+              </div>
+              {voucherState && (
+                <p className={`text-xs mt-1.5 ${voucherState.valid ? 'text-green-600' : 'text-accent-600'}`}>
+                  {voucherState.valid
+                    ? `✓ ${voucherDiscount.toLocaleString('cs-CZ')} ${service.currency}`
+                    : voucherState.reason || t('couponInvalid')}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Cenové shrnutí se slevou/zálohou */}
+          {(discount > 0 || depositAmount > 0) && (
+            <div className="bg-paper rounded-xl p-4 text-sm space-y-1">
+              <div className="flex justify-between text-ink-500">
+                <span>{t('price')}</span><span>{totalPrice.toLocaleString('cs-CZ')} {service.currency}</span>
+              </div>
+              {discount > 0 && (
+                <div className="flex justify-between text-green-600">
+                  <span>{t('couponDiscount')}</span><span>−{discount.toLocaleString('cs-CZ')} {service.currency}</span>
+                </div>
+              )}
+              <div className="flex justify-between font-bold text-ink-900 pt-1 border-t border-ink-900/10">
+                <span>{t('total')}</span><span>{finalPrice.toLocaleString('cs-CZ')} {service.currency}</span>
+              </div>
+              {depositAmount > 0 && (
+                <div className="flex justify-between text-accent-700 pt-1">
+                  <span>{t('depositNow')} ({depositPct} %)</span><span>{depositAmount.toLocaleString('cs-CZ')} {service.currency}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {depositAmount > 0 && (
+            <p className="text-xs text-accent-700 bg-accent-50 border border-accent-200 rounded-lg px-3 py-2">
+              {t('depositNotice')}
+            </p>
+          )}
+
+          {/* GDPR souhlas */}
+          <label className="flex items-start gap-2.5 cursor-pointer">
+            <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5" />
+            <span className="text-xs text-ink-500">
+              {t('consent')} <span className="text-accent-600">*</span>
+            </span>
+          </label>
 
           {error && (
             <motion.div
@@ -296,13 +451,13 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Rezervuji...
+                {t('booking')}
               </>
             ) : (
               <>
-                Potvrdit rezervaci
-                {totalPrice > 0 && (
-                  <span className="text-cream/60 font-medium">· {totalPrice.toLocaleString('cs-CZ')} {service.currency}</span>
+                {depositAmount > 0 ? t('payDeposit') : t('confirm')}
+                {finalPrice > 0 && (
+                  <span className="text-cream/60 font-medium">· {(depositAmount > 0 ? depositAmount : finalPrice).toLocaleString('cs-CZ')} {service.currency}</span>
                 )}
               </>
             )}
@@ -310,7 +465,7 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
         </form>
 
         <p className="text-xs text-ink-400 mt-4 text-center">
-          Po potvrzení obdržíte e-mail s detaily rezervace.
+          {t('afterConfirm')}
         </p>
       </div>
     </div>

@@ -10,6 +10,7 @@ import BookingCalendar from './BookingCalendar'
 import TimeSlots from './TimeSlots'
 import BookingForm from './BookingForm'
 import Confirmation from './Confirmation'
+import ReviewsStrip from './ReviewsStrip'
 import type { User, Service, Staff, BookingFormData } from '@/types'
 
 interface Props {
@@ -43,6 +44,9 @@ function formatPrice(price: number, currency: string): string {
 export default function BookingPage({ user, services, staff = [] }: Props) {
   const [step, setStep] = useState(0)
   const [direction, setDirection] = useState(1)
+  const [lang, setLang] = useState<'cs' | 'en'>(
+    (user as { default_locale?: string }).default_locale === 'en' ? 'en' : 'cs'
+  )
   const [selectedService, setSelectedService] = useState<Service | null>(null)
   const [selectedAddons, setSelectedAddons] = useState<Service[]>([])
   const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null)
@@ -90,7 +94,11 @@ export default function BookingPage({ user, services, staff = [] }: Props) {
     goTo(4)
   }
 
-  async function handleFormSubmit(formData: BookingFormData, paymentMethod: string) {
+  async function handleFormSubmit(
+    formData: BookingFormData,
+    paymentMethod: string,
+    extra?: { couponCode?: string; voucherCode?: string; consent?: boolean }
+  ) {
     if (!selectedService || !selectedDate || !selectedTime) return
 
     const addonNote = selectedAddons.length > 0
@@ -112,12 +120,21 @@ export default function BookingPage({ user, services, staff = [] }: Props) {
         startTime: selectedTime,
         staffId: selectedStaff?.id || null,
         paymentMethod,
+        couponCode: extra?.couponCode || '',
+        voucherCode: extra?.voucherCode || '',
+        consent: extra?.consent ?? false,
       }),
     })
 
+    const data = await res.json().catch(() => ({}))
     if (!res.ok) {
-      const data = await res.json()
       throw new Error(data.error || 'Rezervace selhala')
+    }
+
+    // Vyžaduje-li se záloha, přesměrujeme na platební bránu
+    if (data.requiresPayment && data.checkoutUrl) {
+      window.location.href = data.checkoutUrl
+      return
     }
 
     setConfirmedBooking({
@@ -169,8 +186,25 @@ export default function BookingPage({ user, services, staff = [] }: Props) {
               </div>
             )}
 
-            <h1 className="font-display text-3xl leading-tight">{user.name}</h1>
+            <div className="flex items-start justify-between gap-3">
+              <h1 className="font-display text-3xl leading-tight">{user.name}</h1>
+              <div className="flex gap-1 flex-shrink-0 mt-1">
+                {(['cs', 'en'] as const).map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setLang(l)}
+                    className={`text-xs font-semibold px-2 py-1 rounded transition-colors ${
+                      lang === l ? 'bg-cream text-ink-900' : 'text-cream/50 hover:text-cream'
+                    }`}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                ))}
+              </div>
+            </div>
             {user.bio && <p className="text-sm text-cream/60 mt-2 leading-relaxed">{user.bio}</p>}
+
+            <ReviewsStrip slug={user.slug} variant="dark" />
 
             {/* kroky */}
             <div className="mt-8 space-y-1 relative">
@@ -345,6 +379,7 @@ export default function BookingPage({ user, services, staff = [] }: Props) {
                   time={selectedTime}
                   staffName={selectedStaff?.name}
                   providerSlug={user.slug}
+                  lang={lang}
                   onSubmit={handleFormSubmit}
                   onBack={() => goTo(3)}
                 />

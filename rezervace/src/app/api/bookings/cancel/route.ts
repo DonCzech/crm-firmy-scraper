@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { sendCancellationEmail } from '@/lib/email'
+import { notifyWaitlistForOpening } from '@/lib/notify'
 
 // GET — get booking info by token (for cancel preview page)
 export async function GET(request: NextRequest) {
@@ -11,8 +12,9 @@ export async function GET(request: NextRequest) {
     const rows = await sql`
       SELECT
         b.id, b.status, b.client_name, b.booking_date, b.start_time, b.duration_minutes,
+        b.service_id, b.staff_id,
         s.name as service_name,
-        u.name as provider_name
+        u.name as provider_name, u.slug as provider_slug
       FROM rez_bookings b
       JOIN rez_services s ON b.service_id = s.id
       JOIN rez_users u ON b.provider_id = u.id
@@ -34,7 +36,7 @@ export async function POST(request: NextRequest) {
   try {
     const rows = await sql`
       SELECT b.id, b.status, b.client_name, b.client_email, b.booking_date, b.start_time,
-             s.name as service_name
+             b.provider_id, s.name as service_name
       FROM rez_bookings b
       JOIN rez_services s ON b.service_id = s.id
       WHERE b.confirmation_token = ${token}
@@ -59,6 +61,9 @@ export async function POST(request: NextRequest) {
       bookingDate: String(booking.booking_date).split('T')[0],
       startTime: String(booking.start_time).substring(0, 5),
     })
+
+    // Uvolněný termín nabídneme čekající listině (best-effort, neblokuje odpověď)
+    notifyWaitlistForOpening(booking.provider_id, String(booking.booking_date).split('T')[0]).catch(() => {})
 
     return NextResponse.json({ success: true })
   } catch {

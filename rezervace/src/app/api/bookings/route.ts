@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sql, initDb } from '@/lib/db'
 import { getUser } from '@/lib/auth'
 import { sendBookingConfirmationToClient, sendBookingNotificationToProvider } from '@/lib/email'
+import { rateLimit, clientIp } from '@/lib/rate-limit'
+import { resolveCoupon, resolveVoucher } from '@/lib/discounts'
+import { isPaymentConfigured, createDepositCheckout } from '@/lib/payment-gateway'
+import { sendSms, isSmsConfigured } from '@/lib/sms'
 
 // GET /api/bookings — admin: list all bookings for current user
 export async function GET() {
@@ -49,7 +53,26 @@ export async function POST(request: NextRequest) {
       startTime,
       staffId,
       paymentMethod,
+      couponCode,
+      voucherCode,
+      consent,
+      // Honeypot: skryté pole, které vyplní jen bot. Legitimní formulář ho pošle prázdné.
+      website,
     } = body
+
+    // Anti-spam: honeypot. Botovi vrátíme falešný úspěch, ať nezkouší dál, ale nic neuložíme.
+    if (website) {
+      return NextResponse.json({ success: true, booking: { id: 'ok' } }, { status: 201 })
+    }
+
+    // Anti-spam: rate limit per IP (5 rezervací / minutu).
+    const rl = rateLimit(`booking:${clientIp(request)}`, { limit: 5, windowMs: 60_000 })
+    if (!rl.ok) {
+      return NextResponse.json(
+        { error: 'Příliš mnoho pokusů. Zkuste to prosím za chvíli.' },
+        { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } }
+      )
+    }
 
     if (!serviceId || !providerSlug || !clientName || !bookingDate || !startTime) {
       return NextResponse.json({ error: 'Chybí povinné údaje' }, { status: 400 })
@@ -58,7 +81,8 @@ export async function POST(request: NextRequest) {
     // Get service + provider
     const services = await sql`
       SELECT s.*, u.id as user_id, u.name as user_name, u.email as user_email, u.slug as user_slug,
-             u.min_booking_hours, u.buffer_minutes, u.require_email, u.require_phone
+             u.min_booking_hours, u.buffer_minutes, u.require_email, u.require_phone,
+             u.require_deposit, u.deposit_percent, u.sms_reminders
       FROM rez_services s
       JOIN rez_users u ON s.user_id = u.id
       WHERE s.id = ${serviceId} AND u.slug = ${providerSlug} AND s.is_active = true
@@ -143,25 +167,116 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Tento termín je již obsazen' }, { status: 409 })
     }
 
-    // Create booking
-    const bookings = await sql`
-      INSERT INTO rez_bookings (
-        service_id, provider_id, staff_id, staff_name,
-        client_name, client_email, client_phone, client_notes,
-        booking_date, start_time, duration_minutes,
-        price, currency, status, payment_method
-      ) VALUES (
-        ${serviceId}, ${service.user_id}, ${resolvedStaffId}, ${resolvedStaffName},
-        ${clientName}, ${(clientEmail || '').toLowerCase()}, ${clientPhone || ''}, ${clientNotes || ''},
-        ${bookingDate}, ${startTime}, ${service.duration_minutes},
-        ${service.price}, ${service.currency}, 'confirmed', ${paymentMethod || ''}
-      )
-      RETURNING *
-    `
+    // Slevový kód (autoritativní přepočet na serveru)
+    const basePrice = Number(service.price) || 0
+    let discountAmount = 0
+    let appliedCoupon: { couponId: string; code: string } | null = null
+    if (couponCode) {
+      const c = await resolveCoupon(service.user_id, couponCode, basePrice)
+      if (c.valid) {
+        discountAmount = c.discount
+        appliedCoupon = { couponId: c.couponId!, code: c.code! }
+      }
+    }
+    const priceAfterCoupon = Math.max(basePrice - discountAmount, 0)
+
+    // Dárkový poukaz (uplatní se na zbývající částku po slevě)
+    let voucherApplied = 0
+    let appliedVoucher: { voucherId: string; code: string } | null = null
+    if (voucherCode && priceAfterCoupon > 0) {
+      const v = await resolveVoucher(service.user_id, voucherCode, priceAfterCoupon)
+      if (v.valid) {
+        voucherApplied = v.applied
+        appliedVoucher = { voucherId: v.voucherId!, code: v.code! }
+      }
+    }
+    const finalPrice = Math.max(priceAfterCoupon - voucherApplied, 0)
+    // Celková evidovaná sleva = kupón + poukaz
+    discountAmount = discountAmount + voucherApplied
+
+    // Záloha: procento z ceny po slevě, jen když to poskytovatel vyžaduje a je Stripe
+    const depositPercent = Number(service.deposit_percent) || 0
+    const wantsDeposit = service.require_deposit === true && depositPercent > 0 && finalPrice > 0
+    const canCharge = wantsDeposit && isPaymentConfigured()
+    const depositAmount = canCharge ? Math.round((finalPrice * depositPercent) / 100 * 100) / 100 : 0
+
+    // Rezervace, u které čekáme na platbu zálohy, je 'pending'; jinak rovnou 'confirmed'
+    const initialStatus = canCharge ? 'pending' : 'confirmed'
+    const initialPaymentStatus = canCharge ? 'awaiting_payment' : 'pending'
+
+    // Create booking (unique index idx_bookings_slot_unique je poslední pojistka
+    // proti souběhu — kolizi zachytíme jako 409)
+    let bookings
+    try {
+      bookings = await sql`
+        INSERT INTO rez_bookings (
+          service_id, provider_id, staff_id, staff_name,
+          client_name, client_email, client_phone, client_notes,
+          booking_date, start_time, duration_minutes,
+          price, currency, status, payment_method, payment_status,
+          deposit_amount, coupon_code, discount_amount,
+          review_token, consent_at
+        ) VALUES (
+          ${serviceId}, ${service.user_id}, ${resolvedStaffId}, ${resolvedStaffName},
+          ${clientName}, ${(clientEmail || '').toLowerCase()}, ${clientPhone || ''}, ${clientNotes || ''},
+          ${bookingDate}, ${startTime}, ${service.duration_minutes},
+          ${finalPrice}, ${service.currency}, ${initialStatus}, ${paymentMethod || ''}, ${initialPaymentStatus},
+          ${depositAmount}, ${appliedCoupon?.code || ''}, ${discountAmount},
+          replace(gen_random_uuid()::text, '-', ''), ${consent ? new Date().toISOString() : null}
+        )
+        RETURNING *
+      `
+    } catch (err) {
+      // 23505 = unique_violation → slot obsadil někdo mezitím
+      if (String((err as { code?: string })?.code) === '23505' || /duplicate key|idx_bookings_slot_unique/.test(String(err))) {
+        return NextResponse.json({ error: 'Tento termín byl právě obsazen' }, { status: 409 })
+      }
+      throw err
+    }
 
     const booking = bookings[0]
 
+    // Zvýšit počet použití kupónu (best-effort)
+    if (appliedCoupon) {
+      await sql`UPDATE rez_coupons SET used_count = used_count + 1 WHERE id = ${appliedCoupon.couponId}`.catch(() => {})
+    }
+    // Odečíst uplatněnou částku z dárkového poukazu (best-effort)
+    if (appliedVoucher && voucherApplied > 0) {
+      await sql`UPDATE rez_vouchers
+        SET remaining_amount = GREATEST(remaining_amount - ${voucherApplied}, 0)
+        WHERE id = ${appliedVoucher.voucherId}`.catch(() => {})
+    }
+
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://rezervace-kappa.vercel.app'
+
+    // Vyžaduje-li se záloha: vytvoř platbu u brány (GoPay/Stripe) a vrať přesměrování.
+    // Potvrzovací e-maily odejdou až po zaplacení (notifikace/webhook).
+    if (canCharge) {
+      try {
+        const checkout = await createDepositCheckout({
+          amount: depositAmount,
+          currency: service.currency,
+          bookingId: booking.id,
+          orderNumber: String(booking.id),
+          productName: `Záloha – ${service.name}`,
+          description: `Záloha za ${service.name}`,
+          returnUrl: `${appUrl}/book/${service.user_slug}?paid=1`,
+          cancelUrl: `${appUrl}/book/${service.user_slug}?canceled=1`,
+          notifyUrl: `${appUrl}/api/webhooks/gopay`,
+          customerEmail: clientEmail || undefined,
+        })
+        await sql`UPDATE rez_bookings SET stripe_session_id = ${checkout.ref}, payment_provider = ${checkout.provider} WHERE id = ${booking.id}`
+        return NextResponse.json(
+          { success: true, requiresPayment: true, checkoutUrl: checkout.url, booking },
+          { status: 201 }
+        )
+      } catch (err) {
+        console.error('Payment checkout error:', err)
+        // Platbu nešlo založit → rezervaci zrušíme, ať nezůstane viset pending
+        await sql`DELETE FROM rez_bookings WHERE id = ${booking.id}`.catch(() => {})
+        return NextResponse.json({ error: 'Platbu se nepodařilo zahájit, zkuste to prosím znovu' }, { status: 502 })
+      }
+    }
 
     // Send emails (non-blocking) — potvrzení klientovi jen když e-mail máme
     Promise.allSettled([
@@ -173,7 +288,7 @@ export async function POST(request: NextRequest) {
         bookingDate,
         startTime,
         durationMinutes: service.duration_minutes,
-        price: Number(service.price),
+        price: finalPrice,
         currency: service.currency,
         confirmationToken: booking.confirmation_token,
         appUrl,
@@ -191,6 +306,16 @@ export async function POST(request: NextRequest) {
         durationMinutes: service.duration_minutes,
       }),
     ])
+
+    // SMS potvrzení klientovi (jen když poskytovatel zapnul SMS a je konfigurace)
+    if (service.sms_reminders === true && clientPhone && isSmsConfigured()) {
+      const dateLabel = String(bookingDate).split('T')[0]
+      const msg = `Rezervace potvrzena: ${service.name}, ${dateLabel} ${String(startTime).substring(0, 5)}. ${service.user_name}`
+      sendSms(clientPhone, msg)
+        .then((r) => sql`INSERT INTO rez_sms_log (provider_id, booking_id, phone, body, kind, status, provider_ref)
+          VALUES (${service.user_id}, ${booking.id}, ${clientPhone}, ${msg}, 'confirmation', ${r.ok ? 'sent' : 'failed'}, ${r.ref || r.error || ''})`)
+        .catch(() => {})
+    }
 
     return NextResponse.json({ success: true, booking }, { status: 201 })
   } catch (error) {

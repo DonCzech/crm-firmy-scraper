@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { getUser } from '@/lib/auth'
 import { sendCancellationEmail } from '@/lib/email'
+import { notifyWaitlistForOpening } from '@/lib/notify'
 
 export async function PATCH(
   request: NextRequest,
@@ -40,7 +41,7 @@ export async function PATCH(
     }
 
     // Status change
-    const validStatuses = ['confirmed', 'cancelled', 'completed', 'pending']
+    const validStatuses = ['confirmed', 'cancelled', 'completed', 'pending', 'no_show']
     if (!status || !validStatuses.includes(status)) {
       return NextResponse.json({ error: 'Neplatný stav' }, { status: 400 })
     }
@@ -50,16 +51,17 @@ export async function PATCH(
       WHERE id = ${params.id}
     `
 
-    // Send cancellation email
+    // Send cancellation email + nabídka čekací listině
     if (status === 'cancelled') {
       const booking = existing[0]
       sendCancellationEmail({
         clientEmail: booking.client_email,
         clientName: booking.client_name,
         serviceName: booking.service_name,
-        bookingDate: booking.booking_date,
-        startTime: booking.start_time,
+        bookingDate: String(booking.booking_date).split('T')[0],
+        startTime: String(booking.start_time).substring(0, 5),
       }).catch(console.error)
+      notifyWaitlistForOpening(user.userId, String(booking.booking_date).split('T')[0]).catch(() => {})
     }
 
     return NextResponse.json({ success: true })

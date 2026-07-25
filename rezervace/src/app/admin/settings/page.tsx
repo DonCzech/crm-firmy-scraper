@@ -23,6 +23,11 @@ interface UserProfile {
   payment_note: string
   require_email: boolean
   require_phone: boolean
+  require_deposit: boolean
+  deposit_percent: number
+  sms_reminders: boolean
+  reminder_hours: number
+  default_locale: string
 }
 
 interface AvailabilityOverride {
@@ -62,6 +67,11 @@ export default function SettingsPage() {
     payment_note: '',
     require_email: true,
     require_phone: false,
+    require_deposit: false,
+    deposit_percent: 0,
+    sms_reminders: false,
+    reminder_hours: 24,
+    default_locale: 'cs',
   })
   const [paymentSaving, setPaymentSaving] = useState(false)
   const [contactSaving, setContactSaving] = useState(false)
@@ -117,6 +127,11 @@ export default function SettingsPage() {
             payment_note: meData.user.payment_note || '',
             require_email: meData.user.require_email ?? true,
             require_phone: meData.user.require_phone ?? false,
+            require_deposit: meData.user.require_deposit ?? false,
+            deposit_percent: Number(meData.user.deposit_percent) || 0,
+            sms_reminders: meData.user.sms_reminders ?? false,
+            reminder_hours: Number(meData.user.reminder_hours) || 24,
+            default_locale: meData.user.default_locale || 'cs',
           })
           setAvatarPreview(meData.user.avatar_url || '')
           if (meData.availability && meData.availability.length > 0) {
@@ -270,6 +285,43 @@ export default function SettingsPage() {
       setContactSaving(false)
     }
   }
+
+  const [extrasSaving, setExtrasSaving] = useState(false)
+  const [extrasSuccess, setExtrasSuccess] = useState(false)
+  const [icalUrl, setIcalUrl] = useState('')
+  const [icalCopied, setIcalCopied] = useState(false)
+
+  async function saveExtras(e: React.FormEvent) {
+    e.preventDefault()
+    setExtrasSaving(true)
+    try {
+      await fetch('/api/auth/me', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          require_deposit: profile.require_deposit,
+          deposit_percent: profile.deposit_percent,
+          sms_reminders: profile.sms_reminders,
+          reminder_hours: profile.reminder_hours,
+          default_locale: profile.default_locale,
+        }),
+      })
+      setExtrasSuccess(true)
+      setTimeout(() => setExtrasSuccess(false), 3000)
+    } finally {
+      setExtrasSaving(false)
+    }
+  }
+
+  async function loadIcal() {
+    const r = await fetch('/api/ical-feed').then((x) => x.json())
+    if (r.url) setIcalUrl(r.url)
+  }
+  async function regenerateIcal() {
+    const r = await fetch('/api/ical-feed', { method: 'POST' }).then((x) => x.json())
+    if (r.url) setIcalUrl(r.url)
+  }
+  useEffect(() => { loadIcal() }, [])
 
   async function changePassword(e: React.FormEvent) {
     e.preventDefault()
@@ -890,6 +942,100 @@ export default function SettingsPage() {
             )}
           </div>
         </form>
+      </div>
+
+      {/* Zálohy, SMS, připomínky, jazyk */}
+      <div className="card p-4 sm:p-6 mt-6 min-w-0">
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Platby online a připomínky</h2>
+        <p className="text-sm text-ink-400 mb-6">Zálohy proti no-show, SMS a časování připomínek</p>
+        <form onSubmit={saveExtras} className="space-y-5">
+          {/* Deposit */}
+          <div
+            role="button" tabIndex={0}
+            onClick={() => setProfile((p) => ({ ...p, require_deposit: !p.require_deposit }))}
+            onKeyDown={(e) => e.key === 'Enter' && setProfile((p) => ({ ...p, require_deposit: !p.require_deposit }))}
+            className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-paper border-ink-900/15"
+          >
+            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${profile.require_deposit ? 'bg-ink-900 border-ink-900' : 'border-ink-200 bg-cream'}`}>
+              {profile.require_deposit && <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-ink-900">Vyžadovat zálohu online</p>
+              <p className="text-xs text-ink-400 mt-0.5">Klient zaplatí zálohu při rezervaci přes platební bránu (GoPay / Stripe)</p>
+            </div>
+          </div>
+
+          {profile.require_deposit && (
+            <div>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Výše zálohy (% z ceny)</label>
+              <input type="number" min={0} max={100} value={profile.deposit_percent}
+                onChange={(e) => setProfile((p) => ({ ...p, deposit_percent: Number(e.target.value) }))}
+                className="input-field w-32" />
+            </div>
+          )}
+
+          {/* SMS */}
+          <div
+            role="button" tabIndex={0}
+            onClick={() => setProfile((p) => ({ ...p, sms_reminders: !p.sms_reminders }))}
+            onKeyDown={(e) => e.key === 'Enter' && setProfile((p) => ({ ...p, sms_reminders: !p.sms_reminders }))}
+            className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-paper border-ink-900/15"
+          >
+            <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ${profile.sms_reminders ? 'bg-ink-900 border-ink-900' : 'border-ink-200 bg-cream'}`}>
+              {profile.sms_reminders && <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium text-ink-900">SMS potvrzení a připomínky</p>
+              <p className="text-xs text-ink-400 mt-0.5">Klientům s telefonem (nutná konfigurace SMS brány)</p>
+            </div>
+          </div>
+
+          {/* Reminder timing */}
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">Připomínku odeslat (hodin předem)</label>
+            <input type="number" min={1} max={168} value={profile.reminder_hours}
+              onChange={(e) => setProfile((p) => ({ ...p, reminder_hours: Number(e.target.value) }))}
+              className="input-field w-32" />
+          </div>
+
+          {/* Locale */}
+          <div>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">Výchozí jazyk rezervační stránky</label>
+            <select value={profile.default_locale}
+              onChange={(e) => setProfile((p) => ({ ...p, default_locale: e.target.value }))}
+              className="input-field w-40">
+              <option value="cs">Čeština</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <button type="submit" disabled={extrasSaving} className="btn-primary">
+              {extrasSaving ? 'Ukládám...' : 'Uložit'}
+            </button>
+            {extrasSuccess && <span className="text-sm text-green-600">✓ Uloženo</span>}
+          </div>
+        </form>
+      </div>
+
+      {/* iCal feed */}
+      <div className="card p-4 sm:p-6 mt-6 min-w-0">
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Synchronizace s kalendářem</h2>
+        <p className="text-sm text-ink-400 mb-4">Přidejte si tento odkaz do Google/Apple kalendáře a uvidíte rezervace v něm</p>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input readOnly value={icalUrl} className="input-field flex-1 font-mono text-xs" onClick={(e) => (e.target as HTMLInputElement).select()} />
+          <button
+            type="button"
+            onClick={() => { navigator.clipboard.writeText(icalUrl); setIcalCopied(true); setTimeout(() => setIcalCopied(false), 2000) }}
+            className="btn-secondary whitespace-nowrap"
+          >
+            {icalCopied ? '✓ Zkopírováno' : 'Kopírovat'}
+          </button>
+          <button type="button" onClick={regenerateIcal} className="btn-secondary whitespace-nowrap text-red-600">
+            Přegenerovat
+          </button>
+        </div>
+        <p className="text-xs text-ink-300 mt-2">Odkaz je soukromý — přegenerováním starý přestane fungovat.</p>
       </div>
 
       {/* Password change */}

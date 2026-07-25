@@ -24,7 +24,11 @@ export async function middleware(request: NextRequest) {
   const isPublicBookingApi =
     pathname.startsWith('/api/users/') ||
     pathname.startsWith('/api/bookings') ||
-    pathname.startsWith('/api/inquiries')
+    pathname.startsWith('/api/inquiries') ||
+    pathname.startsWith('/api/waitlist') ||
+    pathname.startsWith('/api/reviews') ||
+    pathname.startsWith('/api/coupons/validate') ||
+    pathname.startsWith('/api/vouchers/validate')
 
   if (isPublicBookingApi) {
     if (request.method === 'OPTIONS') {

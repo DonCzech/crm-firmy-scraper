@@ -1,4 +1,5 @@
 import { Resend } from 'resend'
+import { buildIcsEvent } from '@/lib/ics'
 
 let _resend: Resend | null = null
 function getResend(): Resend {
@@ -117,19 +118,41 @@ export async function sendBookingConfirmationToClient({
 
       ${confirmationToken && appUrl ? `
       <div style="text-align: center; margin-top: 24px;">
+        <a href="${appUrl}/booking/cancel/${confirmationToken}?action=reschedule"
+           style="display: inline-block; padding: 10px 24px; background: #eef2ff; color: #4338ca; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; margin: 0 4px;">
+          Přeobjednat
+        </a>
         <a href="${appUrl}/booking/cancel/${confirmationToken}"
-           style="display: inline-block; padding: 10px 24px; background: #fee2e2; color: #dc2626; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;">
+           style="display: inline-block; padding: 10px 24px; background: #fee2e2; color: #dc2626; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600; margin: 0 4px;">
           Zrušit rezervaci
         </a>
       </div>` : ''}
     </div>
     <div style="padding: 20px 40px; border-top: 1px solid #f3f4f6; text-align: center;">
-      <p style="color: #9ca3af; font-size: 12px; margin: 0;">Tuto zprávu jste obdrželi jako potvrzení rezervace.</p>
+      <p style="color: #9ca3af; font-size: 12px; margin: 0 0 6px;">V příloze najdete událost pro přidání do kalendáře (.ics).</p>
+      ${confirmationToken && appUrl ? `<p style="color: #9ca3af; font-size: 11px; margin: 0;"><a href="${appUrl}/gdpr/${confirmationToken}" style="color:#9ca3af;">Správa osobních údajů (GDPR)</a></p>` : ''}
     </div>
   </div>
 </body>
 </html>
   `
+
+  // Příloha .ics pro přidání do kalendáře
+  let attachments: { filename: string; content: string }[] | undefined
+  try {
+    const ics = buildIcsEvent({
+      uid: `${confirmationToken || Date.now()}@rezora.cz`,
+      title: `${serviceName} – ${providerName}`,
+      description: `Rezervace u ${providerName}`,
+      date: bookingDate.split('T')[0],
+      startTime: formatTime(startTime),
+      durationMinutes,
+      organizerName: providerName,
+    })
+    attachments = [{ filename: 'rezervace.ics', content: Buffer.from(ics).toString('base64') }]
+  } catch {
+    attachments = undefined
+  }
 
   try {
     await getResend().emails.send({
@@ -137,6 +160,7 @@ export async function sendBookingConfirmationToClient({
       to: clientEmail,
       subject: `Rezervace potvrzena – ${serviceName}`,
       html,
+      attachments,
     })
   } catch (error) {
     console.error('Failed to send confirmation email to client:', error)
@@ -465,5 +489,140 @@ export async function sendCancellationEmail({
     })
   } catch (error) {
     console.error('Failed to send cancellation email:', error)
+  }
+}
+
+// Uvolnil se termín — notifikace zájemci z čekací listiny.
+export async function sendWaitlistOpeningEmail({
+  clientEmail,
+  clientName,
+  providerName,
+  serviceName,
+  desiredDate,
+  bookingUrl,
+}: {
+  clientEmail: string
+  clientName: string
+  providerName: string
+  serviceName: string
+  desiredDate: string
+  bookingUrl: string
+}) {
+  const html = `
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Uvolnil se termín</title></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; padding: 20px;">
+  <div style="max-width: 560px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="background: #16a34a; padding: 28px 40px; text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 8px;">🎉</div>
+      <h1 style="color: white; margin: 0; font-size: 20px; font-weight: 700;">Uvolnil se termín</h1>
+    </div>
+    <div style="padding: 32px 40px;">
+      <p style="color: #374151; font-size: 16px; margin: 0 0 16px;">Dobrý den, <strong>${clientName}</strong>,</p>
+      <p style="color: #6b7280; font-size: 14px; margin: 0 0 20px;">
+        U poskytovatele <strong>${providerName}</strong> se na <strong>${formatDate(desiredDate)}</strong> uvolnil termín
+        pro službu <strong>${serviceName}</strong>. Byli jste na čekací listině — rezervujte si ho jako první.
+      </p>
+      <div style="text-align: center; margin-top: 8px;">
+        <a href="${bookingUrl}" style="display: inline-block; padding: 12px 28px; background: #16a34a; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+          Rezervovat termín
+        </a>
+      </div>
+      <p style="color: #9ca3af; font-size: 12px; margin: 20px 0 0; text-align: center;">Termín je do vyčerpání — může ho obsadit někdo jiný.</p>
+    </div>
+  </div>
+</body></html>`
+
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: clientEmail, subject: `Uvolnil se termín u ${providerName}`, html })
+  } catch (error) {
+    console.error('Failed to send waitlist opening email:', error)
+  }
+}
+
+// Žádost o recenzi po dokončené návštěvě.
+export async function sendReviewRequestEmail({
+  clientEmail,
+  clientName,
+  providerName,
+  serviceName,
+  reviewUrl,
+}: {
+  clientEmail: string
+  clientName: string
+  providerName: string
+  serviceName: string
+  reviewUrl: string
+}) {
+  const html = `
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Jak se vám líbilo?</title></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; padding: 20px;">
+  <div style="max-width: 560px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="background: #f59e0b; padding: 28px 40px; text-align: center;">
+      <div style="font-size: 34px; margin-bottom: 8px;">⭐</div>
+      <h1 style="color: white; margin: 0; font-size: 20px; font-weight: 700;">Jak se vám líbilo?</h1>
+    </div>
+    <div style="padding: 32px 40px;">
+      <p style="color: #374151; font-size: 16px; margin: 0 0 16px;">Dobrý den, <strong>${clientName}</strong>,</p>
+      <p style="color: #6b7280; font-size: 14px; margin: 0 0 20px;">
+        děkujeme za návštěvu (${serviceName}) u <strong>${providerName}</strong>. Budeme rádi za krátké hodnocení —
+        pomůže nám i dalším klientům.
+      </p>
+      <div style="text-align: center;">
+        <a href="${reviewUrl}" style="display: inline-block; padding: 12px 28px; background: #f59e0b; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+          Napsat hodnocení
+        </a>
+      </div>
+    </div>
+  </div>
+</body></html>`
+
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: clientEmail, subject: `Jak se vám líbilo u ${providerName}?`, html })
+  } catch (error) {
+    console.error('Failed to send review request email:', error)
+  }
+}
+
+// Reaktivační ("chybíte nám") e-mail klientovi, který dlouho nepřišel.
+export async function sendReactivationEmail({
+  clientEmail,
+  clientName,
+  providerName,
+  bookingUrl,
+}: {
+  clientEmail: string
+  clientName: string
+  providerName: string
+  bookingUrl: string
+}) {
+  const html = `
+<!DOCTYPE html>
+<html lang="cs"><head><meta charset="UTF-8"><title>Rádi vás zase uvidíme</title></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; padding: 20px;">
+  <div style="max-width: 560px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="background: #0ea5e9; padding: 28px 40px; text-align: center;">
+      <div style="font-size: 34px; margin-bottom: 8px;">👋</div>
+      <h1 style="color: white; margin: 0; font-size: 20px; font-weight: 700;">Rádi vás zase uvidíme</h1>
+    </div>
+    <div style="padding: 32px 40px;">
+      <p style="color: #374151; font-size: 16px; margin: 0 0 16px;">Dobrý den, <strong>${clientName}</strong>,</p>
+      <p style="color: #6b7280; font-size: 14px; margin: 0 0 20px;">
+        nějakou dobu jsme se neviděli. Nechcete se objednat na další termín u <strong>${providerName}</strong>?
+      </p>
+      <div style="text-align: center;">
+        <a href="${bookingUrl}" style="display: inline-block; padding: 12px 28px; background: #0ea5e9; color: white; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600;">
+          Objednat se
+        </a>
+      </div>
+    </div>
+  </div>
+</body></html>`
+
+  try {
+    await getResend().emails.send({ from: FROM_EMAIL, to: clientEmail, subject: `Rádi vás zase uvidíme – ${providerName}`, html })
+  } catch (error) {
+    console.error('Failed to send reactivation email:', error)
   }
 }
