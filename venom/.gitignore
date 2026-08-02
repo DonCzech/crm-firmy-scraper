@@ -52,3 +52,6 @@ astera-content.db-wal
 !/public/uploads/astera-upload-1777542744600-mjff29y2d1k.png
 !/public/uploads/astera-upload-1777543712527-v1mmzjakq5.png
 !/public/uploads/astera-upload-1777543812845-9puk6rdon7f.png
+
+# Generated Google PageSpeed audit evidence (uploaded by GitHub Actions).
+/artifacts/pagespeed/
