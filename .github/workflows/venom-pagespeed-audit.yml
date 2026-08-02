@@ -1,6 +1,10 @@
 name: Venom PageSpeed Audit
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/venom-pagespeed-audit.yml"
   schedule:
     # Four small batches per day. Times are UTC; exact Prague wall time shifts
     # with daylight saving, which does not affect queue correctness.
