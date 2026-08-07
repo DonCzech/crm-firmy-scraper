@@ -11,9 +11,13 @@ on:
   workflow_dispatch:
     inputs:
       budget:
-        description: 'Budget in seconds (max 290)'
+        # Strop je maxDuration 300 s z backend/vercel.json a musí v něm zbýt
+        # místo na studený boot lambdy. S 290 končila část běhů na 504
+        # FUNCTION_INVOCATION_TIMEOUT (4 z 60 běhů do 8. 8. 2026); vercelovský
+        # cron proto jezdí na 240.
+        description: 'Budget in seconds (max 240)'
         required: false
-        default: '290'
+        default: '240'
 
 jobs:
   scrape:
@@ -22,7 +26,7 @@ jobs:
     steps:
       - name: Call firmy-scrape cron
         run: |
-          BUDGET="${{ github.event.inputs.budget || '290' }}"
+          BUDGET="${{ github.event.inputs.budget || '240' }}"
           RESPONSE=$(curl -s -w "\n%{http_code}" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             "https://crm-api-dons-projects-c78c9c27.vercel.app/api/cron/firmy-scrape?budget=${BUDGET}")
