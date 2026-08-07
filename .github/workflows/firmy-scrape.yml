@@ -1,9 +1,13 @@
 name: Firmy.cz Scrape
 
 on:
-  schedule:
-    # Každých 30 minut — ~48 runs/den × ~550 firem = ~26 000 firem/den → 1M za ~38 dní
-    - cron: '*/30 * * * *'
+  # ROZVRH ODSTRANĚN 8. 8. 2026 (WP-12, docs/NEON_OPTIMALIZACE_PLAN.md).
+  # Byl to DRUHÝ spouštěč téhož endpointu — `backend/vercel.json` volá
+  # /api/cron/firmy-scrape každou hodinu v :15. Dvojí rozvrh znamenal jen dvojí
+  # probouzení FIRMY databáze (~5,5 min za probuzení), ne víc nasbíraných dat:
+  # frontu URL naplní `firmy-refresh-sitemaps` jednou denně ve 03:00 a hodinové
+  # běhy ji vyprázdní během dopoledne — zbytek dne vracely oba spouštěče
+  # scraped=0. Ruční spuštění přes workflow_dispatch zůstává.
   workflow_dispatch:
     inputs:
       budget:
